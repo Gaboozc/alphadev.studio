@@ -1,0 +1,202 @@
+.animated-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  margin: 3rem auto;
+}
+
+.animated-logo__halo {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  color: var(--color-primary);
+}
+
+.animated-logo__svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px rgba(0, 128, 255, 0.4));
+}
+
+/* Animation for group 1 - rotate clockwise */
+.animated-logo__group--1 {
+  animation: rotateClockwise 20s linear infinite;
+  transform-origin: 200px 200px;
+}
+
+/* Animation for group 2 - rotate counter-clockwise */
+.animated-logo__group--2 {
+  animation: rotateCounterClockwise 15s linear infinite;
+  transform-origin: 200px 200px;
+  opacity: 0.7;
+}
+
+/* Animation for group 3 - rotate and scale */
+.animated-logo__group--3 {
+  animation: rotatePulse 25s ease-in-out infinite;
+  transform-origin: 200px 200px;
+  opacity: 0.5;
+}
+
+/* Corner accents - pulse animation */
+.animated-logo__corners {
+  animation: cornerPulse 2s ease-in-out infinite;
+}
+
+@keyframes rotateClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCounterClockwise {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes rotatePulse {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(360deg) scale(1.05);
+    opacity: 0.5;
+  }
+}
+
+@keyframes cornerPulse {
+  0%, 100% {
+    opacity: 0.7;
+    r: 3px;
+  }
+  50% {
+    opacity: 1;
+    r: 4px;
+  }
+}
+
+.animated-logo__image {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
+  box-shadow:
+    0 20px 40px rgba(0, 100, 255, 0.3),
+    0 8px 16px rgba(0, 150, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 120, 255, 0.2);
+  overflow: hidden;
+}
+
+.animated-logo__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Hover effects */
+.animated-logo-container:hover .animated-logo__image {
+  transform: scale(1.05);
+  box-shadow:
+    0 32px 64px rgba(0, 100, 255, 0.4),
+    0 16px 32px rgba(0, 150, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 150, 255, 0.4);
+}
+
+.animated-logo-container:hover .animated-logo__halo {
+  filter: drop-shadow(0 0 30px rgba(0, 128, 255, 0.6));
+}
+
+/* Pulse indicator for clickable state */
+.animated-logo__pulse {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  animation: pulseRing 2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .animated-logo-container {
+    width: 320px;
+    height: 320px;
+  }
+
+  .animated-logo__halo {
+    width: 320px;
+    height: 320px;
+  }
+
+  .animated-logo__image {
+    width: 240px;
+    height: 240px;
+  }
+
+  .animated-logo__pulse {
+    width: 320px;
+    height: 320px;
+  }
+
+  .animated-logo__svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .animated-logo-container {
+    width: 220px;
+    height: 220px;
+  }
+
+  .animated-logo__halo {
+    width: 220px;
+    height: 220px;
+  }
+
+  .animated-logo__image {
+    width: 160px;
+    height: 160px;
+  }
+
+  .animated-logo__pulse {
+    width: 220px;
+    height: 220px;
+  }
+}
