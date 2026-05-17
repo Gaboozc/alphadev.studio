@@ -3,8 +3,10 @@ import TrustSection from '@/components/TrustSection';
 import CTASection from '@/components/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Servicios | AlphaDev Studios',
-  description: 'Conoce nuestros servicios: desarrollo web, APIs, CRM, seguridad, optimización de bases de datos.',
+  title: 'Servicios',
+  description: 'Desarrollo web con React y Next.js, APIs REST escalables, CRM a medida, optimización de bases de datos y seguridad empresarial.',
+  alternates: { canonical: 'https://alphadev.studio/servicios' },
+  openGraph: { url: 'https://alphadev.studio/servicios' },
 };
 
 export default function ServiciosPage() {

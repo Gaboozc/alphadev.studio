@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import CTASection from '@/components/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Proceso | AlphaDev Studios',
-  description: 'Metodología de trabajo: análisis, diseño, desarrollo, testing y deploy.',
+  title: 'Proceso',
+  description: 'Metodología de 5 fases: análisis y arquitectura, diseño del sistema, desarrollo modular en sprints, testing y seguridad, deploy zero-downtime y soporte.',
+  alternates: { canonical: 'https://alphadev.studio/proceso' },
+  openGraph: { url: 'https://alphadev.studio/proceso' },
 };
 
 export default function ProcesoPage() {

@@ -1,0 +1,53 @@
+# AlphaDev Studios
+
+> Estudio de ingeniería de software especializado en desarrollo web, APIs escalables, CRM y sistemas internos a medida para empresas.
+
+## ¿Qué es AlphaDev Studios?
+
+AlphaDev Studios es un estudio de ingeniería de software que construye soluciones técnicas personalizadas para empresas. Nos especializamos en aplicaciones web modernas, APIs robustas, sistemas de gestión interna (CRM), optimización de bases de datos y seguridad empresarial.
+
+## Servicios
+
+- **Desarrollo Web Profesional**: Aplicaciones web modernas con React y Next.js. Diseño responsive, performance optimizado, SEO técnico implementado.
+- **APIs & Backend Escalable**: APIs REST y GraphQL con Node.js. Arquitectura de microservicios, integración de servicios, documentación completa.
+- **CRM y Sistemas Internos**: Dashboards analíticos, gestión de clientes, automatización de procesos, reportes en tiempo real, integración ERP.
+- **Integración Frontend–Backend**: Webhooks, sincronización de datos, integración de servicios de terceros, flujos de automatización.
+- **Optimización de Bases de Datos**: Auditoría y mejora de performance en PostgreSQL y otros motores. Indexación estratégica, escalabilidad, backup.
+- **Seguridad y Autenticación**: JWT, OAuth, encriptación, protección CSRF/XSS, auditorías de seguridad, compliance.
+
+## Stack Tecnológico
+
+Frontend: React, Next.js, TypeScript, Tailwind CSS
+Backend: Node.js, Express, GraphQL, REST APIs
+Bases de datos: PostgreSQL, MongoDB, Redis
+Infraestructura: AWS, Docker, Kubernetes, Vercel
+Seguridad: JWT, OAuth 2.0, cifrado, auditorías
+
+## Proceso de Trabajo
+
+1. Análisis y Arquitectura — Descubrimiento, requisitos, alcance, arquitectura propuesta, timeline y presupuesto
+2. Diseño del Sistema — Diseño de base de datos, modelo de API, flujos de usuario, documentación de diseño
+3. Desarrollo Modular — Sprints de 2 semanas, código limpio, revisiones, integración continua
+4. Testing y Seguridad — Testing unitario e integración, auditoría de seguridad, performance testing, QA manual
+5. Deploy y Soporte — Deploy zero-downtime, migración de datos, monitoreo en tiempo real, soporte técnico
+
+## Clientes objetivo
+
+Empresas medianas y grandes que necesitan:
+- Soluciones técnicas personalizadas (no plantillas genéricas)
+- Equipos de ingeniería externos de alto nivel
+- Sistemas internos robustos y escalables
+- Migraciones o modernización de sistemas legacy
+
+## Tipos de proyecto
+
+- Enterprise: USD 50k–500k+, proyectos complejos de alto impacto
+- Startup: USD 5k–50k, MVPs, validaciones rápidas, productos iniciales
+
+## Contacto
+
+- Web: https://alphadev.studio
+- Email: info@alphadev.com
+- Teléfono: +1 (234) 567-890
+- Contacto Enterprise: https://alphadev.studio/contacto/enterprise
+- Contacto Startup: https://alphadev.studio/contacto/startup

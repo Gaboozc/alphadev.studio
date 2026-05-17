@@ -3,8 +3,10 @@ import TrustSection from '@/components/TrustSection';
 import CTASection from '@/components/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Portafolio | AlphaDev Studios',
-  description: 'Proyectos y soluciones desarrolladas. Casos de estudio de nuestros clientes empresariales.',
+  title: 'Portafolio',
+  description: 'Casos de estudio reales: plataformas de gestión empresarial, APIs con 100k+ transacciones diarias, migraciones a microservicios y más.',
+  alternates: { canonical: 'https://alphadev.studio/portafolio' },
+  openGraph: { url: 'https://alphadev.studio/portafolio' },
 };
 
 export default function PortafolioPage() {
