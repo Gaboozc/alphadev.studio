@@ -24,7 +24,7 @@ const COPY: Record<Lang, {
       'Precios pensados para negocios que están creciendo',
     ],
     wordplay: 'ADS. Tres letras. Tu negocio, visible.',
-    cta: 'Agendar llamada gratis',
+    cta: 'Agendar llamada',
   },
   en: {
     eyebrow: 'Why ADS',
@@ -38,7 +38,7 @@ const COPY: Record<Lang, {
       'Pricing designed for growing businesses',
     ],
     wordplay: 'ADS. Three letters. Your business, visible.',
-    cta: 'Book a free call',
+    cta: 'Book a call',
   },
 };
 

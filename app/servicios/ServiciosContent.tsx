@@ -210,7 +210,7 @@ export default function ServiciosContent() {
 
           <div className="text-center mt-16">
             <Link href="/contacto" className="btn-glow inline-flex">
-              {lang === 'es' ? 'Quiero mi llamada gratis' : 'I want my free call'}
+              {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
             </Link>
           </div>
         </div>

@@ -51,10 +51,16 @@ html::after {
 }
 
 /* ─── Reset ───────────────────────────────────────────── */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* En @layer base para NO pisar las utilidades de spacing de Tailwind
+   (py-*, mt-*, gap-*, etc.). Sin esto, un reset universal sin capa gana
+   por cascada de layers y anula todo el spacing de Tailwind → secciones
+   colapsadas y CTAs pegados al borde. */
+@layer base {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 /* ─── Base — unlayered (beats any @layer rule) ────────── */

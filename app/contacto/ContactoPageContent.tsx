@@ -1,6 +1,5 @@
 'use client';
 
-import TrustSection from '@/components/TrustSection';
 import ContactoForm from './ContactoForm';
 import { useLang } from '@/lib/i18n/LanguageContext';
 
@@ -23,14 +22,13 @@ export default function ContactoPageContent() {
           <div className="max-w-2xl mx-auto">
             <ContactoForm />
             <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>
-              <a href="mailto:info@alphadev.studio" className="text-sm transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
-                info@alphadev.studio
+              <a href="mailto:zavarsegabriel@gmail.com" className="text-sm transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
+                zavarsegabriel@gmail.com
               </a>
             </div>
           </div>
         </div>
       </section>
-      <TrustSection />
     </main>
   );
 }

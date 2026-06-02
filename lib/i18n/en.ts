@@ -51,25 +51,25 @@ export const en: Translations = {
   },
   portfolio: {
     title: 'Results',
-    subtitle: 'Businesses that went from invisible to found.',
+    subtitle: "We're a young studio and we don't invent clients. This is real: what we're working on right now.",
     items: [
       {
-        title: "Psique 'n' Pixel",
-        type: 'Brand identity + Social media',
+        title: 'Imperial Barbershop',
+        type: 'Client · Barbershop',
         description:
-          'Brand built from scratch: name, logo, visual identity, and active presence on Instagram and TikTok.',
+          'Our first client. We are building their digital presence from scratch so they show up when someone searches for a place to get a haircut.',
       },
       {
         title: 'AlphaDev Studios',
-        type: 'Full digital presence',
+        type: 'Our own project',
         description:
-          'Professional website, optimized Google profile, and content strategy to attract clients.',
+          'This site. Built with the same stack and standards we apply to every client — it is our calling card.',
       },
       {
         title: 'Your business could be here',
-        type: 'Next success story',
+        type: 'Next project',
         description:
-          "We're building our client portfolio. Be one of the first and get launch pricing.",
+          "We're opening spots for the studio's first clients. If you want to be one, let's talk.",
       },
     ],
   },
@@ -81,7 +81,7 @@ export const en: Translations = {
         title: 'We talk',
         description: 'You tell us about your business. We understand what you sell, to whom, and what you want to achieve.',
         details: [
-          'Free 30-minute call',
+          '30-minute intro call',
           'We listen, we don\'t pitch first',
           'We ask the right questions',
           'No jargon, in your language',
@@ -142,7 +142,7 @@ export const en: Translations = {
     picker_label: 'What does your business need?',
     categories: {
       consultation: {
-        label: 'Free consultation',
+        label: 'Initial consultation',
         description: "I want to know where to start. I need guidance before deciding.",
         platform_label: '',
         platform_options: [],
@@ -192,33 +192,19 @@ export const en: Translations = {
       message: 'Tell us about your business',
       message_placeholder:
         'What do you sell? Who are your customers? What\'s your biggest challenge getting more? The more you tell us, the better we can help.',
-      submit: 'I want my free call',
+      submit: 'I want my call',
       submitting: 'Sending...',
       success_title: 'Message received!',
       success_message: "We'll get in touch within 24 hours. Check your email.",
       back: '← Change option',
     },
   },
-  trust: {
-    title: 'Built for businesses like yours',
-    subtitle: 'SMBs, entrepreneurs, and independent professionals who wanted to exist online.',
-    clients: [
-      'Barbershop · CDMX',
-      'Nutritionist · Buenos Aires',
-      'Boutique · Bogotá',
-      'Dentist · Lima',
-      'Photographer · Santiago',
-      'Coach · Madrid',
-      'Restaurant · Miami',
-      'Architect · Montevideo',
-    ],
-  },
   cta: {
     title: 'Your competition is already\nonline. Are you?',
     subtitle:
-      'Book a free 30-minute call. We\'ll tell you exactly what your business needs to start existing online. No commitment.',
-    button: 'I want my free call',
-    note: 'No cost, no commitment. Just a conversation.',
+      'Book a 30-minute call. We\'ll tell you exactly what your business needs to start existing online. No commitment.',
+    button: 'I want my call',
+    note: 'No commitment. Just a conversation.',
   },
   footer: {
     tagline: 'We make you exist on the internet.',

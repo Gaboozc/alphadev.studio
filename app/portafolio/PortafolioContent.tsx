@@ -7,9 +7,9 @@ const PROJECT_ICONS = ['◉', '✦', '★'];
 
 // Non-technical category tags — replace tech stack with service type
 const PROJECT_TAGS = [
-  ['Identidad visual', 'Redes sociales', 'Contenido'],
-  ['Sitio web', 'Google Business', 'Estrategia digital'],
-  ['Próximamente', 'Tu negocio aquí'],
+  ['Presencia desde cero', 'En desarrollo'],
+  ['Sitio web', 'Diseño', 'SEO'],
+  ['Cupos abiertos'],
 ];
 
 export default function PortafolioContent() {

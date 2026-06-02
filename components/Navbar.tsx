@@ -39,7 +39,7 @@ export default function Navbar() {
     >
 
       {/* Main pill */}
-      <nav className={`rounded-2xl px-5 flex items-center justify-between gap-4 transition-all duration-300 ${
+      <nav className={`rounded-2xl px-5 py-2 flex items-center justify-between gap-4 transition-all duration-300 ${
         isScrolled ? 'nav-pill--scrolled' : 'nav-pill'
       }`}>
 
@@ -48,8 +48,9 @@ export default function Navbar() {
           <Image
             src={navbarLogo}
             alt="AlphaDev Studios"
-            height={56}
-            style={{ width: 'auto', height: '56px' }}
+            height={64}
+            style={{ width: 'auto', height: '48px' }}
+            className="md:!h-[56px]"
           />
         </Link>
 

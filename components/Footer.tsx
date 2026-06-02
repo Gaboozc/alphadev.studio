@@ -31,8 +31,8 @@ export default function Footer() {
               <Image
                 src={footerLogo}
                 alt="AlphaDev Studios"
-                height={240}
-                style={{ width: 'auto', height: '240px' }}
+                width={320}
+                style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
               />
 
             </Link>
