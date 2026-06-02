@@ -123,7 +123,15 @@ export default function Footer() {
                   href="tel:+14076867561"
                   className="transition-colors hover:text-[--gold]"
                 >
-                  +1 (407) 686-7561
+                  +1 (407) 686-7561 · US
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+525637113563"
+                  className="transition-colors hover:text-[--gold]"
+                >
+                  +52 56 3711 3563 · MX
                 </a>
               </li>
               <li>

@@ -83,13 +83,23 @@ const organizationJsonLd = {
     'Agencia de soluciones digitales. Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
   email: 'zavarsegabriel@gmail.com',
   telephone: '+1-407-686-7561',
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'zavarsegabriel@gmail.com',
-    telephone: '+1-407-686-7561',
-    contactType: 'customer service',
-    availableLanguage: ['Spanish', 'English'],
-  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      email: 'zavarsegabriel@gmail.com',
+      telephone: '+1-407-686-7561',
+      contactType: 'customer service',
+      areaServed: 'US',
+      availableLanguage: ['Spanish', 'English'],
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: '+52-56-3711-3563',
+      contactType: 'customer service',
+      areaServed: 'MX',
+      availableLanguage: ['Spanish', 'English'],
+    },
+  ],
   knowsAbout: [
     'Presencia digital',
     'Diseño de sitios web',
