@@ -71,6 +71,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://alphadev.studio',
   },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
 };
 
 const organizationJsonLd = {
