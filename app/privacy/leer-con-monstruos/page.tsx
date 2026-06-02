@@ -60,8 +60,8 @@ export default function PrivacyLeerConMonstruosPage() {
           <Section title="1. Introducción">
             <p>
               Esta Política de Privacidad describe cómo <strong style={{ color: 'var(--text)' }}>AlphaDev Studios</strong>{' '}
-              (el "Desarrollador") maneja la información en relación con la aplicación móvil{' '}
-              <strong style={{ color: 'var(--text)' }}>Leer con Monstruos</strong> (la "App"), disponible en Google Play.
+              (el &ldquo;Desarrollador&rdquo;) maneja la información en relación con la aplicación móvil{' '}
+              <strong style={{ color: 'var(--text)' }}>Leer con Monstruos</strong> (la &ldquo;App&rdquo;), disponible en Google Play.
             </p>
             <p style={{ marginTop: '1rem' }}>
               Leer con Monstruos es una aplicación educativa de lectura diseñada para niños en edad preescolar
@@ -207,7 +207,7 @@ export default function PrivacyLeerConMonstruosPage() {
             <p>
               Podemos actualizar esta Política de Privacidad ocasionalmente para reflejar cambios en la App
               o en requisitos legales. Cualquier cambio se publicará en esta misma página con una nueva
-              fecha de "Última actualización".
+              fecha de &ldquo;Última actualización&rdquo;.
             </p>
             <p style={{ marginTop: '1rem' }}>
               Le recomendamos revisar esta política periódicamente. El uso continuado de la App después de

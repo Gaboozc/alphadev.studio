@@ -48,46 +48,56 @@ Cuando alguien aterriza en alphadev.studio, la experiencia debe ser equivalente 
 
 Pensemos: Linear × Vercel × Apple keynote × ligeros toques de sci-fi. NO cyberpunk neón total, NO glassmorphism orgánico fluido. Sobriedad con momentos de impacto visual.
 
-### Paleta (estricta — no inventar nuevos colores sin discusión previa)
+### Paleta — Light Luxury (actualizada mayo 2026)
 
-| Token | Hex | Uso |
-|-------|-----|-----|
-| `--background` | `#0f172a` (slate-950) | Fondo principal |
-| `--background-deep` | `#0d0d0d` | Fondo de secciones extra-oscuras o bordes |
-| `--foreground` | `#f1f5f9` | Texto primario |
-| `--foreground-muted` | `#94a3b8` | Texto secundario, captions |
-| `--primary` | `#0080ff` | Acento principal, CTAs, glow |
-| `--primary-glow` | `#0080ff` con opacity 0.15-0.3 | Halos, glows, blurs |
-| `--border` | `rgba(255, 255, 255, 0.08)` | Bordes sutiles, divisores |
+> Decisión tomada: paleta crema cálida + dorado. NO volver al dark. El objetivo es parecer una empresa seria a la que un founder quiere contratar, no una página de hacker.
+
+| Token CSS | Hex | Uso |
+|-----------|-----|-----|
+| `--bg` | `#FAFAF7` | Fondo principal — crema cálida |
+| `--bg-alt` | `#F2EEE7` | Secciones alternas, fondo de cards en páginas |
+| `--bg-deep` | `#E8E2D9` | Bordes de sección, separadores |
+| `--bg-card` | `#FFFFFF` | Fondo de cards individuales |
+| `--text` | `#1A1512` | Texto principal — negro cálido |
+| `--text-muted` | `#6B5F52` | Texto secundario, descripciones |
+| `--text-subtle` | `#9A8E84` | Captions, metadata |
+| `--gold` | `#9A7235` | Acento principal — CTAs, links, acentos |
+| `--gold-light` | `#C9A465` | Hover states, dividers, ilustraciones |
+| `--gold-dark` | `#7A5828` | Hover de botón, variante oscura |
+| `--gold-bg` | `rgba(154,114,53,0.08)` | Background de hover en cards |
+| `--gold-border` | `rgba(154,114,53,0.2)` | Borde dorado sutil |
+| `--border` | `#E8E2D9` | Bordes neutros |
+| `--border-hover` | `rgba(154,114,53,0.35)` | Borde en hover de cards |
 
 **Reglas de uso**:
-- Azul `#0080ff` solo para acentos puntuales — CTA, links, energy glow. NO grandes áreas de azul.
+- Dorado `#9A7235` solo para acentos puntuales — CTAs, links, iconos, underlines. NO fondos grandes.
+- Fondo crema `#FAFAF7` y `#F2EEE7` alternan secciones. Nunca blanco puro.
 - Espacio negativo es protagonista. Si dudás, agregá padding.
-- Gradientes son sutiles, siempre de oscuro a más oscuro, nunca arcoíris.
+- Zero glows, zero glassmorphism oscuro. La elegancia viene de la tipografía y el espacio.
 
-### Tipografía
+### Tipografía (actualizada mayo 2026)
 
-| Familia | Uso | Pesos clave |
-|---------|-----|-------------|
-| **Geist Sans** | Todo el sitio (UI, body, headlines) | 400, 500, 600, 700 |
-| **Geist Mono** | Code snippets, badges técnicos, números | 400, 500 |
+| Familia | Variable CSS | Uso | Pesos clave |
+|---------|-------------|-----|-------------|
+| **Playfair Display** | `--font-playfair` | Headlines (h1–h3), sección titles, wordmark | 700 |
+| **Inter** | `--font-inter` | Body, UI, nav links, botones, captions | 400, 500, 600 |
 
 **Reglas tipográficas**:
-- Headlines grandes (h1): peso 600-700, tracking ligeramente negativo
-- Body: peso 400-450, line-height generoso (1.65-1.75)
-- Mono solo para detalles técnicos (versiones, IDs, code), NO para body
-- Tamaños fluidos con `clamp()` para responsive elegante
+- H1/H2: Playfair Display 700, `clamp(2.8rem, 6vw, 5.5rem)`, tracking tight
+- Body: Inter 400, line-height 1.65-1.7
+- Botones: Inter 600, font-size 0.875rem
+- NO Geist, NO monospace en body. Geist fue eliminado en el rediseño de mayo 2026.
 
-### Estilo visual dominante
+### Estilo visual dominante (actualizado mayo 2026)
 
-**3D render premium estilo Apple keynote.** Esferas, materiales obsidianos translúcidos, plasma azul interno controlado, grids geométricos sutiles, glow desde abajo, profundidad cinematográfica.
+**Light luxury editorial.** Crema cálida, tipografía serif de alto contraste, dorado como único acento, espacio negativo generoso. Referencia: Stripe × consultoría de alto nivel.
 
 **Animaciones**:
-- Logo animado SVG con halos rotando (ya implementado, mantener)
-- Micro-interactions en hover: scale 1.02, glow sutil, transitions de 300-400ms con `cubic-bezier(0.4, 0, 0.2, 1)`
-- Scroll-triggered animations con `IntersectionObserver`, NO bibliotecas pesadas
-- Parallax sutil en backgrounds (NO exagerado)
-- Cursor custom opcional en desktop (cuando se decida)
+- Fade-in-up en entrada del hero (CSS, sin libraries)
+- Hover en cards: translateY(-3px) + gold border + sutil box-shadow
+- Marquee automático en TrustSection
+- NO parallax oscuro, NO glow azul, NO animated SVG logo en hero
+- Transitions: 200-250ms ease en colores/borders, 250ms ease en transforms
 
 ---
 

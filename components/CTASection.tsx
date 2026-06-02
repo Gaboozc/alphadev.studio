@@ -1,39 +1,46 @@
-import React from 'react';
+'use client';
+
 import Link from 'next/link';
+import { useLang } from '@/lib/i18n/LanguageContext';
 
 export default function CTASection() {
+  const { dict } = useLang();
+  const c = dict.cta;
+
   return (
-    <section className="relative bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950 py-24 md:py-32 overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-blue-500/10 -z-10"></div>
-      
-      {/* Animated blobs */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
+    <section
+      className="cta-dark py-24 md:py-32 text-center relative overflow-hidden"
+      style={{ borderTop: '1px solid var(--border)' }}
+    >
+      {/* Background treatments */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div style={{
+          position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
+          width: '70vw', height: '70vw', maxWidth: '800px', maxHeight: '800px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(201,164,101,0.14) 0%, transparent 60%)',
+          filter: 'blur(60px)',
+        }} />
+      </div>
+      <div aria-hidden="true" className="absolute inset-0 bg-dot-grid pointer-events-none"
+        style={{ opacity: 0.2, maskImage: 'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%)' }} />
 
-      <div className="section-container text-center relative z-10 space-y-10 md:space-y-12">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-          ¿Listo para construir un sistema sólido y escalable?
-        </h2>
-        
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-          Cuéntanos sobre tu proyecto. Analizaremos la mejor estrategia técnica sin compromisos.
-        </p>
-
-        <Link
-          href="/contacto"
-          className="btn-glow inline-block"
+      <div className="section-container space-y-8 relative z-10">
+        <h2
+          className="cta-title text-[clamp(2.25rem,5vw,3.5rem)] leading-tight"
+          style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700 }}
+          data-animate="title"
         >
-          Iniciar Proyecto
-        </Link>
-
-        {/* Accent line below button */}
-        <div className="pt-10 border-t border-gray-800/50">
-          <p className="text-sm text-gray-500">
-            Disponible para consultoría y proyectos personalizados
-          </p>
+          {c.title}
+        </h2>
+        <div className="gold-divider" data-animate="divider" />
+        <p className="cta-subtitle text-lg max-w-xl mx-auto" style={{ fontFamily: 'var(--font-inter)' }} data-animate="subtitle">
+          {c.subtitle}
+        </p>
+        <div data-animate="fade">
+          <Link href="/contacto" className="btn-glow inline-flex">{c.button}</Link>
         </div>
+        <p className="cta-note text-sm" data-animate="fade">{c.note}</p>
       </div>
     </section>
   );

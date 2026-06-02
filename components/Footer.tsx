@@ -1,92 +1,168 @@
-import React from 'react';
+'use client';
+
 import Link from 'next/link';
+import { useLang } from '@/lib/i18n/LanguageContext';
+
+import Image from 'next/image';
+import footerLogo from '../assets/footer-logo.png';
+
+const COMPANY_HREFS = ['/portafolio', '/proceso', '/contacto'];
+const SERVICE_HREF = '/servicios';
 
 export default function Footer() {
+  const { dict } = useLang();
+  const f = dict.footer;
+
   return (
-    <footer className="bg-gray-950 text-gray-400 border-t border-gray-800">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer
+      style={{
+        background: 'var(--bg)',
+        borderTop: '1px solid var(--border)',
+        color: 'var(--text-muted)',
+      }}
+    >
+      <div className="section-container py-14">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+
           {/* Brand */}
           <div>
-            <Link href="/" className="text-white font-semibold mb-4 inline-block">
-              AlphaDev Studios
+            <Link href="/" className="inline-block mb-4">
+
+              <Image
+                src={footerLogo}
+                alt="AlphaDev Studios"
+                height={240}
+                style={{ width: 'auto', height: '240px' }}
+              />
+
             </Link>
-            <p className="text-sm text-gray-500">
-              Ingeniería de software empresarial a medida.
+
+            <p
+              className="text-sm leading-relaxed"
+              style={{ color: 'var(--text-subtle)' }}
+            >
+              {f.tagline}
             </p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Servicios</h4>
+            <h4
+              className="text-sm font-semibold mb-4"
+              style={{
+                color: 'var(--text)',
+                fontFamily: 'var(--font-inter)',
+              }}
+            >
+              {f.services_title}
+            </h4>
+
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/servicios" className="hover:text-white transition">
-                  Desarrollo Web
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicios" className="hover:text-white transition">
-                  APIs & Backend
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicios" className="hover:text-white transition">
-                  CRM Sistemas
-                </Link>
-              </li>
+              {f.services_links.map((label: string) => (
+                <li key={label}>
+                  <Link
+                    href={SERVICE_HREF}
+                    className="transition-colors hover:text-[--gold]"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Links */}
+          {/* Company */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Empresa</h4>
+            <h4
+              className="text-sm font-semibold mb-4"
+              style={{
+                color: 'var(--text)',
+                fontFamily: 'var(--font-inter)',
+              }}
+            >
+              {f.company_title}
+            </h4>
+
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/portafolio" className="hover:text-white transition">
-                  Portafolio
-                </Link>
-              </li>
-              <li>
-                <Link href="/proceso" className="hover:text-white transition">
-                  Proceso
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacto" className="hover:text-white transition">
-                  Contacto
-                </Link>
-              </li>
+              {f.company_links.map((label: string, i: number) => (
+                <li key={label}>
+                  <Link
+                    href={COMPANY_HREFS[i]}
+                    className="transition-colors hover:text-[--gold]"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Contacto</h4>
+            <h4
+              className="text-sm font-semibold mb-4"
+              style={{
+                color: 'var(--text)',
+                fontFamily: 'var(--font-inter)',
+              }}
+            >
+              {f.contact_title}
+            </h4>
+
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="mailto:info@alphadev.com" className="hover:text-white transition">
-                  info@alphadev.com
+                <a
+                  href="mailto:zavarsegabriel@gmail.com"
+                  className="transition-colors hover:text-[--gold]"
+                >
+                  zavarsegabriel@gmail.com
                 </a>
               </li>
               <li>
-                <a href="tel:+1234567890" className="hover:text-white transition">
-                  +1 (234) 567-890
+                <a
+                  href="tel:+14076867561"
+                  className="transition-colors hover:text-[--gold]"
+                >
+                  +1 (407) 686-7561
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://instagram.com/alphadev.studio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-[--gold]"
+                >
+                  @alphadev.studio
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
-          <p>© 2026 AlphaDev Studios. Todos los derechos reservados.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition">
-              Privacidad
+        <div
+          className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs"
+          style={{
+            borderTop: '1px solid var(--border)',
+          }}
+        >
+          <p style={{ color: 'var(--text-subtle)' }}>
+            {f.rights}
+          </p>
+
+          <div className="flex gap-6">
+            <a
+              href="#"
+              className="transition-colors hover:text-[--gold]"
+            >
+              {f.privacy}
             </a>
-            <a href="#" className="hover:text-white transition">
-              Términos
+
+            <a
+              href="#"
+              className="transition-colors hover:text-[--gold]"
+            >
+              {f.terms}
             </a>
           </div>
         </div>

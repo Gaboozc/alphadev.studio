@@ -1,34 +1,23 @@
-import React from 'react';
+'use client';
 
-const logos = [
-  'Client A',
-  'Client B',
-  'Client C',
-  'Client D',
-  'Client E',
-  'Client F',
-  'Client G',
-  'Client H',
-];
+import { useLang } from '@/lib/i18n/LanguageContext';
 
 export default function TrustSection() {
+  const { dict } = useLang();
+  const t = dict.trust;
+
   return (
     <section className="trust-section">
       <div className="section-container">
-        <div className="section-header">
-          <h2 className="trust-title">Confianza de equipos que valoran la ingenieria</h2>
-          <p className="trust-subtitle">
-            Placeholder de logos. Reemplazaremos con los logos reales cuando los compartas.
-          </p>
+        <div className="section-header" style={{ marginBottom: '2rem' }}>
+          <h2 className="trust-title">{t.title}</h2>
+          <p className="trust-subtitle">{t.subtitle}</p>
         </div>
-
         <div className="section-content">
           <div className="marquee">
             <div className="marquee__track">
-              {logos.concat(logos).map((logo, index) => (
-                <div key={index} className="logo-pill">
-                  {logo}
-                </div>
+              {t.clients.concat(t.clients).map((client, index) => (
+                <div key={index} className="logo-pill">{client}</div>
               ))}
             </div>
           </div>

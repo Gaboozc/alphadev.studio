@@ -1,69 +1,143 @@
-import React from 'react';
-import Link from 'next/link';
+'use client';
+
+import { useRef, useState } from 'react';
+import { useLang } from '@/lib/i18n/LanguageContext';
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [ended, setEnded] = useState(false);
+  const { lang } = useLang();
+
+  const scrollCue   = lang === 'es' ? 'Desliza para empezar' : 'Scroll down';
+  const replayLabel = lang === 'es' ? 'Ver de nuevo' : 'Replay';
+
+  function handleReplay() {
+    const v = videoRef.current;
+    if (!v) return;
+    setEnded(false);
+    v.currentTime = 0;
+    v.play().catch(() => {});
+  }
+
   return (
-    <section className="hero">
-      <div className="hero__background"></div>
-      <div className="hero__content">
-        <div className="animated-logo-container">
-          <div className="animated-logo__halo">
-            <svg viewBox="0 0 400 400" className="animated-logo__svg">
-              <g className="animated-logo__group animated-logo__group--1">
-                <line x1="0" y1="0" x2="400" y2="0" stroke="currentColor" strokeWidth="2" opacity="0.8" />
-                <line x1="400" y1="0" x2="400" y2="400" stroke="currentColor" strokeWidth="2" opacity="0.8" />
-                <line x1="400" y1="400" x2="0" y2="400" stroke="currentColor" strokeWidth="2" opacity="0.8" />
-                <line x1="0" y1="400" x2="0" y2="0" stroke="currentColor" strokeWidth="2" opacity="0.8" />
-              </g>
-              <g className="animated-logo__group animated-logo__group--2">
-                <line x1="0" y1="0" x2="400" y2="400" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-                <line x1="400" y1="0" x2="0" y2="400" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-              </g>
-              <g className="animated-logo__group animated-logo__group--3">
-                <line x1="50" y1="50" x2="350" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                <line x1="350" y1="50" x2="350" y2="350" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                <line x1="350" y1="350" x2="50" y2="350" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                <line x1="50" y1="350" x2="50" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-              </g>
-              <g className="animated-logo__corners">
-                <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.7" />
-                <circle cx="380" cy="20" r="3" fill="currentColor" opacity="0.7" />
-                <circle cx="380" cy="380" r="3" fill="currentColor" opacity="0.7" />
-                <circle cx="20" cy="380" r="3" fill="currentColor" opacity="0.7" />
-              </g>
-            </svg>
-          </div>
-          <div className="animated-logo__image">
-            <img src="/assets/img/alphadev-logo.png" alt="AlphaDev Studios" />
-          </div>
-          <div className="animated-logo__pulse"></div>
+    <>
+      {/* ── Video section ─────────────────────────────────────────────────
+           100dvh = pantalla completa correcta en mobile.
+           clipPath:inset(0) garantiza clipping aunque Lenis use transforms. */}
+      <section
+        style={{
+          height: '100dvh',
+          position: 'relative',
+          overflow: 'hidden',
+          clipPath: 'inset(0)',
+          background: ended ? 'rgb(250,245,240)' : 'rgb(0,0,0)',
+          transition: 'background 0.8s ease',
+        }}
+      >
+        <video
+          ref={videoRef}
+          src="/assets/hero.mp4"
+          poster="/assets/hero-poster.png"
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          onEnded={() => setEnded(true)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+
+        {/* Logo overlay — aparece cuando el video termina */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgb(250,245,240)',
+            opacity: ended ? 1 : 0,
+            transition: 'opacity 1s ease 0.3s',
+            pointerEvents: 'none',
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/ads-logo.svg"
+            alt="AlphaDev Studios"
+            style={{
+              width: 'min(100vw, 100vh)',
+              height: 'auto',
+            }}
+          />
         </div>
 
-        <div className="mt-12 text-center px-4 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Ingeniería de Software{' '}
-            <span className="text-blue-400">Empresarial</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-            Construimos aplicaciones web, APIs escalables y sistemas internos a medida.
-            Soluciones técnicas robustas para empresas que necesitan resultados reales.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contacto"
-              className="btn-glow px-8 py-4 text-base font-semibold"
-            >
-              Agendar Reunión
-            </Link>
-            <Link
-              href="/servicios"
-              className="px-8 py-4 text-base font-semibold text-white border border-blue-500/40 rounded-lg hover:border-blue-400 hover:bg-blue-500/10 transition"
-            >
-              Ver Servicios
-            </Link>
+        {/* Overlay post-video */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingBottom: 'clamp(1.5rem, 4vh, 3rem)',
+            gap: '1rem',
+            opacity: ended ? 1 : 0,
+            transition: 'opacity 1s ease',
+            pointerEvents: ended ? 'auto' : 'none',
+          }}
+        >
+          <button
+            onClick={handleReplay}
+            style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+              background: 'rgba(250,250,247,0.9)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid var(--border)',
+              borderRadius: '2rem',
+              padding: '0.5rem 1.25rem',
+              cursor: 'pointer',
+              transition: 'border-color 200ms ease, color 200ms ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold-border)';
+              (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+              (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
+            }}
+          >
+            ↺ {replayLabel}
+          </button>
+
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: '0.6875rem',
+              fontWeight: 500,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--text-subtle)',
+            }}>
+              {scrollCue}
+            </span>
+            <div style={{ width: '1px', height: '1.75rem', background: 'linear-gradient(to bottom, var(--gold-light), transparent)' }} />
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+    </>
   );
 }

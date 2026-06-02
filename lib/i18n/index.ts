@@ -1,0 +1,5 @@
+export type { Translations } from './types';
+export { es } from './es';
+export { en } from './en';
+
+export type Lang = 'es' | 'en';

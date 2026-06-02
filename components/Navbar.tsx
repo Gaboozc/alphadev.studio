@@ -2,100 +2,124 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
+import LanguageToggle from './LanguageToggle';
+import navbarLogo from '../assets/navbar-logo.png';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { dict } = useLang();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const closeMenu = () => setMenuOpen(false);
+
+  const navLinks = [
+    { href: '/', label: dict.nav.home },
+    { href: '/servicios', label: dict.nav.services },
+    { href: '/portafolio', label: dict.nav.portfolio },
+    { href: '/proceso', label: dict.nav.process },
+    { href: '/contacto', label: dict.nav.contact },
+  ];
+
   return (
-    <nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-gray-950/90 backdrop-blur-xl border-b border-blue-500/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)]'
-          : 'bg-transparent'
-      }`}
+    <div
+      className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-50"
+      style={{
+        opacity: isScrolled ? 1 : 0,
+        pointerEvents: isScrolled ? 'auto' : 'none',
+        transition: 'opacity 0.4s ease',
+      }}
     >
-      <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center">
+
+      {/* Main pill */}
+      <nav className={`rounded-2xl px-5 flex items-center justify-between gap-4 transition-all duration-300 ${
+        isScrolled ? 'nav-pill--scrolled' : 'nav-pill'
+      }`}>
+
+        {/* Wordmark */}
+        <Link href="/" onClick={closeMenu} className="flex-shrink-0">
           <Image
-            src="/assets/img/alphadev-script-logo.png"
+            src={navbarLogo}
             alt="AlphaDev Studios"
-            width={160}
-            height={40}
-            priority
-            className="h-11 w-auto md:h-12 translate-x-[30px]"
+            height={56}
+            style={{ width: 'auto', height: '56px' }}
           />
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm tracking-wide">
-          <Link href="/" className="text-gray-300 hover:text-white transition">
-            Inicio
-          </Link>
-          <Link href="/servicios" className="text-gray-300 hover:text-white transition">
-            Servicios
-          </Link>
-          <Link href="/portafolio" className="text-gray-300 hover:text-white transition">
-            Portafolio
-          </Link>
-          <Link href="/proceso" className="text-gray-300 hover:text-white transition">
-            Proceso
-          </Link>
-          <Link href="/contacto" className="text-gray-300 hover:text-white transition">
-            Contacto
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center gap-6 text-sm flex-1 justify-center">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="nav-link"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop right */}
+        <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          <LanguageToggle />
+          <Link href="/contacto" className="btn-glow text-sm py-2 px-4">
+            {dict.nav.cta}
           </Link>
         </div>
 
-        <div className="hidden md:flex items-center -translate-x-[40px]">
-          <Link href="/contacto" className="btn-glow">
-            Agendar Reunion
-          </Link>
-        </div>
-
+        {/* Mobile hamburger */}
         <button
           type="button"
-          aria-label="Abrir menu"
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-blue-500/30 text-blue-200 hover:text-white hover:border-blue-400/60 transition"
+          onClick={() => setMenuOpen((o) => !o)}
+          className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl border transition-colors"
+          style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
         >
-          <span className="text-lg">{menuOpen ? '×' : '≡'}</span>
+          <span className="text-base leading-none select-none">{menuOpen ? '✕' : '☰'}</span>
         </button>
-      </div>
+      </nav>
 
+      {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="md:hidden absolute left-0 right-0 top-full bg-gray-950/95 backdrop-blur-xl border-b border-blue-500/10">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            <Link href="/" className="text-gray-200 hover:text-white transition" onClick={() => setMenuOpen(false)}>
-              Inicio
+        <div className="md:hidden mt-2 rounded-2xl px-5 py-4 flex flex-col gap-1"
+          style={{
+            background: 'rgba(250,250,247,0.97)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid var(--border)',
+            boxShadow: '0 8px 32px rgba(26,21,18,0.1)',
+          }}>
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={closeMenu}
+              className="py-2.5 text-sm font-medium transition-colors border-b last:border-0"
+              style={{
+                color: 'var(--text-muted)',
+                borderColor: 'var(--border)',
+                fontFamily: 'var(--font-inter)',
+              }}
+            >
+              {label}
             </Link>
-            <Link href="/servicios" className="text-gray-200 hover:text-white transition" onClick={() => setMenuOpen(false)}>
-              Servicios
-            </Link>
-            <Link href="/portafolio" className="text-gray-200 hover:text-white transition" onClick={() => setMenuOpen(false)}>
-              Portafolio
-            </Link>
-            <Link href="/proceso" className="text-gray-200 hover:text-white transition" onClick={() => setMenuOpen(false)}>
-              Proceso
-            </Link>
-            <Link href="/contacto" className="text-gray-200 hover:text-white transition" onClick={() => setMenuOpen(false)}>
-              Contacto
-            </Link>
-            <Link href="/contacto" className="btn-glow w-fit" onClick={() => setMenuOpen(false)}>
-              Agendar Reunion
+          ))}
+          <div className="flex items-center justify-between pt-3 mt-1">
+            <LanguageToggle />
+            <Link href="/contacto" className="btn-glow text-sm py-2 px-4" onClick={closeMenu}>
+              {dict.nav.cta}
             </Link>
           </div>
         </div>
       )}
-    </nav>
+    </div>
   );
 }

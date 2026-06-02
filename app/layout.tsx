@@ -1,37 +1,42 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { LanguageProvider } from '@/lib/i18n/LanguageContext';
+import SmoothScroll from '@/components/SmoothScroll';
+import ScrollAnimations from '@/components/ScrollAnimations';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://alphadev.studio'),
   title: {
-    default: 'AlphaDev Studios | Ingeniería de Software Empresarial',
+    default: 'AlphaDev Studios | Te hacemos existir en internet',
     template: '%s | AlphaDev Studios',
   },
   description:
-    'Estudio de ingeniería de software especializado en desarrollo web con React y Next.js, APIs escalables, CRM y sistemas internos a medida para empresas.',
+    'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren, te elijan y vuelvan.',
   keywords: [
-    'desarrollo web empresarial',
-    'software a medida',
-    'APIs REST escalables',
-    'backend Node.js',
-    'React Next.js',
-    'CRM personalizado',
-    'sistemas internos',
-    'ingeniería de software',
-    'microservicios',
+    'presencia digital para negocios',
+    'sitio web profesional',
+    'manejo de redes sociales',
+    'publicidad en Google',
+    'publicidad en Instagram',
+    'Google Business Profile',
+    'marketing digital PyMEs',
+    'crear marca desde cero',
+    'agencia de soluciones digitales',
     'AlphaDev Studios',
   ],
   authors: [{ name: 'AlphaDev Studios', url: 'https://alphadev.studio' }],
@@ -53,15 +58,15 @@ export const metadata: Metadata = {
     locale: 'es_MX',
     url: 'https://alphadev.studio',
     siteName: 'AlphaDev Studios',
-    title: 'AlphaDev Studios | Ingeniería de Software Empresarial',
+    title: 'AlphaDev Studios | Te hacemos existir en internet',
     description:
-      'Estudio de ingeniería de software especializado en desarrollo web, APIs escalables, CRM y sistemas internos a medida para empresas.',
+      'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren, te elijan y vuelvan.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AlphaDev Studios | Ingeniería de Software Empresarial',
+    title: 'AlphaDev Studios | Te hacemos existir en internet',
     description:
-      'Estudio de ingeniería de software especializado en desarrollo web, APIs escalables, CRM y sistemas internos a medida para empresas.',
+      'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren y te elijan.',
   },
   alternates: {
     canonical: 'https://alphadev.studio',
@@ -75,38 +80,36 @@ const organizationJsonLd = {
   url: 'https://alphadev.studio',
   logo: 'https://alphadev.studio/assets/img/alphadev-logo.png',
   description:
-    'Estudio de ingeniería de software especializado en desarrollo web con React y Next.js, APIs escalables, CRM y sistemas internos a medida para empresas.',
-  email: 'info@alphadev.com',
-  telephone: '+1-234-567-890',
+    'Agencia de soluciones digitales. Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
+  email: 'zavarsegabriel@gmail.com',
+  telephone: '+1-407-686-7561',
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'info@alphadev.com',
-    telephone: '+1-234-567-890',
+    email: 'zavarsegabriel@gmail.com',
+    telephone: '+1-407-686-7561',
     contactType: 'customer service',
     availableLanguage: ['Spanish', 'English'],
   },
   knowsAbout: [
-    'Desarrollo Web',
-    'React',
-    'Next.js',
-    'Node.js',
-    'APIs REST',
-    'GraphQL',
-    'PostgreSQL',
-    'Microservicios',
-    'CRM',
-    'Ingeniería de Software',
-    'Seguridad Web',
+    'Presencia digital',
+    'Diseño de sitios web',
+    'Manejo de redes sociales',
+    'Publicidad en Google',
+    'Publicidad en redes sociales',
+    'Google Business Profile',
+    'SEO local',
+    'Identidad de marca',
+    'Marketing digital',
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Servicios de Ingeniería de Software',
+    name: 'Soluciones digitales para negocios',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Desarrollo Web con React y Next.js' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'APIs REST y GraphQL escalables' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'CRM y Sistemas Internos a medida' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de Bases de Datos' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Seguridad y Autenticación Empresarial' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Presencia digital desde cero (marca + sitio + perfiles)' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Manejo de redes sociales' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Publicidad en Google y redes sociales' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de perfil de Google' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de sitio web profesional' } },
     ],
   },
 };
@@ -116,7 +119,7 @@ const websiteJsonLd = {
   '@type': 'WebSite',
   name: 'AlphaDev Studios',
   url: 'https://alphadev.studio',
-  description: 'Ingeniería de software empresarial a medida',
+  description: 'Te hacemos existir en internet: presencia digital completa para tu negocio.',
 };
 
 export default function RootLayout({
@@ -136,10 +139,14 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white`}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <LanguageProvider>
+          <SmoothScroll />
+          <ScrollAnimations />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );
