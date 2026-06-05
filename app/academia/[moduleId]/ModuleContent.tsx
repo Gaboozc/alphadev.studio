@@ -23,18 +23,24 @@ const RESOURCE_ICON: Record<string, string> = {
 
 function getEmbedType(lesson: Module['lessons'][number]): 'youtube' | 'audio' | 'link' | null {
   if (!lesson.embedUrl) return null
-  if (
-    lesson.embedUrl.includes('youtube.com') ||
-    lesson.embedUrl.includes('youtu.be')
-  )
+  if (lesson.embedUrl.includes('youtube.com') || lesson.embedUrl.includes('youtu.be'))
     return 'youtube'
   if (lesson.type === 'audio') return 'audio'
   return 'link'
 }
 
-export default function ModuleContent({ module: mod }: { module: Module }) {
+interface Props {
+  module: Module
+  trackModules: Module[]
+}
+
+export default function ModuleContent({ module: mod, trackModules }: Props) {
   const { isCompleted, toggleLesson, getModuleProgress, hydrated } = useProgress()
   const progress = getModuleProgress(mod.id)
+
+  const currentIndex = trackModules.findIndex((m) => m.id === mod.id)
+  const prev = currentIndex > 0 ? trackModules[currentIndex - 1] : null
+  const next = currentIndex < trackModules.length - 1 ? trackModules[currentIndex + 1] : null
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '2rem', paddingBottom: '4rem' }}>
@@ -99,41 +105,15 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
           {/* Module progress bar */}
           {hydrated && (
             <div style={{ maxWidth: '360px' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginBottom: '0.5rem',
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '0.75rem',
-                    color: 'var(--text-subtle)',
-                  }}
-                >
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
                   {progress.done}/{progress.total} lecciones
                 </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: 'var(--gold)',
-                  }}
-                >
+                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--gold)' }}>
                   {progress.percent}%
                 </span>
               </div>
-              <div
-                style={{
-                  height: '5px',
-                  background: 'var(--bg-deep)',
-                  borderRadius: '99px',
-                  overflow: 'hidden',
-                }}
-              >
+              <div style={{ height: '5px', background: 'var(--bg-deep)', borderRadius: '99px', overflow: 'hidden' }}>
                 <div
                   style={{
                     height: '100%',
@@ -177,7 +157,6 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
                     transition: 'border-color 200ms ease',
                   }}
                 >
-                  {/* Lesson header */}
                   <div
                     style={{
                       display: 'flex',
@@ -212,15 +191,7 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
                     </button>
 
                     <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          flexWrap: 'wrap',
-                          marginBottom: '0.25rem',
-                        }}
-                      >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
                         <span
                           style={{
                             fontFamily: 'var(--font-inter)',
@@ -249,14 +220,12 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
                     </div>
                   </div>
 
-                  {/* Embed */}
                   {lesson.embedUrl && embedType && (
                     <div style={{ marginBottom: lesson.content ? '1rem' : 0 }}>
                       <MediaEmbed type={embedType} url={lesson.embedUrl} title={lesson.title} />
                     </div>
                   )}
 
-                  {/* Content / notes */}
                   {lesson.content && (
                     <p
                       style={{
@@ -278,7 +247,7 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
 
         {/* Resources */}
         {mod.resources.length > 0 && (
-          <section>
+          <section style={{ marginBottom: '3rem' }}>
             <h2
               style={{
                 fontFamily: 'var(--font-playfair)',
@@ -321,38 +290,14 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
                     {RESOURCE_ICON[res.type] ?? '◻'}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: '0.875rem',
-                        fontWeight: 500,
-                        color: 'var(--text)',
-                        margin: 0,
-                      }}
-                    >
+                    <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)', margin: 0 }}>
                       {res.title}
                     </p>
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-inter)',
-                        fontSize: '0.75rem',
-                        color: 'var(--text-subtle)',
-                        textTransform: 'capitalize',
-                        margin: 0,
-                        marginTop: '0.125rem',
-                      }}
-                    >
+                    <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', color: 'var(--text-subtle)', textTransform: 'capitalize', margin: 0, marginTop: '0.125rem' }}>
                       {res.type}
                     </p>
                   </div>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-inter)',
-                      fontSize: '0.875rem',
-                      color: 'var(--gold)',
-                      flexShrink: 0,
-                    }}
-                  >
+                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', color: 'var(--gold)', flexShrink: 0 }}>
                     ↗
                   </span>
                 </a>
@@ -360,6 +305,87 @@ export default function ModuleContent({ module: mod }: { module: Module }) {
             </div>
           </section>
         )}
+
+        {/* Prev / Next navigation */}
+        <nav
+          style={{
+            display: 'grid',
+            gridTemplateColumns: prev ? (next ? '1fr 1fr' : '1fr auto') : 'auto 1fr',
+            gap: '1rem',
+            borderTop: '1px solid var(--border)',
+            paddingTop: '2rem',
+          }}
+        >
+          {prev ? (
+            <Link
+              href={`/academia/${prev.id}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem',
+                padding: '1rem 1.25rem',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: '0.875rem',
+                textDecoration: 'none',
+                transition: 'border-color 200ms ease, transform 200ms ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--gold-border)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border)'
+                e.currentTarget.style.transform = 'translateY(0)'
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                ← Anterior
+              </span>
+              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>
+                Módulo {prev.number}: {prev.title}
+              </span>
+            </Link>
+          ) : (
+            <div />
+          )}
+
+          {next ? (
+            <Link
+              href={`/academia/${next.id}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem',
+                padding: '1rem 1.25rem',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: '0.875rem',
+                textDecoration: 'none',
+                textAlign: 'right',
+                transition: 'border-color 200ms ease, transform 200ms ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--gold-border)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border)'
+                e.currentTarget.style.transform = 'translateY(0)'
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Siguiente →
+              </span>
+              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>
+                Módulo {next.number}: {next.title}
+              </span>
+            </Link>
+          ) : (
+            <div />
+          )}
+        </nav>
+
       </div>
     </div>
   )
