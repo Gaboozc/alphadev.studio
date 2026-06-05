@@ -402,6 +402,26 @@ export const MODULES: Module[] = [
         url: 'https://www.figma.com/community',
         type: 'tool',
       },
+      {
+        title: 'Awwwards — Inspiración de los mejores sitios del mundo',
+        url: 'https://www.awwwards.com',
+        type: 'tool',
+      },
+      {
+        title: 'dark.design — Colección de dark UI inspiration',
+        url: 'https://www.dark.design',
+        type: 'tool',
+      },
+      {
+        title: 'Godly — Curación de diseño web premium',
+        url: 'https://godly.website',
+        type: 'tool',
+      },
+      {
+        title: 'Muzli — Chrome extension: design inspiration en cada tab',
+        url: 'https://muz.li',
+        type: 'tool',
+      },
     ],
   },
 
@@ -500,8 +520,106 @@ export const MODULES: Module[] = [
   },
 
   {
-    id: 'uiux-5',
+    id: 'uiux-7',
     number: 3,
+    track: 'uiux',
+    title: 'Motion en Figma — Smart Animate y Micro-interacciones',
+    description:
+      'El puente entre diseño estático y UI memorable. Aprendé a crear animaciones con propósito en Figma: timing, easing, before/after states, Smart Animate, y cómo exportar y presentar tus prototipos.',
+    duration: '3–4 semanas',
+    status: 'locked',
+    lessons: [
+      {
+        id: 'u7-l1',
+        title: 'Mindset: animación con propósito vs animación decorativa',
+        type: 'reading',
+        content:
+          'El error más común de los diseñadores que aprenden motion es animar todo lo que pueden. La regla es la contraria: animá solo lo que tiene un propósito. Propósitos válidos: guiar la atención, confirmar una acción, explicar un cambio de estado, dar feedback inmediato. Un solo hover bien ejecutado vale más que diez transiciones de pantalla que no aportan claridad. Diferencia clave: UI tradicional (estático, funcional) vs UI moderno (propósito + motion = percepción de premium). El motion es lo que AI no puede replicar — porque elegir qué se mueve, cuándo, y con qué intención requiere juicio humano de diseño.',
+        completed: false,
+      },
+      {
+        id: 'u7-l2',
+        title: 'Visual style moderno: grid, layering y depth',
+        type: 'practice',
+        content:
+          'Antes de animar, el diseño estático tiene que sentirse moderno. La animación sobre un diseño mediocre solo lo hace más notorio. Tres elementos que diferencian un diseño moderno de uno genérico: (1) Grid no convencional — los elementos no están en una cuadrícula predecible, hay superposición deliberada. (2) Layering — elementos que se solapan crean profundidad. (3) Tipografía de alto contraste — size jump dramático entre headline y body. Tarea: buscá 5 heroes en Awwwards, tomá screenshot y pegalos en un frame de Figma. Analizá por escrito: ¿qué tienen que tu diseño actual no tiene? Luego reproducí los 5 heroes desde cero.',
+        completed: false,
+      },
+      {
+        id: 'u7-l3',
+        title: 'Timing y easing: las dos variables que lo deciden todo',
+        type: 'reading',
+        content:
+          'Toda animación en Figma tiene dos parámetros: duración y easing. Duración: micro-interacciones UI → 150–250ms. Transiciones de pantalla → 300–400ms. Más de 500ms se siente lento. Nunca uses "Linear" — se ve mecánico. Easing recomendado para UI: Ease Out (entrada suave, salida rápida) para elementos que aparecen. Ease In para elementos que desaparecen. Custom Bezier para momentos de personalidad. En Figma, la curva de Bezier custom es la que más control te da — en el panel de prototipado, hacé clic en el ícono de curva y ajustá los handles. Referencia visual: easings.net. Instalá la extensión Muzli en Chrome para tener inspiración de diseño cada vez que abrís una pestaña nueva.',
+        completed: false,
+      },
+      {
+        id: 'u7-l4',
+        title: 'Smart Animate: estados Before → After',
+        type: 'practice',
+        content:
+          'Smart Animate es la herramienta de animación más poderosa de Figma — anima automáticamente las diferencias entre dos frames si los elementos tienen el mismo nombre de capa. El workflow es: (1) Diseñá el estado final (After). (2) Duplicá el frame → ese es el estado inicial (Before). (3) En Before, modificá las propiedades: headline → y +20px + opacity 0%, imagen → scale 0.95 + blur 8px, CTA → opacity 0% + scale 0.98. (4) En Prototype, conectá Before → After con Smart Animate + tu easing elegido. Regla de oro: en el estado After no cambiés los nombres de capa — Smart Animate necesita coincidir nombres para saber qué animar. Tarea: tomá el hero que diseñaste y animalo con este workflow. Probá el prototipo y ajustá hasta que se sienta natural.',
+        completed: false,
+      },
+      {
+        id: 'u7-l5',
+        title: 'Animar secciones completas: ritmo y jerarquía de scroll',
+        type: 'reading',
+        content:
+          'Una página entera animada debe tener ritmo, no caos. La fórmula por sección: (1) Definí la jerarquía — ¿qué elemento se ve primero? Ese aparece solo, los demás lo siguen. (2) Aplicá stagger — si hay varios elementos que aparecen juntos, cada uno tiene un delay de 40–60ms respecto al anterior. Nunca todos al mismo tiempo. (3) Usá un patrón consistente — si en el hero el texto viene desde abajo, que en las otras secciones también venga desde abajo. Consistencia = intencionalidad. (4) Limitá la concurrencia — máximo 3 elementos animándose simultáneamente. El resto espera o está quieto. En Figma: creá un frame "Before" y uno "After" por cada sección y conectalos con Smart Animate para simular el scroll.',
+        completed: false,
+      },
+      {
+        id: 'u7-l6',
+        title: 'Práctica: grabar el prototipo y prepararlo para portfolio',
+        type: 'practice',
+        content:
+          'El prototipo funcionando en pantalla no sirve si no podés mostrarlo. Workflow de showcase: (1) En Figma, abrí el prototipo en pantalla completa (Ctrl/Cmd + \\). (2) Grabá la pantalla con QuickTime (Mac) o la grabadora de Xbox (Windows) — sin marco del browser, con cursor visible si es interactivo, sin cursor si es automático. (3) Importá el video en CapCut (web o app): recortá los silencios, ajustá velocidad si hace falta, exportá en 1080p o 4K. (4) Subí el resultado a Dribbble o a tu perfil de Instagram como Reel. Ese es el primer post de tu portfolio de motion. Repetí este loop con cada prototipo que hagas.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Awwwards — Inspiración de los mejores sitios del mundo',
+        url: 'https://www.awwwards.com',
+        type: 'tool',
+      },
+      {
+        title: 'dark.design — Colección de dark UI inspiration',
+        url: 'https://www.dark.design',
+        type: 'tool',
+      },
+      {
+        title: 'Godly — Curación de diseño web premium',
+        url: 'https://godly.website',
+        type: 'tool',
+      },
+      {
+        title: 'Muzli — Chrome extension: design inspiration en cada tab',
+        url: 'https://muz.li',
+        type: 'tool',
+      },
+      {
+        title: 'easings.net — Referencia visual de curvas de easing',
+        url: 'https://easings.net',
+        type: 'article',
+      },
+      {
+        title: 'Smart Animate en Figma — Documentación oficial',
+        url: 'https://help.figma.com/hc/en-us/articles/360039818874',
+        type: 'article',
+      },
+      {
+        title: '@ayzz.thedesigner — Highlight "Motion Tutorials" en Instagram',
+        url: 'https://www.instagram.com/ayzz.thedesigner',
+        type: 'video',
+      },
+    ],
+  },
+
+  {
+    id: 'uiux-5',
+    number: 4,
     track: 'uiux',
     title: 'No-Code Design: Webflow y Framer',
     description:
@@ -600,7 +718,7 @@ export const MODULES: Module[] = [
 
   {
     id: 'uiux-6',
-    number: 4,
+    number: 5,
     track: 'uiux',
     title: 'After Effects — Motion Design para UI',
     description:
@@ -693,7 +811,7 @@ export const MODULES: Module[] = [
 
   {
     id: 'uiux-4',
-    number: 5,
+    number: 6,
     track: 'uiux',
     title: 'Design Systems y Portfolio Profesional',
     description:
@@ -772,6 +890,86 @@ export const MODULES: Module[] = [
         title: 'Checklist Design — Best practices por componente',
         url: 'https://www.checklist.design',
         type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'uiux-8',
+    number: 7,
+    track: 'uiux',
+    title: 'Bonus: Rive, Spline y Unicorn Studio',
+    description:
+      'Las herramientas que separan el top 1% de diseñadores del resto. No necesitás dominar todas — elegí una y explorala a fondo. Rive para iconos interactivos, Spline para 3D en web, Unicorn Studio para efectos WebGL.',
+    duration: '2–3 semanas',
+    status: 'locked',
+    lessons: [
+      {
+        id: 'u8-l1',
+        title: 'Rive: iconos e ilustraciones interactivas con state machines',
+        type: 'reading',
+        content:
+          'Rive es la herramienta más potente para crear animaciones vectoriales interactivas listas para producción. Su diferencial sobre Lottie/After Effects: las state machines. Una state machine define cómo un elemento transiciona entre estados (idle → hover → pressed → success) basada en eventos del usuario — sin código adicional en muchos casos. Casos de uso perfectos: iconos de navegación animados (hamburguesa → X), botones con estados de carga, ilustraciones interactivas en onboarding, mascots que reaccionan al usuario. Los archivos de Rive son extremadamente livianos (KB, no MB) y corren a 60fps nativamente en web. Creá una cuenta gratuita en rive.app y seguí el curso oficial "Rive 101".',
+        completed: false,
+      },
+      {
+        id: 'u8-l2',
+        title: 'Spline: 3D para web sin código',
+        type: 'reading',
+        content:
+          'Spline te permite crear objetos 3D, escenas y animaciones que se embeben directamente en cualquier sitio web — incluyendo Framer y Webflow. Lo que lo hace útil para diseñadores UI: no requiere conocimiento de Three.js ni WebGL. Casos de uso: hero con objeto 3D interactivo (el usuario lo puede rotar con el mouse), íconos 3D animados, fondos con profundidad. Casos donde NO usar Spline: sitios que priorizan performance extrema (Spline añade peso de carga). Flujo de integración: diseñás en spline.design → exportás como código embebible o iframe → lo insertás en Framer/Webflow. Limitaciones a saber: la versión gratuita muestra el logo de Spline en el embed.',
+        completed: false,
+      },
+      {
+        id: 'u8-l3',
+        title: 'Unicorn Studio: efectos WebGL y scroll-driven sin código',
+        type: 'reading',
+        content:
+          'Unicorn Studio genera efectos visuales WebGL — shaders, fluidos, gradientes animados, noise effects — que se activan con el scroll o el mouse. Es lo que usás cuando querés que el background de una sección "viva" o que el hero tenga un efecto de fluido premium sin contratar a un developer especializado en WebGL. Casos de uso: fondos de hero con gradiente fluido animado, secciones "wow" de landing pages premium, efectos de partículas suaves. La integración es igual a Spline: un snippet de código o iframe que pegás en Framer/Webflow. Referencia para ver qué puede hacer: explorá la galería de templates en unicornstudio.io.',
+        completed: false,
+      },
+      {
+        id: 'u8-l4',
+        title: 'La estrategia correcta: elegí una y dominala',
+        type: 'reading',
+        content:
+          'El error más común con herramientas avanzadas es coleccionarlas sin dominar ninguna. La recomendación del roadmap de AyzZ es directa: elegí UNA de estas herramientas y explorá todo lo que puede hacer. Si ya dominás After Effects → Lottie, Rive es el siguiente paso natural (ambas son vectoriales, ambas exportan para web/mobile). Si tu foco es webs premium con 3D, Spline. Si hacés landing pages de alto impacto y querés backgrounds que impresionen, Unicorn Studio. Dominar una sola de estas herramientas ya te pone en el top percentil de diseñadores UI — la mayoría no sabe que existen.',
+        completed: false,
+      },
+      {
+        id: 'u8-l5',
+        title: 'Práctica: integrar una animación avanzada en un proyecto real',
+        type: 'practice',
+        content:
+          'Elegí la herramienta que más te llamó la atención (Rive, Spline o Unicorn Studio) y creá un asset que puedas integrar en la landing page que publicaste en el módulo de Webflow/Framer: (A) Rive: un ícono animado con al menos 2 estados (idle + hover). (B) Spline: un objeto 3D simple (esfera, cubo abstracto) con auto-rotate. (C) Unicorn Studio: un background animado para el hero. Integralá en Framer o Webflow y republicá el sitio. Guardá el link actualizado — esto eleva el nivel del portfolio considerablemente.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Rive — Animaciones interactivas con state machines',
+        url: 'https://rive.app',
+        type: 'tool',
+      },
+      {
+        title: 'Rive Community — Ejemplos y templates gratuitos',
+        url: 'https://rive.app/community',
+        type: 'tool',
+      },
+      {
+        title: 'Spline — 3D design tool para web',
+        url: 'https://spline.design',
+        type: 'tool',
+      },
+      {
+        title: 'Unicorn Studio — Efectos WebGL sin código',
+        url: 'https://unicornstudio.io',
+        type: 'tool',
+      },
+      {
+        title: 'Rive 101 — Curso oficial de introducción',
+        url: 'https://rive.app/learn-rive',
+        type: 'course',
       },
     ],
   },
