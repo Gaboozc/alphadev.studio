@@ -422,6 +422,46 @@ export const MODULES: Module[] = [
         url: 'https://muz.li',
         type: 'tool',
       },
+      {
+        title: 'Saaspo — Sitios SaaS curados (pricing, dashboards, onboarding)',
+        url: 'https://saaspo.com',
+        type: 'tool',
+      },
+      {
+        title: 'One Page Love — Mejores sitios de una sola página',
+        url: 'https://onepagelove.com',
+        type: 'tool',
+      },
+      {
+        title: 'MaxiBestOf — Front-end creativo, WebGL y heroes experimentales',
+        url: 'https://maxibestof.website',
+        type: 'tool',
+      },
+      {
+        title: 'Land Book — Galería ordenada por industria, color y estilo',
+        url: 'https://land-book.com',
+        type: 'tool',
+      },
+      {
+        title: 'CSS Design Awards — Sitios premiados por UI/UX/innovación',
+        url: 'https://cssdesignawards.com',
+        type: 'tool',
+      },
+      {
+        title: 'Mobbin — Pantallas reales de apps top, filtrables por flujo',
+        url: 'https://mobbin.com',
+        type: 'tool',
+      },
+      {
+        title: 'Viewport UI — Grabaciones de interacciones y gestos reales',
+        url: 'https://viewport-ui.design',
+        type: 'tool',
+      },
+      {
+        title: '60fps.design — Micro-interacciones curadas con foco en rendimiento',
+        url: 'https://60fps.design',
+        type: 'tool',
+      },
     ],
   },
 
@@ -550,7 +590,7 @@ export const MODULES: Module[] = [
         title: 'Timing y easing: las dos variables que lo deciden todo',
         type: 'reading',
         content:
-          'Toda animación en Figma tiene dos parámetros: duración y easing. Duración: micro-interacciones UI → 150–250ms. Transiciones de pantalla → 300–400ms. Más de 500ms se siente lento. Nunca uses "Linear" — se ve mecánico. Easing recomendado para UI: Ease Out (entrada suave, salida rápida) para elementos que aparecen. Ease In para elementos que desaparecen. Custom Bezier para momentos de personalidad. En Figma, la curva de Bezier custom es la que más control te da — en el panel de prototipado, hacé clic en el ícono de curva y ajustá los handles. Referencia visual: easings.net. Instalá la extensión Muzli en Chrome para tener inspiración de diseño cada vez que abrís una pestaña nueva.',
+          'La fórmula base de cualquier animación: Estado Antes → (tween con curva) → Estado Después. La herramienta calcula los frames intermedios según duration y easing. Lo que puede cambiar entre estados: posición, tamaño, rotación, opacidad, color, blur, radio, sombras, layout. DURACIONES RECOMENDADAS: micro-interacciones (hover, press, feedback) → 150–200ms. Cambio de estado (toggle, expand) → 200–300ms. Modal o transición de pantalla → 250–400ms. Flujos secuenciados con stagger → 800–1200ms total. Más de 500ms en una sola animación se siente lento. EASING POR USO: Ease Out para entradas (el elemento llega suave, se acomoda rápido). Ease In para salidas (arranca suave, termina rápido). Ease-In-Out para transiciones de pantalla completa. NUNCA Linear — se ve mecánico y sin vida. En Figma: en el panel de prototipado hacé click en el ícono de curva y ajustá los handles del Bezier custom. La curva que AyzZ usa el 90% del tiempo es un ease-out pronunciado: handle de entrada muy alto, handle de salida pegado al final. Referencia visual: easings.net.',
         completed: false,
       },
       {
@@ -558,7 +598,7 @@ export const MODULES: Module[] = [
         title: 'Smart Animate: estados Before → After',
         type: 'practice',
         content:
-          'Smart Animate es la herramienta de animación más poderosa de Figma — anima automáticamente las diferencias entre dos frames si los elementos tienen el mismo nombre de capa. El workflow es: (1) Diseñá el estado final (After). (2) Duplicá el frame → ese es el estado inicial (Before). (3) En Before, modificá las propiedades: headline → y +20px + opacity 0%, imagen → scale 0.95 + blur 8px, CTA → opacity 0% + scale 0.98. (4) En Prototype, conectá Before → After con Smart Animate + tu easing elegido. Regla de oro: en el estado After no cambiés los nombres de capa — Smart Animate necesita coincidir nombres para saber qué animar. Tarea: tomá el hero que diseñaste y animalo con este workflow. Probá el prototipo y ajustá hasta que se sienta natural.',
+          'Smart Animate anima automáticamente las diferencias entre dos frames cuando los elementos tienen el mismo nombre de capa. WORKFLOW: (1) Diseñá el estado final (After) primero — es el estado en reposo, cómo se ve la UI cuando ya cargó. (2) Duplicá el frame → renombralo "Before". (3) En Before modificá las propiedades iniciales: headline → y +16–24px + opacity 0%. Subhead → +8–12px + opacity 0% (con delay). CTA → outline → filled, scale 0.98 → 1. Imagen → scale 0.96 → 1, blur 8px → 0. (4) En la pestaña Prototype, conectá Before → After con Smart Animate + tu easing. REGLA CRÍTICA: los nombres de capa en Before y After deben ser idénticos — Smart Animate los empareja por nombre. Si cambiás el nombre, no anima. ERRORES COMUNES: animar demasiadas cosas al mismo tiempo (máximo 4–5 elementos por frame), usar Linear (se ve mecánico), mover elementos más de 40px (se ve exagerado), no verificar el orden de lectura (headline primero, luego subhead, luego CTA). PRÁCTICA: abrí uno de los 5 tutoriales de esta sección, replicá la animación exacta, y luego hacé la misma animación con tu propio diseño.',
         completed: false,
       },
       {
@@ -574,7 +614,7 @@ export const MODULES: Module[] = [
         title: 'Práctica: grabar el prototipo y prepararlo para portfolio',
         type: 'practice',
         content:
-          'El prototipo funcionando en pantalla no sirve si no podés mostrarlo. Workflow de showcase: (1) En Figma, abrí el prototipo en pantalla completa (Ctrl/Cmd + \\). (2) Grabá la pantalla con QuickTime (Mac) o la grabadora de Xbox (Windows) — sin marco del browser, con cursor visible si es interactivo, sin cursor si es automático. (3) Importá el video en CapCut (web o app): recortá los silencios, ajustá velocidad si hace falta, exportá en 1080p o 4K. (4) Subí el resultado a Dribbble o a tu perfil de Instagram como Reel. Ese es el primer post de tu portfolio de motion. Repetí este loop con cada prototipo que hagas.',
+          'HERRAMIENTAS: Figma (Present mode) + grabador de pantalla (OBS Studio / Outplayed / QuickTime en Mac) + CapCut para edición. PREPARACIÓN ANTES DE GRABAR: presentá el prototipo al 100% de zoom, cerrá apps pesadas (Teams, browsers con 20 tabs), definí la interacción exacta que vas a grabar (10–20 segundos máximo). CONFIGURACIÓN DE GRABACIÓN: resolución 1920×1080 (horizontal) o 1080×1920 (vertical para Reels), 60 fps obligatorio, formato MP4 H.264, bitrate 12–20 Mbps, ocultá el cursor si la animación es automática. EDICIÓN EN CAPCUT: importá el clip, recortá el inicio y el final (sin frames muertos), hacé crop ajustado para eliminar bordes de la pantalla, considerá hacer el video loopeable (el final se conecta suave con el inicio). EXPORT POR CANAL: Reels/TikTok → 1080×1920 vertical, 60fps. Portfolio/YouTube → 1920×1080, 60fps. Dribbble/Behance → 1600–1920px de ancho, 60fps. LOOP DE PUBLICACIÓN: diseñar → animar → grabar (10–20s) → editar en CapCut → postear al día siguiente. Repetí este ciclo con cada prototipo. Tu feed es tu prueba de habilidad en tiempo real.',
         completed: false,
       },
     ],
@@ -613,6 +653,76 @@ export const MODULES: Module[] = [
         title: '@ayzz.thedesigner — Highlight "Motion Tutorials" en Instagram',
         url: 'https://www.instagram.com/ayzz.thedesigner',
         type: 'video',
+      },
+      {
+        title: 'Tutorial: Button Hover Animation (AyzZ)',
+        url: 'https://www.instagram.com/reel/DCy4ysoAa6c/',
+        type: 'video',
+      },
+      {
+        title: 'Tutorial: Simple Hero Animation (AyzZ)',
+        url: 'https://www.instagram.com/reel/DBJVFtNtUEu/',
+        type: 'video',
+      },
+      {
+        title: 'Tutorial: Card Hover Animation (AyzZ)',
+        url: 'https://www.instagram.com/reel/DFscYaVNhSr/',
+        type: 'video',
+      },
+      {
+        title: 'Tutorial: Cursor Follow Animation (AyzZ)',
+        url: 'https://www.instagram.com/reel/DJDwnVfiwNh/',
+        type: 'video',
+      },
+      {
+        title: 'Tutorial: Product Swipe Animation (AyzZ)',
+        url: 'https://www.instagram.com/reel/DKZjv5Pii6J/',
+        type: 'video',
+      },
+      {
+        title: 'Tutorial: Scroll Animation in Figma (AyzZ)',
+        url: 'https://www.instagram.com/reel/DM-WQhbNeQX/',
+        type: 'video',
+      },
+      {
+        title: 'Saaspo — Sitios SaaS curados (pricing, dashboards, onboarding)',
+        url: 'https://saaspo.com',
+        type: 'tool',
+      },
+      {
+        title: 'One Page Love — Mejores sitios de una sola página',
+        url: 'https://onepagelove.com',
+        type: 'tool',
+      },
+      {
+        title: 'MaxiBestOf — Front-end creativo, WebGL y heroes experimentales',
+        url: 'https://maxibestof.website',
+        type: 'tool',
+      },
+      {
+        title: 'Land Book — Galería ordenada por industria, color y estilo',
+        url: 'https://land-book.com',
+        type: 'tool',
+      },
+      {
+        title: 'CSS Design Awards — Sitios premiados por UI/UX/innovación',
+        url: 'https://cssdesignawards.com',
+        type: 'tool',
+      },
+      {
+        title: 'Mobbin — Pantallas reales de apps top, filtrables por flujo',
+        url: 'https://mobbin.com',
+        type: 'tool',
+      },
+      {
+        title: 'Viewport UI — Grabaciones de interacciones y gestos reales',
+        url: 'https://viewport-ui.design',
+        type: 'tool',
+      },
+      {
+        title: '60fps.design — Micro-interacciones curadas con foco en rendimiento',
+        url: 'https://60fps.design',
+        type: 'tool',
       },
     ],
   },
