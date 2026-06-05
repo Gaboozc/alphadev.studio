@@ -409,9 +409,9 @@ export const MODULES: Module[] = [
     id: 'uiux-2',
     number: 2,
     track: 'uiux',
-    title: 'Figma — De cero a flujo de trabajo profesional',
+    title: 'Figma + FigJam — Diseño y colaboración profesional',
     description:
-      'Dominá Figma desde la interfaz básica hasta componentes, Auto Layout, prototipado y handoff para developers. La herramienta estándar de la industria.',
+      'Dominá Figma desde interfaz básica hasta componentes, Auto Layout y handoff. Más FigJam para workshops, brainstorming y mapas de flujo colaborativos.',
     duration: '3–4 semanas',
     status: 'locked',
     lessons: [
@@ -427,7 +427,7 @@ export const MODULES: Module[] = [
         id: 'u2-l2',
         title: 'Auto Layout: el superpoder de Figma',
         type: 'video',
-        embedUrl: undefined, // Agregar tutorial de Auto Layout en YouTube
+        embedUrl: undefined,
         content:
           'Auto Layout te permite crear diseños que se adaptan automáticamente al contenido. Aprendé: dirección (horizontal/vertical), espaciado, padding, grow/fill. Es equivalente a flexbox en CSS. Practicá creando un botón y una card que se expandan con el contenido.',
         completed: false,
@@ -450,10 +450,18 @@ export const MODULES: Module[] = [
       },
       {
         id: 'u2-l5',
-        title: 'Práctica: diseñar 5 pantallas de una app mobile',
+        title: 'FigJam: brainstorming, flujos y workshops colaborativos',
+        type: 'reading',
+        content:
+          'FigJam es la pizarra colaborativa de Figma — ideal para mapear user journeys, hacer brainstorming, diseñar flujos de información (user flows), y correr workshops remotos. Aprendé: sticky notes, conectores, votación con stamps, templates de retrospectiva y de user flow. Ejercicio: mapeá el user flow completo de la app que diseñaste en la práctica anterior: desde que el usuario abre la app hasta que completa la tarea principal.',
+        completed: false,
+      },
+      {
+        id: 'u2-l6',
+        title: 'Práctica: diseñar 5 pantallas + su user flow en FigJam',
         type: 'practice',
         content:
-          'Elegí una app simple (gestor de tareas, recetario, app de clima) y diseñá 5 pantallas: home, listado, detalle, formulario, y una pantalla de éxito/error. Usá Auto Layout en todo, crea al menos 5 componentes reutilizables, y conectalas con un prototipo funcional.',
+          'Elegí una app simple (gestor de tareas, recetario, app de clima) y completá dos entregables en el mismo Figma workspace: (1) En FigJam: mapeá el user flow completo con conectores y notas de decisión. (2) En Figma Design: diseñá 5 pantallas usando Auto Layout, al menos 5 componentes reutilizables, y conectalas con un prototipo funcional. El flujo en FigJam debe guiar las decisiones del diseño en Figma.',
         completed: false,
       },
     ],
@@ -462,6 +470,11 @@ export const MODULES: Module[] = [
         title: 'Figma Learn — Tutoriales oficiales',
         url: 'https://help.figma.com/hc/en-us/categories/360002051613',
         type: 'course',
+      },
+      {
+        title: 'FigJam — Introducción oficial',
+        url: 'https://help.figma.com/hc/en-us/articles/1500004362321',
+        type: 'article',
       },
       {
         title: 'Figma Community — Templates y UI kits',
@@ -487,8 +500,107 @@ export const MODULES: Module[] = [
   },
 
   {
-    id: 'uiux-3',
+    id: 'uiux-5',
     number: 3,
+    track: 'uiux',
+    title: 'No-Code Design: Webflow y Framer',
+    description:
+      'Pasá de diseño a sitio publicado sin escribir código. Webflow para webs complejas con CMS, Framer para landing pages con animaciones avanzadas y conexión directa con Figma.',
+    duration: '3–4 semanas',
+    status: 'locked',
+    lessons: [
+      {
+        id: 'u5-l1',
+        title: '¿Cuándo usar Webflow, Framer o código? El mapa de decisión',
+        type: 'reading',
+        content:
+          'No todas las herramientas sirven para todo. El criterio es: **Webflow** → webs de marketing con CMS, múltiples páginas, blogs, ecommerce básico. Requiere aprender su lógica visual (box model, clases CSS visuales). **Framer** → landing pages de alto impacto, portfolios, sites con animaciones complejas. Importa de Figma. Genera React. **Código (Next.js)** → cuando necesitás control total, lógica de negocio, backend propio, escala. Ejercicio: para 3 proyectos reales que tengas en mente, decidí cuál herramienta usarías y por qué.',
+        completed: false,
+      },
+      {
+        id: 'u5-l2',
+        title: 'Webflow: fundamentos de diseño visual con clases',
+        type: 'video',
+        embedUrl: undefined,
+        content:
+          'Creá una cuenta en webflow.com (plan gratis disponible). El concepto clave de Webflow es que sus clases CSS son visuales: lo que arrastrás y configurás en el panel es CSS real. Aprendé: el Navigator (árbol de elementos), el Style Panel (box model, flexbox, grid), clases vs IDs, y el modo responsive. Seguí el curso oficial "Webflow University — Webflow 101 Crash Course" antes de tocar cualquier template.',
+        completed: false,
+      },
+      {
+        id: 'u5-l3',
+        title: 'Webflow CMS e Interactions',
+        type: 'reading',
+        content:
+          'Dos superpoderes de Webflow: **CMS** → creás una colección (ej: "Blog Posts") con campos, y Webflow genera automáticamente las páginas dinámicas. Ideal para portafolios o sitios con contenido que se actualiza. **Interactions** → animaciones on-scroll, on-hover, on-click sin código. Podés recrear casi cualquier efecto de Linear.app o Stripe con Webflow Interactions. Ejercicio: construí una página de portfolio con 3 case studies usando el CMS.',
+        completed: false,
+      },
+      {
+        id: 'u5-l4',
+        title: 'Framer: de Figma a sitio publicado con animaciones premium',
+        type: 'reading',
+        content:
+          'Framer tiene la curva de aprendizaje más baja si ya sabés Figma — porque su interfaz es casi idéntica. Puntos clave: **Import desde Figma** → copiás frames de Figma y los pegás en Framer (funciona bien para estructura, menos para variables/componentes complejos). **Breakpoints** → responsive sin código. **Scroll animations** → parallax, fade-in-up, sticky elements, todo visual. **Code overrides** → cuando necesitás lógica, podés conectar componentes React. **Publicación** → con dominio propio en 1 click. Ejercicio: publicá una landing page de AlphaDev Studios (o proyecto propio) usando Framer en menos de 2 horas.',
+        completed: false,
+      },
+      {
+        id: 'u5-l5',
+        title: 'Publicación, dominio y SEO básico en Webflow/Framer',
+        type: 'reading',
+        content:
+          'Antes de publicar cualquier sitio: configura el título, meta description, OG image y alt text de imágenes. En Webflow: SEO settings por página, sitemap automático, Google Search Console. En Framer: SEO panel por página, robots.txt, analytics integrado. Para el dominio: ambas herramientas permiten conectar un dominio externo o comprar uno dentro de la plataforma. Costo típico: $14–19 USD/año por dominio + plan pago de la herramienta si querés dominio propio.',
+        completed: false,
+      },
+      {
+        id: 'u5-l6',
+        title: 'Práctica: publicar una landing page real con Framer o Webflow',
+        type: 'practice',
+        content:
+          'Elegí una de las dos herramientas y publicá una landing page completa: header con headline, 3 secciones de contenido, CTA final, footer. Requisitos mínimos: (1) responsive en mobile, (2) al menos 1 animación on-scroll, (3) publicada con URL accesible (el subdominio gratuito de Framer/Webflow sirve para la práctica). Opcionalmente: conectá tu propio dominio. Guardá el link de la página publicada.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Webflow University — Webflow 101 Crash Course',
+        url: 'https://university.webflow.com/courses/webflow-101-crash-course',
+        type: 'course',
+      },
+      {
+        title: 'Webflow — Editor visual no-code',
+        url: 'https://webflow.com',
+        type: 'tool',
+      },
+      {
+        title: 'Framer — De diseño a sitio publicado',
+        url: 'https://www.framer.com',
+        type: 'tool',
+      },
+      {
+        title: 'Framer Academy — Tutoriales oficiales',
+        url: 'https://www.framer.com/academy',
+        type: 'course',
+      },
+      {
+        title: 'Webflow CMS — Documentación oficial',
+        url: 'https://university.webflow.com/courses/webflow-cms-basics',
+        type: 'article',
+      },
+      {
+        title: 'Webflow Interactions — Animaciones sin código',
+        url: 'https://university.webflow.com/courses/interactions-and-animations-course',
+        type: 'course',
+      },
+      {
+        title: 'Framer Templates — Punto de partida gratuito',
+        url: 'https://www.framer.com/templates/',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'uiux-3',
+    number: 4,
     track: 'uiux',
     title: 'Creación de Videos y Contenido Visual',
     description:
@@ -574,7 +686,7 @@ export const MODULES: Module[] = [
 
   {
     id: 'uiux-4',
-    number: 4,
+    number: 5,
     track: 'uiux',
     title: 'Design Systems y Portfolio Profesional',
     description:
