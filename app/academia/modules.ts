@@ -118,7 +118,7 @@ export const MODULES: Module[] = [
     description:
       'Configura Meta Business Suite correctamente, lanza tus primeras campañas en Facebook e Instagram Ads, y aprende a leer las métricas clave.',
     duration: '2–3 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'm2-l1',
@@ -187,7 +187,7 @@ export const MODULES: Module[] = [
     description:
       'Aparece cuando alguien busca lo que tú ofreces. Configura Google Business Profile y lanza campañas de búsqueda con Google Ads.',
     duration: '2–3 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'm3-l1',
@@ -256,7 +256,7 @@ export const MODULES: Module[] = [
     description:
       'Explora TikTok como canal de adquisición y aprende a medir todo: UTMs, Google Analytics 4, y reportes semanales que guíen decisiones.',
     duration: '2–3 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'm4-l1',
@@ -433,7 +433,7 @@ export const MODULES: Module[] = [
     description:
       'Dominá Figma desde interfaz básica hasta componentes, Auto Layout y handoff. Más FigJam para workshops, brainstorming y mapas de flujo colaborativos.',
     duration: '3–4 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u2-l1',
@@ -527,7 +527,7 @@ export const MODULES: Module[] = [
     description:
       'El puente entre diseño estático y UI memorable. Aprendé a crear animaciones con propósito en Figma: timing, easing, before/after states, Smart Animate, y cómo exportar y presentar tus prototipos.',
     duration: '3–4 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u7-l1',
@@ -625,7 +625,7 @@ export const MODULES: Module[] = [
     description:
       'Pasá de diseño a sitio publicado sin escribir código. Webflow para webs complejas con CMS, Framer para landing pages con animaciones avanzadas y conexión directa con Figma.',
     duration: '3–4 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u5-l1',
@@ -724,7 +724,7 @@ export const MODULES: Module[] = [
     description:
       'Creá micro-animaciones, transiciones y motion graphics para interfaces digitales. Aprendé a exportar animaciones como Lottie para usarlas en Framer, Webflow o cualquier app.',
     duration: '3–4 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u6-l1',
@@ -817,7 +817,7 @@ export const MODULES: Module[] = [
     description:
       'Construí un design system reutilizable en Figma y creá un portfolio UI/UX que demuestre tu trabajo. El diferencial que convierte proyectos en oportunidades.',
     duration: '3–4 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u4-l1',
@@ -902,7 +902,7 @@ export const MODULES: Module[] = [
     description:
       'Las herramientas que separan el top 1% de diseñadores del resto. No necesitás dominar todas — elegí una y explorala a fondo. Rive para iconos interactivos, Spline para 3D en web, Unicorn Studio para efectos WebGL.',
     duration: '2–3 semanas',
-    status: 'locked',
+    status: 'available',
     lessons: [
       {
         id: 'u8-l1',

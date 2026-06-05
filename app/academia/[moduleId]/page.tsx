@@ -15,5 +15,7 @@ export default async function ModulePage({ params }: Props) {
   const mod = MODULES.find((m) => m.id === moduleId)
   if (!mod) notFound()
 
-  return <ModuleContent module={mod} />
+  const trackModules = MODULES.filter((m) => m.track === mod.track)
+
+  return <ModuleContent module={mod} trackModules={trackModules} />
 }
