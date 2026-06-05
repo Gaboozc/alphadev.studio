@@ -3,8 +3,7 @@
 import { useState, useEffect, type FormEvent } from 'react'
 
 // Cambiá esta contraseña cuando quieras
-const PASSWORD = 'alphadev2026'
-const SESSION_KEY = 'alphadev-academia-auth'
+const PASSWORD = 'windshare28'
 
 export default function PasswordGate({ children }: { children: React.ReactNode }) {
   const [unlocked, setUnlocked] = useState(false)
@@ -14,16 +13,12 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
   const [shake, setShake] = useState(false)
 
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem(SESSION_KEY) === 'ok') setUnlocked(true)
-    } catch {}
     setHydrated(true)
   }, [])
 
   function submit(e: FormEvent) {
     e.preventDefault()
     if (input.trim() === PASSWORD) {
-      try { sessionStorage.setItem(SESSION_KEY, 'ok') } catch {}
       setUnlocked(true)
     } else {
       setError(true)
