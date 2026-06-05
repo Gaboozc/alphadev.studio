@@ -599,8 +599,101 @@ export const MODULES: Module[] = [
   },
 
   {
-    id: 'uiux-4',
+    id: 'uiux-6',
     number: 4,
+    track: 'uiux',
+    title: 'After Effects — Motion Design para UI',
+    description:
+      'Creá micro-animaciones, transiciones y motion graphics para interfaces digitales. Aprendé a exportar animaciones como Lottie para usarlas en Framer, Webflow o cualquier app.',
+    duration: '3–4 semanas',
+    status: 'locked',
+    lessons: [
+      {
+        id: 'u6-l1',
+        title: 'After Effects para diseñadores UI: qué necesitás y qué no',
+        type: 'reading',
+        content:
+          'After Effects es el estándar de la industria para motion design. Como diseñador UI no necesitás aprender todo — el foco es: animaciones de interfaz (micro-interacciones, loading states, transiciones entre pantallas), motion graphics para redes sociales, y exportación a Lottie para web/mobile. Lo que NO necesitás dominar: compositing de video, VFX, 3D complejo. Descargá After Effects desde Adobe Creative Cloud (tiene trial de 7 días gratuitos). Familiarizate con la interfaz: Project panel, Composition panel, Timeline, y los paneles de efectos.',
+        completed: false,
+      },
+      {
+        id: 'u6-l2',
+        title: 'Conceptos clave: keyframes, easing y el gráfico de velocidad',
+        type: 'reading',
+        content:
+          'El 80% de After Effects se reduce a entender keyframes y easing. Keyframes marcan el inicio y el fin de una animación — AE interpola los valores intermedios. El error más común de principiantes es usar easing lineal, que se ve mecánico. Aprendé: Easy Ease (F9), el Graph Editor para controlar aceleración/deceleración, y las curvas de Bezier. Referencia de easing: easings.net. Ejercicio: animá un rectángulo moviéndose de izquierda a derecha con easing profesional (entrada rápida, salida suave o viceversa).',
+        completed: false,
+      },
+      {
+        id: 'u6-l3',
+        title: 'Micro-animaciones de UI: botones, loaders, iconos',
+        type: 'practice',
+        content:
+          'Las micro-animaciones son el diferencial entre una UI buena y una memorable. Diseñá y animá estos 3 elementos: (1) Un botón con estado default → hover → click → success (con checkmark que aparece). (2) Un loader circular estilo iOS con rotación y trim path. (3) Un ícono que transforma de hamburguesa a X (menú mobile). Usá Shape Layers para todo — son más livianas que imágenes y se exportan mejor a Lottie.',
+        completed: false,
+      },
+      {
+        id: 'u6-l4',
+        title: 'Lottie + Bodymovin: exportar animaciones para web y mobile',
+        type: 'reading',
+        content:
+          'Lottie es el formato que convierte animaciones de After Effects en JSON liviano reproducible en web, iOS y Android. El flujo: (1) Instalá el plugin gratuito Bodymovin en After Effects (via ZXP Installer). (2) Diseñá tu animación usando solo Shape Layers, Solids y Text (sin effectos complejos ni plugins de terceros — no exportan bien). (3) File → Export → Bodymovin → generá el archivo .json. (4) En Framer: insertá un componente Lottie y pegá el JSON. En Webflow: usá el widget de Lottie. En código: la librería lottie-web o lottie-react. Ejercicio: exportá el loader del ejercicio anterior como Lottie y embedilo en el proyecto de Framer del módulo anterior.',
+        completed: false,
+      },
+      {
+        id: 'u6-l5',
+        title: 'Transiciones de pantalla y storytelling en motion',
+        type: 'reading',
+        content:
+          'Las transiciones entre pantallas guían la atención del usuario y refuerzan la jerarquía de navegación. Principios: (1) Las cosas que aparecen deben venir de algún lado lógico (modal → desde abajo, detalle → desde la derecha). (2) Duración: 200–350ms para transiciones de UI, más largo se siente lento. (3) Coordinación: cuando varios elementos se animan juntos, aplicá un stagger (retraso escalonado de 30–50ms entre elementos). Ejercicio: animá una transición entre dos pantallas del prototipo que diseñaste en Figma, con stagger en los elementos del contenido.',
+        completed: false,
+      },
+      {
+        id: 'u6-l6',
+        title: 'Práctica: kit de animaciones UI listo para usar',
+        type: 'practice',
+        content:
+          'Creá un kit de 5 animaciones reutilizables en After Effects y exportalas como Lottie: (1) Loading spinner, (2) Checkmark de éxito, (3) Error shake, (4) Transición de entrada de card (fade + slide up), (5) Ícono animado (cualquiera). Subí los archivos .json a una carpeta en Drive. Este kit es un asset real que podés usar en cualquier proyecto de Framer, Webflow o con código.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Adobe After Effects — Creative Cloud',
+        url: 'https://www.adobe.com/products/aftereffects.html',
+        type: 'tool',
+      },
+      {
+        title: 'LottieFiles — Librería de animaciones Lottie gratuitas',
+        url: 'https://lottiefiles.com',
+        type: 'tool',
+      },
+      {
+        title: 'Bodymovin — Plugin para exportar a Lottie',
+        url: 'https://aescripts.com/bodymovin/',
+        type: 'tool',
+      },
+      {
+        title: 'Motion Design School — Cursos de AE para UI',
+        url: 'https://motiondesign.school',
+        type: 'course',
+      },
+      {
+        title: 'easings.net — Referencia visual de curvas de easing',
+        url: 'https://easings.net',
+        type: 'article',
+      },
+      {
+        title: 'School of Motion — Principios de animación',
+        url: 'https://www.schoolofmotion.com/blog/12-principles-of-animation',
+        type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'uiux-4',
+    number: 5,
     track: 'uiux',
     title: 'Design Systems y Portfolio Profesional',
     description:
