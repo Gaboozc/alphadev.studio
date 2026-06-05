@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { MODULES } from './modules'
+import { MODULES, type Track } from './modules'
 import { useProgress } from './hooks/useProgress'
 
 const STATUS_LABEL: Record<string, string> = {
@@ -17,9 +18,40 @@ const TYPE_ICON: Record<string, string> = {
   practice: '◈',
 }
 
+const TRACKS: { id: Track; label: string; subtitle: string }[] = [
+  {
+    id: 'marketing',
+    label: 'Marketing Digital',
+    subtitle: 'Marca, ads y medición',
+  },
+  {
+    id: 'uiux',
+    label: 'UI/UX & Diseño',
+    subtitle: 'Figma, video y sistemas',
+  },
+]
+
 export default function AcademiaContent() {
+  const [activeTrack, setActiveTrack] = useState<Track>('marketing')
   const { getModuleProgress, getGlobalProgress, hydrated } = useProgress()
-  const global = getGlobalProgress()
+
+  const trackModules = MODULES.filter((m) => m.track === activeTrack)
+  const trackLessonIds = trackModules.flatMap((m) => m.lessons.map((l) => l.id))
+  const trackProgress = (() => {
+    if (!hydrated) return { done: 0, total: trackLessonIds.length, percent: 0 }
+    const global = getGlobalProgress()
+    // getGlobalProgress counts all modules — compute per-track manually
+    let done = 0
+    trackModules.forEach((m) => {
+      const p = getModuleProgress(m.id)
+      done += p.done
+    })
+    const total = trackLessonIds.length
+    return { done, total, percent: total > 0 ? Math.round((done / total) * 100) : 0 }
+  })()
+
+  // suppress unused var warning while keeping getGlobalProgress available
+  void getGlobalProgress
 
   return (
     <div
@@ -32,7 +64,7 @@ export default function AcademiaContent() {
     >
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1.5rem' }}>
         {/* Header */}
-        <div style={{ marginBottom: '3rem' }}>
+        <div style={{ marginBottom: '2rem' }}>
           <p
             style={{
               fontFamily: 'var(--font-inter)',
@@ -55,7 +87,7 @@ export default function AcademiaContent() {
               marginBottom: '1rem',
             }}
           >
-            Academia de Marketing Digital
+            Academia
           </h1>
           <p
             style={{
@@ -66,12 +98,66 @@ export default function AcademiaContent() {
               lineHeight: 1.65,
             }}
           >
-            Plan de 4 módulos para dominar marketing digital aplicado a AlphaDev Studios.
-            Completá los módulos en orden.
+            Dos tracks de aprendizaje aplicado a AlphaDev Studios. Completá los módulos en orden.
           </p>
         </div>
 
-        {/* Global progress */}
+        {/* Track tabs */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '0.5rem',
+            marginBottom: '2rem',
+            background: 'var(--bg-alt)',
+            border: '1px solid var(--border)',
+            borderRadius: '0.875rem',
+            padding: '0.375rem',
+          }}
+        >
+          {TRACKS.map((track) => {
+            const isActive = activeTrack === track.id
+            return (
+              <button
+                key={track.id}
+                onClick={() => setActiveTrack(track.id)}
+                style={{
+                  flex: 1,
+                  padding: '0.75rem 1rem',
+                  borderRadius: '0.625rem',
+                  border: isActive ? '1px solid var(--gold-border)' : '1px solid transparent',
+                  background: isActive ? 'var(--bg-card)' : 'transparent',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 200ms ease, border-color 200ms ease',
+                  boxShadow: isActive ? '0 1px 6px rgba(154,114,53,0.07)' : 'none',
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    color: isActive ? 'var(--text)' : 'var(--text-muted)',
+                    marginBottom: '0.125rem',
+                  }}
+                >
+                  {track.label}
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '0.75rem',
+                    color: isActive ? 'var(--gold)' : 'var(--text-subtle)',
+                  }}
+                >
+                  {track.subtitle}
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Track progress */}
         <div
           style={{
             background: 'var(--bg-card)',
@@ -97,7 +183,7 @@ export default function AcademiaContent() {
                 color: 'var(--text)',
               }}
             >
-              Progreso global
+              Progreso — {TRACKS.find((t) => t.id === activeTrack)?.label}
             </span>
             <span
               style={{
@@ -107,7 +193,7 @@ export default function AcademiaContent() {
                 color: 'var(--gold)',
               }}
             >
-              {hydrated ? `${global.done}/${global.total} lecciones` : '—'}
+              {hydrated ? `${trackProgress.done}/${trackProgress.total} lecciones` : '—'}
             </span>
           </div>
           <div
@@ -121,14 +207,14 @@ export default function AcademiaContent() {
             <div
               style={{
                 height: '100%',
-                width: hydrated ? `${global.percent}%` : '0%',
+                width: hydrated ? `${trackProgress.percent}%` : '0%',
                 background: 'var(--gold)',
                 borderRadius: '99px',
                 transition: 'width 600ms ease',
               }}
             />
           </div>
-          {hydrated && global.percent > 0 && (
+          {hydrated && trackProgress.percent > 0 && (
             <p
               style={{
                 fontFamily: 'var(--font-inter)',
@@ -137,14 +223,14 @@ export default function AcademiaContent() {
                 marginTop: '0.5rem',
               }}
             >
-              {global.percent}% completado
+              {trackProgress.percent}% completado
             </p>
           )}
         </div>
 
         {/* Module cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {MODULES.map((mod) => {
+          {trackModules.map((mod) => {
             const progress = getModuleProgress(mod.id)
             const isLocked = mod.status === 'locked'
 
