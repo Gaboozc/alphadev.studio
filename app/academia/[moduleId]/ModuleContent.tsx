@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { Module } from '../modules'
 import { useProgress } from '../hooks/useProgress'
 import MediaEmbed from '../components/MediaEmbed'
+import LessonContent from '../components/LessonContent'
 
 const TYPE_LABEL: Record<string, string> = {
   video: 'Video',
@@ -302,7 +303,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '1rem',
-                        marginBottom: embedType || lesson.content ? '1rem' : 0,
+                        marginBottom: embedType || lesson.content || lesson.tasks?.length || lesson.tip ? '1rem' : 0,
                       }}
                     >
                       <button
@@ -365,19 +366,11 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                       </div>
                     )}
 
-                    {lesson.content && (
-                      <p
-                        style={{
-                          fontFamily: 'var(--font-inter)',
-                          fontSize: '0.875rem',
-                          color: 'var(--text-muted)',
-                          lineHeight: 1.65,
-                          paddingLeft: '2.625rem',
-                        }}
-                      >
-                        {lesson.content}
-                      </p>
-                    )}
+                    <LessonContent
+                      content={lesson.content}
+                      tasks={lesson.tasks}
+                      tip={lesson.tip}
+                    />
                   </div>
                 )
               })}

@@ -11,7 +11,9 @@ export interface Lesson {
   title: string
   type: LessonType
   embedUrl?: string   // YouTube URL, NotebookLM share link, or direct audio URL
-  content?: string    // Notes or instructions shown below the embed
+  content?: string    // Teaching body — supports ## headers, **bold**, - lists, double newline = paragraph
+  tasks?: string[]    // Actionable checklist items shown under "Tareas"
+  tip?: string        // Professional insight shown in highlighted box
   completed: boolean  // Default state; runtime state lives in localStorage/DB
 }
 
