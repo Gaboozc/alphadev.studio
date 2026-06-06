@@ -99,21 +99,6 @@ export const MODULES: Module[] = [
         completed: false,
       },
       {
-        id: 'm1-l4',
-        title: 'Audio overview — Módulo 1',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Es un repaso en formato podcast — ideal para escuchar mientras viajás, hacés ejercicio, o cuando querés consolidar lo aprendido sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio resume los conceptos clave: buyer personas, posicionamiento, propuesta de valor única, y cómo publicar contenido orgánico que conecte con los perfiles definidos. No reemplaza la práctica — refuerza el marco conceptual.\n\n## Cómo generarlo vos mismo\n\nSi el audio no está disponible todavía: copiá el contenido de todas las lecciones de este módulo, pegalo en **notebooklm.google.com**, creá un notebook nuevo y generá el "Audio Overview". El resultado es una conversación entre dos voces AI que resume el contenido en 5–10 minutos.\n\nPodés también agregar tus propias notas o artículos externos para que el audio incluya tu contexto específico.',
-        tasks: [
-          'Escuchá el audio overview completo (o generalo en NotebookLM si no está disponible)',
-          'Anotá los 3 conceptos que más te resonaron del módulo durante o después de escuchar',
-          'Identificá algo que no habías entendido bien leyendo y que quedó más claro en audio',
-        ],
-        tip: 'NotebookLM genera mejores audios cuando el contenido que le pasás es específico. Si le pegás tus propias notas con ejemplos reales de AlphaDev, el resultado es mucho más útil que pegarle texto genérico del módulo.',
-        completed: false,
-      },
-      {
         id: 'm1-l5',
         title: 'Práctica: primeros 3 posts publicados',
         type: 'practice',
@@ -206,21 +191,6 @@ export const MODULES: Module[] = [
         completed: false,
       },
       {
-        id: 'm2-l4',
-        title: 'Audio overview — Módulo 2',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Es un repaso en formato podcast — ideal para consolidar conceptos sobre Meta Ads sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio resume los conceptos clave de Meta Business Suite: setup inicial, estructura de campañas (objetivo → conjunto → anuncio), píxel, targeting y presupuesto. Es especialmente útil para repasar antes de lanzar tu primera campaña real.\n\n## Para generarlo si no está disponible\n\nCopiá el contenido de las lecciones 1, 2 y 3 de este módulo y pegalo en **notebooklm.google.com**. Creá un notebook nuevo, agregá el contenido como fuente y generá el "Audio Overview". Si agregás también el link al curso de Meta Blueprint, el audio incorporará esa información también.',
-        tasks: [
-          'Escuchá el audio overview antes de lanzar tu primera campaña real',
-          'Anotá cualquier concepto que todavía no tenés claro después de escuchar — investigalo antes de seguir',
-          'Generá el audio en NotebookLM si no está disponible todavía',
-        ],
-        tip: 'Usá el audio como "pre-flight check" antes de cualquier campaña nueva. Escucharlo en el camino al trabajo el día que vas a lanzar una campaña te ayuda a no olvidar pasos críticos como verificar el píxel o revisar el presupuesto.',
-        completed: false,
-      },
-      {
         id: 'm2-l5',
         title: 'Práctica: primera campaña con $5 USD',
         type: 'practice',
@@ -299,8 +269,7 @@ export const MODULES: Module[] = [
       {
         id: 'm3-l3',
         title: 'Estructura de campañas Search',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## La jerarquía de Google Ads\n\nAl igual que Meta, Google Ads tiene tres niveles — pero con lógica distinta:\n\n**Campaña**: define el **objetivo** (tráfico, leads, ventas), el **presupuesto diario** y la **estrategia de puja** (CPC manual, CPA objetivo, Maximizar conversiones).\n\n**Grupo de anuncios**: agrupa keywords relacionadas semánticamente. Cada grupo debe tener un tema claro — por ejemplo, un grupo para "desarrollo web con Next.js" y otro para "apps con IA". Mezclar temas distintos en un grupo reduce el Quality Score.\n\n**Anuncio**: el **Responsive Search Ad (RSA)** es el formato estándar. Cargás hasta 15 titulares y 4 descripciones — Google los combina automáticamente y aprende qué combinaciones funcionan mejor.\n\n## Quality Score: la métrica que define el costo real\n\nEl Quality Score (1–10) es la evaluación de Google de qué tan relevante es tu anuncio. Afecta directamente cuánto pagás por clic: un QS de 8/10 puede costar la mitad que uno de 4/10 por la misma posición.\n\nLos tres factores del QS:\n- **CTR esperado**: basado en el historial de clicks de tu anuncio\n- **Relevancia del anuncio**: qué tan bien tu titular y descripción coinciden con la keyword\n- **Experiencia en la landing page**: velocidad, relevancia y UX de la página de destino\n\n## Regla de oro\n\n1 grupo de anuncios = 1 tema de keywords = 1 mensaje de anuncio = 1 landing page específica. La consistencia entre los cuatro niveles maximiza el Quality Score.',
         tasks: [
@@ -310,21 +279,6 @@ export const MODULES: Module[] = [
           'Revisá los tips de Google para mejorar el Quality Score antes de publicar',
         ],
         tip: 'Nunca dirijas tráfico de Google Ads a la home page. Cada grupo de anuncios debe tener una landing page específica que repita exactamente las mismas palabras del anuncio. La consistencia entre keyword → anuncio → landing es lo que convierte clics en leads.',
-        completed: false,
-      },
-      {
-        id: 'm3-l4',
-        title: 'Audio overview — Módulo 3',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Resume los conceptos clave de Google Ads y Google Business Profile para repasar sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio explica la lógica de Google Ads (keyword intent, estructura de campañas, Quality Score) y cómo Google Business Profile complementa la estrategia de búsqueda de forma orgánica y gratuita. Ideal para escuchar antes de lanzar tu primera campaña de búsqueda.\n\n## Para generarlo si no está disponible\n\nCopiá las lecciones 1, 2 y 3 de este módulo en **notebooklm.google.com** y generá el Audio Overview. Si tenés artículos externos sobre Google Ads que querés incluir, agregalos como fuentes adicionales antes de generar.',
-        tasks: [
-          'Escuchá el audio overview como repaso antes de lanzar tu campaña',
-          'Pausá y tomá notas cuando escuches algo sobre Quality Score o match types que no tenías claro',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Google Ads tiene un vocabulario técnico denso (Quality Score, Ad Rank, bid strategies, conversion tracking). El audio te ayuda a internalizar esos términos en contexto, lo cual hace mucho más fácil entender los reportes cuando la campaña esté corriendo.',
         completed: false,
       },
       {
@@ -406,8 +360,7 @@ export const MODULES: Module[] = [
       {
         id: 'm4-l3',
         title: 'Google Analytics 4 — métricas esenciales',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## Configurar GA4 en alphadev.studio\n\nSi GA4 no está instalado todavía: creá una propiedad en analytics.google.com, copiá el measurement ID (G-XXXXXXXXXX) y agregalo al código del sitio. En Next.js, la forma más limpia es agregarlo en el componente root layout con el script de gtag.js.\n\n## Las métricas que importan (y las que no)\n\n**Métricas de tráfico** (entendé el volumen):\n- **Usuarios**: personas únicas que visitaron el sitio\n- **Sesiones**: visitas totales (una persona puede generar varias sesiones)\n- **Fuente/Medio**: de dónde vienen (google/organic, meta/cpc, direct)\n\n**Métricas de engagement** (entendé la calidad):\n- **Engaged sessions**: sesiones de más de 10 segundos o con evento de conversión — la métrica que reemplazó al Bounce Rate\n- **Engagement rate**: % de sesiones que son engaged. > 60% es bueno para un sitio B2B\n- **Average engagement time**: tiempo promedio en el sitio\n\n**Métricas de conversión** (el objetivo final):\n- **Conversiones**: eventos que definís como valiosos (envío de formulario, clic en WhatsApp, descarga)\n- **Conversion rate**: % de sesiones que generaron una conversión\n\n## Los reportes que revisás semanalmente\n\n- **Adquisición > Fuente/Medio**: de dónde viene el tráfico\n- **Engagement > Páginas y pantallas**: qué páginas generan más engagement\n- **Conversiones**: cuántos leads generó cada canal',
         tasks: [
@@ -417,21 +370,6 @@ export const MODULES: Module[] = [
           'Identificá cuál es la página con mayor engagement y cuál tiene más abandono — ¿qué te dice eso?',
         ],
         tip: 'No te obsesionés con los números en los primeros 30 días. Con poco tráfico, las métricas son estadísticamente irrelevantes. El objetivo de las primeras semanas es asegurarte de que el tracking está bien configurado — que todos los eventos disparan, que los UTMs llegan correctamente, que las conversiones se registran. Los datos correctos valen más que muchos datos incorrectos.',
-        completed: false,
-      },
-      {
-        id: 'm4-l4',
-        title: 'Audio overview — Módulo 4',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Resume TikTok for Business, UTMs y Google Analytics 4 — el sistema de medición completo que cierra el track de Marketing Digital.\n\n## Qué cubre\n\nEl audio explica por qué medir correctamente es tan importante como publicar contenido o lanzar anuncios, cómo los UTMs conectan cada canal con los datos de GA4, y cómo construir un sistema de reporting que permita tomar decisiones con datos reales.\n\n## Para generarlo si no está disponible\n\nCopiá las lecciones 1, 2 y 3 de este módulo en **notebooklm.google.com**. Si querés enriquecerlo, agregá también el contenido de los módulos anteriores para que el audio tenga contexto del track completo.',
-        tasks: [
-          'Escuchá el audio overview como repaso del sistema de medición completo',
-          'Anotá cuáles de los conceptos del módulo todavía no tenés implementados en AlphaDev Studios',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Escuchar el audio de cierre de track es una buena práctica para identificar los gaps entre lo que aprendiste y lo que realmente implementaste. Si al escuchar decís "eso lo tengo pendiente" más de 3 veces, antes de avanzar al siguiente track completá esos pendientes.',
         completed: false,
       },
       {
@@ -682,8 +620,7 @@ export const MODULES: Module[] = [
       {
         id: 'u2-l2',
         title: 'Auto Layout: el superpoder de Figma',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## Qué es Auto Layout y por qué cambia todo\n\n**Auto Layout** es el sistema de layout de Figma equivalente a **flexbox en CSS**. Cuando aplicás Auto Layout a un frame, los elementos hijos se organizan automáticamente según las reglas que definís — y el frame se adapta cuando el contenido cambia.\n\nSin Auto Layout: si el texto de un botón crece, tenés que ajustar el botón manualmente. Con Auto Layout: el botón crece solo.\n\n## Los conceptos clave\n\n**Dirección**: Horizontal (elementos en fila) o Vertical (elementos en columna). Equivalente a `flex-direction: row` o `column`.\n\n**Spacing**: el espacio entre elementos hijos. Equivalente a `gap` en CSS.\n\n**Padding**: el espacio entre el borde del frame y sus hijos. Igual que `padding` en CSS.\n\n**Hug vs Fixed vs Fill**: cómo se comporta el tamaño del elemento.\n- **Hug**: el frame abraza a sus hijos (se achica y agranda con el contenido)\n- **Fixed**: tamaño fijo que no cambia\n- **Fill**: ocupa todo el espacio disponible del padre\n\n## Por qué es indispensable en diseño profesional\n\nCuando diseñás con Auto Layout desde el principio, tus componentes son responsivos por naturaleza. Un botón diseñado con Auto Layout funciona igual con "Guardar" que con "Guardar cambios del perfil de usuario" — sin ajustes manuales.',
         tasks: [
@@ -1032,8 +969,7 @@ export const MODULES: Module[] = [
       {
         id: 'u5-l2',
         title: 'Webflow: fundamentos de diseño visual con clases',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## El concepto central de Webflow\n\nWebflow es CSS visual. Cada ajuste que hacés en el Style Panel genera CSS real en el background. Si entendés box model, flexbox y grid, aprender Webflow es mapear esos conceptos a una interfaz visual.\n\nSi no los entendés todavía, Webflow te va a enseñar CSS aunque no lo parezca.\n\n## La interfaz de Webflow\n\n**Navigator (panel izquierdo)**: el árbol de elementos de la página — equivalente al inspector de Chrome o las capas de Figma. Acá ves la estructura HTML de tu diseño.\n\n**Style Panel (panel derecho)**: las propiedades CSS del elemento seleccionado — layout (flexbox/grid), spacing (margin/padding), typography, borders, effects.\n\n**Canvas central**: el diseño en tiempo real, responsive y visual.\n\n## Clases: la lógica más importante de Webflow\n\nEn Webflow, los estilos se aplican mediante **clases CSS** (como en código). Un elemento puede tener una clase base + clases modificadoras. Esta lógica es poderosa pero requiere disciplina:\n\n- Nunca estilices el elemento "All H2s" directamente — creá clases específicas\n- Nomenclatura consistente: `Heading-Hero`, `Card-Blog`, `Button-Primary`\n- Evitá los estilos inline (el panel los llama "custom") — siempre usá clases\n\n## El punto de partida obligatorio\n\nAntes de tocar cualquier template, completá el **Webflow 101 Crash Course** en Webflow University. Es gratuito, tarda ~2 horas y cubre todo lo que necesitás para entender la lógica de la herramienta.',
         tasks: [
@@ -1340,22 +1276,6 @@ export const MODULES: Module[] = [
         completed: false,
       },
       {
-        id: 'u4-l4',
-        title: 'Audio overview — Track UI/UX',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## El audio de cierre del track\n\nEste overview fue generado con **NotebookLM** a partir del contenido completo del track de UI/UX. Es el repaso más completo disponible — resume los 7 módulos: fundamentos, Figma, motion, no-code, After Effects, design systems y las herramientas bonus.\n\n## Cómo usarlo\n\nEscuchálo al finalizar el track como consolidación. Prestá atención a qué conceptos se sienten sólidos y cuáles todavía generan preguntas — eso te va a decir dónde profundizar antes de buscar proyectos o trabajo.\n\n## Para generarlo si no está disponible\n\nCopiá el contenido de todas las lecciones de todos los módulos del track en **notebooklm.google.com**. Creá un notebook, agregá todos los textos como fuentes y generá el "Audio Overview". El resultado va a ser un resumen denso de 10–15 minutos de los conceptos más importantes del track completo.',
-        tasks: [
-          'Escuchá el audio overview completo del track',
-          'Listá los 5 conceptos del track que más dominás y los 5 que menos',
-          'Para los 5 que menos dominás, repasá la lección correspondiente antes de cerrar el track',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Los conceptos que todavía no están claros al final de un track raramente se aclaran solos. Si algo del audio te genera preguntas, es una señal de que necesitás más práctica en ese área — no más lectura. La práctica deliberada en el punto débil específico es lo que cierra los gaps de conocimiento.',
-        completed: false,
-      },
-      {
         id: 'u4-l5',
         title: 'Práctica: documentar un proyecto como case study',
         type: 'practice',
@@ -1519,6 +1439,528 @@ export const MODULES: Module[] = [
         title: 'Rive 101 — Curso oficial de introducción',
         url: 'https://rive.app/learn-rive',
         type: 'course',
+      },
+    ],
+  },
+
+  // ─── Marketing Portfolio Projects ────────────────────────────────────────────
+  {
+    id: 'marketing-portfolio',
+    number: 5,
+    track: 'marketing',
+    title: 'Proyectos de Portafolio — Marketing Digital',
+    description:
+      'Proyectos guiados de básico a avanzado para construir un portafolio de marketing con resultados reales. Cada proyecto produce un entregable que podés mostrar a clientes y empleadores.',
+    duration: '8–12 semanas',
+    status: 'available',
+    lessons: [
+      {
+        id: 'mp-l1',
+        title: 'Proyecto 1 — Básico: Calendario de contenido de 30 días',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá y ejecutá un calendario de contenido de 30 días para AlphaDev Studios (o un negocio real). Al terminar tendrás: un sistema de planificación reutilizable, al menos 12 publicaciones en vivo y datos reales de rendimiento.\n\n## El entregable final\n\nNotion o Google Sheets con el calendario completo + screenshots de las publicaciones + reporte de métricas de las 4 semanas. Esto va directo al portafolio.\n\n## El proceso paso a paso\n\n**Semana 0 — Setup**\n- Definí los 3 pilares de contenido (ej: resultados de clientes, educación técnica, behind-the-scenes)\n- Elegí los 2 canales prioritarios: LinkedIn + Instagram o TikTok + Instagram\n- Creá la plantilla del calendario: columnas = fecha / canal / pilar / formato / texto / status\n\n**Semana 1 — Posicionamiento**\n- Post 1 (LinkedIn): Contá una decisión técnica con resultado real\n- Post 2 (Instagram Carrusel): "3 señales de que tu sitio web necesita actualización"\n- Post 3 (Instagram): Behind the scenes de un proceso o herramienta\n\n**Semana 2 — Confianza**\n- Post 4 (LinkedIn): Un aprendizaje real de la semana — honesto, no perfecto\n- Post 5 (Instagram Reels): Proceso de trabajo en 60 segundos\n- Post 6 (Instagram): Resultado de un proyecto con contexto del problema\n\n**Semana 3 — Conversión suave**\n- Post 7 (LinkedIn): Caso de estudio simplificado (problema → solución → resultado)\n- Post 8 (Instagram Carrusel): "Qué incluir en el brief de un proyecto digital"\n- Post 9 (Instagram): Dato de la industria con tu opinión personal\n\n**Semana 4 — Comunidad**\n- Post 10 (LinkedIn): Pregunta abierta a tu red sobre algo real\n- Post 11 (Instagram): Hito o retrospectiva del mes\n- Post 12 (Instagram): Anuncio de algo nuevo o próximo\n\n## El reporte de cierre\n\nAl terminar las 4 semanas, armá un reporte de 1 página con: alcance total por canal, engagement rate promedio, el post con mejor rendimiento, 3 aprendizajes y 3 decisiones para el siguiente mes.',
+        tasks: [
+          'Creá la plantilla del calendario en Notion o Google Sheets con las 4 semanas planificadas',
+          'Publicá las semanas 1 y 2 antes de avanzar al siguiente proyecto',
+          'Al finalizar las 4 semanas, completá el reporte de métricas con datos reales',
+          'Guardá screenshots de todos los posts publicados para el portafolio',
+          'Publicá el reporte de resultados en LinkedIn como post de cierre — ese post también es portafolio',
+        ],
+        tip: 'El calendario es el 20% del trabajo — la ejecución consistente es el 80%. Si fijás un día y hora fijo por semana para crear contenido, la consistencia se vuelve sistema en lugar de decisión. Los clientes pagan por la consistencia, no por el talento creativo esporádico.',
+        completed: false,
+      },
+      {
+        id: 'mp-l2',
+        title: 'Proyecto 2 — Básico: Auditoría de presencia digital',
+        type: 'practice',
+        content:
+          '## El brief\n\nElegí un negocio real — AlphaDev Studios, un familiar con negocio, un amigo o un cliente potencial — y hacé una auditoría completa de su presencia digital. El resultado es un reporte PDF o Notion que demuestra tu capacidad de análisis estratégico. Este tipo de entregable es exactamente lo que los clientes pagan en consultoría.\n\n## Por qué este proyecto importa\n\nLa auditoría de presencia digital es el primer servicio que muchas agencias ofrecen — muchas veces gratis como lead magnet. Aprender a hacerla bien abre la puerta a proyectos más grandes y remunerados.\n\n## El proceso paso a paso\n\n**Paso 1 — Elegí el negocio**\nSi es un negocio ajeno, pedí permiso. Explicá que es un proyecto de formación y que les entregás los resultados gratis. Casi todos aceptan.\n\n**Paso 2 — Auditá el sitio web**\n- Velocidad: corré el sitio en PageSpeed Insights — anotá score mobile y desktop\n- SEO básico: ¿tiene meta title, meta description, H1 claro en la home?\n- Claridad de mensaje: ¿el valor del negocio se entiende en 5 segundos?\n- CTA: ¿hay un call to action claro y visible sin hacer scroll?\n- Mobile: ¿se ve correctamente en pantalla de teléfono?\n\n**Paso 3 — Auditá las redes sociales**\nPara cada canal activo, anotá:\n- Fecha del último post y frecuencia promedio\n- Tipo de contenido dominante (video / imagen / texto)\n- Engagement rate estimado (likes + comentarios / seguidores × 100)\n- Completitud del perfil: bio, foto, links, highlights\n\n**Paso 4 — Auditá la búsqueda local (si aplica)**\n- ¿Tiene Google Business Profile verificado?\n- ¿Tiene reseñas? ¿Responde a ellas?\n- ¿Las fotos están actualizadas?\n- ¿El horario y datos de contacto son correctos?\n\n**Paso 5 — Armá el reporte**\n1. Resumen ejecutivo (3 líneas: qué encontraste en general)\n2. Sitio web: puntos fuertes + oportunidades de mejora\n3. Redes sociales: análisis por canal\n4. Búsqueda local (si aplica)\n5. Recomendaciones prioritarias: 5 acciones ordenadas por impacto\n6. Quick wins: qué pueden hacer esta semana sin costo ni diseñador',
+        tasks: [
+          'Elegí el negocio a auditar y pedí permiso si es un tercero',
+          'Completá el análisis del sitio web con PageSpeed Insights y revisión manual punto por punto',
+          'Auditá al menos 2 canales de redes sociales con métricas reales registradas',
+          'Armá el reporte completo con las 5 recomendaciones priorizadas por impacto',
+          'Entregá el reporte al negocio y pedí feedback — esa conversación es el aprendizaje más valioso',
+          'Publicá un resumen anonimizado del proyecto en LinkedIn (con permiso)',
+        ],
+        tip: 'Las mejores auditorías no son las que encuentran más problemas — son las que priorizan mejor. Un cliente no puede implementar 20 cambios a la vez. Los 3 quick wins que pueden hacer en 48 horas sin contratar a nadie son lo que genera confianza inmediata y convierte una auditoría gratis en un contrato de implementación.',
+        completed: false,
+      },
+      {
+        id: 'mp-l3',
+        title: 'Proyecto 3 — Intermedio: Campaña de Meta Ads documentada',
+        type: 'practice',
+        content:
+          '## El brief\n\nLanzá una campaña de Meta Ads real de principio a fin: brief → estrategia → creativos → setup → publicación → optimización → reporte final. El resultado es un caso documentado que muestra que sabés gestionar presupuesto publicitario real.\n\n## El entregable\n\nDocumentación completa: brief del cliente (o tuyo), creativos en imagen, capturas del panel de Meta Ads, reporte final con métricas y aprendizajes. Mínimo 7–10 días de campaña activa.\n\n## El proceso paso a paso\n\n**Fase 1 — Brief y estrategia**\n- Definí el objetivo de negocio: ¿tráfico, leads, ventas?\n- Definí el objetivo de Meta: Tráfico, Interacción o Leads\n- Definí la audiencia: demografía, intereses, comportamientos — tamaño objetivo 500K–2M\n- Definí el presupuesto: mínimo $15–25 USD totales para tener datos significativos\n\n**Fase 2 — Creación de creativos**\n- Creativo 1 (imagen estática 1080×1080): Hook visual fuerte + texto corto + CTA\n- Creativo 2 (variante): Mismo mensaje, diferente formato o composición\n- Herramientas: Canva, Figma o Adobe Express\n- El texto del anuncio: Hook (primera línea que detiene el scroll) + 2-3 líneas de desarrollo + CTA claro\n\n**Fase 3 — Setup de campaña**\n- Campaña > Conjunto de anuncios > Anuncio\n- Verificá que el píxel está activo antes de publicar\n- Configurá UTMs: utm_source=facebook, utm_medium=cpc, utm_campaign=nombre-campaña\n- Revisá todo en modo borrador antes de publicar\n\n**Fase 4 — Optimización durante la campaña**\n- Revisá los datos después de 48 horas: CTR > 1% es señal positiva\n- Si el CTR es < 0.5%, pausá el creativo con menor rendimiento y probá una variante\n- Revisá la frecuencia: si > 3, la audiencia está saturada — expandí o pausá\n\n**Fase 5 — Reporte final**\n- Inversión total, impresiones, alcance, clics, CTR, CPC, CPM\n- ¿Se logró el objetivo? ¿Por qué sí o por qué no?\n- 3 aprendizajes concretos para la próxima campaña',
+        tasks: [
+          'Definí el brief completo: objetivo, audiencia, presupuesto y duración antes de tocar Meta',
+          'Creá al menos 2 variantes del creativo para poder hacer A/B testing',
+          'Configurá el píxel y los UTMs antes de publicar — verificá con Meta Pixel Helper',
+          'Dejá la campaña correr mínimo 7 días sin cambiar nada en los primeros 3 (el algoritmo necesita aprendizaje)',
+          'Armá el reporte final con capturas del panel y análisis de qué funcionó y qué no',
+          'Publicá el caso documentado en LinkedIn como post de portafolio',
+        ],
+        tip: 'El error más caro en Meta Ads es optimizar demasiado rápido. Los primeros 2–3 días son la fase de aprendizaje del algoritmo — si cambiás el presupuesto, la audiencia o los creativos en ese período, reiniciás el aprendizaje y perdés datos. Dejá correr, mirá, anotá, y actuá recién en el día 4.',
+        completed: false,
+      },
+      {
+        id: 'mp-l4',
+        title: 'Proyecto 4 — Intermedio: Funnel de conversión completo',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá y ejecutá un funnel de conversión completo de 3 etapas para AlphaDev Studios (o un cliente real): conciencia orgánica → consideración con retargeting → conversión con landing dedicada. Al terminar tendrás documentado el sistema de marketing más completo de tu portafolio.\n\n## Las 3 etapas del funnel\n\n**Etapa 1 — Conciencia (TOFU)**\nContenido orgánico que llega a personas que no te conocen todavía:\n- 2 posts de LinkedIn educativos que se puedan compartir\n- 1 Reel de Instagram que explique un problema que tu audiencia tiene\n- Objetivo: generar impresiones y visitas al perfil, no ventas\n\n**Etapa 2 — Consideración (MOFU)**\nAnuncio de retargeting dirigido a quienes interactuaron con el contenido orgánico:\n- Audiencia: personas que visitaron tu perfil de Instagram o interactuaron con tus posts en los últimos 30 días\n- Formato: carrusel o video que muestre un resultado concreto (caso, testimonio, proceso)\n- CTA: "Agendá una llamada gratis de 15 minutos"\n- Presupuesto: $5–10 USD, 5–7 días\n\n**Etapa 3 — Conversión (BOFU)**\nLanding page específica para la campaña de retargeting:\n- Una sola página, sin navbar ni links externos que distraigan\n- Headline: el resultado que prometés (no tu nombre de empresa)\n- Propuesta de valor en 3 bullets\n- Formulario de contacto o link de Calendly\n- UTMs configurados para rastrear qué parte del funnel convirtió\n\n## La medición del funnel\n\nConfiguración de GA4:\n- Evento: visita a la landing page\n- Evento de conversión: envío del formulario o clic en Calendly\n- Reporte: Embudo de conversión en GA4 mostrando tasa de cada etapa\n\n## El entregable\n\nDocumento (Notion o PDF) con: diseño del funnel en diagrama, capturas de cada etapa en vivo, métricas de cada etapa y análisis del costo de adquisición total.',
+        tasks: [
+          'Diseñá el funnel en diagrama antes de ejecutar — visualizá los 3 niveles con las métricas objetivo',
+          'Publicá los 3 contenidos orgánicos de la etapa 1 y esperá al menos 7 días antes de activar el retargeting',
+          'Construí la landing page de conversión con un solo CTA y sin distracciones',
+          'Configurá los eventos de conversión en GA4 antes de lanzar la campaña de retargeting',
+          'Documentá las tasas de conversión de cada etapa del funnel al finalizar',
+          'Armá el caso de estudio completo con el diagrama del funnel y los resultados reales',
+        ],
+        tip: 'El funnel más efectivo no es el más complejo — es el más medido. Un funnel de 3 pasos con tracking perfecto en cada etapa es infinitamente más valioso que uno de 7 pasos sin datos. Si no podés medir una etapa, eliminala del funnel hasta que puedas.',
+        completed: false,
+      },
+      {
+        id: 'mp-l5',
+        title: 'Proyecto 5 — Avanzado: Caso de estudio de marketing documentado',
+        type: 'practice',
+        content:
+          '## El brief\n\nDocumentá un proyecto de marketing real — uno que ya ejecutaste en los proyectos anteriores o con un cliente — como un caso de estudio profesional publicable. Este es el entregable más poderoso del portafolio: demuestra pensamiento estratégico, ejecución y resultados reales en un solo documento.\n\n## Por qué el caso de estudio importa más que cualquier otra pieza de portafolio\n\nUn cliente no contrata a alguien que dice saber hacer marketing. Contrata a alguien que puede mostrar que ya lo hizo, qué pasó y qué aprendió. El caso de estudio es esa prueba.\n\n## La estructura del caso de estudio\n\n**1. El contexto (1 párrafo)**\n¿Quién es el negocio? ¿Qué ofrecía? ¿En qué momento llegaste vos? Sin revelar información confidencial si es un cliente real.\n\n**2. El desafío (1–2 párrafos)**\n¿Cuál era el problema concreto? ¿Qué no estaba funcionando? ¿Cuál era el objetivo medible a alcanzar?\n\n**3. La estrategia (el corazón del caso)**\n¿Qué decidiste hacer y por qué? Explicá el razonamiento detrás de las decisiones — por qué elegiste Meta Ads y no Google, por qué ese tipo de contenido y no otro, por qué ese presupuesto. El "por qué" es lo que distingue a un estratega de un ejecutor.\n\n**4. La ejecución (con evidencias)**\nMuestra capturas, creativos, copies, pantallas del panel de anuncios. No describas — mostrá.\n\n**5. Los resultados (con números reales)**\nMétricas concretas: alcance, clics, leads generados, costo por lead, ROI si podés calcularlo. Si los números no fueron espectaculares, igual incluilos — la honestidad genera más confianza que los resultados inflados.\n\n**6. Los aprendizajes (diferenciador profesional)**\nQué harías diferente. Qué funcionó mejor de lo esperado. Qué subestimaste. Esta sección separa a los profesionales reflexivos de los que solo ejecutan.\n\n## El formato de publicación\n\n- Notion público con URL compartible (para LinkedIn y propuestas)\n- PDF descargable de máximo 6 páginas (para enviar por email a prospectos)\n- Versión resumida para LinkedIn (5 imágenes tipo carrusel con los highlights)\n- Opcional: Behance para visibilidad en la comunidad creativa',
+        tasks: [
+          'Elegí el proyecto de los anteriores que tuvo mejores resultados medibles — ese es el que más impacta',
+          'Redactá las 6 secciones del caso de estudio — primera versión sin editar, todo lo que recordás',
+          'Conseguí todas las evidencias visuales: capturas, creativos, reportes, datos del panel',
+          'Editá el texto para que un cliente sin conocimiento técnico pueda entenderlo completamente',
+          'Publicalo en Notion con URL pública y generá el PDF de 6 páginas',
+          'Publicá el carrusel de 5 imágenes en LinkedIn mencionando los resultados principales en el copy',
+        ],
+        tip: 'El error más común al escribir un caso de estudio es enfocarse en las actividades en lugar de en las decisiones. A los clientes no les importa que "hiciste 12 posts" — les importa por qué elegiste ese approach y qué resultado produjo. Cada sección del caso debe responder la pregunta "¿y qué?" después de describir lo que hiciste.',
+        completed: false,
+      },
+      {
+        id: 'mp-l6',
+        title: 'Proyecto 6 — Básico: Secuencia de email de bienvenida (5 emails)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá y escribí una secuencia de 5 emails de bienvenida para un producto o servicio real o ficticio. La secuencia arranca cuando alguien se suscribe o se registra y tiene como objetivo convertir al suscriptor en cliente activo durante los primeros 7 días.\n\n## Por qué el email marketing importa\n\nEl email tiene un ROI promedio de $36 por cada $1 invertido — el canal de mayor retorno del marketing digital. Una secuencia de bienvenida bien escrita convierte entre 3x y 5x más que un email único de confirmación.\n\n## La estructura de los 5 emails\n\n**Email 1 — Bienvenida (día 0, inmediato)**: Agradecimiento por registrarse + lo que van a recibir + una acción simple para completar ahora. Asunto: específico y cálido, no genérico.\n\n**Email 2 — El valor (día 1)**: Entregá el primer valor sin pedir nada. Un tip accionable, un recurso útil, o un aprendizaje concreto relacionado con el problema que tu producto resuelve.\n\n**Email 3 — La historia (día 3)**: Contá por qué existe el producto. El origen, el problema que viste, por qué lo resolviste de esta manera. La historia genera conexión emocional.\n\n**Email 4 — La prueba social (día 5)**: Testimonio real o caso de uso concreto. Un número concreto vale más que un adjetivo.\n\n**Email 5 — La oferta (día 7)**: El CTA principal. Puede ser una prueba gratuita, un descuento de bienvenida, una llamada o una compra directa.\n\n## Las reglas del copy de email\n\n- Asunto: máximo 50 caracteres, sin signos de exclamación, específico y curioso\n- Preview text: los 80 caracteres que aparecen en el inbox antes de abrir — completalos siempre\n- Primer línea: debe hacer que el lector quiera leer la segunda\n- Longitud: 150–300 palabras por email\n- Un solo CTA por email — nunca dos opciones\n\n## El entregable\n\n5 emails escritos en Notion + secuencia automática configurada en Mailchimp, MailerLite o Beehiiv + métricas de apertura y clics después de 14 días.',
+        tasks: [
+          'Escribí los 5 asuntos de email antes de escribir el cuerpo — si el asunto no engancha, el email no se lee',
+          'Redactá los 5 emails completos con preview text, cuerpo y CTA en cada uno',
+          'Configurá la secuencia automática en Mailchimp, MailerLite o Beehiiv',
+          'Suscribite vos mismo con un email de prueba y verificá que todo se ve bien en mobile',
+          'Después de 14 días, documentá las tasas de apertura y clics de cada email en el portafolio',
+        ],
+        tip: 'El asunto del email es el 50% del resultado. Un email perfecto con asunto aburrido tiene 15% de apertura. El mismo email con asunto curioso y específico puede llegar al 45%. Antes de escribir el cuerpo, escribí 5 variantes del asunto y elegí la más específica — no la más creativa.',
+        completed: false,
+      },
+      {
+        id: 'mp-l7',
+        title: 'Proyecto 7 — Intermedio: Campaña de Google Ads documentada',
+        type: 'practice',
+        content:
+          '## El brief\n\nLanzá y documentá una campaña de Google Search Ads completa: desde el keyword research hasta el reporte final con optimizaciones. El entregable es un caso que demuestra que sabés operar Google Ads con metodología — lo que piden las agencias y clientes B2B.\n\n## El proceso paso a paso\n\n**Fase 1 — Keyword research (1–2 días)**\nAbrí el Keyword Planner de Google Ads y buscá keywords del negocio. Clasificalas por intención: informacional, navegacional o transaccional. Priorizá las transaccionales ("contratar", "precio", "comprar") — menos volumen, mayor conversión. Documentá en una hoja: keyword / volumen / competencia / CPC estimado.\n\n**Fase 2 — Estructura de la campaña**\n1 campaña > 2–3 grupos por tema semántico > 5–7 keywords por grupo (Phrase o Exact Match). Cada grupo = un mensaje = una landing page específica. Configurá keywords negativas desde el inicio.\n\n**Fase 3 — Creación de anuncios RSA**\nCargá al menos 10 titulares y 4 descripciones por grupo. Incluí la keyword principal en al menos 3 titulares. Titulares benefit-focused: "Más clientes en 30 días", no "Agencia de marketing digital".\n\n**Fase 4 — Setup técnico**\nConversion tracking configurado y verificado antes de activar. UTMs en la URL final. Presupuesto: $15–30 USD totales, 7–10 días.\n\n**Fase 5 — Optimización y reporte**\nDía 3: revisá términos de búsqueda reales y agregá negativos. Día 7: revisá Quality Score — si < 5/10, reescribí el anuncio o mejorá la landing. Reporte final: inversión, clics, CTR, CPC, conversiones, costo por conversión.',
+        tasks: [
+          'Completá el keyword research con al menos 30 keywords clasificadas por intención en una hoja',
+          'Diseñá la estructura completa (campaña, grupos, keywords, negativos) antes de tocar la plataforma',
+          'Configurá el conversion tracking y verificá que dispara correctamente antes de publicar',
+          'Lanzá la campaña y revisá el informe de términos de búsqueda al día 3',
+          'Armá el reporte final con métricas reales + análisis del Quality Score por keyword',
+          'Publicá el caso documentado en LinkedIn con el keyword research y los resultados',
+        ],
+        tip: 'Un Quality Score bajo es el problema más común e ignorado en Google Ads. Un QS de 4/10 puede costarte el doble por clic que uno de 8/10 en la misma posición. La solución casi siempre es la misma: el titular no contiene la keyword exacta o la landing no repite las palabras del anuncio. Consistencia entre keyword → titular → landing = QS alto.',
+        completed: false,
+      },
+      {
+        id: 'mp-l8',
+        title: 'Proyecto 8 — Intermedio: Estrategia de contenido en TikTok (8 videos)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá y ejecutá una estrategia de contenido en TikTok: 8 videos publicados en 4 semanas, con investigación de tendencias, análisis de rendimiento y documentación del proceso. Tener datos reales de TikTok en el portafolio diferencia a un marketer porque pocos dominan el video corto con intención estratégica.\n\n## El proceso paso a paso\n\n**Fase 1 — Setup y research (semana 1)**\nCompletá el perfil: foto, bio de 80 caracteres, link. Investigá 10 cuentas del nicho que estén creciendo y anotá qué formatos usan. Identificá los 5 audios/trends más usados en tu categoría con la búsqueda de TikTok.\n\n**Fase 2 — Los formatos que funcionan en cuentas B2B**\n- "El error más común que cometen los founders en X" — educación + posicionamiento\n- "3 herramientas que uso todos los días para Y" — valor concreto\n- "Lo que nadie te dice sobre Z" — curiosidad + controversia suave\n- Behind the scenes del trabajo real — autenticidad\n- Respuesta a comentario (stitch) — comunidad\n\n**Fase 3 — El hook: los primeros 3 segundos**\nEs lo único que importa para que el algoritmo amplificque. Formatos probados: pregunta directa ("¿Sabías que el 80% de los founders hace esto mal?"), afirmación contraintuitiva ("Publicar todos los días es un error"), resultado visible antes de explicar el proceso.\n\n**Fase 4 — Producción y publicación**\nGrabá en vertical, buena luz, audio claro. Duración ideal: 30–45 segundos para cuentas nuevas. Subtítulos siempre — 80% de TikTok se ve sin sonido. Publicá a las 6–9pm hora local.\n\n**Fase 5 — Análisis de los 8 videos**\nDocumentá: vistas, tiempo promedio de visualización (el más importante), tasa de completado, comentarios. Identificá cuál funcionó mejor y por qué.',
+        tasks: [
+          'Completá el perfil de TikTok e investigá 10 cuentas del nicho antes de grabar',
+          'Planificá los 8 videos en un calendario: semana, formato, hook, duración estimada',
+          'Grabá y publicá los 8 videos en 4 semanas — mínimo 2 por semana',
+          'Documentá las métricas de cada video desde TikTok Analytics, especialmente el tiempo de visualización promedio',
+          'Identificá el video con mejor rendimiento y analizá el motivo — ¿el hook? ¿el formato? ¿la duración?',
+          'Armá el reporte de los 8 videos como caso de estudio y publicalo en LinkedIn',
+        ],
+        tip: 'La métrica que más importa en TikTok no son los likes — es el "Average Watch Time". Si el 50% o más de quienes empezaron el video lo terminaron, el algoritmo lo amplifica. Si el watch time es bajo, el video es descartado. Optimizá para que las personas terminen el video, no para que den like.',
+        completed: false,
+      },
+      {
+        id: 'mp-l9',
+        title: 'Proyecto 9 — Avanzado: Plan de marketing 360° para cliente real',
+        type: 'practice',
+        content:
+          '## El brief\n\nCreá un plan de marketing digital 360° completo para un negocio real. El plan cubre todos los canales, define objetivos medibles, propone una estrategia de 90 días y estima el presupuesto necesario. Este entregable es equivalente a lo que una agencia cobra $2,000–5,000 USD por producir.\n\n## Las 7 secciones del plan\n\n**1. Diagnóstico actual**\nResumen de la presencia digital actual: sitio web, redes, email, paid media. Métricas de tráfico, engagement y conversiones. Fortalezas y debilidades.\n\n**2. Objetivos SMART**\nMínimo 3 objetivos para los próximos 90 días: Específico, Medible, Alcanzable, Relevante, con Tiempo definido. Ej: "Generar 20 leads calificados por mes desde Meta Ads para el mes 3".\n\n**3. Audiencia objetivo**\n2 buyer personas detallados: demografía, psicografía, pain points, canales que usa. Segmento primario (70%) y secundario (30%).\n\n**4. Estrategia por canal**\nPara cada canal activo: objetivo dentro del funnel (awareness / consideración / conversión), tipo de contenido y frecuencia, KPIs específicos, presupuesto mensual si es paid. Canales: orgánico en redes, Google Ads, Meta Ads, email, SEO básico.\n\n**5. Calendario de ejecución de 90 días**\nTimeline visual: qué se lanza en el mes 1, qué en el 2, qué en el 3. Con dependencias explicitadas.\n\n**6. Presupuesto total estimado**\nDesglose mensual por canal. Separar presupuesto de medios (plataformas) vs costo de producción.\n\n**7. Sistema de medición**\nQué se reporta, con qué frecuencia y quién toma las decisiones. Plantilla del reporte semanal incluida en el documento.',
+        tasks: [
+          'Completá el diagnóstico del negocio elegido con todas las métricas actuales disponibles',
+          'Definí 3 objetivos SMART para 90 días — ambiciosos pero alcanzables con los recursos disponibles',
+          'Escribí los 2 buyer personas con nivel de detalle completo',
+          'Desarrollá la estrategia por canal con presupuesto estimado para cada uno',
+          'Creá el calendario de 90 días en Notion o Google Sheets con hitos semanales',
+          'Presentá el plan al equipo o cliente y documentá el feedback como parte del caso de estudio',
+        ],
+        tip: 'El error más común en los planes de marketing es el exceso de canales. Un plan que cubre 6 canales con profundidad media no funciona — es demasiado para ejecutar bien con recursos limitados. 2–3 canales priorizados con estrategia detallada generan más resultados y son más creíbles ante un cliente que un plan exhaustivo que nadie ejecuta.',
+        completed: false,
+      },
+      {
+        id: 'mp-l10',
+        title: 'Proyecto 10 — Avanzado: Sistema de reporting de marketing integrado',
+        type: 'practice',
+        content:
+          '## El brief\n\nConstruit un sistema de reporting de marketing que consolide todos los canales en un único dashboard semanal — con datos reales de GA4, Meta Ads, Google Ads y redes sociales. El objetivo: cualquier founder o cliente entiende el estado de su marketing en menos de 5 minutos por semana.\n\n## Los 4 componentes del sistema\n\n**Componente 1 — Dashboard semanal (Notion o Google Sheets)**\n- Sección 1: KPIs de la semana (4–6 números con flechas de tendencia vs semana anterior)\n- Sección 2: Tráfico por canal (tabla: canal / sesiones / variación % / leads generados)\n- Sección 3: Performance de paid media (inversión / clics / CTR / costo por lead por plataforma)\n- Sección 4: Contenido orgánico (posts publicados / alcance / engagement rate / mejor post)\n- Sección 5: Próxima semana — 3 acciones prioritarias con responsable y fecha\n\n**Componente 2 — Conexión con fuentes de datos**\nGA4: exportá el reporte de Adquisición o conectá con Looker Studio (gratuito). Meta Ads: exportá el resumen de rendimiento por campaña. Google Ads: reporte de keywords. Redes orgánicas: exportar desde cada plataforma o scheduling tool con analytics.\n\n**Componente 3 — Looker Studio (opcional avanzado)**\nLooker Studio se conecta nativo con GA4 y Google Ads. Permite el dashboard actualizado automáticamente sin exportar manualmente. Si lo implementás, documentá los pasos de conexión en el portafolio.\n\n**Componente 4 — El ritual semanal**\nDía y hora fijo: lunes 9am, máximo 20 minutos para completarlo. Nunca borrar datos anteriores — el histórico es el valor del sistema. Si es para un cliente, definir qué parte completa cada uno.',
+        tasks: [
+          'Creá la plantilla del dashboard en Notion o Google Sheets con las 5 secciones definidas',
+          'Conectá al menos 2 fuentes de datos reales (GA4 + Meta Ads o Google Ads)',
+          'Completá 4 semanas consecutivas de reporte con datos reales — la consistencia es el entregable',
+          'Implementá Looker Studio con conexión automática a GA4 como bonus del proyecto',
+          'Grabá un Loom de 5 minutos explicando el sistema como si fuese para un cliente nuevo',
+          'Publicá el case study del sistema en LinkedIn con el video Loom incluido',
+        ],
+        tip: 'El mejor dashboard de marketing es el que se completa todos los lunes sin excepción. Un dashboard perfecto que se abandona en la semana 3 vale cero. Al diseñar el sistema, preguntate: ¿puedo completar esto en 15 minutos cada lunes? Si la respuesta es no, simplificá hasta que sí. La sostenibilidad del ritual importa más que la profundidad del análisis.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google PageSpeed Insights — Auditá la velocidad de cualquier sitio',
+        url: 'https://pagespeed.web.dev',
+        type: 'tool',
+      },
+      {
+        title: 'Meta Pixel Helper — Extensión para verificar el píxel de Meta',
+        url: 'https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc',
+        type: 'tool',
+      },
+      {
+        title: 'Canva — Creación de creativos para redes sociales',
+        url: 'https://canva.com',
+        type: 'tool',
+      },
+      {
+        title: 'Calendly — Agenda de reuniones para el BOFU del funnel',
+        url: 'https://calendly.com',
+        type: 'tool',
+      },
+      {
+        title: 'Notion — Plantillas para calendarios de contenido y reportes',
+        url: 'https://notion.so/templates',
+        type: 'tool',
+      },
+    ],
+  },
+
+  // ─── UI/UX Portfolio Projects ─────────────────────────────────────────────────
+  {
+    id: 'uiux-portfolio',
+    number: 9,
+    track: 'uiux',
+    title: 'Proyectos de Portafolio — UI/UX & Diseño',
+    description:
+      'Proyectos guiados de básico a avanzado para construir un portafolio de diseño sólido. Cada proyecto produce un entregable publicable en Behance, Dribbble o Notion.',
+    duration: '8–14 semanas',
+    status: 'available',
+    lessons: [
+      // ── MOBILE ONLY (5 proyectos) ──────────────────────────────────────────────
+      {
+        id: 'up-m1',
+        title: '[Mobile] Proyecto 1 — Básico: Rediseño de flujo de onboarding (4 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nElegí una app mobile con un flujo de onboarding confuso o poco efectivo y rediseñalo por completo en 4 pantallas. El onboarding es el primer contacto del usuario con el producto — si falla, el usuario abandona antes de descubrir el valor real. Este redesign demuestra pensamiento de producto, no solo habilidad visual.\n\n## Las 4 pantallas a diseñar\n\n1. **Bienvenida / Splash**: primera impresión de la app, comunicá el valor en una frase\n2. **Propuesta de valor**: 3 beneficios clave en slides o scroll (con ilustración o screenshot del producto)\n3. **Registro / Cuenta**: formulario de creación — mínima fricción, máxima claridad\n4. **Personalización inicial**: una pregunta que adapta la experiencia al usuario\n\n## El proceso paso a paso\n\n**Paso 1 — Elegí la app y documentá el problema**\nCompletá el onboarding real de la app elegida. Anotá en qué momento te confundiste, qué pasos son innecesarios y qué información falta. Buscá las reseñas en App Store — las quejas de onboarding aparecen en los 1 y 2 estrellas.\n\n**Paso 2 — Screenshots del before + anotaciones**\nImportá las capturas a Figma en una página "Before". Marcá con texto y flechas los problemas de UX específicos de cada pantalla.\n\n**Paso 3 — Benchmarking**\nBuscá 3 apps del mismo espacio con onboardings efectivos. En Mobbin.com podés filtrar por "Onboarding" y categoría.\n\n**Paso 4 — Wireframes de las 4 pantallas**\nDibujá la estructura antes de pensar en colores. Decisión clave: ¿slides con puntos de navegación o scroll vertical?\n\n**Paso 5 — UI final**\nDiseñá las 4 pantallas en Figma a 390×844px (iOS) o 360×800px (Android).\n\n**Paso 6 — Caso de estudio en Figma**\nUna página con: Before / Problemas detectados / Decisiones de diseño / After.',
+        tasks: [
+          'Completá el onboarding real de la app elegida y anotá cada punto de fricción antes de abrir Figma',
+          'Buscá en las reseñas de App Store — identificá al menos 3 quejas de onboarding para validar el problema',
+          'Hacé el benchmarking de 3 apps con buen onboarding en Mobbin.com',
+          'Wireframeá las 4 pantallas antes de pasar a alta fidelidad',
+          'Diseñá las 4 pantallas en UI final con el sistema visual de la app',
+          'Publicá el caso Before/After en Behance con las anotaciones de problemas y decisiones',
+        ],
+        tip: 'El error más común en redesigns de onboarding es agregar más pantallas creyendo que más información ayuda. Cada pantalla adicional reduce la tasa de completado en 10–15%. El mejor onboarding es el más corto que logra que el usuario vea el valor del producto lo antes posible.',
+        completed: false,
+      },
+      {
+        id: 'up-m2',
+        title: '[Mobile] Proyecto 2 — Básico: App de seguimiento de hábitos (6 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá desde cero una app de seguimiento de hábitos — uno de los proyectos más pedidos porque combina simplicidad de interfaz con complejidad de comportamiento. El desafío: hacer que registrar un hábito sea tan simple que se convierta en un hábito en sí mismo.\n\n## Las 6 pantallas a diseñar\n\n1. **Home — Vista de hoy**: lista de hábitos del día, estado de completado, racha actual, progreso\n2. **Agregar hábito**: nombre, icono o emoji, frecuencia, hora de recordatorio\n3. **Detalle de hábito**: historial del mes en calendario de puntos, racha, estadísticas\n4. **Estadísticas**: progreso semanal/mensual en gráfico de barras, mejor racha global\n5. **Perfil / Configuración**: nombre, avatar, notificaciones, tema claro/oscuro\n6. **Estado vacío**: pantalla cuando no hay hábitos creados — orientar, motivar, call to action\n\n## El proceso paso a paso\n\n**Fase 1 — Definí al usuario y el principio de diseño**\nEl usuario: profesional ocupado (25–35 años) que quiere 2–3 hábitos consistentes. Principio: "una acción, un tap" — registrar un hábito completado debe ser un solo tap en la home.\n\n**Fase 2 — User flow**\nMapeá en FigJam: crear hábito → ver en home → marcar completado → ver estadísticas.\n\n**Fase 3 — Sistema visual**\nElegí la dirección: minimalista monochrome (como Streaks) o colorido y gamificado (como Habitica). Define la paleta antes de diseñar. Regla: un color por hábito para diferenciación visual rápida.\n\n**Fase 4 — UI final + componentes**\nDiseñá la Home primero. Creá el componente "Habit Row" con variantes: completado / pendiente / saltado. Después aplicalo en el resto de pantallas.\n\n**Fase 5 — Prototipo**\nConectá las 6 pantallas con Smart Animate — especialmente el tap de "marcar completado" con feedback visual.',
+        tasks: [
+          'Definí el usuario, el principio de diseño y el sistema visual antes de abrir Figma',
+          'Mapeá el user flow en FigJam — create habit → home → mark complete → stats',
+          'Diseñá el componente "Habit Row" con variantes antes de construir la Home',
+          'Diseñá las 6 pantallas incluyendo el estado vacío con call to action claro',
+          'Construí el prototipo con Smart Animate para el gesto de completar hábito',
+          'Publicá en Dribbble con el componente Habit Row + en Behance con el proceso completo',
+        ],
+        tip: 'La pantalla de estadísticas es donde muchos diseñadores se pierden en datos innecesarios. El usuario de una app de hábitos no necesita un analytics dashboard — necesita sentirse bien con su progreso. Priorizá el streak y el porcentaje de éxito sobre métricas complejas. La motivación emocional convierte en retención.',
+        completed: false,
+      },
+      {
+        id: 'up-m3',
+        title: '[Mobile] Proyecto 3 — Intermedio: App de finanzas personales (9 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá una app de finanzas personales completa — uno de los espacios más competitivos en UX mobile. El reto: hacer que datos financieros complejos sean claros, accionables y no generen ansiedad. El diseño debe equilibrar densidad de información con claridad visual.\n\n## Las 9 pantallas a diseñar\n\n1. **Dashboard principal**: balance total, gastos del mes vs presupuesto, últimas transacciones, accesos directos\n2. **Lista de transacciones**: filtros por fecha/categoría, búsqueda, ítem con categoría + monto + fecha\n3. **Detalle de transacción**: monto, categoría con icono, comercio, fecha/hora, nota, editar/eliminar\n4. **Agregar transacción**: teclado numérico prominente, categoría con scroll horizontal, cuenta, nota\n5. **Vista de presupuestos**: barra de progreso por categoría, alerta si se superó el límite\n6. **Detalle de presupuesto**: historial del mes, comparación con mes anterior, transacciones de la categoría\n7. **Metas de ahorro**: tarjetas con progreso (ej: "Vacaciones — 65% completado"), contribución sugerida\n8. **Perfil y configuración**: cuentas vinculadas, notificaciones, moneda, privacidad\n9. **Alerta / Notificación**: modal de alerta (ej: "Superaste el 90% de tu presupuesto de comida")\n\n## El proceso paso a paso\n\n**Fase 1 — Arquitectura de la información**\nBuscá los onboardings de Fintual, Mint, YNAB para entender qué información priorizan. Definí qué ve el usuario primero al abrir la app.\n\n**Fase 2 — Sistema de color semántico**\nEl más importante del proyecto: verde = positivo/ingreso, rojo = alerta/límite superado, gris = transacción normal. NO uses rojo para todos los gastos — los gastos son normales, no errores.\n\n**Fase 3 — Componentes críticos**\nDiseñá primero: Transaction Row (el más repetido), Budget Progress Bar (estados: normal/warning/exceeded), Amount Display (con colores semánticos).\n\n**Fase 4 — Pantallas en orden de complejidad**\nComenzá por agregar transacción (más funcional), luego lista, luego dashboard. Terminá con resumen y configuración.',
+        tasks: [
+          'Investigá 3 apps de finanzas (Mint, Fintual, YNAB) y mapeá sus arquitecturas de información',
+          'Definí el sistema de color semántico completo antes de diseñar',
+          'Diseñá los 3 componentes críticos (Transaction Row, Budget Bar, Amount) antes de ensamblar pantallas',
+          'Diseñá las 9 pantallas comenzando por la más funcional (agregar transacción)',
+          'Agregá los estados de error y vacío para la lista de transacciones y el dashboard',
+          'Conectá las 9 pantallas en prototipo completo y publicá el caso en Behance',
+        ],
+        tip: 'El diseño de finanzas tiene una trampa: usar rojo para gastos. Los gastos son normales — no son errores. Usar rojo para toda transacción de egreso crea ansiedad innecesaria. Usá rojo solo para alertas (presupuesto superado). El color rojo debe significar "necesitás actuar", no "gastaste dinero".',
+        completed: false,
+      },
+      {
+        id: 'up-m4',
+        title: '[Mobile] Proyecto 4 — Intermedio: App de delivery de comida (11 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá el flujo completo de una app de delivery — desde explorar restaurantes hasta confirmar el pedido. Este proyecto es uno de los más complejos en UX mobile porque combina exploración, búsqueda, selección, carrito y checkout en un flujo donde cada pantalla de fricción se traduce en abandono.\n\n## Las 11 pantallas a diseñar\n\n1. **Home / Exploración**: banner de oferta, categorías, restaurantes destacados, búsqueda\n2. **Listado de restaurantes**: filtros (precio, rating, distancia, tiempo), tarjeta con foto/nombre/rating/tiempo\n3. **Detalle de restaurante**: portada, info, categorías como tabs, lista de platos con foto y precio\n4. **Detalle de plato**: foto grande, nombre, descripción, precio, personalizaciones, contador, botón agregar\n5. **Carrito**: ítems con foto/nombre/precio, contador editable, subtotal/delivery fee/total, notas, checkout\n6. **Dirección de entrega**: mapa con pin, dirección guardada o nueva, instrucciones al repartidor\n7. **Método de pago**: tarjetas guardadas, nueva tarjeta, efectivo, promo code\n8. **Confirmación del pedido**: resumen completo, estimación de tiempo, botón confirmar\n9. **Seguimiento del pedido**: mapa en tiempo real con pin del repartidor, timeline de estados\n10. **Pedido entregado / Calificación**: confirmación, rating del restaurante y repartidor, propina\n11. **Historial de pedidos**: lista de pedidos anteriores, botón "repetir pedido"\n\n## El foco del proyecto\n\nEl checkout (pantallas 5–8) es donde más apps pierden usuarios. Diseñalo primero. Objetivo: confirmar un pedido en máximo 4 taps desde el carrito. El carrito debe ser siempre accesible (floating button o badge en tab bar). El detalle de plato necesita foto grande (40%+ de la pantalla) y botón de agregar como elemento más prominente.',
+        tasks: [
+          'Mapeá el flujo de 11 pantallas en FigJam — identificá puntos de fricción en el checkout',
+          'Diseñá el flujo de checkout (pantallas 5–8) primero — es donde más abandono ocurre',
+          'Creá los componentes reutilizables: Restaurant Card, Menu Item, Cart Item',
+          'Diseñá las 11 pantallas con el carrito siempre visible en la interfaz',
+          'Construí el prototipo del flujo principal: home → restaurante → plato → carrito → checkout → tracking',
+          'Publicá el prototipo en Behance y grabá un screen recording del flujo completo',
+        ],
+        tip: 'El detalle de plato es la pantalla más importante del flujo — es donde se toma la decisión de compra. La foto del plato debe ocupar al menos el 40% de la pantalla, el precio debe ser visible sin scroll y el botón de agregar al carrito debe ser el elemento más prominente. Si el usuario tiene que buscar el precio o el botón, la pantalla falló.',
+        completed: false,
+      },
+      {
+        id: 'up-m5',
+        title: '[Mobile] Proyecto 5 — Avanzado: App de bienestar con micro-animaciones (13 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá una app de bienestar (meditación, respiración, journal) con la capa de motion design documentada en Figma. Este es el proyecto más avanzado del track mobile porque combina UI completa + experiencia sensorial (calma visual, ritmo, espacio) + documentación de animaciones.\n\n## Las 13 pantallas a diseñar\n\n1. Splash / Loading — animación de la marca\n2. Onboarding 1 — propuesta de valor principal\n3. Onboarding 2 — beneficios con ilustración\n4. Onboarding 3 — personalización (¿cuántos minutos por día?)\n5. Home — saludo, sesión recomendada, accesos directos\n6. Meditación — Setup: selector de duración y ambiente sonoro\n7. Meditación — Activa: timer circular con animación de respiración, botón pausa\n8. Meditación — Completada: celebración suave, logro, calificar sesión\n9. Respiración: ejercicio box breathing con círculo animado (inhalar/sostener/exhalar)\n10. Journal — Nueva entrada: campo de texto, fecha, estado de ánimo, guardar\n11. Journal — Historial: lista de entradas con fecha, preview, estado de ánimo\n12. Estadísticas: racha, minutos totales, entradas de journal, mejor semana\n13. Perfil: foto, nombre, notificaciones, suscripción\n\n## Cómo documentar las animaciones en Figma\n\n**Smart Animate para transiciones**: capas con el mismo nombre entre frames para interpolación automática.\n\n**Página "Animation Specs"**: documento separado con cada animación: elemento, propiedad que cambia (opacity/scale/position), duración en ms, easing curve, descripción para el desarrollador.\n\n**Animaciones clave**:\n- Respiración: el círculo escala de 60px a 120px en 4 segundos con ease in-out\n- Celebración al completar: partículas suaves, 1.5s\n- Transiciones entre tabs: slide + fade\n- Onboarding: slide horizontal con parallax',
+        tasks: [
+          'Diseñá las 13 pantallas en UI final antes de trabajar en las animaciones',
+          'Creá el prototipo con Smart Animate para las transiciones principales',
+          'Diseñá la pantalla de meditación activa con el círculo de respiración animado',
+          'Creá la página "Animation Specs" documentando cada animación con duración, easing y descripción',
+          'Grabá un screen recording del prototipo mostrando las animaciones en acción',
+          'Publicá el caso en Behance con pantallas, video del prototipo y la página de specs de animación',
+        ],
+        tip: 'En apps de bienestar, las animaciones no son decorativas — son funcionales. Una animación de respiración demasiado rápida genera ansiedad en lugar de calma. Testeá los timings en tu propio teléfono, no solo en el prototipo de Figma. 4 segundos para inhalar + 4 segundos para exhalar es el mínimo para generar efecto fisiológico real.',
+        completed: false,
+      },
+
+      // ── DESKTOP ONLY (5 proyectos) ─────────────────────────────────────────────
+      {
+        id: 'up-d1',
+        title: '[Desktop] Proyecto 6 — Básico: Landing page de producto SaaS (1440px)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá una landing page de alta conversión para un producto SaaS. La página debe comunicar el valor del producto en los primeros 5 segundos y guiar al usuario hacia un único CTA: registro gratuito, demo, o contacto.\n\n## Las 6 secciones a diseñar\n\n1. **Hero**: headline de máximo 8 palabras (¿qué hago y para quién?), subheadline, CTA visible sin scroll, screenshot del producto\n2. **Social proof**: logos de empresas que lo usan, o métricas clave ("2,000+ equipos", "4.9/5 en G2")\n3. **Propuesta de valor — 3 columnas**: icono + título + descripción de 2 líneas\n4. **Cómo funciona**: 3–4 pasos con número, título y descripción\n5. **Testimonios**: 2–3 cards con foto, nombre, empresa, texto (máximo 3 líneas)\n6. **CTA final + Footer**: repite la oferta, formulario simple (solo email) o botón directo\n\n## Principios de conversión a aplicar\n\n- Una landing, un objetivo: el header NO tiene links que lleven a otras páginas\n- El CTA primario se repite: en el hero, al final de cada sección y en el footer\n- El headline específico convierte mejor: "Gestión de proyectos para equipos de desarrollo" > "La plataforma todo en uno"\n- La imagen del producto muestra el producto real, no un mockup abstracto\n\n## El proceso\n\n1. Escribí el copy ANTES de abrir Figma — el headline es la decisión más importante\n2. Armá el wireframe de 6 secciones en FigJam\n3. Definí tipografía y paleta (para SaaS: sans-serif en todo, 1 color de acento fuerte)\n4. Diseñá sección por sección, de arriba hacia abajo\n5. Revisá la jerarquía visual: ¿el ojo va al CTA después del hero?',
+        tasks: [
+          'Escribí el headline y el copy de cada sección ANTES de diseñar — el diseño sirve al texto',
+          'Armá el wireframe de 6 secciones en FigJam antes de pasar a color',
+          'Elegí tipografía y paleta y creá los styles en Figma antes de diseñar',
+          'Diseñá la landing en frame de 1440px con contenido a max-width de 1200px',
+          'Revisá que el CTA principal aparezca al menos 3 veces (hero + mitad + final)',
+          'Publicá en Behance con el proceso: copy → wireframe → diseño final',
+        ],
+        tip: 'El test más rápido para saber si tu landing convierte: mostrásela a alguien que no conoce el producto durante 5 segundos y preguntale qué hace. Si no puede responderlo, el headline falló. No importa cuán bonita se vea — si el mensaje no es claro en 5 segundos, el visitante se va.',
+        completed: false,
+      },
+      {
+        id: 'up-d2',
+        title: '[Desktop] Proyecto 7 — Básico: Portfolio personal editorial (4 páginas, 1440px)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un portfolio personal para vos mismo (o un personaje ficticio) como diseñador o desarrollador. En 10 segundos el visitante debe saber quién sos, qué hacés y querer ver tu trabajo. La dirección estética es editorial y tipográfica — menos es más.\n\n## Las 4 páginas a diseñar\n\n1. **Home**: hero con nombre + rol + frase de posicionamiento, grid de proyectos seleccionados (4–6), sección breve de skills, CTA para contacto\n2. **Proyecto — Detalle**: hero del proyecto (screenshot grande), context (cliente/rol/año), el problema, el proceso con imágenes, el resultado final\n3. **About**: foto o ilustración personalizada, bio en 3 párrafos (quién sos / qué hacés / qué te diferencia), experiencia, herramientas, qué buscás actualmente\n4. **Contact**: email + formulario simple, links a LinkedIn/GitHub/Dribbble, ubicación\n\n## La dirección de diseño\n\nEditorial minimalista: máximo espacio negativo, 2 fuentes (1 serif para nombre/headlines, 1 sans-serif para cuerpo), paleta de 3 colores (fondo/texto/acento), fotos del trabajo en blanco y negro o con overlay.\n\nReferencias: portafolios de Paco Coursey, Marc Edwards, Luro, o cualquier diseñador que trabaje en Linear, Vercel o Stripe.\n\n## El proceso\n\n1. Elegí los 4 proyectos que van al portfolio — la curaduría importa más que la cantidad\n2. Escribí la bio y el posicionamiento antes de abrir Figma\n3. Definí el par de fuentes y la paleta de 3 colores como estilos\n4. Diseñá la Home — es la que define el tono de todo\n5. Diseñá el detalle de proyecto y duplicalo para el resto',
+        tasks: [
+          'Elegí los 4–6 proyectos que van al portfolio — la curaduría define el posicionamiento',
+          'Escribí la bio y el texto de posicionamiento antes de abrir Figma',
+          'Definí el par de fuentes y la paleta de 3 colores como estilos de Figma',
+          'Diseñá la Home completa en 1440px — es la que define el tono de todo el sitio',
+          'Diseñá la página de Proyecto Detalle y aplicala a 2 proyectos diferentes',
+          'Conectá las 4 páginas en prototipo con navegación completa y publicá en Behance',
+        ],
+        tip: 'El error más dañino en un portfolio es mostrar todo lo que hiciste. Un portfolio de 4 proyectos excelentes convierte mejor que uno de 12 mediocres. Los clientes y empleadores no buscan cantidad — buscan evidencia de que podés resolver problemas específicos. Cuanto más específico es tu portfolio, más fácil es para el cliente ideal contactarte.',
+        completed: false,
+      },
+      {
+        id: 'up-d3',
+        title: '[Desktop] Proyecto 8 — Intermedio: Dashboard de analytics para startup (1440px)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un dashboard de analytics completo para una startup SaaS — el tipo de interfaz más evaluada en entrevistas de diseño de producto B2B. El dashboard debe mostrar el estado del negocio en 30 segundos para un manager sin formación técnica.\n\n## La estructura de la interfaz\n\n- **Sidebar** (izquierda, fija, 240px): logo, links de sección, avatar de usuario al fondo\n- **Header** (top, fijo): título de sección, filtro de período (7/30/90 días), exportar, notificaciones\n- **Área de contenido**: grilla de 12 columnas\n\n## Componentes de datos a diseñar\n\nCada componente con 4 estados: loading skeleton / empty / error / filled:\n- **KPI Card ×4**: número grande, label, trend indicator (flecha + % vs período anterior, verde/rojo)\n- **Line Chart**: eje X fechas, eje Y valores, línea de datos, tooltip en punto activo, leyenda\n- **Bar Chart**: horizontal o vertical con colores por categoría\n- **Data Table**: columnas con header ordenable, filas con hover, paginación, checkbox de selección\n- **Status Badge**: active (verde) / paused (amarillo) / error (rojo) / inactive (gris)\n\n## Layout de la página principal\n\n4 KPI Cards en fila + Line Chart (tráfico en el tiempo) + Bar Chart (conversiones por canal) + Data Table (lista de campañas o usuarios)\n\n## El proceso\n\n1. Definí las 4 métricas más importantes del negocio elegido\n2. Diseñá los componentes individuales con todos sus estados\n3. Armá el layout completo con datos realistas inventados consistentemente\n4. Diseñá páginas secundarias: User Management y Settings\n5. Bonus: dark mode con Variables de Figma',
+        tasks: [
+          'Definí el negocio, las 4 KPIs clave y la arquitectura del layout antes de diseñar',
+          'Diseñá todos los componentes de datos con sus 4 estados como Componentes de Figma con variantes',
+          'Armá el dashboard completo con datos realistas consistentes entre sí',
+          'Diseñá páginas secundarias: User Management y Settings',
+          'Implementá dark mode con Figma Variables como bonus',
+          'Publicá el caso con video de prototipo mostrando estados e interacciones del filtro de fecha',
+        ],
+        tip: 'El estado de skeleton loading es más importante que el estado filled para la percepción de velocidad. Los skeleton loaders (rectángulos grises donde irán los datos) hacen que la interfaz se perciba hasta 2x más rápida que un spinner. Diseñá el skeleton de cada componente antes del estado con datos — también garantiza que el layout no se rompa cuando lleguen los datos.',
+        completed: false,
+      },
+      {
+        id: 'up-d4',
+        title: '[Desktop] Proyecto 9 — Intermedio: Panel de administración back-office (1440px)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un panel de administración para un negocio. El desafío: diseñar para eficiencia máxima, no para impacto visual. El usuario trabaja en este panel 8 horas al día y necesita hacer tareas repetitivas rápido. Pocos diseñadores saben hacerlo bien — eso lo hace valioso en el portafolio.\n\n## Las 4 secciones a diseñar\n\n**1. Gestión de usuarios**\n- Tabla: checkbox de selección masiva, avatar + nombre + email, rol (badge), estado (activo/inactivo), fecha, acciones\n- Filtros: por rol, por estado, búsqueda por email\n- Acciones masivas: cambiar rol, exportar, suspender\n- Modal de edición: nombre, email, rol (dropdown), permisos\n\n**2. Gestión de órdenes**\n- Tabla: ID, cliente, fecha, estado (badge con color), monto, acciones\n- Filtro por status: Pendiente / Procesando / Enviado / Entregado / Cancelado\n- Detalle en panel lateral (drawer) sin salir de la tabla\n- Bulk actions: marcar como enviado, exportar CSV\n\n**3. Inventario o catálogo**\n- Vista grid/lista toggle\n- Tarjeta de producto: foto, nombre, SKU, stock, precio, estado\n- Formulario de producto: tabs (Info / Imágenes / Pricing / Inventario)\n\n**4. Configuración**\n- Tabs: Perfil / Equipo / Facturación / Integraciones / Notificaciones\n- Zona de peligro: "Eliminar cuenta" con modal de confirmación en rojo\n\n## Principios de back-office\n\n- Densidad > espacio: las tablas pueden tener padding mínimo si muestran más datos\n- Acciones destructivas siempre con confirmación y color rojo\n- Consistencia absoluta en los patrones — el usuario aprende una vez y aplica siempre',
+        tasks: [
+          'Diseñá el componente de tabla con todas sus variantes antes de armar las secciones',
+          'Diseñá la sección de usuarios con filtros, bulk actions y modal de edición',
+          'Diseñá la sección de órdenes con el drawer de detalle lateral',
+          'Diseñá el inventario con toggle grid/lista y formulario de producto con tabs',
+          'Diseñá la configuración incluyendo la zona de peligro con modal de confirmación',
+          'Publicá el caso enfatizando los patrones de eficiencia y las decisiones de UX',
+        ],
+        tip: 'El error más costoso en back-office es el exceso de confirmaciones. Si el usuario confirma cada acción con un modal, pierde el ritmo de trabajo. Reservá las confirmaciones para acciones irreversibles (eliminar, cancelar). La regla: ¿se puede deshacer? Entonces no necesita confirmación.',
+        completed: false,
+      },
+      {
+        id: 'up-d5',
+        title: '[Desktop] Proyecto 10 — Avanzado: Design system completo con documentación',
+        type: 'practice',
+        content:
+          '## El brief\n\nConstruit un design system completo en Figma: foundations, componentes (20+), dark mode, tokens exportables y documentación por componente. Este proyecto demuestra que podés trabajar a nivel de sistema — la habilidad que más diferencia a un diseñador de $3,000/mes de uno de $8,000/mes.\n\n## Capa 1 — Foundations\n\n- **Color primitives**: escala de 5 tones por color (blue-100 a blue-900) + grises + neutros\n- **Semantic tokens**: colores con propósito (surface/primary, text/default, border/error, feedback/success)\n- **Escala tipográfica**: Display XL / Display / H1 / H2 / H3 / Body LG / Body SM / Caption / Label / Code\n- **Espaciado**: múltiplos de 4 — 4/8/12/16/24/32/40/48/64/80/96px\n- **Border radius**: 0/2/4/8/12/16/24/round\n- **Sombras**: elevación 0 (flat) / 1 (card) / 2 (dropdown) / 3 (modal) / 4 (toast)\n- **Iconos**: 30+ SVG organizados por categoría\n\n## Capa 2 — Componentes (mínimo 20)\n\nCon variantes de tipo y estados (default/hover/active/disabled/focus):\nButton (4 tipos) · Input (5 variantes) · Textarea · Select · Checkbox · Radio · Toggle · Badge · Avatar (3 tamaños) · Card · Modal · Toast · Tooltip · Tabs · Progress Bar · Skeleton · Empty State · Alert · Tag · Pagination\n\n## Capa 3 — Documentación por componente\n\nPor cada componente: cuándo usar / cuándo NO usar, todas las variantes, ejemplo en contexto, especificaciones anotadas, notas para el desarrollador.\n\n## Capa 4 — Dark mode con Figma Variables\n\nPrimitivos → tokens semánticos → aplicación en componentes. Un componente bien construido cambia de light a dark con un click sin ajustes manuales.\n\n## Capa 5 — Tokens exportables\n\nPlugin "Tokens Studio for Figma" para exportar como JSON — directamente consumible por desarrollo.',
+        tasks: [
+          'Definí todas las foundations como Variables de Figma antes de crear los componentes',
+          'Diseñá los 20 componentes con todas sus variantes y estados',
+          'Creá la documentación completa de al menos 5 componentes con uso, variantes y specs',
+          'Implementá dark mode completo — verificá que todos los componentes cambien correctamente',
+          'Exportá los tokens como JSON con Tokens Studio y compartí el archivo en el portafolio',
+          'Grabá un Loom de 10 minutos recorriendo el design system: foundations → componentes → dark mode → tokens',
+          'Publicá el archivo con View Only público como el proyecto más técnico del portafolio',
+        ],
+        tip: 'El naming de los tokens es lo más importante y lo más ignorado. "primary-blue" es primitivo, no semántico. "color/button/background/default" es semántico — describe el propósito, no el color. Cuando el equipo cambia el azul por verde, solo hay que cambiar el valor del token semántico, no tocar cada componente. La arquitectura de tokens determina si el sistema escala o colapsa.',
+        completed: false,
+      },
+
+      // ── RESPONSIVE (5 proyectos) ───────────────────────────────────────────────
+      {
+        id: 'up-r1',
+        title: '[Responsive] Proyecto 11 — Básico: Sitio de restaurante o cafetería (8 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá el sitio web de un restaurante o cafetería en desktop (1440px) y mobile (390px). El brief es claro, el contenido es concreto y las restricciones son conocidas. Ideal para demostrar que sabés adaptar diseños entre breakpoints manteniendo la identidad visual.\n\n## Las 4 páginas × 2 breakpoints = 8 pantallas\n\n**Home**\n- Desktop: hero full-screen con foto de ambiente + nombre/tagline/CTA, platos destacados en grid de 3, sobre nosotros (texto + foto), botón al menú\n- Mobile: hero compacto, platos en scroll horizontal (cards), sobre nosotros apilado\n\n**Menú**\n- Desktop: sidebar con categorías fijas + platos en 2 columnas con foto/nombre/descripción/precio\n- Mobile: tabs horizontales de categorías + lista vertical de platos\n\n**Reservas**\n- Desktop: formulario (fecha/hora/personas/nombre/email/notas) en 2 columnas, info del restaurant al lado\n- Mobile: formulario de una columna a pantalla completa\n\n**Contacto**\n- Desktop: mapa embebido grande + datos de contacto en panel lateral + redes sociales\n- Mobile: mapa compacto arriba, datos apilados abajo\n\n## El proceso responsivo\n\n1. Diseñá las 4 páginas desktop completas\n2. Definí cómo cambia cada sección en mobile: ¿qué se apila? ¿qué desaparece? ¿qué se convierte en scroll horizontal?\n3. Diseñá las 4 páginas mobile con Auto Layout para adaptación estructural\n4. Conectá ambas versiones en prototipos separados',
+        tasks: [
+          'Elegí el restaurante y definí la identidad visual: paleta, tipografía, estilo de fotografía',
+          'Diseñá las 4 páginas desktop completas antes de pasar a mobile',
+          'Armá un mapa de adaptación responsiva: para cada sección, cómo cambia en mobile',
+          'Diseñá las 4 páginas mobile usando Auto Layout para adaptación estructural',
+          'Creá dos prototipos: desktop (scroll) y mobile (navegación en hamburger menu)',
+          'Publicá las 8 pantallas en Behance con desktop y mobile lado a lado',
+        ],
+        tip: 'El menú es el componente más difícil de hacer responsivo en sitios de restaurante. En desktop caben 2–3 columnas de platos. En mobile, una lista vertical funciona mejor que intentar mantener el grid. Responsivo no significa "más chico" — significa "diferente y optimizado para cada pantalla".',
+        completed: false,
+      },
+      {
+        id: 'up-r2',
+        title: '[Responsive] Proyecto 12 — Básico: Blog editorial (8 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un blog editorial completo en desktop (1440px) y mobile (390px) con foco en legibilidad y descubrimiento de contenido. Diseñar un blog bien requiere dominar tipografía, ritmo visual y jerarquía de información. Referencia: Medium, Substack, The Pudding.\n\n## Las 4 páginas × 2 breakpoints = 8 pantallas\n\n**Home**\n- Desktop: artículo destacado en hero con imagen grande, grid de artículos en 3 columnas (foto/categoría/título/autor/fecha), newsletter subscribe al fondo\n- Mobile: artículo destacado en card full-width, lista uno debajo del otro\n\n**Artículo**\n- Desktop: header (título/autor con avatar/fecha/tiempo de lectura/compartir), cuerpo con tipografía optimizada (máx 680px de ancho, line-height 1.7), imágenes full-width, pull quotes, artículos relacionados en grid de 3\n- Mobile: mismo contenido, tipografía 18px, imágenes full-width, related articles en scroll horizontal\n\n**Página de autor**\n- Desktop: foto grande, bio, artículos publicados en grid de 3\n- Mobile: foto compacta, bio, artículos en lista vertical\n\n**Categoría**\n- Desktop: título + descripción, artículos en grid, filtro por fecha\n- Mobile: grid de 1 columna, filtro como tabs horizontales\n\n## El principio central: legibilidad\n\n- Ancho óptimo de línea: 60–75 caracteres (640–680px en desktop)\n- Line-height para body: mínimo 1.65\n- Font size body: 17–18px desktop, 16px mobile\n- Contraste: negro sobre blanco — sin grises claros para texto de cuerpo',
+        tasks: [
+          'Elegí el tema del blog y definí el par tipográfico (serif títulos, sans-serif cuerpo)',
+          'Diseñá las 4 páginas desktop con especial atención a la página de artículo',
+          'Verificá que el ancho del cuerpo del artículo sea máximo 680px y line-height mínimo 1.65',
+          'Diseñá las 4 páginas mobile — font size de body mínimo 16px',
+          'Creá un prototipo de la home → artículo → autor para ambos breakpoints',
+          'Publicá en Behance con el artículo desktop y mobile como pieza central del caso',
+        ],
+        tip: 'El error más frecuente en blogs es el uso de grises claros para el texto del cuerpo. "Parece moderno" pero el contraste bajo fatiga la vista. Para texto sobre fondo blanco usá mínimo #4B4B4B. Las regulaciones WCAG requieren ratio de contraste mínimo 4.5:1 para texto normal. La tipografía elegante de bajo contraste es accesible solo en el Figma preview, no en la pantalla real.',
+        completed: false,
+      },
+      {
+        id: 'up-r3',
+        title: '[Responsive] Proyecto 13 — Intermedio: E-commerce completo (10 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un e-commerce completo desde el home hasta la confirmación de compra — en desktop (1440px) y mobile (390px). El e-commerce es el tipo de proyecto más pedido en entrevistas de diseño de producto porque combina exploración, decisión de compra y checkout, cada uno con sus propios desafíos de UX.\n\n## Las 5 páginas × 2 breakpoints = 10 pantallas\n\n**Home**\n- Desktop: hero con oferta + CTA, 3 categorías en grid, productos destacados en grid de 4, banner de propuesta de valor\n- Mobile: hero simplificado, categorías en scroll horizontal, grid de 2\n\n**Listado de productos (PLP)**\n- Desktop: sidebar de filtros fija + grid de 3 columnas + sort en header + paginación\n- Mobile: filtros como bottom sheet, grid de 2 columnas, sort como modal\n\n**Detalle de producto (PDP)**\n- Desktop: galería (izquierda, scroll vertical) + info (derecha sticky): nombre/precio/rating/selectores/agregar al carrito/descripción/reviews\n- Mobile: galería swipeable en carrusel, todo apilado, botón "Agregar" fijo al fondo\n\n**Carrito**\n- Desktop: lista de productos (2/3 pantalla) + order summary sticky (1/3)\n- Mobile: lista full-width + order summary expandible\n\n**Checkout (3 pasos: Envío → Pago → Revisión)**\n- Desktop: stepper visible + formulario izquierda + order summary derecha\n- Mobile: un paso por pantalla, nav prev/next al fondo\n\n## Reglas de checkout\n\nMínimos campos requeridos. Errores de validación inline — no esperar al submit. Progress indicator siempre visible. Opción "Continuar como invitado" antes de pedir registro.',
+        tasks: [
+          'Mapeá el flujo de 5 páginas en FigJam e identificá puntos de fricción en el checkout',
+          'Diseñá la Product Detail Page primero — es la más compleja y la que más impacta la conversión',
+          'Diseñá el checkout con los 3 pasos en desktop priorizando mínima fricción',
+          'Adaptá todas las páginas a mobile con filtros como bottom sheet y PDP con galería swipeable',
+          'Diseñá el botón "Agregar al carrito" en mobile como elemento fixed al fondo',
+          'Publicá el caso mostrando el flujo PDP → Carrito → Checkout en ambos breakpoints',
+        ],
+        tip: 'El campo de código de descuento en el checkout es psicológicamente peligroso. Al verlo, muchos usuarios salen a buscar un cupón en Google y nunca vuelven. La solución: escondé el campo detrás de un link "¿Tenés un código?" que se expande solo si el usuario lo toca. Así existe para quienes lo tienen, pero no distrae a quienes no.',
+        completed: false,
+      },
+      {
+        id: 'up-r4',
+        title: '[Responsive] Proyecto 14 — Intermedio: Sitio de agencia o consultora (10 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá el sitio web de una agencia digital o consultora en desktop (1440px) y mobile (390px). Este es el tipo de sitio más relevante para tu propio portafolio — podés usarlo como pieza dual: proyecto de portafolio y propuesta real para AlphaDev Studios.\n\n## Las 5 páginas × 2 breakpoints = 10 pantallas\n\n**Home**\n- Desktop: hero con headline de propuesta de valor específica + CTA + logos de clientes, 3 servicios en cards, 2 case studies en highlight, testimonio, proceso en 3 pasos, CTA final\n- Mobile: mismo contenido apilado, hero compacto, servicios en cards full-width\n\n**Servicios**\n- Desktop: grid de 6 servicios con icono + nombre + descripción\n- Mobile: lista vertical con borde separador\n\n**Portafolio + Detalle de case study**\n- Desktop: grid de 4–6 case studies con foto/cliente/categoría/resultado clave\n- Detalle: contexto del cliente, el desafío, el approach, el resultado con números, testimonial\n- Mobile: lista vertical de proyectos, detalle en pantalla completa\n\n**Proceso**\n- Desktop: timeline horizontal de 5 fases con icono/nombre/descripción/duración\n- Mobile: timeline vertical con las mismas fases\n\n**Contacto**\n- Desktop: formulario en panel izquierdo + contacto directo (email/WhatsApp/Calendly) en panel derecho\n- Mobile: formulario full-width, contacto directo al fondo\n\n## Trust signals obligatorios\n\nLogos de clientes, resultados específicos con números ("Redujimos el costo por lead en 40%"), nombre y foto real del fundador, proceso transparente.',
+        tasks: [
+          'Elegí o inventá 3 case studies con resultados numéricos específicos antes de diseñar',
+          'Diseñá la Home desktop completa con todos los trust signals incorporados',
+          'Diseñá el detalle de case study — es la página más persuasiva del sitio',
+          'Diseñá el proceso como timeline horizontal en desktop y vertical en mobile',
+          'Adaptá las 5 páginas a mobile con los cambios de layout estructurales',
+          'Publicá el caso en Behance presentándolo como propuesta real de diseño',
+        ],
+        tip: 'La sección de proceso es el elemento más ignorado y el más poderoso en sitios de agencias. Cuando un cliente ve los 5 pasos de cómo trabajás, deja de preguntarse cómo sería trabajar con ellos y empieza a pensar cuándo empezamos. La transparencia de proceso elimina la incertidumbre que es la principal barrera para contratar una agencia desconocida.',
+        completed: false,
+      },
+      {
+        id: 'up-r5',
+        title: '[Responsive] Proyecto 15 — Avanzado: SaaS marketing site + app web (15 pantallas)',
+        type: 'practice',
+        content:
+          '## El brief\n\nDiseñá un proyecto SaaS completo en 3 breakpoints: desktop (1440px), tablet (768px) y mobile (390px). El proyecto incluye el sitio de marketing Y el dashboard de la aplicación — mostrando que podés diseñar tanto la experiencia pre-venta como la post-venta.\n\n## Las 5 secciones × 3 breakpoints = 15 pantallas\n\n**1. Landing page principal** (3 breakpoints)\nHero + features overview + testimonios + pricing preview + CTA final. Desktop: imagen del producto a la derecha del hero. Tablet: imagen debajo del texto. Mobile: imagen comprimida o eliminada en favor del texto.\n\n**2. Página de features** (3 breakpoints)\n3 características principales con screenshot del producto, descripción y bullets. Desktop: alternar imagen izquierda/derecha. Mobile: imagen arriba, texto abajo en todos los casos.\n\n**3. Página de pricing** (3 breakpoints)\n3 planes (Starter/Pro/Enterprise) con tabla comparativa. Desktop: 3 columnas con Pro destacado. Tablet: mismo layout compacto. Mobile: 1 plan visible con scroll horizontal entre planes.\n\n**4. App dashboard — Home** (3 breakpoints)\nDesktop: sidebar + header + KPIs + gráfico + tabla. Tablet: sidebar colapsada en iconos + contenido. Mobile: bottom navigation + pantalla en 1 columna.\n\n**5. App — Settings** (3 breakpoints)\nDesktop: sidebar de secciones + panel de contenido. Tablet: tabs horizontales. Mobile: acordeón de secciones.\n\n## El desafío avanzado: design tokens responsivos\n\nUsá Figma Variables para tokens que cambian por breakpoint:\n- sp-page-margin: 24px mobile / 48px tablet / 96px desktop\n- h1-size: 32px mobile / 40px tablet / 56px desktop\n\nUn componente bien construido con Variables se adapta sin duplicarse.',
+        tasks: [
+          'Definí el producto SaaS, su propuesta de valor y las 3 características principales antes de diseñar',
+          'Configurá las Variables de Figma con tokens responsivos antes de diseñar pantallas',
+          'Diseñá las 5 secciones en desktop como referencia canónica',
+          'Adaptá a tablet — el reto es el intermedio, no el mobile',
+          'Adaptá a mobile con especial atención al pricing y al dashboard',
+          'Creá 3 prototipos separados (desktop/tablet/mobile) que muestren la navegación completa',
+          'Publicá el caso en Behance mostrando las 3 versiones de cada página side by side',
+        ],
+        tip: 'El tablet es el breakpoint más olvidado y el más difícil. Es tentador diseñar solo desktop y mobile, pero el 12–15% del tráfico llega desde tablet. La clave: no hacer "desktop achicado" ni "mobile agrandado". El tablet muchas veces se usa horizontalmente, con touch pero con más pantalla — diseñá específicamente para ese contexto.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Figma Community — UI kits y design systems de referencia',
+        url: 'https://www.figma.com/community',
+        type: 'tool',
+      },
+      {
+        title: 'Phosphor Icons — Set de iconos gratuito y consistente',
+        url: 'https://phosphoricons.com',
+        type: 'tool',
+      },
+      {
+        title: 'Tokens Studio for Figma — Exportar design tokens a código',
+        url: 'https://tokens.studio',
+        type: 'tool',
+      },
+      {
+        title: 'Mobbin — Screenshots reales de apps para referencia y benchmark',
+        url: 'https://mobbin.com',
+        type: 'tool',
+      },
+      {
+        title: 'Coolors — Generador de paletas de color',
+        url: 'https://coolors.co',
+        type: 'tool',
+      },
+      {
+        title: 'Behance — Plataforma para publicar el portafolio',
+        url: 'https://behance.net',
+        type: 'tool',
+      },
+      {
+        title: 'Laws of UX — Principios de UX con ejemplos visuales',
+        url: 'https://lawsofux.com',
+        type: 'article',
       },
     ],
   },
