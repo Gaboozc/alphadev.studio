@@ -99,21 +99,6 @@ export const MODULES: Module[] = [
         completed: false,
       },
       {
-        id: 'm1-l4',
-        title: 'Audio overview — Módulo 1',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Es un repaso en formato podcast — ideal para escuchar mientras viajás, hacés ejercicio, o cuando querés consolidar lo aprendido sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio resume los conceptos clave: buyer personas, posicionamiento, propuesta de valor única, y cómo publicar contenido orgánico que conecte con los perfiles definidos. No reemplaza la práctica — refuerza el marco conceptual.\n\n## Cómo generarlo vos mismo\n\nSi el audio no está disponible todavía: copiá el contenido de todas las lecciones de este módulo, pegalo en **notebooklm.google.com**, creá un notebook nuevo y generá el "Audio Overview". El resultado es una conversación entre dos voces AI que resume el contenido en 5–10 minutos.\n\nPodés también agregar tus propias notas o artículos externos para que el audio incluya tu contexto específico.',
-        tasks: [
-          'Escuchá el audio overview completo (o generalo en NotebookLM si no está disponible)',
-          'Anotá los 3 conceptos que más te resonaron del módulo durante o después de escuchar',
-          'Identificá algo que no habías entendido bien leyendo y que quedó más claro en audio',
-        ],
-        tip: 'NotebookLM genera mejores audios cuando el contenido que le pasás es específico. Si le pegás tus propias notas con ejemplos reales de AlphaDev, el resultado es mucho más útil que pegarle texto genérico del módulo.',
-        completed: false,
-      },
-      {
         id: 'm1-l5',
         title: 'Práctica: primeros 3 posts publicados',
         type: 'practice',
@@ -206,21 +191,6 @@ export const MODULES: Module[] = [
         completed: false,
       },
       {
-        id: 'm2-l4',
-        title: 'Audio overview — Módulo 2',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Es un repaso en formato podcast — ideal para consolidar conceptos sobre Meta Ads sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio resume los conceptos clave de Meta Business Suite: setup inicial, estructura de campañas (objetivo → conjunto → anuncio), píxel, targeting y presupuesto. Es especialmente útil para repasar antes de lanzar tu primera campaña real.\n\n## Para generarlo si no está disponible\n\nCopiá el contenido de las lecciones 1, 2 y 3 de este módulo y pegalo en **notebooklm.google.com**. Creá un notebook nuevo, agregá el contenido como fuente y generá el "Audio Overview". Si agregás también el link al curso de Meta Blueprint, el audio incorporará esa información también.',
-        tasks: [
-          'Escuchá el audio overview antes de lanzar tu primera campaña real',
-          'Anotá cualquier concepto que todavía no tenés claro después de escuchar — investigalo antes de seguir',
-          'Generá el audio en NotebookLM si no está disponible todavía',
-        ],
-        tip: 'Usá el audio como "pre-flight check" antes de cualquier campaña nueva. Escucharlo en el camino al trabajo el día que vas a lanzar una campaña te ayuda a no olvidar pasos críticos como verificar el píxel o revisar el presupuesto.',
-        completed: false,
-      },
-      {
         id: 'm2-l5',
         title: 'Práctica: primera campaña con $5 USD',
         type: 'practice',
@@ -299,8 +269,7 @@ export const MODULES: Module[] = [
       {
         id: 'm3-l3',
         title: 'Estructura de campañas Search',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## La jerarquía de Google Ads\n\nAl igual que Meta, Google Ads tiene tres niveles — pero con lógica distinta:\n\n**Campaña**: define el **objetivo** (tráfico, leads, ventas), el **presupuesto diario** y la **estrategia de puja** (CPC manual, CPA objetivo, Maximizar conversiones).\n\n**Grupo de anuncios**: agrupa keywords relacionadas semánticamente. Cada grupo debe tener un tema claro — por ejemplo, un grupo para "desarrollo web con Next.js" y otro para "apps con IA". Mezclar temas distintos en un grupo reduce el Quality Score.\n\n**Anuncio**: el **Responsive Search Ad (RSA)** es el formato estándar. Cargás hasta 15 titulares y 4 descripciones — Google los combina automáticamente y aprende qué combinaciones funcionan mejor.\n\n## Quality Score: la métrica que define el costo real\n\nEl Quality Score (1–10) es la evaluación de Google de qué tan relevante es tu anuncio. Afecta directamente cuánto pagás por clic: un QS de 8/10 puede costar la mitad que uno de 4/10 por la misma posición.\n\nLos tres factores del QS:\n- **CTR esperado**: basado en el historial de clicks de tu anuncio\n- **Relevancia del anuncio**: qué tan bien tu titular y descripción coinciden con la keyword\n- **Experiencia en la landing page**: velocidad, relevancia y UX de la página de destino\n\n## Regla de oro\n\n1 grupo de anuncios = 1 tema de keywords = 1 mensaje de anuncio = 1 landing page específica. La consistencia entre los cuatro niveles maximiza el Quality Score.',
         tasks: [
@@ -310,21 +279,6 @@ export const MODULES: Module[] = [
           'Revisá los tips de Google para mejorar el Quality Score antes de publicar',
         ],
         tip: 'Nunca dirijas tráfico de Google Ads a la home page. Cada grupo de anuncios debe tener una landing page específica que repita exactamente las mismas palabras del anuncio. La consistencia entre keyword → anuncio → landing es lo que convierte clics en leads.',
-        completed: false,
-      },
-      {
-        id: 'm3-l4',
-        title: 'Audio overview — Módulo 3',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Resume los conceptos clave de Google Ads y Google Business Profile para repasar sin estar frente a la pantalla.\n\n## Qué cubre\n\nEl audio explica la lógica de Google Ads (keyword intent, estructura de campañas, Quality Score) y cómo Google Business Profile complementa la estrategia de búsqueda de forma orgánica y gratuita. Ideal para escuchar antes de lanzar tu primera campaña de búsqueda.\n\n## Para generarlo si no está disponible\n\nCopiá las lecciones 1, 2 y 3 de este módulo en **notebooklm.google.com** y generá el Audio Overview. Si tenés artículos externos sobre Google Ads que querés incluir, agregalos como fuentes adicionales antes de generar.',
-        tasks: [
-          'Escuchá el audio overview como repaso antes de lanzar tu campaña',
-          'Pausá y tomá notas cuando escuches algo sobre Quality Score o match types que no tenías claro',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Google Ads tiene un vocabulario técnico denso (Quality Score, Ad Rank, bid strategies, conversion tracking). El audio te ayuda a internalizar esos términos en contexto, lo cual hace mucho más fácil entender los reportes cuando la campaña esté corriendo.',
         completed: false,
       },
       {
@@ -406,8 +360,7 @@ export const MODULES: Module[] = [
       {
         id: 'm4-l3',
         title: 'Google Analytics 4 — métricas esenciales',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## Configurar GA4 en alphadev.studio\n\nSi GA4 no está instalado todavía: creá una propiedad en analytics.google.com, copiá el measurement ID (G-XXXXXXXXXX) y agregalo al código del sitio. En Next.js, la forma más limpia es agregarlo en el componente root layout con el script de gtag.js.\n\n## Las métricas que importan (y las que no)\n\n**Métricas de tráfico** (entendé el volumen):\n- **Usuarios**: personas únicas que visitaron el sitio\n- **Sesiones**: visitas totales (una persona puede generar varias sesiones)\n- **Fuente/Medio**: de dónde vienen (google/organic, meta/cpc, direct)\n\n**Métricas de engagement** (entendé la calidad):\n- **Engaged sessions**: sesiones de más de 10 segundos o con evento de conversión — la métrica que reemplazó al Bounce Rate\n- **Engagement rate**: % de sesiones que son engaged. > 60% es bueno para un sitio B2B\n- **Average engagement time**: tiempo promedio en el sitio\n\n**Métricas de conversión** (el objetivo final):\n- **Conversiones**: eventos que definís como valiosos (envío de formulario, clic en WhatsApp, descarga)\n- **Conversion rate**: % de sesiones que generaron una conversión\n\n## Los reportes que revisás semanalmente\n\n- **Adquisición > Fuente/Medio**: de dónde viene el tráfico\n- **Engagement > Páginas y pantallas**: qué páginas generan más engagement\n- **Conversiones**: cuántos leads generó cada canal',
         tasks: [
@@ -417,21 +370,6 @@ export const MODULES: Module[] = [
           'Identificá cuál es la página con mayor engagement y cuál tiene más abandono — ¿qué te dice eso?',
         ],
         tip: 'No te obsesionés con los números en los primeros 30 días. Con poco tráfico, las métricas son estadísticamente irrelevantes. El objetivo de las primeras semanas es asegurarte de que el tracking está bien configurado — que todos los eventos disparan, que los UTMs llegan correctamente, que las conversiones se registran. Los datos correctos valen más que muchos datos incorrectos.',
-        completed: false,
-      },
-      {
-        id: 'm4-l4',
-        title: 'Audio overview — Módulo 4',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## Cómo usar este audio\n\nEste overview fue generado con **NotebookLM** a partir del contenido del módulo. Resume TikTok for Business, UTMs y Google Analytics 4 — el sistema de medición completo que cierra el track de Marketing Digital.\n\n## Qué cubre\n\nEl audio explica por qué medir correctamente es tan importante como publicar contenido o lanzar anuncios, cómo los UTMs conectan cada canal con los datos de GA4, y cómo construir un sistema de reporting que permita tomar decisiones con datos reales.\n\n## Para generarlo si no está disponible\n\nCopiá las lecciones 1, 2 y 3 de este módulo en **notebooklm.google.com**. Si querés enriquecerlo, agregá también el contenido de los módulos anteriores para que el audio tenga contexto del track completo.',
-        tasks: [
-          'Escuchá el audio overview como repaso del sistema de medición completo',
-          'Anotá cuáles de los conceptos del módulo todavía no tenés implementados en AlphaDev Studios',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Escuchar el audio de cierre de track es una buena práctica para identificar los gaps entre lo que aprendiste y lo que realmente implementaste. Si al escuchar decís "eso lo tengo pendiente" más de 3 veces, antes de avanzar al siguiente track completá esos pendientes.',
         completed: false,
       },
       {
@@ -682,8 +620,7 @@ export const MODULES: Module[] = [
       {
         id: 'u2-l2',
         title: 'Auto Layout: el superpoder de Figma',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## Qué es Auto Layout y por qué cambia todo\n\n**Auto Layout** es el sistema de layout de Figma equivalente a **flexbox en CSS**. Cuando aplicás Auto Layout a un frame, los elementos hijos se organizan automáticamente según las reglas que definís — y el frame se adapta cuando el contenido cambia.\n\nSin Auto Layout: si el texto de un botón crece, tenés que ajustar el botón manualmente. Con Auto Layout: el botón crece solo.\n\n## Los conceptos clave\n\n**Dirección**: Horizontal (elementos en fila) o Vertical (elementos en columna). Equivalente a `flex-direction: row` o `column`.\n\n**Spacing**: el espacio entre elementos hijos. Equivalente a `gap` en CSS.\n\n**Padding**: el espacio entre el borde del frame y sus hijos. Igual que `padding` en CSS.\n\n**Hug vs Fixed vs Fill**: cómo se comporta el tamaño del elemento.\n- **Hug**: el frame abraza a sus hijos (se achica y agranda con el contenido)\n- **Fixed**: tamaño fijo que no cambia\n- **Fill**: ocupa todo el espacio disponible del padre\n\n## Por qué es indispensable en diseño profesional\n\nCuando diseñás con Auto Layout desde el principio, tus componentes son responsivos por naturaleza. Un botón diseñado con Auto Layout funciona igual con "Guardar" que con "Guardar cambios del perfil de usuario" — sin ajustes manuales.',
         tasks: [
@@ -1032,8 +969,7 @@ export const MODULES: Module[] = [
       {
         id: 'u5-l2',
         title: 'Webflow: fundamentos de diseño visual con clases',
-        type: 'video',
-        embedUrl: undefined,
+        type: 'reading',
         content:
           '## El concepto central de Webflow\n\nWebflow es CSS visual. Cada ajuste que hacés en el Style Panel genera CSS real en el background. Si entendés box model, flexbox y grid, aprender Webflow es mapear esos conceptos a una interfaz visual.\n\nSi no los entendés todavía, Webflow te va a enseñar CSS aunque no lo parezca.\n\n## La interfaz de Webflow\n\n**Navigator (panel izquierdo)**: el árbol de elementos de la página — equivalente al inspector de Chrome o las capas de Figma. Acá ves la estructura HTML de tu diseño.\n\n**Style Panel (panel derecho)**: las propiedades CSS del elemento seleccionado — layout (flexbox/grid), spacing (margin/padding), typography, borders, effects.\n\n**Canvas central**: el diseño en tiempo real, responsive y visual.\n\n## Clases: la lógica más importante de Webflow\n\nEn Webflow, los estilos se aplican mediante **clases CSS** (como en código). Un elemento puede tener una clase base + clases modificadoras. Esta lógica es poderosa pero requiere disciplina:\n\n- Nunca estilices el elemento "All H2s" directamente — creá clases específicas\n- Nomenclatura consistente: `Heading-Hero`, `Card-Blog`, `Button-Primary`\n- Evitá los estilos inline (el panel los llama "custom") — siempre usá clases\n\n## El punto de partida obligatorio\n\nAntes de tocar cualquier template, completá el **Webflow 101 Crash Course** en Webflow University. Es gratuito, tarda ~2 horas y cubre todo lo que necesitás para entender la lógica de la herramienta.',
         tasks: [
@@ -1337,22 +1273,6 @@ export const MODULES: Module[] = [
           'Subí una versión a Behance como draft — no necesita estar perfecto para publicarse',
         ],
         tip: 'La mejor táctica para tener case studies cuando sos junior es hacer proyectos no solicitados (unsolicited redesigns): elegís una app con mala UX, la rediseñás, documentás el proceso y lo publicás. No importa que nadie te lo encargó — lo que importa es que muestra cómo pensás. Muchos diseñadores consiguieron su primer trabajo con un redesign de una app famosa.',
-        completed: false,
-      },
-      {
-        id: 'u4-l4',
-        title: 'Audio overview — Track UI/UX',
-        type: 'audio',
-        embedUrl: undefined,
-        content:
-          '## El audio de cierre del track\n\nEste overview fue generado con **NotebookLM** a partir del contenido completo del track de UI/UX. Es el repaso más completo disponible — resume los 7 módulos: fundamentos, Figma, motion, no-code, After Effects, design systems y las herramientas bonus.\n\n## Cómo usarlo\n\nEscuchálo al finalizar el track como consolidación. Prestá atención a qué conceptos se sienten sólidos y cuáles todavía generan preguntas — eso te va a decir dónde profundizar antes de buscar proyectos o trabajo.\n\n## Para generarlo si no está disponible\n\nCopiá el contenido de todas las lecciones de todos los módulos del track en **notebooklm.google.com**. Creá un notebook, agregá todos los textos como fuentes y generá el "Audio Overview". El resultado va a ser un resumen denso de 10–15 minutos de los conceptos más importantes del track completo.',
-        tasks: [
-          'Escuchá el audio overview completo del track',
-          'Listá los 5 conceptos del track que más dominás y los 5 que menos',
-          'Para los 5 que menos dominás, repasá la lección correspondiente antes de cerrar el track',
-          'Generá el audio en NotebookLM si no está disponible',
-        ],
-        tip: 'Los conceptos que todavía no están claros al final de un track raramente se aclaran solos. Si algo del audio te genera preguntas, es una señal de que necesitás más práctica en ese área — no más lectura. La práctica deliberada en el punto débil específico es lo que cierra los gaps de conocimiento.',
         completed: false,
       },
       {
