@@ -3,15 +3,26 @@
 import Link from 'next/link'
 import type { Module } from '../modules'
 import { useProgress } from '../hooks/useProgress'
-import MediaEmbed from '../components/MediaEmbed'
-import LessonContent from '../components/LessonContent'
 
 const TYPE_LABEL: Record<string, string> = {
   video: 'Video',
   audio: 'Audio',
   reading: 'Lectura',
   practice: 'Práctica',
-  course: 'Curso',
+}
+
+const TYPE_ICON: Record<string, string> = {
+  video: '▶',
+  audio: '◉',
+  reading: '◻',
+  practice: '◈',
+}
+
+const TYPE_COLOR: Record<string, string> = {
+  video: '#2563eb',
+  audio: '#7c3aed',
+  reading: '#059669',
+  practice: '#d97706',
 }
 
 const RESOURCE_ICON: Record<string, string> = {
@@ -27,21 +38,13 @@ const TRACK_LABEL: Record<string, string> = {
   uiux: 'UI/UX & Diseño',
 }
 
-function getEmbedType(lesson: Module['lessons'][number]): 'youtube' | 'audio' | 'link' | null {
-  if (!lesson.embedUrl) return null
-  if (lesson.embedUrl.includes('youtube.com') || lesson.embedUrl.includes('youtu.be'))
-    return 'youtube'
-  if (lesson.type === 'audio') return 'audio'
-  return 'link'
-}
-
 interface Props {
   module: Module
   trackModules: Module[]
 }
 
 export default function ModuleContent({ module: mod, trackModules }: Props) {
-  const { isCompleted, toggleLesson, getModuleProgress, hydrated } = useProgress()
+  const { isCompleted, getModuleProgress, hydrated } = useProgress()
   const progress = getModuleProgress(mod.id)
 
   const currentIndex = trackModules.findIndex((m) => m.id === mod.id)
@@ -70,7 +73,6 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
             paddingBottom: '2rem',
           }}
         >
-          {/* Back link */}
           <Link
             href="/academia"
             style={{
@@ -87,7 +89,6 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
             ← Academia
           </Link>
 
-          {/* Track label */}
           <p
             style={{
               fontFamily: 'var(--font-inter)',
@@ -102,7 +103,6 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
             {TRACK_LABEL[mod.track]}
           </p>
 
-          {/* Module list */}
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             {trackModules.map((m) => {
               const isActive = m.id === mod.id
@@ -136,7 +136,6 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                     }
                   }}
                 >
-                  {/* Number circle */}
                   <span
                     style={{
                       flexShrink: 0,
@@ -175,7 +174,6 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                       {m.title}
                     </p>
 
-                    {/* Mini progress bar */}
                     {hydrated && mp.total > 0 && (
                       <div
                         style={{
@@ -205,7 +203,8 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
 
         {/* ── Main content ── */}
         <main style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-          {/* Header */}
+
+          {/* Module header */}
           <div style={{ marginBottom: '2.5rem' }}>
             <p
               style={{
@@ -237,39 +236,39 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                 fontSize: '0.9375rem',
                 color: 'var(--text-muted)',
                 lineHeight: 1.65,
-                marginBottom: '1.25rem',
+                marginBottom: '1.5rem',
               }}
             >
               {mod.description}
             </p>
 
-            {/* Module progress bar */}
-            {hydrated && (
-              <div style={{ maxWidth: '360px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
-                    {progress.done}/{progress.total} lecciones
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--gold)' }}>
-                    {progress.percent}%
+            {/* Stats row */}
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.8125rem', color: 'var(--text-subtle)' }}>
+                {mod.lessons.length} lecciones · {mod.duration}
+              </span>
+              {hydrated && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, maxWidth: '280px' }}>
+                  <div style={{ flex: 1, height: '5px', background: 'var(--bg-deep)', borderRadius: '99px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${progress.percent}%`,
+                        background: 'var(--gold)',
+                        borderRadius: '99px',
+                        transition: 'width 600ms ease',
+                      }}
+                    />
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--gold)', flexShrink: 0 }}>
+                    {progress.done}/{progress.total}
                   </span>
                 </div>
-                <div style={{ height: '5px', background: 'var(--bg-deep)', borderRadius: '99px', overflow: 'hidden' }}>
-                  <div
-                    style={{
-                      height: '100%',
-                      width: `${progress.percent}%`,
-                      background: 'var(--gold)',
-                      borderRadius: '99px',
-                      transition: 'width 600ms ease',
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* Lessons */}
+          {/* Lesson cards */}
           <section style={{ marginBottom: '3rem' }}>
             <h2
               style={{
@@ -277,107 +276,114 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                 fontSize: '1.25rem',
                 fontWeight: 700,
                 color: 'var(--text)',
-                marginBottom: '1.25rem',
+                marginBottom: '1rem',
               }}
             >
               Lecciones
             </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {mod.lessons.map((lesson, idx) => {
                 const done = isCompleted(lesson.id)
-                const embedType = getEmbedType(lesson)
 
                 return (
-                  <div
+                  <Link
                     key={lesson.id}
+                    href={`/academia/${mod.id}/${lesson.id}`}
                     style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
                       background: 'var(--bg-card)',
-                      border: `1px solid ${done ? 'var(--gold-border)' : 'var(--border)'}`,
+                      border: `1px solid ${done && hydrated ? 'var(--gold-border)' : 'var(--border)'}`,
                       borderRadius: '0.875rem',
-                      padding: '1.25rem 1.5rem',
-                      transition: 'border-color 200ms ease',
+                      padding: '1rem 1.25rem',
+                      textDecoration: 'none',
+                      transition: 'border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--border-hover)'
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(154,114,53,0.07)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = done && hydrated ? 'var(--gold-border)' : 'var(--border)'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
                     }}
                   >
-                    <div
+                    {/* Completion indicator */}
+                    <span
                       style={{
+                        flexShrink: 0,
+                        width: '1.75rem',
+                        height: '1.75rem',
+                        borderRadius: '50%',
+                        background: hydrated && done ? 'var(--gold)' : 'var(--bg-deep)',
+                        border: `2px solid ${hydrated && done ? 'var(--gold)' : 'var(--border)'}`,
                         display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '1rem',
-                        marginBottom: embedType || lesson.content || lesson.tasks?.length || lesson.tip ? '1rem' : 0,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontFamily: 'var(--font-inter)',
+                        fontSize: '0.6875rem',
+                        fontWeight: 700,
+                        color: hydrated && done ? '#fff' : 'var(--text-subtle)',
+                        transition: 'all 200ms ease',
                       }}
                     >
-                      <button
-                        onClick={() => toggleLesson(lesson.id)}
-                        aria-label={done ? 'Marcar como no completada' : 'Marcar como completada'}
+                      {hydrated && done ? '✓' : idx + 1}
+                    </span>
+
+                    {/* Title + type */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p
                         style={{
-                          flexShrink: 0,
-                          width: '1.625rem',
-                          height: '1.625rem',
-                          borderRadius: '50%',
-                          border: `2px solid ${done ? 'var(--gold)' : 'var(--border)'}`,
-                          background: done ? 'var(--gold)' : 'transparent',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#fff',
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          transition: 'background 200ms ease, border-color 200ms ease',
-                          marginTop: '1px',
+                          fontFamily: 'var(--font-inter)',
+                          fontSize: '0.9375rem',
+                          fontWeight: 500,
+                          color: hydrated && done ? 'var(--text-subtle)' : 'var(--text)',
+                          margin: 0,
+                          lineHeight: 1.4,
                         }}
                       >
-                        {done ? '✓' : ''}
-                      </button>
-
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-inter)',
-                              fontSize: '0.6875rem',
-                              fontWeight: 600,
-                              color: 'var(--text-subtle)',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.06em',
-                            }}
-                          >
-                            {idx + 1}. {TYPE_LABEL[lesson.type] ?? lesson.type}
-                          </span>
-                        </div>
-                        <p
+                        {lesson.title}
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginTop: '0.25rem' }}>
+                        <span style={{ color: TYPE_COLOR[lesson.type] ?? 'var(--text-subtle)', fontSize: '0.6875rem' }}>
+                          {TYPE_ICON[lesson.type]}
+                        </span>
+                        <span
                           style={{
                             fontFamily: 'var(--font-inter)',
-                            fontSize: '0.9375rem',
-                            fontWeight: 500,
-                            color: done ? 'var(--text-subtle)' : 'var(--text)',
-                            textDecoration: done ? 'line-through' : 'none',
-                            transition: 'color 200ms ease',
+                            fontSize: '0.6875rem',
+                            color: 'var(--text-subtle)',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
                           }}
                         >
-                          {lesson.title}
-                        </p>
+                          {TYPE_LABEL[lesson.type] ?? lesson.type}
+                        </span>
+                        {lesson.tasks && lesson.tasks.length > 0 && (
+                          <>
+                            <span style={{ color: 'var(--border)', fontSize: '0.625rem' }}>·</span>
+                            <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', color: 'var(--text-subtle)' }}>
+                              {lesson.tasks.length} tareas
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
 
-                    {lesson.embedUrl && embedType && (
-                      <div style={{ marginBottom: lesson.content ? '1rem' : 0 }}>
-                        <MediaEmbed type={embedType} url={lesson.embedUrl} title={lesson.title} />
-                      </div>
-                    )}
-
-                    <LessonContent
-                      content={lesson.content}
-                      tasks={lesson.tasks}
-                      tip={lesson.tip}
-                    />
-                  </div>
+                    {/* Arrow */}
+                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '1rem', color: 'var(--gold)', flexShrink: 0 }}>
+                      →
+                    </span>
+                  </Link>
                 )
               })}
             </div>
           </section>
 
-          {/* Resources */}
+          {/* Module resources */}
           {mod.resources.length > 0 && (
             <section style={{ marginBottom: '3rem' }}>
               <h2
@@ -434,7 +440,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
             </section>
           )}
 
-          {/* Prev / Next navigation */}
+          {/* Prev / Next module navigation */}
           <nav
             style={{
               display: 'grid',
@@ -468,7 +474,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                 }}
               >
                 <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  ← Anterior
+                  ← Módulo anterior
                 </span>
                 <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>
                   {prev.title}
@@ -503,7 +509,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                 }}
               >
                 <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  Siguiente →
+                  Siguiente módulo →
                 </span>
                 <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>
                   {next.title}
