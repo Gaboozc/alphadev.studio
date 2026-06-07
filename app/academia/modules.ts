@@ -9467,6 +9467,7 @@ Trimestral: revisión estratégica de objetivos y ajuste de targets
         id: 'mkt-cap-1',
         title: 'Proyecto Capstone: Campaña Digital Completa',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## Tu primer proyecto de portafolio real
 
 Este proyecto integra todo lo aprendido en el track de Marketing Digital. El resultado debe ser una pieza de portafolio que puedas mostrar a clientes potenciales.
@@ -9545,6 +9546,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
         id: 'uiux-cap-1',
         title: 'Proyecto Capstone: De Investigación a Entrega',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## El proyecto que define tu portafolio de UX
 
 Este capstone es el proyecto más completo que habrás hecho. Si lo ejecutas bien, será la primera pieza que muestres en cualquier entrevista o propuesta de trabajo.
@@ -9631,6 +9633,7 @@ El proceso importa tanto como el resultado. Debes documentar: qué investigaste,
         id: 'web-cap-1',
         title: 'Proyecto Capstone: Tu Primer SaaS en Producción',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## De cero a producción: el proyecto que valida todo
 
 Este capstone es la diferencia entre saber programar y ser un developer. Un proyecto en producción con usuarios reales vale más en tu portafolio que 100 tutoriales completados.
@@ -9720,6 +9723,7 @@ Next.js 16+ App Router · TypeScript strict · Tailwind CSS · Supabase (Postgre
         id: 'ia-cap-1',
         title: 'Proyecto Capstone: Automatización que Ahorra Tiempo Real',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## El sistema que te devuelve horas de trabajo cada semana
 
 Este capstone no es un ejercicio académico — es una herramienta que deberías seguir usando después de terminarlo.
@@ -9804,6 +9808,7 @@ El sistema funciona sin que tú hagas nada manualmente, produce outputs de calid
         id: 'branding-cap-1',
         title: 'Proyecto Capstone: Brand Identity de Cero',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## La marca que demuestra que sabes hacer branding
 
 Este capstone produce el activo de portafolio más visible de todo el track. Una identidad de marca bien ejecutada habla por sí sola.
@@ -9890,6 +9895,7 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
         id: 'copy-cap-1',
         title: 'Proyecto Capstone: Copy que Convierte',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## Cada pieza de copy es un argumento de venta
 
 Este capstone produce un sistema completo de copy para un producto o servicio. No piezas sueltas — una campaña integrada donde cada pieza se alimenta de las otras.
@@ -9975,6 +9981,7 @@ Antes de entregar, pasa cada pieza por estas preguntas:
         id: 'seo-cap-1',
         title: 'Proyecto Capstone: SEO Real con Resultados Reales',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## El proyecto que más tarda — y más vale
 
 El SEO no produce resultados en semanas. Este capstone dura más que los otros por una razón: necesitas tiempo real para ver resultados reales.
@@ -10055,6 +10062,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
         id: 'data-cap-1',
         title: 'Proyecto Capstone: Analytics que Toma Decisiones',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: `## La infraestructura de datos que cualquier negocio necesita
 
 El 90% de los negocios tiene Google Analytics instalado. Menos del 10% lo tiene configurado correctamente y lo usa para tomar decisiones. Este capstone produce el setup del 10%.
@@ -10399,6 +10407,7 @@ Este capstone produce el segundo escenario.`,
         id: 'ads-capstone-1',
         title: 'Proyecto: Plan de Paid Media de 90 días',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Eres la agencia de paid media de un negocio que quieres (puede ser ficticio). Tienen $3,000 USD de presupuesto mensual para invertir en paid media durante 3 meses. Tu entregable es el plan estratégico completo que presentarías al cliente antes de arrancar.',
         deliverables: [
           'Análisis inicial: definición del cliente ideal, competidores en ads (usa Meta Ad Library y Google), y 3 diferenciadores del negocio',
@@ -10635,6 +10644,7 @@ Este capstone produce el segundo escenario.`,
         id: 'email-capstone-1',
         title: 'Proyecto: Sistema de email marketing completo',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Diseña el sistema de email marketing completo para un negocio de tu elección (puede ser ficticio o un cliente real). El entregable es el sistema documentado + los flujos configurados en una herramienta real.',
         deliverables: [
           'Estrategia: objetivo principal del email marketing para este negocio, KPIs definidos con benchmarks, y herramienta elegida con justificación',
@@ -10864,6 +10874,7 @@ Este capstone produce el segundo escenario.`,
         id: 'video-capstone-1',
         title: 'Proyecto: Serie de 4 videos para un cliente',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Produce y publica una serie de 4 videos cortos (30-90 segundos) para una marca real o ficticia en al menos 2 plataformas. El proyecto incluye la estrategia, producción, edición y distribución.',
         deliverables: [
           'Estrategia de video: objetivo (awareness/educación/conversión), plataformas elegidas, audiencia objetivo y tono de la marca',
@@ -11004,6 +11015,7 @@ Este capstone produce el segundo escenario.`,
         id: 'community-capstone-1',
         title: 'Proyecto: Sistema de community management completo',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Diseña el sistema completo de community management para un cliente real o ficticio. El entregable incluye estrategia, calendario, contenido producido y sistema de reporte.',
         deliverables: [
           'Estrategia de marca en redes: plataformas seleccionadas con justificación, tono de voz documentado, regla 80/20 de contenido aplicada al cliente',
@@ -11185,6 +11197,7 @@ Este capstone produce el segundo escenario.`,
         id: 'prodai-capstone-1',
         title: 'Proyecto: Stack de productividad completo',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Diseña e implementa el sistema de productividad con IA de tu agencia o práctica freelance. El objetivo es que al terminar, al menos 3 procesos repetitivos en tu trabajo estén automatizados o acelerados con IA.',
         deliverables: [
           'Stack de IA documentado: herramientas elegidas, para qué uso específico, costo mensual y ROI estimado',
@@ -11325,6 +11338,7 @@ Este capstone produce el segundo escenario.`,
         id: 'ventas-capstone-1',
         title: 'Proyecto: Sistema de ventas de agencia',
         type: 'project',
+      difficulty: 'profesional',
         projectBrief: 'Diseña e implementa el sistema completo de ventas para tu agencia: desde la generación de leads hasta el cierre. El entregable es un sistema funcional, no un plan en papel.',
         deliverables: [
           'ICP documentado: perfil del cliente ideal con todos los atributos: industria, tamaño, etapa, problema, presupuesto, señales positivas y de alerta',
