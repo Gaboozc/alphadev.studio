@@ -4,7 +4,7 @@
 export type LessonType = 'video' | 'audio' | 'reading' | 'practice'
 export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification' | 'documentation'
 export type ModuleStatus = 'locked' | 'available' | 'completed'
-export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy'
+export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'data'
 
 export interface Lesson {
   id: string
@@ -5865,6 +5865,2055 @@ Una vez que funciona para un caso, escala:
         title: 'Anthropic — Building Agents guide',
         url: 'https://docs.anthropic.com/en/docs/build-with-claude/tool-use/build-an-agent',
         type: 'documentation',
+      },
+    ],
+  },
+
+  // ─── Track: SEO y Posicionamiento Orgánico ───────────────────────────────────
+
+  {
+    id: 'seo-1',
+    number: 27,
+    title: 'Keyword Research: encontrar las palabras que importan',
+    description: 'Aprende a identificar qué busca tu audiencia, cómo priorizar oportunidades y construir la arquitectura de contenido que Google premia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's1-l1',
+        title: 'Cómo funciona Google y por qué el SEO no es trampa',
+        type: 'reading',
+        content: `## SEO: el canal con mejor ROI a largo plazo
+
+El SEO (Search Engine Optimization) es el proceso de hacer que tu sitio web aparezca en los primeros resultados de búsqueda para las palabras clave relevantes de tu negocio.
+
+No es trampa. No es magia. Es entender cómo funciona Google y darle exactamente lo que busca: **el resultado más útil y confiable para cada búsqueda**.
+
+### Cómo funciona Google (versión que importa para SEO)
+
+**1. Crawling** — Googlebot visita páginas web a través de links y las descarga
+**2. Indexing** — Google procesa y guarda las páginas en su índice (base de datos gigante)
+**3. Ranking** — Cuando alguien busca, Google ordena las páginas relevantes según ~200 factores
+
+### Los 3 pilares del SEO
+
+**Técnico** — ¿puede Google rastrear e indexar tu sitio sin problemas?
+- Velocidad, mobile-friendly, HTTPS, sitemap, robots.txt
+
+**Contenido** — ¿tu sitio responde mejor que otros lo que la gente busca?
+- Relevancia, profundidad, originalidad, actualización
+
+**Autoridad** — ¿otros sitios confiables enlazan al tuyo?
+- Backlinks, menciones, reputación de dominio
+
+### Por qué SEO vs otros canales
+
+| Canal | Costo | Tiempo | Duración |
+|-------|-------|--------|----------|
+| Google Ads | Alto por click | Inmediato | Solo mientras pagas |
+| Meta Ads | Medio | Rápido | Solo mientras pagas |
+| **SEO orgánico** | Bajo (tiempo) | 3-12 meses | Indefinido |
+| Email | Bajo | Medio | Indefinido |
+
+El SEO es el canal que más demora en arrancar y más dura una vez que funciona.
+
+### Search Intent: la clave que la mayoría ignora
+
+Cada búsqueda tiene una *intención*. Google clasifica las búsquedas en 4 tipos:
+
+**Informacional** — "cómo hacer SEO" → quieren aprender
+**Navegacional** — "AlphaDev Studios" → quieren ir a un sitio específico
+**Comercial** — "mejor agencia digital LATAM" → están evaluando opciones
+**Transaccional** — "contratar agencia Next.js" → listos para comprar
+
+El SEO efectivo crea contenido que coincide con la intención correcta en cada etapa.`,
+        completed: false,
+      },
+      {
+        id: 's1-l1b',
+        title: 'Mini-práctica: Mapea el search intent de tu negocio',
+        type: 'practice',
+        tasks: [
+          'Lista 20 búsquedas que tus clientes potenciales podrían hacer (mezcla de informacional, comercial y transaccional)',
+          'Clasifica cada búsqueda en los 4 tipos de intent (informacional / navegacional / comercial / transaccional)',
+          'Para las 5 búsquedas transaccionales, busca en Google incógnito y anota quién aparece primero',
+          'Elige 3 búsquedas donde creas que podrías competir y explica por qué',
+          'Instala la extensión Ahrefs SEO Toolbar (gratuita) y observa los métricas de las páginas que rankean',
+        ],
+        tip: 'La mayoría de empresas pequeñas intenta rankear para términos transaccionales de alto volumen y alta competencia. El SEO efectivo empieza por las búsquedas informacionales de nicho — donde hay menos competencia y puedes establecer autoridad antes de pelear por las keywords comerciales.',
+        completed: false,
+      },
+      {
+        id: 's1-l2',
+        title: 'Keyword research: volumen, dificultad y oportunidad real',
+        type: 'reading',
+        content: `## Keyword Research: encontrar palabras que puedas ganar
+
+El keyword research no es buscar las palabras con más volumen. Es encontrar las palabras donde el volumen justifica el esfuerzo y tienes posibilidad real de rankear.
+
+### Las métricas que importan
+
+**Search Volume (SV)** — búsquedas mensuales promedio
+- Alto no siempre es mejor: más volumen = más competencia
+- Un keyword de 100 búsquedas/mes muy relevante vale más que uno de 10,000 irrelevante
+
+**Keyword Difficulty (KD)** — qué tan difícil es rankear (0-100)
+- KD 0-20: fácil, ideal para sitios nuevos
+- KD 20-50: moderado, necesitas autoridad de dominio media
+- KD 50+: difícil, solo sitios establecidos con muchos backlinks
+
+**CPC (Cost Per Click)** — lo que los anunciantes pagan por ese click
+- Alto CPC = intención comercial alta = valor para el negocio
+
+**Domain Rating / Domain Authority** — autoridad de tu dominio (0-100)
+- Tu DR determina contra quién puedes competir
+
+### Herramientas gratuitas vs de pago
+
+**Gratuitas**:
+- **Google Search Console** — las keywords que ya te traen tráfico (INDISPENSABLE)
+- **Google Keyword Planner** — volúmenes aproximados (necesita cuenta Google Ads)
+- **Ubersuggest** (versión free) — keyword ideas básicas
+- **Answer The Public** — preguntas que hace la gente
+
+**De pago (valen la pena)**:
+- **Ahrefs** — el estándar de la industria, ~$99/mes
+- **Semrush** — similar a Ahrefs, más enfocado en marketing
+- **Mangools KWFinder** — más económico, bueno para starters (~$29/mes)
+
+### El proceso de keyword research en 5 pasos
+
+\`\`\`
+1. Seed keywords → las palabras base de tu negocio
+   "agencia digital", "desarrollo web", "landing page"
+
+2. Expand → usa herramientas para encontrar variaciones
+   "agencia digital startup", "contratar agencia desarrollo web"
+
+3. Filter → aplica filtros de volumen y dificultad
+   Elimina KD >50 si tu DR es bajo
+
+4. Classify → agrupa por intent y tema
+   Informacional / Comercial / Transaccional
+
+5. Prioritize → elige las 10-20 oportunidades más viables
+   Balance entre volumen, dificultad y relevancia
+\`\`\`
+
+### Long-tail vs short-tail
+
+**Short-tail** (1-2 palabras): "agencia digital"
+- Alto volumen, alta competencia, intent genérico
+
+**Long-tail** (3+ palabras): "agencia desarrollo web para startups México"
+- Bajo volumen, baja competencia, intent específico → más fácil de convertir
+
+**Estrategia ganadora para sitios nuevos**: empieza con long-tail de baja competencia, construye autoridad, luego ataca short-tail.`,
+        completed: false,
+      },
+      {
+        id: 's1-l2b',
+        title: 'Mini-práctica: Construye tu keyword map inicial',
+        type: 'practice',
+        tasks: [
+          'Crea una spreadsheet con columnas: Keyword, Volumen mensual, KD, Intent, Prioridad (1-3)',
+          'Genera 50 keywords usando Google Autocomplete (tipea tu keyword base y anota las sugerencias)',
+          'Filtra a 20 keywords viables para tu nivel de autoridad actual',
+          'Agrúpalas en 5-7 "clusters" temáticos (cada cluster = una página o sección del sitio)',
+          'Marca con ⭐ las 5 keywords que atacarías primero y justifica cada elección',
+        ],
+        tip: 'El truco del keyword research no es encontrar la keyword perfecta — es encontrar keywords que otras empresas similares a ti están ganando. Si alguien con tu mismo nivel de autoridad rankea en top 10, tú también puedes.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Ahrefs — Free SEO Tools',
+        url: 'https://ahrefs.com/free-seo-tools',
+        type: 'tool',
+      },
+      {
+        title: 'Google Search Console',
+        url: 'https://search.google.com/search-console',
+        type: 'tool',
+      },
+      {
+        title: 'Ahrefs Blog — Beginner\'s Guide to SEO',
+        url: 'https://ahrefs.com/blog/learn-seo',
+        type: 'course',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-2',
+    number: 28,
+    title: 'SEO Técnico: la base que Google necesita ver',
+    description: 'Core Web Vitals, indexación, schema markup, sitemap y todo lo que hace que Google pueda rastrear y premiar tu sitio.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's2-l1',
+        title: 'Core Web Vitals y performance SEO',
+        type: 'reading',
+        content: `## SEO Técnico: la infraestructura que Google evalúa
+
+Google usa señales técnicas como factor de ranking. Un sitio lento, con errores de crawl o sin HTTPS pierde posiciones frente a sitios técnicamente sanos.
+
+### Core Web Vitals (CWV)
+
+Google mide 3 métricas de experiencia del usuario en tiempo real:
+
+**LCP — Largest Contentful Paint** (velocidad de carga percibida)
+- Mide: cuánto tarda en cargar el elemento más grande visible
+- Target: < 2.5 segundos
+- Solución si falla: optimizar imágenes (WebP, lazy loading), CDN, servidor más rápido
+
+**INP — Interaction to Next Paint** (responsividad)
+- Mide: cuánto tarda la página en responder a una interacción del usuario
+- Target: < 200ms
+- Solución si falla: reducir JavaScript bloqueante, optimizar event handlers
+
+**CLS — Cumulative Layout Shift** (estabilidad visual)
+- Mide: cuánto se mueven los elementos mientras carga la página
+- Target: < 0.1
+- Solución si falla: definir dimensiones explícitas en imágenes y videos
+
+### Cómo medir CWV
+
+**PageSpeed Insights** (gratuito):
+\`\`\`
+https://pagespeed.web.dev/
+\`\`\`
+Analiza una URL y da puntuación + recomendaciones específicas.
+
+**Google Search Console → Core Web Vitals**:
+- Muestra el estado de todas las páginas de tu sitio
+- Diferencia entre mobile y desktop
+- Alertas cuando páginas bajan de "bueno" a "necesita mejora"
+
+### HTTPS y seguridad
+
+HTTPS es factor de ranking confirmado desde 2014. Todo sitio moderno debe tenerlo.
+
+Vercel lo configura automáticamente. Si usas otro hosting:
+\`\`\`bash
+# Let's Encrypt gratis con Certbot
+sudo certbot --nginx -d tudominio.com
+\`\`\`
+
+### Robots.txt y crawl budget
+
+\`\`\`txt
+# /robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Sitemap: https://tudominio.com/sitemap.xml
+\`\`\`
+
+**Reglas**:
+- Bloquea lo que NO debe indexarse (admin, APIs, páginas de login)
+- No bloquees CSS/JS — Google los necesita para renderizar
+- Verifica en GSC que Googlebot puede acceder a lo que necesitas
+
+### Indexación y canonicales
+
+\`\`\`html
+<!-- En el <head> de cada página -->
+<link rel="canonical" href="https://tudominio.com/pagina-correcta" />
+\`\`\`
+
+El canonical le dice a Google cuál es la versión "oficial" de una URL — evita contenido duplicado cuando hay parámetros URL o múltiples rutas al mismo contenido.`,
+        completed: false,
+      },
+      {
+        id: 's2-l1b',
+        title: 'Mini-práctica: Auditoría técnica de tu sitio',
+        type: 'practice',
+        tasks: [
+          'Corre tu sitio en pagespeed.web.dev — anota los scores mobile y desktop por separado',
+          'Identifica los 3 problemas más críticos que reporta y busca la solución específica para cada uno',
+          'Verifica en Google Search Console que tu sitemap está configurado y no hay errores de crawl',
+          'Revisa que todas tus páginas tienen canonical tag correcto (inspecciona el HTML)',
+          'Corre un crawl gratuito con Screaming Frog (hasta 500 URLs) — identifica 404s, redirects y páginas sin meta description',
+        ],
+        tip: 'En Next.js, el LCP más fácil de mejorar es priorizar la imagen del hero: agrega priority={true} al componente <Image> del hero. Esto pre-carga la imagen antes del renderizado y generalmente mejora el LCP en 0.5-1 segundo.',
+        completed: false,
+      },
+      {
+        id: 's2-l2',
+        title: 'Schema markup, Open Graph y metadatos SEO',
+        type: 'reading',
+        content: `## Metadatos SEO: cómo Google muestra tu sitio
+
+Los metadatos le dicen a Google y redes sociales cómo presentar tu contenido. Bien implementados mejoran el CTR (click-through rate) sin mejorar el ranking — pero más clicks sí mejoran el ranking a largo plazo.
+
+### Meta tags esenciales
+
+\`\`\`typescript
+// Next.js — app/page.tsx o cualquier layout/page
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AlphaDev Studios — Software con IA para Startups',
+  description: 'Construimos tu MVP en 3 semanas con Next.js, Supabase e IA integrada. Para founders que no tienen tiempo que perder.',
+  keywords: ['agencia desarrollo web', 'MVP startup', 'Next.js'],
+  robots: 'index, follow',
+  canonical: 'https://alphadev.studio',
+};
+\`\`\`
+
+**Reglas para title y description**:
+- Title: 50-60 caracteres. Keyword principal al inicio.
+- Description: 140-160 caracteres. Persuasivo, no solo descriptivo.
+- Cada página necesita title y description únicos.
+
+### Open Graph (para redes sociales)
+
+\`\`\`typescript
+export const metadata: Metadata = {
+  openGraph: {
+    title: 'AlphaDev Studios',
+    description: 'Software con IA para startups. En producción en 3 semanas.',
+    url: 'https://alphadev.studio',
+    siteName: 'AlphaDev Studios',
+    images: [
+      {
+        url: 'https://alphadev.studio/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AlphaDev Studios',
+      },
+    ],
+    locale: 'es_MX',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AlphaDev Studios',
+    description: 'Software con IA para startups.',
+    images: ['https://alphadev.studio/og-image.png'],
+  },
+};
+\`\`\`
+
+### Schema Markup / JSON-LD
+
+Schema.org es un vocabulario estándar que le dice a Google exactamente qué tipo de contenido eres. Puede generar "rich results" (resultados enriquecidos) en Google.
+
+\`\`\`tsx
+// app/layout.tsx — Schema para organización
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'AlphaDev Studios',
+  url: 'https://alphadev.studio',
+  description: 'Agencia de desarrollo web con IA para startups',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-407-686-7561',
+    contactType: 'sales',
+  },
+  sameAs: [
+    'https://instagram.com/alphadev.studio',
+  ],
+};
+
+// En el JSX:
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+/>
+\`\`\`
+
+### Sitemap.xml en Next.js
+
+\`\`\`typescript
+// app/sitemap.ts
+import { MetadataRoute } from 'next';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: 'https://alphadev.studio',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: 'https://alphadev.studio/servicios',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+  ];
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 's2-l2b',
+        title: 'Mini-práctica: Implementa metadatos SEO completos',
+        type: 'practice',
+        tasks: [
+          'Audita todas las páginas de tu sitio — anota cuáles no tienen title/description únicos',
+          'Implementa metadata en Next.js para cada página (title, description, og:image, twitter:card)',
+          'Agrega Schema JSON-LD de tipo Organization o LocalBusiness según corresponda',
+          'Genera el sitemap.xml con Next.js y verifica que está en https://tudominio.com/sitemap.xml',
+          'Valida el schema en schema.dev/tools/validate y el OG en opengraph.xyz',
+        ],
+        tip: 'La og:image es lo más visible cuando alguien comparte tu link en Slack, Twitter o WhatsApp. Una imagen de 1200x630px bien diseñada con tu logo y tagline puede doblar el CTR de un link compartido vs no tener og:image.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'PageSpeed Insights',
+        url: 'https://pagespeed.web.dev',
+        type: 'tool',
+      },
+      {
+        title: 'Schema.org — Structured Data Validator',
+        url: 'https://schema.dev/tools/validate',
+        type: 'tool',
+      },
+      {
+        title: 'Screaming Frog SEO Spider (gratis hasta 500 URLs)',
+        url: 'https://www.screamingfrog.co.uk/seo-spider',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-3',
+    number: 29,
+    title: 'Content SEO: crear contenido que rankea',
+    description: 'Cómo escribir y estructurar contenido que Google premia: on-page SEO, estructura de posts, clusters de contenido y actualización.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's3-l1',
+        title: 'On-page SEO: optimizar cada página',
+        type: 'reading',
+        content: `## On-page SEO: señales dentro de tu control
+
+El on-page SEO son todos los factores de ranking que controlas directamente dentro de tu propio sitio.
+
+### La anatomía de una página SEO-optimizada
+
+**URL**:
+\`\`\`
+✅ /agencia-desarrollo-web-startups
+❌ /page?id=47&category=services
+❌ /servicios-de-desarrollo-web-para-startups-en-mexico-2024
+\`\`\`
+Corta, descriptiva, keyword incluida, sin caracteres especiales.
+
+**Title Tag** (el más importante):
+\`\`\`html
+<title>Agencia Desarrollo Web para Startups | AlphaDev Studios</title>
+\`\`\`
+- Keyword principal al inicio
+- 50-60 caracteres
+- Único por página
+- Incluye la marca al final
+
+**H1** (uno por página):
+\`\`\`html
+<h1>Desarrollo Web para Startups con IA integrada</h1>
+\`\`\`
+- Similar al title, puede variar ligeramente
+- Debe contener la keyword principal
+- Solo uno por página
+
+**H2/H3** (estructura del contenido):
+- Cada H2 cubre un sub-tema relevante
+- Incluyen variaciones de la keyword naturalmente
+- Ayudan a Google a entender la estructura del artículo
+
+**Primer párrafo**:
+- La keyword principal aparece en las primeras 100 palabras
+- Establece de qué trata la página inmediatamente
+
+### Densidad de keyword y LSI
+
+La keyword debe aparecer de forma natural en:
+- Title, H1, primer párrafo
+- URL
+- Alt text de imágenes relevantes
+- Algunos H2/H3
+- Conclusión
+
+**Evitar keyword stuffing** (repetición forzada) — Google lo penaliza.
+
+**LSI keywords** (Latent Semantic Indexing): palabras relacionadas que Google espera ver:
+- Si hablas de "agencia SEO" → espera ver: ranking, posicionamiento, keywords, Google, contenido
+- Usar sinónimos y términos relacionados naturalmente mejora la relevancia temática
+
+### Longitud del contenido
+
+No hay número mágico, pero hay correlaciones:
+- Top 3 resultados en Google promedian 1,500-2,500 palabras para queries informacionales
+- Landing pages de servicios pueden funcionar con 800-1,200 palabras bien escritas
+- Más palabras ≠ mejor: 500 palabras perfectas > 3,000 rellenas
+
+La regla: **cubre el tema mejor que cualquier otro resultado en esa SERP específica**.
+
+### Imágenes optimizadas
+
+\`\`\`html
+<img
+  src="equipo-alphadev-studios.webp"
+  alt="Equipo de AlphaDev Studios trabajando en proyecto Next.js"
+  width="800"
+  height="600"
+  loading="lazy"
+/>
+\`\`\`
+- **Alt text**: descriptivo + keyword natural si aplica
+- **Nombre de archivo**: descriptivo, con guiones
+- **Formato**: WebP o AVIF
+- **Dimensiones explícitas**: evita CLS`,
+        completed: false,
+      },
+      {
+        id: 's3-l1b',
+        title: 'Mini-práctica: Optimiza una página existente',
+        type: 'practice',
+        tasks: [
+          'Elige una página de tu sitio que ya tenga algo de tráfico (o que quieras que tenga) y define su keyword principal',
+          'Audita: ¿aparece la keyword en title, H1, primer párrafo, URL y al menos un H2?',
+          'Revisa todas las imágenes de la página: ¿tienen alt text descriptivo? ¿están en WebP?',
+          'Usa la extensión "Detailed SEO Extension" para ver el outline de headings — ¿la estructura tiene sentido?',
+          'Reescribe el title y meta description para maximizar el CTR desde los resultados de búsqueda',
+        ],
+        tip: 'Antes de crear contenido nuevo, optimiza el contenido que ya tienes. Una página que rankea en posición 8 y pasa a posición 3 puede triplicar el tráfico sin crear nada nuevo. El SEO de lo existente siempre tiene mejor ROI que crear desde cero.',
+        completed: false,
+      },
+      {
+        id: 's3-l2',
+        title: 'Content clusters: la arquitectura que multiplica autoridad',
+        type: 'reading',
+        content: `## Topic Clusters: el modelo de contenido que Google premia en 2025
+
+Google evalúa la **autoridad temática** de un sitio: ¿cubre este sitio un tema en profundidad, o solo tiene una página superficial?
+
+Los topic clusters responden a esto sistemáticamente.
+
+### La estructura hub-and-spoke
+
+\`\`\`
+Pillar Page (hub)
+"Guía completa de SEO para startups"
+│
+├── Cluster: "Keyword research para startups"
+├── Cluster: "SEO técnico en Next.js"
+├── Cluster: "Cómo escribir meta descriptions"
+├── Cluster: "Link building para sitios nuevos"
+└── Cluster: "Cómo medir el ROI del SEO"
+\`\`\`
+
+**Pillar page**: cubre el tema principal de forma amplia (3,000-5,000 palabras)
+**Cluster pages**: cubren sub-temas en profundidad (1,000-2,000 palabras cada una)
+**Internal linking**: cada cluster enlaza a la pillar y la pillar enlaza a cada cluster
+
+### Por qué funciona
+
+1. Google ve que el sitio cubre el tema **exhaustivamente**
+2. El interlinking distribuye "autoridad" entre páginas relacionadas
+3. Cuando una página cluster gana backlinks, también beneficia a la pillar
+4. Cubre múltiples intenciones de búsqueda dentro del mismo tema
+
+### Cómo planificar un cluster
+
+\`\`\`
+1. Elige el tema central de tu negocio
+   Ejemplo: "desarrollo web para startups"
+
+2. Mapea las preguntas que tiene tu audiencia sobre ese tema
+   - ¿Cuánto cuesta desarrollar una startup?
+   - ¿Next.js o React para una startup?
+   - ¿Cuándo contratar un desarrollador vs una agencia?
+   - ¿Cómo medir el ROI del desarrollo web?
+
+3. Cada pregunta = un artículo del cluster
+   Con su propio keyword, título optimizado, contenido profundo
+
+4. Crea la pillar que enlaza a todos
+   Y actualiza cada cluster para que enlace a la pillar
+\`\`\`
+
+### Internal linking estratégico
+
+- Cada artículo nuevo debe enlazar a 3-5 artículos existentes relevantes
+- Usa anchor text descriptivo (no "click aquí")
+- La pillar page tiene el mayor número de internal links entrantes
+- Nunca dejes "huérfanas" páginas sin links que apunten a ellas`,
+        completed: false,
+      },
+      {
+        id: 's3-l2b',
+        title: 'Mini-práctica: Diseña el primer topic cluster de tu sitio',
+        type: 'practice',
+        tasks: [
+          'Elige el tema central más relevante para tu negocio (ejemplo: "agencia digital para startups")',
+          'Crea el mapa del cluster: 1 pillar page + 5-8 cluster pages con sus keywords individuales',
+          'Escribe el outline completo (H1, H2, H3) de la pillar page',
+          'Escribe el artículo completo de una cluster page (mínimo 1,000 palabras, SEO-optimizado)',
+          'Implementa el internal linking: el artículo enlaza a la pillar y a 2 clusters relacionados',
+        ],
+        tip: 'El error más común con clusters es crear todos los artículos y no publicar la pillar page. La pillar es lo que ancla todo el cluster — sin ella, los artículos individuales rankean solos sin el boost de autoridad del sistema.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'HubSpot — Topic Clusters Model',
+        url: 'https://blog.hubspot.com/marketing/topic-clusters-seo',
+        type: 'article',
+      },
+      {
+        title: 'Ahrefs — On-Page SEO Guide',
+        url: 'https://ahrefs.com/blog/on-page-seo',
+        type: 'article',
+      },
+      {
+        title: 'Surfer SEO — Content optimization (prueba gratuita)',
+        url: 'https://surferseo.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-4',
+    number: 30,
+    title: 'Link Building y Autoridad de Dominio',
+    description: 'Construye autoridad con backlinks de calidad: estrategias éticas, outreach efectivo y cómo medir el impacto.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's4-l1',
+        title: 'Por qué los backlinks siguen siendo el factor más poderoso',
+        type: 'reading',
+        content: `## Backlinks: el voto de confianza que Google más valúa
+
+Un backlink es cuando otro sitio web enlaza al tuyo. Google los interpreta como votos de confianza: si sitios confiables enlazan a ti, probablemente tú también eres confiable.
+
+### No todos los backlinks son iguales
+
+**Factores que determinan el valor de un backlink**:
+
+1. **Autoridad del dominio que enlaza** — un link de nytimes.com vale 1,000x más que uno de un blog sin tráfico
+2. **Relevancia temática** — un link de una agencia de marketing vale más que uno de un blog de recetas
+3. **Texto de anchor** — el texto clickeable del link (debe ser descriptivo, no "click aquí")
+4. **Posición en la página** — links en el cuerpo del artículo valen más que los del footer
+5. **Follow vs nofollow** — "nofollow" le dice a Google que no pase autoridad (menos valioso pero útil)
+
+### Links que dañan (spam y penalizaciones)
+
+Google puede **penalizar** sitios con links artificiales:
+- Comprar backlinks en bulk
+- Redes de links privadas (PBNs)
+- Links de directorios spam
+- Intercambios masivos de links
+
+**Regla de oro**: si el link está ahí porque alguien eligió enlazarte porque tu contenido es bueno, es un buen link.
+
+### Domain Rating / Domain Authority
+
+Herramientas como Ahrefs (DR) y Moz (DA) calculan la autoridad de un dominio en escala 0-100:
+
+- DR 0-20: sitio nuevo, baja autoridad
+- DR 20-40: autoridad moderada, puede competir en nichos
+- DR 40-60: buena autoridad, competitivo
+- DR 60+: autoridad alta, compite por cualquier keyword
+
+El DR de AlphaDev Studios hoy es probablemente bajo (sitio nuevo). **Eso es normal** — el SEO es un juego largo.
+
+### Cómo ver los backlinks de cualquier sitio
+
+\`\`\`
+Ahrefs Site Explorer → pegar URL → Backlinks
+\`\`\`
+
+Esto te muestra:
+- Quién enlaza a la competencia (oportunidades para ti)
+- Qué contenido de la competencia genera más links (para hacer algo mejor)
+- Tu propio perfil de links (para identificar problemas)`,
+        completed: false,
+      },
+      {
+        id: 's4-l1b',
+        title: 'Mini-práctica: Analiza el perfil de links de la competencia',
+        type: 'practice',
+        tasks: [
+          'Elige 2 competidores directos y analiza sus backlinks con Ahrefs (versión de prueba) o con la versión gratuita de Ubersuggest',
+          'Identifica los 5 backlinks más valiosos de cada competidor: ¿quién enlaza? ¿por qué contenido?',
+          'Busca los sitios que enlazan a múltiples competidores — esos son los que más interesa conseguir',
+          'Identifica qué tipo de contenido de la competencia genera más backlinks (guías, herramientas, estudios)',
+          'Lista 5 oportunidades concretas de link building que podrías replicar',
+        ],
+        tip: 'El link gap analysis (ver qué sitios enlazan a tu competencia pero no a ti) es la forma más eficiente de encontrar oportunidades. Si un sitio ya enlazó a un competidor con contenido similar al tuyo, tienes alta probabilidad de conseguir el mismo link.',
+        completed: false,
+      },
+      {
+        id: 's4-l2',
+        title: 'Estrategias de link building éticas que funcionan',
+        type: 'reading',
+        content: `## Link Building: estrategias que funcionan en 2025
+
+El link building no es spam. Es crear algo tan bueno que otros quieran compartirlo, y a veces también es pedir directamente ese link con una propuesta de valor clara.
+
+### 1. Digital PR — el método más escalable
+
+Crea contenido con datos originales, estudios o perspectivas únicas que periodistas y bloggers quieran citar.
+
+**Tipos de contenido que generan links de forma natural**:
+- Estudios con datos originales ("Analizamos 100 proyectos de startups: esto encontramos")
+- Herramientas gratuitas (calculadoras, generadores, templates)
+- Guías definitivas sobre un tema de nicho
+- Infografías con datos complejos simplificados
+
+**Para AlphaDev**: un estudio sobre "cuánto tarda y cuesta lanzar un MVP en LATAM" con datos reales podría generar links de medios de tecnología y startups.
+
+### 2. Guest posting — escribir para otros sitios
+
+Escribes un artículo de valor para otro blog/publicación, y a cambio incluyen 1-2 links hacia tu sitio.
+
+\`\`\`
+Proceso:
+1. Lista 20 blogs/publicaciones que leen tus clientes ideales
+2. Verifica que tienen buen DR (>30) y audiencia real
+3. Propón un tema específico que aporte valor a su audiencia
+4. Escribe el mejor artículo que hayas escrito
+5. Negocia el link dentro del artículo (no solo en el bio)
+\`\`\`
+
+### 3. Link Reclamation — los más fáciles de conseguir
+
+Busca menciones de tu marca/sitio en la web que no tengan link:
+
+\`\`\`
+Google: "AlphaDev Studios" -site:alphadev.studio
+\`\`\`
+
+Si alguien ya menciona tu marca sin enlazarte, un email cordial pidiéndolo convierte en el 40-60% de los casos.
+
+### 4. Resource link building
+
+Muchos sitios tienen páginas de "recursos recomendados". Si tienes una herramienta o guía útil, puedes pedir que te incluyan.
+
+### 5. HARO / Connectively — ser la fuente de expertos
+
+HARO (Help A Reporter Out) conecta periodistas con expertos. Cuando un periodista busca una fuente sobre desarrollo web o startups, tú respondes y puedes conseguir un link en medios de alta autoridad.
+
+### Outreach: el email que sí recibe respuesta
+
+\`\`\`
+Asunto: Recurso para tu artículo sobre [tema específico]
+
+Hola [nombre],
+
+Vi tu artículo "[título]" sobre [tema]. Muy buen punto el de [algo específico].
+
+Justo publicamos [tu contenido] que cubre [aspecto complementario] con datos de [fuente].
+
+Creo que añadiría valor a tu artículo si lo incluyes como recurso adicional.
+
+[tu nombre]
+\`\`\`
+
+Personalizado. Específico. Corto. Propuesta de valor clara.`,
+        completed: false,
+      },
+      {
+        id: 's4-l2b',
+        title: 'Mini-práctica: Primera campaña de link building',
+        type: 'practice',
+        tasks: [
+          'Crea una pieza de contenido linkeable: una guía profunda, un template, o una herramienta simple',
+          'Lista 10 sitios relevantes con DR>30 donde ese contenido añadiría valor',
+          'Escribe el email de outreach personalizado para 5 de esos sitios — personaliza cada uno',
+          'Busca menciones sin link de tu marca con Google y envía emails de link reclamation',
+          'Registra todo en una spreadsheet: sitio, DR, fecha de envío, respuesta, resultado',
+        ],
+        tip: 'El outreach funciona con volumen Y personalización. 100 emails personalizados > 1,000 emails de plantilla. La tasa de respuesta promedio es 5-10%, así que necesitas volumen para ver resultados. Pero nunca sacrifiques personalización por volumen.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Ahrefs — Link Building Guide',
+        url: 'https://ahrefs.com/blog/link-building',
+        type: 'article',
+      },
+      {
+        title: 'Connectively (ex-HARO)',
+        url: 'https://www.connectively.us',
+        type: 'tool',
+      },
+      {
+        title: 'Hunter.io — Find email addresses',
+        url: 'https://hunter.io',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-5',
+    number: 31,
+    title: 'SEO para Agencias: Auditorías, Reportes y Resultados',
+    description: 'Cómo hacer auditorías SEO para clientes, crear reportes que demuestran valor y escalar un servicio de SEO rentable.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's5-l1',
+        title: 'Cómo hacer una auditoría SEO completa',
+        type: 'reading',
+        content: `## La auditoría SEO: diagnóstico antes del tratamiento
+
+Una auditoría SEO identifica todos los problemas que están impidiendo que un sitio rankee. Es el primer entregable de cualquier proyecto SEO y establece el baseline para medir el progreso.
+
+### Las 5 áreas de una auditoría completa
+
+**1. Técnico**
+- ¿Está indexado? (site:dominio.com en Google)
+- Core Web Vitals (PageSpeed Insights)
+- Errores de crawl (Google Search Console)
+- Sitemap y robots.txt correctos
+- HTTPS y redireccionamientos
+- URLs duplicadas y canonicales
+
+**2. On-Page**
+- Titles y meta descriptions únicos en todas las páginas
+- Estructura de headings (H1 único, jerarquía correcta)
+- Keyword targeting por página
+- Internal linking y huérfanas
+- Calidad y originalidad del contenido
+
+**3. Contenido**
+- ¿El contenido responde el search intent?
+- ¿Hay thin content (páginas con <300 palabras)?
+- ¿Hay contenido duplicado (interno o externo)?
+- ¿Está el contenido actualizado?
+
+**4. Autoridad / Off-page**
+- Domain Rating actual (Ahrefs)
+- Perfil de backlinks: cantidad, calidad, diversidad
+- Links spam o tóxicos (pueden penalizar)
+- Menciones sin link
+
+**5. Competencia**
+- ¿Quiénes rankean para tus keywords objetivo?
+- Gap de autoridad (tu DR vs su DR)
+- Gap de contenido (qué tienen ellos que tú no)
+
+### Herramientas para la auditoría
+
+\`\`\`
+Crawl técnico:       Screaming Frog (free <500 URLs) o Sitebulb
+On-page:             Ahrefs Site Audit o Semrush Site Audit
+Backlinks:           Ahrefs o Majestic
+Performance:         PageSpeed Insights + GSC
+\`\`\`
+
+### El reporte de auditoría para clientes
+
+Estructura recomendada:
+1. **Executive Summary** — 1 página, findings críticos, oportunidades top
+2. **Puntuación actual** — score técnico, contenido, autoridad
+3. **Issues críticos** — los que más impactan, con evidencia y solución
+4. **Issues moderados** — segunda prioridad
+5. **Quick wins** — cambios de bajo esfuerzo y alto impacto
+6. **Roadmap propuesto** — prioridades por mes/trimestre
+7. **Proyección de resultados** — expectativas realistas`,
+        completed: false,
+      },
+      {
+        id: 's5-l1b',
+        title: 'Mini-práctica: Auditoría SEO completa de un sitio real',
+        type: 'practice',
+        tasks: [
+          'Elige un sitio (tuyo o de un cliente/conocido) y completa el checklist de las 5 áreas',
+          'Documenta cada hallazgo con: problema encontrado, impacto estimado (alto/medio/bajo), solución recomendada',
+          'Prioriza los issues en: críticos (arreglar esta semana), importantes (este mes), mejoras (este trimestre)',
+          'Crea el reporte en Notion o Google Slides usando la estructura de 7 secciones',
+          'Presenta el reporte a alguien (colega, mentor, o grábate) — practica explicar los issues en términos de negocio, no técnicos',
+        ],
+        tip: 'El error más común en reportes de auditoría para clientes: hablar en términos técnicos (301 redirects, canonical tags, crawl budget) sin traducirlos a impacto de negocio. Cada issue debe tener: "esto está pasando → por eso pierdes X → si lo arreglas, conseguirás Y".',
+        completed: false,
+      },
+      {
+        id: 's5-l2',
+        title: 'Reportes mensuales SEO y cómo demostrar ROI',
+        type: 'reading',
+        content: `## Reportes SEO: demostrar valor mes a mes
+
+El SEO tarda meses en dar resultados. Durante ese tiempo, el cliente puede dudar. Un buen reporte mensual mantiene la confianza y demuestra el progreso aunque el tráfico aún no sea el objetivo final.
+
+### Qué medir en un reporte mensual SEO
+
+**Tráfico orgánico** (Google Search Console o GA4):
+- Sesiones orgánicas vs mes anterior y vs mismo mes año anterior
+- Páginas con más crecimiento de tráfico
+- Nuevas keywords donde aparece el sitio
+
+**Rankings** (Ahrefs o Semrush Rank Tracker):
+- Posición de las keywords objetivo
+- Cambios semana a semana
+- Nuevas keywords en top 10, top 3
+
+**Autoridad** (Ahrefs):
+- Domain Rating: cambio mensual
+- Nuevos backlinks adquiridos
+- Backlinks perdidos (para investigar)
+
+**Conversiones orgánicas** (GA4):
+- Leads/ventas provenientes de búsqueda orgánica
+- Páginas de SEO con mejor conversión
+
+### Estructura del reporte mensual
+
+\`\`\`
+1. KPIs del mes (tráfico, rankings, DR)
+2. Comparativa vs mes anterior
+3. Acciones realizadas este mes (qué hicimos)
+4. Resultados de esas acciones
+5. Plan del próximo mes
+6. Proyección acumulada
+\`\`\`
+
+### Cómo calcular ROI del SEO
+
+\`\`\`
+Tráfico orgánico mensual: 1,000 visitas
+Tasa de conversión a lead: 2% = 20 leads/mes
+Tasa de cierre: 10% = 2 clientes/mes
+Ticket promedio: $3,000
+Revenue atribuible al SEO: $6,000/mes
+
+Costo del servicio SEO: $800/mes
+ROI: ($6,000 - $800) / $800 = 650%
+\`\`\`
+
+### Pricing de servicios SEO
+
+**SEO básico** ($300-800/mes):
+- Optimización on-page
+- 2-4 artículos de blog
+- Reporte mensual
+
+**SEO intermedio** ($800-2,000/mes):
+- Todo lo anterior
+- Link building (5-10 links/mes)
+- Auditoría y correcciones técnicas continuas
+
+**SEO avanzado** ($2,000-5,000+/mes):
+- Estrategia completa de contenido
+- Outreach agresivo de links
+- Reporting avanzado con atribución`,
+        completed: false,
+      },
+      {
+        id: 's5-l2b',
+        title: 'Mini-práctica: Crea tu template de reporte mensual SEO',
+        type: 'practice',
+        tasks: [
+          'Crea un template de reporte mensual en Notion o Google Slides con las 6 secciones definidas',
+          'Conecta Google Search Console a Looker Studio y crea un dashboard básico de tráfico orgánico',
+          'Configura el Rank Tracker de Ahrefs (o alternativa) con 10 keywords objetivo',
+          'Escribe el reporte de un mes ficticio o real — practica traducir cada métrica a impacto de negocio',
+          'Define tu pricing para un servicio SEO básico, intermedio y avanzado con justificación de cada nivel',
+        ],
+        tip: 'En los primeros 3 meses de un proyecto SEO, los resultados de tráfico serán mínimos. Reporta progreso de procesos: páginas optimizadas, artículos publicados, links conseguidos. Estos son los leading indicators que predicen el tráfico futuro — y mantienen al cliente informado y en calma.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Search Console — Documentación',
+        url: 'https://support.google.com/webmasters',
+        type: 'documentation',
+      },
+      {
+        title: 'Looker Studio (Google Data Studio)',
+        url: 'https://lookerstudio.google.com',
+        type: 'tool',
+      },
+      {
+        title: 'Ahrefs — SEO for Agencies',
+        url: 'https://ahrefs.com/blog/seo-agency',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: Analytics y Datos ────────────────────────────────────────────────
+
+  {
+    id: 'data-1',
+    number: 32,
+    title: 'GA4 y Setup de Analytics',
+    description: 'Configura Google Analytics 4 correctamente, entiende el modelo de datos por eventos y mide lo que realmente importa para tu negocio.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd1-l1',
+        title: 'GA4: el modelo de datos que cambió todo',
+        type: 'reading',
+        content: `## Google Analytics 4: pensar en eventos, no en sesiones
+
+GA4 (lanzado en 2023 como reemplazo de Universal Analytics) cambió fundamentalmente cómo se mide el comportamiento web. Entender su modelo de datos es la base de todo lo demás.
+
+### El modelo de datos de GA4: todo son eventos
+
+En Universal Analytics (el antiguo), cada interacción tenía un tipo fijo: pageview, event, transaction.
+
+En GA4, **todo es un evento**. Cada interacción es un evento con parámetros:
+
+\`\`\`
+Evento: page_view
+Parámetros:
+  page_title: "Home — AlphaDev Studios"
+  page_location: "https://alphadev.studio"
+  page_referrer: "https://google.com"
+
+Evento: scroll
+Parámetros:
+  percent_scrolled: 90
+
+Evento: click
+Parámetros:
+  link_url: "https://alphadev.studio/contacto"
+  link_text: "Agenda una llamada"
+\`\`\`
+
+### Eventos automáticos vs personalizados
+
+**Automáticos** (sin configuración):
+- page_view, scroll, click (links externos), file_download, session_start, user_engagement
+
+**Enhanced measurement** (activar en configuración):
+- Scroll depth, outbound clicks, site search, video engagement, form interactions
+
+**Eventos personalizados** (los más valiosos):
+- Cualquier interacción específica de tu negocio
+- "form_submit", "demo_requested", "pricing_viewed"
+
+### Estructura de GA4
+
+\`\`\`
+Cuenta de Google Analytics
+└── Propiedad de GA4 (por sitio/app)
+    ├── Flujos de datos (web, iOS, Android)
+    ├── Eventos
+    ├── Conversiones (eventos marcados como importantes)
+    └── Informes
+\`\`\`
+
+### Setup en Next.js
+
+\`\`\`typescript
+// app/layout.tsx
+import { GoogleAnalytics } from '@next/third-parties/google';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+      </body>
+    </html>
+  );
+}
+\`\`\`
+
+\`\`\`typescript
+// Para eventos personalizados
+import { sendGAEvent } from '@next/third-parties/google';
+
+const handleFormSubmit = () => {
+  sendGAEvent('event', 'form_submit', {
+    form_name: 'contact_startup',
+    value: 1,
+  });
+};
+\`\`\`
+
+### La diferencia entre métricas y dimensiones
+
+**Métrica**: valor numérico medible (sesiones, usuarios, conversiones, duración)
+**Dimensión**: atributo que describe los datos (país, dispositivo, fuente, página)
+
+En GA4 siempre combinas dimensión + métrica:
+- "Sesiones" (métrica) + "País" (dimensión) = sesiones por país
+- "Conversiones" (métrica) + "Fuente" (dimensión) = conversiones por canal`,
+        completed: false,
+      },
+      {
+        id: 'd1-l1b',
+        title: 'Mini-práctica: Configura GA4 en tu proyecto',
+        type: 'practice',
+        tasks: [
+          'Crea una propiedad GA4 en analytics.google.com para tu sitio (o uno de prueba)',
+          'Instala el snippet en Next.js con @next/third-parties/google y verifica que recibe datos en tiempo real',
+          'Activa todos los eventos de Enhanced Measurement (scroll, outbound clicks, file downloads)',
+          'Configura al menos 2 conversiones: una para el submit del formulario de contacto y otra para un click en el CTA principal',
+          'Verifica en el informe "Tiempo real" de GA4 que los eventos llegan correctamente al navegar el sitio',
+        ],
+        tip: 'El error más costoso de analytics: instalar GA4 y no marcar ninguna conversión. Sin conversiones configuradas, GA4 te muestra tráfico pero no te dice si ese tráfico sirve de algo. Configurar las conversiones es el paso que convierte GA4 de "herramienta de vanidad" a "herramienta de negocio".',
+        completed: false,
+      },
+      {
+        id: 'd1-l2',
+        title: 'Google Tag Manager: el sistema nervioso de tus mediciones',
+        type: 'reading',
+        content: `## Google Tag Manager: control total sin tocar el código
+
+GTM (Google Tag Manager) es un sistema que te permite instalar y gestionar scripts de tracking (GA4, Meta Pixel, hotjar, etc.) sin modificar el código del sitio cada vez.
+
+### Por qué usar GTM
+
+**Sin GTM**:
+- Cada herramienta de analytics → un snippet hardcodeado en el HTML
+- Agregar un nuevo evento → modificar el código → deploy → esperar al developer
+- Si un script falla → todo el sitio se puede afectar
+
+**Con GTM**:
+- Un solo snippet en el HTML → GTM gestiona todos los demás
+- Agregar eventos → configurar en la UI de GTM → publicar → inmediato
+- Testing de tags sin deployar
+
+### Conceptos base de GTM
+
+**Tag**: el script que se ejecuta (GA4 Event, Meta Pixel, etc.)
+**Trigger**: cuándo se ejecuta el tag (page view, click en botón, scroll)
+**Variable**: dato que se captura (texto del botón, URL, valor)
+
+### Configurar GA4 con GTM
+
+\`\`\`
+1. Crear cuenta en tagmanager.google.com
+2. Instalar el snippet de GTM en Next.js (en el <head> y <body>)
+3. Crear Tag: "Google Analytics: GA4 Configuration" con tu Measurement ID
+4. Trigger: "All Pages"
+5. Preview → verificar → Publish
+\`\`\`
+
+### Rastrear eventos con GTM sin código
+
+**Click en CTA (sin tocar el código)**:
+\`\`\`
+Tag: GA4 Event
+  Event name: cta_click
+  Parameters:
+    button_text: {{Click Text}}
+    page_url: {{Page URL}}
+
+Trigger: Click - All Elements
+  Condition: Click Text contains "Agenda" OR "Contacto"
+\`\`\`
+
+### GTM en Next.js (App Router)
+
+\`\`\`typescript
+// components/GoogleTagManager.tsx
+'use client';
+
+import { useEffect } from 'react';
+
+export const GTM_ID = 'GTM-XXXXXXX';
+
+export default function GoogleTagManager() {
+  useEffect(() => {
+    // Push route changes to dataLayer
+    window.dataLayer = window.dataLayer || [];
+  }, []);
+
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: \`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','\${GTM_ID}');
+          \`,
+        }}
+      />
+    </>
+  );
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd1-l2b',
+        title: 'Mini-práctica: Configura GTM con GA4 y 3 eventos personalizados',
+        type: 'practice',
+        tasks: [
+          'Crea una cuenta en GTM y migra el snippet de GA4 para que pase por GTM (no directo)',
+          'Configura el Tag de GA4 Configuration con tu Measurement ID y un trigger de All Pages',
+          'Crea un Tag para el evento "form_submit" con Trigger en el submit del formulario de contacto',
+          'Crea un Tag para "cta_click" que capture clics en los botones principales',
+          'Usa GTM Preview para verificar que los 3 tags se disparan correctamente antes de publicar',
+        ],
+        tip: 'Siempre usa GTM Preview antes de publicar. Una vez publicado, los tags se ejecutan para todos los usuarios reales. Un error en un tag puede contaminar datos históricos que no se pueden recuperar.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Analytics 4 — Documentación oficial',
+        url: 'https://support.google.com/analytics/answer/10089681',
+        type: 'documentation',
+      },
+      {
+        title: 'Google Tag Manager — Guía de inicio',
+        url: 'https://support.google.com/tagmanager/answer/6103696',
+        type: 'documentation',
+      },
+      {
+        title: 'MeasureSchool — GA4 Tutorial completo (YouTube)',
+        url: 'https://www.youtube.com/@MeasureSchool',
+        type: 'video',
+      },
+    ],
+  },
+
+  {
+    id: 'data-2',
+    number: 33,
+    title: 'Embudos, Conversión y Comportamiento de Usuario',
+    description: 'Entiende cómo se mueven los usuarios por tu sitio, dónde se pierden y qué mejoras tienen mayor impacto en la conversión.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd2-l1',
+        title: 'Embudos de conversión: dónde se pierde el dinero',
+        type: 'reading',
+        content: `## Embudos: el mapa del journey del usuario
+
+Un embudo de conversión es la secuencia de pasos que sigue un usuario desde que llega a tu sitio hasta que completa la acción objetivo (lead, compra, registro).
+
+### Por qué los embudos son críticos
+
+La mayoría de los sitios tiene una tasa de conversión del 1-3%. Eso significa que el 97-99% de los visitantes se van sin hacer nada.
+
+Los embudos te muestran **exactamente dónde** se van y por qué — para que puedas arreglarlo.
+
+### Tipos de embudos
+
+**Embudo de adquisición** (cómo llegan):
+\`\`\`
+Búsqueda orgánica → Página de blog → Solicitud de info
+Anuncio de Meta → Landing page → Form de contacto
+\`\`\`
+
+**Embudo de conversión** (cómo convierten):
+\`\`\`
+Home → Servicios → Contacto → Form enviado
+\`\`\`
+
+**Embudo de activación** (para SaaS/apps):
+\`\`\`
+Registro → Completar perfil → Primera acción de valor → Upgrade
+\`\`\`
+
+### Crear embudos en GA4
+
+\`\`\`
+GA4 → Explorar → Exploración de embudo
+
+Pasos del embudo:
+1. Evento: page_view, Page path = /
+2. Evento: page_view, Page path = /servicios
+3. Evento: page_view, Page path = /contacto
+4. Evento: form_submit
+\`\`\`
+
+GA4 mostrará cuántos usuarios pasan de cada paso al siguiente, y cuántos abandonan en cada etapa.
+
+### Métricas clave de conversión
+
+**Tasa de conversión**: % de visitantes que completan el objetivo
+\`\`\`
+Conversiones / Sesiones × 100
+Ejemplo: 20 leads / 1,000 sesiones = 2%
+\`\`\`
+
+**Tasa de abandono por paso**: % que sale en cada etapa del embudo
+
+**Valor por visita**: revenue promedio que genera cada visitante
+\`\`\`
+Revenue / Sesiones
+Ejemplo: $10,000 / 5,000 sesiones = $2/visita
+\`\`\`
+
+### Herramientas complementarias para entender comportamiento
+
+**Hotjar / Microsoft Clarity** (gratuito):
+- **Heatmaps**: dónde hacen click los usuarios
+- **Scroll maps**: hasta dónde leen
+- **Session recordings**: grabaciones de sesiones reales
+
+**Microsoft Clarity es completamente gratuito** y tiene las mismas funcionalidades que Hotjar básico.
+
+### Cómo interpretar un heatmap
+
+- **Zona caliente** (rojo/naranja): mucho engagement
+- **Zona fría** (azul/gris): poco engagement
+- **Clicks en elementos no clickeables**: frustración del usuario (bug UX)
+- **Scroll profundo**: el contenido es interesante
+- **Poco scroll**: el contenido no engancha o el CTA debe estar más arriba`,
+        completed: false,
+      },
+      {
+        id: 'd2-l1b',
+        title: 'Mini-práctica: Configura un embudo y analiza el comportamiento',
+        type: 'practice',
+        tasks: [
+          'Crea un embudo de conversión en GA4 Explorar para el flujo principal de tu sitio (home → servicios → contacto → form enviado)',
+          'Instala Microsoft Clarity en tu sitio (gratuito) y deja recolectar datos por al menos 48 horas',
+          'Analiza las grabaciones de sesión en Clarity: ¿los usuarios encuentran lo que buscan? ¿Hay confusión visible?',
+          'Revisa el heatmap de tu página principal: ¿los clicks son donde quieres que estén?',
+          'Identifica el punto de mayor abandono en tu embudo y propón 3 hipótesis de por qué los usuarios se van ahí',
+        ],
+        tip: 'Las grabaciones de sesión son la herramienta de diagnóstico más poderosa que existe. Ver a un usuario real navegar tu sitio durante 2 minutos te da más insights que 100 horas de análisis de datos. Empieza siempre por las grabaciones antes de sacar conclusiones de las métricas.',
+        completed: false,
+      },
+      {
+        id: 'd2-l2',
+        title: 'Segmentación de audiencias y análisis de cohortes',
+        type: 'reading',
+        content: `## Segmentación: el análisis granular que cambia decisiones
+
+Los promedios mienten. "2% de conversión" puede esconder que el tráfico orgánico convierte al 5% y el de redes sociales al 0.3%. La segmentación revela esas diferencias.
+
+### Segmentos básicos en GA4
+
+**Por canal de adquisición**:
+- Organic Search, Direct, Referral, Paid Social, Organic Social, Email
+
+**Por dispositivo**:
+- Mobile, Desktop, Tablet
+
+**Por geografía**:
+- País, ciudad, región
+
+**Por comportamiento**:
+- Usuarios que visitaron X página
+- Usuarios que completaron Y conversión
+- Usuarios de su primera visita vs usuarios recurrentes
+
+### Cómo crear segmentos en GA4
+
+\`\`\`
+GA4 → Explorar → Nueva exploración
+→ + Segmento → Segmento de usuario/sesión/evento
+→ Definir condiciones
+\`\`\`
+
+Ejemplo de segmento valioso:
+*Usuarios que visitaron /servicios pero no enviaron el formulario*
+→ Son prospectos que no convirtieron → oportunidad de retargeting
+
+### Análisis de cohortes
+
+Una cohorte es un grupo de usuarios que realizaron la misma acción en el mismo período.
+
+El análisis de cohortes responde: **¿los usuarios que llegaron en enero siguen activos en febrero?**
+
+Para agencias y SaaS:
+- Cohorte de clientes por mes de adquisición
+- ¿Cuántos siguen siendo clientes 3, 6, 12 meses después?
+- ¿En qué mes se pierden más clientes?
+
+### Atribución: a qué canal darle el crédito
+
+El modelo de atribución define qué canal recibe el crédito de una conversión:
+
+**Last click** (default): todo el crédito al último canal antes de la conversión
+**First click**: todo el crédito al primer canal (el que generó la visita inicial)
+**Data-driven** (GA4 default): Machine Learning distribuye el crédito según comportamiento real
+
+Para la mayoría de pequeñas empresas, last-click es suficiente. Para estrategias multicanal, data-driven da más precisión.
+
+### Audiences para remarketing
+
+GA4 puede crear audiencias para exportar a Google Ads:
+
+\`\`\`
+GA4 → Admin → Audiences → New audience
+
+Ejemplo:
+"Visitaron /servicios en los últimos 30 días
+ Y NO completaron form_submit"
+
+→ Esta audiencia se exporta a Google Ads para mostrarles retargeting
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd2-l2b',
+        title: 'Mini-práctica: Segmenta y encuentra el canal que más convierte',
+        type: 'practice',
+        tasks: [
+          'En GA4 Explorar, crea un análisis comparando la tasa de conversión por canal (organic, direct, referral, social)',
+          'Crea un segmento de "usuarios que visitaron /servicios o /portafolio pero no convirtieron"',
+          'Analiza el comportamiento por dispositivo: ¿hay diferencia significativa entre mobile y desktop?',
+          'Exporta el segmento de no-convertidos como Audience en GA4 (aunque no tengas Google Ads, practica la configuración)',
+          'Escribe un párrafo de conclusiones: ¿qué canal priorizarías con ese presupuesto? ¿Por qué?',
+        ],
+        tip: 'El análisis de segmentos más valioso para una agencia no es el de tráfico — es el de conversiones. Si puedes responder "¿cuál es mi canal con mayor costo por lead?" y "¿cuál es mi canal con mejor tasa de conversión a cliente?", puedes tomar decisiones de presupuesto que multiplican el ROI.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Microsoft Clarity — Heatmaps y grabaciones gratuitas',
+        url: 'https://clarity.microsoft.com',
+        type: 'tool',
+      },
+      {
+        title: 'GA4 — Exploración de embudo',
+        url: 'https://support.google.com/analytics/answer/9327974',
+        type: 'documentation',
+      },
+      {
+        title: 'Analytics Mania — GA4 Tutorial avanzado',
+        url: 'https://www.analyticsmania.com/google-analytics-4',
+        type: 'course',
+      },
+    ],
+  },
+
+  {
+    id: 'data-3',
+    number: 34,
+    title: 'Dashboards con Looker Studio',
+    description: 'Construye dashboards profesionales en Looker Studio que conectan GA4, Search Console y más — para uso interno y para clientes.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd3-l1',
+        title: 'Looker Studio: de datos crudos a visualizaciones accionables',
+        type: 'reading',
+        content: `## Looker Studio: el BI tool gratuito de Google
+
+Looker Studio (anteriormente Google Data Studio) es una herramienta de Business Intelligence gratuita que conecta múltiples fuentes de datos y crea dashboards visuales e interactivos.
+
+### Por qué Looker Studio para agencias
+
+- **Gratuito** — cero costo para el nivel de uso de una agencia
+- **Conectores nativos** con GA4, Google Ads, Google Sheets, Search Console, YouTube
+- **Compartible** — el cliente puede ver el dashboard en tiempo real sin acceso a GA4
+- **Automatizado** — se actualiza solo, sin exportar Excel cada mes
+
+### Estructura de Looker Studio
+
+\`\`\`
+Informe (Report)
+├── Páginas (como diapositivas)
+│   ├── Gráficas, tablas, tarjetas de métricas
+│   └── Filtros y controles de fecha
+└── Fuentes de datos conectadas
+    ├── GA4
+    ├── Search Console
+    └── Google Sheets
+\`\`\`
+
+### Conectar GA4 a Looker Studio
+
+\`\`\`
+1. lookerstudio.google.com → Crear → Informe
+2. Agregar datos → Google Analytics → seleccionar propiedad GA4
+3. El informe ahora tiene acceso a todas las métricas y dimensiones de GA4
+\`\`\`
+
+### Componentes principales
+
+**Tarjeta de puntuación** (Scorecard):
+- Muestra un único número con comparativa
+- Ideal para: sesiones, usuarios, conversiones, tasa de conversión
+
+**Gráfica de series temporales**:
+- Tendencia en el tiempo
+- Ideal para: sesiones por día/semana, evolución de conversiones
+
+**Tabla**:
+- Datos detallados con dimensión + métricas
+- Ideal para: top páginas, top keywords, top países
+
+**Gráfica de barras / dona**:
+- Distribución entre categorías
+- Ideal para: tráfico por canal, conversiones por dispositivo
+
+### Controles interactivos
+
+Los filtros hacen que el dashboard sea dinámico:
+
+\`\`\`
+Control de período: permite al cliente cambiar el rango de fechas
+Control de lista: filtrar por país, dispositivo, canal
+\`\`\`
+
+Con estos controles, el cliente puede explorar los datos sin saber GA4.
+
+### El truco del período de comparación
+
+Agrega siempre un Scorecard con la comparativa vs período anterior:
+
+\`\`\`
+Sesiones: 5,230 ▲ +23% vs mes anterior
+Conversiones: 47 ▲ +8% vs mes anterior
+\`\`\`
+
+Esto responde la pregunta que siempre hace el cliente: "¿estamos mejorando?"`,
+        completed: false,
+      },
+      {
+        id: 'd3-l1b',
+        title: 'Mini-práctica: Construye tu primer dashboard de marketing',
+        type: 'practice',
+        tasks: [
+          'Crea un informe en Looker Studio conectado a tu propiedad GA4',
+          'Página 1 (Overview): tarjetas de sesiones, usuarios, conversiones y tasa de conversión con comparativa vs mes anterior',
+          'Página 2 (Tráfico): gráfica de sesiones por día + tabla de fuentes de tráfico con métricas',
+          'Página 3 (Contenido): tabla de páginas más visitadas + bounce rate + tiempo en página',
+          'Agrega un control de período en todas las páginas y comparte el link con permisos de "Viewer"',
+        ],
+        tip: 'El mejor dashboard para un cliente no es el más completo — es el que responde sus 3 preguntas más importantes. Antes de diseñarlo, pregúntale: "¿qué 3 números necesitas ver cada semana para saber si el proyecto va bien?" Y pon esos 3 números en la primera página, grandes y claros.',
+        completed: false,
+      },
+      {
+        id: 'd3-l2',
+        title: 'Dashboard de SEO: conectar Search Console y GA4',
+        type: 'reading',
+        content: `## Dashboard SEO en Looker Studio
+
+Un dashboard de SEO profesional combina datos de Google Search Console (rankings, impressions, CTR) con GA4 (tráfico, conversiones) para tener la imagen completa.
+
+### Conectar Search Console
+
+\`\`\`
+Looker Studio → Agregar datos → Google Search Console
+→ Seleccionar propiedad → Tabla: Site Impression
+\`\`\`
+
+GSC en Looker Studio da acceso a:
+- **Clicks**: cuántos clics desde búsqueda
+- **Impressions**: cuántas veces apareció en resultados
+- **CTR**: click-through rate (clicks/impressions)
+- **Position**: posición promedio en Google
+
+### Dimensiones clave de GSC
+
+- **Query**: las keywords por las que aparece
+- **Page**: qué páginas del sitio reciben el tráfico
+- **Country**: desde qué países llegan las búsquedas
+- **Device**: mobile vs desktop vs tablet
+
+### Dashboard SEO completo en 4 páginas
+
+**Página 1 — Overview SEO**:
+\`\`\`
+Scorecards: Total Clicks | Total Impressions | CTR promedio | Posición promedio
+Gráfica: Clicks por semana (últimos 3 meses)
+\`\`\`
+
+**Página 2 — Keywords**:
+\`\`\`
+Tabla: Query | Clicks | Impressions | CTR | Position
+Ordenado por Clicks descendente
+Filtro: posición 1-10 (las que rankean)
+\`\`\`
+
+**Página 3 — Páginas**:
+\`\`\`
+Tabla: Página | Clicks | Impressions | CTR | Position
+¿Cuáles páginas traen más tráfico orgánico?
+\`\`\`
+
+**Página 4 — Oportunidades**:
+\`\`\`
+Keywords con muchas impressions pero CTR bajo
+→ Oportunidad de mejorar title/description para subir CTR sin cambiar el ranking
+\`\`\`
+
+### Fórmulas personalizadas en Looker Studio
+
+\`\`\`
+// Clicks potenciales (si mejoras el CTR al promedio de tu industria)
+ROUND(Impressions × 0.05) - Clicks
+
+// Ratio de visibilidad
+Impressions / SUM(Impressions)
+\`\`\`
+
+### Automatizar el reporte mensual
+
+Con el dashboard de Looker Studio ya no necesitas preparar reportes manualmente:
+
+1. El cliente tiene acceso permanente al dashboard en tiempo real
+2. Cada mes, solo necesitas el análisis: "qué mejoró, qué empeoró, qué haremos"
+3. El dashboard son los datos; el email mensual es el insight sobre esos datos`,
+        completed: false,
+      },
+      {
+        id: 'd3-l2b',
+        title: 'Mini-práctica: Dashboard SEO con GSC + GA4 combinado',
+        type: 'practice',
+        tasks: [
+          'Agrega Google Search Console como segunda fuente de datos a tu informe de Looker Studio',
+          'Crea las 4 páginas del dashboard SEO completo definidas en la lectura',
+          'En la página de Keywords, agrega un filtro de CTR < 3% y Position entre 5-20 — estas son oportunidades de optimización',
+          'Combina en una vista: clicks orgánicos de GSC vs conversiones orgánicas de GA4 para el mismo período',
+          'Configura la entrega automática del reporte mensual por email (Looker Studio → compartir → programar)',
+        ],
+        tip: 'La página más valiosa del dashboard SEO para un cliente no es la de rankings — es la de oportunidades. Keywords que aparecen pero no convierten clicks son dinero en la mesa. Mostrarle eso al cliente hace que entiendan el valor de optimizar el copy de los resultados de búsqueda.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Looker Studio — Guía oficial',
+        url: 'https://support.google.com/looker-studio',
+        type: 'documentation',
+      },
+      {
+        title: 'Looker Studio Gallery — Templates gratuitos',
+        url: 'https://lookerstudio.google.com/gallery',
+        type: 'tool',
+      },
+      {
+        title: 'Supermetrics — Conectores adicionales para Looker Studio',
+        url: 'https://supermetrics.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'data-4',
+    number: 35,
+    title: 'A/B Testing y Experimentación',
+    description: 'Aprende a diseñar experimentos válidos, interpretar resultados con rigor estadístico y crear una cultura de mejora continua basada en datos.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd4-l1',
+        title: 'A/B testing: la ciencia de mejorar sin adivinar',
+        type: 'reading',
+        content: `## A/B Testing: decisiones basadas en evidencia
+
+El A/B testing (también llamado split testing) es el proceso de mostrar dos versiones diferentes de algo (una página, un headline, un botón) a grupos de usuarios distintos, y medir cuál produce mejores resultados.
+
+### Por qué A/B testing y no intuición
+
+La intuición falla constantemente en UX y marketing. Casos famosos:
+
+- Obama 2008: cambiar el CTA de "Sign Up" a "Learn More" aumentó registros en 40%
+- Microsoft Bing: un cambio en el formato de anuncios que ningún ejecutivo aprobó generó $100M+ adicionales en revenue
+- Amazon: múltiples pruebas fallidas antes de encontrar el botón "Buy Now" correcto
+
+El A/B testing reemplaza opiniones con evidencia.
+
+### Estructura de un experimento válido
+
+\`\`\`
+Hipótesis: "Cambiar el CTA de 'Contáctanos' a 'Agenda tu llamada gratis'
+            aumentará la tasa de clicks en el botón principal"
+
+Control (A): versión original con "Contáctanos"
+Variante (B): versión nueva con "Agenda tu llamada gratis"
+
+Métrica primaria: CTR del botón CTA
+Duración: hasta alcanzar significancia estadística
+\`\`\`
+
+### Significancia estadística: el concepto que no puedes ignorar
+
+El resultado de un A/B test solo vale si es estadísticamente significativo.
+
+**p-value < 0.05**: hay menos del 5% de probabilidad de que el resultado sea por azar. Esto es el estándar mínimo aceptado.
+
+**Ejemplo**:
+- Control: 100 visitas, 2 conversiones (2%)
+- Variante: 100 visitas, 3 conversiones (3%)
+- ¿Es la variante mejor? **No puedes saberlo con esos números** — puede ser ruido aleatorio
+
+Necesitas más tráfico (generalmente 1,000-10,000 por variante) para confiar en el resultado.
+
+**Herramienta**: abtestguide.com/calc — calcula el tamaño de muestra necesario antes de empezar.
+
+### Qué probar (por impacto potencial)
+
+**Alto impacto**:
+- Headline del hero
+- CTA principal (texto + color + posición)
+- Oferta (precio, estructura, garantía)
+- Layout completo de la página
+
+**Medio impacto**:
+- Imágenes y visuals
+- Testimonios (cuál, en qué orden)
+- Longitud del formulario
+
+**Bajo impacto** (no priorizar):
+- Color del texto
+- Tamaño de fuente leve
+- Iconos menores`,
+        completed: false,
+      },
+      {
+        id: 'd4-l1b',
+        title: 'Mini-práctica: Diseña y documenta un experimento',
+        type: 'practice',
+        tasks: [
+          'Identifica el elemento de tu sitio con mayor impacto potencial si lo cambias (headline, CTA, layout)',
+          'Escribe la hipótesis completa: "Creo que cambiando X por Y, la métrica Z mejorará porque..."',
+          'Usa abtestguide.com/calc para calcular el tamaño de muestra necesario con tu tráfico actual',
+          'Define la duración mínima del experimento (nunca menos de 2 semanas para capturar variaciones semanales)',
+          'Crea las dos versiones en Figma (aunque no puedas implementarlas hoy) — el diseño del experimento es el paso más crítico',
+        ],
+        tip: 'El error más común en A/B testing: terminar el experimento antes de tiempo porque "la variante ya va ganando". Los primeros días de un test son los más volátiles. Un test que parece ganador en día 3 puede ser perdedor en día 14. Respeta la duración mínima establecida antes de sacar conclusiones.',
+        completed: false,
+      },
+      {
+        id: 'd4-l2',
+        title: 'Herramientas de A/B testing y cómo implementar experimentos',
+        type: 'reading',
+        content: `## Implementar A/B tests sin developer
+
+### Google Optimize → reemplazado por Optimizely y otros
+
+Google Optimize fue deprecado en 2023. Las alternativas actuales:
+
+**VWO (Visual Website Optimizer)**:
+- Editor visual para crear variantes sin código
+- A/B, multivariante, personalización
+- Desde ~$200/mes
+
+**Optimizely**:
+- El estándar enterprise
+- Muy poderoso, muy caro
+- Para empresas con alto tráfico
+
+**Convert**:
+- Buena alternativa de precio medio (~$99/mes)
+- Integración con GA4
+
+**Opción low-cost (recomendada para empezar)**:
+- **Vercel Edge Config + middleware** — sirve diferentes versiones según cookies
+- **GrowthBook** (open source) — plataforma completa de experimentation gratis
+
+### A/B testing con Next.js y Vercel
+
+\`\`\`typescript
+// middleware.ts
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  const variant = Math.random() < 0.5 ? 'a' : 'b';
+
+  const response = NextResponse.next();
+  response.cookies.set('ab_variant', variant, { maxAge: 60 * 60 * 24 * 7 });
+
+  return response;
+}
+
+// En el componente:
+import { cookies } from 'next/headers';
+
+const variant = cookies().get('ab_variant')?.value ?? 'a';
+
+return variant === 'b'
+  ? <HeroVariantB />
+  : <HeroVariantA />;
+\`\`\`
+
+Este enfoque es gratuito, rápido (edge) y compatible con cualquier herramienta de analytics.
+
+### Documentar y compartir resultados
+
+Crea un "Experiment Log" en Notion con:
+\`\`\`
+Experimento: CTA text change
+Hipótesis: "Agenda tu llamada" > "Contáctanos"
+Start: 2026-06-01 | End: 2026-06-21
+Tráfico: 2,400 visitas por variante
+Resultado: Variante B +18% CTR (p=0.03 ✅ significativo)
+Decisión: Implementar variante B permanentemente
+Next: Testear color del botón
+\`\`\`
+
+Este log construye conocimiento acumulado sobre tu audiencia que se vuelve más valioso con el tiempo.
+
+### Cultura de experimentación
+
+Las empresas que más crecen no tienen "el mejor instinto" — tienen los mejores procesos de experimentación.
+
+Amazon hace miles de A/B tests simultáneos. Netflix prueba hasta los thumbnails de cada show por audiencia.
+
+Para una agencia: empieza con 1 experimento al mes. Con el tiempo, ese conocimiento acumulado es un activo competitivo real.`,
+        completed: false,
+      },
+      {
+        id: 'd4-l2b',
+        title: 'Mini-práctica: Implementa tu primer A/B test real',
+        type: 'practice',
+        tasks: [
+          'Implementa el middleware de Vercel para servir dos versiones de tu hero section (variante A y B)',
+          'Asegúrate de que el evento de conversión se registra correctamente en GA4 para ambas variantes (con parámetro ab_variant)',
+          'Configura un segmento en GA4 para cada variante y crea un dashboard de Looker Studio que compare las métricas',
+          'Deja correr el experimento mínimo 2 semanas antes de analizar',
+          'Documenta el experimento en tu Experiment Log con todos los campos definidos',
+        ],
+        tip: 'Solo prueba una variable a la vez. Si cambias el headline Y el color del botón Y la imagen simultáneamente, no sabrás qué causó el resultado. La pureza del experimento es lo que hace que el conocimiento sea acumulable y confiable.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'GrowthBook — Open source experimentation platform',
+        url: 'https://www.growthbook.io',
+        type: 'tool',
+      },
+      {
+        title: 'A/B Test Sample Size Calculator',
+        url: 'https://abtestguide.com/calc',
+        type: 'tool',
+      },
+      {
+        title: 'Optimizely — A/B testing guide',
+        url: 'https://www.optimizely.com/optimization-glossary/ab-testing',
+        type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'data-5',
+    number: 36,
+    title: 'KPIs y Reportes para Clientes',
+    description: 'Define los KPIs correctos para cada tipo de negocio, construye reportes que el cliente entiende y presenta datos que justifican la inversión.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd5-l1',
+        title: 'KPIs: medir lo que mueve el negocio, no lo que es fácil medir',
+        type: 'reading',
+        content: `## KPIs: el arte de medir lo correcto
+
+Un KPI (Key Performance Indicator) es una métrica que está directamente vinculada al éxito del negocio.
+
+El error más común: reportar métricas de vanidad en lugar de KPIs reales.
+
+### Métricas de vanidad vs KPIs reales
+
+| Métrica de vanidad | KPI real |
+|-------------------|----------|
+| Pageviews | Leads generados |
+| Seguidores en Instagram | Leads desde Instagram |
+| Impresiones de ads | Costo por lead |
+| "Tiempo en página" alto | Tasa de conversión |
+| Número de posts publicados | Tráfico orgánico generado |
+
+### El framework OKR para definir KPIs
+
+**Objective**: qué queremos lograr (cualitativo)
+**Key Results**: cómo sabremos que lo logramos (cuantitativo)
+
+\`\`\`
+Objective: Ser la agencia de referencia para startups LATAM
+
+KR1: Conseguir 10 leads calificados por mes desde canales orgánicos
+KR2: Tasa de cierre de propuestas ≥ 25%
+KR3: NPS de clientes actuales ≥ 8/10
+\`\`\`
+
+### KPIs por tipo de negocio
+
+**E-commerce**:
+- Tasa de conversión (%)
+- Valor promedio de orden (AOV)
+- Customer Acquisition Cost (CAC)
+- Lifetime Value (LTV)
+- ROAS (Return on Ad Spend)
+
+**SaaS**:
+- MRR (Monthly Recurring Revenue) y crecimiento
+- Churn rate (% que cancela cada mes)
+- CAC y LTV
+- Activation rate (% que completa el onboarding)
+- NPS
+
+**Agencia de servicios** (AlphaDev):
+- Leads calificados por mes
+- Tasa de cierre de propuestas
+- Revenue por cliente
+- Tiempo de delivery por proyecto
+- NPS de clientes
+
+**Blog/contenido**:
+- Tráfico orgánico (sesiones)
+- Keywords en top 10
+- Email subscribers
+- Tasa de conversión a lead/subscriber
+
+### North Star Metric: el único número que importa más
+
+Cada negocio tiene una métrica que, si crece, todo lo demás crece con ella.
+
+- Airbnb: noches reservadas
+- Facebook: usuarios activos diarios (DAU)
+- Spotify: tiempo total de escucha
+- AlphaDev Studios: proyectos entregados satisfactoriamente
+
+La North Star Metric alinea a todo el equipo (aunque seas uno solo) en lo que importa.`,
+        completed: false,
+      },
+      {
+        id: 'd5-l1b',
+        title: 'Mini-práctica: Define los KPIs de tu negocio y de un cliente',
+        type: 'practice',
+        tasks: [
+          'Define la North Star Metric de AlphaDev Studios (o tu propio negocio) y justifícala',
+          'Crea el árbol de métricas: North Star → 3-5 KPIs que la impulsan → métricas operativas que mueven cada KPI',
+          'Para un cliente hipotético (e-commerce de ropa), define 5 KPIs con sus targets mensuales',
+          'Identifica qué herramientas usarías para medir cada KPI (GA4, Search Console, CRM, etc.)',
+          'Escribe el dashboard de KPIs en formato de tabla: KPI | Target | Actual | Tendencia | Acción si está debajo',
+        ],
+        tip: 'El mejor KPI es el que el cliente puede calcular en su cabeza sin herramientas. "23 leads este mes vs 18 el mes pasado" es más poderoso que "la tasa de conversión del canal de adquisición orgánico aumentó 0.3 puntos porcentuales". Simplicidad primero.',
+        completed: false,
+      },
+      {
+        id: 'd5-l2',
+        title: 'Reportes para clientes: datos que generan confianza y retención',
+        type: 'reading',
+        content: `## El reporte de cliente que renueva contratos
+
+Un buen reporte no es una dump de datos. Es una narrativa que responde tres preguntas:
+1. ¿Qué pasó este mes?
+2. ¿Por qué pasó?
+3. ¿Qué haremos al respecto?
+
+### El problema con la mayoría de reportes de agencia
+
+- 40 páginas de screenshots de GA4 que el cliente no entiende
+- Métricas que van bien aunque el negocio no esté creciendo
+- Ninguna narrativa de qué causó los cambios
+- Ninguna conexión entre acciones realizadas y resultados obtenidos
+
+El cliente paga por resultados, no por reportes.
+
+### La estructura del reporte que retiene clientes
+
+**Executive Summary** (½ página):
+\`\`\`
+Este mes: [logro principal]
+Vs mes anterior: [comparativa en lenguaje de negocio]
+Próximo mes: [1-3 prioridades]
+\`\`\`
+
+**KPIs del período** (1 página con visuales):
+- Solo los 3-5 KPIs acordados al inicio del proyecto
+- Con comparativa vs mes anterior y vs objetivo
+- Verde/amarillo/rojo para estado rápido
+
+**Lo que hicimos** (1-2 páginas):
+- Acciones concretas realizadas
+- Con el impacto esperado de cada una
+
+**Resultados de acciones anteriores** (1 página):
+- ¿Qué logramos con lo que hicimos el mes pasado?
+- Aquí se conecta esfuerzo con resultado
+
+**Hallazgos e insights** (1 página):
+- Qué aprendimos que antes no sabíamos
+- Qué oportunidad identificamos
+
+**Plan del próximo mes** (1 página):
+- Acciones concretas con responsable y fecha
+- KPIs objetivo para el próximo período
+
+### Cómo presentar datos difíciles
+
+Si los KPIs van mal:
+1. **Sé directo** — no enterres las malas noticias en el reporte
+2. **Explica el "por qué"** — ¿es estacional, algorítmico, competitivo?
+3. **Presenta el plan** — qué cambiará para el próximo mes
+
+Un cliente que recibe malas noticias con honestidad y un plan claro confía más que uno que recibe solo buenas noticias.
+
+### Cadencia de comunicación ideal
+
+\`\`\`
+Semanal: mensaje corto de 2-3 líneas con el highlight de la semana
+Mensual: reporte completo con la estructura de 7 secciones
+Trimestral: revisión estratégica de objetivos y ajuste de targets
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd5-l2b',
+        title: 'Mini-práctica: Crea tu template de reporte mensual de cliente',
+        type: 'practice',
+        tasks: [
+          'Crea el template de reporte mensual en Notion (para la narrativa) + Looker Studio (para los datos)',
+          'Escribe el reporte de un mes ficticio o real usando la estructura de 7 secciones — con datos inventados si es necesario',
+          'Practica traducir cada métrica a lenguaje de negocio: "tráfico orgánico +23%" → "23% más personas buscando [servicio] llegaron al sitio"',
+          'Grábate presentando el reporte en 5 minutos — practica explicar resultados con fluidez',
+          'Define la cadencia de comunicación completa para un cliente: ¿qué recibirán semanalmente, mensualmente, trimestralmente?',
+        ],
+        tip: 'Los clientes no retienen a agencias por sus reportes — retienen a agencias que les hacen sentir que están en manos de alguien que entiende su negocio. Los reportes son evidencia de ese entendimiento. Si el reporte podría ser el de cualquier cliente tuyo, no es suficientemente personalizado.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Looker Studio — Templates de reportes',
+        url: 'https://lookerstudio.google.com/gallery',
+        type: 'tool',
+      },
+      {
+        title: 'Hotjar — KPI Dashboard Guide',
+        url: 'https://www.hotjar.com/blog/marketing-kpis',
+        type: 'article',
+      },
+      {
+        title: 'Klipfolio — KPI templates por industria',
+        url: 'https://www.klipfolio.com/resources/kpi-examples',
+        type: 'tool',
       },
     ],
   },
