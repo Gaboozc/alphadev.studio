@@ -2,9 +2,9 @@
 // Designed to mirror a future Supabase schema — keep fields flat and serializable
 
 export type LessonType = 'video' | 'audio' | 'reading' | 'practice'
-export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification'
+export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification' | 'documentation'
 export type ModuleStatus = 'locked' | 'available' | 'completed'
-export type Track = 'marketing' | 'uiux'
+export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy'
 
 export interface Lesson {
   id: string
@@ -2190,5 +2190,3683 @@ export const MODULES: Module[] = [
     ],
   },
 
+
+  // ─── Track: Desarrollo Web ───────────────────────────────────────────────────
+
+  {
+    id: 'web-1',
+    number: 12,
+    title: 'Fundamentos Web: HTML & CSS',
+    description: 'Construye la base sólida de todo desarrollo web moderno: estructura semántica, estilos, layouts y responsive design.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w1-l1',
+        title: 'HTML semántico: estructura que importa',
+        type: 'reading',
+        content: `## HTML semántico
+
+HTML semántico no es solo usar las etiquetas correctas — es comunicar la *intención* del contenido tanto a navegadores como a motores de búsqueda y lectores de pantalla.
+
+### Por qué importa
+
+- **SEO**: Google lee el HTML. Un \`<h1>\` correcto vale más que 10 palabras clave.
+- **Accesibilidad**: Lectores de pantalla dependen de la semántica para navegar.
+- **Mantenimiento**: HTML semántico es más fácil de leer y modificar.
+
+### Las etiquetas que más usarás
+
+\`\`\`html
+<header>   — cabecera de página o sección
+<nav>      — navegación principal
+<main>     — contenido principal (único por página)
+<section>  — sección temática con heading propio
+<article>  — contenido independiente (post, card)
+<aside>    — contenido relacionado pero secundario
+<footer>   — pie de página o sección
+\`\`\`
+
+### Estructura base de cualquier página
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi página</title>
+</head>
+<body>
+  <header>
+    <nav>...</nav>
+  </header>
+  <main>
+    <section>
+      <h1>Título principal</h1>
+      <p>Contenido...</p>
+    </section>
+  </main>
+  <footer>...</footer>
+</body>
+</html>
+\`\`\`
+
+### Jerarquía de headings
+
+Usa **un solo \`<h1>\`** por página. Los headings crean un outline lógico:
+
+\`\`\`
+h1 — Título de la página
+  h2 — Sección principal
+    h3 — Subsección
+      h4 — Sub-subsección (úsala con cuidado)
+\`\`\`
+
+### Tip: formularios semánticos
+
+\`\`\`html
+<form>
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" required>
+  <button type="submit">Enviar</button>
+</form>
+\`\`\`
+
+El \`label\` con \`for\` conectado al \`id\` del input mejora accesibilidad y UX (click en label activa el input).`,
+        completed: false,
+      },
+      {
+        id: 'w1-l1b',
+        title: 'Mini-práctica: Escribe el HTML de tu página "Sobre mí"',
+        type: 'practice',
+        tasks: [
+          'Crea un archivo index.html con estructura semántica completa (header, main, footer)',
+          'Incluye nav con 3 links (aunque sean #), main con h1 + 2 secciones, footer con tu nombre',
+          'Valida el HTML en validator.w3.org — cero errores antes de continuar',
+          'Agrega una sección <article> con una mini-bio de 3 párrafos',
+        ],
+        tip: 'No uses <div> para nada que tenga una etiqueta semántica equivalente. Si dudas, pregúntate: ¿esta etiqueta describe QUÉ es el contenido?',
+        completed: false,
+      },
+      {
+        id: 'w1-l2',
+        title: 'CSS moderno: Flexbox, Grid y el box model',
+        type: 'reading',
+        content: `## CSS moderno
+
+CSS en 2025 es más poderoso que nunca. Dominar el box model, Flexbox y Grid te da el 90% de lo que necesitas para cualquier layout.
+
+### El Box Model
+
+Todo elemento HTML es una caja:
+
+\`\`\`
+┌─────────────────────────┐
+│         margin          │
+│  ┌───────────────────┐  │
+│  │      border       │  │
+│  │  ┌─────────────┐  │  │
+│  │  │   padding   │  │  │
+│  │  │  ┌───────┐  │  │  │
+│  │  │  │content│  │  │  │
+│  │  │  └───────┘  │  │  │
+│  │  └─────────────┘  │  │
+│  └───────────────────┘  │
+└─────────────────────────┘
+\`\`\`
+
+**Regla de oro**: usa siempre \`box-sizing: border-box\`:
+
+\`\`\`css
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+\`\`\`
+
+Esto hace que padding y border se incluyan en el width, no se sumen.
+
+### Flexbox — para layouts de una dimensión
+
+\`\`\`css
+.container {
+  display: flex;
+  justify-content: space-between; /* eje principal (horizontal) */
+  align-items: center;            /* eje cruzado (vertical) */
+  gap: 1rem;
+}
+\`\`\`
+
+Casos de uso ideales: navbars, cards en fila, centrar un elemento.
+
+### Grid — para layouts de dos dimensiones
+
+\`\`\`css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Layout complejo */
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 250px 1fr;
+}
+\`\`\`
+
+### Responsive con CSS moderno
+
+\`\`\`css
+/* Fluid grid sin media queries */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Fluid typography */
+.heading {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Media queries cuando sí son necesarias */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+\`\`\`
+
+### Custom Properties (variables CSS)
+
+\`\`\`css
+:root {
+  --color-primary: #9A7235;
+  --spacing-md: 1rem;
+  --radius: 0.5rem;
+}
+
+.button {
+  background: var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+}
+\`\`\`
+
+Variables CSS son la base de cualquier design system.`,
+        completed: false,
+      },
+      {
+        id: 'w1-l2b',
+        title: 'Mini-práctica: Dale estilos a tu página "Sobre mí"',
+        type: 'practice',
+        tasks: [
+          'Define custom properties en :root para colores, tipografía y espaciado',
+          'Usa Flexbox para el navbar (logo a la izquierda, links a la derecha)',
+          'Usa Grid para una sección de skills o proyectos (3 columnas en desktop, 1 en mobile)',
+          'Implementa al menos 1 media query para adaptar el layout en pantallas pequeñas',
+          'Prueba en Chrome DevTools en mobile view — debe verse bien en 375px de ancho',
+        ],
+        tip: 'Empieza con mobile-first: escribe los estilos base para mobile y usa media queries con min-width para desktop. Es más fácil agregar complejidad que quitarla.',
+        completed: false,
+      },
+      {
+        id: 'w1-l3',
+        title: 'Tipografía web, colores y accesibilidad visual',
+        type: 'reading',
+        content: `## Tipografía web y accesibilidad visual
+
+El 95% de la información en la web es texto. Dominar tipografía es dominar diseño web.
+
+### Cargar fuentes correctamente
+
+\`\`\`html
+<!-- Google Fonts — en el <head> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+\`\`\`
+
+\`\`\`css
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+\`\`\`
+
+### Escala tipográfica
+
+Una escala consistente crea armonía visual:
+
+\`\`\`css
+:root {
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+}
+\`\`\`
+
+### Contraste de color (WCAG)
+
+Para que el texto sea legible y accesible:
+
+- **Normal text**: ratio mínimo 4.5:1
+- **Large text** (18px+ o 14px+ bold): ratio mínimo 3:1
+- **UI components**: ratio mínimo 3:1
+
+Herramienta gratuita: **coolors.co/contrast-checker**
+
+\`\`\`css
+/* ✅ Buen contraste */
+color: #1A1512;
+background: #FAFAF7;
+
+/* ❌ Mal contraste */
+color: #999999;
+background: #FFFFFF;
+\`\`\`
+
+### Line-height y letter-spacing
+
+\`\`\`css
+body {
+  line-height: 1.65; /* Cómodo para lectura de párrafos */
+}
+
+h1, h2 {
+  line-height: 1.2;  /* Headings más apretados */
+  letter-spacing: -0.02em; /* Tracking negativo en display */
+}
+
+.caption {
+  letter-spacing: 0.05em; /* Tracking positivo en texto pequeño */
+  text-transform: uppercase;
+}
+\`\`\`
+
+### Measure (longitud de línea)
+
+La longitud ideal de una línea de texto es **60-75 caracteres**:
+
+\`\`\`css
+.content {
+  max-width: 65ch; /* ch = ancho del carácter '0' */
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w1-l3b',
+        title: 'Mini-práctica: Refinamiento tipográfico y paleta de colores',
+        type: 'practice',
+        tasks: [
+          'Integra Google Fonts a tu proyecto (elige 1-2 fuentes complementarias)',
+          'Define una escala tipográfica con custom properties y aplícala consistentemente',
+          'Verifica el contraste de todos tus colores de texto en coolors.co/contrast-checker',
+          'Limita el ancho de tus párrafos a max 65ch para legibilidad óptima',
+          'Documenta tu paleta de colores en un comentario CSS con los hex codes y sus usos',
+        ],
+        tip: 'Empareja una fuente serif (Playfair Display, Lora) con una sans-serif (Inter, Plus Jakarta Sans) para dar jerarquía visual sin necesitar muchos tamaños distintos.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'MDN Web Docs — HTML Reference',
+        url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
+        type: 'documentation',
+      },
+      {
+        title: 'CSS Tricks — A Complete Guide to Flexbox',
+        url: 'https://css-tricks.com/snippets/css/a-guide-to-flexbox',
+        type: 'article',
+      },
+      {
+        title: 'CSS Tricks — A Complete Guide to Grid',
+        url: 'https://css-tricks.com/snippets/css/complete-guide-grid',
+        type: 'article',
+      },
+      {
+        title: 'Google Fonts',
+        url: 'https://fonts.google.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'web-2',
+    number: 13,
+    title: 'JavaScript Moderno (ES2024)',
+    description: 'De las bases de JS a async/await, fetch y manipulación del DOM — el lenguaje que da vida a cualquier interfaz web.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w2-l1',
+        title: 'Variables, funciones y el flujo de JavaScript',
+        type: 'reading',
+        content: `## JavaScript moderno: las bases
+
+JavaScript es el único lenguaje que corre nativamente en el navegador. Entenderlo bien es no-negociable para cualquier desarrollador web.
+
+### Variables
+
+\`\`\`javascript
+// const — valor que no cambia (úsala por default)
+const nombre = 'Gabriel';
+const API_URL = 'https://api.ejemplo.com';
+
+// let — valor que puede cambiar
+let contador = 0;
+contador = contador + 1;
+
+// var — NO usar (scope confuso, problemático)
+\`\`\`
+
+### Tipos de datos
+
+\`\`\`javascript
+const texto = 'Hola mundo';          // string
+const numero = 42;                    // number
+const decimal = 3.14;                 // number (no hay int separado)
+const activo = true;                  // boolean
+const vacio = null;                   // null (ausencia intencional)
+const indefinido = undefined;         // undefined
+const objeto = { nombre: 'Gabriel' }; // object
+const lista = [1, 2, 3];             // array (también es object)
+\`\`\`
+
+### Funciones
+
+\`\`\`javascript
+// Declaración clásica
+function saludar(nombre) {
+  return \`Hola, \${nombre}!\`;
+}
+
+// Arrow function (moderna, más concisa)
+const saludar = (nombre) => \`Hola, \${nombre}!\`;
+
+// Con múltiples líneas
+const calcular = (a, b) => {
+  const resultado = a + b;
+  return resultado;
+};
+
+// Parámetros por default
+const conectar = (host = 'localhost', puerto = 3000) => {
+  return \`\${host}:\${puerto}\`;
+};
+\`\`\`
+
+### Destructuring (muy usado en React)
+
+\`\`\`javascript
+// Objetos
+const usuario = { nombre: 'Gabriel', email: 'g@mail.com', rol: 'admin' };
+const { nombre, email } = usuario;
+
+// Con renombrado
+const { nombre: nombreUsuario } = usuario;
+
+// Arrays
+const colores = ['rojo', 'verde', 'azul'];
+const [primero, segundo] = colores;
+
+// En parámetros de función
+const mostrarUsuario = ({ nombre, rol }) => {
+  console.log(\`\${nombre} — \${rol}\`);
+};
+\`\`\`
+
+### Spread y Rest
+
+\`\`\`javascript
+// Spread: expandir
+const extras = { admin: false };
+const usuarioCompleto = { ...usuario, ...extras };
+
+// Rest: agrupar el resto
+const [cabeza, ...cola] = [1, 2, 3, 4, 5];
+// cabeza = 1, cola = [2, 3, 4, 5]
+\`\`\`
+
+### Array methods esenciales
+
+\`\`\`javascript
+const productos = [
+  { nombre: 'Laptop', precio: 1200 },
+  { nombre: 'Mouse', precio: 25 },
+  { nombre: 'Teclado', precio: 80 },
+];
+
+// map — transforma cada elemento
+const nombres = productos.map(p => p.nombre);
+// ['Laptop', 'Mouse', 'Teclado']
+
+// filter — filtra según condición
+const caros = productos.filter(p => p.precio > 50);
+
+// find — primer elemento que cumple
+const laptop = productos.find(p => p.nombre === 'Laptop');
+
+// reduce — acumula en un valor
+const total = productos.reduce((acc, p) => acc + p.precio, 0);
+// 1305
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l1b',
+        title: 'Mini-práctica: Manipula datos con JS puro',
+        type: 'practice',
+        tasks: [
+          'Crea un array de 5 objetos "proyecto" con propiedades: titulo, tecnologia, año, destacado (boolean)',
+          'Usa .filter() para obtener solo los proyectos destacados',
+          'Usa .map() para crear un array de strings con formato "titulo — tecnologia (año)"',
+          'Usa .find() para encontrar el proyecto más reciente',
+          'Usa .reduce() para contar cuántos proyectos hay por tecnología (resultado: objeto)',
+          'Consola todos los resultados con console.log descriptivos',
+        ],
+        tip: 'Encadena métodos cuando tenga sentido: productos.filter(...).map(...). Pero si la cadena supera 3 métodos, considera variables intermedias para legibilidad.',
+        completed: false,
+      },
+      {
+        id: 'w2-l2',
+        title: 'DOM: hacer que la página responda al usuario',
+        type: 'reading',
+        content: `## Manipulación del DOM
+
+El DOM (Document Object Model) es la representación en JavaScript de tu HTML. Manipularlo es cómo haces que las páginas sean interactivas.
+
+### Seleccionar elementos
+
+\`\`\`javascript
+// querySelector — el más versátil (CSS selectors)
+const titulo = document.querySelector('h1');
+const boton = document.querySelector('.btn-primary');
+const form = document.querySelector('#contact-form');
+
+// querySelectorAll — todos los que coincidan (NodeList)
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => console.log(card));
+
+// getElementById — específico para IDs (más rápido)
+const nav = document.getElementById('navbar');
+\`\`\`
+
+### Modificar elementos
+
+\`\`\`javascript
+// Contenido
+titulo.textContent = 'Nuevo título'; // solo texto, seguro
+titulo.innerHTML = '<span>Título</span>'; // HTML (cuidado con XSS)
+
+// Estilos
+boton.style.backgroundColor = '#9A7235';
+boton.style.display = 'none'; // ocultar
+
+// Clases
+elemento.classList.add('activo');
+elemento.classList.remove('oculto');
+elemento.classList.toggle('expandido');
+elemento.classList.contains('activo'); // → boolean
+
+// Atributos
+input.setAttribute('disabled', true);
+input.getAttribute('placeholder');
+imagen.src = 'nueva-foto.jpg';
+\`\`\`
+
+### Eventos
+
+\`\`\`javascript
+// Click
+boton.addEventListener('click', (event) => {
+  event.preventDefault(); // evita comportamiento default (útil en forms)
+  console.log('Botón clickeado');
+});
+
+// Input en tiempo real
+const searchInput = document.querySelector('#search');
+searchInput.addEventListener('input', (e) => {
+  console.log(e.target.value);
+});
+
+// Submit de formulario
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const datos = new FormData(e.target);
+  const email = datos.get('email');
+  console.log(email);
+});
+
+// Múltiples elementos (event delegation)
+document.querySelector('.lista').addEventListener('click', (e) => {
+  if (e.target.matches('.item')) {
+    e.target.classList.toggle('completado');
+  }
+});
+\`\`\`
+
+### Crear y remover elementos
+
+\`\`\`javascript
+// Crear
+const card = document.createElement('div');
+card.className = 'card';
+card.textContent = 'Nueva card';
+
+// Agregar al DOM
+const contenedor = document.querySelector('.grid');
+contenedor.appendChild(card);
+
+// O con insertAdjacentHTML (más eficiente para HTML complejo)
+contenedor.insertAdjacentHTML('beforeend', \`
+  <div class="card">
+    <h3>Título</h3>
+    <p>Descripción</p>
+  </div>
+\`);
+
+// Remover
+card.remove();
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l2b',
+        title: 'Mini-práctica: Lista de proyectos interactiva',
+        type: 'practice',
+        tasks: [
+          'Crea una lista de 5 proyectos en JS (array de objetos) y renderízalos dinámicamente al DOM con insertAdjacentHTML',
+          'Agrega un input de búsqueda que filtre proyectos en tiempo real (evento "input")',
+          'Agrega un botón "Destacar" en cada card que toggle una clase CSS "destacado"',
+          'Agrega un contador que muestre cuántos proyectos están destacados',
+          'Implementa un botón "Agregar proyecto" que solicite nombre con prompt() y lo agregue a la lista',
+        ],
+        tip: 'Para actualizar la lista al filtrar, limpia el contenedor con innerHTML = "" y renderiza de nuevo con el array filtrado. Es menos eficiente que técnicas virtuales, pero correcto para aprender.',
+        completed: false,
+      },
+      {
+        id: 'w2-l3',
+        title: 'Async JS: Fetch, Promises y async/await',
+        type: 'reading',
+        content: `## JavaScript asíncrono
+
+El código asíncrono te permite hacer requests HTTP, leer archivos y esperar operaciones lentas sin bloquear la interfaz.
+
+### El problema del código sincrónico
+
+\`\`\`javascript
+// ❌ Esto bloquearía el navegador:
+const datos = fetchDatos(); // imaginemos que tarda 2 segundos
+mostrar(datos); // mientras espera, nada funciona
+\`\`\`
+
+### Promises
+
+Una Promise representa un valor futuro — puede estar pendiente, resuelta o rechazada.
+
+\`\`\`javascript
+const promesa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    if (Math.random() > 0.5) {
+      resolve('Éxito');
+    } else {
+      reject(new Error('Falló'));
+    }
+  }, 1000);
+});
+
+promesa
+  .then(resultado => console.log(resultado))
+  .catch(error => console.error(error));
+\`\`\`
+
+### async/await — la forma moderna
+
+\`\`\`javascript
+// async convierte la función en asíncrona
+const obtenerUsuario = async (id) => {
+  try {
+    // await "pausa" hasta que la Promise se resuelva
+    const respuesta = await fetch(\`https://api.ejemplo.com/users/\${id}\`);
+
+    if (!respuesta.ok) {
+      throw new Error(\`Error HTTP: \${respuesta.status}\`);
+    }
+
+    const usuario = await respuesta.json();
+    return usuario;
+  } catch (error) {
+    console.error('Error al obtener usuario:', error);
+    throw error; // re-throw para que el caller pueda manejarlo
+  }
+};
+
+// Usar la función async
+const mostrarUsuario = async () => {
+  const usuario = await obtenerUsuario(1);
+  document.querySelector('.nombre').textContent = usuario.name;
+};
+
+mostrarUsuario();
+\`\`\`
+
+### Fetch API
+
+\`\`\`javascript
+// GET
+const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+const posts = await response.json();
+
+// POST
+const response = await fetch('https://api.ejemplo.com/posts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': \`Bearer \${token}\`,
+  },
+  body: JSON.stringify({
+    title: 'Mi post',
+    body: 'Contenido...',
+    userId: 1,
+  }),
+});
+const nuevoPost = await response.json();
+\`\`\`
+
+### Promise.all — paralelo
+
+\`\`\`javascript
+// ❌ Secuencial (lento: 3 segundos total)
+const usuarios = await obtenerUsuarios();
+const posts = await obtenerPosts();
+const comentarios = await obtenerComentarios();
+
+// ✅ Paralelo (rápido: máximo 1 segundo)
+const [usuarios, posts, comentarios] = await Promise.all([
+  obtenerUsuarios(),
+  obtenerPosts(),
+  obtenerComentarios(),
+]);
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l3b',
+        title: 'Mini-práctica: Conecta tu app con una API real',
+        type: 'practice',
+        tasks: [
+          'Usa la API pública JSONPlaceholder (jsonplaceholder.typicode.com) para obtener 10 posts',
+          'Renderiza los posts en el DOM con título y cuerpo, mostrando un loading state mientras carga',
+          'Agrega manejo de errores: si el fetch falla, muestra un mensaje de error al usuario',
+          'Implementa un botón "Recargar" que vuelva a hacer el fetch',
+          'Bonus: agrega un input que filtre posts por contenido del título en tiempo real',
+        ],
+        tip: 'Siempre muestra feedback al usuario: un spinner mientras carga, un mensaje si hay error, y el contenido cuando llega. Nunca dejes la interfaz en silencio mientras espera.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'javascript.info — The Modern JavaScript Tutorial',
+        url: 'https://javascript.info',
+        type: 'course',
+      },
+      {
+        title: 'JSONPlaceholder — Free Fake REST API',
+        url: 'https://jsonplaceholder.typicode.com',
+        type: 'tool',
+      },
+      {
+        title: 'MDN — Fetch API',
+        url: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'web-3',
+    number: 14,
+    title: 'React y Next.js App Router',
+    description: 'Construye interfaces modernas con componentes reutilizables, estado reactivo y el poder del App Router de Next.js.',
+    duration: '5 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w3-l1',
+        title: 'React: componentes, props y estado',
+        type: 'reading',
+        content: `## React: el pensamiento en componentes
+
+React es una librería para construir interfaces como árbol de componentes reutilizables. Cada componente es una función que recibe datos (props) y retorna JSX.
+
+### Tu primer componente
+
+\`\`\`tsx
+// Un componente es una función que retorna JSX
+const Saludo = () => {
+  return <h1>Hola desde React</h1>;
+};
+
+// Con props (propiedades — datos que recibe el componente)
+interface CardProps {
+  titulo: string;
+  descripcion: string;
+  destacado?: boolean; // opcional
+}
+
+const Card = ({ titulo, descripcion, destacado = false }: CardProps) => {
+  return (
+    <div className={\`card \${destacado ? 'card--destacada' : ''}\`}>
+      <h2>{titulo}</h2>
+      <p>{descripcion}</p>
+    </div>
+  );
+};
+\`\`\`
+
+### useState — estado local del componente
+
+\`\`\`tsx
+import { useState } from 'react';
+
+const Contador = () => {
+  // [valor, función para actualizarlo]
+  const [count, setCount] = useState(0);
+  const [nombre, setNombre] = useState('');
+
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+
+      <input
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        placeholder="Tu nombre"
+      />
+      <p>Hola, {nombre || 'visitante'}</p>
+    </div>
+  );
+};
+\`\`\`
+
+### Renderizado de listas
+
+\`\`\`tsx
+interface Proyecto {
+  id: number;
+  titulo: string;
+  tecnologia: string;
+}
+
+const proyectos: Proyecto[] = [
+  { id: 1, titulo: 'Portfolio', tecnologia: 'Next.js' },
+  { id: 2, titulo: 'E-commerce', tecnologia: 'React' },
+];
+
+const ListaProyectos = () => {
+  return (
+    <ul>
+      {proyectos.map((proyecto) => (
+        // key es obligatorio — ayuda a React a identificar elementos
+        <li key={proyecto.id}>
+          {proyecto.titulo} — {proyecto.tecnologia}
+        </li>
+      ))}
+    </ul>
+  );
+};
+\`\`\`
+
+### useEffect — efectos secundarios
+
+\`\`\`tsx
+import { useState, useEffect } from 'react';
+
+const Posts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Se ejecuta después de que el componente se monta
+    const fetchPosts = async () => {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+      const data = await res.json();
+      setPosts(data.slice(0, 10));
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []); // [] = solo al montar, sin dependencias
+
+  if (loading) return <p>Cargando...</p>;
+
+  return (
+    <ul>
+      {posts.map((post: any) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+};
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l1b',
+        title: 'Mini-práctica: Tu primera app React con estado',
+        type: 'practice',
+        tasks: [
+          'Crea un componente TodoList con useState para manejar una lista de tareas',
+          'Implementa agregar tarea (input + botón), marcar como completada (checkbox) y eliminar (botón x)',
+          'Agrega un contador que muestre "X de Y tareas completadas"',
+          'Filtra la lista para mostrar: todas / pendientes / completadas',
+          'Extrae los componentes en archivos separados: TodoList, TodoItem, TodoFilter',
+        ],
+        tip: 'Cuando el estado se vuelve complejo (múltiples valores relacionados), considera useReducer. Para este ejercicio useState está perfecto — no sobre-ingenierices.',
+        completed: false,
+      },
+      {
+        id: 'w3-l2',
+        title: 'Next.js App Router: rutas, layouts y Server Components',
+        type: 'reading',
+        content: `## Next.js App Router
+
+Next.js con App Router es el estándar de la industria para React en producción. La convención de archivos define las rutas automáticamente.
+
+### Estructura de carpetas
+
+\`\`\`
+app/
+├── layout.tsx          → Layout raíz (siempre presente)
+├── page.tsx            → Ruta: /
+├── about/
+│   └── page.tsx        → Ruta: /about
+├── blog/
+│   ├── page.tsx        → Ruta: /blog
+│   └── [slug]/
+│       └── page.tsx    → Ruta: /blog/:slug (dinámica)
+└── api/
+    └── contact/
+        └── route.ts    → Ruta API: /api/contact
+\`\`\`
+
+### layout.tsx — el contenedor persistente
+
+\`\`\`tsx
+// app/layout.tsx
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mi sitio',
+  description: 'Descripción para SEO',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="es">
+      <body>
+        <nav>Mi navbar</nav>
+        {children}  {/* Aquí se renderiza la página activa */}
+        <footer>Mi footer</footer>
+      </body>
+    </html>
+  );
+}
+\`\`\`
+
+### Server Components vs Client Components
+
+**Por default, todos los componentes en App Router son Server Components.**
+
+\`\`\`tsx
+// Server Component (sin 'use client')
+// ✅ Puede hacer fetch directamente
+// ✅ Accede a datos del servidor (DB, variables de entorno)
+// ❌ No puede usar useState, useEffect, event handlers
+const Pagina = async () => {
+  const posts = await fetch('https://api.ejemplo.com/posts').then(r => r.json());
+
+  return (
+    <ul>
+      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+    </ul>
+  );
+};
+
+// Client Component
+'use client'; // Necesario cuando usas hooks o eventos
+
+import { useState } from 'react';
+
+const Boton = () => {
+  const [clicked, setClicked] = useState(false);
+
+  return (
+    <button onClick={() => setClicked(true)}>
+      {clicked ? 'Clickeado!' : 'Click me'}
+    </button>
+  );
+};
+\`\`\`
+
+### Rutas dinámicas y params
+
+\`\`\`tsx
+// app/blog/[slug]/page.tsx
+interface Props {
+  params: { slug: string };
+}
+
+const BlogPost = async ({ params }: Props) => {
+  const post = await fetchPost(params.slug);
+
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </article>
+  );
+};
+
+export default BlogPost;
+\`\`\`
+
+### API Routes
+
+\`\`\`typescript
+// app/api/contact/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { email, mensaje } = body;
+
+  // Validar, guardar en DB, enviar email...
+
+  return NextResponse.json({ success: true });
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l2b',
+        title: 'Mini-práctica: Portfolio con Next.js App Router',
+        type: 'practice',
+        tasks: [
+          'Crea un proyecto Next.js nuevo con create-next-app (TypeScript + Tailwind + App Router)',
+          'Implementa layout.tsx con navbar y footer que persistan en todas las páginas',
+          'Crea app/page.tsx (home) con hero section y lista de proyectos hardcodeada',
+          'Crea app/proyectos/[id]/page.tsx para el detalle de cada proyecto',
+          'Agrega metadata (title, description) a cada página — verifica en el <title> del HTML',
+          'Despliega en Vercel con "vercel" CLI o conectando el repo en vercel.com',
+        ],
+        tip: 'Cuando veas que un componente necesita estado o eventos, conviértelo en Client Component con "use client". Mantén Server Components para todo lo que pueda ser estático o necesite datos del servidor.',
+        completed: false,
+      },
+      {
+        id: 'w3-l3',
+        title: 'TypeScript en React: tipos, interfaces y generics',
+        type: 'reading',
+        content: `## TypeScript en React
+
+TypeScript añade tipos estáticos a JavaScript, catching errores en desarrollo antes de que lleguen a producción. En Next.js es el estándar — aprenderlo bien te ahorra horas de debugging.
+
+### Tipos básicos
+
+\`\`\`typescript
+// Primitivos
+const nombre: string = 'Gabriel';
+const edad: number = 28;
+const activo: boolean = true;
+
+// Arrays
+const tecnologias: string[] = ['React', 'Next.js', 'TypeScript'];
+const precios: number[] = [100, 200, 300];
+
+// Funciones
+const saludar = (nombre: string): string => {
+  return \`Hola, \${nombre}\`;
+};
+
+// Void — función que no retorna valor
+const log = (mensaje: string): void => {
+  console.log(mensaje);
+};
+\`\`\`
+
+### Interfaces y Types
+
+\`\`\`typescript
+// Interface — para describir la forma de un objeto
+interface Proyecto {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  tecnologias: string[];
+  url?: string; // opcional
+  destacado: boolean;
+}
+
+// Type — más versátil, puede ser unión, intersección, etc.
+type Estado = 'activo' | 'inactivo' | 'pendiente';
+type ID = string | number;
+
+// Combinar tipos
+type ProyectoConEstado = Proyecto & {
+  estado: Estado;
+  fechaCreacion: Date;
+};
+\`\`\`
+
+### TypeScript en componentes React
+
+\`\`\`tsx
+// Props con interface
+interface CardProps {
+  proyecto: Proyecto;
+  onSeleccionar: (id: number) => void;
+  className?: string;
+}
+
+const Card = ({ proyecto, onSeleccionar, className }: CardProps) => {
+  return (
+    <div
+      className={className}
+      onClick={() => onSeleccionar(proyecto.id)}
+    >
+      <h3>{proyecto.titulo}</h3>
+    </div>
+  );
+};
+
+// useState con tipo explícito
+const [proyectoSeleccionado, setProyectoSeleccionado] = useState<Proyecto | null>(null);
+const [tecnologias, setTecnologias] = useState<string[]>([]);
+
+// Eventos
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+};
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(e.target.value);
+};
+\`\`\`
+
+### Generics — tipos reutilizables
+
+\`\`\`typescript
+// Una función que funciona con cualquier tipo
+const primero = <T>(array: T[]): T | undefined => {
+  return array[0];
+};
+
+const primerNombre = primero(['Gabriel', 'Ana', 'Luis']); // tipo: string
+const primerNumero = primero([1, 2, 3]); // tipo: number
+
+// Hook genérico para fetch
+const useFetch = <T>(url: string) => {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  // ...
+  return { data, loading };
+};
+
+const { data: usuarios } = useFetch<Usuario[]>('/api/users');
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l3b',
+        title: 'Mini-práctica: Tipea toda tu app de portfolio',
+        type: 'practice',
+        tasks: [
+          'Define interfaces TypeScript para todos los datos de tu app (Proyecto, Habilidad, etc.)',
+          'Elimina todos los any del código — usa unknown + narrowing donde sea necesario',
+          'Tipa todos los props de componentes con interfaces explícitas',
+          'Tipa todos los event handlers (React.MouseEvent, React.ChangeEvent, etc.)',
+          'Ejecuta npx tsc --noEmit — debe pasar sin errores antes de continuar',
+        ],
+        tip: 'Si TypeScript te da un error que no entiendes, pégalo en Claude con el contexto del código. Generalmente hay una solución simple que el error no comunica bien.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Next.js Docs — App Router',
+        url: 'https://nextjs.org/docs/app',
+        type: 'documentation',
+      },
+      {
+        title: 'React Docs — Learn React',
+        url: 'https://react.dev/learn',
+        type: 'documentation',
+      },
+      {
+        title: 'TypeScript — The Basics',
+        url: 'https://www.typescriptlang.org/docs/handbook/2/basic-types.html',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'web-4',
+    number: 15,
+    title: 'Backend con Supabase y Deploy en Vercel',
+    description: 'Conecta tu app a una base de datos real con Supabase, implementa autenticación y despliega en producción en Vercel.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w4-l1',
+        title: 'Supabase: base de datos, Auth y Storage en minutos',
+        type: 'reading',
+        content: `## Supabase: el backend para founders
+
+Supabase es una alternativa open-source a Firebase. Te da Postgres, autenticación, storage de archivos y API en tiempo real — todo listo para usar sin configurar servidores.
+
+### Por qué Supabase
+
+- **Postgres real**: no un NoSQL simplificado — queries complejas, joins, índices
+- **Auth incluida**: email/password, magic links, OAuth (Google, GitHub) sin configurar nada
+- **API automática**: genera una REST API y cliente TypeScript de tu esquema de DB
+- **Dashboard visual**: crea tablas, ve datos, ejecuta SQL en el browser
+- **Free tier generoso**: 500MB de DB, 1GB storage, 50,000 MAU
+
+### Setup inicial
+
+\`\`\`bash
+# Instalar cliente Supabase
+npm install @supabase/supabase-js
+
+# Variables de entorno en .env.local
+NEXT_PUBLIC_SUPABASE_URL=https://tuproyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key
+\`\`\`
+
+\`\`\`typescript
+// lib/supabase.ts — cliente singleton
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
+\`\`\`
+
+### CRUD básico
+
+\`\`\`typescript
+// SELECT — obtener datos
+const { data: proyectos, error } = await supabase
+  .from('proyectos')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// SELECT con filtros
+const { data: destacados } = await supabase
+  .from('proyectos')
+  .select('id, titulo, url')
+  .eq('destacado', true)
+  .limit(6);
+
+// INSERT
+const { data, error } = await supabase
+  .from('proyectos')
+  .insert({
+    titulo: 'Mi proyecto',
+    descripcion: 'Descripción...',
+    destacado: false,
+  })
+  .select()
+  .single();
+
+// UPDATE
+const { error } = await supabase
+  .from('proyectos')
+  .update({ destacado: true })
+  .eq('id', proyectoId);
+
+// DELETE
+const { error } = await supabase
+  .from('proyectos')
+  .delete()
+  .eq('id', proyectoId);
+\`\`\`
+
+### Autenticación
+
+\`\`\`typescript
+// Registro
+const { data, error } = await supabase.auth.signUp({
+  email: 'usuario@email.com',
+  password: 'contraseña-segura',
+});
+
+// Login
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'usuario@email.com',
+  password: 'contraseña-segura',
+});
+
+// Sesión actual
+const { data: { user } } = await supabase.auth.getUser();
+
+// Logout
+await supabase.auth.signOut();
+
+// OAuth con Google
+const { error } = await supabase.auth.signInWithOAuth({
+  provider: 'google',
+});
+\`\`\`
+
+### Row Level Security (RLS)
+
+RLS es el sistema de permisos de Supabase. Cada fila en la DB puede tener reglas de quién puede leerla/modificarla.
+
+\`\`\`sql
+-- Solo el dueño puede ver sus proyectos
+CREATE POLICY "Usuarios ven sus proyectos"
+ON proyectos FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Solo el dueño puede insertar
+CREATE POLICY "Usuarios insertan sus proyectos"
+ON proyectos FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w4-l1b',
+        title: 'Mini-práctica: Conecta tu portfolio a Supabase',
+        type: 'practice',
+        tasks: [
+          'Crea un proyecto en supabase.com y una tabla "proyectos" con: id, titulo, descripcion, tecnologias (text[]), url, destacado, created_at',
+          'Instala @supabase/supabase-js y crea el cliente en lib/supabase.ts',
+          'Reemplaza los datos hardcodeados de tu portfolio por un fetch a Supabase en el Server Component',
+          'Habilita RLS en la tabla y crea una política SELECT pública (para que cualquiera pueda leer)',
+          'Agrega 3-5 proyectos reales desde el Dashboard de Supabase y verifica que aparecen en tu app',
+        ],
+        tip: 'Nunca uses la service_role key en el frontend — solo la anon key. La service_role bypasea RLS y daría acceso total a tu base de datos a cualquiera que inspeccione el código.',
+        completed: false,
+      },
+      {
+        id: 'w4-l2',
+        title: 'Deploy en Vercel: de localhost a producción',
+        type: 'reading',
+        content: `## Deploy en Vercel
+
+Vercel es la plataforma de deployment para Next.js — creada por el mismo equipo. Deploy en segundos, CDN global, previews automáticos por branch.
+
+### Vercel CLI
+
+\`\`\`bash
+# Instalar globalmente
+npm install -g vercel
+
+# Login
+vercel login
+
+# Deploy desde tu carpeta del proyecto
+vercel
+
+# Deploy a producción
+vercel --prod
+\`\`\`
+
+### Variables de entorno en Vercel
+
+Las variables de .env.local NO se suben a git. Debes configurarlas en Vercel:
+
+\`\`\`bash
+# Via CLI
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# O desde el dashboard: vercel.com → Project → Settings → Environment Variables
+\`\`\`
+
+### Conectar repositorio de GitHub
+
+1. Ir a vercel.com → "Add New Project"
+2. Conectar tu GitHub y seleccionar el repositorio
+3. Configurar variables de entorno
+4. Click "Deploy"
+
+Ahora **cada push a main despliega automáticamente**. Cada PR crea un preview URL.
+
+### vercel.json — configuración avanzada
+
+\`\`\`json
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/old-path",
+      "destination": "/new-path",
+      "permanent": true
+    }
+  ]
+}
+\`\`\`
+
+### Optimización antes de deploy
+
+\`\`\`bash
+# Build local para detectar errores antes de subir
+npm run build
+
+# Check:
+# ✅ Sin errores de TypeScript
+# ✅ Sin errores de build
+# ✅ Bundle sizes razonables (Vercel los muestra)
+# ✅ Variables de entorno configuradas en Vercel
+\`\`\`
+
+### Dominios custom
+
+\`\`\`bash
+# Agregar dominio desde CLI
+vercel domains add midominio.com
+
+# O desde el dashboard: Project → Settings → Domains
+\`\`\`
+
+Vercel maneja certificados SSL automáticamente. Tu sitio tiene HTTPS desde el primer deploy.
+
+### Analytics y Web Vitals
+
+En Vercel Pro (o con @vercel/analytics en el free tier):
+
+\`\`\`tsx
+// app/layout.tsx
+import { Analytics } from '@vercel/analytics/react';
+
+export default function Layout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  );
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w4-l2b',
+        title: 'Mini-práctica: Tu portfolio en producción',
+        type: 'practice',
+        tasks: [
+          'Ejecuta npm run build localmente — debe pasar sin errores antes de continuar',
+          'Configura las variables de entorno de Supabase en vercel.com (no en el CLI)',
+          'Conecta tu repositorio de GitHub a Vercel y despliega',
+          'Verifica que los proyectos de Supabase cargan correctamente en la URL de producción',
+          'Agrega @vercel/analytics al proyecto y verifica que aparece en el dashboard de Vercel',
+          'Prueba el sitio en mobile desde tu celular real — no solo DevTools',
+        ],
+        tip: 'Si el build funciona en local pero falla en Vercel, el problema casi siempre son las variables de entorno. Verifica que están configuradas para el entorno correcto (Production, Preview, Development).',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Supabase Docs — Getting Started',
+        url: 'https://supabase.com/docs/guides/getting-started',
+        type: 'documentation',
+      },
+      {
+        title: 'Vercel Docs — Deploying Next.js',
+        url: 'https://vercel.com/docs/frameworks/nextjs',
+        type: 'documentation',
+      },
+      {
+        title: 'Supabase + Next.js — Tutorial oficial',
+        url: 'https://supabase.com/docs/guides/getting-started/quickstarts/nextjs',
+        type: 'course',
+      },
+    ],
+  },
+
+  // ─── Track: Branding e Identidad Visual ──────────────────────────────────────
+
+  {
+    id: 'branding-1',
+    number: 16,
+    title: 'Estrategia de Marca: el porqué antes del cómo',
+    description: 'Aprende a definir el posicionamiento, propósito y personalidad de una marca antes de diseñar un solo pixel.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b1-l1',
+        title: 'Qué es una marca y por qué no es un logo',
+        type: 'reading',
+        content: `## La marca no es el logo
+
+El error más común: confundir la identidad visual con la marca. El logo es la punta del iceberg. La marca es todo lo que hay debajo.
+
+### La definición correcta
+
+**Una marca es la percepción que tiene una persona sobre un producto, servicio o empresa.**
+
+No es lo que tú dices que eres. Es lo que ellos *sienten* que eres.
+
+Jeff Bezos lo dijo mejor: *"Tu marca es lo que la gente dice de ti cuando no estás en la habitación."*
+
+### Los tres niveles de una marca
+
+**1. Identidad de marca** (lo que TÚ controlas)
+- Propósito, valores, misión
+- Voz y tono de comunicación
+- Identidad visual (logo, colores, tipografía)
+- Experiencia del producto o servicio
+
+**2. Imagen de marca** (lo que el MERCADO percibe)
+- Posicionamiento mental en la cabeza del cliente
+- Asociaciones emocionales
+- Reputación construida con el tiempo
+
+**3. Capital de marca** (el VALOR que genera)
+- Cuánto más pagas por Apple que por un genérico con las mismas specs
+- La razón por la que un cliente elige tu agencia sobre otra más barata
+
+### El error de empezar por el logo
+
+Muchas empresas contratan a un diseñador en la primera semana. El resultado: un logo bonito que no comunica nada de lo que la empresa realmente es.
+
+El proceso correcto es estrategia primero:
+1. ¿Para quién existimos? (audiencia)
+2. ¿Qué problema resolvemos? (propósito)
+3. ¿Por qué nos elegirían a nosotros? (diferenciación)
+4. ¿Cómo queremos que nos perciban? (posicionamiento)
+5. ¿Cuál es nuestra personalidad? (tono)
+6. **Solo entonces**: ¿cómo se ve todo eso visualmente?
+
+### Marcas que lo hacen bien
+
+**Apple**: Creatividad, rebeldía, diseño. El logo es una manzana mordida. No dice nada de computadoras. Pero la marca dice todo.
+
+**Nike**: Rendimiento, aspiración, superación. "Just Do It" no menciona tenis. La marca es una filosofía.
+
+**AlphaDev Studios**: Tecnología deseable, software con IA adentro, premium sin ser inalcanzable. La identidad visual (crema + dorado + serif) debe *sentirse* como eso.`,
+        completed: false,
+      },
+      {
+        id: 'b1-l1b',
+        title: 'Mini-práctica: Auditoría de marca de un competidor',
+        type: 'practice',
+        tasks: [
+          'Elige una agencia digital o estudio de diseño que admires (o que compita con AlphaDev)',
+          'Responde por escrito: ¿Cuál es su propósito aparente? ¿A quién le hablan? ¿Qué emoción genera?',
+          'Identifica: ¿su identidad visual (logo, colores, tipografía) refleja ese propósito?',
+          'Señala 2 cosas que hacen muy bien y 1 cosa que podrías hacer mejor',
+          'Escribe en 2 oraciones cómo se diferencia de AlphaDev Studios',
+        ],
+        tip: 'No busques competidores que se vean "iguales" a AlphaDev. Busca los que más admiras aunque sean diferentes — aprenderás más de los mejores que de los similares.',
+        completed: false,
+      },
+      {
+        id: 'b1-l2',
+        title: 'Posicionamiento y propuesta de valor única',
+        type: 'reading',
+        content: `## Posicionamiento: la posición que ocupas en la mente del cliente
+
+El posicionamiento no es lo que haces con tu producto. Es lo que haces con la mente de tu prospecto.
+
+### La fórmula del posicionamiento
+
+**Para [audiencia] que [problema/necesidad], [nombre de marca] es la [categoría] que [beneficio único] porque [razón creíble].**
+
+Ejemplo para AlphaDev Studios:
+> Para founders de startups que necesitan software en producción rápido, AlphaDev Studios es la agencia técnica que entrega en semanas (no meses) porque integra IA desde el día uno y trabaja con stack moderno sin overhead corporativo.
+
+### Diferenciación: los 4 ejes
+
+No puedes ser el mejor en todo. Elige tu eje de diferenciación:
+
+**1. Liderazgo de precio** — el más barato. (No recomendado para agencias premium)
+
+**2. Liderazgo de producto** — el mejor técnicamente. AlphaDev compite aquí.
+- Stack moderno, IA integrada, delivery rápido
+
+**3. Intimidad con el cliente** — el que más conoce y cuida al cliente.
+- Startups early-stage, trato directo con el founder, sin intermediarios
+
+**4. Operacional** — el más eficiente y confiable.
+- Módulos reutilizables, procesos probados, cero sorpresas
+
+### El mapa de posicionamiento
+
+Dibuja dos ejes relevantes para tu industria. Por ejemplo:
+- Eje X: velocidad (lento → rápido)
+- Eje Y: precio (económico → premium)
+
+Ubica a tus competidores y busca el espacio vacío. Ahí está tu oportunidad.
+
+### Por qué el nicho gana
+
+La trampa: "queremos servir a todos los negocios que necesiten un sitio web".
+
+La realidad: cuando intentas hablarle a todos, no le hablas a nadie.
+
+AlphaDev Studios le habla a **founders que pagan en USD, construyen productos digitales, y valoran velocidad sobre precio**. Ese nicho específico permite:
+- Mensajes que resuenen (hablas su idioma)
+- Precios premium (son el cliente correcto)
+- Referidos de calidad (se conocen entre ellos)`,
+        completed: false,
+      },
+      {
+        id: 'b1-l2b',
+        title: 'Mini-práctica: Define el posicionamiento de una marca',
+        type: 'practice',
+        tasks: [
+          'Elige un negocio real o ficticio que quieras brandear (puede ser tu agencia, un cliente pasado, o un concepto)',
+          'Escribe la fórmula de posicionamiento completa: "Para [audiencia] que [problema]..."',
+          'Dibuja (en papel o Figma) un mapa de posicionamiento con 2 ejes relevantes e identifica dónde está la oportunidad',
+          'Lista 3 competidores directos y explica en 1 oración por qué tu marca es diferente',
+          'Define el nicho primario: demografía + psicografía + pain point específico',
+        ],
+        tip: 'Si tu posicionamiento aplica a cualquier negocio de tu categoría, no es un posicionamiento — es una descripción genérica. Sé específico hasta que suene casi excluyente.',
+        completed: false,
+      },
+      {
+        id: 'b1-l3',
+        title: 'Personalidad de marca y arquetipos',
+        type: 'reading',
+        content: `## Personalidad de marca: la humanización del negocio
+
+Las marcas con personalidad clara generan relaciones emocionales. Las marcas sin personalidad son commodities.
+
+### Los 12 arquetipos de marca (Jung aplicado al branding)
+
+Carl Jung identificó 12 arquetipos universales que las personas reconocen instintivamente. Las marcas los usan para crear conexión emocional:
+
+| Arquetipo | Deseo central | Marcas ejemplo |
+|-----------|---------------|----------------|
+| **El Héroe** | Dominar el mundo | Nike, FedEx |
+| **El Forajido** | Romper las reglas | Harley-Davidson, Red Bull |
+| **El Mago** | Hacer realidad los sueños | Apple, Disney |
+| **El Sabio** | Conocer la verdad | Google, TED |
+| **El Explorador** | Vivir aventuras auténticas | Jeep, GoPro |
+| **El Inocente** | Ser feliz | Coca-Cola, Dove |
+| **El Gobernante** | Control y poder | Rolex, Mercedes |
+| **El Cuidador** | Proteger y servir | Johnson & Johnson |
+| **El Creador** | Crear algo nuevo | LEGO, Adobe |
+| **El Bufón** | Pasarlo bien | M&Ms, Dollar Shave Club |
+| **El Amante** | Intimidad y conexión | Victoria's Secret |
+| **El Hombre Corriente** | Pertenecer | IKEA, Target |
+
+### AlphaDev Studios: mezcla de arquetipos
+
+- **Primario: El Mago** — convertimos ideas complejas en software funcional en semanas, como por arte de magia
+- **Secundario: El Creador** — construimos desde cero, código limpio, diseño propio, nada de templates
+
+### Rasgos de personalidad de marca
+
+Define 4-6 adjetivos que describan cómo *hablaría* tu marca si fuera una persona:
+
+AlphaDev Studios:
+- **Confiada** (no arrogante) — sabe lo que hace, lo demuestra
+- **Directa** — no da vueltas, dice qué construye y cuánto tarda
+- **Técnica pero accesible** — un founder no-técnico entiende todo
+- **Sofisticada** — premium sin ser fría
+
+### Cómo usar los rasgos en la práctica
+
+Cada pieza de comunicación pasa por el filtro:
+1. ¿Esto suena confiado o inseguro?
+2. ¿Esto es directo o ambiguo?
+3. ¿Esto es técnico pero accesible?
+4. ¿Esto se siente premium?
+
+Si falla alguno, reescribir.`,
+        completed: false,
+      },
+      {
+        id: 'b1-l3b',
+        title: 'Mini-práctica: Define la personalidad de tu marca',
+        type: 'practice',
+        tasks: [
+          'Identifica el arquetipo primario y secundario de la marca que estás desarrollando',
+          'Define 5 rasgos de personalidad (adjetivos) que la describan — no genéricos como "profesional"',
+          'Escribe 3 versiones de un mismo mensaje (la propuesta de valor) en diferentes tonos: formal, conversacional, atrevido',
+          'Elige la versión que más se alinea con la personalidad definida y explica por qué',
+          'Escribe una guía de "Hablamos así / No hablamos así" con 5 ejemplos de cada uno',
+        ],
+        tip: 'El tono no es solo "formal vs informal". Es la suma de: vocabulario elegido, longitud de oraciones, uso del humor, nivel de tecnicismo, grado de calidez. Puedes ser informal Y sofisticado a la vez.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Marty Neumeier — The Brand Gap (PDF)',
+        url: 'https://www.amazon.com/Brand-Gap-Distance-Business-Strategy/dp/0321348109',
+        type: 'article',
+      },
+      {
+        title: 'Brand Archetypes — Guide completa',
+        url: 'https://www.columnfivemedia.com/brand-archetypes',
+        type: 'article',
+      },
+      {
+        title: 'Positioning: The Battle for Your Mind — Al Ries & Jack Trout',
+        url: 'https://www.amazon.com/Positioning-Battle-Your-Mind-Anniversary/dp/0071373586',
+        type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'branding-2',
+    number: 17,
+    title: 'Sistema de Identidad Visual',
+    description: 'Crea el sistema visual completo: logo, paleta de colores, tipografía, iconografía y los principios que los gobiernan.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b2-l1',
+        title: 'Logo: diseño, variantes y lo que jamás se debe hacer',
+        type: 'reading',
+        content: `## El logo: símbolo, no decoración
+
+Un logo efectivo no es el más bonito — es el más funcional. Debe trabajar en cualquier tamaño, sobre cualquier fondo, en cualquier contexto.
+
+### Tipos de logos
+
+**1. Wordmark** — solo el nombre tipografiado (Google, FedEx, Coca-Cola)
+- Ventaja: refuerza el nombre de la marca
+- Mejor cuando: el nombre es corto y memorable
+
+**2. Lettermark** — iniciales (IBM, HBO, NASA)
+- Ventaja: muy compacto, fácil de recordar
+- Mejor cuando: el nombre es largo
+
+**3. Pictograma** — solo símbolo (Apple , Twitter/X, Nike ✓)
+- Ventaja: reconocible globalmente
+- Requiere: mucho tiempo de exposición para funcionar sin el nombre
+
+**4. Logo combinado** — símbolo + wordmark (Adidas, Mastercard)
+- El más versátil para marcas nuevas
+
+**5. Emblem** — texto dentro del símbolo (Starbucks, Harley-Davidson)
+- Funciona en contextos específicos, difícil de usar a pequeña escala
+
+### Principios de un buen logo
+
+**Simple** — funciona a 16px (favicon) y a 10 metros (cartel)
+**Memorable** — reconocible después de 1 segundo de exposición
+**Versátil** — funciona en blanco/negro, invertido, en color
+**Atemporal** — evita trends de diseño que envejecerán mal
+**Apropiado** — comunica lo que la marca es
+
+### Variantes del sistema de logo
+
+Un sistema de logo completo incluye:
+- **Versión primaria** (color completo, horizontal)
+- **Versión compacta** (solo símbolo o initials)
+- **Versión negativa** (blanco sobre fondo oscuro)
+- **Versión monocromática** (un solo color)
+- **Clear space** (espacio mínimo alrededor del logo)
+- **Tamaño mínimo** (en px para digital, en mm para impresión)
+
+### Errores clásicos (zona de no hacer)
+
+\`\`\`
+❌ Deformar proporciones del logo
+❌ Usar colores no autorizados
+❌ Agregar efectos (sombras, degradados no aprobados)
+❌ Colocar sobre fondos que no tengan suficiente contraste
+❌ Usar la versión equivocada en el contexto equivocado
+❌ Modificar la tipografía del wordmark
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'b2-l1b',
+        title: 'Mini-práctica: Diseña el sistema de logo en Figma',
+        type: 'practice',
+        tasks: [
+          'En Figma, crea un frame "Logo System" para la marca que estás desarrollando',
+          'Diseña o importa el logo primario y crea las 4 variantes: color, monocromático, negativo, compacto',
+          'Define el clear space con una guía visual (normalmente = la altura de la "x" del wordmark)',
+          'Crea ejemplos de uso correcto e incorrecto (✅ y ❌) en un frame de "Do\'s and Don\'ts"',
+          'Exporta todas las variantes en SVG y PNG (2x) y organízalos en carpetas por formato',
+        ],
+        tip: 'Prueba tu logo en escala real: ponlo en un mock de tarjeta de presentación, en una foto de laptop, y en 32x32 como favicon. Si en alguno no funciona, el logo necesita ajustes.',
+        completed: false,
+      },
+      {
+        id: 'b2-l2',
+        title: 'Paleta de colores: psicología, combinaciones y reglas de uso',
+        type: 'reading',
+        content: `## Paleta de colores: el lenguaje emocional de la marca
+
+Los colores comunican antes de que el usuario lea una palabra. No es magia — es psicología y convención cultural.
+
+### Psicología del color (contexto occidental)
+
+| Color | Asociaciones | Marcas |
+|-------|-------------|--------|
+| Azul | Confianza, tecnología, calma | Facebook, IBM, PayPal |
+| Rojo | Urgencia, energía, pasión | Coca-Cola, Netflix, YouTube |
+| Verde | Naturaleza, salud, crecimiento | Spotify, WhatsApp, Starbucks |
+| Negro | Lujo, sofisticación, poder | Chanel, Apple, Nike |
+| Blanco | Limpieza, minimalismo, pureza | Apple, Tesla, Zara |
+| Dorado | Premium, éxito, exclusividad | Rolex, MasterCard, AlphaDev |
+| Crema/Beige | Calidez, artesanal, elegante | Louis Vuitton, editorial luxury |
+
+### Estructura de una paleta profesional
+
+Una paleta bien construida tiene 4 niveles:
+
+**Primarios** (1-2 colores) — los más usados, definen la marca
+**Secundarios** (2-3 colores) — complementan, para variedad
+**Neutros** (3-5 colores) — fondos, textos, separadores
+**Semánticos** — éxito (verde), error (rojo), advertencia (amarillo)
+
+### Herramientas para crear paletas
+
+- **Coolors.co** — generador aleatorio, bloquea los que te gustan
+- **Paletton.com** — basado en teoría del color (complementarios, triádicos)
+- **Adobe Color** — extrae paleta de una imagen de referencia
+- **Realtime Colors** — preview en tiempo real en un sitio web
+
+### Regla 60-30-10
+
+- **60%** — color dominante (fondo principal)
+- **30%** — color secundario (headers, secciones)
+- **10%** — color de acento (CTAs, links, detalles importantes)
+
+Para AlphaDev:
+- 60%: crema \`#FAFAF7\`
+- 30%: crema oscura \`#F2EEE7\`
+- 10%: dorado \`#9A7235\`
+
+### Documentación de la paleta
+
+Cada color debe documentarse con:
+- Nombre (propio, no "Color 1")
+- Hex (#9A7235)
+- RGB (154, 114, 53)
+- HSL para CSS (38°, 49%, 41%)
+- Uso específico ("Solo CTAs, links y acentos puntuales — NO fondos grandes")`,
+        completed: false,
+      },
+      {
+        id: 'b2-l2b',
+        title: 'Mini-práctica: Construye y documenta tu paleta completa',
+        type: 'practice',
+        tasks: [
+          'Crea la paleta completa de tu marca: 2 primarios, 2-3 secundarios, 4 neutros, 3 semánticos',
+          'Documenta cada color en un frame de Figma: nombre propio, hex, uso específico',
+          'Verifica el contraste de todas las combinaciones texto/fondo en contrast-ratio.com',
+          'Aplica la regla 60-30-10 a un mockup de una sola página (puede ser simple)',
+          'Exporta la paleta como variables CSS (:root con custom properties)',
+        ],
+        tip: 'Dale nombres descriptivos a tus colores, no técnicos. "Dorado Premium" es mejor que "#9A7235" y "Crema Base" mejor que "Background Primary". Los nombres ayudan a todo el equipo a recordar cuándo usar cada uno.',
+        completed: false,
+      },
+      {
+        id: 'b2-l3',
+        title: 'Tipografía de marca: jerarquía, pares y uso sistemático',
+        type: 'reading',
+        content: `## Tipografía de marca
+
+La tipografía es responsable de hasta el 95% de la comunicación en diseño web. Elegir bien es la diferencia entre una marca que se lee profesional y una que se lee genérica.
+
+### Categorías tipográficas y su personalidad
+
+**Serif** (con remates — Times, Playfair, Garamond)
+→ Autoridad, tradición, editorial, lujo, confianza
+→ Usada por: New York Times, Vogue, muchas consultoras premium
+
+**Sans-serif** (sin remates — Inter, Helvetica, Futura)
+→ Modernidad, claridad, tecnología, accesibilidad
+→ Usada por: Google, Apple, Airbnb, startups tech
+
+**Display / Script** (decorativas, caligráficas)
+→ Creatividad, personalidad, artesanal
+→ Solo para headlines, NUNCA para body text
+
+**Monospace** (código — JetBrains Mono, Fira Code)
+→ Técnica, código, terminal, precisión
+→ Usada en contextos técnicos o como acento de personalidad tech
+
+### Combinación de tipografías
+
+La regla de oro: **máximo 2-3 tipografías por sistema**
+
+**Combinación clásica** (AlphaDev Studios):
+- Display/Headline: Playfair Display (serif, elegante)
+- Body/UI: Inter (sans-serif, neutro y legible)
+
+**Combinación tech moderna**:
+- Headline: Plus Jakarta Sans Bold
+- Body: Inter Regular
+
+**Combinación editorial**:
+- Headline: Fraunces o Cormorant Garamond
+- Body: Libre Franklin
+
+### La escala tipográfica
+
+Usa una escala matemática consistente. La escala "Mayor Third" (1.25x):
+
+\`\`\`
+xs:    12px
+sm:    14px
+base:  16px   ← punto de partida
+lg:    20px   (16 × 1.25)
+xl:    25px
+2xl:   31px
+3xl:   39px
+4xl:   49px
+\`\`\`
+
+O usa clamp() para tipografía fluida:
+\`\`\`css
+h1 { font-size: clamp(2rem, 5vw, 4rem); }
+\`\`\`
+
+### Documentación tipográfica
+
+Para cada nivel de la jerarquía documenta:
+- Familia, peso, tamaño
+- Line-height, letter-spacing
+- Color y uso
+- Ejemplo de texto real`,
+        completed: false,
+      },
+      {
+        id: 'b2-l3b',
+        title: 'Mini-práctica: Sistema tipográfico completo en Figma',
+        type: 'practice',
+        tasks: [
+          'Define el par tipográfico de tu marca (máximo 2 familias) con justificación escrita',
+          'Crea un frame de Figma con la escala tipográfica completa: Display, H1, H2, H3, Body, Caption, Label',
+          'Para cada nivel: muestra el texto en contexto real (no solo "Heading Level 1")',
+          'Define text styles en Figma (Design → Text styles) para todos los niveles',
+          'Exporta los text styles como variables CSS para usar en código',
+        ],
+        tip: 'Diseña la tipografía con texto real de tu marca, no Lorem Ipsum. "Construimos software con IA dentro" te dirá más sobre cómo funciona el heading que "Lorem ipsum dolor sit amet".',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Fonts — Herramienta de emparejamiento',
+        url: 'https://fonts.google.com/knowledge/choosing_type/pairing_typefaces',
+        type: 'article',
+      },
+      {
+        title: 'Realtime Colors — Preview de paletas en vivo',
+        url: 'https://www.realtimecolors.com',
+        type: 'tool',
+      },
+      {
+        title: 'Type Scale — Generador de escalas tipográficas',
+        url: 'https://typescale.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'branding-3',
+    number: 18,
+    title: 'Brand Guidelines y Aplicaciones de Marca',
+    description: 'Consolida todo el sistema en un Brand Book profesional y aplica la identidad a touchpoints reales: web, social, documentos.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b3-l1',
+        title: 'Brand Voice: tono, mensajes clave y guía de comunicación',
+        type: 'reading',
+        content: `## Brand Voice: la voz de la marca
+
+La identidad visual se ve. La brand voice se escucha. Ambas deben contar la misma historia.
+
+### Voz vs Tono
+
+**Voz** — constante, es la personalidad de la marca
+→ AlphaDev siempre es: confiada, directa, técnica pero accesible
+
+**Tono** — variable, cambia según el contexto
+→ AlphaDev en una propuesta: formal y precisa
+→ AlphaDev en Instagram: más cercana y directa
+→ AlphaDev en un error 404: puede tener humor
+
+### Los 4 ejes del tono (Nielsen Norman Group)
+
+1. **Formal ↔ Casual**
+2. **Serio ↔ Divertido**
+3. **Deferente ↔ Irreverente**
+4. **Entusiasta ↔ Melancólico**
+
+Define dónde está tu marca en cada eje. Esto guía toda la comunicación.
+
+### Mensajes clave (Key Messages)
+
+Son las ideas que tu marca debe comunicar en TODA pieza de contenido, sin importar el formato:
+
+Para AlphaDev Studios:
+1. **Velocidad sin comprometer calidad** — "en semanas, no meses"
+2. **IA integrada desde el día uno** — no como add-on, como fundamento
+3. **Stack moderno** — Next.js, Supabase, TypeScript — sin legacy
+4. **Founder a founder** — trato directo, sin capas de management
+
+Cada blog post, cada email, cada propuesta debe reforzar al menos uno de estos mensajes.
+
+### Guía de estilo editorial
+
+**Palabras SÍ**:
+- En producción, semanas, stack moderno, integrado, modular, founders, startup, entregamos, construimos
+
+**Palabras NO**:
+- Soluciones innovadoras, transformación digital, sinergia, equipo dedicado, a medida
+
+**Reglas de escritura**:
+- Oraciones cortas. Un punto, una idea.
+- Voz activa: "Construimos software" no "El software es construido por nosotros"
+- Datos concretos: "3 semanas" no "entrega rápida"
+- Sin jerga interna que el cliente no entienda
+
+### Copy para diferentes canales
+
+**Web/Landing page**: persuasivo, orientado al beneficio, claridad máxima
+**Email**: personal, directo, una sola acción por email
+**Social (LinkedIn)**: autoridad, insight, no autopromoción pura
+**Social (Instagram)**: más visual, proceso, behind-the-scenes
+**Propuestas**: técnica + comercial, beneficios claros, timeline definido`,
+        completed: false,
+      },
+      {
+        id: 'b3-l1b',
+        title: 'Mini-práctica: Escribe la guía de voz de tu marca',
+        type: 'practice',
+        tasks: [
+          'Define los 4 ejes de tono de tu marca (marca con X en cada eje) con 1 oración de justificación',
+          'Escribe 5 mensajes clave que la marca debe comunicar siempre — concretos, no genéricos',
+          'Crea una tabla "Hablamos así / No hablamos así" con 10 ejemplos de cada columna',
+          'Reescribe un texto existente de tu marca (o de un competidor) aplicando la guía de voz definida',
+          'Escribe la misma propuesta de valor en 3 formatos: tweet (280 chars), email (150 palabras), home headline (8 palabras)',
+        ],
+        tip: 'El test del tono: si pones el texto junto a comunicaciones de 5 competidores y no puedes identificar cuál es el tuyo, el tono no es lo suficientemente distintivo. Apunta a que sea inconfundiblemente tuyo.',
+        completed: false,
+      },
+      {
+        id: 'b3-l2',
+        title: 'El Brand Book: cómo documentar el sistema completo',
+        type: 'reading',
+        content: `## El Brand Book o Brand Guidelines
+
+Un Brand Book es el manual de instrucciones de una marca. Garantiza que cualquier persona — diseñador, redactor, socio — pueda producir comunicaciones coherentes sin preguntar cada vez.
+
+### Por qué existe
+
+Sin Brand Book:
+- Cada pieza de comunicación se ve diferente
+- Los freelancers usan el logo mal
+- Los colores varían entre el sitio web y los posts
+- La voz cambia según quién escriba
+
+Con Brand Book:
+- Consistencia en todos los touchpoints
+- Onboarding de nuevos colaboradores en horas, no semanas
+- La marca se mantiene coherente al escalar
+
+### Estructura de un Brand Book profesional
+
+**Sección 1: Fundamentos de marca**
+- Historia y propósito
+- Misión, visión, valores
+- Propuesta de valor y diferenciación
+- Audiencia objetivo
+
+**Sección 2: Identidad visual**
+- Sistema de logo (uso correcto e incorrecto)
+- Paleta de colores (todos los valores, usos, restricciones)
+- Tipografía (familias, escala, espaciado)
+- Iconografía (estilo, tamaños, uso)
+- Fotografía/Ilustración (estilo visual, qué sí, qué no)
+- Patrones y texturas (si aplica)
+
+**Sección 3: Brand Voice**
+- Personalidad y arquetipos
+- Tono de voz por canal
+- Mensajes clave
+- Vocabulario permitido y prohibido
+- Ejemplos de copy
+
+**Sección 4: Aplicaciones**
+- Tarjeta de presentación
+- Membrete / documentos
+- Firma de email
+- Perfil de redes sociales
+- Templates de presentación
+
+### Herramientas para crear Brand Books
+
+- **Figma** — el estándar actual. Permite links directos a componentes vivos.
+- **Notion** — para la parte editorial (voz, mensajes, estrategia)
+- **Zeroheight** — conecta Figma con documentación web interactiva
+- **Canva** — opción accesible para marcas más pequeñas
+
+### El Brand Book vivo vs el PDF estático
+
+El PDF se desactualiza. El Brand Book vivo en Figma o Zeroheight se actualiza cuando cambia la marca y todos ven la versión más reciente.
+
+Para AlphaDev Studios: Figma + Notion es la combinación ideal.`,
+        completed: false,
+      },
+      {
+        id: 'b3-l2b',
+        title: 'Mini-práctica: Crea el Brand Book de tu marca en Figma',
+        type: 'practice',
+        tasks: [
+          'Crea un documento Figma "Brand Book" con todas las secciones: Fundamentos, Visual, Voice, Aplicaciones',
+          'Incluye al menos: sistema de logo completo, paleta documentada, escala tipográfica, guía de voz',
+          'Agrega mockups de al menos 2 aplicaciones reales: perfil de Instagram + un post, tarjeta de presentación',
+          'Crea 3 slides de una presentación usando el sistema visual completo',
+          'Comparte el archivo con permisos de "view" y verifica que se ve correctamente en el link',
+        ],
+        tip: 'Un Brand Book de 20 páginas bien ejecutado vale más que uno de 80 páginas lleno de relleno. Incluye solo lo que alguien necesitaría para crear una pieza de comunicación coherente. Si no es necesario para ese propósito, no está.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Figma — Brand Identity Kit template',
+        url: 'https://www.figma.com/community/file/805195278314519508',
+        type: 'tool',
+      },
+      {
+        title: 'Zeroheight — Brand guidelines vivos',
+        url: 'https://zeroheight.com',
+        type: 'tool',
+      },
+      {
+        title: 'Examples of great brand guidelines',
+        url: 'https://www.logolounge.com/articles/30-amazing-examples-of-brand-guidelines',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: Copywriting ───────────────────────────────────────────────────────
+
+  {
+    id: 'copy-1',
+    number: 19,
+    title: 'Fundamentos del Copywriting',
+    description: 'Entiende la psicología detrás del copy persuasivo, los frameworks clásicos y cómo escribir para convertir.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c1-l1',
+        title: 'Qué es el copywriting y por qué el copy vende más que el diseño',
+        type: 'reading',
+        content: `## Copywriting: el arte de vender con palabras
+
+El copywriting no es redacción creativa. No es periodismo. No es contenido.
+
+**Copywriting es escritura con un objetivo específico: lograr que el lector tome una acción.**
+
+Esa acción puede ser: comprar, suscribirse, agendar una llamada, descargar, compartir.
+
+### La diferencia que importa
+
+**Redacción**: comunica información
+**Copywriting**: provoca acción
+
+Un buen copy no describe el producto. Habla del *resultado* que el cliente va a obtener.
+
+❌ "Ofrecemos desarrollo web con tecnologías modernas"
+✅ "Tu startup en producción en 3 semanas — o te devolvemos el dinero"
+
+### Por qué el copy vende más que el diseño
+
+Dato contraintuitivo: **una página fea con buen copy vende más que una página bonita con copy mediocre.**
+
+¿Por qué? Porque el diseño llama la atención, pero las palabras generan confianza y crean el deseo.
+
+El diseño sirve para que el copy sea leído. El copy sirve para que el lector actúe.
+
+### Los tres trabajos del copy
+
+**1. Capturar atención** — en un mundo saturado, tienes 3 segundos
+**2. Mantener el interés** — una vez que leyeron el headline, deben querer seguir
+**3. Provocar acción** — el lector debe saber exactamente qué hacer y querer hacerlo
+
+### El principio fundamental: el lector solo piensa en sí mismo
+
+A nadie le importa tu empresa, tu proceso, o tus certificaciones.
+
+Solo les importa: **¿qué hay aquí para mí?**
+
+Cada oración de tu copy debe responder esa pregunta. Si una oración no ayuda al lector a entender el beneficio para ellos, se corta.
+
+### Features vs Benefits
+
+| Feature (característica) | Benefit (beneficio) |
+|--------------------------|---------------------|
+| "Stack moderno: Next.js + Supabase" | "Tu app carga en 0.8 segundos y tus usuarios no se van" |
+| "Diseño mobile-first" | "Tus clientes compran desde el celular sin frustración" |
+| "Código con TypeScript strict" | "Menos bugs en producción, menos noches de pánico" |`,
+        completed: false,
+      },
+      {
+        id: 'c1-l1b',
+        title: 'Mini-práctica: Transforma features en benefits',
+        type: 'practice',
+        tasks: [
+          'Lista 10 características (features) de un producto o servicio que conozcas bien',
+          'Para cada feature, escribe el benefit real usando la fórmula: "[Feature] significa que tú [outcome concreto]"',
+          'Elige los 3 benefits más poderosos y escríbelos como bullets cortos (máximo 12 palabras cada uno)',
+          'Reescribe la sección "Por qué elegirnos" de un sitio que conozcas, cambiando features por benefits',
+          'Compara ambas versiones: ¿cuál te da más ganas de comprar?',
+        ],
+        tip: 'Para encontrar el benefit real de un feature, pregúntate "¿y eso qué significa para el cliente?" hasta llegar a una emoción o resultado concreto. Generalmente necesitas 2-3 iteraciones del "¿y eso qué?" para llegar al beneficio real.',
+        completed: false,
+      },
+      {
+        id: 'c1-l2',
+        title: 'Psicología de la persuasión: los principios que mueven decisiones',
+        type: 'reading',
+        content: `## Los principios de persuasión de Cialdini
+
+Robert Cialdini identificó 7 principios que influencian las decisiones humanas. El buen copy usa varios de estos principios en cada pieza.
+
+### 1. Reciprocidad
+
+Las personas sienten la obligación de devolver favores.
+
+En copy: da valor genuino primero (contenido gratuito, guía, demo) y las personas se sentirán más inclinadas a comprar.
+
+*"Descarga gratis nuestra guía de 47 páginas sobre branding — sin registro"*
+
+### 2. Compromiso y Consistencia
+
+Las personas actúan de manera consistente con sus compromisos previos.
+
+En copy: pequeños pasos que llevan a compromisos mayores. Lograr que digan "sí" pequeño antes del "sí" grande.
+
+*"¿Quieres que tu startup esté en producción en menos de un mes? → Entonces te va a interesar esto..."*
+
+### 3. Prueba Social
+
+Las personas miran lo que hacen los demás para decidir.
+
+En copy: testimonios, casos de estudio, números de usuarios, menciones en medios.
+
+*"127 founders ya lanzaron con AlphaDev. El 94% volvió para un segundo proyecto."*
+
+### 4. Autoridad
+
+Las personas siguen a los expertos.
+
+En copy: credenciales, menciones en prensa, clientes conocidos, años de experiencia, publicaciones.
+
+*"Construido por el mismo equipo detrás de [cliente conocido]"*
+
+### 5. Simpatía / Agrado
+
+Compramos de personas que nos caen bien.
+
+En copy: humaniza la marca, muestra el equipo, comparte valores, usa humor apropiado.
+
+### 6. Escasez
+
+Las personas valoran más lo que es limitado.
+
+En copy: plazas limitadas, tiempo limitado, stocks bajos. Debe ser REAL — la escasez falsa destruye confianza.
+
+*"Solo aceptamos 3 nuevos proyectos por mes para mantener la calidad."*
+
+### 7. Unidad
+
+Las personas siguen a quienes perciben como parte de su grupo.
+
+En copy: "Somos founders, hablamos el idioma de los founders."
+
+### La advertencia ética
+
+Estos principios funcionan tanto para persuadir como para manipular. La diferencia: **el copy ético usa estos principios para conectar al cliente correcto con la solución correcta**. El copy manipulador los usa para venderle a cualquiera, tenga o no el problema que resuelves.`,
+        completed: false,
+      },
+      {
+        id: 'c1-l2b',
+        title: 'Mini-práctica: Identifica principios de persuasión en webs reales',
+        type: 'practice',
+        tasks: [
+          'Visita 3 landing pages de productos o servicios que uses (Notion, Linear, Vercel, o cualquier SaaS)',
+          'Para cada página, identifica qué principios de Cialdini usa y dónde exactamente',
+          'Anota el copy textual de cada ejemplo encontrado',
+          'Diseña una sección "Social Proof" para tu marca o proyecto usando al menos 3 principios',
+          'Escribe un párrafo de cierre para una propuesta usando escasez legítima y prueba social',
+        ],
+        tip: 'La prueba social más poderosa no son los testimonios genéricos ("¡Excelente servicio!") — son los específicos con resultados concretos. "Pasamos de 0 a 1,200 usuarios en 6 semanas después de lanzar con AlphaDev" es 10x más persuasivo.',
+        completed: false,
+      },
+      {
+        id: 'c1-l3',
+        title: 'Frameworks de copy: AIDA, PAS, FAB y cuándo usar cada uno',
+        type: 'reading',
+        content: `## Frameworks de copywriting
+
+Los frameworks son estructuras probadas que guían la escritura persuasiva. No son fórmulas rígidas — son puntos de partida.
+
+### AIDA — el clásico
+
+**A — Atención**: captura la atención con un headline o apertura poderosa
+**I — Interés**: mantén el interés hablando del problema o necesidad
+**D — Deseo**: crea deseo mostrando los beneficios y la transformación
+**A — Acción**: llama a una acción específica y clara
+
+Ejemplo:
+> **[A]** Tu startup necesita 6 meses y $50k para salir al mercado. Hay otra forma.
+> **[I]** La mayoría de founders pierde en desarrollo lo que debería estar invirtiendo en crecer.
+> **[D]** AlphaDev entrega en 3 semanas lo que una agencia tradicional tarda 4 meses. Stack moderno, IA integrada, sin sorpresas.
+> **[A]** Agenda una llamada gratuita de 30 minutos esta semana.
+
+**Cuándo usar AIDA**: landing pages largas, emails de ventas, anuncios.
+
+### PAS — directo al dolor
+
+**P — Problem**: identifica el problema que tiene el lector
+**A — Agitate**: amplifica el dolor, haz que sienta la urgencia de resolverlo
+**S — Solution**: presenta tu solución como el alivio
+
+Ejemplo:
+> **[P]** Tu producto está listo pero el sitio web tarda meses en salir.
+> **[A]** Cada semana que pasa sin lanzar es revenue perdido, usuarios que no conocen tu solución, competidores que avanzan.
+> **[S]** AlphaDev te saca al mercado en 3 semanas. Con el stack que tu startup necesita para escalar.
+
+**Cuándo usar PAS**: problemas urgentes y dolorosos. Alta efectividad en B2B.
+
+### FAB — para audiencias técnicas o racionales
+
+**F — Feature**: la característica del producto
+**A — Advantage**: la ventaja frente a alternativas
+**B — Benefit**: el beneficio real para el cliente
+
+**Cuándo usar FAB**: comparaciones de producto, fichas técnicas, copy para audiencias que quieren datos antes de decidir.
+
+### BAB — aspiracional
+
+**B — Before**: el estado actual, el problema
+**A — After**: cómo se ve la vida/negocio después de tu solución
+**B — Bridge**: cómo llegas del before al after (tu producto/servicio)
+
+**Cuándo usar BAB**: testimonios, casos de estudio, copy emocional.
+
+### La regla práctica
+
+No uses solo un framework. La mejor copy a menudo combina:
+- PAS en el hero (dolor → urgencia → solución)
+- FAB en los features/benefits
+- AIDA en el CTA final`,
+        completed: false,
+      },
+      {
+        id: 'c1-l3b',
+        title: 'Mini-práctica: Escribe copy con cada framework',
+        type: 'practice',
+        tasks: [
+          'Elige un producto o servicio (tuyo o de un cliente) y escribe un copy AIDA completo (4 párrafos)',
+          'Escribe el mismo pitch usando PAS — ¿qué cambia en el énfasis?',
+          'Escribe un párrafo BAB para un testimonio ficticio o real de ese mismo producto',
+          'Combina los tres: usa PAS en las primeras 2-3 oraciones, FAB en los bullets, BAB en el CTA',
+          'Lee en voz alta los 4 versiones — ¿cuál suena más natural y persuasiva?',
+        ],
+        tip: 'Leer el copy en voz alta es el test definitivo. Si tropieza o suena raro al leerlo, lo leerá igual de raro el cliente. Si fluye bien hablado, fluirá bien escrito.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Influence — Robert Cialdini (libro)',
+        url: 'https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X',
+        type: 'article',
+      },
+      {
+        title: 'Copyhackers — Blog de copywriting avanzado',
+        url: 'https://copyhackers.com',
+        type: 'article',
+      },
+      {
+        title: 'Swipe File — Ejemplos de copy que convierte',
+        url: 'https://swipefile.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-2',
+    number: 20,
+    title: 'Copy para Web y Landing Pages',
+    description: 'Aprende a escribir headlines que detienen el scroll, copy de landing pages que convierten y CTAs que la gente quiere clickear.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c2-l1',
+        title: 'Headlines: la línea que decide si leen o rebotan',
+        type: 'reading',
+        content: `## Headlines: el 80/20 del copywriting
+
+El 80% del éxito de una pieza de copy depende del headline. Si el headline no engancha, el resto no se lee.
+
+David Ogilvy: *"En promedio, 5 veces más personas leen el headline que el cuerpo del texto."*
+
+### Tipos de headline que funcionan
+
+**1. Beneficio directo**
+→ El lector entiende inmediatamente qué gana
+→ "Lanza tu startup en 3 semanas, no en 6 meses"
+
+**2. Curiosidad**
+→ Crea una pregunta en la mente que solo se responde leyendo
+→ "El error que comete el 90% de founders al contratar un desarrollador"
+
+**3. Específico**
+→ Los números y detalles crean credibilidad
+→ "Cómo pasamos de idea a producción en 19 días (y lo que aprendimos)"
+
+**4. Pregunta directa**
+→ El lector se identifica o quiere saber la respuesta
+→ "¿Tu producto está listo pero el sitio web no?"
+
+**5. Promesa + timeframe**
+→ Claro, medible, creíble
+→ "Tu MVP en producción este mes"
+
+**6. Contra-intuitivo**
+→ Rompe expectativas y genera curiosidad
+→ "Por qué tu landing page bonita está matando tus conversiones"
+
+### La fórmula del headline poderoso
+
+**[Resultado específico] + [Para quién] + [Timeframe o mecanismo]**
+
+Ejemplos:
+- "Software en producción en 3 semanas para startups que no tienen tiempo que perder"
+- "Un design system completo en 4 días para founders que quieren escalar"
+
+### Subheadlines: el apoyo inmediato
+
+El subheadline expande el headline y conecta con el body:
+
+\`\`\`
+HEADLINE: Tu startup en producción en 3 semanas.
+SUBHEADLINE: Construimos el software que tu idea necesita —
+             con Next.js, IA integrada y sin sorpresas en el precio.
+\`\`\`
+
+### El método de los 25 headlines
+
+Antes de elegir un headline, escribe 25 opciones. No 5, no 10 — 25. Las primeras 10 son obvias. Las últimas 5 son donde está el oro.`,
+        completed: false,
+      },
+      {
+        id: 'c2-l1b',
+        title: 'Mini-práctica: 25 headlines para tu marca o proyecto',
+        type: 'practice',
+        tasks: [
+          'Elige un producto, servicio o proyecto real que quieras promocionar',
+          'Escribe 25 headlines sin detenerte a evaluar — cantidad primero, calidad después',
+          'Clasifica cada uno en la categoría que usa (beneficio directo, curiosidad, específico, etc.)',
+          'Elige los 3 mejores y escribe el subheadline correspondiente para cada uno',
+          'Prueba tu top headline con 3 personas de tu audiencia objetivo — ¿entienden de qué trata?',
+        ],
+        tip: 'Si el headline necesita más de 5 segundos para entenderse, es demasiado complejo. El mejor headline es el que tu cliente objetivo puede leer, entender, y saber si es para ellos — en una sola mirada.',
+        completed: false,
+      },
+      {
+        id: 'c2-l2',
+        title: 'Estructura de una landing page que convierte',
+        type: 'reading',
+        content: `## Anatomía de una landing page efectiva
+
+Una landing page tiene un solo objetivo: convertir al visitante en lead o cliente. Cada elemento existe para apoyar ese objetivo.
+
+### La estructura estándar (arriba → abajo)
+
+**1. Hero Section** (lo primero que ven)
+- Headline: el beneficio principal, claro y específico
+- Subheadline: expande el headline, añade contexto
+- CTA primario: una acción, texto específico (no "Enviar")
+- Social proof inmediato: "Usado por 500+ startups" o logos
+
+**2. Problem Statement** (el dolor)
+- El problema que tienen antes de tu solución
+- Usa su lenguaje, no el tuyo
+- Haz que digan "exactamente eso me pasa"
+
+**3. Solution/Features** (tu respuesta)
+- 3-6 beneficios clave (no características)
+- Iconos o visuals que simplifiquen
+- Cada punto en máximo 2 líneas
+
+**4. Social Proof** (evidencia)
+- Testimonios con foto, nombre y empresa
+- Resultados específicos y verificables
+- Logos de clientes conocidos (si aplica)
+
+**5. How it Works** (el proceso)
+- 3-5 pasos simples
+- Reduce la percepción de fricción
+- "Fácil de empezar" no basta — muestra cómo
+
+**6. Objeciones anticipadas** (FAQ o sección de confianza)
+- Las dudas más comunes respondidas
+- Garantías, políticas, aclaraciones
+
+**7. CTA Final** (la decisión)
+- Repetir el CTA principal
+- Puede agregar urgencia legítima
+- Texto que resuene con el deseo: "Quiero mi MVP en 3 semanas"
+
+### Principios de conversion rate optimization (CRO)
+
+**Un objetivo**: una landing page, un CTA. No links de salida, no menús con múltiples destinos.
+
+**Above the fold**: el CTA debe ser visible sin hacer scroll.
+
+**Fricción mínima**: cada campo de formulario reduce conversiones. Pide solo lo esencial.
+
+**Prueba siempre**: versión A vs versión B. Los datos ganan a las opiniones.`,
+        completed: false,
+      },
+      {
+        id: 'c2-l2b',
+        title: 'Mini-práctica: Escribe el copy completo de una landing page',
+        type: 'practice',
+        tasks: [
+          'Elige un servicio real o ficticio y escribe el copy completo de la landing page (no el diseño — solo el texto)',
+          'Incluye: headline + subheadline, problem statement (2-3 oraciones), 5 benefits como bullets, 2 testimonios ficticios con resultados específicos, how it works en 3 pasos, 4 FAQ con respuestas, CTA final',
+          'Revisa: ¿cada sección responde "¿qué hay aquí para mí?" desde el punto de vista del lector?',
+          'Cuenta las palabras en primera persona (yo, mi, nosotros) vs segunda persona (tú, tu, usted). El ratio debe ser 1:3 a favor del "tú"',
+          'Lee el copy completo en voz alta — ¿fluye naturalmente? ¿Hay oraciones que tropiezan?',
+        ],
+        tip: 'El copy de landing page no se escribe de arriba a abajo. Empieza por los testimonios (qué dicen los clientes felices), luego el FAQ (qué objeciones tienen), y termina con el hero. Conocer las objeciones y los outcomes antes de escribir el headline lo hace 3x más efectivo.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Unbounce — The Landing Page Course',
+        url: 'https://unbounce.com/landing-page-articles/the-landing-page-course',
+        type: 'course',
+      },
+      {
+        title: 'Headline Analyzer — CoSchedule',
+        url: 'https://coschedule.com/headline-analyzer',
+        type: 'tool',
+      },
+      {
+        title: 'Conversion.ai Swipe File',
+        url: 'https://swipefile.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-3',
+    number: 21,
+    title: 'Copy para Ads y Email Marketing',
+    description: 'Escribe anuncios que detienen el scroll en Meta y Google, y secuencias de email que nutren y convierten sin molestar.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c3-l1',
+        title: 'Copy para Meta Ads: hooks, body y CTA que funcionan',
+        type: 'reading',
+        content: `## Copy para Meta Ads (Facebook e Instagram)
+
+Meta Ads compiten por la atención en un feed infinito. El copy tiene que ganar esa batalla en el primer segundo.
+
+### La anatomía de un Meta Ad
+
+**Hook** (primera línea / primeras 3 palabras):
+- Es lo único que el usuario ve antes de "ver más"
+- Debe detener el scroll y generar curiosidad o reconocimiento de problema
+
+**Body** (el cuerpo):
+- Expande el hook
+- Presenta el problema, la solución, los beneficios
+- 50-150 palabras para conversión directa
+- Puede ser más largo para audiencias más frías (más educación necesaria)
+
+**Headline** (debajo de la imagen):
+- Texto en negrita que acompaña la imagen
+- Muchas veces el beneficio principal o la oferta
+
+**CTA** (Call to Action):
+- Botón que elige Meta: "Más información", "Comprar", "Registrarse", "Contactar"
+- Elige el que más reduce fricción para tu objetivo
+
+### Hooks que funcionan en Meta
+
+**Pregunta directa**:
+→ "¿Todavía pagando $3,000/mes por una agencia que tarda 4 meses en entregar?"
+
+**Declaración inesperada**:
+→ "Tu landing page bonita está perdiendo clientes."
+
+**Número específico**:
+→ "19 días. De idea a producto en producción."
+
+**"Si tú..." (identificación)**:
+→ "Si tienes una idea de startup y no sabes cómo hacerla real, esto es para ti."
+
+**Social proof como hook**:
+→ "127 founders ya lanzaron con nosotros. Así lo hicimos."
+
+### Formatos de copy según objetivo
+
+**Awareness** (audiencia fría):
+- Copy más educativo
+- Cuenta la historia del problema
+- CTA: "Más información" o "Saber más"
+
+**Consideración** (audiencia tibia):
+- Copy orientado a beneficios
+- Testimonios y prueba social
+- CTA: "Ver demo" o "Agendar llamada"
+
+**Conversión** (audiencia caliente o retargeting):
+- Copy directo, la oferta clara
+- Urgencia o incentivo
+- CTA: "Comprar" o "Registrarse"
+
+### Testing de copy
+
+Siempre probar simultáneamente:
+- 3 hooks diferentes con el mismo body
+- O el mismo hook con 3 bodies diferentes
+- Deja correr 3-5 días antes de concluir ganador`,
+        completed: false,
+      },
+      {
+        id: 'c3-l1b',
+        title: 'Mini-práctica: Crea 3 variantes de Meta Ad',
+        type: 'practice',
+        tasks: [
+          'Elige el servicio de AlphaDev Studios (o de un cliente) y define la audiencia objetivo',
+          'Escribe 3 hooks completamente diferentes para el mismo ad (pregunta, declaración, número)',
+          'Para el hook más fuerte, escribe el body completo: problema → solución → beneficios → CTA',
+          'Adapta el ad para awareness (copy educativo) y para retargeting (copy directo con oferta)',
+          'Estima el presupuesto mínimo viable para testear las 3 versiones ($5-10/día por variante)',
+        ],
+        tip: 'En Meta Ads, la imagen/video detiene el scroll — el copy convierte. Si el visual no es bueno, el mejor copy del mundo no salvará el ad. Ambos deben trabajar juntos.',
+        completed: false,
+      },
+      {
+        id: 'c3-l2',
+        title: 'Email marketing: secuencias que nutren sin molestar',
+        type: 'reading',
+        content: `## Email marketing: el canal de mayor ROI
+
+El email tiene un ROI promedio de $36 por cada $1 invertido (Litmus, 2024). Ningún otro canal se acerca. Y sin embargo, la mayoría de empresas lo usa mal.
+
+### Los tipos de email que debes dominar
+
+**1. Email de bienvenida** (se abre el 50-80% de las veces)
+- El más leído de todos — maximiza su valor
+- Entrega el valor prometido inmediatamente
+- Establece expectativas (qué recibirán y cuándo)
+- Humaniza: quién eres y por qué te importa
+
+**2. Email de nurturing** (educación/valor)
+- Un solo insight útil por email
+- Sin venta directa — construye confianza
+- Frecuencia: 1-2 por semana para newsletters, menos para cold
+
+**3. Email de venta**
+- Solo cuando hay relación previa
+- La oferta clara desde el principio (no enterrada al final)
+- Un solo CTA
+
+**4. Email de seguimiento (follow-up)**
+- El 80% de las ventas ocurren entre el 5to y 12vo contacto
+- Varía el ángulo en cada follow-up (no reenvíes el mismo email)
+
+### Estructura del email que se lee
+
+**Subject line** (50% del trabajo):
+- Corto: 30-40 caracteres en mobile
+- Curioso o directo — elige uno
+- Evita spam triggers: "GRATIS", "URGENTE", "!!!!"
+
+**Preview text** (la segunda línea que ves en la bandeja):
+- Complementa el subject, no lo repite
+- Agrega contexto o curiosidad adicional
+
+**Apertura** (las primeras 2 líneas):
+- Conecta directo con el lector
+- No empieces con "Mi nombre es..." o "Espero que estés bien"
+- Empieza con el punto
+
+**Body**:
+- Una idea central por email
+- Párrafos cortos (2-4 líneas máximo)
+- Links descriptivos, no "click aquí"
+
+**CTA**:
+- Uno solo, claro, específico
+- Dice exactamente qué pasa al hacer click
+
+### La secuencia de bienvenida (5 emails)
+
+\`\`\`
+Email 1 (día 0): Bienvenida + entrega el lead magnet prometido
+Email 2 (día 2): Historia: por qué existes, qué problema resuelves
+Email 3 (día 4): El problema más grande de tu audiencia (sin vender)
+Email 4 (día 7): Caso de estudio / prueba social
+Email 5 (día 10): La oferta (primera venta directa)
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'c3-l2b',
+        title: 'Mini-práctica: Escribe una secuencia de 5 emails',
+        type: 'practice',
+        tasks: [
+          'Define el lead magnet (recurso gratuito) que usarías para conseguir emails en tu negocio',
+          'Escribe los 5 emails de la secuencia de bienvenida completa: asunto, preview text y body de cada uno',
+          'Verifica que cada email tiene un solo CTA y una sola idea central',
+          'Para el email de venta (email 5), usa el framework PAS: problema → agitación → solución',
+          'Prueba los subject lines en subjectline.email — apunta a score >70',
+        ],
+        tip: 'El email más importante de la secuencia no es el de venta — es el de bienvenida. Si ese email establece confianza y entrega valor inmediato, los siguientes se abren con alta probabilidad. Si defrauda, todos los demás van a spam.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Really Good Emails — Librería de emails ejemplo',
+        url: 'https://reallygoodemails.com',
+        type: 'tool',
+      },
+      {
+        title: 'Meta Ads Library — Ejemplos de ads reales',
+        url: 'https://www.facebook.com/ads/library',
+        type: 'tool',
+      },
+      {
+        title: 'Email Subject Line Tester',
+        url: 'https://www.subjectline.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-4',
+    number: 22,
+    title: 'Propuestas, Pitches y Copy de Cierre',
+    description: 'Aprende a escribir propuestas que ganan proyectos, pitches que convencen y follow-ups que convierten sin presionar.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c4-l1',
+        title: 'Propuestas comerciales que ganan proyectos',
+        type: 'reading',
+        content: `## La propuesta que cierra
+
+Una propuesta no es un documento técnico. Es el último copy de ventas antes de la decisión de compra.
+
+El cliente ya sabe qué hace tu empresa. La propuesta le dice: *por qué nosotros, por qué ahora, y exactamente qué va a obtener.*
+
+### El error más común
+
+La mayoría de propuestas empiezan con:
+*"Estimado [nombre], somos [empresa], fundada en [año], y nos especializamos en..."*
+
+El cliente no compra tu historia. Compra su resultado.
+
+**Empieza con ellos, no contigo.**
+
+### Estructura de una propuesta ganadora
+
+**1. El problema (en sus palabras)**
+Muestra que entendiste su situación específica. No genérico. Menciona lo que dijeron en la llamada.
+
+*"Mencionaste que tu producto está listo pero necesitas salir al mercado antes del Q3 para capturar la ola de funding que se abre en ese período..."*
+
+**2. La solución propuesta**
+Específica, no genérica. Qué harás exactamente, en qué orden.
+
+**3. Lo que incluye (y lo que no)**
+Claridad total. El scope definido protege a ambas partes.
+
+**4. El timeline**
+Milestones claros. Fechas específicas, no "aproximadamente 4-6 semanas".
+
+**5. La inversión**
+El precio claro, con opciones si aplica. Sin sorpresas.
+
+**6. Por qué nosotros**
+Prueba social relevante para este proyecto específico. No tu portafolio genérico — el caso más parecido a lo que necesitan.
+
+**7. Próximos pasos**
+Una acción específica: "Para confirmar, firma este documento y enviamos el contrato en 24 horas."
+
+### El copy dentro de la propuesta
+
+- Usa el lenguaje del cliente (el que usaron en la llamada)
+- Beneficios > características también aquí
+- Párrafos cortos — se lee en diagonal, como toda propuesta
+- Negritas estratégicas en los puntos más importantes
+- Un resumen ejecutivo al inicio (una página) para quienes no lean todo
+
+### Precio: cómo presentarlo
+
+Nunca digas solo el precio. Ancla con el valor:
+
+*"La inversión para este proyecto es $4,500. Para contexto: el costo de contratar un desarrollador freelance para el mismo scope está entre $8,000 y $12,000, con tiempos 3x más largos."*`,
+        completed: false,
+      },
+      {
+        id: 'c4-l1b',
+        title: 'Mini-práctica: Escribe una propuesta completa',
+        type: 'practice',
+        tasks: [
+          'Elige un proyecto real o ficticio (diseño de sitio web, app, branding, campaña) y un cliente hipotético',
+          'Escribe la propuesta completa usando la estructura de 7 secciones',
+          'La sección "El problema" debe sonar como si hubieras escuchado al cliente — usa lenguaje concreto y específico',
+          'Presenta el precio con ancla de valor (comparación con alternativa)',
+          'Termina con un "próximo paso" que requiera una sola acción simple del cliente',
+        ],
+        tip: 'La propuesta gana o pierde en las primeras 30 segundos de lectura. Si el resumen ejecutivo (primera página) no convence, el resto no se lee. Escribe esa primera página al último, cuando ya tienes claridad total del documento.',
+        completed: false,
+      },
+      {
+        id: 'c4-l2',
+        title: 'Follow-ups que convierten sin presionar',
+        type: 'reading',
+        content: `## El arte del follow-up
+
+El 80% de las ventas ocurren después del quinto contacto. El 44% de los vendedores abandona después del primero.
+
+Hacer follow-up no es presionar. Es persistencia con valor.
+
+### Los principios del follow-up que funciona
+
+**1. Siempre agrega valor**
+No envíes "Solo quería ver cómo van". Envía algo útil: un artículo relevante, un insight, una pregunta que los haga pensar.
+
+**2. Varía el ángulo, no el mensaje**
+Cada follow-up ataca desde un ángulo diferente:
+- Email 1: Propuesta enviada
+- Follow-up 1 (día 3): Case study relacionado
+- Follow-up 2 (día 7): Responde una objeción común proactivamente
+- Follow-up 3 (día 14): Cambio en el alcance o la oferta
+- Follow-up 4 (día 21): El "breakup email"
+
+**3. El breakup email**
+El más efectivo por su honestidad:
+
+*"Hola [nombre], entiendo que tienes muchas prioridades y no es el momento correcto. Si en algún momento el proyecto vuelve a la agenda, estaré aquí. ¿Puedo marcar este como cerrado por ahora?"*
+
+Paradójicamente, este email a menudo genera respuestas de clientes que estaban ocupados y no habían podido responder.
+
+### La cadencia de follow-up
+
+\`\`\`
+Propuesta enviada → Día 3 → Día 7 → Día 14 → Día 21 (breakup)
+\`\`\`
+
+No más de 5 contactos sin respuesta. Después, respeto y pausa.
+
+### Por qué los clientes no responden
+
+- No es el momento adecuado (prioridades cambiaron)
+- Se perdió el email entre otros
+- Necesitan aprobación interna
+- Tienen dudas pero no saben cómo preguntar
+
+El follow-up con valor resuelve todos estos casos sin presión.
+
+### Templates de follow-up
+
+**Follow-up de valor** (día 3):
+*"Hola [nombre], vi este artículo sobre [tema relevante para su proyecto] y pensé en ti. [Link + 1-2 oraciones de por qué es relevante]. ¿Avanzamos con la propuesta?"*
+
+**Follow-up de objeción** (día 7):
+*"Hola [nombre], una pregunta común que recibo antes de aprobar un proyecto es [objeción]. Por si te ayuda: [respuesta concisa]. ¿Eso despeja dudas?"*`,
+        completed: false,
+      },
+      {
+        id: 'c4-l2b',
+        title: 'Mini-práctica: Cadencia de follow-up completa',
+        type: 'practice',
+        tasks: [
+          'Para la propuesta que escribiste en la práctica anterior, diseña la cadencia de follow-up completa (4 emails)',
+          'Cada email debe tener ángulo diferente: valor, objeción, cambio de oferta, breakup',
+          'Escribe el subject line de cada email (debe generar apertura sin sonar desesperado)',
+          'El breakup email debe ser honesto, breve y dejar la puerta abierta elegantemente',
+          'Revisa: ¿en algún follow-up estás pidiendo sin dar valor primero? Si sí, reescríbelo',
+        ],
+        tip: 'El mejor follow-up del mundo no puede rescatar una propuesta sin valor. Si tu tasa de cierre es baja, el problema probablemente no es el follow-up — es la propuesta inicial o la calificación del prospecto. Arregla primero lo que pasa antes del follow-up.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Better Proposals — Templates profesionales',
+        url: 'https://betterproposals.io',
+        type: 'tool',
+      },
+      {
+        title: 'Proposify — Software de propuestas',
+        url: 'https://www.proposify.com',
+        type: 'tool',
+      },
+      {
+        title: 'The Follow-Up Formula — Blog post',
+        url: 'https://www.yesware.com/blog/follow-up-email',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: IA en el Workflow ─────────────────────────────────────────────────
+
+  {
+    id: 'ia-1',
+    number: 23,
+    title: 'Prompting Efectivo: habla el idioma de la IA',
+    description: 'Aprende a comunicarte con modelos de lenguaje de manera que obtengas resultados de calidad profesional, no respuestas genéricas.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia1-l1',
+        title: 'Cómo funcionan los LLMs y por qué el prompt importa tanto',
+        type: 'reading',
+        content: `## Cómo funciona un LLM (y por qué debes saberlo)
+
+Antes de aprender a escribir buenos prompts, entender cómo funciona el modelo te da una ventaja enorme.
+
+### Qué es un LLM
+
+Un Large Language Model (LLM) es un modelo estadístico entrenado en cantidades masivas de texto. Aprende patrones de qué palabras suelen aparecer juntas en contextos específicos.
+
+**No piensa**. Predice la siguiente secuencia de tokens más probable dado el contexto del prompt.
+
+Esto explica:
+- Por qué el contexto importa tanto — el modelo predice en base a todo lo que hay antes
+- Por qué alucinan — generan texto probable aunque no sea verdadero
+- Por qué el mismo prompt puede dar resultados distintos — hay aleatoriedad controlada (temperatura)
+
+### El modelo lee tu prompt como instrucción + contexto + ejemplo
+
+Un prompt es en esencia:
+1. **Quién eres** (rol/sistema)
+2. **Qué quieres** (tarea)
+3. **Cómo lo quieres** (formato, restricciones)
+4. **Para qué** (contexto del uso final)
+5. **Ejemplos** (opcionales pero muy poderosos)
+
+Cuanto más de esto incluyas, mejor el resultado.
+
+### El problema del prompt genérico
+
+\`\`\`
+❌ "Escribe copy para mi empresa de software"
+✅ "Eres un copywriter especializado en B2B SaaS.
+    Escribe el hero copy para la landing page de AlphaDev Studios,
+    una agencia que construye software con IA integrada para startups.
+    Audiencia: founders en etapa pre-Serie A que hablan inglés o español.
+    Tono: confiado, directo, técnico pero accesible.
+    Incluye: headline (máx 10 palabras), subheadline (máx 20 palabras), 3 bullets de beneficios.
+    No uses: 'soluciones innovadoras', 'transformación digital', ni cualquier frase genérica de agencia."
+\`\`\`
+
+La diferencia no es magia — es contexto, restricciones y especificidad.
+
+### Modelos disponibles en 2026 y para qué usar cada uno
+
+| Modelo | Mejor para |
+|--------|-----------|
+| Claude Opus 4.8 | Razonamiento complejo, análisis, código de alta complejidad |
+| Claude Sonnet 4.6 | Uso diario: redacción, código, análisis moderado |
+| GPT-4o | Integración con herramientas de OpenAI, imágenes |
+| Gemini 2.5 Pro | Contexto muy largo (1M tokens), tareas multimodal |
+| Llama 3.3 (local) | Privacidad, sin costo por token, offline |`,
+        completed: false,
+      },
+      {
+        id: 'ia1-l1b',
+        title: 'Mini-práctica: Itera un prompt hasta obtener calidad profesional',
+        type: 'practice',
+        tasks: [
+          'Elige una tarea real que necesites completar (email, copy, análisis, código)',
+          'Escribe el prompt más simple posible y documenta el resultado',
+          'Agrega rol, contexto y tono — documenta el nuevo resultado',
+          'Agrega restricciones específicas (qué NO hacer) — documenta',
+          'Agrega un ejemplo de lo que quieres (few-shot) — documenta el resultado final',
+          'Compara las 4 versiones: ¿cuánto mejoró la calidad con cada adición?',
+        ],
+        tip: 'Los ejemplos (few-shot prompting) son el modificador más poderoso de todos. Si tienes un ejemplo de un output que te gusta, incluirlo en el prompt casi siempre produce resultados similares o mejores.',
+        completed: false,
+      },
+      {
+        id: 'ia1-l2',
+        title: 'Técnicas avanzadas: Chain of Thought, roles y context windows',
+        type: 'reading',
+        content: `## Técnicas de prompting que marcan la diferencia
+
+### Chain of Thought (CoT) — razonamiento paso a paso
+
+Los LLMs resuelven problemas complejos mejor cuando se les pide pensar en voz alta.
+
+\`\`\`
+❌ "¿Cuál es la mejor estrategia de precios para mi SaaS?"
+
+✅ "Voy a pedirte que analices la estrategia de precios para mi SaaS.
+    Antes de dar una recomendación, razona paso a paso:
+    1. Qué tipo de negocio es y qué métricas importan
+    2. Qué estrategias de pricing existen para este tipo
+    3. Qué datos necesitaría para decidir bien
+    4. Cuál es tu recomendación y por qué
+    Solo entonces dame la respuesta final."
+\`\`\`
+
+### Role prompting — convierte al modelo en el experto
+
+\`\`\`
+"Eres un senior growth hacker con 10 años de experiencia en startups B2B SaaS,
+especializado en growth orgánico y product-led growth. Has trabajado con empresas
+que pasaron de $0 a $1M ARR. Hablas directo, das ejemplos específicos, no usas
+jerga sin definirla. Con eso en mente, [tu pregunta aquí]."
+\`\`\`
+
+El modelo adopta el conocimiento y el estilo del rol. Cuanto más específico el rol, mejor.
+
+### Context window — la memoria del modelo
+
+El context window es la cantidad de tokens que el modelo puede "ver" al mismo tiempo:
+- Claude 3.5 Sonnet: 200K tokens (~150,000 palabras)
+- Gemini 2.5 Pro: 1M tokens
+
+**Implicaciones prácticas**:
+- Para proyectos largos, el modelo puede ver todo el código de una vez
+- La información al principio y al final del prompt se retiene mejor que la del medio
+- No necesitas resumir conversaciones anteriores en modelos modernos
+
+### Prompts para diferentes tareas
+
+**Para código**:
+*"Escribe en TypeScript, strict mode, sin any. Incluye los tipos necesarios. Si necesitas hacer algo que podría causar errores en runtime, manéjalo explícitamente. Agrega JSDoc solo si la función es no-obvia."*
+
+**Para análisis**:
+*"Analiza esto desde múltiples ángulos. Al final, dame tu evaluación con nivel de confianza (alta/media/baja) y qué información adicional cambiaría tu conclusión."*
+
+**Para edición de copy**:
+*"Edita este texto para que sea más directo y persuasivo. Mantén el tono [X]. No agregues nada — solo mejora lo que hay. Explica brevemente los cambios principales que hiciste."*
+
+### Iterar en conversación vs nuevo prompt
+
+**Conversación**: cuando el contexto acumulado es valioso (código en progreso, análisis iterativo)
+**Nuevo prompt**: cuando la conversación anterior se desvió o el contexto es ruido`,
+        completed: false,
+      },
+      {
+        id: 'ia1-l2b',
+        title: 'Mini-práctica: Construye un prompt system para tu flujo de trabajo',
+        type: 'practice',
+        tasks: [
+          'Identifica las 5 tareas que más haces y podrías delegar a IA (emails, análisis, código, copy, etc.)',
+          'Para cada una, escribe un prompt reutilizable con rol, contexto, restricciones y formato de output',
+          'Guárdalos en un documento "Prompt Library" en Notion o similar',
+          'Prueba cada prompt con una tarea real y ajusta según el resultado',
+          'Agrega un ejemplo (few-shot) al menos a 2 de los 5 prompts — compara el resultado antes/después',
+        ],
+        tip: 'Una prompt library personal es uno de los activos más valiosos que puedes construir. Los mejores prompts no son los más complejos — son los más claros. Un prompt reutilizable bien escrito vale meses de iteraciones.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Anthropic — Prompt Engineering Guide',
+        url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview',
+        type: 'documentation',
+      },
+      {
+        title: 'OpenAI Prompt Engineering Guide',
+        url: 'https://platform.openai.com/docs/guides/prompt-engineering',
+        type: 'documentation',
+      },
+      {
+        title: 'PromptBase — Marketplace de prompts',
+        url: 'https://promptbase.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-2',
+    number: 24,
+    title: 'IA para Diseño, Código y Contenido',
+    description: 'Integra herramientas de IA en tu flujo de trabajo de diseño (imágenes, UI), desarrollo (Copilot, Claude Code) y creación de contenido.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia2-l1',
+        title: 'IA para generación de imágenes: workflows reales',
+        type: 'reading',
+        content: `## IA para generación de imágenes en producción
+
+Las herramientas de generación de imágenes con IA pasaron de curiosidad a parte esencial del workflow creativo. Saber usarlas bien separa al profesional del amateur.
+
+### Herramientas principales en 2026
+
+**Midjourney** — el estándar de calidad para imágenes creativas
+- Calidad fotorrealista y artística superior
+- Curva de aprendizaje moderada
+- Ideal: branding, marketing, ilustraciones
+
+**DALL-E 3 (vía ChatGPT o API)** — más controlable y literal
+- Sigue instrucciones más precisas
+- Mejor para composiciones específicas
+- Ideal: mockups, infografías, ilustraciones técnicas
+
+**Stable Diffusion (local)** — open source, sin costo por imagen
+- Requiere hardware (GPU) o servicios como RunDiffusion
+- Máxima personalización y control
+- Ideal: producción en volumen, fine-tuning para marca específica
+
+**Gemini (Imagen 3)** — integrado en el ecosistema Google
+- Buen equilibrio entre calidad y control
+- Excelente para iteración conversacional
+- Ideal: contenido editorial, assets de marketing
+
+### Workflow profesional con IA generativa
+
+\`\`\`
+1. Brief visual claro (colores, estilo, composición, mood)
+2. Prompt detallado en inglés (mejor que español en todos los modelos)
+3. Generación inicial → evaluar → iterar en la misma conversación
+4. Refinar la variante más cercana (no empezar de cero)
+5. Post-producción en Figma o Photopea si es necesario
+6. Optimizar: WebP/AVIF, < 500KB para web
+\`\`\`
+
+### Anatomía de un prompt de imagen efectivo
+
+\`\`\`
+[Estilo dominante], [sujeto/composición], [materiales/texturas],
+[iluminación], [fondo], [mood], [restricciones], [aspect ratio]
+
+Ejemplo:
+"Premium 3D render, minimalist floating geometric shapes in obsidian
+and translucent glass materials, volumetric blue light (#0080ff) from below,
+deep slate gradient background (#0f172a), cinematic and sophisticated,
+no text, no humans, 16:9"
+\`\`\`
+
+### Límites éticos y legales
+
+- **No generar**: caras de personas reales, obras protegidas por copyright, contenido engañoso
+- **Transparencia**: si usas IA en trabajo para clientes, comunícalo
+- **Derecho de autor**: varía por jurisdicción — en 2026 el debate legal sigue abierto
+- **Regla práctica**: usa IA para crear assets originales, no para reproducir estilos de artistas específicos sin permiso
+
+### IA para UI: desde Figma
+
+- **Figma AI** — genera variantes de diseño, auto-layout, descripción de componentes
+- **Galileo AI** — genera UI completa desde descripción textual
+- **Uizard** — prototipado rápido con IA desde sketches o prompts`,
+        completed: false,
+      },
+      {
+        id: 'ia2-l1b',
+        title: 'Mini-práctica: Genera assets visuales para un proyecto real',
+        type: 'practice',
+        tasks: [
+          'Elige un proyecto (sitio web, app, campaña) que necesite assets visuales',
+          'Escribe un brief visual: estilo, paleta de colores, mood, qué NO quieres',
+          'Genera 3 variantes de hero image con Gemini o DALL-E usando la estructura de prompt aprendida',
+          'Itera en la mejor variante hasta obtener algo usable (mínimo 3 iteraciones)',
+          'Optimiza el resultado final: convierte a WebP, verifica que pesa menos de 500KB',
+        ],
+        tip: 'El 80% del valor en generación de imágenes está en el brief visual, no en el prompt técnico. Si sabes exactamente qué quieres (referencia, paleta, composición), el prompt casi se escribe solo. Si no tienes claro el brief, ningún prompt te salvará.',
+        completed: false,
+      },
+      {
+        id: 'ia2-l2',
+        title: 'Claude Code y GitHub Copilot: IA que escribe código',
+        type: 'reading',
+        content: `## IA para desarrollo: el workflow que multiplica velocidad
+
+Las herramientas de IA para código no reemplazan al desarrollador — multiplican su velocidad. Un buen developer con IA produce entre 3x y 10x más que sin ella.
+
+### Claude Code — el asistente de código más potente
+
+Claude Code (el CLI de Anthropic) opera directamente en tu codebase:
+
+\`\`\`bash
+# Instalar
+npm install -g @anthropic-ai/claude-code
+
+# Usar en tu proyecto
+cd mi-proyecto
+claude
+\`\`\`
+
+Lo que puede hacer:
+- Leer, editar y crear archivos en todo el proyecto
+- Ejecutar comandos (build, test, lint)
+- Hacer refactoring de múltiples archivos
+- Debuggear errores con contexto completo del código
+- Escribir tests
+
+**Casos de uso reales en AlphaDev**:
+- "Refactoriza este componente para usar Server Component en lugar de Client"
+- "Agrega TypeScript strict types a toda la carpeta /components"
+- "Implementa la API route para este formulario de contacto"
+- "Encuentra todos los console.log y reemplázalos con un logger apropiado"
+
+### GitHub Copilot — autocompletado inteligente
+
+Se integra en VS Code, JetBrains, etc:
+
+- **Autocompletado**: sugiere código línea por línea o función completa
+- **Copilot Chat**: pregunta sobre el código, pide explicaciones, genera tests
+- **Copilot Edits**: edita múltiples archivos con una sola instrucción
+
+**Para maximizar Copilot**:
+1. Escribe comentarios descriptivos antes de la función — Copilot los usa como prompt
+2. Nombra bien las variables — Copilot infiere la intención del nombre
+3. Tener tests escritos mejora las sugerencias de implementación
+
+### El workflow ideal: Claude Code + Copilot
+
+\`\`\`
+Arquitectura y refactoring grande → Claude Code (contexto completo del proyecto)
+Escritura de código línea a línea → Copilot (autocompletado en tiempo real)
+Debugging complejo → Claude Code (puede leer logs, ejecutar, iterar)
+Tests unitarios → Copilot Chat (genera tests para función seleccionada)
+\`\`\`
+
+### Lo que la IA NO puede hacer bien (aún)
+
+- Tomar decisiones de arquitectura sin contexto de negocio
+- Saber qué es "correcto" para tu caso específico
+- Reemplazar la revisión crítica del código
+- Garantizar que el código es seguro (siempre revisar el output)`,
+        completed: false,
+      },
+      {
+        id: 'ia2-l2b',
+        title: 'Mini-práctica: Completa una feature usando IA como pair programmer',
+        type: 'practice',
+        tasks: [
+          'Elige una feature real de un proyecto (formulario, componente, API route)',
+          'Usa Claude Code o Copilot Chat para implementarla desde cero — documenta cada prompt que enviaste',
+          'Revisa el código generado línea por línea: ¿hay errores? ¿vulnerabilidades? ¿tipos incorrectos?',
+          'Pídele a la IA que escriba los tests para el código que generó',
+          'Reflexiona: ¿cuánto tiempo te tomó vs sin IA? ¿Qué partes mejoraste manualmente?',
+        ],
+        tip: 'Trata a la IA como un junior developer muy rápido: necesita instrucciones claras, revisión de su trabajo, y correcciones cuando se equivoca. El error es asumir que el código generado está correcto sin leerlo.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Claude Code — Documentación oficial',
+        url: 'https://docs.anthropic.com/en/docs/claude-code',
+        type: 'documentation',
+      },
+      {
+        title: 'GitHub Copilot — Getting Started',
+        url: 'https://docs.github.com/en/copilot/getting-started-with-github-copilot',
+        type: 'documentation',
+      },
+      {
+        title: 'Midjourney — Prompt Guide',
+        url: 'https://docs.midjourney.com/docs/prompts',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-3',
+    number: 25,
+    title: 'Automatizaciones con n8n y Make',
+    description: 'Construye flujos de trabajo automatizados que conectan apps, procesan datos y ahorran horas de trabajo repetitivo cada semana.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia3-l1',
+        title: 'Automatizaciones: qué es, cuándo automatizar y cuándo no',
+        type: 'reading',
+        content: `## Automatizaciones: el principio correcto
+
+Antes de automatizar cualquier cosa, hay una pregunta que debes hacerte:
+
+> *"¿Cuánto tiempo pierdo en esto cada mes, y es consistente?"*
+
+Si la respuesta es "más de 2 horas al mes y siempre sigue el mismo patrón" → automatiza.
+Si la respuesta es "varía mucho según el caso" → probablemente no vale la pena.
+
+### Qué es la automatización no-code
+
+Herramientas como n8n y Make te permiten conectar aplicaciones y crear flujos de trabajo sin escribir código:
+
+- Cuando pasa X (trigger) → hacer Y (action)
+- Cuando llega un form → guardarlo en Notion + enviar email + notificar en Slack
+
+### n8n vs Make vs Zapier
+
+| | n8n | Make | Zapier |
+|---|---|---|---|
+| **Precio** | Free (self-hosted) o ~$20/mes cloud | Free hasta 1,000 ops/mes | Free hasta 100 tasks/mes |
+| **Complejidad** | Alta (más poderoso) | Media | Baja |
+| **Ideal para** | Flujos complejos, privacidad | Automatizaciones medianas | Flujos simples |
+| **Curva de aprendizaje** | Alta | Media | Baja |
+
+**Para AlphaDev Studios**: n8n es la herramienta ideal — más poderosa, open-source, y puede correr en tu propio servidor (privacidad total).
+
+### Casos de uso reales para una agencia
+
+**Lead management**:
+→ Form de contacto llega → se crea registro en CRM → se envía email de confirmación → se crea tarea en Notion → notificación a Slack
+
+**Onboarding de clientes**:
+→ Contrato firmado en DocuSign → crear workspace en Notion → invitar al cliente → crear proyecto en Linear → enviar email de bienvenida
+
+**Reportes automáticos**:
+→ Cada viernes → obtener métricas de Google Analytics → formatear → enviar resumen por email
+
+**Social media**:
+→ Nuevo post en blog → crear variantes para Instagram, LinkedIn, Twitter → programar en Buffer
+
+### Cuándo NO automatizar
+
+- Cuando el proceso cambia frecuentemente
+- Cuando requiere juicio humano en cada caso
+- Cuando el costo de mantenimiento > el tiempo ahorrado
+- Cuando un error podría tener consecuencias graves`,
+        completed: false,
+      },
+      {
+        id: 'ia3-l1b',
+        title: 'Mini-práctica: Mapea los procesos automatizables de tu negocio',
+        type: 'practice',
+        tasks: [
+          'Lista todos los procesos manuales repetitivos que haces en una semana típica',
+          'Para cada uno, estima: frecuencia (veces/mes), tiempo (minutos), variabilidad (alta/baja)',
+          'Calcula el tiempo mensual total perdido en cada proceso',
+          'Prioriza los 3 más impactantes (alto tiempo × baja variabilidad)',
+          'Para cada uno, dibuja el flujo: trigger → pasos → resultado final. ¿Cuáles apps conectarías?',
+        ],
+        tip: 'El mapa de procesos es más valioso que la automatización misma. A veces al mapear descubres que el proceso no debería existir en absoluto, o que hay una herramienta que ya lo hace sin necesidad de n8n.',
+        completed: false,
+      },
+      {
+        id: 'ia3-l2',
+        title: 'Construir tu primer flujo en n8n: paso a paso',
+        type: 'reading',
+        content: `## n8n: tu primer workflow real
+
+n8n es una herramienta de automatización visual donde conectas "nodos" (bloques de acción) para crear flujos.
+
+### Conceptos base de n8n
+
+**Nodos**: bloques individuales con una función específica
+- **Trigger nodes**: inician el flujo (webhook, schedule, email recibido)
+- **Action nodes**: ejecutan acciones (enviar email, crear fila en DB, llamar API)
+- **Logic nodes**: condiciones, loops, merge de datos
+
+**Workflow**: la secuencia de nodos conectados
+
+**Credentials**: las claves API de tus apps (se guardan de forma segura en n8n)
+
+**Executions**: cada vez que el workflow corre — puedes ver el historial
+
+### Setup inicial
+
+**Opción 1 — n8n Cloud** (más fácil):
+1. Crear cuenta en n8n.io
+2. Crear nuevo workflow
+3. Conectar apps con sus credenciales
+
+**Opción 2 — Self-hosted** (más barato):
+\`\`\`bash
+# Con Docker
+docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  -v ~/.n8n:/home/node/.n8n \
+  n8nio/n8n
+\`\`\`
+
+### Flujo ejemplo: Form → Notion → Email
+
+**Trigger**: Webhook (recibe el form)
+\`\`\`
+Paso 1: Webhook node — URL única que recibe el POST del formulario
+Paso 2: Set node — formatea los datos (nombre, email, mensaje)
+Paso 3: Notion node — crea una página en tu database de leads
+Paso 4: Gmail/Resend node — envía email de confirmación al lead
+Paso 5: Slack node — notificación a tu canal #nuevos-leads
+\`\`\`
+
+### Debugging en n8n
+
+Cada nodo muestra el input y output de cada ejecución. Cuando algo falla:
+1. Click en la ejecución fallida en "Executions"
+2. Identifica el nodo que falló (ícono rojo)
+3. Ve el error message y el input que recibió
+4. Ajusta el nodo y re-ejecuta
+
+### Manejo de errores
+
+n8n tiene nodos de Error Trigger que capturan fallos:
+\`\`\`
+Error Trigger → Slack node (notificación de fallo) + guardar error en DB
+\`\`\`
+
+Siempre agrega manejo de errores en workflows de producción.`,
+        completed: false,
+      },
+      {
+        id: 'ia3-l2b',
+        title: 'Mini-práctica: Construye tu primer workflow real en n8n',
+        type: 'practice',
+        tasks: [
+          'Crea una cuenta en n8n.io (cloud trial gratuito) o instálalo con Docker localmente',
+          'Implementa el flujo: Typeform/Tally form → Google Sheets (guardar lead) → Gmail (email de confirmación)',
+          'Prueba el flujo enviando un form real y verifica que todos los pasos funcionen',
+          'Agrega un nodo de condición: si el email ya existe en la sheet, no crear duplicado',
+          'Agrega un Error Trigger que te notifique por email si el workflow falla',
+        ],
+        tip: 'Empieza siempre con el workflow más simple posible (2-3 nodos) y hazlo funcionar antes de agregar complejidad. Agregar un nodo a la vez hace el debugging mucho más fácil.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'n8n Docs — Getting Started',
+        url: 'https://docs.n8n.io/getting-started/quickstart',
+        type: 'documentation',
+      },
+      {
+        title: 'Make (Integromat) — Academy',
+        url: 'https://academy.make.com',
+        type: 'course',
+      },
+      {
+        title: 'n8n Community — Workflows compartidos',
+        url: 'https://community.n8n.io',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-4',
+    number: 26,
+    title: 'Agentes IA: el siguiente nivel de automatización',
+    description: 'Entiende qué son los agentes IA, cómo construir flujos agénticos con n8n + LLMs, y los casos de uso reales en una agencia.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia4-l1',
+        title: 'Qué son los agentes IA y cómo piensan',
+        type: 'reading',
+        content: `## Agentes IA: autonomía con propósito
+
+Un agente IA no es un chatbot. Es un sistema que puede **razonar, planificar y tomar acciones** para lograr un objetivo, usando herramientas.
+
+### La diferencia fundamental
+
+**LLM clásico** (ChatGPT, Claude):
+- Tú haces una pregunta → el modelo responde → fin
+- El modelo no puede actuar en el mundo real
+
+**Agente IA**:
+- Tú defines un objetivo → el agente planifica → usa herramientas → observa resultados → repite hasta lograr el objetivo
+
+### El loop agéntico
+
+\`\`\`
+Objetivo → Razonar → Planificar acción → Ejecutar acción → Observar resultado
+          ↑_________________________________________|
+                    (si el objetivo no se logró)
+\`\`\`
+
+### Herramientas que puede usar un agente
+
+- **Web search**: buscar información actualizada
+- **Code execution**: correr código Python/JS
+- **File operations**: leer/escribir archivos
+- **API calls**: consultar servicios externos
+- **Browser control**: navegar y hacer acciones en sitios web
+
+### Ejemplos de agentes reales
+
+**Agente de research**:
+*Objetivo: "Encuentra los 5 principales competidores de [startup], analiza sus precios y estrategia de marketing"*
+→ Busca en web → lee páginas → extrae precios → compila análisis → genera reporte
+
+**Agente de onboarding**:
+*Objetivo: "Onboarding completo para el nuevo cliente XYZ"*
+→ Crea workspace en Notion → configura repositorio en GitHub → envía emails → crea tickets iniciales
+
+**Agente de código**:
+*Claude Code haciendo refactoring de una feature completa*
+→ Lee el código → planifica cambios → edita archivos → corre tests → corrige errores → commit
+
+### Por qué los agentes no son perfectos (todavía)
+
+- **Alucinaciones**: pueden tomar acciones basadas en información incorrecta
+- **Loops**: pueden quedarse atrapados si el objetivo es ambiguo
+- **Costo**: muchas llamadas al LLM = más tokens = más $$$
+- **Confianza**: las acciones con consecuencias graves necesitan supervisión humana
+
+### Principio de supervisión humana
+
+Para tareas de alto impacto (enviar emails, publicar en producción, gastar dinero), el agente debe:
+1. Planificar y mostrar el plan al humano
+2. Esperar aprobación
+3. Ejecutar
+4. Reportar resultado`,
+        completed: false,
+      },
+      {
+        id: 'ia4-l1b',
+        title: 'Mini-práctica: Diseña un agente para tu agencia',
+        type: 'practice',
+        tasks: [
+          'Identifica un proceso de tu agencia que podría beneficiarse de un agente (research, onboarding, reporting)',
+          'Escribe la especificación del agente: objetivo, herramientas necesarias, outputs esperados',
+          'Dibuja el loop agéntico: qué observa en cada iteración y cuándo sabe que terminó',
+          'Identifica los puntos donde necesita supervisión humana (decisiones de alto impacto)',
+          'Estima el costo en tokens por ejecución — ¿es viable económicamente?',
+        ],
+        tip: 'Los mejores casos para agentes son tareas que: (1) requieren múltiples pasos, (2) necesitan información de múltiples fuentes, (3) tienen criterios de éxito claros, y (4) los errores son recuperables. Empieza siempre con el caso más controlado.',
+        completed: false,
+      },
+      {
+        id: 'ia4-l2',
+        title: 'Construir un agente con n8n + Claude: caso práctico',
+        type: 'reading',
+        content: `## Agente de research con n8n + Claude
+
+Vamos a construir un agente real: dado el nombre de una empresa, investiga automáticamente y genera un brief de prospecto para la agencia.
+
+### El workflow completo
+
+\`\`\`
+Input: nombre de empresa
+→ Google Search (sitio web oficial)
+→ Scraping del sitio (descripción, servicios, tecnología)
+→ LinkedIn Search (tamaño de empresa, industria)
+→ Claude: analizar toda la información y generar brief
+→ Output: documento en Notion con el brief estructurado
+\`\`\`
+
+### Nodos de n8n necesarios
+
+**1. Manual Trigger** (o Webhook para versión automatizada)
+- Input: \`{ "empresa": "NombreEmpresa" }\`
+
+**2. HTTP Request → SerpAPI o Serper.dev**
+\`\`\`json
+{
+  "q": "{{ $json.empresa }} site oficial",
+  "num": 3
+}
+\`\`\`
+
+**3. HTTP Request → Jina.ai Reader** (scraping limpio)
+\`\`\`
+GET https://r.jina.ai/{url-del-sitio}
+\`\`\`
+
+**4. Anthropic Claude node** (n8n tiene nodo nativo)
+\`\`\`
+Analiza esta información sobre la empresa {nombre}:
+{contenido del sitio}
+
+Genera un brief de prospecto con:
+- Descripción del negocio (2-3 oraciones)
+- Tecnologías que usan (si es visible)
+- Posibles pain points que AlphaDev podría resolver
+- Tamaño estimado y etapa (startup/scaleup/empresa)
+- Recomendación: ¿es buen fit para AlphaDev? ¿Por qué?
+\`\`\`
+
+**5. Notion node**
+- Crear página en database "Prospectos"
+- Guardar el brief generado
+
+### Hacerlo más inteligente: memoria y contexto
+
+Para que el agente recuerde prospectos anteriores y no duplique trabajo:
+
+\`\`\`
+Antes de investigar → consultar Notion si ya existe el prospecto
+Si existe → actualizar en lugar de crear nuevo
+Si no existe → crear nuevo
+\`\`\`
+
+### Costos estimados
+
+- SerpAPI: $50/mes para 5,000 búsquedas
+- Claude API: ~$0.01 por research completo (Sonnet)
+- Jina.ai Reader: free tier disponible
+- **Total por prospecto**: ~$0.02-0.05
+
+Para una agencia que prospecta 50 empresas/mes: ~$2.50/mes en APIs.
+
+### Escalar el agente
+
+Una vez que funciona para un caso, escala:
+1. Input masivo: una lista de 100 empresas en Google Sheets
+2. Loop en n8n: procesar cada empresa
+3. Enrichment adicional: Clearbit, Apollo.io para datos de contacto
+4. Priorización automática: Claude rankea los mejores prospectos`,
+        completed: false,
+      },
+      {
+        id: 'ia4-l2b',
+        title: 'Mini-práctica: Construye el agente de research en n8n',
+        type: 'practice',
+        tasks: [
+          'Crea el workflow en n8n con los nodos: Trigger → HTTP Request (búsqueda) → Claude → Notion',
+          'Prueba con 3 empresas reales — verifica que el brief generado es útil y preciso',
+          'Agrega la lógica de "no duplicar": verificar en Notion antes de crear',
+          'Optimiza el prompt de Claude hasta que el brief sea consistentemente bueno',
+          'Documenta el workflow: qué hace cada nodo, qué credenciales necesita, cómo usarlo',
+        ],
+        tip: 'Cuando el agente falla, el problema suele estar en los datos intermedios, no en Claude. Revisa el output de cada nodo antes de Claude para verificar que está recibiendo buena información. Basura entra, basura sale.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'n8n — AI Agents documentation',
+        url: 'https://docs.n8n.io/advanced-ai/intro-tutorial',
+        type: 'documentation',
+      },
+      {
+        title: 'Jina.ai Reader — Scraping para LLMs',
+        url: 'https://jina.ai/reader',
+        type: 'tool',
+      },
+      {
+        title: 'Anthropic — Building Agents guide',
+        url: 'https://docs.anthropic.com/en/docs/build-with-claude/tool-use/build-an-agent',
+        type: 'documentation',
+      },
+    ],
+  },
 
 ]
