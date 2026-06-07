@@ -904,7 +904,27 @@ export const MODULES: Module[] = [
         ],
         completed: false,
       },
-    ],
+    
+    {
+      id: 'modulo-4-p1',
+      title: 'Proyecto: Estrategia de growth hacking',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Diseña una estrategia de growth completa para un producto digital existente. Identifica el loop viral central, propón 3 experimentos de growth con hipótesis, métricas y criterios de éxito/fracaso. Presenta el plan como si fuera para inversores.',
+      deliverables: [
+        'Análisis del loop viral actual del producto',
+        '3 experimentos en formato RICE (Reach, Impact, Confidence, Effort)',
+        'Roadmap de implementación por sprint de 2 semanas',
+        'Dashboard de métricas con metas a 90 días',
+      ],
+      rubrica: [
+        'Loop viral correctamente identificado y documentado',
+        'Experimentos con hipótesis falsificables',
+        'Priorización RICE justificada',
+        'Presentación de nivel inversor',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'TikTok for Business',
@@ -1583,7 +1603,26 @@ export const MODULES: Module[] = [
         tip: 'En apps de bienestar, las animaciones no son decorativas — son funcionales. Una animación de respiración demasiado rápida genera ansiedad en lugar de calma. Testeá los timings en tu propio teléfono, no solo en el prototipo de Figma. 4 segundos para inhalar + 4 segundos para exhalar es el mínimo para generar efecto fisiológico real.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'uiux-7-p1',
+      title: 'Proyecto: Moodboard de referencia visual',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Crea un moodboard de 20-25 referencias visuales para un proyecto de diseño de tu elección. Organízalo por categorías (color, tipografía, composición, componentes). Explica en una frase por qué incluiste cada referencia.',
+      deliverables: [
+        'Moodboard en Figma, Milanote o similar',
+        'Mínimo 20 imágenes organizadas por categoría',
+        'Frase de justificación para cada imagen',
+        'Paleta de colores extraída del moodboard',
+      ],
+      rubrica: [
+        'Coherencia visual entre las referencias',
+        'Categorización clara y lógica',
+        'Extracción correcta de la paleta de colores',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Awwwards — Inspiración de los mejores sitios del mundo',
@@ -2262,7 +2301,28 @@ export const MODULES: Module[] = [
         tip: 'El naming de los tokens es lo más importante y lo más ignorado. "primary-blue" es primitivo, no semántico. "color/button/background/default" es semántico — describe el propósito, no el color. Cuando el equipo cambia el azul por verde, solo hay que cambiar el valor del token semántico, no tocar cada componente. La arquitectura de tokens determina si el sistema escala o colapsa.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'uiux-4-p1',
+      title: 'Proyecto: Design System en Figma',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye un design system completo en Figma para una aplicación web. Debe incluir tokens de diseño, componentes atómicos hasta organismos, y documentación de uso para cada componente.',
+      deliverables: [
+        'Archivo Figma compartido con el design system',
+        'Mínimo 20 componentes organizados en Atomic Design',
+        'Tokens de color, tipografía y spacing documentados',
+        'Página de documentación con guía de uso',
+        'Demo de una pantalla completa construida con el sistema',
+      ],
+      rubrica: [
+        'Coherencia visual entre todos los componentes',
+        'Nomenclatura y organización profesional',
+        'Componentes con variantes y estados',
+        'Documentación suficiente para otro diseñador',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Material Design 3 — Sistema de diseño de Google',
@@ -4232,7 +4292,28 @@ export default function Layout({ children }) {
         ],
         completed: false,
       },
-    ],
+    
+    {
+      id: 'web-4-p1',
+      title: 'Proyecto: App full-stack con autenticación',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye una aplicación web full-stack con Next.js + Supabase que incluya autenticación, CRUD completo de recursos, y deploy en producción. Elige el dominio: gestor de tareas, blog, o directorio de recursos.',
+      deliverables: [
+        'Repositorio público en GitHub',
+        'URL en producción (Vercel u otro)',
+        'Autenticación funcional (email o OAuth)',
+        'CRUD completo con validación',
+        'README con instrucciones de setup',
+      ],
+      rubrica: [
+        'Autenticación segura, sin exponer claves',
+        'UI responsive y funcional',
+        'Código organizado por componentes/módulos',
+        'Deploy estable en producción',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Supabase Docs — Getting Started',
@@ -5053,7 +5134,27 @@ Para AlphaDev Studios: Figma + Notion es la combinación ideal.`,
         ],
         completed: false,
       },
-    ],
+    
+    {
+      id: 'branding-3-p1',
+      title: 'Proyecto: Manual de identidad básico',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Crea un mini manual de identidad (brand guidelines) de 8-10 páginas para una marca real o ficticia. Documenta logo, paleta, tipografía, tono de voz y ejemplos de uso correcto e incorrecto.',
+      deliverables: [
+        'PDF de 8-10 páginas en Figma o Canva',
+        'Sección de logo con variantes y espacio de respeto',
+        'Paleta de colores con códigos HEX/RGB',
+        'Tipografía principal y secundaria con jerarquía',
+        '2 ejemplos de aplicación correcta e incorrecta',
+      ],
+      rubrica: [
+        'Coherencia visual entre todas las secciones',
+        'Completitud del sistema de identidad',
+        'Calidad de presentación del documento',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Figma — Brand Identity Kit template',
@@ -5506,7 +5607,25 @@ Una landing page tiene un solo objetivo: convertir al visitante en lead o client
         tip: 'El copy de landing page no se escribe de arriba a abajo. Empieza por los testimonios (qué dicen los clientes felices), luego el FAQ (qué objeciones tienen), y termina con el hero. Conocer las objeciones y los outcomes antes de escribir el headline lo hace 3x más efectivo.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'copy-2-p1',
+      title: 'Proyecto: Headlines para landing page',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Escribe 10 variantes de headline para un producto real o ficticio. Aplica las fórmulas PAS, AIDA y beneficio directo. Al final elige la mejor y justifica por qué.',
+      deliverables: [
+        '10 headlines escritos',
+        'Etiqueta de fórmula usada en cada uno',
+        'Selección de la mejor con justificación de 3 líneas',
+      ],
+      rubrica: [
+        'Uso correcto de al menos 2 fórmulas',
+        'Claridad y especificidad del beneficio',
+        'Variedad de enfoques entre los 10',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Unbounce — The Landing Page Course',
@@ -6880,7 +6999,28 @@ Una vez que funciona para un caso, escala:
         ],
         completed: false,
       },
-    ],
+    
+    {
+      id: 'ia-4-p1',
+      title: 'Proyecto: Pipeline RAG en producción',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Implementa un sistema RAG (Retrieval-Augmented Generation) que responda preguntas sobre un conjunto de documentos propios. Usa embeddings, vector store y un LLM. El sistema debe estar disponible vía API o interfaz web.',
+      deliverables: [
+        'Código del pipeline completo en GitHub',
+        'Mínimo 20 documentos indexados',
+        'API o interfaz para hacer preguntas',
+        'Evaluación de calidad: 10 preguntas con respuestas esperadas',
+        'README con arquitectura explicada',
+      ],
+      rubrica: [
+        'Retrieval relevante en >80% de consultas de prueba',
+        'Respuestas grounded (no alucinaciones evidentes)',
+        'Sistema disponible para demostración',
+        'Arquitectura documentada con diagrama',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'n8n — AI Agents documentation',
@@ -7535,7 +7675,25 @@ Pillar Page (hub)
         tip: 'El error más común con clusters es crear todos los artículos y no publicar la pillar page. La pillar es lo que ancla todo el cluster — sin ella, los artículos individuales rankean solos sin el boost de autoridad del sistema.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'seo-3-p1',
+      title: 'Proyecto: Auditoría técnica básica',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Usa Google Search Console y PageSpeed Insights para auditar un sitio web real o de práctica. Identifica los 5 problemas más críticos y propón soluciones.',
+      deliverables: [
+        'Captura de Core Web Vitals del sitio',
+        'Lista de 5 problemas encontrados',
+        'Propuesta de solución para cada problema',
+      ],
+      rubrica: [
+        'Problemas correctamente identificados',
+        'Soluciones técnicamente viables',
+        'Priorización correcta por impacto',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'HubSpot — Topic Clusters Model',
@@ -8024,7 +8182,28 @@ ROI: ($6,000 - $800) / $800 = 650%
         ],
         completed: false,
       },
-    ],
+    
+    {
+      id: 'seo-5-p1',
+      title: 'Proyecto: Estrategia SEO de 6 meses',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Desarrolla una estrategia SEO completa de 6 meses para un sitio web real. Incluye keyword research exhaustivo, plan de contenidos, estrategia de link building y proyección de tráfico con supuestos documentados.',
+      deliverables: [
+        'Keyword research con mínimo 50 keywords priorizadas',
+        'Mapa de contenidos por mes (6 meses)',
+        'Plan de link building con 10 oportunidades identificadas',
+        'Proyección de tráfico con modelo de supuestos',
+        'KPIs y metodología de reporting mensual',
+      ],
+      rubrica: [
+        'Keyword research con datos reales (Search Volume, KD)',
+        'Contenidos orientados a intent de búsqueda',
+        'Link building viable y no manipulador',
+        'Proyección con supuestos realistas y documentados',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Google Search Console — Documentación',
@@ -8937,7 +9116,27 @@ Para una agencia: empieza con 1 experimento al mes. Con el tiempo, ese conocimie
         tip: 'Solo prueba una variable a la vez. Si cambias el headline Y el color del botón Y la imagen simultáneamente, no sabrás qué causó el resultado. La pureza del experimento es lo que hace que el conocimiento sea acumulable y confiable.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'data-4-p1',
+      title: 'Proyecto: Dashboard ejecutivo en Looker Studio',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye un dashboard ejecutivo en Looker Studio (Google Data Studio) conectado a datos reales de GA4, Google Ads o un Google Sheet con datos de negocio. El dashboard debe contar una historia de negocio clara y permitir tomar decisiones.',
+      deliverables: [
+        'URL compartida del dashboard',
+        'Mínimo 8 visualizaciones relevantes',
+        'Texto de contexto/insight en cada sección',
+        'Guía de lectura del dashboard (1 página)',
+      ],
+      rubrica: [
+        'Datos conectados a fuente real o realista',
+        'Narrativa de negocio coherente',
+        'Diseño limpio, jerarquía visual clara',
+        'Filtros que permiten exploración de datos',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'GrowthBook — Open source experimentation platform',
@@ -10051,7 +10250,25 @@ Este capstone produce el segundo escenario.`,
         tip: 'Con $300/mes no puedes estar en todas partes. Elige el canal donde está la audiencia con mayor intención y conéntrate ahí.',
         completed: false,
       },
-],
+
+    {
+      id: 'ads-1-p2',
+      title: 'Proyecto: Estructura de campaña en Meta',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Sin gastar dinero, crea en el Administrador de Anuncios de Meta una campaña completa con estructura real: campaña → conjunto de anuncios → anuncios. Usa el modo borrador.',
+      deliverables: [
+        'Captura de pantalla de la estructura completa',
+        'Documento con objetivo elegido y justificación',
+        'Copy del anuncio escrito (headline + descripción)',
+      ],
+      rubrica: [
+        'Estructura de 3 niveles correcta',
+        'Objetivo de campaña apropiado para el caso de negocio',
+        'Copy coherente con el objetivo',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'Meta Ads Library — espionaje legal de creativos de competidores', url: 'https://www.facebook.com/ads/library', type: 'tool' },
       { title: 'Google Ads — plataforma oficial', url: 'https://ads.google.com', type: 'tool' },
@@ -10324,7 +10541,25 @@ Este capstone produce el segundo escenario.`,
         tip: 'El open rate de los primeros 3 emails determina si el algoritmo marca tu dominio como confiable. Hazlos tan buenos que la gente quiera responder.',
         completed: false,
       },
-],
+
+    {
+      id: 'email-1-p2',
+      title: 'Proyecto: Secuencia de bienvenida (3 emails)',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Diseña una secuencia de 3 emails de bienvenida para un negocio real o ficticio. Email 1: bienvenida y entrega del lead magnet. Email 2: historia y valor. Email 3: primera oferta suave.',
+      deliverables: [
+        'Subject line + preview text de cada email',
+        'Cuerpo completo de los 3 emails',
+        'Diagrama del timing (día 0, día 2, día 5)',
+      ],
+      rubrica: [
+        'Progresión lógica entre los 3 emails',
+        'Tono consistente con la marca',
+        'Subject lines bajo 50 caracteres',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'Brevo (ex-Sendinblue) — email marketing con plan gratuito generoso', url: 'https://www.brevo.com', type: 'tool' },
       { title: 'Really Good Emails — biblioteca de emails de inspiración', url: 'https://reallygoodemails.com', type: 'article' },
@@ -10535,7 +10770,25 @@ Este capstone produce el segundo escenario.`,
         tip: 'Graba cada variante 3 veces y queda con la mejor toma. La quinta grabación siempre es más natural que la primera.',
         completed: false,
       },
-],
+
+    {
+      id: 'video-1-p2',
+      title: 'Proyecto: Guión de video de 60 segundos',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Escribe un guión completo para un video de 60 segundos explicando un producto o servicio. Incluye gancho, desarrollo y CTA. Opcionalmente graba el video.',
+      deliverables: [
+        'Guión estructurado (gancho / desarrollo / CTA)',
+        'Duración estimada marcada por sección',
+        'Descripción de visuales para cada parte',
+      ],
+      rubrica: [
+        'Gancho en los primeros 5 segundos',
+        'Mensaje central claro y único',
+        'CTA específico y accionable',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'CapCut — edición de video móvil, la más usada en 2025', url: 'https://www.capcut.com', type: 'tool' },
       { title: 'TikTok Creative Center — tendencias y análisis de contenido viral', url: 'https://ads.tiktok.com/business/creativecenter', type: 'tool' },
@@ -10713,7 +10966,26 @@ Este capstone produce el segundo escenario.`,
         tip: 'El reporte que el cliente entiende y valora es el que hace que renueve. Invierte el mismo tiempo en presentarlo bien que en recolectar los datos.',
         completed: false,
       },
-],
+
+    {
+      id: 'community-1-p2',
+      title: 'Proyecto: Plan de comunidad 30 días',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Diseña un plan de activación de comunidad para los primeros 30 días de una comunidad nueva. Incluye calendario de contenido, mecanismos de engagement y métricas de éxito.',
+      deliverables: [
+        'Calendario de 30 días con al menos 3 posts por semana',
+        'Plan de bienvenida para nuevos miembros',
+        'Definición de 5 métricas de éxito con targets',
+        'Protocolo para manejar conflictos o spam',
+      ],
+      rubrica: [
+        'Variedad de tipos de contenido',
+        'Mecanismos de engagement bidireccional',
+        'Métricas SMART y realistas',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'Buffer — programación multi-plataforma con plan gratuito', url: 'https://buffer.com', type: 'tool' },
       { title: 'Meta Business Suite — gestión oficial de Facebook e Instagram', url: 'https://business.facebook.com', type: 'tool' },
@@ -10875,7 +11147,26 @@ Este capstone produce el segundo escenario.`,
         tip: 'El workflow más valioso no es el más sofisticado — es el que automatiza la tarea más repetitiva y aburrida que tienes.',
         completed: false,
       },
-],
+
+    {
+      id: 'prodai-2-p2',
+      title: 'Proyecto: Agente de automatización con n8n',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Construye un workflow en n8n que tome una solicitud de usuario vía webhook, la procese con un modelo de IA para clasificarla y responda automáticamente con una acción diferente según la categoría.',
+      deliverables: [
+        'Workflow exportado en JSON',
+        'Captura del workflow funcionando',
+        'Video de 2 minutos mostrando el flujo end-to-end',
+        'Documento explicando la lógica de clasificación',
+      ],
+      rubrica: [
+        'Workflow funciona sin errores',
+        'Clasificación correcta en al menos 3 categorías',
+        'Manejo de errores implementado',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'n8n — plataforma de automatización open source', url: 'https://n8n.io', type: 'tool' },
       { title: 'n8n Templates — flujos preconfigurados para empezar rápido', url: 'https://n8n.io/workflows', type: 'tool' },
@@ -10996,7 +11287,26 @@ Este capstone produce el segundo escenario.`,
         tip: 'El precio en una propuesta nunca debería ser la primera cifra que el cliente lee. Presenta el valor primero, el precio último.',
         completed: false,
       },
-],
+
+    {
+      id: 'ventas-1-p2',
+      title: 'Proyecto: Script de llamada de ventas',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Crea un script completo para una llamada de descubrimiento de 20 minutos. Incluye apertura, preguntas de descubrimiento, manejo de objeciones más comunes y cierre.',
+      deliverables: [
+        'Script estructurado por fases',
+        'Mínimo 5 preguntas de descubrimiento',
+        'Respuestas a 3 objeciones típicas',
+        'Frase de cierre con siguiente paso claro',
+      ],
+      rubrica: [
+        'Apertura natural, no de vendedor',
+        'Preguntas abiertas que generan insight',
+        'Manejo de objeciones sin presión',
+      ],
+      completed: false,
+    },],
     resources: [
       { title: 'Calendly — agenda discovery calls sin ida y vuelta de emails', url: 'https://calendly.com', type: 'tool' },
       { title: 'HubSpot Free CRM — gestión de pipeline de ventas gratuito', url: 'https://www.hubspot.com/products/crm', type: 'tool' },
