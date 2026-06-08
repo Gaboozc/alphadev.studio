@@ -1,20 +1,36 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 // Designed to mirror a future Supabase schema — keep fields flat and serializable
 
-export type LessonType = 'video' | 'audio' | 'reading' | 'practice'
-export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification'
+export type LessonType = 'video' | 'audio' | 'reading' | 'practice' | 'exam' | 'project'
+export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification' | 'documentation'
 export type ModuleStatus = 'locked' | 'available' | 'completed'
-export type Track = 'marketing' | 'uiux'
+export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'data' | 'ads' | 'email' | 'video' | 'community' | 'prodai' | 'ventas'
+export type RetoStatus = 'proximo' | 'activo' | 'completado'
+export type PathLevel = 'principiante' | 'intermedio' | 'avanzado'
+
+export interface Question {
+  q: string
+  options: string[]     // exactly 4 options
+  correct: number       // 0-indexed correct answer
+  explanation: string   // shown after answering
+}
 
 export interface Lesson {
   id: string
   title: string
   type: LessonType
-  embedUrl?: string   // YouTube URL, NotebookLM share link, or direct audio URL
-  content?: string    // Teaching body — supports ## headers, **bold**, - lists, double newline = paragraph
-  tasks?: string[]    // Actionable checklist items shown under "Tareas"
-  tip?: string        // Professional insight shown in highlighted box
-  completed: boolean  // Default state; runtime state lives in localStorage/DB
+  embedUrl?: string       // YouTube URL, NotebookLM share link, or direct audio URL
+  content?: string        // Teaching body — supports ## headers, **bold**, - lists, double newline = paragraph
+  tasks?: string[]        // Actionable checklist items shown under "Tareas"
+  tip?: string            // Professional insight shown in highlighted box
+  questions?: Question[]  // exam type — knowledge check questions
+  deliverables?: string[] // project type — what the student must submit
+  projectBrief?: string   // project type — full project description and context
+  rubrica?: string[]      // project type — grading criteria
+  discussionPrompts?: string[]
+  scheduledDays?: string
+  difficulty?: 'básico' | 'intermedio' | 'profesional'
+  completed: boolean      // Default state; runtime state lives in localStorage/DB
 }
 
 export interface Resource {
@@ -33,6 +49,35 @@ export interface Module {
   track: Track
   lessons: Lesson[]
   resources: Resource[]
+}
+
+export interface LearningPath {
+  id: string
+  title: string
+  subtitle: string
+  description: string
+  level: PathLevel
+  duration: string
+  tracks: Track[]
+  moduleIds: string[]   // ordered module IDs that compose this path
+  forWho: string
+  outcome: string
+}
+
+export interface Reto {
+  id: string
+  title: string
+  tagline: string
+  description: string
+  tracks: Track[]
+  duration: string
+  deliverable: string
+  requirements: string[]
+  howToSubmit: string[]
+  prizes: string[]
+  status: RetoStatus
+  startDate?: string
+  endDate?: string
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -177,7 +222,38 @@ export const MODULES: Module[] = [
         tip: 'Las mejores auditorías no son las que encuentran más problemas — son las que priorizan mejor. Un cliente no puede implementar 20 cambios a la vez. Los 3 quick wins que pueden hacer en 48 horas sin contratar a nadie son lo que genera confianza inmediata y convierte una auditoría gratis en un contrato de implementación.',
         completed: false,
       },
-    ],
+          {
+        id: 'modulo-1-proj-basico',
+        title: 'Proyecto Básico: Analiza y mejora un post real',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Elige un post de Instagram o LinkedIn (tuyo o de una marca pública). Analízalo y crea una versión mejorada aplicando lo aprendido.',
+        deliverables: [
+          'Screenshot del post original con anotaciones: qué funciona y qué no funciona (hook, copy, CTA, formato)',
+          'Versión mejorada del mismo post: nuevo copy con hook reescrito y CTA claro',
+          'Explicación de 150 palabras justificando cada cambio realizado',
+        ],
+        tip: 'No busques el post perfecto para analizar. El más imperfecto que tengas es el más valioso para aprender.',
+        completed: false,
+      },
+      {
+        id: 'modulo-1-proj-inter',
+        title: 'Proyecto Intermedio: Brief de campaña trimestral',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Eres el estratega de marketing de un negocio. El dueño te pide el brief de la próxima campaña trimestral. Redacta el documento completo.',
+        deliverables: [
+          'Objetivo SMART de la campaña (específico, medible, alcanzable, relevante, en tiempo)',
+          'Buyer persona: 1 perfil detallado con nombre, situación, dolores, aspiraciones y canales de consumo',
+          'Propuesta de valor diferenciada vs. 2 competidores identificados',
+          'Canales seleccionados con justificación de por qué cada uno',
+          'KPIs y cómo los medirás',
+          'Calendario de 4 semanas con hitos semanales',
+        ],
+        tip: 'Un brief claro evita el 80% de las fricciones en la ejecución. Si no puedes escribir el objetivo en una sola oración, no está claro todavía.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Google Actívate — Marketing Digital',
@@ -332,7 +408,45 @@ export const MODULES: Module[] = [
         tip: 'El asunto del email es el 50% del resultado. Un email perfecto con asunto aburrido tiene 15% de apertura. El mismo email con asunto curioso y específico puede llegar al 45%. Antes de escribir el cuerpo, escribí 5 variantes del asunto y elegí la más específica — no la más creativa.',
         completed: false,
       },
-    ],
+          {
+        id: 'modulo-2-proj-basico',
+        title: 'Proyecto Básico: 5 piezas de contenido para Instagram',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Produce 5 piezas de contenido listas para publicar en Instagram para un negocio real o ficticio. Mezcla al menos 2 formatos.',
+        deliverables: [
+          '2 posts de feed: imagen + caption completo con hashtags y CTA',
+          '2 Stories: con al menos 1 elemento interactivo (encuesta, pregunta o quiz)',
+          '1 Reel: hook escrito + guión de 60 segundos dividido por escenas',
+          'Calendar: qué día y a qué hora publicar cada pieza y por qué ese horario',
+        ],
+        tip: 'Escribe el copy antes de diseñar la imagen. El copy manda la imagen, no al revés.',
+        completed: false,
+      },
+      {
+        id: 'modulo-2-proj-pro',
+        title: 'Proyecto Profesional: Estrategia de contenidos de 90 días',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Diseña la estrategia de contenidos de 90 días para un cliente. Debe ser ejecutable por otra persona sin explicaciones adicionales.',
+        deliverables: [
+          'Análisis de punto de partida: métricas actuales + benchmark vs. 3 competidores',
+          'Arquitectura de contenidos: 4-5 pilares temáticos con descripción y ejemplos',
+          'Regla de mezcla: distribución entre educacional, entretenimiento, inspiracional y promocional',
+          'Calendar de 90 días: mínimo 3 publicaciones por semana con tema, formato, plataforma y hook',
+          'Plan de producción: tiempo estimado por pieza y flujo de aprobación',
+          'Dashboard de KPIs: qué mides semanalmente, qué mensualmente y cómo ajustas',
+        ],
+        rubrica: [
+          'La estrategia se conecta con el objetivo de negocio declarado, no solo con métricas de vanidad',
+          'Los pilares tienen diversidad real — no son variaciones del mismo tema',
+          'Los tiempos de producción son realistas para 1-2 personas',
+          'El dashboard conecta métricas de contenido con resultados de negocio',
+        ],
+        tip: 'Una estrategia al 70% ejecutada supera a una estrategia perfecta abandonada. Diseña para la capacidad real del equipo.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Meta Blueprint — Cursos gratuitos',
@@ -487,7 +601,23 @@ export const MODULES: Module[] = [
         tip: 'El funnel más efectivo no es el más complejo — es el más medido. Un funnel de 3 pasos con tracking perfecto en cada etapa es infinitamente más valioso que uno de 7 pasos sin datos. Si no podés medir una etapa, eliminala del funnel hasta que puedas.',
         completed: false,
       },
-    ],
+          {
+        id: 'modulo-3-proj-inter',
+        title: 'Proyecto Intermedio: Auditoría de redes sociales',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Audita las redes sociales de una marca (la tuya, un cliente, o pública) y entrega el reporte con recomendaciones priorizadas.',
+        deliverables: [
+          'Inventario de cuentas: todas las plataformas con métricas actuales de cada una',
+          'Análisis de contenido: tipo, frecuencia, engagement rate promedio, top 3 posts con explicación de por qué funcionaron',
+          'Benchmark vs. 2 competidores en las mismas métricas',
+          'Diagnóstico: 3 fortalezas y 3 áreas de mejora con evidencia específica',
+          '5 recomendaciones priorizadas por impacto con tiempo estimado de implementación',
+        ],
+        tip: 'Una auditoría buena no son números, son insights accionables. Cada dato debe llevar a una recomendación específica.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Google Skillshop — Google Ads',
@@ -677,7 +807,124 @@ export const MODULES: Module[] = [
         tip: 'El mejor dashboard de marketing es el que se completa todos los lunes sin excepción. Un dashboard perfecto que se abandona en la semana 3 vale cero. Al diseñar el sistema, preguntate: ¿puedo completar esto en 15 minutos cada lunes? Si la respuesta es no, simplificá hasta que sí. La sostenibilidad del ritual importa más que la profundidad del análisis.',
         completed: false,
       },
-    ],
+
+      {
+        id: 'marketing-exam',
+        title: 'Examen final: Marketing Digital',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Qué métrica mide el costo de adquirir un nuevo cliente incluyendo todos los canales de marketing?',
+            options: [
+              'CPM (Costo por Mil impresiones)',
+              'CPC (Costo por Click)',
+              'CAC (Costo de Adquisición de Cliente)',
+              'CTR (Click-Through Rate)',
+            ],
+            correct: 2,
+            explanation: 'El CAC incluye TODOS los gastos de marketing y ventas divididos entre el número de nuevos clientes en un período. Es la métrica clave para evaluar la eficiencia del marketing.',
+          },
+          {
+            q: 'En el algoritmo de Instagram en 2026, ¿qué señal tiene mayor peso para el alcance orgánico de un Reel?',
+            options: [
+              'La cantidad de hashtags usados',
+              'El engagement (likes, comentarios, shares) en las primeras 1-2 horas',
+              'La frecuencia de publicación semanal',
+              'El número total de seguidores de la cuenta',
+            ],
+            correct: 1,
+            explanation: 'El algoritmo de Instagram prioriza el contenido según las señales de engagement inmediatas. Un Reel con alto engagement en las primeras horas recibe distribución amplificada. Los hashtags tienen impacto mínimo desde 2023.',
+          },
+          {
+            q: '¿Cuál es la diferencia principal entre alcance (reach) e impresiones (impressions)?',
+            options: [
+              'Son sinónimos — miden exactamente lo mismo',
+              'El alcance cuenta personas únicas; las impresiones cuentan veces que se mostró el contenido',
+              'Las impresiones cuentan personas únicas; el alcance cuenta el total de visualizaciones',
+              'El alcance es solo para Instagram; las impresiones son para Facebook',
+            ],
+            correct: 1,
+            explanation: 'Reach = personas únicas que vieron tu contenido. Impressions = total de veces que se mostró, contando varias veces a la misma persona. Una persona puede generar múltiples impresiones pero solo un reach.',
+          },
+          {
+            q: 'Para una campaña de Meta Ads con objetivo de conversiones, ¿cuánto tiempo mínimo deberías dejar correr el ad antes de evaluarlo?',
+            options: [
+              '24 horas — suficiente para ver si funciona',
+              '3 días — tiempo estándar de la industria',
+              '7-14 días — hasta completar la fase de aprendizaje del algoritmo',
+              '30 días — necesitas un mes completo de datos',
+            ],
+            correct: 2,
+            explanation: 'Meta necesita 50 eventos de optimización para salir de la "fase de aprendizaje". Evaluar antes genera decisiones basadas en datos estadísticamente insuficientes. La fase típicamente tarda 7-14 días con presupuesto adecuado.',
+          },
+          {
+            q: '¿Qué es una Lookalike Audience en Meta Ads?',
+            options: [
+              'Una audiencia basada en intereses similares definidos manualmente',
+              'Una audiencia de personas que ya visitaron tu sitio web',
+              'Una audiencia que el algoritmo crea parecida a tus mejores clientes actuales',
+              'Una audiencia de seguidores de tu competencia',
+            ],
+            correct: 2,
+            explanation: 'Las Lookalike Audiences usan Machine Learning para encontrar personas con características similares a tu audiencia fuente (clientes, leads, visitantes). Son más eficientes que el targeting por intereses para conversiones.',
+          },
+          {
+            q: '¿En qué momento del embudo de marketing tiene más sentido usar contenido educativo vs contenido de venta directa?',
+            options: [
+              'Contenido educativo siempre — nunca vendes directamente',
+              'Venta directa siempre — el contenido educativo no convierte',
+              'Educativo en audiencias frías (TOFU), venta directa en audiencias calientes (BOFU)',
+              'Depende solo del presupuesto disponible',
+            ],
+            correct: 2,
+            explanation: 'TOFU (Top of Funnel) = no te conocen → educa, genera confianza. MOFU (Middle) = están evaluando → prueba social, comparativas. BOFU (Bottom) = listos para comprar → oferta directa, urgencia. Saltarse etapas reduce drásticamente las conversiones.',
+          },
+          {
+            q: '¿Qué significa que una campaña tenga un ROAS de 3?',
+            options: [
+              'Gasté $3 en ads y generé $1 en ventas',
+              'Gasté $1 en ads y generé $3 en ventas',
+              'El 3% de los clicks se convirtieron en ventas',
+              'La campaña tuvo 3 veces más alcance que el objetivo',
+            ],
+            correct: 1,
+            explanation: 'ROAS = Revenue / Ad Spend. Un ROAS de 3 significa que por cada $1 invertido en publicidad se generaron $3 en ventas. Un ROAS de 1 significa break-even. Para ser rentable necesitas que el ROAS supere tus márgenes + costos operativos.',
+          },
+          {
+            q: 'Un cliente tiene 10,000 seguidores en Instagram pero sus posts reciben 50 likes en promedio. ¿Cuál es su engagement rate y qué indica?',
+            options: [
+              '0.5% — muy bajo, el contenido no resuena con la audiencia',
+              '5% — excelente, está por encima del promedio de la industria',
+              '50% — excelente, la mayoría de seguidores interactúa',
+              '0.05% — catastrófico, la cuenta probablemente tiene bots',
+            ],
+            correct: 0,
+            explanation: 'ER = (50 likes / 10,000 seguidores) × 100 = 0.5%. El promedio de Instagram está entre 1-3%. Un ER de 0.5% indica que el contenido no conecta con la audiencia, puede haber seguidores comprados, o el nicho tiene engagement naturalmente bajo.',
+          },
+        ],
+        completed: false,
+      },
+    
+    {
+      id: 'modulo-4-p1',
+      title: 'Proyecto: Estrategia de growth hacking',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Diseña una estrategia de growth completa para un producto digital existente. Identifica el loop viral central, propón 3 experimentos de growth con hipótesis, métricas y criterios de éxito/fracaso. Presenta el plan como si fuera para inversores.',
+      deliverables: [
+        'Análisis del loop viral actual del producto',
+        '3 experimentos en formato RICE (Reach, Impact, Confidence, Effort)',
+        'Roadmap de implementación por sprint de 2 semanas',
+        'Dashboard de métricas con metas a 90 días',
+      ],
+      rubrica: [
+        'Loop viral correctamente identificado y documentado',
+        'Experimentos con hipótesis falsificables',
+        'Priorización RICE justificada',
+        'Presentación de nivel inversor',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'TikTok for Business',
@@ -855,7 +1102,36 @@ export const MODULES: Module[] = [
         tip: 'El test más rápido para saber si tu landing convierte: mostrásela a alguien que no conoce el producto durante 5 segundos y preguntale qué hace. Si no puede responderlo, el headline falló. No importa cuán bonita se vea — si el mensaje no es claro en 5 segundos, el visitante se va.',
         completed: false,
       },
-    ],
+          {
+        id: 'uiux-1-proj-basico',
+        title: 'Proyecto Básico: Rediseño de un elemento UI',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Elige un elemento de UI que consideres mal diseñado en cualquier app o sitio web. Analízalo y rediseñalo en Figma.',
+        deliverables: [
+          'Screenshot del elemento original con anotaciones: qué principio de diseño viola y por qué es problemático',
+          'Rediseño en Figma: el elemento mejorado aplicando jerarquía visual, color y tipografía',
+          'Comparativa before/after con explicación de cada decisión de diseño',
+        ],
+        tip: 'El mejor elemento para rediseñar es uno que te haya frustrado personalmente. La frustración propia es el mejor brief.',
+        completed: false,
+      },
+      {
+        id: 'uiux-1-proj-inter',
+        title: 'Proyecto Intermedio: Análisis heurístico completo',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Aplica las 10 heurísticas de Nielsen a una app real. Identifica al menos 8 problemas de usabilidad y propón soluciones para los 3 más críticos.',
+        deliverables: [
+          'Lista de 10 hallazgos: uno por heurística, con screenshot y descripción del problema',
+          'Severity rating para cada hallazgo: 1 (cosmético), 2 (menor), 3 (mayor), 4 (catastrófico)',
+          'Rediseño en Figma de los 3 problemas con mayor severidad',
+          'Recomendaciones priorizadas por impacto vs. esfuerzo',
+        ],
+        tip: 'La consistencia del criterio importa tanto como encontrar los problemas. Define el estándar de evaluación antes de auditar.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Google UX Design Certificate — Coursera',
@@ -1144,7 +1420,36 @@ export const MODULES: Module[] = [
         tip: 'El error más dañino en un portfolio es mostrar todo lo que hiciste. Un portfolio de 4 proyectos excelentes convierte mejor que uno de 12 mediocres. Los clientes y empleadores no buscan cantidad — buscan evidencia de que podés resolver problemas específicos. Cuanto más específico es tu portfolio, más fácil es para el cliente ideal contactarte.',
         completed: false,
       },
-    ],
+          {
+        id: 'uiux-2-proj-basico',
+        title: 'Proyecto Básico: Wireframes de una app de 5 pantallas',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Diseña los wireframes de baja fidelidad de una app simple en Figma. Solo estructura y flujo, sin color ni tipografía final.',
+        deliverables: [
+          '5 pantallas en baja fidelidad: home, pantalla principal de contenido, detalle, formulario y confirmación',
+          'Flujo de usuario con arrows conectando las pantallas',
+          'Notas de diseño en cada pantalla: qué hace cada elemento y por qué está ahí',
+        ],
+        tip: 'Los wireframes de baja fidelidad son deliberadamente simples. Si los estás haciendo bonitos, estás en el paso equivocado.',
+        completed: false,
+      },
+      {
+        id: 'uiux-2-proj-inter',
+        title: 'Proyecto Intermedio: UI Kit + prototipo de alta fidelidad',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Diseña 8 pantallas de alta fidelidad de una app usando un UI Kit que creas tú mismo.',
+        deliverables: [
+          'UI Kit en Figma: paleta de color, escala tipográfica y mínimo 8 componentes (botones, inputs, cards, nav)',
+          '8 pantallas en alta fidelidad usando el UI Kit definido',
+          'Prototipo interactivo con los flujos principales conectados',
+          'Link de Figma con "View only" habilitado',
+        ],
+        tip: 'Define el UI Kit antes de diseñar ninguna pantalla. Hacerlo al revés siempre genera inconsistencias.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Figma Learn — Tutoriales oficiales',
@@ -1298,7 +1603,26 @@ export const MODULES: Module[] = [
         tip: 'En apps de bienestar, las animaciones no son decorativas — son funcionales. Una animación de respiración demasiado rápida genera ansiedad en lugar de calma. Testeá los timings en tu propio teléfono, no solo en el prototipo de Figma. 4 segundos para inhalar + 4 segundos para exhalar es el mínimo para generar efecto fisiológico real.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'uiux-7-p1',
+      title: 'Proyecto: Moodboard de referencia visual',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Crea un moodboard de 20-25 referencias visuales para un proyecto de diseño de tu elección. Organízalo por categorías (color, tipografía, composición, componentes). Explica en una frase por qué incluiste cada referencia.',
+      deliverables: [
+        'Moodboard en Figma, Milanote o similar',
+        'Mínimo 20 imágenes organizadas por categoría',
+        'Frase de justificación para cada imagen',
+        'Paleta de colores extraída del moodboard',
+      ],
+      rubrica: [
+        'Coherencia visual entre las referencias',
+        'Categorización clara y lógica',
+        'Extracción correcta de la paleta de colores',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Awwwards — Inspiración de los mejores sitios del mundo',
@@ -1607,7 +1931,29 @@ export const MODULES: Module[] = [
         tip: 'La sección de proceso es el elemento más ignorado y el más poderoso en sitios de agencias. Cuando un cliente ve los 5 pasos de cómo trabajás, deja de preguntarse cómo sería trabajar con ellos y empieza a pensar cuándo empezamos. La transparencia de proceso elimina la incertidumbre que es la principal barrera para contratar una agencia desconocida.',
         completed: false,
       },
-    ],
+          {
+        id: 'uiux-5-proj-pro',
+        title: 'Proyecto Profesional: Design System completo',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Crea un design system completo para una marca digital. Debe ser suficientemente robusto para que otro diseñador construya interfaces nuevas sin preguntar nada.',
+        deliverables: [
+          'Tokens de diseño: color (brand + semantic + component), tipografía, espaciado y radius',
+          'Componentes atómicos: botones (todos los estados), inputs, badges, avatars',
+          'Componentes moleculares: cards (3 variantes), navigation (desktop + mobile), modals',
+          'Documentación: cuándo usar cada componente, variantes y ejemplos correcto/incorrecto',
+          'Handoff para devs: naming convention y guía de implementación',
+        ],
+        rubrica: [
+          'Los tokens tienen nivel semántico (no solo hex codes)',
+          'Los componentes tienen al menos 3 estados documentados',
+          'La documentación permite usar el sistema sin consultar al diseñador',
+          'El naming es consistente y predecible en todo el sistema',
+        ],
+        tip: 'Un design system que no se usa es solo un archivo bonito. Valídalo construyendo una pantalla real antes de declararlo terminado.',
+        completed: false,
+      },
+],
     resources: [
       {
         title: 'Webflow University — Webflow 101 Crash Course',
@@ -1955,7 +2301,28 @@ export const MODULES: Module[] = [
         tip: 'El naming de los tokens es lo más importante y lo más ignorado. "primary-blue" es primitivo, no semántico. "color/button/background/default" es semántico — describe el propósito, no el color. Cuando el equipo cambia el azul por verde, solo hay que cambiar el valor del token semántico, no tocar cada componente. La arquitectura de tokens determina si el sistema escala o colapsa.',
         completed: false,
       },
-    ],
+    
+    {
+      id: 'uiux-4-p1',
+      title: 'Proyecto: Design System en Figma',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye un design system completo en Figma para una aplicación web. Debe incluir tokens de diseño, componentes atómicos hasta organismos, y documentación de uso para cada componente.',
+      deliverables: [
+        'Archivo Figma compartido con el design system',
+        'Mínimo 20 componentes organizados en Atomic Design',
+        'Tokens de color, tipografía y spacing documentados',
+        'Página de documentación con guía de uso',
+        'Demo de una pantalla completa construida con el sistema',
+      ],
+      rubrica: [
+        'Coherencia visual entre todos los componentes',
+        'Nomenclatura y organización profesional',
+        'Componentes con variantes y estados',
+        'Documentación suficiente para otro diseñador',
+      ],
+      completed: false,
+    },],
     resources: [
       {
         title: 'Material Design 3 — Sistema de diseño de Google',
@@ -2160,6 +2527,103 @@ export const MODULES: Module[] = [
         tip: 'El tablet es el breakpoint más olvidado y el más difícil. Es tentador diseñar solo desktop y mobile, pero el 12–15% del tráfico llega desde tablet. La clave: no hacer "desktop achicado" ni "mobile agrandado". El tablet muchas veces se usa horizontalmente, con touch pero con más pantalla — diseñá específicamente para ese contexto.',
         completed: false,
       },
+
+      {
+        id: 'uiux-exam',
+        title: 'Examen final: UI/UX Design',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia entre UX (User Experience) y UI (User Interface)?',
+            options: [
+              'Son sinónimos — ambos se refieren al diseño visual de una app',
+              'UX es el diseño visual; UI es la investigación de usuarios',
+              'UX es cómo se siente usar el producto (funcional, emocional); UI es cómo se ve (visual, estético)',
+              'UX es solo para apps móviles; UI es para web',
+            ],
+            correct: 2,
+            explanation: 'UX abarca todo el proceso de diseño centrado en el usuario: research, arquitectura de información, flujos, usabilidad. UI es la capa visual: colores, tipografía, componentes, animaciones. Un producto puede tener buena UI con mala UX (se ve bien pero es confuso de usar).',
+          },
+          {
+            q: 'En Figma, ¿qué son los Auto Layout y para qué sirven?',
+            options: [
+              'Una función para organizar capas automáticamente en el panel de layers',
+              'Un sistema que permite que los frames se adapten automáticamente al contenido, como Flexbox en CSS',
+              'Una herramienta para crear animaciones automáticas entre frames',
+              'Un plugin para importar componentes de otras bibliotecas',
+            ],
+            correct: 1,
+            explanation: 'Auto Layout convierte un frame en un contenedor flexible similar a Flexbox/Grid de CSS. Permite que el diseño se adapte cuando el contenido cambia: texto más largo, más elementos, o diferentes pantallas. Es fundamental para diseñar componentes reutilizables y responsive.',
+          },
+          {
+            q: '¿Qué es la Ley de Fitts y cómo se aplica en UX design?',
+            options: [
+              'Los usuarios leen de izquierda a derecha — el CTA debe estar a la derecha',
+              'El tiempo para alcanzar un objetivo depende de su tamaño y distancia — los elementos importantes deben ser grandes y accesibles',
+              'Los usuarios recuerdan mejor los primeros y últimos elementos de una lista',
+              'Las personas necesitan 7±2 elementos para tomar una decisión',
+            ],
+            correct: 1,
+            explanation: 'La Ley de Fitts establece que el tiempo para llegar a un objetivo es función de su distancia y tamaño. Aplicado en UX: CTAs grandes y en zonas fácilmente alcanzables (thumbzone en mobile), menús en bordes de pantalla donde el cursor puede "chocar" sin moverse con precisión.',
+          },
+          {
+            q: '¿Cuál es el propósito de un wireframe de baja fidelidad en el proceso de diseño?',
+            options: [
+              'Mostrar el diseño final al cliente para aprobación',
+              'Definir la arquitectura de información y flujos sin perder tiempo en detalles visuales',
+              'Crear el código HTML/CSS básico antes del diseño visual',
+              'Documentar los componentes de la Design Library',
+            ],
+            correct: 1,
+            explanation: 'Los wireframes de baja fidelidad (cajas, líneas, texto placeholder) sirven para validar la estructura y los flujos rápidamente, antes de invertir tiempo en el diseño visual. Permiten iterar 10 veces en el tiempo que tomaría una iteración en alta fidelidad.',
+          },
+          {
+            q: '¿Qué es un Design System y qué ventaja principal ofrece?',
+            options: [
+              'Un plugin de Figma que genera código automáticamente',
+              'Una colección de componentes, tokens y guías que garantizan consistencia a escala en un producto',
+              'Un método de gestión de proyectos para equipos de diseño',
+              'Una herramienta para hacer handoff de diseño a developers',
+            ],
+            correct: 1,
+            explanation: 'Un Design System es la fuente de verdad visual del producto: tokens (colores, tipografía, espaciado), componentes reutilizables y guías de uso. Su ventaja principal es la consistencia a escala: todos los productos de la empresa se sienten como uno, y el equipo no reinventa el botón en cada pantalla.',
+          },
+          {
+            q: 'En un user interview, ¿cuál es la práctica correcta?',
+            options: [
+              'Presentar el producto y preguntar qué le gusta al usuario para validar el diseño',
+              'Hacer preguntas cerradas (sí/no) para obtener datos cuantitativos claros',
+              'Hacer preguntas abiertas sobre comportamientos pasados, sin mencionar el producto ni soluciones',
+              'Mostrar la competencia primero para calibrar las expectativas del usuario',
+            ],
+            correct: 2,
+            explanation: 'Las entrevistas efectivas exploran comportamientos reales pasados ("cuéntame la última vez que..."), no opiniones sobre hipotéticos. Preguntar "¿usarías este producto?" da respuestas sesgadas. Preguntar "¿cómo resuelves este problema hoy?" da insights accionables.',
+          },
+          {
+            q: '¿Cuál es el ratio de contraste mínimo WCAG AA para texto normal sobre fondo?',
+            options: [
+              '2:1 — cualquier combinación legible visualmente',
+              '3:1 — para texto grande únicamente',
+              '4.5:1 — para texto normal en cualquier tamaño',
+              '7:1 — el estándar más estricto para todos los casos',
+            ],
+            correct: 2,
+            explanation: 'WCAG 2.1 nivel AA requiere mínimo 4.5:1 para texto normal (<18px regular o <14px bold) y 3:1 para texto grande. El nivel AAA es 7:1. Cumplir estos estándares es obligatorio para aplicaciones gubernamentales y recomendado para cualquier producto digital inclusivo.',
+          },
+          {
+            q: '¿Qué es el "thumb zone" y por qué importa en diseño mobile?',
+            options: [
+              'La zona de la pantalla que carga más rápido en dispositivos móviles',
+              'El área de la pantalla que el pulgar alcanza cómodamente en una mano — donde deben estar los CTAs principales',
+              'La zona de notch en teléfonos modernos donde no se puede colocar contenido',
+              'El tamaño mínimo de elementos táctiles recomendado por Apple (44x44px)',
+            ],
+            correct: 1,
+            explanation: 'El thumb zone es el área que alcanza el pulgar cómodamente sin reposicionar el teléfono. En un smartphone moderno, la parte inferior central es la más accesible. Los CTAs principales, navegación y acciones frecuentes deben estar en esa zona. La parte superior es la zona de "muerte" para elementos críticos.',
+          },
+        ],
+        completed: false,
+      },
     ],
     resources: [
       {
@@ -2191,4 +2655,9152 @@ export const MODULES: Module[] = [
   },
 
 
+  // ─── Track: Desarrollo Web ───────────────────────────────────────────────────
+
+  {
+    id: 'web-1',
+    number: 12,
+    title: 'Fundamentos Web: HTML & CSS',
+    description: 'Construye la base sólida de todo desarrollo web moderno: estructura semántica, estilos, layouts y responsive design.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w1-l1',
+        title: 'HTML semántico: estructura que importa',
+        type: 'reading',
+        content: `## HTML semántico
+
+HTML semántico no es solo usar las etiquetas correctas — es comunicar la *intención* del contenido tanto a navegadores como a motores de búsqueda y lectores de pantalla.
+
+### Por qué importa
+
+- **SEO**: Google lee el HTML. Un \`<h1>\` correcto vale más que 10 palabras clave.
+- **Accesibilidad**: Lectores de pantalla dependen de la semántica para navegar.
+- **Mantenimiento**: HTML semántico es más fácil de leer y modificar.
+
+### Las etiquetas que más usarás
+
+\`\`\`html
+<header>   — cabecera de página o sección
+<nav>      — navegación principal
+<main>     — contenido principal (único por página)
+<section>  — sección temática con heading propio
+<article>  — contenido independiente (post, card)
+<aside>    — contenido relacionado pero secundario
+<footer>   — pie de página o sección
+\`\`\`
+
+### Estructura base de cualquier página
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi página</title>
+</head>
+<body>
+  <header>
+    <nav>...</nav>
+  </header>
+  <main>
+    <section>
+      <h1>Título principal</h1>
+      <p>Contenido...</p>
+    </section>
+  </main>
+  <footer>...</footer>
+</body>
+</html>
+\`\`\`
+
+### Jerarquía de headings
+
+Usa **un solo \`<h1>\`** por página. Los headings crean un outline lógico:
+
+\`\`\`
+h1 — Título de la página
+  h2 — Sección principal
+    h3 — Subsección
+      h4 — Sub-subsección (úsala con cuidado)
+\`\`\`
+
+### Tip: formularios semánticos
+
+\`\`\`html
+<form>
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" required>
+  <button type="submit">Enviar</button>
+</form>
+\`\`\`
+
+El \`label\` con \`for\` conectado al \`id\` del input mejora accesibilidad y UX (click en label activa el input).`,
+        completed: false,
+      },
+      {
+        id: 'w1-l1b',
+        title: 'Mini-práctica: Escribe el HTML de tu página "Sobre mí"',
+        type: 'practice',
+        tasks: [
+          'Crea un archivo index.html con estructura semántica completa (header, main, footer)',
+          'Incluye nav con 3 links (aunque sean #), main con h1 + 2 secciones, footer con tu nombre',
+          'Valida el HTML en validator.w3.org — cero errores antes de continuar',
+          'Agrega una sección <article> con una mini-bio de 3 párrafos',
+        ],
+        tip: 'No uses <div> para nada que tenga una etiqueta semántica equivalente. Si dudas, pregúntate: ¿esta etiqueta describe QUÉ es el contenido?',
+        completed: false,
+      },
+      {
+        id: 'w1-l2',
+        title: 'CSS moderno: Flexbox, Grid y el box model',
+        type: 'reading',
+        content: `## CSS moderno
+
+CSS en 2025 es más poderoso que nunca. Dominar el box model, Flexbox y Grid te da el 90% de lo que necesitas para cualquier layout.
+
+### El Box Model
+
+Todo elemento HTML es una caja:
+
+\`\`\`
+┌─────────────────────────┐
+│         margin          │
+│  ┌───────────────────┐  │
+│  │      border       │  │
+│  │  ┌─────────────┐  │  │
+│  │  │   padding   │  │  │
+│  │  │  ┌───────┐  │  │  │
+│  │  │  │content│  │  │  │
+│  │  │  └───────┘  │  │  │
+│  │  └─────────────┘  │  │
+│  └───────────────────┘  │
+└─────────────────────────┘
+\`\`\`
+
+**Regla de oro**: usa siempre \`box-sizing: border-box\`:
+
+\`\`\`css
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+\`\`\`
+
+Esto hace que padding y border se incluyan en el width, no se sumen.
+
+### Flexbox — para layouts de una dimensión
+
+\`\`\`css
+.container {
+  display: flex;
+  justify-content: space-between; /* eje principal (horizontal) */
+  align-items: center;            /* eje cruzado (vertical) */
+  gap: 1rem;
+}
+\`\`\`
+
+Casos de uso ideales: navbars, cards en fila, centrar un elemento.
+
+### Grid — para layouts de dos dimensiones
+
+\`\`\`css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Layout complejo */
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 250px 1fr;
+}
+\`\`\`
+
+### Responsive con CSS moderno
+
+\`\`\`css
+/* Fluid grid sin media queries */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Fluid typography */
+.heading {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Media queries cuando sí son necesarias */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+\`\`\`
+
+### Custom Properties (variables CSS)
+
+\`\`\`css
+:root {
+  --color-primary: #9A7235;
+  --spacing-md: 1rem;
+  --radius: 0.5rem;
+}
+
+.button {
+  background: var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+}
+\`\`\`
+
+Variables CSS son la base de cualquier design system.`,
+        completed: false,
+      },
+      {
+        id: 'w1-l2b',
+        title: 'Mini-práctica: Dale estilos a tu página "Sobre mí"',
+        type: 'practice',
+        tasks: [
+          'Define custom properties en :root para colores, tipografía y espaciado',
+          'Usa Flexbox para el navbar (logo a la izquierda, links a la derecha)',
+          'Usa Grid para una sección de skills o proyectos (3 columnas en desktop, 1 en mobile)',
+          'Implementa al menos 1 media query para adaptar el layout en pantallas pequeñas',
+          'Prueba en Chrome DevTools en mobile view — debe verse bien en 375px de ancho',
+        ],
+        tip: 'Empieza con mobile-first: escribe los estilos base para mobile y usa media queries con min-width para desktop. Es más fácil agregar complejidad que quitarla.',
+        completed: false,
+      },
+      {
+        id: 'w1-l3',
+        title: 'Tipografía web, colores y accesibilidad visual',
+        type: 'reading',
+        content: `## Tipografía web y accesibilidad visual
+
+El 95% de la información en la web es texto. Dominar tipografía es dominar diseño web.
+
+### Cargar fuentes correctamente
+
+\`\`\`html
+<!-- Google Fonts — en el <head> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+\`\`\`
+
+\`\`\`css
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+\`\`\`
+
+### Escala tipográfica
+
+Una escala consistente crea armonía visual:
+
+\`\`\`css
+:root {
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+}
+\`\`\`
+
+### Contraste de color (WCAG)
+
+Para que el texto sea legible y accesible:
+
+- **Normal text**: ratio mínimo 4.5:1
+- **Large text** (18px+ o 14px+ bold): ratio mínimo 3:1
+- **UI components**: ratio mínimo 3:1
+
+Herramienta gratuita: **coolors.co/contrast-checker**
+
+\`\`\`css
+/* ✅ Buen contraste */
+color: #1A1512;
+background: #FAFAF7;
+
+/* ❌ Mal contraste */
+color: #999999;
+background: #FFFFFF;
+\`\`\`
+
+### Line-height y letter-spacing
+
+\`\`\`css
+body {
+  line-height: 1.65; /* Cómodo para lectura de párrafos */
+}
+
+h1, h2 {
+  line-height: 1.2;  /* Headings más apretados */
+  letter-spacing: -0.02em; /* Tracking negativo en display */
+}
+
+.caption {
+  letter-spacing: 0.05em; /* Tracking positivo en texto pequeño */
+  text-transform: uppercase;
+}
+\`\`\`
+
+### Measure (longitud de línea)
+
+La longitud ideal de una línea de texto es **60-75 caracteres**:
+
+\`\`\`css
+.content {
+  max-width: 65ch; /* ch = ancho del carácter '0' */
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w1-l3b',
+        title: 'Mini-práctica: Refinamiento tipográfico y paleta de colores',
+        type: 'practice',
+        tasks: [
+          'Integra Google Fonts a tu proyecto (elige 1-2 fuentes complementarias)',
+          'Define una escala tipográfica con custom properties y aplícala consistentemente',
+          'Verifica el contraste de todos tus colores de texto en coolors.co/contrast-checker',
+          'Limita el ancho de tus párrafos a max 65ch para legibilidad óptima',
+          'Documenta tu paleta de colores en un comentario CSS con los hex codes y sus usos',
+        ],
+        tip: 'Empareja una fuente serif (Playfair Display, Lora) con una sans-serif (Inter, Plus Jakarta Sans) para dar jerarquía visual sin necesitar muchos tamaños distintos.',
+        completed: false,
+      },
+          {
+        id: 'web-1-proj-basico',
+        title: 'Proyecto Básico: Landing page con HTML y CSS',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Construye una landing page completa con HTML, CSS y mínimo JavaScript. Responsiva y publicada en internet.',
+        deliverables: [
+          'Landing page con hero, 3 secciones de contenido y footer',
+          'Responsive: bien en mobile (375px), tablet (768px) y desktop (1280px)',
+          'URL pública en Vercel, Netlify o GitHub Pages',
+          'Screenshot de Lighthouse con Performance > 85',
+        ],
+        tip: 'Empieza por el mobile layout. Escalar a desktop es más fácil que reducir.',
+        completed: false,
+      },
+      {
+        id: 'web-1-proj-inter',
+        title: 'Proyecto Intermedio: Landing page con Next.js + Tailwind',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Construye una landing page con el stack moderno: Next.js App Router + TypeScript + Tailwind CSS + formulario funcional.',
+        deliverables: [
+          'Proyecto Next.js con TypeScript strict y estructura App Router correcta',
+          'Cero \'any\' — todo tipado correctamente',
+          'Formulario de contacto con validación cliente y servidor (Zod)',
+          'Animaciones de entrada en CSS puro (no librerías)',
+          'Deploy en Vercel con URL pública',
+          'Lighthouse Performance > 90 en mobile',
+        ],
+        tip: 'Si tardas más de 5 minutos decidiendo Server vs Client Component, aplica la regla: si necesita estado, eventos o hooks del browser → Client. Todo lo demás → Server.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'MDN Web Docs — HTML Reference',
+        url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
+        type: 'documentation',
+      },
+      {
+        title: 'CSS Tricks — A Complete Guide to Flexbox',
+        url: 'https://css-tricks.com/snippets/css/a-guide-to-flexbox',
+        type: 'article',
+      },
+      {
+        title: 'CSS Tricks — A Complete Guide to Grid',
+        url: 'https://css-tricks.com/snippets/css/complete-guide-grid',
+        type: 'article',
+      },
+      {
+        title: 'Google Fonts',
+        url: 'https://fonts.google.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'web-2',
+    number: 13,
+    title: 'JavaScript Moderno (ES2024)',
+    description: 'De las bases de JS a async/await, fetch y manipulación del DOM — el lenguaje que da vida a cualquier interfaz web.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w2-l1',
+        title: 'Variables, funciones y el flujo de JavaScript',
+        type: 'reading',
+        content: `## JavaScript moderno: las bases
+
+JavaScript es el único lenguaje que corre nativamente en el navegador. Entenderlo bien es no-negociable para cualquier desarrollador web.
+
+### Variables
+
+\`\`\`javascript
+// const — valor que no cambia (úsala por default)
+const nombre = 'Gabriel';
+const API_URL = 'https://api.ejemplo.com';
+
+// let — valor que puede cambiar
+let contador = 0;
+contador = contador + 1;
+
+// var — NO usar (scope confuso, problemático)
+\`\`\`
+
+### Tipos de datos
+
+\`\`\`javascript
+const texto = 'Hola mundo';          // string
+const numero = 42;                    // number
+const decimal = 3.14;                 // number (no hay int separado)
+const activo = true;                  // boolean
+const vacio = null;                   // null (ausencia intencional)
+const indefinido = undefined;         // undefined
+const objeto = { nombre: 'Gabriel' }; // object
+const lista = [1, 2, 3];             // array (también es object)
+\`\`\`
+
+### Funciones
+
+\`\`\`javascript
+// Declaración clásica
+function saludar(nombre) {
+  return \`Hola, \${nombre}!\`;
+}
+
+// Arrow function (moderna, más concisa)
+const saludar = (nombre) => \`Hola, \${nombre}!\`;
+
+// Con múltiples líneas
+const calcular = (a, b) => {
+  const resultado = a + b;
+  return resultado;
+};
+
+// Parámetros por default
+const conectar = (host = 'localhost', puerto = 3000) => {
+  return \`\${host}:\${puerto}\`;
+};
+\`\`\`
+
+### Destructuring (muy usado en React)
+
+\`\`\`javascript
+// Objetos
+const usuario = { nombre: 'Gabriel', email: 'g@mail.com', rol: 'admin' };
+const { nombre, email } = usuario;
+
+// Con renombrado
+const { nombre: nombreUsuario } = usuario;
+
+// Arrays
+const colores = ['rojo', 'verde', 'azul'];
+const [primero, segundo] = colores;
+
+// En parámetros de función
+const mostrarUsuario = ({ nombre, rol }) => {
+  console.log(\`\${nombre} — \${rol}\`);
+};
+\`\`\`
+
+### Spread y Rest
+
+\`\`\`javascript
+// Spread: expandir
+const extras = { admin: false };
+const usuarioCompleto = { ...usuario, ...extras };
+
+// Rest: agrupar el resto
+const [cabeza, ...cola] = [1, 2, 3, 4, 5];
+// cabeza = 1, cola = [2, 3, 4, 5]
+\`\`\`
+
+### Array methods esenciales
+
+\`\`\`javascript
+const productos = [
+  { nombre: 'Laptop', precio: 1200 },
+  { nombre: 'Mouse', precio: 25 },
+  { nombre: 'Teclado', precio: 80 },
+];
+
+// map — transforma cada elemento
+const nombres = productos.map(p => p.nombre);
+// ['Laptop', 'Mouse', 'Teclado']
+
+// filter — filtra según condición
+const caros = productos.filter(p => p.precio > 50);
+
+// find — primer elemento que cumple
+const laptop = productos.find(p => p.nombre === 'Laptop');
+
+// reduce — acumula en un valor
+const total = productos.reduce((acc, p) => acc + p.precio, 0);
+// 1305
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l1b',
+        title: 'Mini-práctica: Manipula datos con JS puro',
+        type: 'practice',
+        tasks: [
+          'Crea un array de 5 objetos "proyecto" con propiedades: titulo, tecnologia, año, destacado (boolean)',
+          'Usa .filter() para obtener solo los proyectos destacados',
+          'Usa .map() para crear un array de strings con formato "titulo — tecnologia (año)"',
+          'Usa .find() para encontrar el proyecto más reciente',
+          'Usa .reduce() para contar cuántos proyectos hay por tecnología (resultado: objeto)',
+          'Consola todos los resultados con console.log descriptivos',
+        ],
+        tip: 'Encadena métodos cuando tenga sentido: productos.filter(...).map(...). Pero si la cadena supera 3 métodos, considera variables intermedias para legibilidad.',
+        completed: false,
+      },
+      {
+        id: 'w2-l2',
+        title: 'DOM: hacer que la página responda al usuario',
+        type: 'reading',
+        content: `## Manipulación del DOM
+
+El DOM (Document Object Model) es la representación en JavaScript de tu HTML. Manipularlo es cómo haces que las páginas sean interactivas.
+
+### Seleccionar elementos
+
+\`\`\`javascript
+// querySelector — el más versátil (CSS selectors)
+const titulo = document.querySelector('h1');
+const boton = document.querySelector('.btn-primary');
+const form = document.querySelector('#contact-form');
+
+// querySelectorAll — todos los que coincidan (NodeList)
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => console.log(card));
+
+// getElementById — específico para IDs (más rápido)
+const nav = document.getElementById('navbar');
+\`\`\`
+
+### Modificar elementos
+
+\`\`\`javascript
+// Contenido
+titulo.textContent = 'Nuevo título'; // solo texto, seguro
+titulo.innerHTML = '<span>Título</span>'; // HTML (cuidado con XSS)
+
+// Estilos
+boton.style.backgroundColor = '#9A7235';
+boton.style.display = 'none'; // ocultar
+
+// Clases
+elemento.classList.add('activo');
+elemento.classList.remove('oculto');
+elemento.classList.toggle('expandido');
+elemento.classList.contains('activo'); // → boolean
+
+// Atributos
+input.setAttribute('disabled', true);
+input.getAttribute('placeholder');
+imagen.src = 'nueva-foto.jpg';
+\`\`\`
+
+### Eventos
+
+\`\`\`javascript
+// Click
+boton.addEventListener('click', (event) => {
+  event.preventDefault(); // evita comportamiento default (útil en forms)
+  console.log('Botón clickeado');
+});
+
+// Input en tiempo real
+const searchInput = document.querySelector('#search');
+searchInput.addEventListener('input', (e) => {
+  console.log(e.target.value);
+});
+
+// Submit de formulario
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const datos = new FormData(e.target);
+  const email = datos.get('email');
+  console.log(email);
+});
+
+// Múltiples elementos (event delegation)
+document.querySelector('.lista').addEventListener('click', (e) => {
+  if (e.target.matches('.item')) {
+    e.target.classList.toggle('completado');
+  }
+});
+\`\`\`
+
+### Crear y remover elementos
+
+\`\`\`javascript
+// Crear
+const card = document.createElement('div');
+card.className = 'card';
+card.textContent = 'Nueva card';
+
+// Agregar al DOM
+const contenedor = document.querySelector('.grid');
+contenedor.appendChild(card);
+
+// O con insertAdjacentHTML (más eficiente para HTML complejo)
+contenedor.insertAdjacentHTML('beforeend', \`
+  <div class="card">
+    <h3>Título</h3>
+    <p>Descripción</p>
+  </div>
+\`);
+
+// Remover
+card.remove();
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l2b',
+        title: 'Mini-práctica: Lista de proyectos interactiva',
+        type: 'practice',
+        tasks: [
+          'Crea una lista de 5 proyectos en JS (array de objetos) y renderízalos dinámicamente al DOM con insertAdjacentHTML',
+          'Agrega un input de búsqueda que filtre proyectos en tiempo real (evento "input")',
+          'Agrega un botón "Destacar" en cada card que toggle una clase CSS "destacado"',
+          'Agrega un contador que muestre cuántos proyectos están destacados',
+          'Implementa un botón "Agregar proyecto" que solicite nombre con prompt() y lo agregue a la lista',
+        ],
+        tip: 'Para actualizar la lista al filtrar, limpia el contenedor con innerHTML = "" y renderiza de nuevo con el array filtrado. Es menos eficiente que técnicas virtuales, pero correcto para aprender.',
+        completed: false,
+      },
+      {
+        id: 'w2-l3',
+        title: 'Async JS: Fetch, Promises y async/await',
+        type: 'reading',
+        content: `## JavaScript asíncrono
+
+El código asíncrono te permite hacer requests HTTP, leer archivos y esperar operaciones lentas sin bloquear la interfaz.
+
+### El problema del código sincrónico
+
+\`\`\`javascript
+// ❌ Esto bloquearía el navegador:
+const datos = fetchDatos(); // imaginemos que tarda 2 segundos
+mostrar(datos); // mientras espera, nada funciona
+\`\`\`
+
+### Promises
+
+Una Promise representa un valor futuro — puede estar pendiente, resuelta o rechazada.
+
+\`\`\`javascript
+const promesa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    if (Math.random() > 0.5) {
+      resolve('Éxito');
+    } else {
+      reject(new Error('Falló'));
+    }
+  }, 1000);
+});
+
+promesa
+  .then(resultado => console.log(resultado))
+  .catch(error => console.error(error));
+\`\`\`
+
+### async/await — la forma moderna
+
+\`\`\`javascript
+// async convierte la función en asíncrona
+const obtenerUsuario = async (id) => {
+  try {
+    // await "pausa" hasta que la Promise se resuelva
+    const respuesta = await fetch(\`https://api.ejemplo.com/users/\${id}\`);
+
+    if (!respuesta.ok) {
+      throw new Error(\`Error HTTP: \${respuesta.status}\`);
+    }
+
+    const usuario = await respuesta.json();
+    return usuario;
+  } catch (error) {
+    console.error('Error al obtener usuario:', error);
+    throw error; // re-throw para que el caller pueda manejarlo
+  }
+};
+
+// Usar la función async
+const mostrarUsuario = async () => {
+  const usuario = await obtenerUsuario(1);
+  document.querySelector('.nombre').textContent = usuario.name;
+};
+
+mostrarUsuario();
+\`\`\`
+
+### Fetch API
+
+\`\`\`javascript
+// GET
+const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+const posts = await response.json();
+
+// POST
+const response = await fetch('https://api.ejemplo.com/posts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': \`Bearer \${token}\`,
+  },
+  body: JSON.stringify({
+    title: 'Mi post',
+    body: 'Contenido...',
+    userId: 1,
+  }),
+});
+const nuevoPost = await response.json();
+\`\`\`
+
+### Promise.all — paralelo
+
+\`\`\`javascript
+// ❌ Secuencial (lento: 3 segundos total)
+const usuarios = await obtenerUsuarios();
+const posts = await obtenerPosts();
+const comentarios = await obtenerComentarios();
+
+// ✅ Paralelo (rápido: máximo 1 segundo)
+const [usuarios, posts, comentarios] = await Promise.all([
+  obtenerUsuarios(),
+  obtenerPosts(),
+  obtenerComentarios(),
+]);
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w2-l3b',
+        title: 'Mini-práctica: Conecta tu app con una API real',
+        type: 'practice',
+        tasks: [
+          'Usa la API pública JSONPlaceholder (jsonplaceholder.typicode.com) para obtener 10 posts',
+          'Renderiza los posts en el DOM con título y cuerpo, mostrando un loading state mientras carga',
+          'Agrega manejo de errores: si el fetch falla, muestra un mensaje de error al usuario',
+          'Implementa un botón "Recargar" que vuelva a hacer el fetch',
+          'Bonus: agrega un input que filtre posts por contenido del título en tiempo real',
+        ],
+        tip: 'Siempre muestra feedback al usuario: un spinner mientras carga, un mensaje si hay error, y el contenido cuando llega. Nunca dejes la interfaz en silencio mientras espera.',
+        completed: false,
+      },
+          {
+        id: 'web-2-proj-inter',
+        title: 'Proyecto Intermedio: Componente React reutilizable',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Diseña e implementa un componente React completamente tipado y reutilizable que funcione en 3 contextos diferentes.',
+        deliverables: [
+          'Componente React con TypeScript: interfaz Props completa y documentada',
+          'Al menos 3 variantes (size, variant o state)',
+          'Demo page mostrando todas las variantes',
+          'README: cómo usarlo, qué props acepta y ejemplos de código',
+        ],
+        tip: 'Un componente bien diseñado tiene una sola responsabilidad. Si el nombre tiene un "y" en el medio, probablemente son dos componentes.',
+        completed: false,
+      },
+      {
+        id: 'web-2-proj-pro',
+        title: 'Proyecto Profesional: App full-stack con autenticación',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Construye una aplicación web completa con Next.js, autenticación de usuarios y persistencia de datos.',
+        deliverables: [
+          'Next.js App Router con TypeScript strict — cero \'any\'',
+          'Autenticación completa: registro, login, sesión (NextAuth.js o Supabase Auth)',
+          'Al menos 3 páginas protegidas que requieran login',
+          'Base de datos con mínimo 2 tablas relacionadas (Supabase o similar)',
+          'API routes tipadas con validación Zod',
+          'Deploy en Vercel con .env configurado',
+          'README con instrucciones de setup desde cero',
+        ],
+        rubrica: [
+          'Las rutas protegidas son inaccesibles sin auth (no solo hidden en UI)',
+          'La validación ocurre en cliente y en servidor',
+          'Las variables sensibles están en .env y no committeadas',
+          'La app funciona siguiendo solo el README',
+        ],
+        tip: 'Dibuja el esquema de base de datos antes de codear. Un schema mal pensado al inicio cuesta 10x reescribir al final.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'javascript.info — The Modern JavaScript Tutorial',
+        url: 'https://javascript.info',
+        type: 'course',
+      },
+      {
+        title: 'JSONPlaceholder — Free Fake REST API',
+        url: 'https://jsonplaceholder.typicode.com',
+        type: 'tool',
+      },
+      {
+        title: 'MDN — Fetch API',
+        url: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'web-3',
+    number: 14,
+    title: 'React y Next.js App Router',
+    description: 'Construye interfaces modernas con componentes reutilizables, estado reactivo y el poder del App Router de Next.js.',
+    duration: '5 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w3-l1',
+        title: 'React: componentes, props y estado',
+        type: 'reading',
+        content: `## React: el pensamiento en componentes
+
+React es una librería para construir interfaces como árbol de componentes reutilizables. Cada componente es una función que recibe datos (props) y retorna JSX.
+
+### Tu primer componente
+
+\`\`\`tsx
+// Un componente es una función que retorna JSX
+const Saludo = () => {
+  return <h1>Hola desde React</h1>;
+};
+
+// Con props (propiedades — datos que recibe el componente)
+interface CardProps {
+  titulo: string;
+  descripcion: string;
+  destacado?: boolean; // opcional
+}
+
+const Card = ({ titulo, descripcion, destacado = false }: CardProps) => {
+  return (
+    <div className={\`card \${destacado ? 'card--destacada' : ''}\`}>
+      <h2>{titulo}</h2>
+      <p>{descripcion}</p>
+    </div>
+  );
+};
+\`\`\`
+
+### useState — estado local del componente
+
+\`\`\`tsx
+import { useState } from 'react';
+
+const Contador = () => {
+  // [valor, función para actualizarlo]
+  const [count, setCount] = useState(0);
+  const [nombre, setNombre] = useState('');
+
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+
+      <input
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        placeholder="Tu nombre"
+      />
+      <p>Hola, {nombre || 'visitante'}</p>
+    </div>
+  );
+};
+\`\`\`
+
+### Renderizado de listas
+
+\`\`\`tsx
+interface Proyecto {
+  id: number;
+  titulo: string;
+  tecnologia: string;
+}
+
+const proyectos: Proyecto[] = [
+  { id: 1, titulo: 'Portfolio', tecnologia: 'Next.js' },
+  { id: 2, titulo: 'E-commerce', tecnologia: 'React' },
+];
+
+const ListaProyectos = () => {
+  return (
+    <ul>
+      {proyectos.map((proyecto) => (
+        // key es obligatorio — ayuda a React a identificar elementos
+        <li key={proyecto.id}>
+          {proyecto.titulo} — {proyecto.tecnologia}
+        </li>
+      ))}
+    </ul>
+  );
+};
+\`\`\`
+
+### useEffect — efectos secundarios
+
+\`\`\`tsx
+import { useState, useEffect } from 'react';
+
+const Posts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Se ejecuta después de que el componente se monta
+    const fetchPosts = async () => {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+      const data = await res.json();
+      setPosts(data.slice(0, 10));
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []); // [] = solo al montar, sin dependencias
+
+  if (loading) return <p>Cargando...</p>;
+
+  return (
+    <ul>
+      {posts.map((post: any) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+};
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l1b',
+        title: 'Mini-práctica: Tu primera app React con estado',
+        type: 'practice',
+        tasks: [
+          'Crea un componente TodoList con useState para manejar una lista de tareas',
+          'Implementa agregar tarea (input + botón), marcar como completada (checkbox) y eliminar (botón x)',
+          'Agrega un contador que muestre "X de Y tareas completadas"',
+          'Filtra la lista para mostrar: todas / pendientes / completadas',
+          'Extrae los componentes en archivos separados: TodoList, TodoItem, TodoFilter',
+        ],
+        tip: 'Cuando el estado se vuelve complejo (múltiples valores relacionados), considera useReducer. Para este ejercicio useState está perfecto — no sobre-ingenierices.',
+        completed: false,
+      },
+      {
+        id: 'w3-l2',
+        title: 'Next.js App Router: rutas, layouts y Server Components',
+        type: 'reading',
+        content: `## Next.js App Router
+
+Next.js con App Router es el estándar de la industria para React en producción. La convención de archivos define las rutas automáticamente.
+
+### Estructura de carpetas
+
+\`\`\`
+app/
+├── layout.tsx          → Layout raíz (siempre presente)
+├── page.tsx            → Ruta: /
+├── about/
+│   └── page.tsx        → Ruta: /about
+├── blog/
+│   ├── page.tsx        → Ruta: /blog
+│   └── [slug]/
+│       └── page.tsx    → Ruta: /blog/:slug (dinámica)
+└── api/
+    └── contact/
+        └── route.ts    → Ruta API: /api/contact
+\`\`\`
+
+### layout.tsx — el contenedor persistente
+
+\`\`\`tsx
+// app/layout.tsx
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mi sitio',
+  description: 'Descripción para SEO',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="es">
+      <body>
+        <nav>Mi navbar</nav>
+        {children}  {/* Aquí se renderiza la página activa */}
+        <footer>Mi footer</footer>
+      </body>
+    </html>
+  );
+}
+\`\`\`
+
+### Server Components vs Client Components
+
+**Por default, todos los componentes en App Router son Server Components.**
+
+\`\`\`tsx
+// Server Component (sin 'use client')
+// ✅ Puede hacer fetch directamente
+// ✅ Accede a datos del servidor (DB, variables de entorno)
+// ❌ No puede usar useState, useEffect, event handlers
+const Pagina = async () => {
+  const posts = await fetch('https://api.ejemplo.com/posts').then(r => r.json());
+
+  return (
+    <ul>
+      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+    </ul>
+  );
+};
+
+// Client Component
+'use client'; // Necesario cuando usas hooks o eventos
+
+import { useState } from 'react';
+
+const Boton = () => {
+  const [clicked, setClicked] = useState(false);
+
+  return (
+    <button onClick={() => setClicked(true)}>
+      {clicked ? 'Clickeado!' : 'Click me'}
+    </button>
+  );
+};
+\`\`\`
+
+### Rutas dinámicas y params
+
+\`\`\`tsx
+// app/blog/[slug]/page.tsx
+interface Props {
+  params: { slug: string };
+}
+
+const BlogPost = async ({ params }: Props) => {
+  const post = await fetchPost(params.slug);
+
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </article>
+  );
+};
+
+export default BlogPost;
+\`\`\`
+
+### API Routes
+
+\`\`\`typescript
+// app/api/contact/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { email, mensaje } = body;
+
+  // Validar, guardar en DB, enviar email...
+
+  return NextResponse.json({ success: true });
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l2b',
+        title: 'Mini-práctica: Portfolio con Next.js App Router',
+        type: 'practice',
+        tasks: [
+          'Crea un proyecto Next.js nuevo con create-next-app (TypeScript + Tailwind + App Router)',
+          'Implementa layout.tsx con navbar y footer que persistan en todas las páginas',
+          'Crea app/page.tsx (home) con hero section y lista de proyectos hardcodeada',
+          'Crea app/proyectos/[id]/page.tsx para el detalle de cada proyecto',
+          'Agrega metadata (title, description) a cada página — verifica en el <title> del HTML',
+          'Despliega en Vercel con "vercel" CLI o conectando el repo en vercel.com',
+        ],
+        tip: 'Cuando veas que un componente necesita estado o eventos, conviértelo en Client Component con "use client". Mantén Server Components para todo lo que pueda ser estático o necesite datos del servidor.',
+        completed: false,
+      },
+      {
+        id: 'w3-l3',
+        title: 'TypeScript en React: tipos, interfaces y generics',
+        type: 'reading',
+        content: `## TypeScript en React
+
+TypeScript añade tipos estáticos a JavaScript, catching errores en desarrollo antes de que lleguen a producción. En Next.js es el estándar — aprenderlo bien te ahorra horas de debugging.
+
+### Tipos básicos
+
+\`\`\`typescript
+// Primitivos
+const nombre: string = 'Gabriel';
+const edad: number = 28;
+const activo: boolean = true;
+
+// Arrays
+const tecnologias: string[] = ['React', 'Next.js', 'TypeScript'];
+const precios: number[] = [100, 200, 300];
+
+// Funciones
+const saludar = (nombre: string): string => {
+  return \`Hola, \${nombre}\`;
+};
+
+// Void — función que no retorna valor
+const log = (mensaje: string): void => {
+  console.log(mensaje);
+};
+\`\`\`
+
+### Interfaces y Types
+
+\`\`\`typescript
+// Interface — para describir la forma de un objeto
+interface Proyecto {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  tecnologias: string[];
+  url?: string; // opcional
+  destacado: boolean;
+}
+
+// Type — más versátil, puede ser unión, intersección, etc.
+type Estado = 'activo' | 'inactivo' | 'pendiente';
+type ID = string | number;
+
+// Combinar tipos
+type ProyectoConEstado = Proyecto & {
+  estado: Estado;
+  fechaCreacion: Date;
+};
+\`\`\`
+
+### TypeScript en componentes React
+
+\`\`\`tsx
+// Props con interface
+interface CardProps {
+  proyecto: Proyecto;
+  onSeleccionar: (id: number) => void;
+  className?: string;
+}
+
+const Card = ({ proyecto, onSeleccionar, className }: CardProps) => {
+  return (
+    <div
+      className={className}
+      onClick={() => onSeleccionar(proyecto.id)}
+    >
+      <h3>{proyecto.titulo}</h3>
+    </div>
+  );
+};
+
+// useState con tipo explícito
+const [proyectoSeleccionado, setProyectoSeleccionado] = useState<Proyecto | null>(null);
+const [tecnologias, setTecnologias] = useState<string[]>([]);
+
+// Eventos
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+};
+
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(e.target.value);
+};
+\`\`\`
+
+### Generics — tipos reutilizables
+
+\`\`\`typescript
+// Una función que funciona con cualquier tipo
+const primero = <T>(array: T[]): T | undefined => {
+  return array[0];
+};
+
+const primerNombre = primero(['Gabriel', 'Ana', 'Luis']); // tipo: string
+const primerNumero = primero([1, 2, 3]); // tipo: number
+
+// Hook genérico para fetch
+const useFetch = <T>(url: string) => {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  // ...
+  return { data, loading };
+};
+
+const { data: usuarios } = useFetch<Usuario[]>('/api/users');
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w3-l3b',
+        title: 'Mini-práctica: Tipea toda tu app de portfolio',
+        type: 'practice',
+        tasks: [
+          'Define interfaces TypeScript para todos los datos de tu app (Proyecto, Habilidad, etc.)',
+          'Elimina todos los any del código — usa unknown + narrowing donde sea necesario',
+          'Tipa todos los props de componentes con interfaces explícitas',
+          'Tipa todos los event handlers (React.MouseEvent, React.ChangeEvent, etc.)',
+          'Ejecuta npx tsc --noEmit — debe pasar sin errores antes de continuar',
+        ],
+        tip: 'Si TypeScript te da un error que no entiendes, pégalo en Claude con el contexto del código. Generalmente hay una solución simple que el error no comunica bien.',
+        completed: false,
+      },
+          {
+        id: 'web-3-proj-basico',
+        title: 'Proyecto Básico: API REST con 3 endpoints',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Construye una API REST mínima con 3 endpoints usando las API Routes de Next.js.',
+        deliverables: [
+          'Mínimo 3 API routes: GET (listar), POST (crear), GET by ID',
+          'Validación de entrada con Zod en el endpoint POST',
+          'Respuestas de error correctas: 400, 404 y 500 con mensajes útiles',
+          'Prueba de cada endpoint en Thunder Client o Postman (screenshots)',
+        ],
+        tip: 'Una API que devuelve errores genéricos es imposible de debuggear. Los mensajes de error deben ser útiles para quien los consume.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Next.js Docs — App Router',
+        url: 'https://nextjs.org/docs/app',
+        type: 'documentation',
+      },
+      {
+        title: 'React Docs — Learn React',
+        url: 'https://react.dev/learn',
+        type: 'documentation',
+      },
+      {
+        title: 'TypeScript — The Basics',
+        url: 'https://www.typescriptlang.org/docs/handbook/2/basic-types.html',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'web-4',
+    number: 15,
+    title: 'Backend con Supabase y Deploy en Vercel',
+    description: 'Conecta tu app a una base de datos real con Supabase, implementa autenticación y despliega en producción en Vercel.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'w4-l1',
+        title: 'Supabase: base de datos, Auth y Storage en minutos',
+        type: 'reading',
+        content: `## Supabase: el backend para founders
+
+Supabase es una alternativa open-source a Firebase. Te da Postgres, autenticación, storage de archivos y API en tiempo real — todo listo para usar sin configurar servidores.
+
+### Por qué Supabase
+
+- **Postgres real**: no un NoSQL simplificado — queries complejas, joins, índices
+- **Auth incluida**: email/password, magic links, OAuth (Google, GitHub) sin configurar nada
+- **API automática**: genera una REST API y cliente TypeScript de tu esquema de DB
+- **Dashboard visual**: crea tablas, ve datos, ejecuta SQL en el browser
+- **Free tier generoso**: 500MB de DB, 1GB storage, 50,000 MAU
+
+### Setup inicial
+
+\`\`\`bash
+# Instalar cliente Supabase
+npm install @supabase/supabase-js
+
+# Variables de entorno en .env.local
+NEXT_PUBLIC_SUPABASE_URL=https://tuproyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key
+\`\`\`
+
+\`\`\`typescript
+// lib/supabase.ts — cliente singleton
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
+\`\`\`
+
+### CRUD básico
+
+\`\`\`typescript
+// SELECT — obtener datos
+const { data: proyectos, error } = await supabase
+  .from('proyectos')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// SELECT con filtros
+const { data: destacados } = await supabase
+  .from('proyectos')
+  .select('id, titulo, url')
+  .eq('destacado', true)
+  .limit(6);
+
+// INSERT
+const { data, error } = await supabase
+  .from('proyectos')
+  .insert({
+    titulo: 'Mi proyecto',
+    descripcion: 'Descripción...',
+    destacado: false,
+  })
+  .select()
+  .single();
+
+// UPDATE
+const { error } = await supabase
+  .from('proyectos')
+  .update({ destacado: true })
+  .eq('id', proyectoId);
+
+// DELETE
+const { error } = await supabase
+  .from('proyectos')
+  .delete()
+  .eq('id', proyectoId);
+\`\`\`
+
+### Autenticación
+
+\`\`\`typescript
+// Registro
+const { data, error } = await supabase.auth.signUp({
+  email: 'usuario@email.com',
+  password: 'contraseña-segura',
+});
+
+// Login
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'usuario@email.com',
+  password: 'contraseña-segura',
+});
+
+// Sesión actual
+const { data: { user } } = await supabase.auth.getUser();
+
+// Logout
+await supabase.auth.signOut();
+
+// OAuth con Google
+const { error } = await supabase.auth.signInWithOAuth({
+  provider: 'google',
+});
+\`\`\`
+
+### Row Level Security (RLS)
+
+RLS es el sistema de permisos de Supabase. Cada fila en la DB puede tener reglas de quién puede leerla/modificarla.
+
+\`\`\`sql
+-- Solo el dueño puede ver sus proyectos
+CREATE POLICY "Usuarios ven sus proyectos"
+ON proyectos FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Solo el dueño puede insertar
+CREATE POLICY "Usuarios insertan sus proyectos"
+ON proyectos FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w4-l1b',
+        title: 'Mini-práctica: Conecta tu portfolio a Supabase',
+        type: 'practice',
+        tasks: [
+          'Crea un proyecto en supabase.com y una tabla "proyectos" con: id, titulo, descripcion, tecnologias (text[]), url, destacado, created_at',
+          'Instala @supabase/supabase-js y crea el cliente en lib/supabase.ts',
+          'Reemplaza los datos hardcodeados de tu portfolio por un fetch a Supabase en el Server Component',
+          'Habilita RLS en la tabla y crea una política SELECT pública (para que cualquiera pueda leer)',
+          'Agrega 3-5 proyectos reales desde el Dashboard de Supabase y verifica que aparecen en tu app',
+        ],
+        tip: 'Nunca uses la service_role key en el frontend — solo la anon key. La service_role bypasea RLS y daría acceso total a tu base de datos a cualquiera que inspeccione el código.',
+        completed: false,
+      },
+      {
+        id: 'w4-l2',
+        title: 'Deploy en Vercel: de localhost a producción',
+        type: 'reading',
+        content: `## Deploy en Vercel
+
+Vercel es la plataforma de deployment para Next.js — creada por el mismo equipo. Deploy en segundos, CDN global, previews automáticos por branch.
+
+### Vercel CLI
+
+\`\`\`bash
+# Instalar globalmente
+npm install -g vercel
+
+# Login
+vercel login
+
+# Deploy desde tu carpeta del proyecto
+vercel
+
+# Deploy a producción
+vercel --prod
+\`\`\`
+
+### Variables de entorno en Vercel
+
+Las variables de .env.local NO se suben a git. Debes configurarlas en Vercel:
+
+\`\`\`bash
+# Via CLI
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# O desde el dashboard: vercel.com → Project → Settings → Environment Variables
+\`\`\`
+
+### Conectar repositorio de GitHub
+
+1. Ir a vercel.com → "Add New Project"
+2. Conectar tu GitHub y seleccionar el repositorio
+3. Configurar variables de entorno
+4. Click "Deploy"
+
+Ahora **cada push a main despliega automáticamente**. Cada PR crea un preview URL.
+
+### vercel.json — configuración avanzada
+
+\`\`\`json
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/old-path",
+      "destination": "/new-path",
+      "permanent": true
+    }
+  ]
+}
+\`\`\`
+
+### Optimización antes de deploy
+
+\`\`\`bash
+# Build local para detectar errores antes de subir
+npm run build
+
+# Check:
+# ✅ Sin errores de TypeScript
+# ✅ Sin errores de build
+# ✅ Bundle sizes razonables (Vercel los muestra)
+# ✅ Variables de entorno configuradas en Vercel
+\`\`\`
+
+### Dominios custom
+
+\`\`\`bash
+# Agregar dominio desde CLI
+vercel domains add midominio.com
+
+# O desde el dashboard: Project → Settings → Domains
+\`\`\`
+
+Vercel maneja certificados SSL automáticamente. Tu sitio tiene HTTPS desde el primer deploy.
+
+### Analytics y Web Vitals
+
+En Vercel Pro (o con @vercel/analytics en el free tier):
+
+\`\`\`tsx
+// app/layout.tsx
+import { Analytics } from '@vercel/analytics/react';
+
+export default function Layout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  );
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'w4-l2b',
+        title: 'Mini-práctica: Tu portfolio en producción',
+        type: 'practice',
+        tasks: [
+          'Ejecuta npm run build localmente — debe pasar sin errores antes de continuar',
+          'Configura las variables de entorno de Supabase en vercel.com (no en el CLI)',
+          'Conecta tu repositorio de GitHub a Vercel y despliega',
+          'Verifica que los proyectos de Supabase cargan correctamente en la URL de producción',
+          'Agrega @vercel/analytics al proyecto y verifica que aparece en el dashboard de Vercel',
+          'Prueba el sitio en mobile desde tu celular real — no solo DevTools',
+        ],
+        tip: 'Si el build funciona en local pero falla en Vercel, el problema casi siempre son las variables de entorno. Verifica que están configuradas para el entorno correcto (Production, Preview, Development).',
+        completed: false,
+      },
+
+      {
+        id: 'web-exam',
+        title: 'Examen final: Desarrollo Web',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia entre un Server Component y un Client Component en Next.js App Router?',
+            options: [
+              'Los Server Components son más lentos porque se renderizan en el servidor',
+              'Los Server Components se renderizan en el servidor (sin JS en el cliente, pueden acceder a datos directamente); los Client Components se renderizan en el browser y pueden usar useState/eventos',
+              'Los Client Components son los que usan TypeScript; los Server Components usan JavaScript puro',
+              'No hay diferencia real, es solo una convención de nombres',
+            ],
+            correct: 1,
+            explanation: 'Server Components corren en el servidor: acceden a DB/APIs directamente, no envían JS al cliente, no pueden usar hooks ni event handlers. Client Components (marcados con "use client") corren en el browser: pueden usar useState, useEffect, onClick, etc. Por defecto en App Router, todos son Server Components.',
+          },
+          {
+            q: '¿Qué hace el hook useState en React y cuándo se vuelve a renderizar el componente?',
+            options: [
+              'useState guarda datos en localStorage; el componente se re-renderiza al recargar la página',
+              'useState guarda estado local del componente; el componente se re-renderiza cada vez que el estado cambia',
+              'useState conecta el componente a la base de datos; se re-renderiza cuando cambian los datos externos',
+              'useState es para variables globales; se re-renderiza cuando cualquier componente de la app cambia',
+            ],
+            correct: 1,
+            explanation: 'useState retorna [valor, setter]. Cuando llamas al setter, React re-renderiza el componente con el nuevo valor. El estado es local al componente — no se comparte automáticamente con otros componentes. Para estado global, necesitas Context API, Zustand u otra solución.',
+          },
+          {
+            q: '¿Qué hace el operador spread (...) en este código: const nuevo = { ...usuario, rol: "admin" }?',
+            options: [
+              'Elimina todas las propiedades de usuario y solo deja rol: "admin"',
+              'Crea un nuevo objeto con todas las propiedades de usuario, y agrega/sobreescribe rol con "admin"',
+              'Combina usuario con otro objeto llamado admin',
+              'Genera un error porque no se puede usar spread con objetos',
+            ],
+            correct: 1,
+            explanation: 'El spread operator (...) copia todas las propiedades enumerables del objeto original al nuevo objeto. Si ya existe la propiedad, se sobreescribe con el valor nuevo. Es el patrón estándar para crear copias inmutables de objetos con modificaciones en React y TypeScript.',
+          },
+          {
+            q: '¿Cuál es la diferencia entre async/await y .then()/.catch() en JavaScript?',
+            options: [
+              'async/await es más rápido en ejecución porque no usa Promises',
+              'async/await es sintaxis más legible que produce el mismo comportamiento asíncrono que .then()/.catch()',
+              '.then() es moderno; async/await es la versión legacy',
+              'async/await solo funciona en Node.js; .then() funciona en el browser',
+            ],
+            correct: 1,
+            explanation: 'async/await es "syntactic sugar" sobre Promises — internamente hace lo mismo que .then()/.catch() pero con código que se lee de forma secuencial (más fácil de entender y debuggear). Ambos son válidos; async/await es el estándar moderno preferido.',
+          },
+          {
+            q: '¿Qué significa TypeScript strict mode y cuál es su beneficio principal?',
+            options: [
+              'Hace que el código TypeScript sea más estricto en el formato (indentación, comillas)',
+              'Activa verificaciones adicionales como strictNullChecks y noImplicitAny, detectando más errores en tiempo de compilación',
+              'Impide usar JavaScript puro dentro de archivos TypeScript',
+              'Hace que el build sea más lento para garantizar mayor calidad',
+            ],
+            correct: 1,
+            explanation: 'strict mode activa varias flags: strictNullChecks (null/undefined no son asignables a otros tipos), noImplicitAny (no puedes dejar variables sin tipo implícito), strictFunctionTypes, y más. El beneficio: errores que antes llegarían a producción se detectan en desarrollo.',
+          },
+          {
+            q: '¿Cuándo deberías usar CSS Grid en lugar de Flexbox?',
+            options: [
+              'Grid para layouts de una dimensión (fila O columna); Flexbox para dos dimensiones',
+              'Flexbox para layouts de una dimensión; Grid para layouts de dos dimensiones (filas Y columnas)',
+              'Grid es obsoleto — siempre usa Flexbox',
+              'Flexbox es para mobile; Grid es solo para desktop',
+            ],
+            correct: 1,
+            explanation: 'Flexbox es ideal para layouts en una dirección (nav, cards en fila, centrar un elemento). Grid brilla en layouts bidimensionales (el layout completo de la página, galería de fotos, dashboard). En la práctica se complementan: Grid para la macro-estructura, Flexbox para componentes internos.',
+          },
+          {
+            q: '¿Qué hace este código de Supabase: .eq("destacado", true).limit(6)?',
+            options: [
+              'Elimina 6 registros donde destacado sea true',
+              'Selecciona todos los registros y filtra los primeros 6 en el frontend',
+              'Filtra filas donde destacado = true en la base de datos y retorna máximo 6 resultados',
+              'Actualiza 6 registros para que destacado sea true',
+            ],
+            correct: 2,
+            explanation: '.eq() aplica un filtro WHERE en la query SQL (WHERE destacado = true). .limit(6) limita el resultado a 6 filas. Todo esto se ejecuta en el servidor de Supabase/Postgres — no en el cliente. Es equivalente a: SELECT * FROM tabla WHERE destacado = true LIMIT 6.',
+          },
+          {
+            q: '¿Qué problema resuelve box-sizing: border-box y por qué es el estándar actual?',
+            options: [
+              'Hace que todos los elementos tengan el mismo tamaño sin importar su contenido',
+              'Incluye padding y border en el width declarado, evitando que los elementos se hagan más grandes de lo esperado',
+              'Elimina los márgenes entre elementos para un layout más limpio',
+              'Hace que el box model use unidades relativas (rem) en lugar de píxeles',
+            ],
+            correct: 1,
+            explanation: 'Sin border-box, un div de width:300px con padding:20px termina midiendo 340px (300 + 20×2). Con border-box, el padding se incluye dentro del width declarado: el div sigue midiendo 300px. Es el comportamiento más intuitivo y se aplica universalmente con *, *::before, *::after { box-sizing: border-box }.',
+          },
+        ],
+        completed: false,
+      },
+    
+    {
+      id: 'web-4-p1',
+      title: 'Proyecto: App full-stack con autenticación',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye una aplicación web full-stack con Next.js + Supabase que incluya autenticación, CRUD completo de recursos, y deploy en producción. Elige el dominio: gestor de tareas, blog, o directorio de recursos.',
+      deliverables: [
+        'Repositorio público en GitHub',
+        'URL en producción (Vercel u otro)',
+        'Autenticación funcional (email o OAuth)',
+        'CRUD completo con validación',
+        'README con instrucciones de setup',
+      ],
+      rubrica: [
+        'Autenticación segura, sin exponer claves',
+        'UI responsive y funcional',
+        'Código organizado por componentes/módulos',
+        'Deploy estable en producción',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'Supabase Docs — Getting Started',
+        url: 'https://supabase.com/docs/guides/getting-started',
+        type: 'documentation',
+      },
+      {
+        title: 'Vercel Docs — Deploying Next.js',
+        url: 'https://vercel.com/docs/frameworks/nextjs',
+        type: 'documentation',
+      },
+      {
+        title: 'Supabase + Next.js — Tutorial oficial',
+        url: 'https://supabase.com/docs/guides/getting-started/quickstarts/nextjs',
+        type: 'course',
+      },
+    ],
+  },
+
+  // ─── Track: Branding e Identidad Visual ──────────────────────────────────────
+
+  {
+    id: 'branding-1',
+    number: 16,
+    title: 'Estrategia de Marca: el porqué antes del cómo',
+    description: 'Aprende a definir el posicionamiento, propósito y personalidad de una marca antes de diseñar un solo pixel.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b1-l1',
+        title: 'Qué es una marca y por qué no es un logo',
+        type: 'reading',
+        content: `## La marca no es el logo
+
+El error más común: confundir la identidad visual con la marca. El logo es la punta del iceberg. La marca es todo lo que hay debajo.
+
+### La definición correcta
+
+**Una marca es la percepción que tiene una persona sobre un producto, servicio o empresa.**
+
+No es lo que tú dices que eres. Es lo que ellos *sienten* que eres.
+
+Jeff Bezos lo dijo mejor: *"Tu marca es lo que la gente dice de ti cuando no estás en la habitación."*
+
+### Los tres niveles de una marca
+
+**1. Identidad de marca** (lo que TÚ controlas)
+- Propósito, valores, misión
+- Voz y tono de comunicación
+- Identidad visual (logo, colores, tipografía)
+- Experiencia del producto o servicio
+
+**2. Imagen de marca** (lo que el MERCADO percibe)
+- Posicionamiento mental en la cabeza del cliente
+- Asociaciones emocionales
+- Reputación construida con el tiempo
+
+**3. Capital de marca** (el VALOR que genera)
+- Cuánto más pagas por Apple que por un genérico con las mismas specs
+- La razón por la que un cliente elige tu agencia sobre otra más barata
+
+### El error de empezar por el logo
+
+Muchas empresas contratan a un diseñador en la primera semana. El resultado: un logo bonito que no comunica nada de lo que la empresa realmente es.
+
+El proceso correcto es estrategia primero:
+1. ¿Para quién existimos? (audiencia)
+2. ¿Qué problema resolvemos? (propósito)
+3. ¿Por qué nos elegirían a nosotros? (diferenciación)
+4. ¿Cómo queremos que nos perciban? (posicionamiento)
+5. ¿Cuál es nuestra personalidad? (tono)
+6. **Solo entonces**: ¿cómo se ve todo eso visualmente?
+
+### Marcas que lo hacen bien
+
+**Apple**: Creatividad, rebeldía, diseño. El logo es una manzana mordida. No dice nada de computadoras. Pero la marca dice todo.
+
+**Nike**: Rendimiento, aspiración, superación. "Just Do It" no menciona tenis. La marca es una filosofía.
+
+**AlphaDev Studios**: Tecnología deseable, software con IA adentro, premium sin ser inalcanzable. La identidad visual (crema + dorado + serif) debe *sentirse* como eso.`,
+        completed: false,
+      },
+      {
+        id: 'b1-l1b',
+        title: 'Mini-práctica: Auditoría de marca de un competidor',
+        type: 'practice',
+        tasks: [
+          'Elige una agencia digital o estudio de diseño que admires (o que compita con AlphaDev)',
+          'Responde por escrito: ¿Cuál es su propósito aparente? ¿A quién le hablan? ¿Qué emoción genera?',
+          'Identifica: ¿su identidad visual (logo, colores, tipografía) refleja ese propósito?',
+          'Señala 2 cosas que hacen muy bien y 1 cosa que podrías hacer mejor',
+          'Escribe en 2 oraciones cómo se diferencia de AlphaDev Studios',
+        ],
+        tip: 'No busques competidores que se vean "iguales" a AlphaDev. Busca los que más admiras aunque sean diferentes — aprenderás más de los mejores que de los similares.',
+        completed: false,
+      },
+      {
+        id: 'b1-l2',
+        title: 'Posicionamiento y propuesta de valor única',
+        type: 'reading',
+        content: `## Posicionamiento: la posición que ocupas en la mente del cliente
+
+El posicionamiento no es lo que haces con tu producto. Es lo que haces con la mente de tu prospecto.
+
+### La fórmula del posicionamiento
+
+**Para [audiencia] que [problema/necesidad], [nombre de marca] es la [categoría] que [beneficio único] porque [razón creíble].**
+
+Ejemplo para AlphaDev Studios:
+> Para founders de startups que necesitan software en producción rápido, AlphaDev Studios es la agencia técnica que entrega en semanas (no meses) porque integra IA desde el día uno y trabaja con stack moderno sin overhead corporativo.
+
+### Diferenciación: los 4 ejes
+
+No puedes ser el mejor en todo. Elige tu eje de diferenciación:
+
+**1. Liderazgo de precio** — el más barato. (No recomendado para agencias premium)
+
+**2. Liderazgo de producto** — el mejor técnicamente. AlphaDev compite aquí.
+- Stack moderno, IA integrada, delivery rápido
+
+**3. Intimidad con el cliente** — el que más conoce y cuida al cliente.
+- Startups early-stage, trato directo con el founder, sin intermediarios
+
+**4. Operacional** — el más eficiente y confiable.
+- Módulos reutilizables, procesos probados, cero sorpresas
+
+### El mapa de posicionamiento
+
+Dibuja dos ejes relevantes para tu industria. Por ejemplo:
+- Eje X: velocidad (lento → rápido)
+- Eje Y: precio (económico → premium)
+
+Ubica a tus competidores y busca el espacio vacío. Ahí está tu oportunidad.
+
+### Por qué el nicho gana
+
+La trampa: "queremos servir a todos los negocios que necesiten un sitio web".
+
+La realidad: cuando intentas hablarle a todos, no le hablas a nadie.
+
+AlphaDev Studios le habla a **founders que pagan en USD, construyen productos digitales, y valoran velocidad sobre precio**. Ese nicho específico permite:
+- Mensajes que resuenen (hablas su idioma)
+- Precios premium (son el cliente correcto)
+- Referidos de calidad (se conocen entre ellos)`,
+        completed: false,
+      },
+      {
+        id: 'b1-l2b',
+        title: 'Mini-práctica: Define el posicionamiento de una marca',
+        type: 'practice',
+        tasks: [
+          'Elige un negocio real o ficticio que quieras brandear (puede ser tu agencia, un cliente pasado, o un concepto)',
+          'Escribe la fórmula de posicionamiento completa: "Para [audiencia] que [problema]..."',
+          'Dibuja (en papel o Figma) un mapa de posicionamiento con 2 ejes relevantes e identifica dónde está la oportunidad',
+          'Lista 3 competidores directos y explica en 1 oración por qué tu marca es diferente',
+          'Define el nicho primario: demografía + psicografía + pain point específico',
+        ],
+        tip: 'Si tu posicionamiento aplica a cualquier negocio de tu categoría, no es un posicionamiento — es una descripción genérica. Sé específico hasta que suene casi excluyente.',
+        completed: false,
+      },
+      {
+        id: 'b1-l3',
+        title: 'Personalidad de marca y arquetipos',
+        type: 'reading',
+        content: `## Personalidad de marca: la humanización del negocio
+
+Las marcas con personalidad clara generan relaciones emocionales. Las marcas sin personalidad son commodities.
+
+### Los 12 arquetipos de marca (Jung aplicado al branding)
+
+Carl Jung identificó 12 arquetipos universales que las personas reconocen instintivamente. Las marcas los usan para crear conexión emocional:
+
+| Arquetipo | Deseo central | Marcas ejemplo |
+|-----------|---------------|----------------|
+| **El Héroe** | Dominar el mundo | Nike, FedEx |
+| **El Forajido** | Romper las reglas | Harley-Davidson, Red Bull |
+| **El Mago** | Hacer realidad los sueños | Apple, Disney |
+| **El Sabio** | Conocer la verdad | Google, TED |
+| **El Explorador** | Vivir aventuras auténticas | Jeep, GoPro |
+| **El Inocente** | Ser feliz | Coca-Cola, Dove |
+| **El Gobernante** | Control y poder | Rolex, Mercedes |
+| **El Cuidador** | Proteger y servir | Johnson & Johnson |
+| **El Creador** | Crear algo nuevo | LEGO, Adobe |
+| **El Bufón** | Pasarlo bien | M&Ms, Dollar Shave Club |
+| **El Amante** | Intimidad y conexión | Victoria's Secret |
+| **El Hombre Corriente** | Pertenecer | IKEA, Target |
+
+### AlphaDev Studios: mezcla de arquetipos
+
+- **Primario: El Mago** — convertimos ideas complejas en software funcional en semanas, como por arte de magia
+- **Secundario: El Creador** — construimos desde cero, código limpio, diseño propio, nada de templates
+
+### Rasgos de personalidad de marca
+
+Define 4-6 adjetivos que describan cómo *hablaría* tu marca si fuera una persona:
+
+AlphaDev Studios:
+- **Confiada** (no arrogante) — sabe lo que hace, lo demuestra
+- **Directa** — no da vueltas, dice qué construye y cuánto tarda
+- **Técnica pero accesible** — un founder no-técnico entiende todo
+- **Sofisticada** — premium sin ser fría
+
+### Cómo usar los rasgos en la práctica
+
+Cada pieza de comunicación pasa por el filtro:
+1. ¿Esto suena confiado o inseguro?
+2. ¿Esto es directo o ambiguo?
+3. ¿Esto es técnico pero accesible?
+4. ¿Esto se siente premium?
+
+Si falla alguno, reescribir.`,
+        completed: false,
+      },
+      {
+        id: 'b1-l3b',
+        title: 'Mini-práctica: Define la personalidad de tu marca',
+        type: 'practice',
+        tasks: [
+          'Identifica el arquetipo primario y secundario de la marca que estás desarrollando',
+          'Define 5 rasgos de personalidad (adjetivos) que la describan — no genéricos como "profesional"',
+          'Escribe 3 versiones de un mismo mensaje (la propuesta de valor) en diferentes tonos: formal, conversacional, atrevido',
+          'Elige la versión que más se alinea con la personalidad definida y explica por qué',
+          'Escribe una guía de "Hablamos así / No hablamos así" con 5 ejemplos de cada uno',
+        ],
+        tip: 'El tono no es solo "formal vs informal". Es la suma de: vocabulario elegido, longitud de oraciones, uso del humor, nivel de tecnicismo, grado de calidez. Puedes ser informal Y sofisticado a la vez.',
+        completed: false,
+      },
+          {
+        id: 'branding-1-proj-basico',
+        title: 'Proyecto Básico: Moodboard y brief de marca',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Crea el moodboard visual y el brief estratégico de una marca nueva.',
+        deliverables: [
+          'Brief de marca (1 página): nombre, industria, propuesta de valor, público, 5 adjetivos de personalidad y posicionamiento vs. 2 competidores',
+          'Moodboard en Figma: 15-20 referencias visuales con anotaciones sobre qué es relevante de cada imagen',
+          '2-3 opciones de paleta de color exploratoria con justificación',
+        ],
+        tip: 'El moodboard no es un Pinterest bonito — es una herramienta de alineación. Cada imagen debe tener una razón específica de estar ahí.',
+        completed: false,
+      },
+      {
+        id: 'branding-1-proj-inter',
+        title: 'Proyecto Intermedio: Naming y propuesta de valor',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Genera 10 opciones de nombre para la marca del brief anterior, evalúalos y desarrolla la propuesta de valor del ganador.',
+        deliverables: [
+          '10 opciones de nombre con categoría (descriptivo, abstracto, compuesto, neologismo) y disponibilidad de dominio verificada',
+          'Matriz de evaluación: memorabilidad, pronunciabilidad, originalidad, disponibilidad y fit con la marca (1-5 cada uno)',
+          'Nombre ganador con justificación de 200 palabras',
+          'Propuesta de valor: tagline, mensajes clave por audiencia y tono de voz en 3 ejemplos de copy',
+        ],
+        tip: 'Verifica la disponibilidad del dominio y la marca registrada antes de enamorarte de un nombre.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Marty Neumeier — The Brand Gap (PDF)',
+        url: 'https://www.amazon.com/Brand-Gap-Distance-Business-Strategy/dp/0321348109',
+        type: 'article',
+      },
+      {
+        title: 'Brand Archetypes — Guide completa',
+        url: 'https://www.columnfivemedia.com/brand-archetypes',
+        type: 'article',
+      },
+      {
+        title: 'Positioning: The Battle for Your Mind — Al Ries & Jack Trout',
+        url: 'https://www.amazon.com/Positioning-Battle-Your-Mind-Anniversary/dp/0071373586',
+        type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'branding-2',
+    number: 17,
+    title: 'Sistema de Identidad Visual',
+    description: 'Crea el sistema visual completo: logo, paleta de colores, tipografía, iconografía y los principios que los gobiernan.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b2-l1',
+        title: 'Logo: diseño, variantes y lo que jamás se debe hacer',
+        type: 'reading',
+        content: `## El logo: símbolo, no decoración
+
+Un logo efectivo no es el más bonito — es el más funcional. Debe trabajar en cualquier tamaño, sobre cualquier fondo, en cualquier contexto.
+
+### Tipos de logos
+
+**1. Wordmark** — solo el nombre tipografiado (Google, FedEx, Coca-Cola)
+- Ventaja: refuerza el nombre de la marca
+- Mejor cuando: el nombre es corto y memorable
+
+**2. Lettermark** — iniciales (IBM, HBO, NASA)
+- Ventaja: muy compacto, fácil de recordar
+- Mejor cuando: el nombre es largo
+
+**3. Pictograma** — solo símbolo (Apple , Twitter/X, Nike ✓)
+- Ventaja: reconocible globalmente
+- Requiere: mucho tiempo de exposición para funcionar sin el nombre
+
+**4. Logo combinado** — símbolo + wordmark (Adidas, Mastercard)
+- El más versátil para marcas nuevas
+
+**5. Emblem** — texto dentro del símbolo (Starbucks, Harley-Davidson)
+- Funciona en contextos específicos, difícil de usar a pequeña escala
+
+### Principios de un buen logo
+
+**Simple** — funciona a 16px (favicon) y a 10 metros (cartel)
+**Memorable** — reconocible después de 1 segundo de exposición
+**Versátil** — funciona en blanco/negro, invertido, en color
+**Atemporal** — evita trends de diseño que envejecerán mal
+**Apropiado** — comunica lo que la marca es
+
+### Variantes del sistema de logo
+
+Un sistema de logo completo incluye:
+- **Versión primaria** (color completo, horizontal)
+- **Versión compacta** (solo símbolo o initials)
+- **Versión negativa** (blanco sobre fondo oscuro)
+- **Versión monocromática** (un solo color)
+- **Clear space** (espacio mínimo alrededor del logo)
+- **Tamaño mínimo** (en px para digital, en mm para impresión)
+
+### Errores clásicos (zona de no hacer)
+
+\`\`\`
+❌ Deformar proporciones del logo
+❌ Usar colores no autorizados
+❌ Agregar efectos (sombras, degradados no aprobados)
+❌ Colocar sobre fondos que no tengan suficiente contraste
+❌ Usar la versión equivocada en el contexto equivocado
+❌ Modificar la tipografía del wordmark
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'b2-l1b',
+        title: 'Mini-práctica: Diseña el sistema de logo en Figma',
+        type: 'practice',
+        tasks: [
+          'En Figma, crea un frame "Logo System" para la marca que estás desarrollando',
+          'Diseña o importa el logo primario y crea las 4 variantes: color, monocromático, negativo, compacto',
+          'Define el clear space con una guía visual (normalmente = la altura de la "x" del wordmark)',
+          'Crea ejemplos de uso correcto e incorrecto (✅ y ❌) en un frame de "Do\'s and Don\'ts"',
+          'Exporta todas las variantes en SVG y PNG (2x) y organízalos en carpetas por formato',
+        ],
+        tip: 'Prueba tu logo en escala real: ponlo en un mock de tarjeta de presentación, en una foto de laptop, y en 32x32 como favicon. Si en alguno no funciona, el logo necesita ajustes.',
+        completed: false,
+      },
+      {
+        id: 'b2-l2',
+        title: 'Paleta de colores: psicología, combinaciones y reglas de uso',
+        type: 'reading',
+        content: `## Paleta de colores: el lenguaje emocional de la marca
+
+Los colores comunican antes de que el usuario lea una palabra. No es magia — es psicología y convención cultural.
+
+### Psicología del color (contexto occidental)
+
+| Color | Asociaciones | Marcas |
+|-------|-------------|--------|
+| Azul | Confianza, tecnología, calma | Facebook, IBM, PayPal |
+| Rojo | Urgencia, energía, pasión | Coca-Cola, Netflix, YouTube |
+| Verde | Naturaleza, salud, crecimiento | Spotify, WhatsApp, Starbucks |
+| Negro | Lujo, sofisticación, poder | Chanel, Apple, Nike |
+| Blanco | Limpieza, minimalismo, pureza | Apple, Tesla, Zara |
+| Dorado | Premium, éxito, exclusividad | Rolex, MasterCard, AlphaDev |
+| Crema/Beige | Calidez, artesanal, elegante | Louis Vuitton, editorial luxury |
+
+### Estructura de una paleta profesional
+
+Una paleta bien construida tiene 4 niveles:
+
+**Primarios** (1-2 colores) — los más usados, definen la marca
+**Secundarios** (2-3 colores) — complementan, para variedad
+**Neutros** (3-5 colores) — fondos, textos, separadores
+**Semánticos** — éxito (verde), error (rojo), advertencia (amarillo)
+
+### Herramientas para crear paletas
+
+- **Coolors.co** — generador aleatorio, bloquea los que te gustan
+- **Paletton.com** — basado en teoría del color (complementarios, triádicos)
+- **Adobe Color** — extrae paleta de una imagen de referencia
+- **Realtime Colors** — preview en tiempo real en un sitio web
+
+### Regla 60-30-10
+
+- **60%** — color dominante (fondo principal)
+- **30%** — color secundario (headers, secciones)
+- **10%** — color de acento (CTAs, links, detalles importantes)
+
+Para AlphaDev:
+- 60%: crema \`#FAFAF7\`
+- 30%: crema oscura \`#F2EEE7\`
+- 10%: dorado \`#9A7235\`
+
+### Documentación de la paleta
+
+Cada color debe documentarse con:
+- Nombre (propio, no "Color 1")
+- Hex (#9A7235)
+- RGB (154, 114, 53)
+- HSL para CSS (38°, 49%, 41%)
+- Uso específico ("Solo CTAs, links y acentos puntuales — NO fondos grandes")`,
+        completed: false,
+      },
+      {
+        id: 'b2-l2b',
+        title: 'Mini-práctica: Construye y documenta tu paleta completa',
+        type: 'practice',
+        tasks: [
+          'Crea la paleta completa de tu marca: 2 primarios, 2-3 secundarios, 4 neutros, 3 semánticos',
+          'Documenta cada color en un frame de Figma: nombre propio, hex, uso específico',
+          'Verifica el contraste de todas las combinaciones texto/fondo en contrast-ratio.com',
+          'Aplica la regla 60-30-10 a un mockup de una sola página (puede ser simple)',
+          'Exporta la paleta como variables CSS (:root con custom properties)',
+        ],
+        tip: 'Dale nombres descriptivos a tus colores, no técnicos. "Dorado Premium" es mejor que "#9A7235" y "Crema Base" mejor que "Background Primary". Los nombres ayudan a todo el equipo a recordar cuándo usar cada uno.',
+        completed: false,
+      },
+      {
+        id: 'b2-l3',
+        title: 'Tipografía de marca: jerarquía, pares y uso sistemático',
+        type: 'reading',
+        content: `## Tipografía de marca
+
+La tipografía es responsable de hasta el 95% de la comunicación en diseño web. Elegir bien es la diferencia entre una marca que se lee profesional y una que se lee genérica.
+
+### Categorías tipográficas y su personalidad
+
+**Serif** (con remates — Times, Playfair, Garamond)
+→ Autoridad, tradición, editorial, lujo, confianza
+→ Usada por: New York Times, Vogue, muchas consultoras premium
+
+**Sans-serif** (sin remates — Inter, Helvetica, Futura)
+→ Modernidad, claridad, tecnología, accesibilidad
+→ Usada por: Google, Apple, Airbnb, startups tech
+
+**Display / Script** (decorativas, caligráficas)
+→ Creatividad, personalidad, artesanal
+→ Solo para headlines, NUNCA para body text
+
+**Monospace** (código — JetBrains Mono, Fira Code)
+→ Técnica, código, terminal, precisión
+→ Usada en contextos técnicos o como acento de personalidad tech
+
+### Combinación de tipografías
+
+La regla de oro: **máximo 2-3 tipografías por sistema**
+
+**Combinación clásica** (AlphaDev Studios):
+- Display/Headline: Playfair Display (serif, elegante)
+- Body/UI: Inter (sans-serif, neutro y legible)
+
+**Combinación tech moderna**:
+- Headline: Plus Jakarta Sans Bold
+- Body: Inter Regular
+
+**Combinación editorial**:
+- Headline: Fraunces o Cormorant Garamond
+- Body: Libre Franklin
+
+### La escala tipográfica
+
+Usa una escala matemática consistente. La escala "Mayor Third" (1.25x):
+
+\`\`\`
+xs:    12px
+sm:    14px
+base:  16px   ← punto de partida
+lg:    20px   (16 × 1.25)
+xl:    25px
+2xl:   31px
+3xl:   39px
+4xl:   49px
+\`\`\`
+
+O usa clamp() para tipografía fluida:
+\`\`\`css
+h1 { font-size: clamp(2rem, 5vw, 4rem); }
+\`\`\`
+
+### Documentación tipográfica
+
+Para cada nivel de la jerarquía documenta:
+- Familia, peso, tamaño
+- Line-height, letter-spacing
+- Color y uso
+- Ejemplo de texto real`,
+        completed: false,
+      },
+      {
+        id: 'b2-l3b',
+        title: 'Mini-práctica: Sistema tipográfico completo en Figma',
+        type: 'practice',
+        tasks: [
+          'Define el par tipográfico de tu marca (máximo 2 familias) con justificación escrita',
+          'Crea un frame de Figma con la escala tipográfica completa: Display, H1, H2, H3, Body, Caption, Label',
+          'Para cada nivel: muestra el texto en contexto real (no solo "Heading Level 1")',
+          'Define text styles en Figma (Design → Text styles) para todos los niveles',
+          'Exporta los text styles como variables CSS para usar en código',
+        ],
+        tip: 'Diseña la tipografía con texto real de tu marca, no Lorem Ipsum. "Construimos software con IA dentro" te dirá más sobre cómo funciona el heading que "Lorem ipsum dolor sit amet".',
+        completed: false,
+      },
+          {
+        id: 'branding-2-proj-pro',
+        title: 'Proyecto Profesional: Brandbook completo',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Diseña el sistema de identidad visual completo para la marca que has desarrollado. El entregable es el brandbook que entregarías a un cliente real.',
+        deliverables: [
+          'Logo: versión principal, compacta, monocromática y sobre fondo oscuro',
+          'Sistema de color: paleta completa con nombre, hex/RGB/CMYK y guía de uso',
+          'Sistema tipográfico: fuente(s), escala completa y combinaciones permitidas',
+          'Elementos gráficos: patterns o iconografía complementaria',
+          'Mínimo 4 aplicaciones de marca en mockups reales',
+          'Guía de uso: lo que NO hacer (zona de exclusión, colores prohibidos, tipografías no permitidas)',
+          'Archivo: Figma o PDF de mínimo 20 páginas organizado y navegable',
+        ],
+        rubrica: [
+          'El logo funciona en todos los tamaños y contextos',
+          'La paleta cumple WCAG AA de contraste',
+          'Las aplicaciones son coherentes entre sí',
+          'La guía permite aplicar la identidad sin consultar al diseñador',
+        ],
+        tip: 'El brandbook más valioso es el más claro, no el más bello. Un cliente que aplica la identidad sin llamarte es el objetivo.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Google Fonts — Herramienta de emparejamiento',
+        url: 'https://fonts.google.com/knowledge/choosing_type/pairing_typefaces',
+        type: 'article',
+      },
+      {
+        title: 'Realtime Colors — Preview de paletas en vivo',
+        url: 'https://www.realtimecolors.com',
+        type: 'tool',
+      },
+      {
+        title: 'Type Scale — Generador de escalas tipográficas',
+        url: 'https://typescale.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'branding-3',
+    number: 18,
+    title: 'Brand Guidelines y Aplicaciones de Marca',
+    description: 'Consolida todo el sistema en un Brand Book profesional y aplica la identidad a touchpoints reales: web, social, documentos.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'b3-l1',
+        title: 'Brand Voice: tono, mensajes clave y guía de comunicación',
+        type: 'reading',
+        content: `## Brand Voice: la voz de la marca
+
+La identidad visual se ve. La brand voice se escucha. Ambas deben contar la misma historia.
+
+### Voz vs Tono
+
+**Voz** — constante, es la personalidad de la marca
+→ AlphaDev siempre es: confiada, directa, técnica pero accesible
+
+**Tono** — variable, cambia según el contexto
+→ AlphaDev en una propuesta: formal y precisa
+→ AlphaDev en Instagram: más cercana y directa
+→ AlphaDev en un error 404: puede tener humor
+
+### Los 4 ejes del tono (Nielsen Norman Group)
+
+1. **Formal ↔ Casual**
+2. **Serio ↔ Divertido**
+3. **Deferente ↔ Irreverente**
+4. **Entusiasta ↔ Melancólico**
+
+Define dónde está tu marca en cada eje. Esto guía toda la comunicación.
+
+### Mensajes clave (Key Messages)
+
+Son las ideas que tu marca debe comunicar en TODA pieza de contenido, sin importar el formato:
+
+Para AlphaDev Studios:
+1. **Velocidad sin comprometer calidad** — "en semanas, no meses"
+2. **IA integrada desde el día uno** — no como add-on, como fundamento
+3. **Stack moderno** — Next.js, Supabase, TypeScript — sin legacy
+4. **Founder a founder** — trato directo, sin capas de management
+
+Cada blog post, cada email, cada propuesta debe reforzar al menos uno de estos mensajes.
+
+### Guía de estilo editorial
+
+**Palabras SÍ**:
+- En producción, semanas, stack moderno, integrado, modular, founders, startup, entregamos, construimos
+
+**Palabras NO**:
+- Soluciones innovadoras, transformación digital, sinergia, equipo dedicado, a medida
+
+**Reglas de escritura**:
+- Oraciones cortas. Un punto, una idea.
+- Voz activa: "Construimos software" no "El software es construido por nosotros"
+- Datos concretos: "3 semanas" no "entrega rápida"
+- Sin jerga interna que el cliente no entienda
+
+### Copy para diferentes canales
+
+**Web/Landing page**: persuasivo, orientado al beneficio, claridad máxima
+**Email**: personal, directo, una sola acción por email
+**Social (LinkedIn)**: autoridad, insight, no autopromoción pura
+**Social (Instagram)**: más visual, proceso, behind-the-scenes
+**Propuestas**: técnica + comercial, beneficios claros, timeline definido`,
+        completed: false,
+      },
+      {
+        id: 'b3-l1b',
+        title: 'Mini-práctica: Escribe la guía de voz de tu marca',
+        type: 'practice',
+        tasks: [
+          'Define los 4 ejes de tono de tu marca (marca con X en cada eje) con 1 oración de justificación',
+          'Escribe 5 mensajes clave que la marca debe comunicar siempre — concretos, no genéricos',
+          'Crea una tabla "Hablamos así / No hablamos así" con 10 ejemplos de cada columna',
+          'Reescribe un texto existente de tu marca (o de un competidor) aplicando la guía de voz definida',
+          'Escribe la misma propuesta de valor en 3 formatos: tweet (280 chars), email (150 palabras), home headline (8 palabras)',
+        ],
+        tip: 'El test del tono: si pones el texto junto a comunicaciones de 5 competidores y no puedes identificar cuál es el tuyo, el tono no es lo suficientemente distintivo. Apunta a que sea inconfundiblemente tuyo.',
+        completed: false,
+      },
+      {
+        id: 'b3-l2',
+        title: 'El Brand Book: cómo documentar el sistema completo',
+        type: 'reading',
+        content: `## El Brand Book o Brand Guidelines
+
+Un Brand Book es el manual de instrucciones de una marca. Garantiza que cualquier persona — diseñador, redactor, socio — pueda producir comunicaciones coherentes sin preguntar cada vez.
+
+### Por qué existe
+
+Sin Brand Book:
+- Cada pieza de comunicación se ve diferente
+- Los freelancers usan el logo mal
+- Los colores varían entre el sitio web y los posts
+- La voz cambia según quién escriba
+
+Con Brand Book:
+- Consistencia en todos los touchpoints
+- Onboarding de nuevos colaboradores en horas, no semanas
+- La marca se mantiene coherente al escalar
+
+### Estructura de un Brand Book profesional
+
+**Sección 1: Fundamentos de marca**
+- Historia y propósito
+- Misión, visión, valores
+- Propuesta de valor y diferenciación
+- Audiencia objetivo
+
+**Sección 2: Identidad visual**
+- Sistema de logo (uso correcto e incorrecto)
+- Paleta de colores (todos los valores, usos, restricciones)
+- Tipografía (familias, escala, espaciado)
+- Iconografía (estilo, tamaños, uso)
+- Fotografía/Ilustración (estilo visual, qué sí, qué no)
+- Patrones y texturas (si aplica)
+
+**Sección 3: Brand Voice**
+- Personalidad y arquetipos
+- Tono de voz por canal
+- Mensajes clave
+- Vocabulario permitido y prohibido
+- Ejemplos de copy
+
+**Sección 4: Aplicaciones**
+- Tarjeta de presentación
+- Membrete / documentos
+- Firma de email
+- Perfil de redes sociales
+- Templates de presentación
+
+### Herramientas para crear Brand Books
+
+- **Figma** — el estándar actual. Permite links directos a componentes vivos.
+- **Notion** — para la parte editorial (voz, mensajes, estrategia)
+- **Zeroheight** — conecta Figma con documentación web interactiva
+- **Canva** — opción accesible para marcas más pequeñas
+
+### El Brand Book vivo vs el PDF estático
+
+El PDF se desactualiza. El Brand Book vivo en Figma o Zeroheight se actualiza cuando cambia la marca y todos ven la versión más reciente.
+
+Para AlphaDev Studios: Figma + Notion es la combinación ideal.`,
+        completed: false,
+      },
+      {
+        id: 'b3-l2b',
+        title: 'Mini-práctica: Crea el Brand Book de tu marca en Figma',
+        type: 'practice',
+        tasks: [
+          'Crea un documento Figma "Brand Book" con todas las secciones: Fundamentos, Visual, Voice, Aplicaciones',
+          'Incluye al menos: sistema de logo completo, paleta documentada, escala tipográfica, guía de voz',
+          'Agrega mockups de al menos 2 aplicaciones reales: perfil de Instagram + un post, tarjeta de presentación',
+          'Crea 3 slides de una presentación usando el sistema visual completo',
+          'Comparte el archivo con permisos de "view" y verifica que se ve correctamente en el link',
+        ],
+        tip: 'Un Brand Book de 20 páginas bien ejecutado vale más que uno de 80 páginas lleno de relleno. Incluye solo lo que alguien necesitaría para crear una pieza de comunicación coherente. Si no es necesario para ese propósito, no está.',
+        completed: false,
+      },
+
+      {
+        id: 'branding-exam',
+        title: 'Examen final: Branding e Identidad Visual',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia entre la "identidad de marca" y la "imagen de marca"?',
+            options: [
+              'Son sinónimos — ambos se refieren al logo y los colores',
+              'Identidad es lo que tú controlas (propósito, visual, voz); imagen es lo que el mercado percibe de ti',
+              'Identidad es el documento PDF; imagen es la versión digital',
+              'La imagen es más importante porque es lo que los clientes ven primero',
+            ],
+            correct: 1,
+            explanation: 'Identidad = lo que defines y controlas: tu logo, paleta, voz, valores, cómo te presentas. Imagen = la percepción que se forma en la mente del mercado, resultado de todas las experiencias con la marca. Una brecha grande entre ambas indica inconsistencia o promesas no cumplidas.',
+          },
+          {
+            q: 'Un logo debe funcionar en escala "favicon" (32x32px). ¿Cuál de estas opciones lo dificulta?',
+            options: [
+              'Usar un wordmark (solo texto con la tipografía de la marca)',
+              'Usar colores muy contrastados entre el símbolo y el fondo',
+              'Incluir múltiples detalles finos, gradientes complejos o texto muy pequeño',
+              'Usar formas geométricas simples como base',
+            ],
+            correct: 2,
+            explanation: 'A 32x32px, los detalles finos desaparecen o se vuelven ruido. El logo a escala pequeña debe ser versión simplificada (solo el símbolo, sin wordmark). Por eso los sistemas de logo modernos siempre incluyen una versión "compacta" para usos pequeños. La simplicidad no es limitación sino requerimiento técnico.',
+          },
+          {
+            q: '¿Qué establece la regla 60-30-10 en diseño y branding?',
+            options: [
+              '60% del presupuesto en digital, 30% en impreso, 10% en eventos',
+              '60% color dominante (fondos), 30% color secundario, 10% color de acento (CTAs, detalles)',
+              '60 caracteres máximo en headlines, 30 en subtítulos, 10 en labels',
+              '60% contenido educativo, 30% entretenimiento, 10% promocional',
+            ],
+            correct: 1,
+            explanation: 'La regla 60-30-10 es una guía de proporción de color para crear balance visual. El 60% es el color dominante (crema en AlphaDev), el 30% es secundario (crema oscura), y el 10% es el acento que llama la atención (dorado). Usar el acento en más del 15% destruye su efectividad.',
+          },
+          {
+            q: '¿Cuál de los siguientes es el arquetipo "El Mago" y qué marcas lo representan?',
+            options: [
+              'Confianza y tradición — IBM, Morgan Stanley',
+              'Transformar lo complejo en magia, hacer realidad los sueños — Apple, Disney, Dyson',
+              'Aventura y exploración — Jeep, Red Bull',
+              'Rebeldía y ruptura del status quo — Harley-Davidson, Virgin',
+            ],
+            correct: 1,
+            explanation: 'El Mago transforma, convierte ideas en realidad, hace lo difícil parecer simple. Apple convirtió la computación en algo intuitivo y deseable. Disney convierte historias en mundos. AlphaDev Studios tiene un componente de Mago: convertimos una idea de startup en software funcional "como por arte de magia" en semanas.',
+          },
+          {
+            q: '¿Por qué los nombres de colores descriptivos ("Dorado Premium") son superiores a los técnicos ("#9A7235") en un Brand Book?',
+            options: [
+              'No son superiores — los valores hex son más precisos y universales',
+              'Los nombres descriptivos comunican el uso y la intención, facilitando que todo el equipo use correctamente cada color sin memorizar códigos',
+              'Los nombres son mejores solo para presentaciones al cliente, no para uso técnico',
+              'Los códigos hex cambian entre pantallas; los nombres son consistentes',
+            ],
+            correct: 1,
+            explanation: 'Un diseñador o redactor recuerda "Dorado Premium = solo CTAs y acentos" mucho mejor que "#9A7235 = no usar en fondos". Los nombres descriptivos convierten un sistema de color en un vocabulario compartido. Los valores técnicos deben existir también — pero los nombres son la interfaz humana del sistema.',
+          },
+          {
+            q: '¿Cuál es el propósito del "clear space" en las guías de logo?',
+            options: [
+              'Definir el fondo de color que debe usarse detrás del logo siempre',
+              'Establecer el espacio mínimo vacío alrededor del logo para preservar su legibilidad e impacto',
+              'Indicar cuándo se puede usar el logo en fondos transparentes',
+              'Definir el tamaño mínimo del logo para impresión',
+            ],
+            correct: 1,
+            explanation: 'El clear space (zona de respeto) es el área mínima que debe quedar libre alrededor del logo, sin ningún otro elemento. Protege la integridad visual del logo y garantiza que sea reconocible. Se mide normalmente usando algún elemento del propio logo como referencia (altura de la "x", ancho del símbolo, etc.).',
+          },
+          {
+            q: '¿Qué diferencia el "tono de voz" de la "voz de marca"?',
+            options: [
+              'Son lo mismo — ambos se refieren a cómo escribe la marca',
+              'La voz es constante (la personalidad de la marca); el tono varía según el contexto y canal',
+              'El tono es formal; la voz es casual',
+              'La voz de marca es para redes sociales; el tono para documentos corporativos',
+            ],
+            correct: 1,
+            explanation: 'AlphaDev siempre es confiada y directa (voz = constante). Pero en una propuesta será más formal (tono), en Instagram más cercana (tono), y ante un error puede usar humor con cuidado (tono). La voz es el carácter; el tono es la expresión de ese carácter adaptada al contexto.',
+          },
+          {
+            q: '¿Cuándo es apropiado usar tipografía Display/Script en una pieza de comunicación?',
+            options: [
+              'Siempre — las fuentes decorativas hacen que todo sea más interesante',
+              'Solo en headlines y displays grandes — nunca en body text o texto pequeño',
+              'Solo en logotipos — nunca en piezas de comunicación regular',
+              'Cuando el cliente lo pide explícitamente en el brief',
+            ],
+            correct: 1,
+            explanation: 'Las tipografías Display y Script están diseñadas para usarse grandes, donde cada carácter es legible individualmente. A tamaños pequeños (body text), pierden legibilidad y se convierten en ruido visual. La regla: Display para impacto en grandes tamaños; sans-serif o serif para texto corrido en cualquier tamaño.',
+          },
+        ],
+        completed: false,
+      },
+    
+    {
+      id: 'branding-3-p1',
+      title: 'Proyecto: Manual de identidad básico',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Crea un mini manual de identidad (brand guidelines) de 8-10 páginas para una marca real o ficticia. Documenta logo, paleta, tipografía, tono de voz y ejemplos de uso correcto e incorrecto.',
+      deliverables: [
+        'PDF de 8-10 páginas en Figma o Canva',
+        'Sección de logo con variantes y espacio de respeto',
+        'Paleta de colores con códigos HEX/RGB',
+        'Tipografía principal y secundaria con jerarquía',
+        '2 ejemplos de aplicación correcta e incorrecta',
+      ],
+      rubrica: [
+        'Coherencia visual entre todas las secciones',
+        'Completitud del sistema de identidad',
+        'Calidad de presentación del documento',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'Figma — Brand Identity Kit template',
+        url: 'https://www.figma.com/community/file/805195278314519508',
+        type: 'tool',
+      },
+      {
+        title: 'Zeroheight — Brand guidelines vivos',
+        url: 'https://zeroheight.com',
+        type: 'tool',
+      },
+      {
+        title: 'Examples of great brand guidelines',
+        url: 'https://www.logolounge.com/articles/30-amazing-examples-of-brand-guidelines',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: Copywriting ───────────────────────────────────────────────────────
+
+  {
+    id: 'copy-1',
+    number: 19,
+    title: 'Fundamentos del Copywriting',
+    description: 'Entiende la psicología detrás del copy persuasivo, los frameworks clásicos y cómo escribir para convertir.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c1-l1',
+        title: 'Qué es el copywriting y por qué el copy vende más que el diseño',
+        type: 'reading',
+        content: `## Copywriting: el arte de vender con palabras
+
+El copywriting no es redacción creativa. No es periodismo. No es contenido.
+
+**Copywriting es escritura con un objetivo específico: lograr que el lector tome una acción.**
+
+Esa acción puede ser: comprar, suscribirse, agendar una llamada, descargar, compartir.
+
+### La diferencia que importa
+
+**Redacción**: comunica información
+**Copywriting**: provoca acción
+
+Un buen copy no describe el producto. Habla del *resultado* que el cliente va a obtener.
+
+❌ "Ofrecemos desarrollo web con tecnologías modernas"
+✅ "Tu startup en producción en 3 semanas — o te devolvemos el dinero"
+
+### Por qué el copy vende más que el diseño
+
+Dato contraintuitivo: **una página fea con buen copy vende más que una página bonita con copy mediocre.**
+
+¿Por qué? Porque el diseño llama la atención, pero las palabras generan confianza y crean el deseo.
+
+El diseño sirve para que el copy sea leído. El copy sirve para que el lector actúe.
+
+### Los tres trabajos del copy
+
+**1. Capturar atención** — en un mundo saturado, tienes 3 segundos
+**2. Mantener el interés** — una vez que leyeron el headline, deben querer seguir
+**3. Provocar acción** — el lector debe saber exactamente qué hacer y querer hacerlo
+
+### El principio fundamental: el lector solo piensa en sí mismo
+
+A nadie le importa tu empresa, tu proceso, o tus certificaciones.
+
+Solo les importa: **¿qué hay aquí para mí?**
+
+Cada oración de tu copy debe responder esa pregunta. Si una oración no ayuda al lector a entender el beneficio para ellos, se corta.
+
+### Features vs Benefits
+
+| Feature (característica) | Benefit (beneficio) |
+|--------------------------|---------------------|
+| "Stack moderno: Next.js + Supabase" | "Tu app carga en 0.8 segundos y tus usuarios no se van" |
+| "Diseño mobile-first" | "Tus clientes compran desde el celular sin frustración" |
+| "Código con TypeScript strict" | "Menos bugs en producción, menos noches de pánico" |`,
+        completed: false,
+      },
+      {
+        id: 'c1-l1b',
+        title: 'Mini-práctica: Transforma features en benefits',
+        type: 'practice',
+        tasks: [
+          'Lista 10 características (features) de un producto o servicio que conozcas bien',
+          'Para cada feature, escribe el benefit real usando la fórmula: "[Feature] significa que tú [outcome concreto]"',
+          'Elige los 3 benefits más poderosos y escríbelos como bullets cortos (máximo 12 palabras cada uno)',
+          'Reescribe la sección "Por qué elegirnos" de un sitio que conozcas, cambiando features por benefits',
+          'Compara ambas versiones: ¿cuál te da más ganas de comprar?',
+        ],
+        tip: 'Para encontrar el benefit real de un feature, pregúntate "¿y eso qué significa para el cliente?" hasta llegar a una emoción o resultado concreto. Generalmente necesitas 2-3 iteraciones del "¿y eso qué?" para llegar al beneficio real.',
+        completed: false,
+      },
+      {
+        id: 'c1-l2',
+        title: 'Psicología de la persuasión: los principios que mueven decisiones',
+        type: 'reading',
+        content: `## Los principios de persuasión de Cialdini
+
+Robert Cialdini identificó 7 principios que influencian las decisiones humanas. El buen copy usa varios de estos principios en cada pieza.
+
+### 1. Reciprocidad
+
+Las personas sienten la obligación de devolver favores.
+
+En copy: da valor genuino primero (contenido gratuito, guía, demo) y las personas se sentirán más inclinadas a comprar.
+
+*"Descarga gratis nuestra guía de 47 páginas sobre branding — sin registro"*
+
+### 2. Compromiso y Consistencia
+
+Las personas actúan de manera consistente con sus compromisos previos.
+
+En copy: pequeños pasos que llevan a compromisos mayores. Lograr que digan "sí" pequeño antes del "sí" grande.
+
+*"¿Quieres que tu startup esté en producción en menos de un mes? → Entonces te va a interesar esto..."*
+
+### 3. Prueba Social
+
+Las personas miran lo que hacen los demás para decidir.
+
+En copy: testimonios, casos de estudio, números de usuarios, menciones en medios.
+
+*"127 founders ya lanzaron con AlphaDev. El 94% volvió para un segundo proyecto."*
+
+### 4. Autoridad
+
+Las personas siguen a los expertos.
+
+En copy: credenciales, menciones en prensa, clientes conocidos, años de experiencia, publicaciones.
+
+*"Construido por el mismo equipo detrás de [cliente conocido]"*
+
+### 5. Simpatía / Agrado
+
+Compramos de personas que nos caen bien.
+
+En copy: humaniza la marca, muestra el equipo, comparte valores, usa humor apropiado.
+
+### 6. Escasez
+
+Las personas valoran más lo que es limitado.
+
+En copy: plazas limitadas, tiempo limitado, stocks bajos. Debe ser REAL — la escasez falsa destruye confianza.
+
+*"Solo aceptamos 3 nuevos proyectos por mes para mantener la calidad."*
+
+### 7. Unidad
+
+Las personas siguen a quienes perciben como parte de su grupo.
+
+En copy: "Somos founders, hablamos el idioma de los founders."
+
+### La advertencia ética
+
+Estos principios funcionan tanto para persuadir como para manipular. La diferencia: **el copy ético usa estos principios para conectar al cliente correcto con la solución correcta**. El copy manipulador los usa para venderle a cualquiera, tenga o no el problema que resuelves.`,
+        completed: false,
+      },
+      {
+        id: 'c1-l2b',
+        title: 'Mini-práctica: Identifica principios de persuasión en webs reales',
+        type: 'practice',
+        tasks: [
+          'Visita 3 landing pages de productos o servicios que uses (Notion, Linear, Vercel, o cualquier SaaS)',
+          'Para cada página, identifica qué principios de Cialdini usa y dónde exactamente',
+          'Anota el copy textual de cada ejemplo encontrado',
+          'Diseña una sección "Social Proof" para tu marca o proyecto usando al menos 3 principios',
+          'Escribe un párrafo de cierre para una propuesta usando escasez legítima y prueba social',
+        ],
+        tip: 'La prueba social más poderosa no son los testimonios genéricos ("¡Excelente servicio!") — son los específicos con resultados concretos. "Pasamos de 0 a 1,200 usuarios en 6 semanas después de lanzar con AlphaDev" es 10x más persuasivo.',
+        completed: false,
+      },
+      {
+        id: 'c1-l3',
+        title: 'Frameworks de copy: AIDA, PAS, FAB y cuándo usar cada uno',
+        type: 'reading',
+        content: `## Frameworks de copywriting
+
+Los frameworks son estructuras probadas que guían la escritura persuasiva. No son fórmulas rígidas — son puntos de partida.
+
+### AIDA — el clásico
+
+**A — Atención**: captura la atención con un headline o apertura poderosa
+**I — Interés**: mantén el interés hablando del problema o necesidad
+**D — Deseo**: crea deseo mostrando los beneficios y la transformación
+**A — Acción**: llama a una acción específica y clara
+
+Ejemplo:
+> **[A]** Tu startup necesita 6 meses y $50k para salir al mercado. Hay otra forma.
+> **[I]** La mayoría de founders pierde en desarrollo lo que debería estar invirtiendo en crecer.
+> **[D]** AlphaDev entrega en 3 semanas lo que una agencia tradicional tarda 4 meses. Stack moderno, IA integrada, sin sorpresas.
+> **[A]** Agenda una llamada gratuita de 30 minutos esta semana.
+
+**Cuándo usar AIDA**: landing pages largas, emails de ventas, anuncios.
+
+### PAS — directo al dolor
+
+**P — Problem**: identifica el problema que tiene el lector
+**A — Agitate**: amplifica el dolor, haz que sienta la urgencia de resolverlo
+**S — Solution**: presenta tu solución como el alivio
+
+Ejemplo:
+> **[P]** Tu producto está listo pero el sitio web tarda meses en salir.
+> **[A]** Cada semana que pasa sin lanzar es revenue perdido, usuarios que no conocen tu solución, competidores que avanzan.
+> **[S]** AlphaDev te saca al mercado en 3 semanas. Con el stack que tu startup necesita para escalar.
+
+**Cuándo usar PAS**: problemas urgentes y dolorosos. Alta efectividad en B2B.
+
+### FAB — para audiencias técnicas o racionales
+
+**F — Feature**: la característica del producto
+**A — Advantage**: la ventaja frente a alternativas
+**B — Benefit**: el beneficio real para el cliente
+
+**Cuándo usar FAB**: comparaciones de producto, fichas técnicas, copy para audiencias que quieren datos antes de decidir.
+
+### BAB — aspiracional
+
+**B — Before**: el estado actual, el problema
+**A — After**: cómo se ve la vida/negocio después de tu solución
+**B — Bridge**: cómo llegas del before al after (tu producto/servicio)
+
+**Cuándo usar BAB**: testimonios, casos de estudio, copy emocional.
+
+### La regla práctica
+
+No uses solo un framework. La mejor copy a menudo combina:
+- PAS en el hero (dolor → urgencia → solución)
+- FAB en los features/benefits
+- AIDA en el CTA final`,
+        completed: false,
+      },
+      {
+        id: 'c1-l3b',
+        title: 'Mini-práctica: Escribe copy con cada framework',
+        type: 'practice',
+        tasks: [
+          'Elige un producto o servicio (tuyo o de un cliente) y escribe un copy AIDA completo (4 párrafos)',
+          'Escribe el mismo pitch usando PAS — ¿qué cambia en el énfasis?',
+          'Escribe un párrafo BAB para un testimonio ficticio o real de ese mismo producto',
+          'Combina los tres: usa PAS en las primeras 2-3 oraciones, FAB en los bullets, BAB en el CTA',
+          'Lee en voz alta los 4 versiones — ¿cuál suena más natural y persuasiva?',
+        ],
+        tip: 'Leer el copy en voz alta es el test definitivo. Si tropieza o suena raro al leerlo, lo leerá igual de raro el cliente. Si fluye bien hablado, fluirá bien escrito.',
+        completed: false,
+      },
+          {
+        id: 'copy-1-proj-basico',
+        title: 'Proyecto Básico: Reescribe la propuesta de valor',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Elige un negocio con propuesta de valor genérica. Reescríbela con 3 versiones diferentes.',
+        deliverables: [
+          'La propuesta original con análisis: qué está mal (genérico, vago, orientado al proceso en lugar al resultado)',
+          '3 versiones reescritas con enfoque diferente cada una',
+          'La versión elegida con justificación de por qué funciona mejor',
+          'Headline y subheadline de landing page basados en esa propuesta de valor',
+        ],
+        tip: 'Una propuesta de valor que tu competidor puede copiar sin cambiar nada no es una propuesta de valor.',
+        completed: false,
+      },
+      {
+        id: 'copy-1-proj-inter',
+        title: 'Proyecto Intermedio: Email de ventas completo',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Escribe un email de ventas para prospectos que conocen la marca pero no han comprado.',
+        deliverables: [
+          '3 variantes de asunto + preview text para A/B testing',
+          'Email completo: apertura que conecta, cuerpo con problema-agitación-solución, social proof y CTA claro',
+          'Screenshot del email renderizado en mobile (375px)',
+          'Análisis: qué elementos de persuasión usaste y por qué los elegiste para esta audiencia',
+        ],
+        tip: 'El email más efectivo no intenta convencer — resuena con alguien que ya está convencido a medias. Escribe para el 70%, no para el 0%.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Influence — Robert Cialdini (libro)',
+        url: 'https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X',
+        type: 'article',
+      },
+      {
+        title: 'Copyhackers — Blog de copywriting avanzado',
+        url: 'https://copyhackers.com',
+        type: 'article',
+      },
+      {
+        title: 'Swipe File — Ejemplos de copy que convierte',
+        url: 'https://swipefile.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-2',
+    number: 20,
+    title: 'Copy para Web y Landing Pages',
+    description: 'Aprende a escribir headlines que detienen el scroll, copy de landing pages que convierten y CTAs que la gente quiere clickear.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c2-l1',
+        title: 'Headlines: la línea que decide si leen o rebotan',
+        type: 'reading',
+        content: `## Headlines: el 80/20 del copywriting
+
+El 80% del éxito de una pieza de copy depende del headline. Si el headline no engancha, el resto no se lee.
+
+David Ogilvy: *"En promedio, 5 veces más personas leen el headline que el cuerpo del texto."*
+
+### Tipos de headline que funcionan
+
+**1. Beneficio directo**
+→ El lector entiende inmediatamente qué gana
+→ "Lanza tu startup en 3 semanas, no en 6 meses"
+
+**2. Curiosidad**
+→ Crea una pregunta en la mente que solo se responde leyendo
+→ "El error que comete el 90% de founders al contratar un desarrollador"
+
+**3. Específico**
+→ Los números y detalles crean credibilidad
+→ "Cómo pasamos de idea a producción en 19 días (y lo que aprendimos)"
+
+**4. Pregunta directa**
+→ El lector se identifica o quiere saber la respuesta
+→ "¿Tu producto está listo pero el sitio web no?"
+
+**5. Promesa + timeframe**
+→ Claro, medible, creíble
+→ "Tu MVP en producción este mes"
+
+**6. Contra-intuitivo**
+→ Rompe expectativas y genera curiosidad
+→ "Por qué tu landing page bonita está matando tus conversiones"
+
+### La fórmula del headline poderoso
+
+**[Resultado específico] + [Para quién] + [Timeframe o mecanismo]**
+
+Ejemplos:
+- "Software en producción en 3 semanas para startups que no tienen tiempo que perder"
+- "Un design system completo en 4 días para founders que quieren escalar"
+
+### Subheadlines: el apoyo inmediato
+
+El subheadline expande el headline y conecta con el body:
+
+\`\`\`
+HEADLINE: Tu startup en producción en 3 semanas.
+SUBHEADLINE: Construimos el software que tu idea necesita —
+             con Next.js, IA integrada y sin sorpresas en el precio.
+\`\`\`
+
+### El método de los 25 headlines
+
+Antes de elegir un headline, escribe 25 opciones. No 5, no 10 — 25. Las primeras 10 son obvias. Las últimas 5 son donde está el oro.`,
+        completed: false,
+      },
+      {
+        id: 'c2-l1b',
+        title: 'Mini-práctica: 25 headlines para tu marca o proyecto',
+        type: 'practice',
+        tasks: [
+          'Elige un producto, servicio o proyecto real que quieras promocionar',
+          'Escribe 25 headlines sin detenerte a evaluar — cantidad primero, calidad después',
+          'Clasifica cada uno en la categoría que usa (beneficio directo, curiosidad, específico, etc.)',
+          'Elige los 3 mejores y escribe el subheadline correspondiente para cada uno',
+          'Prueba tu top headline con 3 personas de tu audiencia objetivo — ¿entienden de qué trata?',
+        ],
+        tip: 'Si el headline necesita más de 5 segundos para entenderse, es demasiado complejo. El mejor headline es el que tu cliente objetivo puede leer, entender, y saber si es para ellos — en una sola mirada.',
+        completed: false,
+      },
+      {
+        id: 'c2-l2',
+        title: 'Estructura de una landing page que convierte',
+        type: 'reading',
+        content: `## Anatomía de una landing page efectiva
+
+Una landing page tiene un solo objetivo: convertir al visitante en lead o cliente. Cada elemento existe para apoyar ese objetivo.
+
+### La estructura estándar (arriba → abajo)
+
+**1. Hero Section** (lo primero que ven)
+- Headline: el beneficio principal, claro y específico
+- Subheadline: expande el headline, añade contexto
+- CTA primario: una acción, texto específico (no "Enviar")
+- Social proof inmediato: "Usado por 500+ startups" o logos
+
+**2. Problem Statement** (el dolor)
+- El problema que tienen antes de tu solución
+- Usa su lenguaje, no el tuyo
+- Haz que digan "exactamente eso me pasa"
+
+**3. Solution/Features** (tu respuesta)
+- 3-6 beneficios clave (no características)
+- Iconos o visuals que simplifiquen
+- Cada punto en máximo 2 líneas
+
+**4. Social Proof** (evidencia)
+- Testimonios con foto, nombre y empresa
+- Resultados específicos y verificables
+- Logos de clientes conocidos (si aplica)
+
+**5. How it Works** (el proceso)
+- 3-5 pasos simples
+- Reduce la percepción de fricción
+- "Fácil de empezar" no basta — muestra cómo
+
+**6. Objeciones anticipadas** (FAQ o sección de confianza)
+- Las dudas más comunes respondidas
+- Garantías, políticas, aclaraciones
+
+**7. CTA Final** (la decisión)
+- Repetir el CTA principal
+- Puede agregar urgencia legítima
+- Texto que resuene con el deseo: "Quiero mi MVP en 3 semanas"
+
+### Principios de conversion rate optimization (CRO)
+
+**Un objetivo**: una landing page, un CTA. No links de salida, no menús con múltiples destinos.
+
+**Above the fold**: el CTA debe ser visible sin hacer scroll.
+
+**Fricción mínima**: cada campo de formulario reduce conversiones. Pide solo lo esencial.
+
+**Prueba siempre**: versión A vs versión B. Los datos ganan a las opiniones.`,
+        completed: false,
+      },
+      {
+        id: 'c2-l2b',
+        title: 'Mini-práctica: Escribe el copy completo de una landing page',
+        type: 'practice',
+        tasks: [
+          'Elige un servicio real o ficticio y escribe el copy completo de la landing page (no el diseño — solo el texto)',
+          'Incluye: headline + subheadline, problem statement (2-3 oraciones), 5 benefits como bullets, 2 testimonios ficticios con resultados específicos, how it works en 3 pasos, 4 FAQ con respuestas, CTA final',
+          'Revisa: ¿cada sección responde "¿qué hay aquí para mí?" desde el punto de vista del lector?',
+          'Cuenta las palabras en primera persona (yo, mi, nosotros) vs segunda persona (tú, tu, usted). El ratio debe ser 1:3 a favor del "tú"',
+          'Lee el copy completo en voz alta — ¿fluye naturalmente? ¿Hay oraciones que tropiezan?',
+        ],
+        tip: 'El copy de landing page no se escribe de arriba a abajo. Empieza por los testimonios (qué dicen los clientes felices), luego el FAQ (qué objeciones tienen), y termina con el hero. Conocer las objeciones y los outcomes antes de escribir el headline lo hace 3x más efectivo.',
+        completed: false,
+      },
+    
+    {
+      id: 'copy-2-p1',
+      title: 'Proyecto: Headlines para landing page',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Escribe 10 variantes de headline para un producto real o ficticio. Aplica las fórmulas PAS, AIDA y beneficio directo. Al final elige la mejor y justifica por qué.',
+      deliverables: [
+        '10 headlines escritos',
+        'Etiqueta de fórmula usada en cada uno',
+        'Selección de la mejor con justificación de 3 líneas',
+      ],
+      rubrica: [
+        'Uso correcto de al menos 2 fórmulas',
+        'Claridad y especificidad del beneficio',
+        'Variedad de enfoques entre los 10',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'Unbounce — The Landing Page Course',
+        url: 'https://unbounce.com/landing-page-articles/the-landing-page-course',
+        type: 'course',
+      },
+      {
+        title: 'Headline Analyzer — CoSchedule',
+        url: 'https://coschedule.com/headline-analyzer',
+        type: 'tool',
+      },
+      {
+        title: 'Conversion.ai Swipe File',
+        url: 'https://swipefile.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-3',
+    number: 21,
+    title: 'Copy para Ads y Email Marketing',
+    description: 'Escribe anuncios que detienen el scroll en Meta y Google, y secuencias de email que nutren y convierten sin molestar.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c3-l1',
+        title: 'Copy para Meta Ads: hooks, body y CTA que funcionan',
+        type: 'reading',
+        content: `## Copy para Meta Ads (Facebook e Instagram)
+
+Meta Ads compiten por la atención en un feed infinito. El copy tiene que ganar esa batalla en el primer segundo.
+
+### La anatomía de un Meta Ad
+
+**Hook** (primera línea / primeras 3 palabras):
+- Es lo único que el usuario ve antes de "ver más"
+- Debe detener el scroll y generar curiosidad o reconocimiento de problema
+
+**Body** (el cuerpo):
+- Expande el hook
+- Presenta el problema, la solución, los beneficios
+- 50-150 palabras para conversión directa
+- Puede ser más largo para audiencias más frías (más educación necesaria)
+
+**Headline** (debajo de la imagen):
+- Texto en negrita que acompaña la imagen
+- Muchas veces el beneficio principal o la oferta
+
+**CTA** (Call to Action):
+- Botón que elige Meta: "Más información", "Comprar", "Registrarse", "Contactar"
+- Elige el que más reduce fricción para tu objetivo
+
+### Hooks que funcionan en Meta
+
+**Pregunta directa**:
+→ "¿Todavía pagando $3,000/mes por una agencia que tarda 4 meses en entregar?"
+
+**Declaración inesperada**:
+→ "Tu landing page bonita está perdiendo clientes."
+
+**Número específico**:
+→ "19 días. De idea a producto en producción."
+
+**"Si tú..." (identificación)**:
+→ "Si tienes una idea de startup y no sabes cómo hacerla real, esto es para ti."
+
+**Social proof como hook**:
+→ "127 founders ya lanzaron con nosotros. Así lo hicimos."
+
+### Formatos de copy según objetivo
+
+**Awareness** (audiencia fría):
+- Copy más educativo
+- Cuenta la historia del problema
+- CTA: "Más información" o "Saber más"
+
+**Consideración** (audiencia tibia):
+- Copy orientado a beneficios
+- Testimonios y prueba social
+- CTA: "Ver demo" o "Agendar llamada"
+
+**Conversión** (audiencia caliente o retargeting):
+- Copy directo, la oferta clara
+- Urgencia o incentivo
+- CTA: "Comprar" o "Registrarse"
+
+### Testing de copy
+
+Siempre probar simultáneamente:
+- 3 hooks diferentes con el mismo body
+- O el mismo hook con 3 bodies diferentes
+- Deja correr 3-5 días antes de concluir ganador`,
+        completed: false,
+      },
+      {
+        id: 'c3-l1b',
+        title: 'Mini-práctica: Crea 3 variantes de Meta Ad',
+        type: 'practice',
+        tasks: [
+          'Elige el servicio de AlphaDev Studios (o de un cliente) y define la audiencia objetivo',
+          'Escribe 3 hooks completamente diferentes para el mismo ad (pregunta, declaración, número)',
+          'Para el hook más fuerte, escribe el body completo: problema → solución → beneficios → CTA',
+          'Adapta el ad para awareness (copy educativo) y para retargeting (copy directo con oferta)',
+          'Estima el presupuesto mínimo viable para testear las 3 versiones ($5-10/día por variante)',
+        ],
+        tip: 'En Meta Ads, la imagen/video detiene el scroll — el copy convierte. Si el visual no es bueno, el mejor copy del mundo no salvará el ad. Ambos deben trabajar juntos.',
+        completed: false,
+      },
+      {
+        id: 'c3-l2',
+        title: 'Email marketing: secuencias que nutren sin molestar',
+        type: 'reading',
+        content: `## Email marketing: el canal de mayor ROI
+
+El email tiene un ROI promedio de $36 por cada $1 invertido (Litmus, 2024). Ningún otro canal se acerca. Y sin embargo, la mayoría de empresas lo usa mal.
+
+### Los tipos de email que debes dominar
+
+**1. Email de bienvenida** (se abre el 50-80% de las veces)
+- El más leído de todos — maximiza su valor
+- Entrega el valor prometido inmediatamente
+- Establece expectativas (qué recibirán y cuándo)
+- Humaniza: quién eres y por qué te importa
+
+**2. Email de nurturing** (educación/valor)
+- Un solo insight útil por email
+- Sin venta directa — construye confianza
+- Frecuencia: 1-2 por semana para newsletters, menos para cold
+
+**3. Email de venta**
+- Solo cuando hay relación previa
+- La oferta clara desde el principio (no enterrada al final)
+- Un solo CTA
+
+**4. Email de seguimiento (follow-up)**
+- El 80% de las ventas ocurren entre el 5to y 12vo contacto
+- Varía el ángulo en cada follow-up (no reenvíes el mismo email)
+
+### Estructura del email que se lee
+
+**Subject line** (50% del trabajo):
+- Corto: 30-40 caracteres en mobile
+- Curioso o directo — elige uno
+- Evita spam triggers: "GRATIS", "URGENTE", "!!!!"
+
+**Preview text** (la segunda línea que ves en la bandeja):
+- Complementa el subject, no lo repite
+- Agrega contexto o curiosidad adicional
+
+**Apertura** (las primeras 2 líneas):
+- Conecta directo con el lector
+- No empieces con "Mi nombre es..." o "Espero que estés bien"
+- Empieza con el punto
+
+**Body**:
+- Una idea central por email
+- Párrafos cortos (2-4 líneas máximo)
+- Links descriptivos, no "click aquí"
+
+**CTA**:
+- Uno solo, claro, específico
+- Dice exactamente qué pasa al hacer click
+
+### La secuencia de bienvenida (5 emails)
+
+\`\`\`
+Email 1 (día 0): Bienvenida + entrega el lead magnet prometido
+Email 2 (día 2): Historia: por qué existes, qué problema resuelves
+Email 3 (día 4): El problema más grande de tu audiencia (sin vender)
+Email 4 (día 7): Caso de estudio / prueba social
+Email 5 (día 10): La oferta (primera venta directa)
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'c3-l2b',
+        title: 'Mini-práctica: Escribe una secuencia de 5 emails',
+        type: 'practice',
+        tasks: [
+          'Define el lead magnet (recurso gratuito) que usarías para conseguir emails en tu negocio',
+          'Escribe los 5 emails de la secuencia de bienvenida completa: asunto, preview text y body de cada uno',
+          'Verifica que cada email tiene un solo CTA y una sola idea central',
+          'Para el email de venta (email 5), usa el framework PAS: problema → agitación → solución',
+          'Prueba los subject lines en subjectline.email — apunta a score >70',
+        ],
+        tip: 'El email más importante de la secuencia no es el de venta — es el de bienvenida. Si ese email establece confianza y entrega valor inmediato, los siguientes se abren con alta probabilidad. Si defrauda, todos los demás van a spam.',
+        completed: false,
+      },
+          {
+        id: 'copy-3-proj-pro',
+        title: 'Proyecto Profesional: Landing page de alta conversión',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Escribe el copy completo de una landing page para un producto o servicio de ticket medio-alto ($200+). Todos los bloques, de hero a footer.',
+        deliverables: [
+          'Hero: headline principal, subheadline y CTA primario + secundario',
+          'Bloque de problema: pain point en lenguaje del cliente (sus palabras, no las tuyas)',
+          'Bloque de solución: beneficios orientados a resultados, no a features',
+          '3 testimoniales con nombre, contexto y resultado específico medible',
+          'Bloque de objeciones: las 3 dudas más comunes respondidas con empatía',
+          'CTA final: urgencia o garantía + repetición del CTA',
+          'Meta description y OG title para SEO y redes',
+        ],
+        rubrica: [
+          'Cada bloque tiene un objetivo claro en el proceso de conversión',
+          'El lenguaje es del cliente, no del vendedor — sin jerga interna',
+          'Los testimoniales tienen resultados específicos y medibles',
+          'La objeción de precio está respondida aunque no haya precio visible',
+          'El tono es coherente de principio a fin',
+        ],
+        tip: 'Antes de escribir una sola palabra, escribe qué piensa el prospecto justo antes de llegar a la landing. Ese pensamiento es tu headline.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Really Good Emails — Librería de emails ejemplo',
+        url: 'https://reallygoodemails.com',
+        type: 'tool',
+      },
+      {
+        title: 'Meta Ads Library — Ejemplos de ads reales',
+        url: 'https://www.facebook.com/ads/library',
+        type: 'tool',
+      },
+      {
+        title: 'Email Subject Line Tester',
+        url: 'https://www.subjectline.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-4',
+    number: 22,
+    title: 'Propuestas, Pitches y Copy de Cierre',
+    description: 'Aprende a escribir propuestas que ganan proyectos, pitches que convencen y follow-ups que convierten sin presionar.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'c4-l1',
+        title: 'Propuestas comerciales que ganan proyectos',
+        type: 'reading',
+        content: `## La propuesta que cierra
+
+Una propuesta no es un documento técnico. Es el último copy de ventas antes de la decisión de compra.
+
+El cliente ya sabe qué hace tu empresa. La propuesta le dice: *por qué nosotros, por qué ahora, y exactamente qué va a obtener.*
+
+### El error más común
+
+La mayoría de propuestas empiezan con:
+*"Estimado [nombre], somos [empresa], fundada en [año], y nos especializamos en..."*
+
+El cliente no compra tu historia. Compra su resultado.
+
+**Empieza con ellos, no contigo.**
+
+### Estructura de una propuesta ganadora
+
+**1. El problema (en sus palabras)**
+Muestra que entendiste su situación específica. No genérico. Menciona lo que dijeron en la llamada.
+
+*"Mencionaste que tu producto está listo pero necesitas salir al mercado antes del Q3 para capturar la ola de funding que se abre en ese período..."*
+
+**2. La solución propuesta**
+Específica, no genérica. Qué harás exactamente, en qué orden.
+
+**3. Lo que incluye (y lo que no)**
+Claridad total. El scope definido protege a ambas partes.
+
+**4. El timeline**
+Milestones claros. Fechas específicas, no "aproximadamente 4-6 semanas".
+
+**5. La inversión**
+El precio claro, con opciones si aplica. Sin sorpresas.
+
+**6. Por qué nosotros**
+Prueba social relevante para este proyecto específico. No tu portafolio genérico — el caso más parecido a lo que necesitan.
+
+**7. Próximos pasos**
+Una acción específica: "Para confirmar, firma este documento y enviamos el contrato en 24 horas."
+
+### El copy dentro de la propuesta
+
+- Usa el lenguaje del cliente (el que usaron en la llamada)
+- Beneficios > características también aquí
+- Párrafos cortos — se lee en diagonal, como toda propuesta
+- Negritas estratégicas en los puntos más importantes
+- Un resumen ejecutivo al inicio (una página) para quienes no lean todo
+
+### Precio: cómo presentarlo
+
+Nunca digas solo el precio. Ancla con el valor:
+
+*"La inversión para este proyecto es $4,500. Para contexto: el costo de contratar un desarrollador freelance para el mismo scope está entre $8,000 y $12,000, con tiempos 3x más largos."*`,
+        completed: false,
+      },
+      {
+        id: 'c4-l1b',
+        title: 'Mini-práctica: Escribe una propuesta completa',
+        type: 'practice',
+        tasks: [
+          'Elige un proyecto real o ficticio (diseño de sitio web, app, branding, campaña) y un cliente hipotético',
+          'Escribe la propuesta completa usando la estructura de 7 secciones',
+          'La sección "El problema" debe sonar como si hubieras escuchado al cliente — usa lenguaje concreto y específico',
+          'Presenta el precio con ancla de valor (comparación con alternativa)',
+          'Termina con un "próximo paso" que requiera una sola acción simple del cliente',
+        ],
+        tip: 'La propuesta gana o pierde en las primeras 30 segundos de lectura. Si el resumen ejecutivo (primera página) no convence, el resto no se lee. Escribe esa primera página al último, cuando ya tienes claridad total del documento.',
+        completed: false,
+      },
+      {
+        id: 'c4-l2',
+        title: 'Follow-ups que convierten sin presionar',
+        type: 'reading',
+        content: `## El arte del follow-up
+
+El 80% de las ventas ocurren después del quinto contacto. El 44% de los vendedores abandona después del primero.
+
+Hacer follow-up no es presionar. Es persistencia con valor.
+
+### Los principios del follow-up que funciona
+
+**1. Siempre agrega valor**
+No envíes "Solo quería ver cómo van". Envía algo útil: un artículo relevante, un insight, una pregunta que los haga pensar.
+
+**2. Varía el ángulo, no el mensaje**
+Cada follow-up ataca desde un ángulo diferente:
+- Email 1: Propuesta enviada
+- Follow-up 1 (día 3): Case study relacionado
+- Follow-up 2 (día 7): Responde una objeción común proactivamente
+- Follow-up 3 (día 14): Cambio en el alcance o la oferta
+- Follow-up 4 (día 21): El "breakup email"
+
+**3. El breakup email**
+El más efectivo por su honestidad:
+
+*"Hola [nombre], entiendo que tienes muchas prioridades y no es el momento correcto. Si en algún momento el proyecto vuelve a la agenda, estaré aquí. ¿Puedo marcar este como cerrado por ahora?"*
+
+Paradójicamente, este email a menudo genera respuestas de clientes que estaban ocupados y no habían podido responder.
+
+### La cadencia de follow-up
+
+\`\`\`
+Propuesta enviada → Día 3 → Día 7 → Día 14 → Día 21 (breakup)
+\`\`\`
+
+No más de 5 contactos sin respuesta. Después, respeto y pausa.
+
+### Por qué los clientes no responden
+
+- No es el momento adecuado (prioridades cambiaron)
+- Se perdió el email entre otros
+- Necesitan aprobación interna
+- Tienen dudas pero no saben cómo preguntar
+
+El follow-up con valor resuelve todos estos casos sin presión.
+
+### Templates de follow-up
+
+**Follow-up de valor** (día 3):
+*"Hola [nombre], vi este artículo sobre [tema relevante para su proyecto] y pensé en ti. [Link + 1-2 oraciones de por qué es relevante]. ¿Avanzamos con la propuesta?"*
+
+**Follow-up de objeción** (día 7):
+*"Hola [nombre], una pregunta común que recibo antes de aprobar un proyecto es [objeción]. Por si te ayuda: [respuesta concisa]. ¿Eso despeja dudas?"*`,
+        completed: false,
+      },
+      {
+        id: 'c4-l2b',
+        title: 'Mini-práctica: Cadencia de follow-up completa',
+        type: 'practice',
+        tasks: [
+          'Para la propuesta que escribiste en la práctica anterior, diseña la cadencia de follow-up completa (4 emails)',
+          'Cada email debe tener ángulo diferente: valor, objeción, cambio de oferta, breakup',
+          'Escribe el subject line de cada email (debe generar apertura sin sonar desesperado)',
+          'El breakup email debe ser honesto, breve y dejar la puerta abierta elegantemente',
+          'Revisa: ¿en algún follow-up estás pidiendo sin dar valor primero? Si sí, reescríbelo',
+        ],
+        tip: 'El mejor follow-up del mundo no puede rescatar una propuesta sin valor. Si tu tasa de cierre es baja, el problema probablemente no es el follow-up — es la propuesta inicial o la calificación del prospecto. Arregla primero lo que pasa antes del follow-up.',
+        completed: false,
+      },
+
+      {
+        id: 'copy-exam',
+        title: 'Examen final: Copywriting',
+        type: 'exam',
+        questions: [
+          {
+            q: 'Un cliente dice: "Nuestro software usa machine learning de última generación con arquitectura microservicios." ¿Cómo lo conviertes en copy efectivo?',
+            options: [
+              'Mantienes el lenguaje técnico — la audiencia técnica lo apreciará',
+              'Lo traduces al beneficio: "Detecta fraudes 10x más rápido que los sistemas tradicionales — sin falsos positivos"',
+              'Simplificas a: "Tecnología avanzada para tu negocio"',
+              'Usas el copy tal cual pero lo pones en bullets para que sea más fácil de leer',
+            ],
+            correct: 1,
+            explanation: 'La feature (ML + microservicios) no importa. El beneficio concreto (10x más rápido, sin falsos positivos) sí importa. El copy efectivo siempre traduce características técnicas a resultados específicos y medibles que el cliente puede visualizar en su propia situación.',
+          },
+          {
+            q: '¿Cuál es el principal error al escribir el hero copy de una landing page?',
+            options: [
+              'Usar demasiadas palabras en el headline',
+              'Empezar hablando de la empresa ("Somos X, fundados en Y...") en lugar de hablar del problema o beneficio del cliente',
+              'No incluir el precio en el hero',
+              'Usar emojis que no sean profesionales',
+            ],
+            correct: 1,
+            explanation: 'El visitante llega con una pregunta: "¿Esto es para mí? ¿Resuelve mi problema?" Si el hero habla de tu empresa, has desperdiciado los 3 segundos más valiosos. El héroe de una LP debe responder inmediatamente: este es tu problema, esta es la solución, esto es lo que conseguirás. Tú eres el secundario; el cliente es el héroe.',
+          },
+          {
+            q: 'Usando el framework PAS, ¿en qué orden correcto presentas la información?',
+            options: [
+              'Promesa → Acción → Solución',
+              'Problema → Agitar (amplificar el dolor) → Solución',
+              'Producto → Audiencia → Servicio',
+              'Pain → Awareness → Sell',
+            ],
+            correct: 1,
+            explanation: 'PAS: Problema (identificar el dolor del lector), Agitate (amplificar la urgencia de resolverlo — consecuencias de no actuar), Solución (presentar tu oferta como el alivio específico). Es especialmente efectivo en copy B2B donde los dolores son reales y urgentes. La "agitación" no es manipulación — es ayudar al lector a entender por qué necesita resolver el problema ahora.',
+          },
+          {
+            q: '¿Qué diferencia a un testimonio efectivo de uno genérico?',
+            options: [
+              'El efectivo tiene foto y nombre completo; el genérico es anónimo',
+              'El efectivo tiene resultados específicos y medibles ("pasé de 0 a 1,200 usuarios en 6 semanas"); el genérico es vago ("excelente servicio, muy recomendado")',
+              'El efectivo está escrito en tercera persona; el genérico en primera',
+              'El efectivo es de una empresa grande; el genérico es de un individuo',
+            ],
+            correct: 1,
+            explanation: 'Los testimonios genéricos no reducen la fricción porque no dan información accionable. Los específicos ("pasé de $3k a $18k/mes en 4 meses") permiten al prospecto visualizar su propio resultado. El cerebro convierte datos concretos en evidencia de posibilidad propia. Más datos específicos = más confianza = más conversión.',
+          },
+          {
+            q: 'En email marketing, ¿qué elemento del email tiene mayor impacto en la tasa de apertura?',
+            options: [
+              'El diseño HTML del email',
+              'La hora de envío',
+              'El subject line — es la única información visible antes de abrir el email',
+              'La longitud del email',
+            ],
+            correct: 2,
+            explanation: 'El subject line es el titular del email — 50% del trabajo. El destinatario ve: remitente + subject line + preview text. Si el subject no genera suficiente curiosidad o valor percibido, el email no se abre. El mejor copy del cuerpo del email vale cero si el subject line falla.',
+          },
+          {
+            q: '¿Cuál es el propósito del "breakup email" en una cadencia de follow-up?',
+            options: [
+              'Comunicar que terminas la relación comercial y no volverás a contactar',
+              'Un email honesto que dice que cierras la comunicación a menos que haya interés, lo que paradójicamente genera respuestas de prospectos que estaban ocupados',
+              'Un email agresivo para presionar la decisión con urgencia artificial',
+              'El último email de una secuencia de nurturing con un descuento final',
+            ],
+            correct: 1,
+            explanation: 'El breakup email ("entiendo que no es el momento, ¿puedo marcar esto como cerrado?") funciona porque es honesto y da control al prospecto. Muchos prospectos callados no están desinteresados — solo ocupados o postergando. El breakup los saca de la inercia. La tasa de respuesta de estos emails suele ser la más alta de toda la cadencia.',
+          },
+          {
+            q: '¿Cuándo es apropiado usar escasez en el copy según los principios éticos de Cialdini?',
+            options: [
+              'Siempre — la escasez siempre aumenta las conversiones',
+              'Solo cuando la escasez es real y verificable — plazas limitadas reales, stock real, fechas reales',
+              'Nunca — la escasez es manipulación',
+              'Solo para productos físicos, no para servicios',
+            ],
+            correct: 1,
+            explanation: 'Escasez falsa ("¡Solo quedan 2 unidades!" cuando hay stock infinito) destruye confianza cuando el cliente la descubre — y siempre la descubre. Escasez real (AlphaDev acepta 3 proyectos/mes para mantener calidad) es honesta y persuasiva. La diferencia entre persuasión y manipulación es si el principio refleja la realidad.',
+          },
+          {
+            q: '¿Cuál es la regla del ratio de primera/segunda persona en copy efectivo?',
+            options: [
+              '1:1 — equilibrio entre hablar de la empresa y del cliente',
+              'Más primera persona — el cliente confía más cuando la empresa habla de sí misma',
+              'Más segunda persona (tú/tu) que primera (yo/nosotros) — el copy habla del cliente, no de la empresa',
+              'Evitar ambas — el copy neutro es más profesional',
+            ],
+            correct: 2,
+            explanation: 'El ratio recomendado es aproximadamente 1:3 a favor del "tú". Si cuentas las veces que tu copy dice "yo/nosotros/nuestra empresa" vs "tú/tu negocio/tus clientes", más "yo" = copy egocéntrico que no convierte. El cliente solo piensa en sí mismo — tu copy también debe.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Better Proposals — Templates profesionales',
+        url: 'https://betterproposals.io',
+        type: 'tool',
+      },
+      {
+        title: 'Proposify — Software de propuestas',
+        url: 'https://www.proposify.com',
+        type: 'tool',
+      },
+      {
+        title: 'The Follow-Up Formula — Blog post',
+        url: 'https://www.yesware.com/blog/follow-up-email',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: IA en el Workflow ─────────────────────────────────────────────────
+
+  {
+    id: 'ia-1',
+    number: 23,
+    title: 'Prompting Efectivo: habla el idioma de la IA',
+    description: 'Aprende a comunicarte con modelos de lenguaje de manera que obtengas resultados de calidad profesional, no respuestas genéricas.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia1-l1',
+        title: 'Cómo funcionan los LLMs y por qué el prompt importa tanto',
+        type: 'reading',
+        content: `## Cómo funciona un LLM (y por qué debes saberlo)
+
+Antes de aprender a escribir buenos prompts, entender cómo funciona el modelo te da una ventaja enorme.
+
+### Qué es un LLM
+
+Un Large Language Model (LLM) es un modelo estadístico entrenado en cantidades masivas de texto. Aprende patrones de qué palabras suelen aparecer juntas en contextos específicos.
+
+**No piensa**. Predice la siguiente secuencia de tokens más probable dado el contexto del prompt.
+
+Esto explica:
+- Por qué el contexto importa tanto — el modelo predice en base a todo lo que hay antes
+- Por qué alucinan — generan texto probable aunque no sea verdadero
+- Por qué el mismo prompt puede dar resultados distintos — hay aleatoriedad controlada (temperatura)
+
+### El modelo lee tu prompt como instrucción + contexto + ejemplo
+
+Un prompt es en esencia:
+1. **Quién eres** (rol/sistema)
+2. **Qué quieres** (tarea)
+3. **Cómo lo quieres** (formato, restricciones)
+4. **Para qué** (contexto del uso final)
+5. **Ejemplos** (opcionales pero muy poderosos)
+
+Cuanto más de esto incluyas, mejor el resultado.
+
+### El problema del prompt genérico
+
+\`\`\`
+❌ "Escribe copy para mi empresa de software"
+✅ "Eres un copywriter especializado en B2B SaaS.
+    Escribe el hero copy para la landing page de AlphaDev Studios,
+    una agencia que construye software con IA integrada para startups.
+    Audiencia: founders en etapa pre-Serie A que hablan inglés o español.
+    Tono: confiado, directo, técnico pero accesible.
+    Incluye: headline (máx 10 palabras), subheadline (máx 20 palabras), 3 bullets de beneficios.
+    No uses: 'soluciones innovadoras', 'transformación digital', ni cualquier frase genérica de agencia."
+\`\`\`
+
+La diferencia no es magia — es contexto, restricciones y especificidad.
+
+### Modelos disponibles en 2026 y para qué usar cada uno
+
+| Modelo | Mejor para |
+|--------|-----------|
+| Claude Opus 4.8 | Razonamiento complejo, análisis, código de alta complejidad |
+| Claude Sonnet 4.6 | Uso diario: redacción, código, análisis moderado |
+| GPT-4o | Integración con herramientas de OpenAI, imágenes |
+| Gemini 2.5 Pro | Contexto muy largo (1M tokens), tareas multimodal |
+| Llama 3.3 (local) | Privacidad, sin costo por token, offline |`,
+        completed: false,
+      },
+      {
+        id: 'ia1-l1b',
+        title: 'Mini-práctica: Itera un prompt hasta obtener calidad profesional',
+        type: 'practice',
+        tasks: [
+          'Elige una tarea real que necesites completar (email, copy, análisis, código)',
+          'Escribe el prompt más simple posible y documenta el resultado',
+          'Agrega rol, contexto y tono — documenta el nuevo resultado',
+          'Agrega restricciones específicas (qué NO hacer) — documenta',
+          'Agrega un ejemplo de lo que quieres (few-shot) — documenta el resultado final',
+          'Compara las 4 versiones: ¿cuánto mejoró la calidad con cada adición?',
+        ],
+        tip: 'Los ejemplos (few-shot prompting) son el modificador más poderoso de todos. Si tienes un ejemplo de un output que te gusta, incluirlo en el prompt casi siempre produce resultados similares o mejores.',
+        completed: false,
+      },
+      {
+        id: 'ia1-l2',
+        title: 'Técnicas avanzadas: Chain of Thought, roles y context windows',
+        type: 'reading',
+        content: `## Técnicas de prompting que marcan la diferencia
+
+### Chain of Thought (CoT) — razonamiento paso a paso
+
+Los LLMs resuelven problemas complejos mejor cuando se les pide pensar en voz alta.
+
+\`\`\`
+❌ "¿Cuál es la mejor estrategia de precios para mi SaaS?"
+
+✅ "Voy a pedirte que analices la estrategia de precios para mi SaaS.
+    Antes de dar una recomendación, razona paso a paso:
+    1. Qué tipo de negocio es y qué métricas importan
+    2. Qué estrategias de pricing existen para este tipo
+    3. Qué datos necesitaría para decidir bien
+    4. Cuál es tu recomendación y por qué
+    Solo entonces dame la respuesta final."
+\`\`\`
+
+### Role prompting — convierte al modelo en el experto
+
+\`\`\`
+"Eres un senior growth hacker con 10 años de experiencia en startups B2B SaaS,
+especializado en growth orgánico y product-led growth. Has trabajado con empresas
+que pasaron de $0 a $1M ARR. Hablas directo, das ejemplos específicos, no usas
+jerga sin definirla. Con eso en mente, [tu pregunta aquí]."
+\`\`\`
+
+El modelo adopta el conocimiento y el estilo del rol. Cuanto más específico el rol, mejor.
+
+### Context window — la memoria del modelo
+
+El context window es la cantidad de tokens que el modelo puede "ver" al mismo tiempo:
+- Claude 3.5 Sonnet: 200K tokens (~150,000 palabras)
+- Gemini 2.5 Pro: 1M tokens
+
+**Implicaciones prácticas**:
+- Para proyectos largos, el modelo puede ver todo el código de una vez
+- La información al principio y al final del prompt se retiene mejor que la del medio
+- No necesitas resumir conversaciones anteriores en modelos modernos
+
+### Prompts para diferentes tareas
+
+**Para código**:
+*"Escribe en TypeScript, strict mode, sin any. Incluye los tipos necesarios. Si necesitas hacer algo que podría causar errores en runtime, manéjalo explícitamente. Agrega JSDoc solo si la función es no-obvia."*
+
+**Para análisis**:
+*"Analiza esto desde múltiples ángulos. Al final, dame tu evaluación con nivel de confianza (alta/media/baja) y qué información adicional cambiaría tu conclusión."*
+
+**Para edición de copy**:
+*"Edita este texto para que sea más directo y persuasivo. Mantén el tono [X]. No agregues nada — solo mejora lo que hay. Explica brevemente los cambios principales que hiciste."*
+
+### Iterar en conversación vs nuevo prompt
+
+**Conversación**: cuando el contexto acumulado es valioso (código en progreso, análisis iterativo)
+**Nuevo prompt**: cuando la conversación anterior se desvió o el contexto es ruido`,
+        completed: false,
+      },
+      {
+        id: 'ia1-l2b',
+        title: 'Mini-práctica: Construye un prompt system para tu flujo de trabajo',
+        type: 'practice',
+        tasks: [
+          'Identifica las 5 tareas que más haces y podrías delegar a IA (emails, análisis, código, copy, etc.)',
+          'Para cada una, escribe un prompt reutilizable con rol, contexto, restricciones y formato de output',
+          'Guárdalos en un documento "Prompt Library" en Notion o similar',
+          'Prueba cada prompt con una tarea real y ajusta según el resultado',
+          'Agrega un ejemplo (few-shot) al menos a 2 de los 5 prompts — compara el resultado antes/después',
+        ],
+        tip: 'Una prompt library personal es uno de los activos más valiosos que puedes construir. Los mejores prompts no son los más complejos — son los más claros. Un prompt reutilizable bien escrito vale meses de iteraciones.',
+        completed: false,
+      },
+          {
+        id: 'ia-1-proj-basico',
+        title: 'Proyecto Básico: Mapa de IA para tu agencia',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Mapea cómo la IA puede (y no puede) aplicarse en cada área de tu agencia o práctica freelance.',
+        deliverables: [
+          'Mapa visual en FigJam o Miro: servicios que ofreces + en cuáles la IA puede ayudar y en cuáles no',
+          'Para cada área con IA: herramienta específica y porcentaje de trabajo automatizable',
+          'Para cada área sin IA: por qué no aplica',
+          'Conclusión de 150 palabras: cómo cambia tu propuesta de valor integrando estas herramientas',
+        ],
+        tip: 'El mapa más honesto incluye los casos donde la IA NO ayuda. Sobrestimarla lleva a promesas incumplibles con clientes.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Anthropic — Prompt Engineering Guide',
+        url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview',
+        type: 'documentation',
+      },
+      {
+        title: 'OpenAI Prompt Engineering Guide',
+        url: 'https://platform.openai.com/docs/guides/prompt-engineering',
+        type: 'documentation',
+      },
+      {
+        title: 'PromptBase — Marketplace de prompts',
+        url: 'https://promptbase.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-2',
+    number: 24,
+    title: 'IA para Diseño, Código y Contenido',
+    description: 'Integra herramientas de IA en tu flujo de trabajo de diseño (imágenes, UI), desarrollo (Copilot, Claude Code) y creación de contenido.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia2-l1',
+        title: 'IA para generación de imágenes: workflows reales',
+        type: 'reading',
+        content: `## IA para generación de imágenes en producción
+
+Las herramientas de generación de imágenes con IA pasaron de curiosidad a parte esencial del workflow creativo. Saber usarlas bien separa al profesional del amateur.
+
+### Herramientas principales en 2026
+
+**Midjourney** — el estándar de calidad para imágenes creativas
+- Calidad fotorrealista y artística superior
+- Curva de aprendizaje moderada
+- Ideal: branding, marketing, ilustraciones
+
+**DALL-E 3 (vía ChatGPT o API)** — más controlable y literal
+- Sigue instrucciones más precisas
+- Mejor para composiciones específicas
+- Ideal: mockups, infografías, ilustraciones técnicas
+
+**Stable Diffusion (local)** — open source, sin costo por imagen
+- Requiere hardware (GPU) o servicios como RunDiffusion
+- Máxima personalización y control
+- Ideal: producción en volumen, fine-tuning para marca específica
+
+**Gemini (Imagen 3)** — integrado en el ecosistema Google
+- Buen equilibrio entre calidad y control
+- Excelente para iteración conversacional
+- Ideal: contenido editorial, assets de marketing
+
+### Workflow profesional con IA generativa
+
+\`\`\`
+1. Brief visual claro (colores, estilo, composición, mood)
+2. Prompt detallado en inglés (mejor que español en todos los modelos)
+3. Generación inicial → evaluar → iterar en la misma conversación
+4. Refinar la variante más cercana (no empezar de cero)
+5. Post-producción en Figma o Photopea si es necesario
+6. Optimizar: WebP/AVIF, < 500KB para web
+\`\`\`
+
+### Anatomía de un prompt de imagen efectivo
+
+\`\`\`
+[Estilo dominante], [sujeto/composición], [materiales/texturas],
+[iluminación], [fondo], [mood], [restricciones], [aspect ratio]
+
+Ejemplo:
+"Premium 3D render, minimalist floating geometric shapes in obsidian
+and translucent glass materials, volumetric blue light (#0080ff) from below,
+deep slate gradient background (#0f172a), cinematic and sophisticated,
+no text, no humans, 16:9"
+\`\`\`
+
+### Límites éticos y legales
+
+- **No generar**: caras de personas reales, obras protegidas por copyright, contenido engañoso
+- **Transparencia**: si usas IA en trabajo para clientes, comunícalo
+- **Derecho de autor**: varía por jurisdicción — en 2026 el debate legal sigue abierto
+- **Regla práctica**: usa IA para crear assets originales, no para reproducir estilos de artistas específicos sin permiso
+
+### IA para UI: desde Figma
+
+- **Figma AI** — genera variantes de diseño, auto-layout, descripción de componentes
+- **Galileo AI** — genera UI completa desde descripción textual
+- **Uizard** — prototipado rápido con IA desde sketches o prompts`,
+        completed: false,
+      },
+      {
+        id: 'ia2-l1b',
+        title: 'Mini-práctica: Genera assets visuales para un proyecto real',
+        type: 'practice',
+        tasks: [
+          'Elige un proyecto (sitio web, app, campaña) que necesite assets visuales',
+          'Escribe un brief visual: estilo, paleta de colores, mood, qué NO quieres',
+          'Genera 3 variantes de hero image con Gemini o DALL-E usando la estructura de prompt aprendida',
+          'Itera en la mejor variante hasta obtener algo usable (mínimo 3 iteraciones)',
+          'Optimiza el resultado final: convierte a WebP, verifica que pesa menos de 500KB',
+        ],
+        tip: 'El 80% del valor en generación de imágenes está en el brief visual, no en el prompt técnico. Si sabes exactamente qué quieres (referencia, paleta, composición), el prompt casi se escribe solo. Si no tienes claro el brief, ningún prompt te salvará.',
+        completed: false,
+      },
+      {
+        id: 'ia2-l2',
+        title: 'Claude Code y GitHub Copilot: IA que escribe código',
+        type: 'reading',
+        content: `## IA para desarrollo: el workflow que multiplica velocidad
+
+Las herramientas de IA para código no reemplazan al desarrollador — multiplican su velocidad. Un buen developer con IA produce entre 3x y 10x más que sin ella.
+
+### Claude Code — el asistente de código más potente
+
+Claude Code (el CLI de Anthropic) opera directamente en tu codebase:
+
+\`\`\`bash
+# Instalar
+npm install -g @anthropic-ai/claude-code
+
+# Usar en tu proyecto
+cd mi-proyecto
+claude
+\`\`\`
+
+Lo que puede hacer:
+- Leer, editar y crear archivos en todo el proyecto
+- Ejecutar comandos (build, test, lint)
+- Hacer refactoring de múltiples archivos
+- Debuggear errores con contexto completo del código
+- Escribir tests
+
+**Casos de uso reales en AlphaDev**:
+- "Refactoriza este componente para usar Server Component en lugar de Client"
+- "Agrega TypeScript strict types a toda la carpeta /components"
+- "Implementa la API route para este formulario de contacto"
+- "Encuentra todos los console.log y reemplázalos con un logger apropiado"
+
+### GitHub Copilot — autocompletado inteligente
+
+Se integra en VS Code, JetBrains, etc:
+
+- **Autocompletado**: sugiere código línea por línea o función completa
+- **Copilot Chat**: pregunta sobre el código, pide explicaciones, genera tests
+- **Copilot Edits**: edita múltiples archivos con una sola instrucción
+
+**Para maximizar Copilot**:
+1. Escribe comentarios descriptivos antes de la función — Copilot los usa como prompt
+2. Nombra bien las variables — Copilot infiere la intención del nombre
+3. Tener tests escritos mejora las sugerencias de implementación
+
+### El workflow ideal: Claude Code + Copilot
+
+\`\`\`
+Arquitectura y refactoring grande → Claude Code (contexto completo del proyecto)
+Escritura de código línea a línea → Copilot (autocompletado en tiempo real)
+Debugging complejo → Claude Code (puede leer logs, ejecutar, iterar)
+Tests unitarios → Copilot Chat (genera tests para función seleccionada)
+\`\`\`
+
+### Lo que la IA NO puede hacer bien (aún)
+
+- Tomar decisiones de arquitectura sin contexto de negocio
+- Saber qué es "correcto" para tu caso específico
+- Reemplazar la revisión crítica del código
+- Garantizar que el código es seguro (siempre revisar el output)`,
+        completed: false,
+      },
+      {
+        id: 'ia2-l2b',
+        title: 'Mini-práctica: Completa una feature usando IA como pair programmer',
+        type: 'practice',
+        tasks: [
+          'Elige una feature real de un proyecto (formulario, componente, API route)',
+          'Usa Claude Code o Copilot Chat para implementarla desde cero — documenta cada prompt que enviaste',
+          'Revisa el código generado línea por línea: ¿hay errores? ¿vulnerabilidades? ¿tipos incorrectos?',
+          'Pídele a la IA que escriba los tests para el código que generó',
+          'Reflexiona: ¿cuánto tiempo te tomó vs sin IA? ¿Qué partes mejoraste manualmente?',
+        ],
+        tip: 'Trata a la IA como un junior developer muy rápido: necesita instrucciones claras, revisión de su trabajo, y correcciones cuando se equivoca. El error es asumir que el código generado está correcto sin leerlo.',
+        completed: false,
+      },
+          {
+        id: 'ia-2-proj-basico',
+        title: 'Proyecto Básico: Biblioteca de prompts de agencia',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Construye una biblioteca de prompts optimizados para los servicios de tu agencia. Será un activo que usarás continuamente.',
+        deliverables: [
+          'Mínimo 15 prompts organizados por categoría de servicio',
+          'Cada prompt tiene: nombre, cuándo usarlo, el prompt completo y un ejemplo de output esperado',
+          'Al menos 3 categorías: copy/redacción, estrategia y análisis/research',
+          'Documento en Notion o Google Docs con formato claro y buscable',
+        ],
+        tip: 'El mejor prompt es el que puedes usar mañana sin modificaciones. Si siempre tienes que adaptarlo mucho, no está suficientemente parametrizado.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Claude Code — Documentación oficial',
+        url: 'https://docs.anthropic.com/en/docs/claude-code',
+        type: 'documentation',
+      },
+      {
+        title: 'GitHub Copilot — Getting Started',
+        url: 'https://docs.github.com/en/copilot/getting-started-with-github-copilot',
+        type: 'documentation',
+      },
+      {
+        title: 'Midjourney — Prompt Guide',
+        url: 'https://docs.midjourney.com/docs/prompts',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-3',
+    number: 25,
+    title: 'Automatizaciones con n8n y Make',
+    description: 'Construye flujos de trabajo automatizados que conectan apps, procesan datos y ahorran horas de trabajo repetitivo cada semana.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia3-l1',
+        title: 'Automatizaciones: qué es, cuándo automatizar y cuándo no',
+        type: 'reading',
+        content: `## Automatizaciones: el principio correcto
+
+Antes de automatizar cualquier cosa, hay una pregunta que debes hacerte:
+
+> *"¿Cuánto tiempo pierdo en esto cada mes, y es consistente?"*
+
+Si la respuesta es "más de 2 horas al mes y siempre sigue el mismo patrón" → automatiza.
+Si la respuesta es "varía mucho según el caso" → probablemente no vale la pena.
+
+### Qué es la automatización no-code
+
+Herramientas como n8n y Make te permiten conectar aplicaciones y crear flujos de trabajo sin escribir código:
+
+- Cuando pasa X (trigger) → hacer Y (action)
+- Cuando llega un form → guardarlo en Notion + enviar email + notificar en Slack
+
+### n8n vs Make vs Zapier
+
+| | n8n | Make | Zapier |
+|---|---|---|---|
+| **Precio** | Free (self-hosted) o ~$20/mes cloud | Free hasta 1,000 ops/mes | Free hasta 100 tasks/mes |
+| **Complejidad** | Alta (más poderoso) | Media | Baja |
+| **Ideal para** | Flujos complejos, privacidad | Automatizaciones medianas | Flujos simples |
+| **Curva de aprendizaje** | Alta | Media | Baja |
+
+**Para AlphaDev Studios**: n8n es la herramienta ideal — más poderosa, open-source, y puede correr en tu propio servidor (privacidad total).
+
+### Casos de uso reales para una agencia
+
+**Lead management**:
+→ Form de contacto llega → se crea registro en CRM → se envía email de confirmación → se crea tarea en Notion → notificación a Slack
+
+**Onboarding de clientes**:
+→ Contrato firmado en DocuSign → crear workspace en Notion → invitar al cliente → crear proyecto en Linear → enviar email de bienvenida
+
+**Reportes automáticos**:
+→ Cada viernes → obtener métricas de Google Analytics → formatear → enviar resumen por email
+
+**Social media**:
+→ Nuevo post en blog → crear variantes para Instagram, LinkedIn, Twitter → programar en Buffer
+
+### Cuándo NO automatizar
+
+- Cuando el proceso cambia frecuentemente
+- Cuando requiere juicio humano en cada caso
+- Cuando el costo de mantenimiento > el tiempo ahorrado
+- Cuando un error podría tener consecuencias graves`,
+        completed: false,
+      },
+      {
+        id: 'ia3-l1b',
+        title: 'Mini-práctica: Mapea los procesos automatizables de tu negocio',
+        type: 'practice',
+        tasks: [
+          'Lista todos los procesos manuales repetitivos que haces en una semana típica',
+          'Para cada uno, estima: frecuencia (veces/mes), tiempo (minutos), variabilidad (alta/baja)',
+          'Calcula el tiempo mensual total perdido en cada proceso',
+          'Prioriza los 3 más impactantes (alto tiempo × baja variabilidad)',
+          'Para cada uno, dibuja el flujo: trigger → pasos → resultado final. ¿Cuáles apps conectarías?',
+        ],
+        tip: 'El mapa de procesos es más valioso que la automatización misma. A veces al mapear descubres que el proceso no debería existir en absoluto, o que hay una herramienta que ya lo hace sin necesidad de n8n.',
+        completed: false,
+      },
+      {
+        id: 'ia3-l2',
+        title: 'Construir tu primer flujo en n8n: paso a paso',
+        type: 'reading',
+        content: `## n8n: tu primer workflow real
+
+n8n es una herramienta de automatización visual donde conectas "nodos" (bloques de acción) para crear flujos.
+
+### Conceptos base de n8n
+
+**Nodos**: bloques individuales con una función específica
+- **Trigger nodes**: inician el flujo (webhook, schedule, email recibido)
+- **Action nodes**: ejecutan acciones (enviar email, crear fila en DB, llamar API)
+- **Logic nodes**: condiciones, loops, merge de datos
+
+**Workflow**: la secuencia de nodos conectados
+
+**Credentials**: las claves API de tus apps (se guardan de forma segura en n8n)
+
+**Executions**: cada vez que el workflow corre — puedes ver el historial
+
+### Setup inicial
+
+**Opción 1 — n8n Cloud** (más fácil):
+1. Crear cuenta en n8n.io
+2. Crear nuevo workflow
+3. Conectar apps con sus credenciales
+
+**Opción 2 — Self-hosted** (más barato):
+\`\`\`bash
+# Con Docker
+docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  -v ~/.n8n:/home/node/.n8n \
+  n8nio/n8n
+\`\`\`
+
+### Flujo ejemplo: Form → Notion → Email
+
+**Trigger**: Webhook (recibe el form)
+\`\`\`
+Paso 1: Webhook node — URL única que recibe el POST del formulario
+Paso 2: Set node — formatea los datos (nombre, email, mensaje)
+Paso 3: Notion node — crea una página en tu database de leads
+Paso 4: Gmail/Resend node — envía email de confirmación al lead
+Paso 5: Slack node — notificación a tu canal #nuevos-leads
+\`\`\`
+
+### Debugging en n8n
+
+Cada nodo muestra el input y output de cada ejecución. Cuando algo falla:
+1. Click en la ejecución fallida en "Executions"
+2. Identifica el nodo que falló (ícono rojo)
+3. Ve el error message y el input que recibió
+4. Ajusta el nodo y re-ejecuta
+
+### Manejo de errores
+
+n8n tiene nodos de Error Trigger que capturan fallos:
+\`\`\`
+Error Trigger → Slack node (notificación de fallo) + guardar error en DB
+\`\`\`
+
+Siempre agrega manejo de errores en workflows de producción.`,
+        completed: false,
+      },
+      {
+        id: 'ia3-l2b',
+        title: 'Mini-práctica: Construye tu primer workflow real en n8n',
+        type: 'practice',
+        tasks: [
+          'Crea una cuenta en n8n.io (cloud trial gratuito) o instálalo con Docker localmente',
+          'Implementa el flujo: Typeform/Tally form → Google Sheets (guardar lead) → Gmail (email de confirmación)',
+          'Prueba el flujo enviando un form real y verifica que todos los pasos funcionen',
+          'Agrega un nodo de condición: si el email ya existe en la sheet, no crear duplicado',
+          'Agrega un Error Trigger que te notifique por email si el workflow falla',
+        ],
+        tip: 'Empieza siempre con el workflow más simple posible (2-3 nodos) y hazlo funcionar antes de agregar complejidad. Agregar un nodo a la vez hace el debugging mucho más fácil.',
+        completed: false,
+      },
+          {
+        id: 'ia-3-proj-inter',
+        title: 'Proyecto Intermedio: Workflow automatizado real',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Identifica un proceso repetitivo en tu trabajo y automatízalo completamente. El workflow debe funcionar de forma autónoma sin intervención manual.',
+        deliverables: [
+          'Descripción del proceso antes: pasos, tiempo que tomaba, errores comunes',
+          'Workflow en n8n, Zapier o Make: diagrama del flujo e instrucciones de configuración',
+          'Video demo de 2 minutos mostrando el workflow en acción (Loom)',
+          'Métricas: tiempo ahorrado por semana y otros beneficios medibles',
+        ],
+        tip: 'Automatiza primero el proceso más aburrido que haces. Si lo odias hacerlo manualmente, la motivación de terminarlo es mayor.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'n8n Docs — Getting Started',
+        url: 'https://docs.n8n.io/getting-started/quickstart',
+        type: 'documentation',
+      },
+      {
+        title: 'Make (Integromat) — Academy',
+        url: 'https://academy.make.com',
+        type: 'course',
+      },
+      {
+        title: 'n8n Community — Workflows compartidos',
+        url: 'https://community.n8n.io',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-4',
+    number: 26,
+    title: 'Agentes IA: el siguiente nivel de automatización',
+    description: 'Entiende qué son los agentes IA, cómo construir flujos agénticos con n8n + LLMs, y los casos de uso reales en una agencia.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia4-l1',
+        title: 'Qué son los agentes IA y cómo piensan',
+        type: 'reading',
+        content: `## Agentes IA: autonomía con propósito
+
+Un agente IA no es un chatbot. Es un sistema que puede **razonar, planificar y tomar acciones** para lograr un objetivo, usando herramientas.
+
+### La diferencia fundamental
+
+**LLM clásico** (ChatGPT, Claude):
+- Tú haces una pregunta → el modelo responde → fin
+- El modelo no puede actuar en el mundo real
+
+**Agente IA**:
+- Tú defines un objetivo → el agente planifica → usa herramientas → observa resultados → repite hasta lograr el objetivo
+
+### El loop agéntico
+
+\`\`\`
+Objetivo → Razonar → Planificar acción → Ejecutar acción → Observar resultado
+          ↑_________________________________________|
+                    (si el objetivo no se logró)
+\`\`\`
+
+### Herramientas que puede usar un agente
+
+- **Web search**: buscar información actualizada
+- **Code execution**: correr código Python/JS
+- **File operations**: leer/escribir archivos
+- **API calls**: consultar servicios externos
+- **Browser control**: navegar y hacer acciones en sitios web
+
+### Ejemplos de agentes reales
+
+**Agente de research**:
+*Objetivo: "Encuentra los 5 principales competidores de [startup], analiza sus precios y estrategia de marketing"*
+→ Busca en web → lee páginas → extrae precios → compila análisis → genera reporte
+
+**Agente de onboarding**:
+*Objetivo: "Onboarding completo para el nuevo cliente XYZ"*
+→ Crea workspace en Notion → configura repositorio en GitHub → envía emails → crea tickets iniciales
+
+**Agente de código**:
+*Claude Code haciendo refactoring de una feature completa*
+→ Lee el código → planifica cambios → edita archivos → corre tests → corrige errores → commit
+
+### Por qué los agentes no son perfectos (todavía)
+
+- **Alucinaciones**: pueden tomar acciones basadas en información incorrecta
+- **Loops**: pueden quedarse atrapados si el objetivo es ambiguo
+- **Costo**: muchas llamadas al LLM = más tokens = más $$$
+- **Confianza**: las acciones con consecuencias graves necesitan supervisión humana
+
+### Principio de supervisión humana
+
+Para tareas de alto impacto (enviar emails, publicar en producción, gastar dinero), el agente debe:
+1. Planificar y mostrar el plan al humano
+2. Esperar aprobación
+3. Ejecutar
+4. Reportar resultado`,
+        completed: false,
+      },
+      {
+        id: 'ia4-l1b',
+        title: 'Mini-práctica: Diseña un agente para tu agencia',
+        type: 'practice',
+        tasks: [
+          'Identifica un proceso de tu agencia que podría beneficiarse de un agente (research, onboarding, reporting)',
+          'Escribe la especificación del agente: objetivo, herramientas necesarias, outputs esperados',
+          'Dibuja el loop agéntico: qué observa en cada iteración y cuándo sabe que terminó',
+          'Identifica los puntos donde necesita supervisión humana (decisiones de alto impacto)',
+          'Estima el costo en tokens por ejecución — ¿es viable económicamente?',
+        ],
+        tip: 'Los mejores casos para agentes son tareas que: (1) requieren múltiples pasos, (2) necesitan información de múltiples fuentes, (3) tienen criterios de éxito claros, y (4) los errores son recuperables. Empieza siempre con el caso más controlado.',
+        completed: false,
+      },
+      {
+        id: 'ia4-l2',
+        title: 'Construir un agente con n8n + Claude: caso práctico',
+        type: 'reading',
+        content: `## Agente de research con n8n + Claude
+
+Vamos a construir un agente real: dado el nombre de una empresa, investiga automáticamente y genera un brief de prospecto para la agencia.
+
+### El workflow completo
+
+\`\`\`
+Input: nombre de empresa
+→ Google Search (sitio web oficial)
+→ Scraping del sitio (descripción, servicios, tecnología)
+→ LinkedIn Search (tamaño de empresa, industria)
+→ Claude: analizar toda la información y generar brief
+→ Output: documento en Notion con el brief estructurado
+\`\`\`
+
+### Nodos de n8n necesarios
+
+**1. Manual Trigger** (o Webhook para versión automatizada)
+- Input: \`{ "empresa": "NombreEmpresa" }\`
+
+**2. HTTP Request → SerpAPI o Serper.dev**
+\`\`\`json
+{
+  "q": "{{ $json.empresa }} site oficial",
+  "num": 3
+}
+\`\`\`
+
+**3. HTTP Request → Jina.ai Reader** (scraping limpio)
+\`\`\`
+GET https://r.jina.ai/{url-del-sitio}
+\`\`\`
+
+**4. Anthropic Claude node** (n8n tiene nodo nativo)
+\`\`\`
+Analiza esta información sobre la empresa {nombre}:
+{contenido del sitio}
+
+Genera un brief de prospecto con:
+- Descripción del negocio (2-3 oraciones)
+- Tecnologías que usan (si es visible)
+- Posibles pain points que AlphaDev podría resolver
+- Tamaño estimado y etapa (startup/scaleup/empresa)
+- Recomendación: ¿es buen fit para AlphaDev? ¿Por qué?
+\`\`\`
+
+**5. Notion node**
+- Crear página en database "Prospectos"
+- Guardar el brief generado
+
+### Hacerlo más inteligente: memoria y contexto
+
+Para que el agente recuerde prospectos anteriores y no duplique trabajo:
+
+\`\`\`
+Antes de investigar → consultar Notion si ya existe el prospecto
+Si existe → actualizar en lugar de crear nuevo
+Si no existe → crear nuevo
+\`\`\`
+
+### Costos estimados
+
+- SerpAPI: $50/mes para 5,000 búsquedas
+- Claude API: ~$0.01 por research completo (Sonnet)
+- Jina.ai Reader: free tier disponible
+- **Total por prospecto**: ~$0.02-0.05
+
+Para una agencia que prospecta 50 empresas/mes: ~$2.50/mes en APIs.
+
+### Escalar el agente
+
+Una vez que funciona para un caso, escala:
+1. Input masivo: una lista de 100 empresas en Google Sheets
+2. Loop en n8n: procesar cada empresa
+3. Enrichment adicional: Clearbit, Apollo.io para datos de contacto
+4. Priorización automática: Claude rankea los mejores prospectos`,
+        completed: false,
+      },
+      {
+        id: 'ia4-l2b',
+        title: 'Mini-práctica: Construye el agente de research en n8n',
+        type: 'practice',
+        tasks: [
+          'Crea el workflow en n8n con los nodos: Trigger → HTTP Request (búsqueda) → Claude → Notion',
+          'Prueba con 3 empresas reales — verifica que el brief generado es útil y preciso',
+          'Agrega la lógica de "no duplicar": verificar en Notion antes de crear',
+          'Optimiza el prompt de Claude hasta que el brief sea consistentemente bueno',
+          'Documenta el workflow: qué hace cada nodo, qué credenciales necesita, cómo usarlo',
+        ],
+        tip: 'Cuando el agente falla, el problema suele estar en los datos intermedios, no en Claude. Revisa el output de cada nodo antes de Claude para verificar que está recibiendo buena información. Basura entra, basura sale.',
+        completed: false,
+      },
+
+      {
+        id: 'ia-exam',
+        title: 'Examen final: IA en el Workflow',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Qué es el "context window" de un modelo de lenguaje y por qué importa?',
+            options: [
+              'La ventana de la interfaz de usuario donde escribes el prompt',
+              'La cantidad máxima de tokens que el modelo puede procesar en una sola interacción (input + output)',
+              'El tiempo máximo que tarda el modelo en generar una respuesta',
+              'El número máximo de conversaciones que puedes tener por mes',
+            ],
+            correct: 1,
+            explanation: 'El context window es la "memoria de trabajo" del modelo — todo lo que puede ver simultáneamente. Claude 3.5 Sonnet tiene 200K tokens (~150,000 palabras). Si el input supera el context window, el modelo pierde información del inicio. Para proyectos grandes de código, un context window amplio es crucial.',
+          },
+          {
+            q: '¿Qué es el "few-shot prompting" y por qué mejora los resultados?',
+            options: [
+              'Enviar prompts muy cortos para ahorrar tokens',
+              'Incluir ejemplos del output deseado dentro del prompt para que el modelo imite el formato y estilo',
+              'Dividir un prompt complejo en múltiples prompts pequeños',
+              'Usar el modelo con temperatura baja (few shots = menos aleatoriedad)',
+            ],
+            correct: 1,
+            explanation: 'Few-shot prompting incluye 1-5 ejemplos de input→output en el prompt. El modelo aprende el patrón deseado de esos ejemplos y lo replica. Es el modificador de calidad más poderoso disponible: un prompt con un buen ejemplo produce resultados significativamente más consistentes que el mismo prompt sin ejemplo.',
+          },
+          {
+            q: '¿Cuál es la diferencia fundamental entre un LLM clásico y un agente IA?',
+            options: [
+              'Los agentes son más inteligentes — tienen mayor capacidad de razonamiento',
+              'Un LLM responde a un input y termina; un agente puede razonar, usar herramientas, observar resultados e iterar hasta lograr un objetivo',
+              'Los agentes funcionan solo offline; los LLMs requieren conexión a internet',
+              'Un agente es simplemente un LLM con una personalidad definida (system prompt)',
+            ],
+            correct: 1,
+            explanation: 'Un LLM es input → output, fin. Un agente implementa un loop: objetivo → razonar → ejecutar acción (buscar, escribir código, llamar API) → observar resultado → repetir. Esta capacidad de actuar iterativamente en el mundo real es lo que los hace cualitativamente diferentes de un chatbot.',
+          },
+          {
+            q: 'En n8n, ¿cuál es la diferencia entre un "Trigger node" y un "Action node"?',
+            options: [
+              'Los Trigger nodes son más caros en el plan de pago',
+              'Trigger nodes inician el workflow cuando ocurre un evento; Action nodes ejecutan operaciones dentro del workflow',
+              'Trigger nodes solo funcionan con webhooks; Action nodes con APIs',
+              'No hay diferencia funcional, es solo una categorización visual',
+            ],
+            correct: 1,
+            explanation: 'Trigger nodes son el "cuándo": webhook recibido, horario programado, email llegado, nuevo registro en DB. Action nodes son el "qué": enviar email, crear fila en Supabase, llamar a Claude, publicar en Slack. Sin Trigger no hay workflow; sin Actions el workflow no hace nada útil.',
+          },
+          {
+            q: '¿Qué es la "temperatura" en los modelos de IA y cómo afecta el output?',
+            options: [
+              'El uso de CPU del servidor — temperatura alta significa más carga computacional',
+              'Un parámetro que controla la aleatoriedad: temperatura 0 = determinista/predecible, temperatura 1 = más creativo/variado',
+              'La velocidad de generación de tokens — temperatura alta genera más rápido',
+              'El nivel de censura del modelo — temperatura alta = menos restricciones',
+            ],
+            correct: 1,
+            explanation: 'Temperatura controla cuánta aleatoriedad hay en la selección de tokens. Temp 0 = siempre elige el token más probable (muy consistente, ideal para código, datos). Temp 0.7-1 = más variación y creatividad (ideal para copy, brainstorming). La mayoría de casos de producción usan 0-0.3.',
+          },
+          {
+            q: '¿Cuándo deberías usar Claude Code en lugar de GitHub Copilot?',
+            options: [
+              'Claude Code solo para proyectos Python; Copilot para JavaScript',
+              'Claude Code para tareas que requieren contexto completo del proyecto (refactoring, bugs complejos, múltiples archivos); Copilot para autocompletado línea por línea mientras escribes',
+              'Son idénticos — solo difieren en precio',
+              'Copilot para código; Claude Code solo para documentación',
+            ],
+            correct: 1,
+            explanation: 'Claude Code lee y entiende el proyecto completo, puede editar múltiples archivos, ejecutar comandos, ver errores y corregir — ideal para tareas de alto nivel. Copilot es un autocompletado inteligente en tiempo real dentro del editor. Se complementan: Claude Code para arquitectura/refactoring, Copilot para escritura rápida de código.',
+          },
+          {
+            q: '¿Qué significa que un agente IA sea "alucinando" y cómo mitigarlo?',
+            options: [
+              'El agente se vuelve lento por sobrecarga — se mitiga reiniciando la sesión',
+              'El modelo genera información falsa presentada con total confianza — se mitiga con RAG, validación de outputs y supervisión humana en decisiones críticas',
+              'El agente entra en un loop infinito — se mitiga con límites de iteraciones',
+              'El agente ignora parte del prompt — se mitiga siendo más específico',
+            ],
+            correct: 1,
+            explanation: 'Los LLMs generan el token más probable, no el más verdadero. Esto causa que inventen hechos, URLs, nombres o datos con aparente seguridad. Mitigaciones: RAG (darle la información como contexto en lugar de pedirle que la "recuerde"), validar outputs críticos, no usar LLMs para datos factuales sin grounding, supervisión humana en acciones irreversibles.',
+          },
+          {
+            q: '¿Cuál es el riesgo principal de incluir la service_role key de Supabase en código frontend?',
+            options: [
+              'El build fallará porque esa key solo funciona en el servidor',
+              'La key expuesta en el browser permite a cualquiera bypassear todas las políticas RLS y tener acceso total a la base de datos',
+              'Supabase bloqueará la key automáticamente si detecta uso desde el browser',
+              'Solo causa un warning en la consola del browser',
+            ],
+            correct: 1,
+            explanation: 'La service_role key bypasea completamente el Row Level Security — cualquiera que la vea en el código fuente puede leer, modificar o eliminar cualquier dato de tu base de datos. La anon key es la única que va al frontend. La service_role va solo a rutas API del servidor o funciones edge, nunca en código cliente.',
+          },
+        ],
+        completed: false,
+      },
+    
+    {
+      id: 'ia-4-p1',
+      title: 'Proyecto: Pipeline RAG en producción',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Implementa un sistema RAG (Retrieval-Augmented Generation) que responda preguntas sobre un conjunto de documentos propios. Usa embeddings, vector store y un LLM. El sistema debe estar disponible vía API o interfaz web.',
+      deliverables: [
+        'Código del pipeline completo en GitHub',
+        'Mínimo 20 documentos indexados',
+        'API o interfaz para hacer preguntas',
+        'Evaluación de calidad: 10 preguntas con respuestas esperadas',
+        'README con arquitectura explicada',
+      ],
+      rubrica: [
+        'Retrieval relevante en >80% de consultas de prueba',
+        'Respuestas grounded (no alucinaciones evidentes)',
+        'Sistema disponible para demostración',
+        'Arquitectura documentada con diagrama',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'n8n — AI Agents documentation',
+        url: 'https://docs.n8n.io/advanced-ai/intro-tutorial',
+        type: 'documentation',
+      },
+      {
+        title: 'Jina.ai Reader — Scraping para LLMs',
+        url: 'https://jina.ai/reader',
+        type: 'tool',
+      },
+      {
+        title: 'Anthropic — Building Agents guide',
+        url: 'https://docs.anthropic.com/en/docs/build-with-claude/tool-use/build-an-agent',
+        type: 'documentation',
+      },
+    ],
+  },
+
+  // ─── Track: SEO y Posicionamiento Orgánico ───────────────────────────────────
+
+  {
+    id: 'seo-1',
+    number: 27,
+    title: 'Keyword Research: encontrar las palabras que importan',
+    description: 'Aprende a identificar qué busca tu audiencia, cómo priorizar oportunidades y construir la arquitectura de contenido que Google premia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's1-l1',
+        title: 'Cómo funciona Google y por qué el SEO no es trampa',
+        type: 'reading',
+        content: `## SEO: el canal con mejor ROI a largo plazo
+
+El SEO (Search Engine Optimization) es el proceso de hacer que tu sitio web aparezca en los primeros resultados de búsqueda para las palabras clave relevantes de tu negocio.
+
+No es trampa. No es magia. Es entender cómo funciona Google y darle exactamente lo que busca: **el resultado más útil y confiable para cada búsqueda**.
+
+### Cómo funciona Google (versión que importa para SEO)
+
+**1. Crawling** — Googlebot visita páginas web a través de links y las descarga
+**2. Indexing** — Google procesa y guarda las páginas en su índice (base de datos gigante)
+**3. Ranking** — Cuando alguien busca, Google ordena las páginas relevantes según ~200 factores
+
+### Los 3 pilares del SEO
+
+**Técnico** — ¿puede Google rastrear e indexar tu sitio sin problemas?
+- Velocidad, mobile-friendly, HTTPS, sitemap, robots.txt
+
+**Contenido** — ¿tu sitio responde mejor que otros lo que la gente busca?
+- Relevancia, profundidad, originalidad, actualización
+
+**Autoridad** — ¿otros sitios confiables enlazan al tuyo?
+- Backlinks, menciones, reputación de dominio
+
+### Por qué SEO vs otros canales
+
+| Canal | Costo | Tiempo | Duración |
+|-------|-------|--------|----------|
+| Google Ads | Alto por click | Inmediato | Solo mientras pagas |
+| Meta Ads | Medio | Rápido | Solo mientras pagas |
+| **SEO orgánico** | Bajo (tiempo) | 3-12 meses | Indefinido |
+| Email | Bajo | Medio | Indefinido |
+
+El SEO es el canal que más demora en arrancar y más dura una vez que funciona.
+
+### Search Intent: la clave que la mayoría ignora
+
+Cada búsqueda tiene una *intención*. Google clasifica las búsquedas en 4 tipos:
+
+**Informacional** — "cómo hacer SEO" → quieren aprender
+**Navegacional** — "AlphaDev Studios" → quieren ir a un sitio específico
+**Comercial** — "mejor agencia digital LATAM" → están evaluando opciones
+**Transaccional** — "contratar agencia Next.js" → listos para comprar
+
+El SEO efectivo crea contenido que coincide con la intención correcta en cada etapa.`,
+        completed: false,
+      },
+      {
+        id: 's1-l1b',
+        title: 'Mini-práctica: Mapea el search intent de tu negocio',
+        type: 'practice',
+        tasks: [
+          'Lista 20 búsquedas que tus clientes potenciales podrían hacer (mezcla de informacional, comercial y transaccional)',
+          'Clasifica cada búsqueda en los 4 tipos de intent (informacional / navegacional / comercial / transaccional)',
+          'Para las 5 búsquedas transaccionales, busca en Google incógnito y anota quién aparece primero',
+          'Elige 3 búsquedas donde creas que podrías competir y explica por qué',
+          'Instala la extensión Ahrefs SEO Toolbar (gratuita) y observa los métricas de las páginas que rankean',
+        ],
+        tip: 'La mayoría de empresas pequeñas intenta rankear para términos transaccionales de alto volumen y alta competencia. El SEO efectivo empieza por las búsquedas informacionales de nicho — donde hay menos competencia y puedes establecer autoridad antes de pelear por las keywords comerciales.',
+        completed: false,
+      },
+      {
+        id: 's1-l2',
+        title: 'Keyword research: volumen, dificultad y oportunidad real',
+        type: 'reading',
+        content: `## Keyword Research: encontrar palabras que puedas ganar
+
+El keyword research no es buscar las palabras con más volumen. Es encontrar las palabras donde el volumen justifica el esfuerzo y tienes posibilidad real de rankear.
+
+### Las métricas que importan
+
+**Search Volume (SV)** — búsquedas mensuales promedio
+- Alto no siempre es mejor: más volumen = más competencia
+- Un keyword de 100 búsquedas/mes muy relevante vale más que uno de 10,000 irrelevante
+
+**Keyword Difficulty (KD)** — qué tan difícil es rankear (0-100)
+- KD 0-20: fácil, ideal para sitios nuevos
+- KD 20-50: moderado, necesitas autoridad de dominio media
+- KD 50+: difícil, solo sitios establecidos con muchos backlinks
+
+**CPC (Cost Per Click)** — lo que los anunciantes pagan por ese click
+- Alto CPC = intención comercial alta = valor para el negocio
+
+**Domain Rating / Domain Authority** — autoridad de tu dominio (0-100)
+- Tu DR determina contra quién puedes competir
+
+### Herramientas gratuitas vs de pago
+
+**Gratuitas**:
+- **Google Search Console** — las keywords que ya te traen tráfico (INDISPENSABLE)
+- **Google Keyword Planner** — volúmenes aproximados (necesita cuenta Google Ads)
+- **Ubersuggest** (versión free) — keyword ideas básicas
+- **Answer The Public** — preguntas que hace la gente
+
+**De pago (valen la pena)**:
+- **Ahrefs** — el estándar de la industria, ~$99/mes
+- **Semrush** — similar a Ahrefs, más enfocado en marketing
+- **Mangools KWFinder** — más económico, bueno para starters (~$29/mes)
+
+### El proceso de keyword research en 5 pasos
+
+\`\`\`
+1. Seed keywords → las palabras base de tu negocio
+   "agencia digital", "desarrollo web", "landing page"
+
+2. Expand → usa herramientas para encontrar variaciones
+   "agencia digital startup", "contratar agencia desarrollo web"
+
+3. Filter → aplica filtros de volumen y dificultad
+   Elimina KD >50 si tu DR es bajo
+
+4. Classify → agrupa por intent y tema
+   Informacional / Comercial / Transaccional
+
+5. Prioritize → elige las 10-20 oportunidades más viables
+   Balance entre volumen, dificultad y relevancia
+\`\`\`
+
+### Long-tail vs short-tail
+
+**Short-tail** (1-2 palabras): "agencia digital"
+- Alto volumen, alta competencia, intent genérico
+
+**Long-tail** (3+ palabras): "agencia desarrollo web para startups México"
+- Bajo volumen, baja competencia, intent específico → más fácil de convertir
+
+**Estrategia ganadora para sitios nuevos**: empieza con long-tail de baja competencia, construye autoridad, luego ataca short-tail.`,
+        completed: false,
+      },
+      {
+        id: 's1-l2b',
+        title: 'Mini-práctica: Construye tu keyword map inicial',
+        type: 'practice',
+        tasks: [
+          'Crea una spreadsheet con columnas: Keyword, Volumen mensual, KD, Intent, Prioridad (1-3)',
+          'Genera 50 keywords usando Google Autocomplete (tipea tu keyword base y anota las sugerencias)',
+          'Filtra a 20 keywords viables para tu nivel de autoridad actual',
+          'Agrúpalas en 5-7 "clusters" temáticos (cada cluster = una página o sección del sitio)',
+          'Marca con ⭐ las 5 keywords que atacarías primero y justifica cada elección',
+        ],
+        tip: 'El truco del keyword research no es encontrar la keyword perfecta — es encontrar keywords que otras empresas similares a ti están ganando. Si alguien con tu mismo nivel de autoridad rankea en top 10, tú también puedes.',
+        completed: false,
+      },
+          {
+        id: 'seo-1-proj-basico',
+        title: 'Proyecto Básico: Keyword research para un nicho',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Haz un keyword research completo para un nicho de tu elección con herramientas gratuitas. Objetivo: 30 keywords accionables.',
+        deliverables: [
+          '30 keywords en clusters temáticos (mínimo 4 clusters)',
+          'Para cada keyword: volumen aproximado, dificultad (alta/media/baja) e intent (informacional, comercial, transaccional, navegacional)',
+          'Top 10 priorizadas con justificación',
+          'Mapa de contenidos: qué página cubriría cada cluster',
+        ],
+        tip: 'Las mejores keywords para un sitio nuevo no son las de mayor volumen — son las de menor dificultad con suficiente volumen.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Ahrefs — Free SEO Tools',
+        url: 'https://ahrefs.com/free-seo-tools',
+        type: 'tool',
+      },
+      {
+        title: 'Google Search Console',
+        url: 'https://search.google.com/search-console',
+        type: 'tool',
+      },
+      {
+        title: 'Ahrefs Blog — Beginner\'s Guide to SEO',
+        url: 'https://ahrefs.com/blog/learn-seo',
+        type: 'course',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-2',
+    number: 28,
+    title: 'SEO Técnico: la base que Google necesita ver',
+    description: 'Core Web Vitals, indexación, schema markup, sitemap y todo lo que hace que Google pueda rastrear y premiar tu sitio.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's2-l1',
+        title: 'Core Web Vitals y performance SEO',
+        type: 'reading',
+        content: `## SEO Técnico: la infraestructura que Google evalúa
+
+Google usa señales técnicas como factor de ranking. Un sitio lento, con errores de crawl o sin HTTPS pierde posiciones frente a sitios técnicamente sanos.
+
+### Core Web Vitals (CWV)
+
+Google mide 3 métricas de experiencia del usuario en tiempo real:
+
+**LCP — Largest Contentful Paint** (velocidad de carga percibida)
+- Mide: cuánto tarda en cargar el elemento más grande visible
+- Target: < 2.5 segundos
+- Solución si falla: optimizar imágenes (WebP, lazy loading), CDN, servidor más rápido
+
+**INP — Interaction to Next Paint** (responsividad)
+- Mide: cuánto tarda la página en responder a una interacción del usuario
+- Target: < 200ms
+- Solución si falla: reducir JavaScript bloqueante, optimizar event handlers
+
+**CLS — Cumulative Layout Shift** (estabilidad visual)
+- Mide: cuánto se mueven los elementos mientras carga la página
+- Target: < 0.1
+- Solución si falla: definir dimensiones explícitas en imágenes y videos
+
+### Cómo medir CWV
+
+**PageSpeed Insights** (gratuito):
+\`\`\`
+https://pagespeed.web.dev/
+\`\`\`
+Analiza una URL y da puntuación + recomendaciones específicas.
+
+**Google Search Console → Core Web Vitals**:
+- Muestra el estado de todas las páginas de tu sitio
+- Diferencia entre mobile y desktop
+- Alertas cuando páginas bajan de "bueno" a "necesita mejora"
+
+### HTTPS y seguridad
+
+HTTPS es factor de ranking confirmado desde 2014. Todo sitio moderno debe tenerlo.
+
+Vercel lo configura automáticamente. Si usas otro hosting:
+\`\`\`bash
+# Let's Encrypt gratis con Certbot
+sudo certbot --nginx -d tudominio.com
+\`\`\`
+
+### Robots.txt y crawl budget
+
+\`\`\`txt
+# /robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Sitemap: https://tudominio.com/sitemap.xml
+\`\`\`
+
+**Reglas**:
+- Bloquea lo que NO debe indexarse (admin, APIs, páginas de login)
+- No bloquees CSS/JS — Google los necesita para renderizar
+- Verifica en GSC que Googlebot puede acceder a lo que necesitas
+
+### Indexación y canonicales
+
+\`\`\`html
+<!-- En el <head> de cada página -->
+<link rel="canonical" href="https://tudominio.com/pagina-correcta" />
+\`\`\`
+
+El canonical le dice a Google cuál es la versión "oficial" de una URL — evita contenido duplicado cuando hay parámetros URL o múltiples rutas al mismo contenido.`,
+        completed: false,
+      },
+      {
+        id: 's2-l1b',
+        title: 'Mini-práctica: Auditoría técnica de tu sitio',
+        type: 'practice',
+        tasks: [
+          'Corre tu sitio en pagespeed.web.dev — anota los scores mobile y desktop por separado',
+          'Identifica los 3 problemas más críticos que reporta y busca la solución específica para cada uno',
+          'Verifica en Google Search Console que tu sitemap está configurado y no hay errores de crawl',
+          'Revisa que todas tus páginas tienen canonical tag correcto (inspecciona el HTML)',
+          'Corre un crawl gratuito con Screaming Frog (hasta 500 URLs) — identifica 404s, redirects y páginas sin meta description',
+        ],
+        tip: 'En Next.js, el LCP más fácil de mejorar es priorizar la imagen del hero: agrega priority={true} al componente <Image> del hero. Esto pre-carga la imagen antes del renderizado y generalmente mejora el LCP en 0.5-1 segundo.',
+        completed: false,
+      },
+      {
+        id: 's2-l2',
+        title: 'Schema markup, Open Graph y metadatos SEO',
+        type: 'reading',
+        content: `## Metadatos SEO: cómo Google muestra tu sitio
+
+Los metadatos le dicen a Google y redes sociales cómo presentar tu contenido. Bien implementados mejoran el CTR (click-through rate) sin mejorar el ranking — pero más clicks sí mejoran el ranking a largo plazo.
+
+### Meta tags esenciales
+
+\`\`\`typescript
+// Next.js — app/page.tsx o cualquier layout/page
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AlphaDev Studios — Software con IA para Startups',
+  description: 'Construimos tu MVP en 3 semanas con Next.js, Supabase e IA integrada. Para founders que no tienen tiempo que perder.',
+  keywords: ['agencia desarrollo web', 'MVP startup', 'Next.js'],
+  robots: 'index, follow',
+  canonical: 'https://alphadev.studio',
+};
+\`\`\`
+
+**Reglas para title y description**:
+- Title: 50-60 caracteres. Keyword principal al inicio.
+- Description: 140-160 caracteres. Persuasivo, no solo descriptivo.
+- Cada página necesita title y description únicos.
+
+### Open Graph (para redes sociales)
+
+\`\`\`typescript
+export const metadata: Metadata = {
+  openGraph: {
+    title: 'AlphaDev Studios',
+    description: 'Software con IA para startups. En producción en 3 semanas.',
+    url: 'https://alphadev.studio',
+    siteName: 'AlphaDev Studios',
+    images: [
+      {
+        url: 'https://alphadev.studio/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AlphaDev Studios',
+      },
+    ],
+    locale: 'es_MX',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AlphaDev Studios',
+    description: 'Software con IA para startups.',
+    images: ['https://alphadev.studio/og-image.png'],
+  },
+};
+\`\`\`
+
+### Schema Markup / JSON-LD
+
+Schema.org es un vocabulario estándar que le dice a Google exactamente qué tipo de contenido eres. Puede generar "rich results" (resultados enriquecidos) en Google.
+
+\`\`\`tsx
+// app/layout.tsx — Schema para organización
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'AlphaDev Studios',
+  url: 'https://alphadev.studio',
+  description: 'Agencia de desarrollo web con IA para startups',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-407-686-7561',
+    contactType: 'sales',
+  },
+  sameAs: [
+    'https://instagram.com/alphadev.studio',
+  ],
+};
+
+// En el JSX:
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+/>
+\`\`\`
+
+### Sitemap.xml en Next.js
+
+\`\`\`typescript
+// app/sitemap.ts
+import { MetadataRoute } from 'next';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: 'https://alphadev.studio',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: 'https://alphadev.studio/servicios',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+  ];
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 's2-l2b',
+        title: 'Mini-práctica: Implementa metadatos SEO completos',
+        type: 'practice',
+        tasks: [
+          'Audita todas las páginas de tu sitio — anota cuáles no tienen title/description únicos',
+          'Implementa metadata en Next.js para cada página (title, description, og:image, twitter:card)',
+          'Agrega Schema JSON-LD de tipo Organization o LocalBusiness según corresponda',
+          'Genera el sitemap.xml con Next.js y verifica que está en https://tudominio.com/sitemap.xml',
+          'Valida el schema en schema.dev/tools/validate y el OG en opengraph.xyz',
+        ],
+        tip: 'La og:image es lo más visible cuando alguien comparte tu link en Slack, Twitter o WhatsApp. Una imagen de 1200x630px bien diseñada con tu logo y tagline puede doblar el CTR de un link compartido vs no tener og:image.',
+        completed: false,
+      },
+          {
+        id: 'seo-2-proj-inter',
+        title: 'Proyecto Intermedio: Auditoría técnica de SEO',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Audita el SEO técnico de un sitio web real. Identifica los problemas y prioriza las acciones.',
+        deliverables: [
+          'Core Web Vitals: screenshot de PageSpeed en mobile y desktop con interpretación de cada métrica',
+          'Estructura: sitemap.xml, robots.txt, canonicals y meta tags de las 5 páginas principales',
+          'Links: broken links encontrados + análisis de internal linking',
+          'Reporte de problemas priorizado por impacto × facilidad de implementación',
+          'Plan de acción: los 5 fixes más importantes con instrucciones específicas',
+        ],
+        tip: 'Ordenar los problemas por prioridad es tan importante como encontrarlos. El cliente no puede arreglar todo a la vez.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'PageSpeed Insights',
+        url: 'https://pagespeed.web.dev',
+        type: 'tool',
+      },
+      {
+        title: 'Schema.org — Structured Data Validator',
+        url: 'https://schema.dev/tools/validate',
+        type: 'tool',
+      },
+      {
+        title: 'Screaming Frog SEO Spider (gratis hasta 500 URLs)',
+        url: 'https://www.screamingfrog.co.uk/seo-spider',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-3',
+    number: 29,
+    title: 'Content SEO: crear contenido que rankea',
+    description: 'Cómo escribir y estructurar contenido que Google premia: on-page SEO, estructura de posts, clusters de contenido y actualización.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's3-l1',
+        title: 'On-page SEO: optimizar cada página',
+        type: 'reading',
+        content: `## On-page SEO: señales dentro de tu control
+
+El on-page SEO son todos los factores de ranking que controlas directamente dentro de tu propio sitio.
+
+### La anatomía de una página SEO-optimizada
+
+**URL**:
+\`\`\`
+✅ /agencia-desarrollo-web-startups
+❌ /page?id=47&category=services
+❌ /servicios-de-desarrollo-web-para-startups-en-mexico-2024
+\`\`\`
+Corta, descriptiva, keyword incluida, sin caracteres especiales.
+
+**Title Tag** (el más importante):
+\`\`\`html
+<title>Agencia Desarrollo Web para Startups | AlphaDev Studios</title>
+\`\`\`
+- Keyword principal al inicio
+- 50-60 caracteres
+- Único por página
+- Incluye la marca al final
+
+**H1** (uno por página):
+\`\`\`html
+<h1>Desarrollo Web para Startups con IA integrada</h1>
+\`\`\`
+- Similar al title, puede variar ligeramente
+- Debe contener la keyword principal
+- Solo uno por página
+
+**H2/H3** (estructura del contenido):
+- Cada H2 cubre un sub-tema relevante
+- Incluyen variaciones de la keyword naturalmente
+- Ayudan a Google a entender la estructura del artículo
+
+**Primer párrafo**:
+- La keyword principal aparece en las primeras 100 palabras
+- Establece de qué trata la página inmediatamente
+
+### Densidad de keyword y LSI
+
+La keyword debe aparecer de forma natural en:
+- Title, H1, primer párrafo
+- URL
+- Alt text de imágenes relevantes
+- Algunos H2/H3
+- Conclusión
+
+**Evitar keyword stuffing** (repetición forzada) — Google lo penaliza.
+
+**LSI keywords** (Latent Semantic Indexing): palabras relacionadas que Google espera ver:
+- Si hablas de "agencia SEO" → espera ver: ranking, posicionamiento, keywords, Google, contenido
+- Usar sinónimos y términos relacionados naturalmente mejora la relevancia temática
+
+### Longitud del contenido
+
+No hay número mágico, pero hay correlaciones:
+- Top 3 resultados en Google promedian 1,500-2,500 palabras para queries informacionales
+- Landing pages de servicios pueden funcionar con 800-1,200 palabras bien escritas
+- Más palabras ≠ mejor: 500 palabras perfectas > 3,000 rellenas
+
+La regla: **cubre el tema mejor que cualquier otro resultado en esa SERP específica**.
+
+### Imágenes optimizadas
+
+\`\`\`html
+<img
+  src="equipo-alphadev-studios.webp"
+  alt="Equipo de AlphaDev Studios trabajando en proyecto Next.js"
+  width="800"
+  height="600"
+  loading="lazy"
+/>
+\`\`\`
+- **Alt text**: descriptivo + keyword natural si aplica
+- **Nombre de archivo**: descriptivo, con guiones
+- **Formato**: WebP o AVIF
+- **Dimensiones explícitas**: evita CLS`,
+        completed: false,
+      },
+      {
+        id: 's3-l1b',
+        title: 'Mini-práctica: Optimiza una página existente',
+        type: 'practice',
+        tasks: [
+          'Elige una página de tu sitio que ya tenga algo de tráfico (o que quieras que tenga) y define su keyword principal',
+          'Audita: ¿aparece la keyword en title, H1, primer párrafo, URL y al menos un H2?',
+          'Revisa todas las imágenes de la página: ¿tienen alt text descriptivo? ¿están en WebP?',
+          'Usa la extensión "Detailed SEO Extension" para ver el outline de headings — ¿la estructura tiene sentido?',
+          'Reescribe el title y meta description para maximizar el CTR desde los resultados de búsqueda',
+        ],
+        tip: 'Antes de crear contenido nuevo, optimiza el contenido que ya tienes. Una página que rankea en posición 8 y pasa a posición 3 puede triplicar el tráfico sin crear nada nuevo. El SEO de lo existente siempre tiene mejor ROI que crear desde cero.',
+        completed: false,
+      },
+      {
+        id: 's3-l2',
+        title: 'Content clusters: la arquitectura que multiplica autoridad',
+        type: 'reading',
+        content: `## Topic Clusters: el modelo de contenido que Google premia en 2025
+
+Google evalúa la **autoridad temática** de un sitio: ¿cubre este sitio un tema en profundidad, o solo tiene una página superficial?
+
+Los topic clusters responden a esto sistemáticamente.
+
+### La estructura hub-and-spoke
+
+\`\`\`
+Pillar Page (hub)
+"Guía completa de SEO para startups"
+│
+├── Cluster: "Keyword research para startups"
+├── Cluster: "SEO técnico en Next.js"
+├── Cluster: "Cómo escribir meta descriptions"
+├── Cluster: "Link building para sitios nuevos"
+└── Cluster: "Cómo medir el ROI del SEO"
+\`\`\`
+
+**Pillar page**: cubre el tema principal de forma amplia (3,000-5,000 palabras)
+**Cluster pages**: cubren sub-temas en profundidad (1,000-2,000 palabras cada una)
+**Internal linking**: cada cluster enlaza a la pillar y la pillar enlaza a cada cluster
+
+### Por qué funciona
+
+1. Google ve que el sitio cubre el tema **exhaustivamente**
+2. El interlinking distribuye "autoridad" entre páginas relacionadas
+3. Cuando una página cluster gana backlinks, también beneficia a la pillar
+4. Cubre múltiples intenciones de búsqueda dentro del mismo tema
+
+### Cómo planificar un cluster
+
+\`\`\`
+1. Elige el tema central de tu negocio
+   Ejemplo: "desarrollo web para startups"
+
+2. Mapea las preguntas que tiene tu audiencia sobre ese tema
+   - ¿Cuánto cuesta desarrollar una startup?
+   - ¿Next.js o React para una startup?
+   - ¿Cuándo contratar un desarrollador vs una agencia?
+   - ¿Cómo medir el ROI del desarrollo web?
+
+3. Cada pregunta = un artículo del cluster
+   Con su propio keyword, título optimizado, contenido profundo
+
+4. Crea la pillar que enlaza a todos
+   Y actualiza cada cluster para que enlace a la pillar
+\`\`\`
+
+### Internal linking estratégico
+
+- Cada artículo nuevo debe enlazar a 3-5 artículos existentes relevantes
+- Usa anchor text descriptivo (no "click aquí")
+- La pillar page tiene el mayor número de internal links entrantes
+- Nunca dejes "huérfanas" páginas sin links que apunten a ellas`,
+        completed: false,
+      },
+      {
+        id: 's3-l2b',
+        title: 'Mini-práctica: Diseña el primer topic cluster de tu sitio',
+        type: 'practice',
+        tasks: [
+          'Elige el tema central más relevante para tu negocio (ejemplo: "agencia digital para startups")',
+          'Crea el mapa del cluster: 1 pillar page + 5-8 cluster pages con sus keywords individuales',
+          'Escribe el outline completo (H1, H2, H3) de la pillar page',
+          'Escribe el artículo completo de una cluster page (mínimo 1,000 palabras, SEO-optimizado)',
+          'Implementa el internal linking: el artículo enlaza a la pillar y a 2 clusters relacionados',
+        ],
+        tip: 'El error más común con clusters es crear todos los artículos y no publicar la pillar page. La pillar es lo que ancla todo el cluster — sin ella, los artículos individuales rankean solos sin el boost de autoridad del sistema.',
+        completed: false,
+      },
+    
+    {
+      id: 'seo-3-p1',
+      title: 'Proyecto: Auditoría técnica básica',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Usa Google Search Console y PageSpeed Insights para auditar un sitio web real o de práctica. Identifica los 5 problemas más críticos y propón soluciones.',
+      deliverables: [
+        'Captura de Core Web Vitals del sitio',
+        'Lista de 5 problemas encontrados',
+        'Propuesta de solución para cada problema',
+      ],
+      rubrica: [
+        'Problemas correctamente identificados',
+        'Soluciones técnicamente viables',
+        'Priorización correcta por impacto',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'HubSpot — Topic Clusters Model',
+        url: 'https://blog.hubspot.com/marketing/topic-clusters-seo',
+        type: 'article',
+      },
+      {
+        title: 'Ahrefs — On-Page SEO Guide',
+        url: 'https://ahrefs.com/blog/on-page-seo',
+        type: 'article',
+      },
+      {
+        title: 'Surfer SEO — Content optimization (prueba gratuita)',
+        url: 'https://surferseo.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-4',
+    number: 30,
+    title: 'Link Building y Autoridad de Dominio',
+    description: 'Construye autoridad con backlinks de calidad: estrategias éticas, outreach efectivo y cómo medir el impacto.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's4-l1',
+        title: 'Por qué los backlinks siguen siendo el factor más poderoso',
+        type: 'reading',
+        content: `## Backlinks: el voto de confianza que Google más valúa
+
+Un backlink es cuando otro sitio web enlaza al tuyo. Google los interpreta como votos de confianza: si sitios confiables enlazan a ti, probablemente tú también eres confiable.
+
+### No todos los backlinks son iguales
+
+**Factores que determinan el valor de un backlink**:
+
+1. **Autoridad del dominio que enlaza** — un link de nytimes.com vale 1,000x más que uno de un blog sin tráfico
+2. **Relevancia temática** — un link de una agencia de marketing vale más que uno de un blog de recetas
+3. **Texto de anchor** — el texto clickeable del link (debe ser descriptivo, no "click aquí")
+4. **Posición en la página** — links en el cuerpo del artículo valen más que los del footer
+5. **Follow vs nofollow** — "nofollow" le dice a Google que no pase autoridad (menos valioso pero útil)
+
+### Links que dañan (spam y penalizaciones)
+
+Google puede **penalizar** sitios con links artificiales:
+- Comprar backlinks en bulk
+- Redes de links privadas (PBNs)
+- Links de directorios spam
+- Intercambios masivos de links
+
+**Regla de oro**: si el link está ahí porque alguien eligió enlazarte porque tu contenido es bueno, es un buen link.
+
+### Domain Rating / Domain Authority
+
+Herramientas como Ahrefs (DR) y Moz (DA) calculan la autoridad de un dominio en escala 0-100:
+
+- DR 0-20: sitio nuevo, baja autoridad
+- DR 20-40: autoridad moderada, puede competir en nichos
+- DR 40-60: buena autoridad, competitivo
+- DR 60+: autoridad alta, compite por cualquier keyword
+
+El DR de AlphaDev Studios hoy es probablemente bajo (sitio nuevo). **Eso es normal** — el SEO es un juego largo.
+
+### Cómo ver los backlinks de cualquier sitio
+
+\`\`\`
+Ahrefs Site Explorer → pegar URL → Backlinks
+\`\`\`
+
+Esto te muestra:
+- Quién enlaza a la competencia (oportunidades para ti)
+- Qué contenido de la competencia genera más links (para hacer algo mejor)
+- Tu propio perfil de links (para identificar problemas)`,
+        completed: false,
+      },
+      {
+        id: 's4-l1b',
+        title: 'Mini-práctica: Analiza el perfil de links de la competencia',
+        type: 'practice',
+        tasks: [
+          'Elige 2 competidores directos y analiza sus backlinks con Ahrefs (versión de prueba) o con la versión gratuita de Ubersuggest',
+          'Identifica los 5 backlinks más valiosos de cada competidor: ¿quién enlaza? ¿por qué contenido?',
+          'Busca los sitios que enlazan a múltiples competidores — esos son los que más interesa conseguir',
+          'Identifica qué tipo de contenido de la competencia genera más backlinks (guías, herramientas, estudios)',
+          'Lista 5 oportunidades concretas de link building que podrías replicar',
+        ],
+        tip: 'El link gap analysis (ver qué sitios enlazan a tu competencia pero no a ti) es la forma más eficiente de encontrar oportunidades. Si un sitio ya enlazó a un competidor con contenido similar al tuyo, tienes alta probabilidad de conseguir el mismo link.',
+        completed: false,
+      },
+      {
+        id: 's4-l2',
+        title: 'Estrategias de link building éticas que funcionan',
+        type: 'reading',
+        content: `## Link Building: estrategias que funcionan en 2025
+
+El link building no es spam. Es crear algo tan bueno que otros quieran compartirlo, y a veces también es pedir directamente ese link con una propuesta de valor clara.
+
+### 1. Digital PR — el método más escalable
+
+Crea contenido con datos originales, estudios o perspectivas únicas que periodistas y bloggers quieran citar.
+
+**Tipos de contenido que generan links de forma natural**:
+- Estudios con datos originales ("Analizamos 100 proyectos de startups: esto encontramos")
+- Herramientas gratuitas (calculadoras, generadores, templates)
+- Guías definitivas sobre un tema de nicho
+- Infografías con datos complejos simplificados
+
+**Para AlphaDev**: un estudio sobre "cuánto tarda y cuesta lanzar un MVP en LATAM" con datos reales podría generar links de medios de tecnología y startups.
+
+### 2. Guest posting — escribir para otros sitios
+
+Escribes un artículo de valor para otro blog/publicación, y a cambio incluyen 1-2 links hacia tu sitio.
+
+\`\`\`
+Proceso:
+1. Lista 20 blogs/publicaciones que leen tus clientes ideales
+2. Verifica que tienen buen DR (>30) y audiencia real
+3. Propón un tema específico que aporte valor a su audiencia
+4. Escribe el mejor artículo que hayas escrito
+5. Negocia el link dentro del artículo (no solo en el bio)
+\`\`\`
+
+### 3. Link Reclamation — los más fáciles de conseguir
+
+Busca menciones de tu marca/sitio en la web que no tengan link:
+
+\`\`\`
+Google: "AlphaDev Studios" -site:alphadev.studio
+\`\`\`
+
+Si alguien ya menciona tu marca sin enlazarte, un email cordial pidiéndolo convierte en el 40-60% de los casos.
+
+### 4. Resource link building
+
+Muchos sitios tienen páginas de "recursos recomendados". Si tienes una herramienta o guía útil, puedes pedir que te incluyan.
+
+### 5. HARO / Connectively — ser la fuente de expertos
+
+HARO (Help A Reporter Out) conecta periodistas con expertos. Cuando un periodista busca una fuente sobre desarrollo web o startups, tú respondes y puedes conseguir un link en medios de alta autoridad.
+
+### Outreach: el email que sí recibe respuesta
+
+\`\`\`
+Asunto: Recurso para tu artículo sobre [tema específico]
+
+Hola [nombre],
+
+Vi tu artículo "[título]" sobre [tema]. Muy buen punto el de [algo específico].
+
+Justo publicamos [tu contenido] que cubre [aspecto complementario] con datos de [fuente].
+
+Creo que añadiría valor a tu artículo si lo incluyes como recurso adicional.
+
+[tu nombre]
+\`\`\`
+
+Personalizado. Específico. Corto. Propuesta de valor clara.`,
+        completed: false,
+      },
+      {
+        id: 's4-l2b',
+        title: 'Mini-práctica: Primera campaña de link building',
+        type: 'practice',
+        tasks: [
+          'Crea una pieza de contenido linkeable: una guía profunda, un template, o una herramienta simple',
+          'Lista 10 sitios relevantes con DR>30 donde ese contenido añadiría valor',
+          'Escribe el email de outreach personalizado para 5 de esos sitios — personaliza cada uno',
+          'Busca menciones sin link de tu marca con Google y envía emails de link reclamation',
+          'Registra todo en una spreadsheet: sitio, DR, fecha de envío, respuesta, resultado',
+        ],
+        tip: 'El outreach funciona con volumen Y personalización. 100 emails personalizados > 1,000 emails de plantilla. La tasa de respuesta promedio es 5-10%, así que necesitas volumen para ver resultados. Pero nunca sacrifiques personalización por volumen.',
+        completed: false,
+      },
+          {
+        id: 'seo-4-proj-pro',
+        title: 'Proyecto Profesional: Plan de contenidos SEO de 6 meses',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Diseña la estrategia de contenidos SEO de 6 meses para un sitio web. Ejecutable por el equipo del cliente.',
+        deliverables: [
+          'Análisis de situación: posicionamiento actual, top 5 competidores orgánicos y oportunidades de gap content',
+          'Keyword strategy: 5 pillar topics con clusters de 8-10 keywords cada uno',
+          'Calendar: 24 artículos con título, keyword principal, intent, palabras estimadas y fecha',
+          'Brief tipo: template para que el redactor produzca cada artículo (H2s, puntos a cubrir)',
+          'Link building: 3 tácticas accionables para los primeros 6 meses',
+          'Dashboard: métricas mensuales y hitos esperados al mes 3 y 6',
+        ],
+        rubrica: [
+          'El keyword research está validado con herramientas reales',
+          'Los artículos tienen search intent coherente con el funnel del cliente',
+          'El plan de link building es realista para el presupuesto disponible',
+          'Los hitos son específicos y medibles, no vagos',
+        ],
+        tip: 'Un plan de 6 meses ejecutado al 60% es mejor que uno de 12 meses abandonado a la mitad. Diseña para la capacidad real.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Ahrefs — Link Building Guide',
+        url: 'https://ahrefs.com/blog/link-building',
+        type: 'article',
+      },
+      {
+        title: 'Connectively (ex-HARO)',
+        url: 'https://www.connectively.us',
+        type: 'tool',
+      },
+      {
+        title: 'Hunter.io — Find email addresses',
+        url: 'https://hunter.io',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-5',
+    number: 31,
+    title: 'SEO para Agencias: Auditorías, Reportes y Resultados',
+    description: 'Cómo hacer auditorías SEO para clientes, crear reportes que demuestran valor y escalar un servicio de SEO rentable.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 's5-l1',
+        title: 'Cómo hacer una auditoría SEO completa',
+        type: 'reading',
+        content: `## La auditoría SEO: diagnóstico antes del tratamiento
+
+Una auditoría SEO identifica todos los problemas que están impidiendo que un sitio rankee. Es el primer entregable de cualquier proyecto SEO y establece el baseline para medir el progreso.
+
+### Las 5 áreas de una auditoría completa
+
+**1. Técnico**
+- ¿Está indexado? (site:dominio.com en Google)
+- Core Web Vitals (PageSpeed Insights)
+- Errores de crawl (Google Search Console)
+- Sitemap y robots.txt correctos
+- HTTPS y redireccionamientos
+- URLs duplicadas y canonicales
+
+**2. On-Page**
+- Titles y meta descriptions únicos en todas las páginas
+- Estructura de headings (H1 único, jerarquía correcta)
+- Keyword targeting por página
+- Internal linking y huérfanas
+- Calidad y originalidad del contenido
+
+**3. Contenido**
+- ¿El contenido responde el search intent?
+- ¿Hay thin content (páginas con <300 palabras)?
+- ¿Hay contenido duplicado (interno o externo)?
+- ¿Está el contenido actualizado?
+
+**4. Autoridad / Off-page**
+- Domain Rating actual (Ahrefs)
+- Perfil de backlinks: cantidad, calidad, diversidad
+- Links spam o tóxicos (pueden penalizar)
+- Menciones sin link
+
+**5. Competencia**
+- ¿Quiénes rankean para tus keywords objetivo?
+- Gap de autoridad (tu DR vs su DR)
+- Gap de contenido (qué tienen ellos que tú no)
+
+### Herramientas para la auditoría
+
+\`\`\`
+Crawl técnico:       Screaming Frog (free <500 URLs) o Sitebulb
+On-page:             Ahrefs Site Audit o Semrush Site Audit
+Backlinks:           Ahrefs o Majestic
+Performance:         PageSpeed Insights + GSC
+\`\`\`
+
+### El reporte de auditoría para clientes
+
+Estructura recomendada:
+1. **Executive Summary** — 1 página, findings críticos, oportunidades top
+2. **Puntuación actual** — score técnico, contenido, autoridad
+3. **Issues críticos** — los que más impactan, con evidencia y solución
+4. **Issues moderados** — segunda prioridad
+5. **Quick wins** — cambios de bajo esfuerzo y alto impacto
+6. **Roadmap propuesto** — prioridades por mes/trimestre
+7. **Proyección de resultados** — expectativas realistas`,
+        completed: false,
+      },
+      {
+        id: 's5-l1b',
+        title: 'Mini-práctica: Auditoría SEO completa de un sitio real',
+        type: 'practice',
+        tasks: [
+          'Elige un sitio (tuyo o de un cliente/conocido) y completa el checklist de las 5 áreas',
+          'Documenta cada hallazgo con: problema encontrado, impacto estimado (alto/medio/bajo), solución recomendada',
+          'Prioriza los issues en: críticos (arreglar esta semana), importantes (este mes), mejoras (este trimestre)',
+          'Crea el reporte en Notion o Google Slides usando la estructura de 7 secciones',
+          'Presenta el reporte a alguien (colega, mentor, o grábate) — practica explicar los issues en términos de negocio, no técnicos',
+        ],
+        tip: 'El error más común en reportes de auditoría para clientes: hablar en términos técnicos (301 redirects, canonical tags, crawl budget) sin traducirlos a impacto de negocio. Cada issue debe tener: "esto está pasando → por eso pierdes X → si lo arreglas, conseguirás Y".',
+        completed: false,
+      },
+      {
+        id: 's5-l2',
+        title: 'Reportes mensuales SEO y cómo demostrar ROI',
+        type: 'reading',
+        content: `## Reportes SEO: demostrar valor mes a mes
+
+El SEO tarda meses en dar resultados. Durante ese tiempo, el cliente puede dudar. Un buen reporte mensual mantiene la confianza y demuestra el progreso aunque el tráfico aún no sea el objetivo final.
+
+### Qué medir en un reporte mensual SEO
+
+**Tráfico orgánico** (Google Search Console o GA4):
+- Sesiones orgánicas vs mes anterior y vs mismo mes año anterior
+- Páginas con más crecimiento de tráfico
+- Nuevas keywords donde aparece el sitio
+
+**Rankings** (Ahrefs o Semrush Rank Tracker):
+- Posición de las keywords objetivo
+- Cambios semana a semana
+- Nuevas keywords en top 10, top 3
+
+**Autoridad** (Ahrefs):
+- Domain Rating: cambio mensual
+- Nuevos backlinks adquiridos
+- Backlinks perdidos (para investigar)
+
+**Conversiones orgánicas** (GA4):
+- Leads/ventas provenientes de búsqueda orgánica
+- Páginas de SEO con mejor conversión
+
+### Estructura del reporte mensual
+
+\`\`\`
+1. KPIs del mes (tráfico, rankings, DR)
+2. Comparativa vs mes anterior
+3. Acciones realizadas este mes (qué hicimos)
+4. Resultados de esas acciones
+5. Plan del próximo mes
+6. Proyección acumulada
+\`\`\`
+
+### Cómo calcular ROI del SEO
+
+\`\`\`
+Tráfico orgánico mensual: 1,000 visitas
+Tasa de conversión a lead: 2% = 20 leads/mes
+Tasa de cierre: 10% = 2 clientes/mes
+Ticket promedio: $3,000
+Revenue atribuible al SEO: $6,000/mes
+
+Costo del servicio SEO: $800/mes
+ROI: ($6,000 - $800) / $800 = 650%
+\`\`\`
+
+### Pricing de servicios SEO
+
+**SEO básico** ($300-800/mes):
+- Optimización on-page
+- 2-4 artículos de blog
+- Reporte mensual
+
+**SEO intermedio** ($800-2,000/mes):
+- Todo lo anterior
+- Link building (5-10 links/mes)
+- Auditoría y correcciones técnicas continuas
+
+**SEO avanzado** ($2,000-5,000+/mes):
+- Estrategia completa de contenido
+- Outreach agresivo de links
+- Reporting avanzado con atribución`,
+        completed: false,
+      },
+      {
+        id: 's5-l2b',
+        title: 'Mini-práctica: Crea tu template de reporte mensual SEO',
+        type: 'practice',
+        tasks: [
+          'Crea un template de reporte mensual en Notion o Google Slides con las 6 secciones definidas',
+          'Conecta Google Search Console a Looker Studio y crea un dashboard básico de tráfico orgánico',
+          'Configura el Rank Tracker de Ahrefs (o alternativa) con 10 keywords objetivo',
+          'Escribe el reporte de un mes ficticio o real — practica traducir cada métrica a impacto de negocio',
+          'Define tu pricing para un servicio SEO básico, intermedio y avanzado con justificación de cada nivel',
+        ],
+        tip: 'En los primeros 3 meses de un proyecto SEO, los resultados de tráfico serán mínimos. Reporta progreso de procesos: páginas optimizadas, artículos publicados, links conseguidos. Estos son los leading indicators que predicen el tráfico futuro — y mantienen al cliente informado y en calma.',
+        completed: false,
+      },
+
+      {
+        id: 'seo-exam',
+        title: 'Examen final: SEO y Posicionamiento Orgánico',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Qué es el "search intent" y por qué es más importante que el volumen de búsqueda?',
+            options: [
+              'Es la velocidad con la que un usuario completa una búsqueda — más rápido = mejor SEO',
+              'Es la intención detrás de la búsqueda (informar, navegar, comparar, comprar) — si tu contenido no coincide con esa intención, no rankeará aunque tenga backlinks',
+              'Es el número de veces que un usuario busca un término en un mes',
+              'Es el idioma en que se realiza la búsqueda',
+            ],
+            correct: 1,
+            explanation: 'Google prioriza la satisfacción del usuario sobre todo. Si alguien busca "cómo hacer SEO" (informacional) y tu página es una landing de servicios (transaccional), no rankearás — el intent no coincide. Google detecta si los usuarios rebotan rápido (señal de que tu contenido no responde la intención) y baja tu posición.',
+          },
+          {
+            q: '¿Cuál de estos factores es el MÁS determinante para rankear en Google en 2026?',
+            options: [
+              'Publicar contenido nuevo todos los días',
+              'Tener exactamente la keyword en el title, H1, primer párrafo y URL',
+              'La combinación de autoridad de dominio (backlinks de calidad) + contenido que mejor responde el intent',
+              'Usar las keywords exactas con la densidad correcta (2-3% del texto)',
+            ],
+            correct: 2,
+            explanation: 'Ningún factor solo gana. Google usa ~200 señales, pero las más determinantes son: (1) autoridad/confianza del dominio, construida principalmente con backlinks de calidad, y (2) relevancia del contenido para satisfacer el intent específico. La keyword density es un mito del SEO de 2010 — el SEO moderno se enfoca en profundidad temática y satisfacción del usuario.',
+          },
+          {
+            q: '¿Qué son los Core Web Vitals y cuál es la métrica que mide la estabilidad visual?',
+            options: [
+              'Son métricas de contenido; CLS (Cumulative Layout Shift) mide la estabilidad',
+              'Son métricas de experiencia de usuario; CLS (Cumulative Layout Shift) mide cuánto se mueven los elementos durante la carga',
+              'Son métricas de backlinks; el LCP mide la estabilidad del perfil de links',
+              'Son las métricas principales de Google Search Console',
+            ],
+            correct: 1,
+            explanation: 'Core Web Vitals son 3 métricas de UX que Google usa como factor de ranking: LCP (velocidad de carga percibida), INP (responsividad a interacciones), CLS (estabilidad visual — cuánto se mueven los elementos mientras carga). CLS > 0.1 es "necesita mejora". La solución más común: definir width y height explícitos en imágenes y videos.',
+          },
+          {
+            q: 'Tienes un sitio con DR 15 (bajo). ¿Cuál es la estrategia de keywords más inteligente?',
+            options: [
+              'Atacar keywords de alto volumen (50k+/mes) para capturar el máximo tráfico posible',
+              'Atacar long-tail keywords de baja dificultad (KD 0-20) para ganar autoridad, luego escalar a keywords más competitivas',
+              'Crear contenido sin optimizar para keywords y dejar que Google lo clasifique solo',
+              'Comprar backlinks para subir el DR rápidamente y poder atacar keywords difíciles',
+            ],
+            correct: 1,
+            explanation: 'Con DR bajo, un sitio nuevo no puede competir contra dominios de DR 50+ en keywords de alta competencia. La estrategia correcta: long-tail de KD bajo, ganar posiciones, acumular backlinks orgánicos y autoridad, luego escalar. Saltarse este proceso solo lleva a publicar contenido que nunca rankea.',
+          },
+          {
+            q: '¿Qué es un "topic cluster" y qué ventaja tiene sobre crear artículos individuales sin relación?',
+            options: [
+              'Un topic cluster es un conjunto de keywords similares — no tiene ventaja particular',
+              'Una pillar page + artículos de cluster interconectados que demuestran autoridad temática profunda a Google, distribuyendo la autoridad entre sí y compitiendo mejor para todo el tema',
+              'Un cluster es simplemente usar más categorías en tu blog para organización interna',
+              'Un topic cluster es lo mismo que un sitemap — organiza las URLs para Google',
+            ],
+            correct: 1,
+            explanation: 'Los clusters funcionan porque Google evalúa la profundidad temática de un sitio. Un sitio que cubre exhaustivamente un tema (10 artículos interconectados sobre SEO técnico) tiene más autoridad temática que 10 sitios con 1 artículo cada uno. El interlinking distribuye Page Rank internamente y refuerza la relevancia de todo el cluster.',
+          },
+          {
+            q: '¿Cuál es el problema con comprar backlinks masivamente?',
+            options: [
+              'Es caro pero efectivo si se hace bien',
+              'Google puede detectar patrones no naturales (muchos links de baja calidad repentinamente) y aplicar penalizaciones manuales o algorítmicas que derrumban el ranking',
+              'Los backlinks comprados no transfieren autoridad, así que simplemente no ayudan',
+              'Solo es problema en algunos nichos competitivos',
+            ],
+            correct: 1,
+            explanation: 'Google tiene algoritmos específicos (Penguin) para detectar link schemes. Un perfil con muchos links de directorios spam, textos de anchor exactos repetidos o redes privadas (PBNs) puede recibir penalización manual (un humano de Google la aplica) o algorítmica. Recuperarse de una penalización puede tomar meses o ser permanente.',
+          },
+          {
+            q: '¿Qué información te da Google Search Console que NO te da Google Analytics?',
+            options: [
+              'El tráfico de redes sociales y email',
+              'Las keywords exactas por las que aparece tu sitio en Google, el CTR de cada una, y las impresiones totales',
+              'El comportamiento de los usuarios dentro del sitio (tiempo en página, scroll)',
+              'Las conversiones y el revenue generado',
+            ],
+            correct: 1,
+            explanation: 'GSC es la fuente de datos de búsqueda orgánica: qué keywords te generan impressions, cuáles te dan clicks, cuál es tu CTR y posición promedio para cada query. GA4 no tiene esta data (Google ocultó las keywords en 2013). Para SEO, GSC es indispensable — sin él estás literalmente ciego sobre qué está funcionando.',
+          },
+          {
+            q: 'Un artículo tiene 500 impresiones, 10 clicks y está en posición 6 promedio. ¿Cuál es el quick win de SEO más efectivo?',
+            options: [
+              'Conseguir 50 nuevos backlinks para subir la posición',
+              'Reescribir todo el artículo desde cero con más palabras',
+              'Optimizar el title tag y meta description para mejorar el CTR — un pequeño aumento en CTR puede generar muchos más clicks sin cambiar la posición',
+              'Agregar el artículo al sitemap y esperar que Google lo reindexe',
+            ],
+            correct: 2,
+            explanation: 'CTR = 10/500 = 2%. El promedio de CTR en posición 6 debería ser ~4-6%. Con 500 impresiones, subir el CTR de 2% a 5% triplica los clicks (de 10 a 25) sin hacer nada diferente al ranking. Optimizar title y description para que sean más persuasivos y relevantes es el quick win más eficiente en SEO — bajo esfuerzo, impacto inmediato.',
+          },
+        ],
+        completed: false,
+      },
+    
+    {
+      id: 'seo-5-p1',
+      title: 'Proyecto: Estrategia SEO de 6 meses',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Desarrolla una estrategia SEO completa de 6 meses para un sitio web real. Incluye keyword research exhaustivo, plan de contenidos, estrategia de link building y proyección de tráfico con supuestos documentados.',
+      deliverables: [
+        'Keyword research con mínimo 50 keywords priorizadas',
+        'Mapa de contenidos por mes (6 meses)',
+        'Plan de link building con 10 oportunidades identificadas',
+        'Proyección de tráfico con modelo de supuestos',
+        'KPIs y metodología de reporting mensual',
+      ],
+      rubrica: [
+        'Keyword research con datos reales (Search Volume, KD)',
+        'Contenidos orientados a intent de búsqueda',
+        'Link building viable y no manipulador',
+        'Proyección con supuestos realistas y documentados',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'Google Search Console — Documentación',
+        url: 'https://support.google.com/webmasters',
+        type: 'documentation',
+      },
+      {
+        title: 'Looker Studio (Google Data Studio)',
+        url: 'https://lookerstudio.google.com',
+        type: 'tool',
+      },
+      {
+        title: 'Ahrefs — SEO for Agencies',
+        url: 'https://ahrefs.com/blog/seo-agency',
+        type: 'article',
+      },
+    ],
+  },
+
+  // ─── Track: Analytics y Datos ────────────────────────────────────────────────
+
+  {
+    id: 'data-1',
+    number: 32,
+    title: 'GA4 y Setup de Analytics',
+    description: 'Configura Google Analytics 4 correctamente, entiende el modelo de datos por eventos y mide lo que realmente importa para tu negocio.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd1-l1',
+        title: 'GA4: el modelo de datos que cambió todo',
+        type: 'reading',
+        content: `## Google Analytics 4: pensar en eventos, no en sesiones
+
+GA4 (lanzado en 2023 como reemplazo de Universal Analytics) cambió fundamentalmente cómo se mide el comportamiento web. Entender su modelo de datos es la base de todo lo demás.
+
+### El modelo de datos de GA4: todo son eventos
+
+En Universal Analytics (el antiguo), cada interacción tenía un tipo fijo: pageview, event, transaction.
+
+En GA4, **todo es un evento**. Cada interacción es un evento con parámetros:
+
+\`\`\`
+Evento: page_view
+Parámetros:
+  page_title: "Home — AlphaDev Studios"
+  page_location: "https://alphadev.studio"
+  page_referrer: "https://google.com"
+
+Evento: scroll
+Parámetros:
+  percent_scrolled: 90
+
+Evento: click
+Parámetros:
+  link_url: "https://alphadev.studio/contacto"
+  link_text: "Agenda una llamada"
+\`\`\`
+
+### Eventos automáticos vs personalizados
+
+**Automáticos** (sin configuración):
+- page_view, scroll, click (links externos), file_download, session_start, user_engagement
+
+**Enhanced measurement** (activar en configuración):
+- Scroll depth, outbound clicks, site search, video engagement, form interactions
+
+**Eventos personalizados** (los más valiosos):
+- Cualquier interacción específica de tu negocio
+- "form_submit", "demo_requested", "pricing_viewed"
+
+### Estructura de GA4
+
+\`\`\`
+Cuenta de Google Analytics
+└── Propiedad de GA4 (por sitio/app)
+    ├── Flujos de datos (web, iOS, Android)
+    ├── Eventos
+    ├── Conversiones (eventos marcados como importantes)
+    └── Informes
+\`\`\`
+
+### Setup en Next.js
+
+\`\`\`typescript
+// app/layout.tsx
+import { GoogleAnalytics } from '@next/third-parties/google';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+      </body>
+    </html>
+  );
+}
+\`\`\`
+
+\`\`\`typescript
+// Para eventos personalizados
+import { sendGAEvent } from '@next/third-parties/google';
+
+const handleFormSubmit = () => {
+  sendGAEvent('event', 'form_submit', {
+    form_name: 'contact_startup',
+    value: 1,
+  });
+};
+\`\`\`
+
+### La diferencia entre métricas y dimensiones
+
+**Métrica**: valor numérico medible (sesiones, usuarios, conversiones, duración)
+**Dimensión**: atributo que describe los datos (país, dispositivo, fuente, página)
+
+En GA4 siempre combinas dimensión + métrica:
+- "Sesiones" (métrica) + "País" (dimensión) = sesiones por país
+- "Conversiones" (métrica) + "Fuente" (dimensión) = conversiones por canal`,
+        completed: false,
+      },
+      {
+        id: 'd1-l1b',
+        title: 'Mini-práctica: Configura GA4 en tu proyecto',
+        type: 'practice',
+        tasks: [
+          'Crea una propiedad GA4 en analytics.google.com para tu sitio (o uno de prueba)',
+          'Instala el snippet en Next.js con @next/third-parties/google y verifica que recibe datos en tiempo real',
+          'Activa todos los eventos de Enhanced Measurement (scroll, outbound clicks, file downloads)',
+          'Configura al menos 2 conversiones: una para el submit del formulario de contacto y otra para un click en el CTA principal',
+          'Verifica en el informe "Tiempo real" de GA4 que los eventos llegan correctamente al navegar el sitio',
+        ],
+        tip: 'El error más costoso de analytics: instalar GA4 y no marcar ninguna conversión. Sin conversiones configuradas, GA4 te muestra tráfico pero no te dice si ese tráfico sirve de algo. Configurar las conversiones es el paso que convierte GA4 de "herramienta de vanidad" a "herramienta de negocio".',
+        completed: false,
+      },
+      {
+        id: 'd1-l2',
+        title: 'Google Tag Manager: el sistema nervioso de tus mediciones',
+        type: 'reading',
+        content: `## Google Tag Manager: control total sin tocar el código
+
+GTM (Google Tag Manager) es un sistema que te permite instalar y gestionar scripts de tracking (GA4, Meta Pixel, hotjar, etc.) sin modificar el código del sitio cada vez.
+
+### Por qué usar GTM
+
+**Sin GTM**:
+- Cada herramienta de analytics → un snippet hardcodeado en el HTML
+- Agregar un nuevo evento → modificar el código → deploy → esperar al developer
+- Si un script falla → todo el sitio se puede afectar
+
+**Con GTM**:
+- Un solo snippet en el HTML → GTM gestiona todos los demás
+- Agregar eventos → configurar en la UI de GTM → publicar → inmediato
+- Testing de tags sin deployar
+
+### Conceptos base de GTM
+
+**Tag**: el script que se ejecuta (GA4 Event, Meta Pixel, etc.)
+**Trigger**: cuándo se ejecuta el tag (page view, click en botón, scroll)
+**Variable**: dato que se captura (texto del botón, URL, valor)
+
+### Configurar GA4 con GTM
+
+\`\`\`
+1. Crear cuenta en tagmanager.google.com
+2. Instalar el snippet de GTM en Next.js (en el <head> y <body>)
+3. Crear Tag: "Google Analytics: GA4 Configuration" con tu Measurement ID
+4. Trigger: "All Pages"
+5. Preview → verificar → Publish
+\`\`\`
+
+### Rastrear eventos con GTM sin código
+
+**Click en CTA (sin tocar el código)**:
+\`\`\`
+Tag: GA4 Event
+  Event name: cta_click
+  Parameters:
+    button_text: {{Click Text}}
+    page_url: {{Page URL}}
+
+Trigger: Click - All Elements
+  Condition: Click Text contains "Agenda" OR "Contacto"
+\`\`\`
+
+### GTM en Next.js (App Router)
+
+\`\`\`typescript
+// components/GoogleTagManager.tsx
+'use client';
+
+import { useEffect } from 'react';
+
+export const GTM_ID = 'GTM-XXXXXXX';
+
+export default function GoogleTagManager() {
+  useEffect(() => {
+    // Push route changes to dataLayer
+    window.dataLayer = window.dataLayer || [];
+  }, []);
+
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: \`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','\${GTM_ID}');
+          \`,
+        }}
+      />
+    </>
+  );
+}
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd1-l2b',
+        title: 'Mini-práctica: Configura GTM con GA4 y 3 eventos personalizados',
+        type: 'practice',
+        tasks: [
+          'Crea una cuenta en GTM y migra el snippet de GA4 para que pase por GTM (no directo)',
+          'Configura el Tag de GA4 Configuration con tu Measurement ID y un trigger de All Pages',
+          'Crea un Tag para el evento "form_submit" con Trigger en el submit del formulario de contacto',
+          'Crea un Tag para "cta_click" que capture clics en los botones principales',
+          'Usa GTM Preview para verificar que los 3 tags se disparan correctamente antes de publicar',
+        ],
+        tip: 'Siempre usa GTM Preview antes de publicar. Una vez publicado, los tags se ejecutan para todos los usuarios reales. Un error en un tag puede contaminar datos históricos que no se pueden recuperar.',
+        completed: false,
+      },
+          {
+        id: 'data-1-proj-basico',
+        title: 'Proyecto Básico: Dashboard en Looker Studio',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Crea un dashboard básico en Looker Studio conectado a una fuente de datos real.',
+        deliverables: [
+          'Dashboard en Looker Studio con mínimo 6 visualizaciones (mezcla de tablas, gráficas y scorecards)',
+          'Conectado a una fuente de datos real (Google Analytics, Google Sheets o GA4)',
+          'Filtro de fechas funcional',
+          'Link compartible del dashboard con permisos de "view"',
+          'Guía de 1 página: cómo leer el dashboard y qué decisión permite tomar cada visualización',
+        ],
+        tip: 'Cada visualización debe responder una pregunta específica de negocio. Si no sabes qué decisión permite tomar, no debería estar en el dashboard.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Google Analytics 4 — Documentación oficial',
+        url: 'https://support.google.com/analytics/answer/10089681',
+        type: 'documentation',
+      },
+      {
+        title: 'Google Tag Manager — Guía de inicio',
+        url: 'https://support.google.com/tagmanager/answer/6103696',
+        type: 'documentation',
+      },
+      {
+        title: 'MeasureSchool — GA4 Tutorial completo (YouTube)',
+        url: 'https://www.youtube.com/@MeasureSchool',
+        type: 'video',
+      },
+    ],
+  },
+
+  {
+    id: 'data-2',
+    number: 33,
+    title: 'Embudos, Conversión y Comportamiento de Usuario',
+    description: 'Entiende cómo se mueven los usuarios por tu sitio, dónde se pierden y qué mejoras tienen mayor impacto en la conversión.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd2-l1',
+        title: 'Embudos de conversión: dónde se pierde el dinero',
+        type: 'reading',
+        content: `## Embudos: el mapa del journey del usuario
+
+Un embudo de conversión es la secuencia de pasos que sigue un usuario desde que llega a tu sitio hasta que completa la acción objetivo (lead, compra, registro).
+
+### Por qué los embudos son críticos
+
+La mayoría de los sitios tiene una tasa de conversión del 1-3%. Eso significa que el 97-99% de los visitantes se van sin hacer nada.
+
+Los embudos te muestran **exactamente dónde** se van y por qué — para que puedas arreglarlo.
+
+### Tipos de embudos
+
+**Embudo de adquisición** (cómo llegan):
+\`\`\`
+Búsqueda orgánica → Página de blog → Solicitud de info
+Anuncio de Meta → Landing page → Form de contacto
+\`\`\`
+
+**Embudo de conversión** (cómo convierten):
+\`\`\`
+Home → Servicios → Contacto → Form enviado
+\`\`\`
+
+**Embudo de activación** (para SaaS/apps):
+\`\`\`
+Registro → Completar perfil → Primera acción de valor → Upgrade
+\`\`\`
+
+### Crear embudos en GA4
+
+\`\`\`
+GA4 → Explorar → Exploración de embudo
+
+Pasos del embudo:
+1. Evento: page_view, Page path = /
+2. Evento: page_view, Page path = /servicios
+3. Evento: page_view, Page path = /contacto
+4. Evento: form_submit
+\`\`\`
+
+GA4 mostrará cuántos usuarios pasan de cada paso al siguiente, y cuántos abandonan en cada etapa.
+
+### Métricas clave de conversión
+
+**Tasa de conversión**: % de visitantes que completan el objetivo
+\`\`\`
+Conversiones / Sesiones × 100
+Ejemplo: 20 leads / 1,000 sesiones = 2%
+\`\`\`
+
+**Tasa de abandono por paso**: % que sale en cada etapa del embudo
+
+**Valor por visita**: revenue promedio que genera cada visitante
+\`\`\`
+Revenue / Sesiones
+Ejemplo: $10,000 / 5,000 sesiones = $2/visita
+\`\`\`
+
+### Herramientas complementarias para entender comportamiento
+
+**Hotjar / Microsoft Clarity** (gratuito):
+- **Heatmaps**: dónde hacen click los usuarios
+- **Scroll maps**: hasta dónde leen
+- **Session recordings**: grabaciones de sesiones reales
+
+**Microsoft Clarity es completamente gratuito** y tiene las mismas funcionalidades que Hotjar básico.
+
+### Cómo interpretar un heatmap
+
+- **Zona caliente** (rojo/naranja): mucho engagement
+- **Zona fría** (azul/gris): poco engagement
+- **Clicks en elementos no clickeables**: frustración del usuario (bug UX)
+- **Scroll profundo**: el contenido es interesante
+- **Poco scroll**: el contenido no engancha o el CTA debe estar más arriba`,
+        completed: false,
+      },
+      {
+        id: 'd2-l1b',
+        title: 'Mini-práctica: Configura un embudo y analiza el comportamiento',
+        type: 'practice',
+        tasks: [
+          'Crea un embudo de conversión en GA4 Explorar para el flujo principal de tu sitio (home → servicios → contacto → form enviado)',
+          'Instala Microsoft Clarity en tu sitio (gratuito) y deja recolectar datos por al menos 48 horas',
+          'Analiza las grabaciones de sesión en Clarity: ¿los usuarios encuentran lo que buscan? ¿Hay confusión visible?',
+          'Revisa el heatmap de tu página principal: ¿los clicks son donde quieres que estén?',
+          'Identifica el punto de mayor abandono en tu embudo y propón 3 hipótesis de por qué los usuarios se van ahí',
+        ],
+        tip: 'Las grabaciones de sesión son la herramienta de diagnóstico más poderosa que existe. Ver a un usuario real navegar tu sitio durante 2 minutos te da más insights que 100 horas de análisis de datos. Empieza siempre por las grabaciones antes de sacar conclusiones de las métricas.',
+        completed: false,
+      },
+      {
+        id: 'd2-l2',
+        title: 'Segmentación de audiencias y análisis de cohortes',
+        type: 'reading',
+        content: `## Segmentación: el análisis granular que cambia decisiones
+
+Los promedios mienten. "2% de conversión" puede esconder que el tráfico orgánico convierte al 5% y el de redes sociales al 0.3%. La segmentación revela esas diferencias.
+
+### Segmentos básicos en GA4
+
+**Por canal de adquisición**:
+- Organic Search, Direct, Referral, Paid Social, Organic Social, Email
+
+**Por dispositivo**:
+- Mobile, Desktop, Tablet
+
+**Por geografía**:
+- País, ciudad, región
+
+**Por comportamiento**:
+- Usuarios que visitaron X página
+- Usuarios que completaron Y conversión
+- Usuarios de su primera visita vs usuarios recurrentes
+
+### Cómo crear segmentos en GA4
+
+\`\`\`
+GA4 → Explorar → Nueva exploración
+→ + Segmento → Segmento de usuario/sesión/evento
+→ Definir condiciones
+\`\`\`
+
+Ejemplo de segmento valioso:
+*Usuarios que visitaron /servicios pero no enviaron el formulario*
+→ Son prospectos que no convirtieron → oportunidad de retargeting
+
+### Análisis de cohortes
+
+Una cohorte es un grupo de usuarios que realizaron la misma acción en el mismo período.
+
+El análisis de cohortes responde: **¿los usuarios que llegaron en enero siguen activos en febrero?**
+
+Para agencias y SaaS:
+- Cohorte de clientes por mes de adquisición
+- ¿Cuántos siguen siendo clientes 3, 6, 12 meses después?
+- ¿En qué mes se pierden más clientes?
+
+### Atribución: a qué canal darle el crédito
+
+El modelo de atribución define qué canal recibe el crédito de una conversión:
+
+**Last click** (default): todo el crédito al último canal antes de la conversión
+**First click**: todo el crédito al primer canal (el que generó la visita inicial)
+**Data-driven** (GA4 default): Machine Learning distribuye el crédito según comportamiento real
+
+Para la mayoría de pequeñas empresas, last-click es suficiente. Para estrategias multicanal, data-driven da más precisión.
+
+### Audiences para remarketing
+
+GA4 puede crear audiencias para exportar a Google Ads:
+
+\`\`\`
+GA4 → Admin → Audiences → New audience
+
+Ejemplo:
+"Visitaron /servicios en los últimos 30 días
+ Y NO completaron form_submit"
+
+→ Esta audiencia se exporta a Google Ads para mostrarles retargeting
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd2-l2b',
+        title: 'Mini-práctica: Segmenta y encuentra el canal que más convierte',
+        type: 'practice',
+        tasks: [
+          'En GA4 Explorar, crea un análisis comparando la tasa de conversión por canal (organic, direct, referral, social)',
+          'Crea un segmento de "usuarios que visitaron /servicios o /portafolio pero no convirtieron"',
+          'Analiza el comportamiento por dispositivo: ¿hay diferencia significativa entre mobile y desktop?',
+          'Exporta el segmento de no-convertidos como Audience en GA4 (aunque no tengas Google Ads, practica la configuración)',
+          'Escribe un párrafo de conclusiones: ¿qué canal priorizarías con ese presupuesto? ¿Por qué?',
+        ],
+        tip: 'El análisis de segmentos más valioso para una agencia no es el de tráfico — es el de conversiones. Si puedes responder "¿cuál es mi canal con mayor costo por lead?" y "¿cuál es mi canal con mejor tasa de conversión a cliente?", puedes tomar decisiones de presupuesto que multiplican el ROI.',
+        completed: false,
+      },
+          {
+        id: 'data-2-proj-inter',
+        title: 'Proyecto Intermedio: Análisis de Google Analytics de un sitio real',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Analiza los datos de GA4 de un sitio web real durante los últimos 3 meses. Entrega un reporte con insights accionables.',
+        deliverables: [
+          'Análisis de tráfico: fuentes, medios, canales y evolución en el período',
+          'Análisis de comportamiento: páginas más visitadas, tasa de rebote, tiempo en página y flujo de usuarios',
+          'Análisis de conversiones: embudo de conversión con los drop-offs identificados',
+          '5 insights específicos con evidencia de los datos',
+          '5 recomendaciones priorizadas por impacto potencial',
+        ],
+        tip: 'Un insight sin recomendación es una observación. Una recomendación sin datos es una opinión. Necesitas ambas cosas juntas.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Microsoft Clarity — Heatmaps y grabaciones gratuitas',
+        url: 'https://clarity.microsoft.com',
+        type: 'tool',
+      },
+      {
+        title: 'GA4 — Exploración de embudo',
+        url: 'https://support.google.com/analytics/answer/9327974',
+        type: 'documentation',
+      },
+      {
+        title: 'Analytics Mania — GA4 Tutorial avanzado',
+        url: 'https://www.analyticsmania.com/google-analytics-4',
+        type: 'course',
+      },
+    ],
+  },
+
+  {
+    id: 'data-3',
+    number: 34,
+    title: 'Dashboards con Looker Studio',
+    description: 'Construye dashboards profesionales en Looker Studio que conectan GA4, Search Console y más — para uso interno y para clientes.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd3-l1',
+        title: 'Looker Studio: de datos crudos a visualizaciones accionables',
+        type: 'reading',
+        content: `## Looker Studio: el BI tool gratuito de Google
+
+Looker Studio (anteriormente Google Data Studio) es una herramienta de Business Intelligence gratuita que conecta múltiples fuentes de datos y crea dashboards visuales e interactivos.
+
+### Por qué Looker Studio para agencias
+
+- **Gratuito** — cero costo para el nivel de uso de una agencia
+- **Conectores nativos** con GA4, Google Ads, Google Sheets, Search Console, YouTube
+- **Compartible** — el cliente puede ver el dashboard en tiempo real sin acceso a GA4
+- **Automatizado** — se actualiza solo, sin exportar Excel cada mes
+
+### Estructura de Looker Studio
+
+\`\`\`
+Informe (Report)
+├── Páginas (como diapositivas)
+│   ├── Gráficas, tablas, tarjetas de métricas
+│   └── Filtros y controles de fecha
+└── Fuentes de datos conectadas
+    ├── GA4
+    ├── Search Console
+    └── Google Sheets
+\`\`\`
+
+### Conectar GA4 a Looker Studio
+
+\`\`\`
+1. lookerstudio.google.com → Crear → Informe
+2. Agregar datos → Google Analytics → seleccionar propiedad GA4
+3. El informe ahora tiene acceso a todas las métricas y dimensiones de GA4
+\`\`\`
+
+### Componentes principales
+
+**Tarjeta de puntuación** (Scorecard):
+- Muestra un único número con comparativa
+- Ideal para: sesiones, usuarios, conversiones, tasa de conversión
+
+**Gráfica de series temporales**:
+- Tendencia en el tiempo
+- Ideal para: sesiones por día/semana, evolución de conversiones
+
+**Tabla**:
+- Datos detallados con dimensión + métricas
+- Ideal para: top páginas, top keywords, top países
+
+**Gráfica de barras / dona**:
+- Distribución entre categorías
+- Ideal para: tráfico por canal, conversiones por dispositivo
+
+### Controles interactivos
+
+Los filtros hacen que el dashboard sea dinámico:
+
+\`\`\`
+Control de período: permite al cliente cambiar el rango de fechas
+Control de lista: filtrar por país, dispositivo, canal
+\`\`\`
+
+Con estos controles, el cliente puede explorar los datos sin saber GA4.
+
+### El truco del período de comparación
+
+Agrega siempre un Scorecard con la comparativa vs período anterior:
+
+\`\`\`
+Sesiones: 5,230 ▲ +23% vs mes anterior
+Conversiones: 47 ▲ +8% vs mes anterior
+\`\`\`
+
+Esto responde la pregunta que siempre hace el cliente: "¿estamos mejorando?"`,
+        completed: false,
+      },
+      {
+        id: 'd3-l1b',
+        title: 'Mini-práctica: Construye tu primer dashboard de marketing',
+        type: 'practice',
+        tasks: [
+          'Crea un informe en Looker Studio conectado a tu propiedad GA4',
+          'Página 1 (Overview): tarjetas de sesiones, usuarios, conversiones y tasa de conversión con comparativa vs mes anterior',
+          'Página 2 (Tráfico): gráfica de sesiones por día + tabla de fuentes de tráfico con métricas',
+          'Página 3 (Contenido): tabla de páginas más visitadas + bounce rate + tiempo en página',
+          'Agrega un control de período en todas las páginas y comparte el link con permisos de "Viewer"',
+        ],
+        tip: 'El mejor dashboard para un cliente no es el más completo — es el que responde sus 3 preguntas más importantes. Antes de diseñarlo, pregúntale: "¿qué 3 números necesitas ver cada semana para saber si el proyecto va bien?" Y pon esos 3 números en la primera página, grandes y claros.',
+        completed: false,
+      },
+      {
+        id: 'd3-l2',
+        title: 'Dashboard de SEO: conectar Search Console y GA4',
+        type: 'reading',
+        content: `## Dashboard SEO en Looker Studio
+
+Un dashboard de SEO profesional combina datos de Google Search Console (rankings, impressions, CTR) con GA4 (tráfico, conversiones) para tener la imagen completa.
+
+### Conectar Search Console
+
+\`\`\`
+Looker Studio → Agregar datos → Google Search Console
+→ Seleccionar propiedad → Tabla: Site Impression
+\`\`\`
+
+GSC en Looker Studio da acceso a:
+- **Clicks**: cuántos clics desde búsqueda
+- **Impressions**: cuántas veces apareció en resultados
+- **CTR**: click-through rate (clicks/impressions)
+- **Position**: posición promedio en Google
+
+### Dimensiones clave de GSC
+
+- **Query**: las keywords por las que aparece
+- **Page**: qué páginas del sitio reciben el tráfico
+- **Country**: desde qué países llegan las búsquedas
+- **Device**: mobile vs desktop vs tablet
+
+### Dashboard SEO completo en 4 páginas
+
+**Página 1 — Overview SEO**:
+\`\`\`
+Scorecards: Total Clicks | Total Impressions | CTR promedio | Posición promedio
+Gráfica: Clicks por semana (últimos 3 meses)
+\`\`\`
+
+**Página 2 — Keywords**:
+\`\`\`
+Tabla: Query | Clicks | Impressions | CTR | Position
+Ordenado por Clicks descendente
+Filtro: posición 1-10 (las que rankean)
+\`\`\`
+
+**Página 3 — Páginas**:
+\`\`\`
+Tabla: Página | Clicks | Impressions | CTR | Position
+¿Cuáles páginas traen más tráfico orgánico?
+\`\`\`
+
+**Página 4 — Oportunidades**:
+\`\`\`
+Keywords con muchas impressions pero CTR bajo
+→ Oportunidad de mejorar title/description para subir CTR sin cambiar el ranking
+\`\`\`
+
+### Fórmulas personalizadas en Looker Studio
+
+\`\`\`
+// Clicks potenciales (si mejoras el CTR al promedio de tu industria)
+ROUND(Impressions × 0.05) - Clicks
+
+// Ratio de visibilidad
+Impressions / SUM(Impressions)
+\`\`\`
+
+### Automatizar el reporte mensual
+
+Con el dashboard de Looker Studio ya no necesitas preparar reportes manualmente:
+
+1. El cliente tiene acceso permanente al dashboard en tiempo real
+2. Cada mes, solo necesitas el análisis: "qué mejoró, qué empeoró, qué haremos"
+3. El dashboard son los datos; el email mensual es el insight sobre esos datos`,
+        completed: false,
+      },
+      {
+        id: 'd3-l2b',
+        title: 'Mini-práctica: Dashboard SEO con GSC + GA4 combinado',
+        type: 'practice',
+        tasks: [
+          'Agrega Google Search Console como segunda fuente de datos a tu informe de Looker Studio',
+          'Crea las 4 páginas del dashboard SEO completo definidas en la lectura',
+          'En la página de Keywords, agrega un filtro de CTR < 3% y Position entre 5-20 — estas son oportunidades de optimización',
+          'Combina en una vista: clicks orgánicos de GSC vs conversiones orgánicas de GA4 para el mismo período',
+          'Configura la entrega automática del reporte mensual por email (Looker Studio → compartir → programar)',
+        ],
+        tip: 'La página más valiosa del dashboard SEO para un cliente no es la de rankings — es la de oportunidades. Keywords que aparecen pero no convierten clicks son dinero en la mesa. Mostrarle eso al cliente hace que entiendan el valor de optimizar el copy de los resultados de búsqueda.',
+        completed: false,
+      },
+          {
+        id: 'data-3-proj-pro',
+        title: 'Proyecto Profesional: Sistema de medición para una campaña',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Diseña e implementa el sistema de medición completo para una campaña digital multi-canal.',
+        deliverables: [
+          'Framework de medición: objetivo de negocio → KPIs → métricas → fuentes de datos para cada canal',
+          'Setup de GA4: eventos configurados (mínimo 5 custom events relevantes para la campaña), Goals definidos',
+          'Atribución: modelo de atribución elegido con justificación de por qué ese modelo y no otro para este caso específico',
+          'Dashboard de campaña en Looker Studio: todos los canales en un solo lugar, comparativa vs. períodos anteriores',
+          'Plan de reporting: cadencia, formato y audiencia de cada reporte (operativo semanal vs. ejecutivo mensual)',
+          'Protocolo de QA: cómo verificas que el tracking está capturando datos correctamente',
+        ],
+        rubrica: [
+          'Los KPIs se conectan directamente con el objetivo de negocio, no son métricas de vanidad',
+          'El setup de GA4 está implementado y verificado (no solo diseñado)',
+          'La atribución elegida refleja el journey real del cliente de ese negocio',
+          'El dashboard es interpretable por alguien que no configuró el sistema',
+          'El protocolo de QA puede detectar problemas de tracking en menos de 30 minutos',
+        ],
+        tip: 'El error más caro en medición es descubrir que el tracking estaba roto después de que terminó la campaña. Implementa el QA desde el día 1.',
+        completed: false,
+      },
+],
+    resources: [
+      {
+        title: 'Looker Studio — Guía oficial',
+        url: 'https://support.google.com/looker-studio',
+        type: 'documentation',
+      },
+      {
+        title: 'Looker Studio Gallery — Templates gratuitos',
+        url: 'https://lookerstudio.google.com/gallery',
+        type: 'tool',
+      },
+      {
+        title: 'Supermetrics — Conectores adicionales para Looker Studio',
+        url: 'https://supermetrics.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'data-4',
+    number: 35,
+    title: 'A/B Testing y Experimentación',
+    description: 'Aprende a diseñar experimentos válidos, interpretar resultados con rigor estadístico y crear una cultura de mejora continua basada en datos.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd4-l1',
+        title: 'A/B testing: la ciencia de mejorar sin adivinar',
+        type: 'reading',
+        content: `## A/B Testing: decisiones basadas en evidencia
+
+El A/B testing (también llamado split testing) es el proceso de mostrar dos versiones diferentes de algo (una página, un headline, un botón) a grupos de usuarios distintos, y medir cuál produce mejores resultados.
+
+### Por qué A/B testing y no intuición
+
+La intuición falla constantemente en UX y marketing. Casos famosos:
+
+- Obama 2008: cambiar el CTA de "Sign Up" a "Learn More" aumentó registros en 40%
+- Microsoft Bing: un cambio en el formato de anuncios que ningún ejecutivo aprobó generó $100M+ adicionales en revenue
+- Amazon: múltiples pruebas fallidas antes de encontrar el botón "Buy Now" correcto
+
+El A/B testing reemplaza opiniones con evidencia.
+
+### Estructura de un experimento válido
+
+\`\`\`
+Hipótesis: "Cambiar el CTA de 'Contáctanos' a 'Agenda tu llamada gratis'
+            aumentará la tasa de clicks en el botón principal"
+
+Control (A): versión original con "Contáctanos"
+Variante (B): versión nueva con "Agenda tu llamada gratis"
+
+Métrica primaria: CTR del botón CTA
+Duración: hasta alcanzar significancia estadística
+\`\`\`
+
+### Significancia estadística: el concepto que no puedes ignorar
+
+El resultado de un A/B test solo vale si es estadísticamente significativo.
+
+**p-value < 0.05**: hay menos del 5% de probabilidad de que el resultado sea por azar. Esto es el estándar mínimo aceptado.
+
+**Ejemplo**:
+- Control: 100 visitas, 2 conversiones (2%)
+- Variante: 100 visitas, 3 conversiones (3%)
+- ¿Es la variante mejor? **No puedes saberlo con esos números** — puede ser ruido aleatorio
+
+Necesitas más tráfico (generalmente 1,000-10,000 por variante) para confiar en el resultado.
+
+**Herramienta**: abtestguide.com/calc — calcula el tamaño de muestra necesario antes de empezar.
+
+### Qué probar (por impacto potencial)
+
+**Alto impacto**:
+- Headline del hero
+- CTA principal (texto + color + posición)
+- Oferta (precio, estructura, garantía)
+- Layout completo de la página
+
+**Medio impacto**:
+- Imágenes y visuals
+- Testimonios (cuál, en qué orden)
+- Longitud del formulario
+
+**Bajo impacto** (no priorizar):
+- Color del texto
+- Tamaño de fuente leve
+- Iconos menores`,
+        completed: false,
+      },
+      {
+        id: 'd4-l1b',
+        title: 'Mini-práctica: Diseña y documenta un experimento',
+        type: 'practice',
+        tasks: [
+          'Identifica el elemento de tu sitio con mayor impacto potencial si lo cambias (headline, CTA, layout)',
+          'Escribe la hipótesis completa: "Creo que cambiando X por Y, la métrica Z mejorará porque..."',
+          'Usa abtestguide.com/calc para calcular el tamaño de muestra necesario con tu tráfico actual',
+          'Define la duración mínima del experimento (nunca menos de 2 semanas para capturar variaciones semanales)',
+          'Crea las dos versiones en Figma (aunque no puedas implementarlas hoy) — el diseño del experimento es el paso más crítico',
+        ],
+        tip: 'El error más común en A/B testing: terminar el experimento antes de tiempo porque "la variante ya va ganando". Los primeros días de un test son los más volátiles. Un test que parece ganador en día 3 puede ser perdedor en día 14. Respeta la duración mínima establecida antes de sacar conclusiones.',
+        completed: false,
+      },
+      {
+        id: 'd4-l2',
+        title: 'Herramientas de A/B testing y cómo implementar experimentos',
+        type: 'reading',
+        content: `## Implementar A/B tests sin developer
+
+### Google Optimize → reemplazado por Optimizely y otros
+
+Google Optimize fue deprecado en 2023. Las alternativas actuales:
+
+**VWO (Visual Website Optimizer)**:
+- Editor visual para crear variantes sin código
+- A/B, multivariante, personalización
+- Desde ~$200/mes
+
+**Optimizely**:
+- El estándar enterprise
+- Muy poderoso, muy caro
+- Para empresas con alto tráfico
+
+**Convert**:
+- Buena alternativa de precio medio (~$99/mes)
+- Integración con GA4
+
+**Opción low-cost (recomendada para empezar)**:
+- **Vercel Edge Config + middleware** — sirve diferentes versiones según cookies
+- **GrowthBook** (open source) — plataforma completa de experimentation gratis
+
+### A/B testing con Next.js y Vercel
+
+\`\`\`typescript
+// middleware.ts
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  const variant = Math.random() < 0.5 ? 'a' : 'b';
+
+  const response = NextResponse.next();
+  response.cookies.set('ab_variant', variant, { maxAge: 60 * 60 * 24 * 7 });
+
+  return response;
+}
+
+// En el componente:
+import { cookies } from 'next/headers';
+
+const variant = cookies().get('ab_variant')?.value ?? 'a';
+
+return variant === 'b'
+  ? <HeroVariantB />
+  : <HeroVariantA />;
+\`\`\`
+
+Este enfoque es gratuito, rápido (edge) y compatible con cualquier herramienta de analytics.
+
+### Documentar y compartir resultados
+
+Crea un "Experiment Log" en Notion con:
+\`\`\`
+Experimento: CTA text change
+Hipótesis: "Agenda tu llamada" > "Contáctanos"
+Start: 2026-06-01 | End: 2026-06-21
+Tráfico: 2,400 visitas por variante
+Resultado: Variante B +18% CTR (p=0.03 ✅ significativo)
+Decisión: Implementar variante B permanentemente
+Next: Testear color del botón
+\`\`\`
+
+Este log construye conocimiento acumulado sobre tu audiencia que se vuelve más valioso con el tiempo.
+
+### Cultura de experimentación
+
+Las empresas que más crecen no tienen "el mejor instinto" — tienen los mejores procesos de experimentación.
+
+Amazon hace miles de A/B tests simultáneos. Netflix prueba hasta los thumbnails de cada show por audiencia.
+
+Para una agencia: empieza con 1 experimento al mes. Con el tiempo, ese conocimiento acumulado es un activo competitivo real.`,
+        completed: false,
+      },
+      {
+        id: 'd4-l2b',
+        title: 'Mini-práctica: Implementa tu primer A/B test real',
+        type: 'practice',
+        tasks: [
+          'Implementa el middleware de Vercel para servir dos versiones de tu hero section (variante A y B)',
+          'Asegúrate de que el evento de conversión se registra correctamente en GA4 para ambas variantes (con parámetro ab_variant)',
+          'Configura un segmento en GA4 para cada variante y crea un dashboard de Looker Studio que compare las métricas',
+          'Deja correr el experimento mínimo 2 semanas antes de analizar',
+          'Documenta el experimento en tu Experiment Log con todos los campos definidos',
+        ],
+        tip: 'Solo prueba una variable a la vez. Si cambias el headline Y el color del botón Y la imagen simultáneamente, no sabrás qué causó el resultado. La pureza del experimento es lo que hace que el conocimiento sea acumulable y confiable.',
+        completed: false,
+      },
+    
+    {
+      id: 'data-4-p1',
+      title: 'Proyecto: Dashboard ejecutivo en Looker Studio',
+      type: 'project',
+      difficulty: 'profesional',
+      projectBrief: 'Construye un dashboard ejecutivo en Looker Studio (Google Data Studio) conectado a datos reales de GA4, Google Ads o un Google Sheet con datos de negocio. El dashboard debe contar una historia de negocio clara y permitir tomar decisiones.',
+      deliverables: [
+        'URL compartida del dashboard',
+        'Mínimo 8 visualizaciones relevantes',
+        'Texto de contexto/insight en cada sección',
+        'Guía de lectura del dashboard (1 página)',
+      ],
+      rubrica: [
+        'Datos conectados a fuente real o realista',
+        'Narrativa de negocio coherente',
+        'Diseño limpio, jerarquía visual clara',
+        'Filtros que permiten exploración de datos',
+      ],
+      completed: false,
+    },],
+    resources: [
+      {
+        title: 'GrowthBook — Open source experimentation platform',
+        url: 'https://www.growthbook.io',
+        type: 'tool',
+      },
+      {
+        title: 'A/B Test Sample Size Calculator',
+        url: 'https://abtestguide.com/calc',
+        type: 'tool',
+      },
+      {
+        title: 'Optimizely — A/B testing guide',
+        url: 'https://www.optimizely.com/optimization-glossary/ab-testing',
+        type: 'article',
+      },
+    ],
+  },
+
+  {
+    id: 'data-5',
+    number: 36,
+    title: 'KPIs y Reportes para Clientes',
+    description: 'Define los KPIs correctos para cada tipo de negocio, construye reportes que el cliente entiende y presenta datos que justifican la inversión.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'd5-l1',
+        title: 'KPIs: medir lo que mueve el negocio, no lo que es fácil medir',
+        type: 'reading',
+        content: `## KPIs: el arte de medir lo correcto
+
+Un KPI (Key Performance Indicator) es una métrica que está directamente vinculada al éxito del negocio.
+
+El error más común: reportar métricas de vanidad en lugar de KPIs reales.
+
+### Métricas de vanidad vs KPIs reales
+
+| Métrica de vanidad | KPI real |
+|-------------------|----------|
+| Pageviews | Leads generados |
+| Seguidores en Instagram | Leads desde Instagram |
+| Impresiones de ads | Costo por lead |
+| "Tiempo en página" alto | Tasa de conversión |
+| Número de posts publicados | Tráfico orgánico generado |
+
+### El framework OKR para definir KPIs
+
+**Objective**: qué queremos lograr (cualitativo)
+**Key Results**: cómo sabremos que lo logramos (cuantitativo)
+
+\`\`\`
+Objective: Ser la agencia de referencia para startups LATAM
+
+KR1: Conseguir 10 leads calificados por mes desde canales orgánicos
+KR2: Tasa de cierre de propuestas ≥ 25%
+KR3: NPS de clientes actuales ≥ 8/10
+\`\`\`
+
+### KPIs por tipo de negocio
+
+**E-commerce**:
+- Tasa de conversión (%)
+- Valor promedio de orden (AOV)
+- Customer Acquisition Cost (CAC)
+- Lifetime Value (LTV)
+- ROAS (Return on Ad Spend)
+
+**SaaS**:
+- MRR (Monthly Recurring Revenue) y crecimiento
+- Churn rate (% que cancela cada mes)
+- CAC y LTV
+- Activation rate (% que completa el onboarding)
+- NPS
+
+**Agencia de servicios** (AlphaDev):
+- Leads calificados por mes
+- Tasa de cierre de propuestas
+- Revenue por cliente
+- Tiempo de delivery por proyecto
+- NPS de clientes
+
+**Blog/contenido**:
+- Tráfico orgánico (sesiones)
+- Keywords en top 10
+- Email subscribers
+- Tasa de conversión a lead/subscriber
+
+### North Star Metric: el único número que importa más
+
+Cada negocio tiene una métrica que, si crece, todo lo demás crece con ella.
+
+- Airbnb: noches reservadas
+- Facebook: usuarios activos diarios (DAU)
+- Spotify: tiempo total de escucha
+- AlphaDev Studios: proyectos entregados satisfactoriamente
+
+La North Star Metric alinea a todo el equipo (aunque seas uno solo) en lo que importa.`,
+        completed: false,
+      },
+      {
+        id: 'd5-l1b',
+        title: 'Mini-práctica: Define los KPIs de tu negocio y de un cliente',
+        type: 'practice',
+        tasks: [
+          'Define la North Star Metric de AlphaDev Studios (o tu propio negocio) y justifícala',
+          'Crea el árbol de métricas: North Star → 3-5 KPIs que la impulsan → métricas operativas que mueven cada KPI',
+          'Para un cliente hipotético (e-commerce de ropa), define 5 KPIs con sus targets mensuales',
+          'Identifica qué herramientas usarías para medir cada KPI (GA4, Search Console, CRM, etc.)',
+          'Escribe el dashboard de KPIs en formato de tabla: KPI | Target | Actual | Tendencia | Acción si está debajo',
+        ],
+        tip: 'El mejor KPI es el que el cliente puede calcular en su cabeza sin herramientas. "23 leads este mes vs 18 el mes pasado" es más poderoso que "la tasa de conversión del canal de adquisición orgánico aumentó 0.3 puntos porcentuales". Simplicidad primero.',
+        completed: false,
+      },
+      {
+        id: 'd5-l2',
+        title: 'Reportes para clientes: datos que generan confianza y retención',
+        type: 'reading',
+        content: `## El reporte de cliente que renueva contratos
+
+Un buen reporte no es una dump de datos. Es una narrativa que responde tres preguntas:
+1. ¿Qué pasó este mes?
+2. ¿Por qué pasó?
+3. ¿Qué haremos al respecto?
+
+### El problema con la mayoría de reportes de agencia
+
+- 40 páginas de screenshots de GA4 que el cliente no entiende
+- Métricas que van bien aunque el negocio no esté creciendo
+- Ninguna narrativa de qué causó los cambios
+- Ninguna conexión entre acciones realizadas y resultados obtenidos
+
+El cliente paga por resultados, no por reportes.
+
+### La estructura del reporte que retiene clientes
+
+**Executive Summary** (½ página):
+\`\`\`
+Este mes: [logro principal]
+Vs mes anterior: [comparativa en lenguaje de negocio]
+Próximo mes: [1-3 prioridades]
+\`\`\`
+
+**KPIs del período** (1 página con visuales):
+- Solo los 3-5 KPIs acordados al inicio del proyecto
+- Con comparativa vs mes anterior y vs objetivo
+- Verde/amarillo/rojo para estado rápido
+
+**Lo que hicimos** (1-2 páginas):
+- Acciones concretas realizadas
+- Con el impacto esperado de cada una
+
+**Resultados de acciones anteriores** (1 página):
+- ¿Qué logramos con lo que hicimos el mes pasado?
+- Aquí se conecta esfuerzo con resultado
+
+**Hallazgos e insights** (1 página):
+- Qué aprendimos que antes no sabíamos
+- Qué oportunidad identificamos
+
+**Plan del próximo mes** (1 página):
+- Acciones concretas con responsable y fecha
+- KPIs objetivo para el próximo período
+
+### Cómo presentar datos difíciles
+
+Si los KPIs van mal:
+1. **Sé directo** — no enterres las malas noticias en el reporte
+2. **Explica el "por qué"** — ¿es estacional, algorítmico, competitivo?
+3. **Presenta el plan** — qué cambiará para el próximo mes
+
+Un cliente que recibe malas noticias con honestidad y un plan claro confía más que uno que recibe solo buenas noticias.
+
+### Cadencia de comunicación ideal
+
+\`\`\`
+Semanal: mensaje corto de 2-3 líneas con el highlight de la semana
+Mensual: reporte completo con la estructura de 7 secciones
+Trimestral: revisión estratégica de objetivos y ajuste de targets
+\`\`\``,
+        completed: false,
+      },
+      {
+        id: 'd5-l2b',
+        title: 'Mini-práctica: Crea tu template de reporte mensual de cliente',
+        type: 'practice',
+        tasks: [
+          'Crea el template de reporte mensual en Notion (para la narrativa) + Looker Studio (para los datos)',
+          'Escribe el reporte de un mes ficticio o real usando la estructura de 7 secciones — con datos inventados si es necesario',
+          'Practica traducir cada métrica a lenguaje de negocio: "tráfico orgánico +23%" → "23% más personas buscando [servicio] llegaron al sitio"',
+          'Grábate presentando el reporte en 5 minutos — practica explicar resultados con fluidez',
+          'Define la cadencia de comunicación completa para un cliente: ¿qué recibirán semanalmente, mensualmente, trimestralmente?',
+        ],
+        tip: 'Los clientes no retienen a agencias por sus reportes — retienen a agencias que les hacen sentir que están en manos de alguien que entiende su negocio. Los reportes son evidencia de ese entendimiento. Si el reporte podría ser el de cualquier cliente tuyo, no es suficientemente personalizado.',
+        completed: false,
+      },
+
+      {
+        id: 'data-exam',
+        title: 'Examen final: Analytics y Datos',
+        type: 'exam',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia fundamental entre el modelo de datos de Universal Analytics (UA) y Google Analytics 4 (GA4)?',
+            options: [
+              'UA es gratuito; GA4 requiere suscripción para datos avanzados',
+              'UA se basa en sesiones y pageviews; GA4 se basa en eventos — todo es un evento con parámetros',
+              'UA es para web; GA4 es solo para apps móviles',
+              'No hay diferencia real, GA4 solo tiene una interfaz diferente',
+            ],
+            correct: 1,
+            explanation: 'Este cambio de paradigma es fundamental. En UA, la unidad era la sesión y los hits eran tipos fijos (pageview, event, transaction). En GA4, TODO es un evento (page_view es un evento, scroll es un evento, purchase es un evento) con parámetros que aportan contexto. Esto da más flexibilidad pero requiere más configuración inicial.',
+          },
+          {
+            q: '¿Por qué es crítico configurar "conversiones" en GA4 y qué pasa si no lo haces?',
+            options: [
+              'Sin conversiones no puedes ver el tráfico del sitio',
+              'Sin conversiones, GA4 muestra tráfico pero no si ese tráfico sirve de algo — pierdes la capacidad de medir el ROI de tus acciones de marketing',
+              'Sin conversiones configuradas, Google puede penalizar el sitio en SEO',
+              'Las conversiones son opcionales — solo son necesarias para e-commerce',
+            ],
+            correct: 1,
+            explanation: 'Sin conversiones, GA4 es una herramienta de vanidad: sabes que tienes tráfico, pero no si ese tráfico se convierte en leads, ventas o cualquier acción de valor. Con conversiones configuradas, puedes atribuir revenue/leads a canales específicos y tomar decisiones de presupuesto basadas en datos reales.',
+          },
+          {
+            q: '¿Cuál es la ventaja principal de usar Google Tag Manager en lugar de instalar scripts directamente en el HTML?',
+            options: [
+              'GTM hace que el sitio cargue más rápido porque reduce el número de scripts',
+              'Permite gestionar todos los scripts de tracking desde una UI sin modificar el código cada vez — un solo snippet en el HTML gestiona todos los demás',
+              'GTM garantiza que los eventos lleguen a GA4 sin pérdida de datos',
+              'GTM es gratuito; instalar scripts directamente tiene costo',
+            ],
+            correct: 1,
+            explanation: 'Con GTM, el desarrollo solo instala un snippet una vez. Después, agregar Meta Pixel, Hotjar, nuevos eventos de GA4 o cualquier script es configuración en la UI de GTM — sin deploy. Esto desacopla el tracking del código, permitiendo que el equipo de marketing opere independientemente del equipo de desarrollo.',
+          },
+          {
+            q: 'En un embudo de conversión de GA4, la página /contacto tiene 80% de tasa de abandono. ¿Cuál es el primer paso correcto?',
+            options: [
+              'Rediseñar completamente la página de contacto inmediatamente',
+              'Investigar el "por qué" antes de actuar: revisar grabaciones de sesión (Clarity/Hotjar) y heatmaps para entender dónde y por qué abandonan',
+              'Reducir el número de campos del formulario a solo email',
+              'Aumentar el presupuesto de ads para traer más tráfico que compense el abandono',
+            ],
+            correct: 1,
+            explanation: 'El 80% de abandono es un síntoma, no un diagnóstico. Las causas posibles son muy distintas: formulario muy largo, error técnico, falta de confianza, precio inesperado, falta de claridad. Antes de actuar, las grabaciones de sesión revelan exactamente dónde se detienen los usuarios. Actuar sin diagnóstico lleva a "soluciones" que no resuelven el problema real.',
+          },
+          {
+            q: '¿Qué significa que un A/B test tiene un p-value de 0.03?',
+            options: [
+              'La variante B ganó por un 3% de diferencia en la métrica principal',
+              'Hay un 3% de probabilidad de que el resultado observado sea por azar — es estadísticamente significativo (p < 0.05)',
+              'El test necesita 3% más de tráfico para ser concluyente',
+              'La variante A (control) tiene 3% más de conversiones que la variante B',
+            ],
+            correct: 1,
+            explanation: 'p-value = probabilidad de que el resultado se deba al azar. p=0.03 significa solo 3% de probabilidad de que sea ruido aleatorio (97% de confianza en que el resultado es real). El estándar aceptado es p < 0.05. Un resultado "ganador" con p=0.3 tiene 30% de probabilidad de ser un falso positivo — no es confiable.',
+          },
+          {
+            q: 'Un cliente pregunta: "¿Qué canal me trae más tráfico?" ¿Cuál es la respuesta analíticamente correcta?',
+            options: [
+              'Darle el canal con más sesiones absolutas',
+              'Explicar que "más tráfico" no es el KPI correcto; la pregunta real es qué canal trae tráfico de mayor calidad (tasa de conversión, costo por lead, LTV)',
+              'Decirle que necesita más datos para responder',
+              'El canal con más tráfico siempre es el más valioso',
+            ],
+            correct: 1,
+            explanation: 'Tráfico sin calidad es vanidad. El canal que trae 10,000 visitas con 0.1% de conversión puede ser menos valioso que el canal con 500 visitas y 5% de conversión. El análisis correcto segmenta por canal Y por calidad (conversiones, revenue, tiempo en página). Esta distinción es lo que diferencia a un analista de datos de alguien que solo reporta números.',
+          },
+          {
+            q: '¿Cuál es la diferencia entre métricas "leading indicators" y "lagging indicators" en analytics?',
+            options: [
+              'Leading son métricas de marketing; lagging son métricas de ventas',
+              'Leading indicators predicen resultados futuros (artículos publicados, backlinks obtenidos); lagging indicators miden resultados pasados (tráfico, revenue)',
+              'Leading son métricas en tiempo real; lagging son reportes mensuales',
+              'No hay diferencia práctica — ambos miden el mismo desempeño en momentos distintos',
+            ],
+            correct: 1,
+            explanation: 'Leading indicators son accionables pero no son el objetivo final: publicar 4 artículos/mes predice tráfico SEO en 3-6 meses. Lagging indicators son el resultado real: tráfico orgánico, conversiones, revenue. Reportar solo lagging crea reactividad. Reportar leading + lagging crea una historia de causa-efecto que el cliente entiende y en la que confía.',
+          },
+          {
+            q: 'Looker Studio se conecta a GA4 y muestra "0 conversiones" aunque GA4 sí muestra conversiones. ¿Cuál es la causa más probable?',
+            options: [
+              'Looker Studio tarda 48 horas en sincronizar los datos de GA4',
+              'Los eventos de conversión en GA4 están configurados como eventos normales — no marcados como conversiones en la sección de configuración',
+              'Looker Studio no puede mostrar conversiones de GA4, solo de Google Ads',
+              'Necesitas reconectar la fuente de datos cada semana',
+            ],
+            correct: 1,
+            explanation: 'GA4 tiene dos conceptos: "events" (cualquier interacción) y "conversions" (eventos marcados como importantes en Admin → Events → toggle Conversion). Looker Studio usa el campo "Conversions" que solo cuenta los eventos marcados como conversión. Si un evento form_submit no está marcado como conversión en GA4, aparecerá en "Events" pero no en "Conversions" en Looker Studio.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Looker Studio — Templates de reportes',
+        url: 'https://lookerstudio.google.com/gallery',
+        type: 'tool',
+      },
+      {
+        title: 'Hotjar — KPI Dashboard Guide',
+        url: 'https://www.hotjar.com/blog/marketing-kpis',
+        type: 'article',
+      },
+      {
+        title: 'Klipfolio — KPI templates por industria',
+        url: 'https://www.klipfolio.com/resources/kpi-examples',
+        type: 'tool',
+      },
+    ],
+  },
+
+  // ─── Capstone Projects ────────────────────────────────────────────────────────
+
+  {
+    id: 'marketing-capstone',
+    number: 37,
+    title: 'Proyecto Final: Campaña de 30 Días Real',
+    description: 'Diseña y ejecuta una campaña de marketing digital completa para un negocio real. De la estrategia a los resultados documentados.',
+    duration: '5 semanas',
+    status: 'available',
+    track: 'marketing',
+    lessons: [
+      {
+        id: 'mkt-cap-1',
+        title: 'Proyecto Capstone: Campaña Digital Completa',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## Tu primer proyecto de portafolio real
+
+Este proyecto integra todo lo aprendido en el track de Marketing Digital. El resultado debe ser una pieza de portafolio que puedas mostrar a clientes potenciales.
+
+### El brief
+
+Elige UN negocio para trabajar durante este proyecto. Puede ser:
+- Tu propia agencia o proyecto personal
+- Un negocio de alguien que conozcas (con su permiso)
+- Un negocio ficticio con brief detallado que tú mismo redactes
+
+### Lo que construirás
+
+Una campaña de marketing digital de 30 días, completamente documentada: estrategia, ejecución, resultados y aprendizajes. No importa el presupuesto ($0 es válido si es contenido orgánico) — importa la calidad del pensamiento estratégico y la documentación.
+
+### Contexto de evaluación
+
+Imagina que este documento es lo que le presentas a un cliente en la reunión de "kickoff" (inicio) y en la reunión de "reporting" (resultados). ¿Lo contrataría?`,
+        deliverables: [
+          'Documento de estrategia (4-6 páginas): audiencia objetivo detallada, propuesta de valor, canales seleccionados con justificación, KPIs y targets para 30 días',
+          'Calendario de contenido: 30 días completos con tema, formato, canal, copy y visual para cada pieza (mínimo 15 piezas realmente creadas y publicadas/programadas)',
+          'Campaña de paid ads: mínimo 1 campaña activa en Meta o Google con presupuesto de cualquier monto ($5 es válido) — capturas de configuración + resultados reales',
+          'Reporte final (3-4 páginas): resultados reales vs objetivos, análisis de qué funcionó y qué no, hipótesis de por qué, recomendaciones para el mes siguiente',
+          'Documento de aprendizajes: 5 cosas que aprendiste que no estaban en el curriculum, 3 errores que cometiste y cómo los corregiste',
+        ],
+        tip: 'El error más común en este capstone es elegir un negocio demasiado complejo o con un producto que no conoces bien. Elige algo donde tengas acceso real: tu propia agencia, el negocio de un familiar, o un concepto que tú mismo definiste. El acceso a información real produce trabajo real.',
+        completed: false,
+      },
+      {
+        id: 'mkt-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Estrategia: ¿defines claramente a quién le hablas (demografía + psicografía + pain point específico)?',
+          'Estrategia: ¿cada canal elegido tiene una justificación basada en dónde está tu audiencia?',
+          'Contenido: ¿las 15+ piezas creadas tienen coherencia visual y de voz entre sí?',
+          'Contenido: ¿el copy de cada pieza habla al problema del cliente, no solo del producto?',
+          'Paid ads: ¿tienes captura de la configuración de la campaña (audiencia, presupuesto, creativo) y de los resultados reales?',
+          'Reporte: ¿comparas resultados reales vs objetivos con un análisis honesto (incluyendo lo que no funcionó)?',
+          'Presentación: ¿el documento se puede entender sin que tú lo expliques? ¿un cliente lo leería con interés?',
+          'Formato: ¿todo está en un PDF o Notion limpio y compartible con link público?',
+        ],
+        tip: 'El reporte más valioso no es el que muestra solo los éxitos — es el que analiza los fracasos con honestidad. Un cliente sofisticado prefiere a alguien que entiende por qué algo falló antes que a alguien que solo muestra métricas buenas.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Meta Business Suite — Gestión de campañas',
+        url: 'https://business.facebook.com',
+        type: 'tool',
+      },
+      {
+        title: 'Google Ads — Plataforma de anuncios',
+        url: 'https://ads.google.com',
+        type: 'tool',
+      },
+      {
+        title: 'Canva — Creación de contenido visual',
+        url: 'https://canva.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'uiux-capstone',
+    number: 38,
+    title: 'Proyecto Final: Diseño Completo de Producto',
+    description: 'Diseña un producto digital de principio a fin: investigación de usuarios, arquitectura, wireframes, prototipo de alta fidelidad y entrega al equipo de desarrollo.',
+    duration: '6 semanas',
+    status: 'available',
+    track: 'uiux',
+    lessons: [
+      {
+        id: 'uiux-cap-1',
+        title: 'Proyecto Capstone: De Investigación a Entrega',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## El proyecto que define tu portafolio de UX
+
+Este capstone es el proyecto más completo que habrás hecho. Si lo ejecutas bien, será la primera pieza que muestres en cualquier entrevista o propuesta de trabajo.
+
+### El brief
+
+Diseña el flujo completo de UN producto digital. Puede ser:
+- Una app móvil (iOS/Android)
+- Una plataforma web SaaS
+- El rediseño de un producto existente que tenga problemas reales de UX
+
+El producto debe resolver un problema REAL que hayas investigado con usuarios reales.
+
+### Ejemplos de proyectos anteriores
+
+- App de gestión de finanzas personales para freelancers LATAM
+- Plataforma de contratación de servicios creativos
+- App de seguimiento de hábitos con accountability social
+- Rediseño del proceso de onboarding de [app existente conocida]
+
+### Lo que diferencia este capstone
+
+El proceso importa tanto como el resultado. Debes documentar: qué investigaste, qué aprendiste, cómo tomaste decisiones de diseño. Un portfolio de UX que solo muestra pantallas bonitas no convence a nadie — el razonamiento detrás de cada decisión es lo que demuestra que eres un designer, no solo un artista.`,
+        deliverables: [
+          'Research report (Figma o Notion): mínimo 3 entrevistas a usuarios reales documentadas, análisis competitivo de 3-5 alternativas, user personas (2-3), jobs to be done',
+          'Arquitectura de información: sitemap y user flow diagram del flujo principal',
+          'Wireframes de baja fidelidad: todos los screens del flujo principal (mínimo 10 screens)',
+          'Prototipo de alta fidelidad en Figma: versión desktop O mobile, interactivo (mínimo 15 screens conectados)',
+          'Design system del proyecto: tokens de color, tipografía, componentes (button, input, card, nav) con sus variantes',
+          'Developer handoff document: especificaciones de spacing, tipografía, colores en valores exactos, comportamiento de componentes, assets exportados',
+          'Case study para portafolio (PDF + Figma): presenta el proceso completo en formato narrable — problema, proceso, decisiones, resultado',
+        ],
+        tip: 'La sección de research es lo que más diferencian los buenos diseñadores. Hablar con 3 usuarios reales durante 30 minutos cada uno te dará insights que 10 horas de inventar personas nunca te darán. Invierte ahí primero.',
+        completed: false,
+      },
+      {
+        id: 'uiux-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Research: ¿las entrevistas son con usuarios reales del segmento objetivo (no amigos o familiares que no usan el tipo de producto)?',
+          'Research: ¿documentas las citas textuales de los usuarios que fundamentan tus decisiones de diseño?',
+          'IA: ¿el sitemap cubre todos los flujos que el usuario necesita completar (no solo el happy path)?',
+          'Wireframes: ¿muestran la estructura y jerarquía sin distraer con color o detalle visual?',
+          'Hi-Fi: ¿el prototipo pasa la prueba de contraste WCAG AA en todos los textos?',
+          'Hi-Fi: ¿el diseño funciona en mobile (375px) sin scroll horizontal?',
+          'Design System: ¿todos los componentes tienen estados (default, hover, focus, disabled, error)?',
+          'Handoff: ¿un developer puede implementar el diseño sin preguntarte una sola cosa?',
+          'Case study: ¿alguien que no conoce el proyecto puede entender el proceso y las decisiones solo leyéndolo?',
+        ],
+        tip: 'Comparte el prototipo interactivo con 3 personas que no saben nada del proyecto y pídeles que completen una tarea específica sin ayuda. Si se pierden o se confunden, tienes información de diseño más valiosa que cualquier critique.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Figma — Herramienta principal de diseño',
+        url: 'https://figma.com',
+        type: 'tool',
+      },
+      {
+        title: 'Maze — User testing de prototipos',
+        url: 'https://maze.co',
+        type: 'tool',
+      },
+      {
+        title: 'UXcel — Portfolio examples y critiques',
+        url: 'https://uxcel.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'web-capstone',
+    number: 39,
+    title: 'Proyecto Final: SaaS MVP en Producción',
+    description: 'Construye y despliega una aplicación full-stack real con Next.js, Supabase y TypeScript. De la idea al producto en producción.',
+    duration: '6 semanas',
+    status: 'available',
+    track: 'web',
+    lessons: [
+      {
+        id: 'web-cap-1',
+        title: 'Proyecto Capstone: Tu Primer SaaS en Producción',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## De cero a producción: el proyecto que valida todo
+
+Este capstone es la diferencia entre saber programar y ser un developer. Un proyecto en producción con usuarios reales vale más en tu portafolio que 100 tutoriales completados.
+
+### El brief
+
+Construye y despliega una aplicación web funcional con las tecnologías del track. Debe resolver un problema real (aunque pequeño).
+
+### Criterios del proyecto
+
+- **Funcional**: no un tutorial copiado — debe tener lógica propia
+- **En producción**: URL pública en Vercel, accesible para cualquiera
+- **Con datos reales**: Supabase como base de datos, no JSON hardcodeado
+- **Con autenticación**: al menos email/password con Supabase Auth
+- **Responsive**: funciona en mobile y desktop
+
+### Ideas de proyectos (elige una o propón la tuya)
+
+- **Task manager con equipos**: tareas, asignación a usuarios, estados, due dates
+- **Link shortener con analytics**: crear links cortos, ver cuántos clicks recibió cada uno
+- **Portfolio CMS**: panel donde puedes agregar/editar/eliminar proyectos que se muestran en una landing
+- **Expense tracker**: registrar gastos por categoría, ver gráficas de resumen
+- **Waitlist para tu idea de startup**: landing page + formulario + panel admin para ver los registros
+
+### Stack requerido
+
+Next.js 16+ App Router · TypeScript strict · Tailwind CSS · Supabase (Postgres + Auth) · Deployed en Vercel`,
+        deliverables: [
+          'Repositorio público en GitHub con código limpio (no commits de "fix" encadenados — squash o rebase si es necesario), README profesional con screenshots y link a producción',
+          'URL en producción en Vercel funcional — cualquier persona puede registrarse y usarla',
+          'Al menos 3 features implementadas: autenticación, CRUD de la entidad principal, y una feature diferenciadora',
+          'TypeScript strict sin ningún "any" — npx tsc --noEmit debe pasar limpio',
+          'Responsive design verificado en mobile (375px) y desktop',
+          'Video demo de 3-5 minutos mostrando el flujo completo de usuario (loom.com o similar)',
+          'Documento de arquitectura (Notion o README): diagrama del schema de la DB, decisiones técnicas tomadas y por qué',
+        ],
+        tip: 'El error más costoso en este capstone: elegir un proyecto demasiado ambicioso y nunca terminarlo. Un task manager simple y completamente funcional en producción vale infinitamente más que un "Netflix clone" sin terminar. Scope pequeño, calidad alta, enviado.',
+        completed: false,
+      },
+      {
+        id: 'web-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Código: ¿npx tsc --noEmit pasa sin errores? ¿npm run build completa sin warnings?',
+          'Código: ¿hay algún console.log de debugging en el código final? (debe estar limpio)',
+          'Código: ¿los nombres de variables y funciones son descriptivos y en inglés?',
+          'Auth: ¿el registro, login y logout funcionan correctamente? ¿las rutas protegidas redirigen si no hay sesión?',
+          'DB: ¿Row Level Security está activado en Supabase? ¿los usuarios solo pueden ver/modificar sus propios datos?',
+          'UI: ¿la app muestra estados de loading mientras carga datos? ¿muestra mensajes de error útiles si algo falla?',
+          'Responsive: ¿funciona en iPhone SE (375px)? ¿los elementos no se salen de la pantalla?',
+          'README: ¿incluye: descripción, screenshots, stack usado, instrucciones de setup local y link a producción?',
+        ],
+        tip: 'Antes de considerar el proyecto terminado, pídele a alguien que no lo conoce que lo use sin instrucciones. Si se pierden, confunden, o encuentran un bug, eso es trabajo que falta. Una app que "funciona cuando tú la usas" no es lo mismo que una app que funciona.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Supabase — Postgres + Auth + Storage',
+        url: 'https://supabase.com',
+        type: 'tool',
+      },
+      {
+        title: 'Vercel — Deploy y hosting',
+        url: 'https://vercel.com',
+        type: 'tool',
+      },
+      {
+        title: 'Loom — Grabar video demos',
+        url: 'https://loom.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'ia-capstone',
+    number: 40,
+    title: 'Proyecto Final: Sistema de Automatización Inteligente',
+    description: 'Diseña y construye un sistema de automatización con IA que resuelva un problema real de tu agencia o negocio — de la idea al workflow en producción.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia-cap-1',
+        title: 'Proyecto Capstone: Automatización que Ahorra Tiempo Real',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## El sistema que te devuelve horas de trabajo cada semana
+
+Este capstone no es un ejercicio académico — es una herramienta que deberías seguir usando después de terminarlo.
+
+### El brief
+
+Construye un sistema de automatización con IA que:
+1. Resuelva un problema real de tiempo en tu flujo de trabajo o negocio
+2. Corra de forma autónoma (sin intervención manual cada vez)
+3. Integre al menos un modelo de lenguaje (Claude, GPT, o Gemini)
+4. Tenga documentación suficiente para que otra persona pueda usarlo
+
+### Ideas de proyectos
+
+- **Research assistant**: dado el nombre de un prospecto → busca en web → extrae info relevante → genera brief en Notion
+- **Content repurposing**: nuevo artículo de blog → genera 5 variantes para Twitter/LinkedIn/Instagram → los programa en Buffer
+- **Lead qualification**: nuevo form submission → Claude analiza el perfil → lo clasifica como calificado/no calificado → notificación con análisis en Slack
+- **Weekly report**: cada viernes → obtiene métricas de GA4 + GSC → Claude redacta el resumen → lo envía por email al equipo
+- **Client onboarding**: nuevo cliente firmado → crea workspace en Notion + repositorio en GitHub + email de bienvenida + tarea en Linear
+
+### Criterios de éxito
+
+El sistema funciona sin que tú hagas nada manualmente, produce outputs de calidad consistente, y el tiempo que ahorra por semana > el tiempo que tardó en construirse.`,
+        deliverables: [
+          'Workflow funcional en n8n (o Make) exportado como JSON + screenshots de cada nodo configurado',
+          'Integración demostrable con al menos 1 LLM: el prompt usado, los parámetros, y ejemplo de input/output real',
+          'Demo video de 3-5 minutos mostrando el workflow corriendo en vivo con un caso real (no demo preparada con datos perfectos)',
+          'Documentación técnica: diagrama del workflow, descripción de cada nodo, credenciales necesarias, cómo ejecutarlo manualmente si algo falla',
+          'Análisis de impacto: tiempo ahorrado por semana, costo mensual en APIs, ROI calculado, limitaciones conocidas del sistema',
+          'Plan de mejoras: qué agregarías con más tiempo, qué casos edge no maneja bien, cómo escalaría',
+        ],
+        tip: 'El 80% del valor de un sistema de automatización está en el prompt del LLM. Un workflow perfecto con un prompt mediocre produce outputs mediocres. Invierte la mayoría del tiempo en iterar el prompt hasta que el output sea consistentemente bueno — antes de preocuparte por los nodos del workflow.',
+        completed: false,
+      },
+      {
+        id: 'ia-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Funcionalidad: ¿el workflow corre end-to-end sin intervención manual cuando ocurre el trigger?',
+          'LLM: ¿el prompt incluye rol, contexto, restricciones y formato de output esperado?',
+          'LLM: ¿probaste el prompt con al menos 10 inputs distintos? ¿el output es consistente en calidad?',
+          'Error handling: ¿qué pasa si el LLM genera un output inesperado? ¿hay nodo de error que notifica?',
+          'Costo: ¿calculaste el costo mensual en tokens si corre en producción a la frecuencia esperada?',
+          'Demo: ¿el video muestra el workflow corriendo con un caso REAL (no preparado artificialmente)?',
+          'Documentación: ¿alguien sin contexto puede configurar y usar el sistema solo con tu documentación?',
+          'Impacto: ¿puedes medir concretamente cuánto tiempo ahorra por semana comparado con el proceso manual?',
+        ],
+        tip: 'Al evaluar tu propio proyecto, pregúntate: ¿lo usaré la próxima semana? Si la respuesta es no, probablemente el problema elegido no era lo suficientemente doloroso. Los mejores proyectos de este capstone son herramientas que el estudiante ya está usando en producción cuando los entrega.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'n8n — Automatización de workflows',
+        url: 'https://n8n.io',
+        type: 'tool',
+      },
+      {
+        title: 'Anthropic API — Claude en producción',
+        url: 'https://docs.anthropic.com/en/api',
+        type: 'documentation',
+      },
+      {
+        title: 'Jina.ai Reader — Web scraping para LLMs',
+        url: 'https://jina.ai/reader',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'branding-capstone',
+    number: 41,
+    title: 'Proyecto Final: Identidad de Marca Completa',
+    description: 'Crea la identidad de marca completa para un negocio real: estrategia, sistema visual, brand voice y todas las aplicaciones.',
+    duration: '5 semanas',
+    status: 'available',
+    track: 'branding',
+    lessons: [
+      {
+        id: 'branding-cap-1',
+        title: 'Proyecto Capstone: Brand Identity de Cero',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## La marca que demuestra que sabes hacer branding
+
+Este capstone produce el activo de portafolio más visible de todo el track. Una identidad de marca bien ejecutada habla por sí sola.
+
+### El brief
+
+Crea la identidad de marca completa para UN negocio. Puede ser:
+- Un cliente real (el mejor escenario — tienes feedback real)
+- Tu propia agencia o proyecto personal
+- Un brief ficticio bien definido que tú mismo escribas
+
+### Sobre el brief ficticio
+
+Si no tienes un cliente real, escribe el brief como si fueras el cliente: nombre del negocio, industria, audiencia, competidores, personalidad deseada, presupuesto. Un brief bien escrito hace que el trabajo de diseño sea más real.
+
+### Lo que no es aceptable
+
+- Rediseñar una marca existente copiando lo que ya tiene
+- Usar plantillas de Canva como base del sistema
+- Entregar solo el logo sin el sistema completo
+
+### Lo que sí es excepcional
+
+Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, social media manager, developer) y obtener resultados coherentes sin necesitar explicaciones.`,
+        deliverables: [
+          'Documento de estrategia de marca (4-6 páginas): posicionamiento, audiencia, arquetipos, personalidad, mensajes clave, vocabulario permitido y prohibido',
+          'Sistema de logo completo en Figma: versión primaria, compacta, monocromática y negativa — con zona de respeto, tamaño mínimo, y do\'s & don\'ts',
+          'Paleta de colores documentada: nombre propio, hex, RGB, HSL, uso específico y restricciones para cada color',
+          'Sistema tipográfico: par de fuentes con justificación, escala tipográfica completa con todos los niveles documentados',
+          'Brand Book en Figma (mínimo 20 páginas): todas las secciones — estrategia, logo, colores, tipografía, iconografía, fotografía, aplicaciones',
+          'Mínimo 5 aplicaciones de marca: perfil de Instagram (foto + portada), post template, tarjeta de presentación, firma de email, mockup de un elemento físico (bolsa, camiseta, letrero)',
+          'Archivos exportados organizados: logos en SVG + PNG (todos los formatos y fondos), paleta como variables CSS, tipografías con instrucciones de uso',
+        ],
+        tip: 'Las mejores identidades de marca no son las más complejas — son las más coherentes. Cada elemento debe ser una expresión del mismo carácter. Prueba esto: muestra el brand book a alguien que no conoce la marca y pídele que describa la personalidad de la empresa. Si coincide con lo que definiste en la estrategia, el sistema funciona.',
+        completed: false,
+      },
+      {
+        id: 'branding-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Estrategia: ¿el posicionamiento es específico (excluye a alguien) o genérico (válido para cualquier empresa del sector)?',
+          'Logo: ¿funciona en las 4 variantes requeridas? ¿se lee en 16x16px (favicon)?',
+          'Logo: ¿el archivo SVG es limpio (sin capas innecesarias, sin texto en paths mal nombrados)?',
+          'Colores: ¿verificaste el contraste de todas las combinaciones texto/fondo con una herramienta?',
+          'Tipografía: ¿el cuerpo del brand book (body text) usa la tipografía que definiste, no una genérica de Figma?',
+          'Brand Book: ¿cada página tiene un propósito claro o hay páginas de relleno?',
+          'Aplicaciones: ¿las 5 aplicaciones se sienten como parte del mismo universo de marca?',
+          'Entrega: ¿el link de Figma tiene permisos de View correctos para que cualquiera pueda acceder?',
+        ],
+        tip: 'Imprime una de las aplicaciones (aunque sea en papel común) y pégala en una pared. Luego mira la pantalla del Figma al mismo tiempo. ¿Se sienten igual? El ojo calibrado para pantalla muchas veces comete errores que solo se detectan en impreso. Este test simple puede revelar problemas de contraste, escala o legibilidad que en pantalla no son visibles.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Figma — Diseño del brand book',
+        url: 'https://figma.com',
+        type: 'tool',
+      },
+      {
+        title: 'Coolors — Generador y verificador de paletas',
+        url: 'https://coolors.co',
+        type: 'tool',
+      },
+      {
+        title: 'Mockup World — Mockups gratuitos para aplicaciones',
+        url: 'https://www.mockupworld.co',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'copy-capstone',
+    number: 42,
+    title: 'Proyecto Final: Campaña de Copy Integrada',
+    description: 'Escribe la campaña de copy completa para un producto o servicio real: landing page, secuencia de emails, ads y propuesta comercial.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'copy',
+    lessons: [
+      {
+        id: 'copy-cap-1',
+        title: 'Proyecto Capstone: Copy que Convierte',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## Cada pieza de copy es un argumento de venta
+
+Este capstone produce un sistema completo de copy para un producto o servicio. No piezas sueltas — una campaña integrada donde cada pieza se alimenta de las otras.
+
+### El brief
+
+Elige UN producto o servicio para el que escribirás toda la campaña. Puede ser:
+- AlphaDev Studios (usa la información del CLAUDE.md como brief)
+- Un cliente real o pasado
+- Un producto tuyo (curso, servicio freelance, SaaS)
+- Un brief ficticio bien detallado
+
+### La coherencia es el criterio más importante
+
+La landing page, los emails y los ads deben verse como si vinieran del mismo cerebro. El mismo tono, los mismos beneficios clave, los mismos mensajes. Un prospecto que vio el ad, llegó a la landing y recibió el email debe sentir coherencia total, no confusión.
+
+### Cómo medir si el copy es bueno
+
+Antes de entregar, pasa cada pieza por estas preguntas:
+1. ¿Habla de beneficios o de features?
+2. ¿La ratio tú/yo es al menos 3:1?
+3. ¿Un lector nuevo entiende la propuesta de valor en 5 segundos?
+4. ¿Hay una sola acción pedida por pieza?
+5. ¿Te daría vergüenza que un copywriter profesional lo leyera?`,
+        deliverables: [
+          'Landing page completa (documento de texto, no diseño): hero (headline + subheadline), problem statement, 5-6 benefits como bullets, 3 testimonios (reales o creados coherentemente), how it works en 3 pasos, 4 FAQ con respuestas, CTA final — cada sección claramente separada y etiquetada',
+          'Secuencia de 5 emails: subject line + preview text + body completo de cada email, con el framework de bienvenida (día 0, 2, 4, 7, 10)',
+          '3 variantes de Meta Ad: para cada variante — hook (primeras 3 líneas), body completo, headline de imagen, CTA button. Las 3 deben tener ángulos distintos (beneficio directo, dolor, prueba social)',
+          'Template de propuesta comercial: las 7 secciones completas con copy real (no placeholders), listo para personalizar por cliente',
+          'Cadencia de follow-up (4 emails): subject line + body para el follow-up de valor (día 3), objeción (día 7), cambio de oferta (día 14) y breakup (día 21)',
+        ],
+        tip: 'Lee todo el copy en voz alta antes de entregarlo. Grábate si es posible. El ear test detecta frases que "se leen bien" pero suenan artificiales cuando se dicen. El mejor copy fluye como conversación natural — si tropiezas al leerlo, el lector también.',
+        completed: false,
+      },
+      {
+        id: 'copy-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Landing: ¿el headline comunica el beneficio principal en máximo 10 palabras sin frases genéricas?',
+          'Landing: ¿hay alguna mención de "soluciones innovadoras", "transformación digital" o cualquier frase de relleno?',
+          'Emails: ¿cada email tiene UN solo CTA? ¿el subject line es < 40 caracteres?',
+          'Emails: ¿el email de bienvenida (día 0) entrega inmediatamente el valor prometido?',
+          'Ads: ¿los 3 hooks son completamente distintos entre sí (no variaciones del mismo ángulo)?',
+          'Ads: ¿el body de cada ad tiene < 150 palabras y es escaneable?',
+          'Propuesta: ¿empieza hablando del problema del cliente (no de la empresa)?',
+          'Ratio: ¿contaste las palabras en primera persona vs segunda? ¿es al menos 1:2 a favor del "tú"?',
+          'Coherencia: ¿alguien que ve el ad, llega a la landing y recibe el email siente que viene de la misma marca con el mismo mensaje?',
+        ],
+        tip: 'Comparte el landing page copy con 3 personas que no conocen el producto y pídeles que te digan en 1 minuto: ¿de qué se trata? ¿para quién es? ¿qué tengo que hacer para obtenerlo? Si no pueden responder las 3, el copy necesita trabajo.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Hemingway App — Claridad del copy',
+        url: 'https://hemingwayapp.com',
+        type: 'tool',
+      },
+      {
+        title: 'Really Good Emails — Referencia de emails',
+        url: 'https://reallygoodemails.com',
+        type: 'tool',
+      },
+      {
+        title: 'Swipe File — Referencia de ads y landing pages',
+        url: 'https://swipefile.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'seo-capstone',
+    number: 43,
+    title: 'Proyecto Final: SEO de Auditoría a Primeros Resultados',
+    description: 'Ejecuta un proyecto SEO completo para un sitio real: auditoría, estrategia de keywords, producción de contenido optimizado y link building documentado.',
+    duration: '8 semanas',
+    status: 'available',
+    track: 'seo',
+    lessons: [
+      {
+        id: 'seo-cap-1',
+        title: 'Proyecto Capstone: SEO Real con Resultados Reales',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## El proyecto que más tarda — y más vale
+
+El SEO no produce resultados en semanas. Este capstone dura más que los otros por una razón: necesitas tiempo real para ver resultados reales.
+
+### El brief
+
+Ejecuta un proyecto SEO completo para un sitio web real. Debe ser:
+- Tu propio sitio (el ideal — tienes acceso total)
+- El sitio de AlphaDev Studios (con acceso a GSC y Analytics)
+- El sitio de un conocido o cliente (con su permiso y acceso)
+
+### Por qué necesita tiempo real
+
+El algoritmo de Google tarda entre 2-8 semanas en indexar y rankear contenido nuevo. Este capstone se entrega con resultados de al menos 6-8 semanas de trabajo real — no resultados inventados.
+
+### El estándar de calidad
+
+Cada artículo que publiques debe ser el mejor resultado para esa keyword en términos de profundidad, utilidad y experiencia. No 800 palabras de relleno — contenido que realmente responde la pregunta mejor que cualquier competidor.`,
+        deliverables: [
+          'Auditoría SEO completa (5 secciones): técnico, on-page, contenido, autoridad y competencia — con cada issue documentado: problema, evidencia, solución implementada (o plan si no se pudo implementar)',
+          'Keyword map con mínimo 50 keywords: organizadas en clusters temáticos, con volumen, KD, intent y prioridad documentados para cada una',
+          'Mínimo 5 artículos publicados en el sitio: completamente optimizados (title, meta description, H1/H2/H3, internal linking, imágenes con alt text), con mínimo 1,000 palabras cada uno de contenido de calidad real',
+          'Log de link building: mínimo 15 outreach emails enviados documentados (sitio contactado, DR del sitio, email enviado, respuesta), resultados de los que respondieron',
+          'Reporte de progreso a 6-8 semanas: capturas de Google Search Console mostrando la evolución de clicks, impressions, posiciones y páginas indexadas desde el inicio del proyecto',
+          'Looker Studio dashboard conectado a GSC + GA4 mostrando el tráfico orgánico y las conversiones del período',
+        ],
+        tip: 'La sección de auditoría es donde más aprenden los clientes y donde más valor percibes como consultor SEO. Una auditoría bien documentada que muestra exactamente qué problemas tienen y por qué importan cada uno justifica el precio del proyecto antes de que empieces a trabajar. Invierte tiempo en que sea excelente.',
+        completed: false,
+      },
+      {
+        id: 'seo-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'Auditoría: ¿cada issue tiene evidencia (screenshot, URL específica) y no solo descripción genérica?',
+          'Auditoría: ¿traduciste cada problema técnico a impacto de negocio (no solo "falta el H1" sino "sin H1 Google no entiende de qué trata la página")?',
+          'Keywords: ¿el keyword map distingue claramente intent informacional vs comercial vs transaccional?',
+          'Keywords: ¿elegiste keywords donde tienes posibilidad real de rankear con tu DR actual (KD apropiado)?',
+          'Artículos: ¿cada artículo tiene title tag único y meta description persuasiva < 160 caracteres?',
+          'Artículos: ¿el primer párrafo de cada artículo menciona la keyword principal de forma natural?',
+          'Artículos: ¿cada artículo enlaza internamente a otros 2-3 artículos relevantes del sitio?',
+          'Link building: ¿los emails de outreach son personalizados (no plantilla idéntica para todos)?',
+          'Resultados: ¿incluyes captura de GSC mostrando el período ANTES y DESPUÉS?',
+        ],
+        tip: 'Cuando Google tarde en mostrar resultados (lo cual es normal), documenta el proceso, no solo los resultados. Un cliente que ve la auditoría detallada, el log de outreach y los artículos publicados tiene evidencia de que el trabajo se está haciendo correctamente, aunque los rankings aún no hayan subido.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Google Search Console',
+        url: 'https://search.google.com/search-console',
+        type: 'tool',
+      },
+      {
+        title: 'Screaming Frog — Crawl técnico',
+        url: 'https://www.screamingfrog.co.uk/seo-spider',
+        type: 'tool',
+      },
+      {
+        title: 'Ahrefs — Research de keywords y backlinks',
+        url: 'https://ahrefs.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  {
+    id: 'data-capstone',
+    number: 44,
+    title: 'Proyecto Final: Infraestructura de Analytics para un Cliente',
+    description: 'Configura el setup completo de analytics para un negocio real: GA4, GTM, Looker Studio, A/B test y framework de KPIs — todo documentado y entregable.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'data',
+    lessons: [
+      {
+        id: 'data-cap-1',
+        title: 'Proyecto Capstone: Analytics que Toma Decisiones',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: `## La infraestructura de datos que cualquier negocio necesita
+
+El 90% de los negocios tiene Google Analytics instalado. Menos del 10% lo tiene configurado correctamente y lo usa para tomar decisiones. Este capstone produce el setup del 10%.
+
+### El brief
+
+Configura y documenta la infraestructura completa de analytics para UN negocio real. Puede ser:
+- Tu propio sitio/proyecto
+- El sitio de AlphaDev Studios
+- El sitio de un cliente o conocido (con acceso a GA4, GTM y GSC)
+
+### La diferencia entre "tener Analytics" y "tener Analytics bien"
+
+- **Mal**: GA4 instalado con el snippet, sin events configurados, sin conversiones, sin Dashboard, informes default
+- **Bien**: GA4 + GTM configurados, conversiones marcadas, eventos personalizados para el negocio, Dashboard en Looker Studio que responde preguntas de negocio, A/B test corriendo, KPIs definidos con reporte mensual
+
+Este capstone produce el segundo escenario.`,
+        deliverables: [
+          'GA4 completamente configurado: mínimo 5 eventos personalizados relevantes para el negocio (no solo los automáticos), mínimo 2 conversiones marcadas, audiencias de remarketing configuradas',
+          'GTM setup documentado: screenshot de todos los tags configurados, triggers y variables — con explicación del propósito de cada tag',
+          'Looker Studio dashboard (mínimo 3 páginas): Overview de KPIs con comparativas, Fuentes de tráfico, Comportamiento de conversión — con controles de fecha interactivos',
+          'Diseño de A/B test: hipótesis documentada, control vs variante descritos, métrica primaria y secundaria, tamaño de muestra necesario calculado, duración mínima — implementado si hay tráfico suficiente, documentado si no',
+          'Framework de KPIs del negocio: North Star Metric + 5 KPIs con targets mensuales, árbol de métricas que muestra cómo cada KPI impacta la NSM',
+          'Reporte mensual de ejemplo: usando datos reales del período de trabajo, con la estructura completa de 7 secciones — incluyendo traducciones de cada métrica a lenguaje de negocio',
+        ],
+        tip: 'El entregable más valorado de este capstone por clientes reales es el Dashboard de Looker Studio — porque lo pueden ver ellos solos, cuando quieran, sin pedirte un reporte. Diseña el dashboard para el CEO del negocio (que no sabe de analytics), no para ti. Si necesita explicación para entenderse, no está terminado.',
+        completed: false,
+      },
+      {
+        id: 'data-cap-2',
+        title: 'Checklist de entrega y criterios de evaluación',
+        type: 'practice',
+        tasks: [
+          'GA4: ¿los 5 eventos personalizados son específicos del negocio (no genéricos)? ¿se disparan correctamente al navegar el sitio?',
+          'GA4: ¿las conversiones marcadas son acciones que realmente importan al negocio (no pageviews aleatorios)?',
+          'GTM: ¿el Preview de GTM no muestra errores en ninguno de los tags?',
+          'GTM: ¿está el manejo de errores configurado (qué pasa si un tag falla)?',
+          'Looker Studio: ¿cada gráfica tiene título que explica qué muestra sin necesidad de leer los ejes?',
+          'Looker Studio: ¿todos los scorecards tienen comparativa vs período anterior?',
+          'KPIs: ¿los targets son alcanzables y basados en datos reales (no inventados)?',
+          'KPIs: ¿el reporte mensual usa lenguaje de negocio, no jerga de analytics?',
+          'Entrega: ¿el dashboard de Looker Studio tiene permisos de acceso para el cliente?',
+        ],
+        tip: 'Antes de entregar, simula ser el cliente: abre el dashboard con tu teléfono, sin instrucciones previas, y responde: ¿estamos creciendo? ¿qué canal trae más clientes? ¿dónde se nos van los usuarios? Si el dashboard no responde esas 3 preguntas en 30 segundos, rediseña.',
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Looker Studio — Dashboard builder',
+        url: 'https://lookerstudio.google.com',
+        type: 'tool',
+      },
+      {
+        title: 'GrowthBook — A/B testing gratuito',
+        url: 'https://www.growthbook.io',
+        type: 'tool',
+      },
+      {
+        title: 'Microsoft Clarity — Heatmaps + grabaciones',
+        url: 'https://clarity.microsoft.com',
+        type: 'tool',
+      },
+    ],
+  },
+
+  // ─── Track: Publicidad Pagada (Ads) ──────────────────────────────────────────
+  {
+    id: 'ads-1',
+    number: 45,
+    title: 'Fundamentos de publicidad digital',
+    description: 'Entiende el ecosistema de paid media: plataformas, métricas clave y cómo pensar en campañas antes de gastar un solo peso.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ads',
+    lessons: [
+      {
+        id: 'ads-1-1',
+        title: 'El ecosistema de publicidad digital: cómo funciona el dinero',
+        type: 'reading',
+        content: '## Por qué paid media existe y cómo funciona\n\nCuando pagas publicidad en Meta o Google, no compras impresiones al azar — compras acceso a subasta. Cada vez que alguien carga una página o un feed, hay una subasta en milisegundos entre todos los anunciantes que quieren mostrarle algo a esa persona. El anuncio que gana la subasta se muestra. Eso es paid media.\n\n## Las dos grandes plataformas para agencias\n\n**Meta Ads (Facebook + Instagram)**: publicidad basada en audiencias. Defines QUIÉN ve tu anuncio (demografía, intereses, comportamientos, lookalikes). Ideal para awareness, engagement y conversión B2C.\n\n**Google Ads (Search + Display)**: publicidad basada en intención. Defines QUÉ BUSCAN las personas. Ideal para capturar demanda existente — cuando alguien ya está buscando lo que tu cliente vende.\n\n## Las métricas que debes dominar desde el día 1\n\n**CPM (Costo por Mil Impresiones)**: cuánto pagas para que tu anuncio se vea 1,000 veces. Mide eficiencia de distribución.\n\n**CPC (Costo por Clic)**: cuánto pagas cada vez que alguien hace clic. Mide eficiencia del creativo + audiencia.\n\n**CTR (Click-Through Rate)**: porcentaje de personas que ven el anuncio y hacen clic. CTR alto = anuncio relevante. CTR bajo = el mensaje o la audiencia están mal.\n\n**CPA (Costo por Adquisición)**: cuánto cuesta conseguir una conversión (lead, compra, registro). La métrica más importante para el cliente.\n\n**ROAS (Return on Ad Spend)**: ingresos generados ÷ dinero gastado en ads. ROAS de 3x = por cada $1 invertido, el cliente genera $3 en ventas. El norte de cualquier campaña de e-commerce.\n\n## La relación entre presupuesto y aprendizaje\n\nLos algoritmos de Meta y Google necesitan datos para optimizar. Si tu presupuesto diario es de $5, el algoritmo tardará semanas en aprender. La regla práctica: necesitas al menos 50 conversiones por semana para que el algoritmo salga de la fase de aprendizaje. Eso define el presupuesto mínimo viable para cada cliente.',
+        tasks: [
+          'Crea cuentas de práctica en Meta Business Manager y Google Ads (ambas son gratis para configurar)',
+          'Para un negocio real o ficticio, define: ¿Meta Ads, Google Ads, o ambos? Justifica la decisión con base en si están capturando demanda o creando demanda',
+          'Calcula el presupuesto mínimo mensual recomendado para ese negocio basándote en la regla de 50 conversiones/semana',
+        ],
+        tip: 'Antes de activar cualquier campaña de un cliente nuevo, instala el pixel de Meta y la etiqueta de Google antes de gastar un peso. Sin tracking correcto, los datos no sirven.',
+        completed: false,
+      },
+      {
+        id: 'ads-1-2',
+        title: 'Estructura de campaña: cómo organizar tu dinero',
+        type: 'reading',
+        content: '## La jerarquía de una cuenta de ads\n\nTanto Meta como Google organizan las campañas en 3 niveles:\n\n**Campaña**: define el objetivo (tráfico, conversiones, reconocimiento) y el presupuesto total. Una campaña = un objetivo de negocio.\n\n**Conjunto de anuncios / Grupo de anuncios**: define la audiencia (Meta) o las palabras clave (Google), el presupuesto diario y la programación. Un conjunto = una audiencia o segmento.\n\n**Anuncio**: el creativo que ve el usuario — imagen, video, texto, CTA. Varios anuncios por conjunto te permiten testear qué funciona.\n\n## La estrategia de embudo para paid media\n\nNo todas las personas están listas para comprar en el mismo momento. Un error clásico: gastar todo el presupuesto en conversión para personas que nunca han oído del cliente.\n\n**Tope de embudo (ToFu)**: audiencias frías. Personas que no conocen la marca. Objetivo: awareness o tráfico. Creativos: educativos, storytelling, problema → solución.\n\n**Medio de embudo (MoFu)**: audiencias tibias. Personas que interactuaron con el contenido o visitaron el sitio. Objetivo: engagement o leads. Creativos: beneficios, comparaciones, testimoniales.\n\n**Fondo de embudo (BoFu)**: audiencias calientes. Visitantes del sitio, carritos abandonados, clientes previos. Objetivo: conversión. Creativos: oferta directa, urgencia, garantías.\n\n## Testing sistemático: la única forma de mejorar\n\nNunca cambies más de una variable a la vez. Si cambias la imagen Y el texto al mismo tiempo, no sabes cuál causó el cambio en resultados. Testea: una variable por experimento, mínimo 7 días por test, un ganador claro antes de testear otra cosa.',
+        tasks: [
+          'Dibuja el embudo ToFu/MoFu/BoFu para un negocio de e-commerce y define qué tipo de anuncio va en cada etapa',
+          'Para una campaña ficticia con $1,000 de presupuesto mensual, distribuye el dinero entre los 3 niveles del embudo y justifica la distribución',
+          'Diseña un plan de testing de 3 semanas para una campaña: qué variable testeas cada semana y cómo defines el ganador',
+        ],
+        tip: 'Una cuenta de ads bien estructurada tiene pocas campañas con propósito claro — no 20 campañas activas que compiten entre sí y encarecen el CPM.',
+        completed: false,
+      },
+      {
+        id: 'ads-1-3',
+        title: 'Creativos que convierten: la diferencia real en paid media',
+        type: 'practice',
+        content: '## Por qué el creativo es la palanca más poderosa\n\nEl algoritmo de Meta puede encontrar a la audiencia correcta, pero no puede hacer que un anuncio malo sea bueno. En 2024-2025, con los algoritmos de Advantage+, el targeting se automatizó casi por completo. Lo que diferencia campañas exitosas de fracasadas es el creativo.\n\n## Los 3 segundos que importan\n\nEn un feed móvil, tienes 3 segundos para capturar atención antes de que el usuario haga scroll. El primer frame de tu video o la primera línea de tu texto define si alguien se detiene o no.\n\nFormatos de hook que funcionan:\n- Pregunta que identifica al target: "¿Eres dueño de restaurante en CDMX?"\n- Afirmación disruptiva: "La mayoría de sitios web pierden el 70% de su tráfico en la primera pantalla"\n- Beneficio inmediato: "Cómo conseguí 50 leads en 7 días con $200 en Meta Ads"\n- Mención directa del pain point: "Si tus anuncios de Meta no convierten, este video es para ti"\n\n## Formatos de creativo por objetivo\n\n**Video vertical (9:16)**: el formato de mayor alcance orgánico en Meta. Ideal para awareness. Duración: 15-30 segundos.\n\n**Imagen estática con texto**: mayor control de mensaje. Ideal para ofertas directas y retargeting.\n\n**Carrusel**: múltiples imágenes en un solo anuncio. Ideal para mostrar features, pasos de un proceso, o catálogo de productos.\n\n**UGC (User-Generated Content)**: video grabado con celular, estilo "testimonio real". El formato con mayor CTR en 2024-2025 porque se percibe como contenido orgánico, no publicidad.',
+        tasks: [
+          'Escribe 5 hooks diferentes para el mismo producto/servicio: 2 preguntas, 2 afirmaciones disruptivas, 1 beneficio inmediato',
+          'Para un cliente de tu portafolio (real o ficticio), define los 3 formatos de creativo que usarías en cada etapa del embudo y por qué',
+          'Encuentra 3 anuncios reales en Meta Ad Library (library.facebook.com) que consideres efectivos y analiza: qué hace bien el hook, el formato y el CTA',
+        ],
+        tip: 'La Biblioteca de Anuncios de Meta (Meta Ad Library) es pública y gratuita. Es la mejor fuente de inspiración y benchmarking para creativos. Revísala antes de cualquier campaña nueva.',
+        completed: false,
+      },
+      {
+        id: 'ads-1-exam',
+        title: 'Examen: Fundamentos de Publicidad Digital',
+        type: 'exam',
+        content: 'Valida tus conocimientos de paid media antes de pasar a la ejecución en plataformas.',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia fundamental entre Meta Ads y Google Ads en términos de targeting?',
+            options: [
+              'Meta Ads es más barato; Google Ads es más caro',
+              'Meta Ads se basa en audiencias (quién eres); Google Ads se basa en intención (qué buscas)',
+              'Meta Ads solo funciona para B2C; Google Ads solo para B2B',
+              'Meta Ads usa imágenes; Google Ads solo usa texto',
+            ],
+            correct: 1,
+            explanation: 'La distinción más importante: Meta Ads te permite definir quién ve tu anuncio (intereses, demografía, comportamientos). Google Ads te permite capturar a personas en el momento exacto en que buscan algo. Ambos enfoques tienen su lugar dependiendo de si quieres crear demanda (Meta) o capturar demanda existente (Google).',
+          },
+          {
+            q: '¿Qué significa ROAS de 4x?',
+            options: [
+              'El anuncio se mostró 4 veces por cada peso gastado',
+              'El CTR del anuncio es 4 veces mayor al promedio del sector',
+              'Por cada $1 invertido en ads, se generaron $4 en ventas',
+              'El CPA es 4 veces menor que el valor promedio del cliente',
+            ],
+            correct: 2,
+            explanation: 'ROAS = Ingresos / Gasto en ads. Un ROAS de 4x significa que por cada $1 gastado en publicidad, el negocio generó $4 en ventas. Es la métrica norte para campañas de e-commerce. Un ROAS mínimo rentable depende del margen del negocio — si el margen es del 30%, necesitas mínimo ROAS de 3.3x para no perder dinero.',
+          },
+          {
+            q: '¿Por qué el creativo se considera la palanca más importante en Meta Ads en 2025?',
+            options: [
+              'Porque Meta ya no permite segmentación por intereses',
+              'Porque los algoritmos de Advantage+ automatizan el targeting, dejando el creativo como principal diferenciador',
+              'Porque los creativos de video son más baratos que las imágenes',
+              'Porque el CTR afecta directamente el Quality Score de la cuenta',
+            ],
+            correct: 1,
+            explanation: 'Con la evolución de Advantage+ y los algoritmos de targeting automático, Meta encuentra la audiencia correcta con muy poca guía manual. Esto hace que el creativo sea lo que más importa: el algoritmo puede encontrar a quién mostrarle el anuncio, pero no puede hacer que un mensaje malo sea bueno.',
+          },
+          {
+            q: 'En la estructura de embudo (ToFu/MoFu/BoFu), ¿qué audiencia corresponde al BoFu y qué tipo de creativo funciona mejor?',
+            options: [
+              'Audiencias frías; creativos educativos y de awareness',
+              'Audiencias por intereses; creativos de storytelling y problema/solución',
+              'Visitantes del sitio y clientes previos; creativos de oferta directa con urgencia',
+              'Seguidores de la cuenta; creativos de engagement con preguntas',
+            ],
+            correct: 2,
+            explanation: 'BoFu (Bottom of Funnel) son las audiencias más calientes: personas que ya visitaron el sitio, abandonaron el carrito, o son clientes previos. Ya conocen la marca, así que no necesitan educación — necesitan el empujón final: una oferta directa, urgencia, garantía, o social proof específico.',
+          },
+          {
+            q: '¿Cuántas conversiones semanales mínimas necesita el algoritmo de Meta para salir de la "fase de aprendizaje"?',
+            options: [
+              '10 conversiones por semana',
+              '25 conversiones por semana',
+              '50 conversiones por semana',
+              '100 conversiones por semana',
+            ],
+            correct: 2,
+            explanation: 'Meta recomienda al menos 50 eventos de conversión por semana por conjunto de anuncios para que el algoritmo salga de la fase de aprendizaje y pueda optimizar correctamente. Con menos datos, el algoritmo no tiene suficiente señal y el costo por resultado es más alto e impredecible.',
+          },
+        ],
+        completed: false,
+      },
+          {
+        id: 'ads-1-proj-basico',
+        title: 'Proyecto Básico: Plan de ads para negocio local',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Diseña el plan de paid media para un negocio local con $300 USD de presupuesto mensual.',
+        deliverables: [
+          'Elección de plataforma (Meta Ads, Google Ads o ambas) con justificación',
+          'Distribución del presupuesto: cuánto a qué canal y por qué',
+          'Estructura de campaña: objetivo, 1-2 audiencias y tipo de creativo para cada etapa del embudo',
+          '3 ideas de creativo (hook + formato + mensaje principal)',
+          'KPIs esperados: CPM, CPC y CPA objetivo basados en benchmarks del sector',
+        ],
+        tip: 'Con $300/mes no puedes estar en todas partes. Elige el canal donde está la audiencia con mayor intención y conéntrate ahí.',
+        completed: false,
+      },
+
+    {
+      id: 'ads-1-p2',
+      title: 'Proyecto: Estructura de campaña en Meta',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Sin gastar dinero, crea en el Administrador de Anuncios de Meta una campaña completa con estructura real: campaña → conjunto de anuncios → anuncios. Usa el modo borrador.',
+      deliverables: [
+        'Captura de pantalla de la estructura completa',
+        'Documento con objetivo elegido y justificación',
+        'Copy del anuncio escrito (headline + descripción)',
+      ],
+      rubrica: [
+        'Estructura de 3 niveles correcta',
+        'Objetivo de campaña apropiado para el caso de negocio',
+        'Copy coherente con el objetivo',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'Meta Ads Library — espionaje legal de creativos de competidores', url: 'https://www.facebook.com/ads/library', type: 'tool' },
+      { title: 'Google Ads — plataforma oficial', url: 'https://ads.google.com', type: 'tool' },
+      { title: 'Biblioteca de recursos de Meta for Business', url: 'https://www.facebook.com/business/learn', type: 'documentation' },
+    ],
+  },
+  {
+    id: 'ads-2',
+    number: 46,
+    title: 'Meta Ads: Facebook e Instagram',
+    description: 'Configura, lanza y optimiza campañas reales en Meta Ads. Audiencias, creativos y optimización para resultados medibles.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ads',
+    lessons: [
+      {
+        id: 'ads-2-1',
+        title: 'Configuración del ecosistema Meta: Pixel, Business Manager y catálogos',
+        type: 'practice',
+        content: '## El setup que muchos saltean y luego lamentan\n\nAntes de gastar un peso en Meta Ads, debes configurar correctamente el backend. Una campaña bien ejecutada sobre un tracking malo produce datos que llevan a decisiones equivocadas.\n\n## Meta Business Manager\n\nEs el hub que centraliza todo: páginas de Facebook, cuentas publicitarias, píxeles, catálogos de productos y accesos del equipo. Cada cliente debe tener su propio Business Manager — no trabajes con la cuenta personal de ads del cliente ni con tu cuenta mezclada.\n\n## Meta Pixel (ahora Meta Pixel + Conversions API)\n\nEl Pixel es el código JavaScript que instalas en el sitio del cliente y que registra eventos: PageView, ViewContent, AddToCart, Purchase, Lead, etc. Sin Pixel, Meta no sabe qué hacen los usuarios después de hacer clic en el anuncio.\n\nEn 2024-2025, solo el Pixel no es suficiente porque iOS 14+ y los bloqueadores de ads impiden que el Pixel dispare en ~30-40% de eventos. La solución: Conversions API (CAPI) — envía los eventos desde el servidor, no desde el navegador. Configurar CAPI es ahora obligatorio para campañas serias.\n\n## Audiencias en Meta: los 3 tipos\n\n**Audiencias core (intereses y demografía)**: defines tú manualmente. Ej: mujeres 25-45, Ciudad de México, interés en skincare. Útil para testear hipótesis iniciales.\n\n**Audiencias personalizadas (Custom Audiences)**: basadas en datos propios — visitantes del sitio, lista de emails, video viewers, personas que interactuaron con tu cuenta. Son las más valiosas porque ya hay una relación.\n\n**Audiencias similares (Lookalike)**: Meta encuentra personas con perfil similar a una Custom Audience tuya. El 1% lookalike de tus compradores suele ser la audiencia de mayor conversión.',
+        tasks: [
+          'Configura un Business Manager de práctica y agrega una cuenta publicitaria de prueba',
+          'Instala el Meta Pixel en un sitio de práctica (usa el Event Tester de Meta para verificar que dispara correctamente)',
+          'Crea las 3 audiencias base para un cliente ficticio: Core (intereses), Custom (visitantes del sitio últimos 30 días) y Lookalike 1% de compradores',
+        ],
+        tip: 'Nunca trabajes directo en la cuenta personal de un cliente. Siempre pide acceso como Partner a través del Business Manager. Si el cliente cierra la relación, no pierdes acceso a las cuentas de otros clientes.',
+        completed: false,
+      },
+      {
+        id: 'ads-2-2',
+        title: 'Lanzar y optimizar campañas: del borrador al resultado',
+        type: 'practice',
+        content: '## El flujo de lanzamiento de una campaña\n\n**1. Define el objetivo de negocio primero**: ¿qué quiere lograr el cliente? Más ventas, más leads, más awareness. El objetivo de Meta debe mapear directamente al objetivo de negocio.\n\n**2. Elige el objetivo de campaña correcto en Meta**: Ventas (Sales) → para e-commerce con píxel. Leads → para capturar datos de contacto. Tráfico → para llevar gente al sitio. Alcance → para maximizar impresiones únicas.\n\n**3. Configura el conjunto de anuncios**: audiencia, presupuesto, programación, placements. En 2025, usar Advantage+ Placements (Meta elige dónde mostrar) suele dar mejores resultados que seleccionar placements manualmente.\n\n**4. Crea los anuncios**: mínimo 3 variantes por conjunto para testing inicial.\n\n**5. Revisa y lanza**: usa el Inspector de anuncios para verificar que todo esté correcto antes de publicar.\n\n## Métricas de optimización\n\nPrimera semana: no toques nada. El algoritmo está aprendiendo. Revisar, pero no modificar.\n\nDespués de 7 días y 50+ conversiones: revisa qué conjuntos de anuncios tienen mejor CPA. Pausa los que están >2x el CPA objetivo. Escala presupuesto en los que están por debajo.\n\nEscalado: aumenta el presupuesto máximo 20-30% cada 3-4 días. Incrementos bruscos reinician el aprendizaje.\n\n## Señales de que una campaña está fallando (y qué hacer)\n\nCTR bajo (<0.5%): el creativo o el hook no captan atención. Cambia el creativo.\nCPC alto con CTR normal: la audiencia es cara o hay mucha competencia. Prueba otra audiencia.\nCTR alto pero CPA alto: el problema está en el sitio (landing page), no en el anuncio.',
+        tasks: [
+          'Lanza una campaña de prueba (puedes usar $1/día de presupuesto) con 3 variantes de creativo para el mismo conjunto de anuncios',
+          'Después de 5 días, analiza el performance: CPM, CTR y CPC de cada variante. Identifica la ganadora y justifica por qué',
+          'Escribe el diagnóstico para este escenario: CTR del 2%, CPC de $0.15, pero CPA de conversión de $120 cuando el objetivo es $30. ¿Dónde está el problema?',
+        ],
+        tip: 'Cuando el CTR es alto pero el CPA es desastroso, el problema no es el anuncio — es lo que pasa después del clic. Revisa la landing page: velocidad, mensaje consistente con el anuncio, y CTA claro.',
+        completed: false,
+      },
+      {
+        id: 'ads-2-3',
+        title: 'Reporteo de Meta Ads para clientes: cómo presentar resultados',
+        type: 'reading',
+        content: '## La brecha entre los datos de Meta y lo que entiende el cliente\n\nMeta Ads Manager muestra 50+ métricas. El cliente no necesita ver 50 métricas — necesita entender si la inversión está funcionando o no. Tu trabajo como agencia es traducir datos técnicos en lenguaje de negocio.\n\n## Las 5 métricas que SÍ debe ver el cliente\n\n1. **Gasto**: cuánto se invirtió en el período\n2. **Resultados**: cuántas conversiones/leads/ventas se generaron\n3. **CPA/CPL**: cuánto costó cada resultado\n4. **ROAS**: retorno sobre inversión (si hay e-commerce)\n5. **Tendencia**: ¿está mejorando o empeorando vs. período anterior?\n\n## Estructura del reporte mensual\n\n**Executive Summary (1 párrafo)**: qué pasó este mes en lenguaje simple. "Generamos 87 leads a $18 promedio cada uno, 23% menos que el mes pasado gracias a la nueva variante de creativo de testimoniales."\n\n**Resultados vs. objetivo**: tabla simple con objetivo, resultado y variación porcentual.\n\n**Aprendizajes**: qué funcionó y por qué. Qué no funcionó y por qué.\n\n**Próximos pasos**: qué testearemos el mes que viene y por qué.\n\n## Herramientas de reporte\n\nLooker Studio (gratis, conecta directo a Meta Ads y Google Analytics) es el estándar de la industria para reportes de clientes. Crea un dashboard una vez y actualiza automáticamente cada mes.',
+        tasks: [
+          'Crea un template de reporte mensual de Meta Ads en Google Docs o Notion con las 5 métricas clave y las 4 secciones (executive summary, resultados vs objetivo, aprendizajes, próximos pasos)',
+          'Conecta una cuenta de Meta Ads a Looker Studio y configura un dashboard básico con las métricas que mostrarías al cliente',
+          'Para estos datos ficticios: gasto $1,200, leads 94, objetivo de leads 80, CPL $12.76, CPL objetivo $15 — escribe el executive summary de 3 líneas que enviarías al cliente',
+        ],
+        tip: 'Envía el reporte el mismo día del mes siempre (ej: el día 5 de cada mes). La consistencia construye confianza. Un cliente que sabe que el reporte llega el día 5 hace menos preguntas durante el mes.',
+        completed: false,
+      },
+          {
+        id: 'ads-2-proj-inter',
+        title: 'Proyecto Intermedio: Set completo de creativos para Meta Ads',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Crea el set completo de creativos para una campaña de Meta Ads en los 3 niveles del embudo.',
+        deliverables: [
+          'ToFu (awareness): 2 hooks diferentes escritos + descripción del concepto visual + copy del anuncio',
+          'MoFu (consideración): 1 carrusel de 4 slides con copy de cada slide y el CTA',
+          'BoFu (conversión): 1 anuncio de oferta directa con urgencia legítima y garantía',
+          'Para cada anuncio: asunto del hook, copy principal, CTA y audiencia objetivo',
+          'Justificación de por qué cada creativo es adecuado para su etapa del embudo',
+        ],
+        tip: 'El creativo de BoFu debe asumir que el prospecto ya sabe quién eres. No te presentes de nuevo — presenta la razón de actuar ahora.',
+        completed: false,
+      },
+],
+    resources: [
+      { title: 'Meta Blueprint — cursos oficiales de Meta Ads', url: 'https://www.facebook.com/business/learn/courses', type: 'course' },
+      { title: 'Looker Studio — reportes de ads para clientes', url: 'https://lookerstudio.google.com', type: 'tool' },
+    ],
+  },
+  {
+    id: 'ads-3',
+    number: 47,
+    title: 'Google Ads: Search, Display y Performance Max',
+    description: 'Domina Google Ads para capturar demanda existente. Keywords, estructura de campañas y optimización de Search y PMax.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ads',
+    lessons: [
+      {
+        id: 'ads-3-1',
+        title: 'Google Search Ads: capturar intención de compra',
+        type: 'reading',
+        content: '## La ventaja de Google Search: el usuario ya levantó la mano\n\nCuando alguien busca "agencia de diseño web Ciudad de México", ya tiene intención. No necesitas convencerlos de que tienen el problema — ya lo saben y están buscando solución. Ese es el poder único de Google Search.\n\n## Estructura de una campaña de Search\n\n**Nivel campaña**: define el presupuesto diario y la estrategia de puja (CPC manual, Maximizar conversiones, tCPA).\n\n**Nivel grupo de anuncios**: agrupa keywords relacionadas semánticamente. Regla de oro: una temática por grupo de anuncios. No mezcles "agencia de diseño web" con "precios de landing page" en el mismo grupo.\n\n**Nivel anuncio**: los Responsive Search Ads (RSA) de Google te piden 15 headlines y 4 descriptions. Google prueba combinaciones automáticamente. Mínimo 2 RSA por grupo de anuncios.\n\n## Tipos de concordancia de keywords\n\n**Concordancia amplia**: tu anuncio puede mostrarse para búsquedas relacionadas pero no exactas. Alta cobertura, menor relevancia. Más cara en términos de conversión.\n\n**Concordancia de frase**: tu anuncio se muestra cuando la búsqueda contiene tu frase en ese orden. Ej: "agencia de diseño" aparece para "mejor agencia de diseño web" pero no para "diseño agencia".\n\n**Concordancia exacta**: tu anuncio solo aparece para esa keyword o variantes muy cercanas. Máxima relevancia, menor volumen.\n\n## Quality Score: la métrica que baja tu costo\n\nGoogle asigna un Quality Score (1-10) basado en: relevancia del anuncio, CTR esperado y experiencia en la landing page. Un Quality Score alto baja tu CPC y mejora tu posición en la subasta. La clave: que el anuncio, la keyword y la landing page hablen del mismo tema.',
+        tasks: [
+          'Para un cliente ficticio (escoge un tipo de negocio), investiga 20 keywords con Google Keyword Planner. Agrúpalas en 3-4 grupos de anuncios temáticos',
+          'Escribe un RSA completo (5 headlines + 2 descriptions) para el grupo de anuncios principal. Verifica que haya consistencia entre keyword, headline y lo que encontraría en la landing',
+          'Identifica 10 keywords negativas que agregarías desde el inicio para evitar clics irrelevantes',
+        ],
+        tip: 'Las keywords negativas son tan importantes como las keywords objetivo. "Gratis", "tutoriales", "cómo hacer", "DIY" suelen ser negativas universales si vendes servicios profesionales.',
+        completed: false,
+      },
+      {
+        id: 'ads-3-2',
+        title: 'Performance Max y Display: cobertura total del ecosistema Google',
+        type: 'reading',
+        content: '## Performance Max: la campaña que lo automatiza todo\n\nPerformance Max (PMax) es la campaña más reciente de Google y la que más presupuesto está consumiendo en 2024-2025. Aparece en todos los inventarios de Google: Search, Display, YouTube, Gmail, Maps y Shopping. El algoritmo decide dónde y cuándo mostrar tu anuncio.\n\nVentaja: máxima cobertura con una sola campaña.\nDesventaja: poca visibilidad sobre qué está funcionando. Los reportes son más limitados que Search.\n\n## Qué necesitas para PMax\n\n**Assets**: Google construye los anuncios con lo que le das. Proporciona: 5+ imágenes (varios formatos), 5+ logos, 3-5 videos (si los tienes), 5 headlines cortos, 5 headlines largos, 5 descriptions, y el signal de audiencia (tus mejores audiencias de cliente).\n\n**Señales de audiencia**: aunque PMax decide solo, puedes darle señales de por dónde empezar: custom audiences basadas en keywords, listas de remarketing, similar audiences. El algoritmo las toma como punto de partida, no como restricción.\n\n## Google Display: remarketing y awareness\n\nDisplay es la red de millones de sitios web donde aparecen los banners de Google. Su mejor uso: remarketing. Personas que visitaron el sitio ven tus banners mientras navegan por otros sitios. Funciona bien para recordarle al usuario que ya vio tu oferta.',
+        tasks: [
+          'Prepara el asset group completo para una campaña PMax ficticia: lista todos los assets que necesitas con sus especificaciones (dimensiones de imágenes, duración de videos, caracteres de texto)',
+          'Diseña la estrategia de remarketing para Display: ¿qué audiencias crearía (visitantes del sitio últimos 7 días, 30 días, visitantes de página de precios) y qué mensaje diferente usaría para cada una?',
+          'Compara Search vs. PMax para un cliente de servicios B2B: ¿cuándo usarías cada uno y por qué?',
+        ],
+        tip: 'Para clientes nuevos sin historial de conversiones, empieza con Search antes de PMax. PMax necesita datos de conversión para optimizar bien — sin historial, gasta el presupuesto en placements de Display poco rentables.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Google Skillshop — certificaciones oficiales de Google Ads', url: 'https://skillshop.withgoogle.com', type: 'certification' },
+      { title: 'Google Keyword Planner', url: 'https://ads.google.com/home/tools/keyword-planner', type: 'tool' },
+    ],
+  },
+  {
+    id: 'ads-capstone',
+    number: 48,
+    title: 'Proyecto: Campaña completa de Paid Media',
+    description: 'Diseña y documenta una estrategia de paid media completa para un cliente real o ficticio, con Meta Ads y Google Ads.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ads',
+    lessons: [
+      {
+        id: 'ads-capstone-1',
+        title: 'Proyecto: Plan de Paid Media de 90 días',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Eres la agencia de paid media de un negocio que quieres (puede ser ficticio). Tienen $3,000 USD de presupuesto mensual para invertir en paid media durante 3 meses. Tu entregable es el plan estratégico completo que presentarías al cliente antes de arrancar.',
+        deliverables: [
+          'Análisis inicial: definición del cliente ideal, competidores en ads (usa Meta Ad Library y Google), y 3 diferenciadores del negocio',
+          'Distribución de presupuesto: cuánto va a Meta Ads, cuánto a Google Ads, cuánto a testing, y justificación',
+          'Estrategia de Meta Ads: estructura de campaña (objetivos, conjuntos, audiencias), 3 conceptos de creativo para cada etapa del embudo (ToFu/MoFu/BoFu)',
+          'Estrategia de Google Ads: 3-4 grupos de anuncios con keyword list de 10 keywords cada uno + 10 keywords negativas',
+          'KPIs y objetivos: qué métricas medirás, cuáles son los benchmarks del sector y qué resultados esperas en los 3 meses',
+          'Plan de optimización: qué revisarás semanalmente y qué decisiones tomarás si los resultados están por encima/debajo del objetivo',
+          'Template del reporte mensual que enviarías al cliente',
+        ],
+        tasks: [
+          'Arma el documento completo con todas las secciones y compártelo en #proyecto-ads con el link',
+          'Presenta el plan en 5 minutos en la siguiente mentoría (o en un video grabado) como si fuera el pitch al cliente',
+          'Comenta el plan de al menos 2 compañeros con feedback específico sobre la distribución de presupuesto y la estrategia de creativos',
+        ],
+        tip: 'El plan de paid media más valioso no es el más sofisticado — es el que el cliente puede entender y aprobar. Presenta con claridad, no con jerga técnica.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Meta Ad Library — investiga qué anuncios corren tus competidores', url: 'https://www.facebook.com/ads/library', type: 'tool' },
+    ],
+  },
+
+  // ─── Track: Email Marketing ───────────────────────────────────────────────────
+  {
+    id: 'email-1',
+    number: 49,
+    title: 'Fundamentos de email marketing',
+    description: 'El canal con mejor ROI del marketing digital. Aprende a construir listas de calidad, segmentar y enviar emails que la gente abre.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'email',
+    lessons: [
+      {
+        id: 'email-1-1',
+        title: 'Por qué el email sigue siendo el canal #1 de ROI',
+        type: 'reading',
+        content: '## El canal más subestimado del marketing digital\n\nMientras todos hablan de TikTok y Meta Ads, el email marketing sigue generando el ROI más alto de cualquier canal digital: $42 por cada $1 invertido según las últimas estadísticas del sector. En 2025, con la saturación de las redes sociales y el aumento de CPMs en paid media, el email está viviendo un renacimiento.\n\n## Por qué el email es diferente a las redes sociales\n\n**Propiedad de la audiencia**: tu lista de email es tuya. Instagram puede cambiar el algoritmo mañana y hundir tu alcance. La lista de emails no desaparece ni cambia las reglas.\n\n**Alta intención**: quien se suscribió a tu lista eligió recibirte. El nivel de atención es mucho mayor que en redes sociales donde el contenido compite con todo el feed.\n\n**Personalización real**: puedes segmentar y personalizar emails basándote en comportamiento, historial de compras, etapa del funnel y decenas de variables más.\n\n**Automatizable**: a diferencia de redes sociales que requieren presencia constante, el email funciona 24/7 con secuencias automatizadas.\n\n## Métricas clave de email marketing\n\n**Open Rate**: porcentaje de personas que abren el email. Benchmarks: 20-25% es bueno, 30%+ es excelente (varía por industria).\n\n**Click-Through Rate (CTR)**: porcentaje de personas que hacen clic en un enlace. 2-5% es normal; 10%+ indica email muy relevante.\n\n**Unsubscribe Rate**: si supera el 0.5% por email, hay un problema con la relevancia del contenido o la frecuencia de envío.\n\n**Deliverability**: el porcentaje de emails que llegan a la bandeja de entrada (no spam). Afectado por la reputación del dominio, la calidad de la lista y el contenido.\n\n## Las 3 cosas que matan una lista de email\n\n1. Comprar listas de emails (genera spam reports, destruye deliverability)\n2. Enviar a personas que no se suscribieron (ilegal en GDPR y CAN-SPAM)\n3. No limpiar la lista regularmente (los emails inválidos dañan la reputación del dominio)',
+        tasks: [
+          'Investiga el open rate promedio para la industria de tu cliente más reciente (o ficticio). ¿Está por encima o por debajo del benchmark de su sector?',
+          'Revisa las últimas 10 newsletters que recibiste. Anota: qué te hizo abrir cada una (asunto + preview) y qué hizo que hacieras clic (o no) dentro',
+          'Elige una herramienta de email marketing para tus clientes: Brevo (ex-Sendinblue), Mailchimp, Klaviyo o Resend. Justifica la elección según el tipo de cliente que atenderás',
+        ],
+        tip: 'El asunto del email decide si se abre o no. El contenido decide si se hace clic o no. Son dos problemas distintos que se optimizan por separado.',
+        completed: false,
+      },
+      {
+        id: 'email-1-2',
+        title: 'Construir una lista de calidad: lead magnets y formularios',
+        type: 'reading',
+        content: '## Lista grande vs. lista buena\n\nUna lista de 500 personas que eligieron suscribirse porque quieren lo que ofreces vale más que 10,000 emails comprados o recolectados sin permiso claro. La calidad de la lista determina el deliverability, el open rate y el revenue generado.\n\n## Cómo crecer una lista de forma orgánica\n\n**Lead magnets**: algo de valor que das a cambio del email. Funciona mejor cuando es:\n- Específico (no \'newsletter\', sino \'Guía de 5 pasos para...\')\n- Inmediatamente útil (PDF descargable, checklist, mini-curso)\n- Directamente relacionado con el problema que resuelves\n\nEjemplos efectivos para agencias:\n- Checklist de auditoría SEO de 10 puntos\n- Template de propuesta para freelancers\n- Guía de precios para servicios de diseño\n- Calculadora de ROI de email marketing\n\n**Formularios de suscripción**: colócalos donde el tráfico ya existe. Las posiciones de mayor conversión: exit-intent popup (justo antes de que cierren la ventana), inline dentro del contenido relevante, y al final de artículos del blog.\n\n**Contenido que genera suscriptores**: los artículos que más se comparten y llegan a audiencias nuevas también son los que más suscriben. Escribe contenido tan bueno que la gente quiera saber cuándo publiques el próximo.\n\n## Segmentación desde el inicio\n\nNo esperes a tener 10,000 suscriptores para segmentar. Desde el primer día, etiqueta a los suscriptores según cómo llegaron (qué lead magnet descargaron, qué página visitaron, qué producto les interesa). Esta información vale oro para la personalización posterior.',
+        tasks: [
+          'Diseña 3 ideas de lead magnet para un negocio de tu elección: nombre, formato y por qué resuelve un problema específico del suscriptor objetivo',
+          'Crea el formulario de suscripción para uno de los lead magnets usando Brevo, Mailchimp o la herramienta de tu elección',
+          'Define 3 etiquetas/tags que aplicarías a los suscriptores desde el día 1 para segmentar la lista correctamente',
+        ],
+        tip: 'El mejor lead magnet no es el más elaborado — es el que resuelve la duda más urgente que tiene tu prospecto ideal en este momento.',
+        completed: false,
+      },
+      {
+        id: 'email-1-3',
+        title: 'Anatomía de un email que convierte',
+        type: 'practice',
+        content: '## Los 5 elementos de un email efectivo\n\n**1. Asunto (Subject Line)**: el único trabajo del asunto es lograr que abran. Prueba formatos: pregunta directa, número concreto, curiosidad con gap, urgencia legítima, personalización con nombre.\n\n**2. Preview text**: las 40-100 caracteres que aparecen después del asunto en la bandeja de entrada. Tratalos como parte del asunto — muchas personas deciden abrir basándose en asunto + preview juntos.\n\n**3. Apertura**: los primeros dos renglones del email. Deben continuar la promesa del asunto, no empezar con "Hola, soy X y hoy quiero hablarte de...". Ve directo al valor.\n\n**4. Cuerpo**: el contenido principal. En emails de ventas o nurturing: una idea central por email. No trates de decir todo en un solo envío.\n\n**5. CTA (Call to Action)**: un solo CTA por email. Si hay múltiples links, el suscriptor no sabe en cuál hacer clic y no hace clic en ninguno.\n\n## Formatos de email según el objetivo\n\n**Email de valor puro**: enseña algo, no pide nada a cambio. Construye confianza.\n\n**Email de historia**: una narrativa personal que conecta emocionalmente antes de llevar a un punto o una oferta.\n\n**Email de producto/oferta**: directo, claro sobre el beneficio, urgencia legítima, CTA obvio.\n\n**Email de social proof**: testimoniales, casos de estudio, resultados de clientes. Para el suscriptor que está en MoFu.\n\n**Email de re-engagement**: para suscriptores inactivos. Pregunta directa: "¿Sigues queriendo recibir esto?"',
+        tasks: [
+          'Escribe un email de valor puro (200-300 palabras) para el negocio que elegiste: asunto, preview text y cuerpo con 1 CTA',
+          'Crea 5 variantes de asunto para ese mismo email y califica cada una del 1-10 según tu criterio. Justifica la calificación más alta',
+          'Rediseña este asunto débil: "Newsletter de [Nombre de empresa] — Enero 2025". Crea 3 versiones que aumentarían el open rate',
+        ],
+        tip: 'A/B testea el asunto del email siempre que puedas. Envía variante A al 25% de la lista, variante B al 25%, y la ganadora al 50% restante. En 4 semanas tendrás data real sobre qué funciona con tu audiencia.',
+        completed: false,
+      },
+      {
+        id: 'email-1-exam',
+        title: 'Examen: Fundamentos de Email Marketing',
+        type: 'exam',
+        content: 'Valida tus conocimientos de email marketing antes de avanzar a automatización.',
+        questions: [
+          {
+            q: '¿Cuál es el ROI promedio que genera el email marketing por cada dólar invertido?',
+            options: ['$8 por cada $1', '$20 por cada $1', '$42 por cada $1', '$100 por cada $1'],
+            correct: 2,
+            explanation: 'El email marketing genera en promedio $42 por cada $1 invertido, el ROI más alto de cualquier canal digital. Esto lo hace especialmente valioso para agencias que quieren demostrar resultados medibles a sus clientes con presupuestos limitados.',
+          },
+          {
+            q: '¿Qué es el "preview text" en un email y por qué importa?',
+            options: [
+              'El texto que aparece en el cuerpo del email antes del contenido principal',
+              'Los 40-100 caracteres que se ven en la bandeja de entrada después del asunto',
+              'El footer legal que incluye el enlace de desuscripción',
+              'El texto alternativo de las imágenes del email',
+            ],
+            correct: 1,
+            explanation: 'El preview text es el texto que aparece en la bandeja de entrada junto al asunto — lo que ve el usuario antes de abrir. Muchas personas deciden si abrir o no basándose en la combinación asunto + preview. Si no lo configuras, el cliente de email toma el primer texto del email, que suele ser el "Ver este email en el navegador" — inútil para motivar aperturas.',
+          },
+          {
+            q: '¿Cuál es la razón principal por la que no debes comprar listas de emails?',
+            options: [
+              'Es muy caro y no vale la pena económicamente',
+              'Los emails comprados suelen estar desactualizados',
+              'Genera spam reports que destruyen la reputación del dominio y puede ser ilegal',
+              'Las plataformas de email marketing no permiten importar listas compradas',
+            ],
+            correct: 2,
+            explanation: 'Las listas compradas contienen personas que nunca consintieron recibir tus emails. Cuando los recibes sin haberlos pedido, los marcas como spam. Los spam reports destruyen la "reputación" del dominio y la IP del remitente, haciendo que incluso los emails a suscriptores legítimos lleguen a la carpeta de spam. Además, en la UE y muchos países es ilegal bajo GDPR y leyes similares.',
+          },
+          {
+            q: '¿Cuántos CTAs debe tener un email de ventas o nurturing bien optimizado?',
+            options: ['Ninguno — los links de texto son más efectivos', 'Uno solo, claro y destacado', 'Dos o tres para dar opciones', 'Tantos como sea posible para maximizar clics'],
+            correct: 1,
+            explanation: 'Un solo CTA por email. Cuando hay múltiples opciones de acción, el suscriptor experimenta parálisis de decisión y no hace clic en ninguno. La excepción es cuando el email tiene múltiples artículos (newsletter de contenido) — ahí cada sección puede tener su propio link.',
+          },
+          {
+            q: 'Un unsubscribe rate de 2% en cada envío indica:',
+            options: [
+              'Performance excelente — muchas personas están leyendo el email',
+              'Performance normal para la mayoría de industrias',
+              'Un problema serio — la relevancia del contenido o la frecuencia están mal',
+              'Que la lista tiene muchos emails inválidos',
+            ],
+            correct: 2,
+            explanation: 'Un unsubscribe rate saludable es menor al 0.5% por envío. Al 2%, en 10 envíos habrás perdido el 20% de tu lista. Esto indica que el contenido no es relevante para los suscriptores, que la frecuencia es demasiado alta, o que hay una desalineación entre lo que prometiste al suscribir y lo que estás enviando.',
+          },
+        ],
+        completed: false,
+      },
+          {
+        id: 'email-1-proj-basico',
+        title: 'Proyecto Básico: Secuencia de bienvenida de 3 emails',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Escribe la secuencia de bienvenida de 3 emails para un negocio de tu elección.',
+        deliverables: [
+          'Email 1 (inmediato): entrega el lead magnet + presentación + expectativas de qué recibirán',
+          'Email 2 (día 2): historia de la marca o el founder que conecte emocionalmente',
+          'Email 3 (día 5): CTA suave hacia el siguiente paso (contenido, producto o llamada)',
+          'Para cada email: asunto, preview text y cuerpo completo',
+        ],
+        tip: 'El open rate de los primeros 3 emails determina si el algoritmo marca tu dominio como confiable. Hazlos tan buenos que la gente quiera responder.',
+        completed: false,
+      },
+
+    {
+      id: 'email-1-p2',
+      title: 'Proyecto: Secuencia de bienvenida (3 emails)',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Diseña una secuencia de 3 emails de bienvenida para un negocio real o ficticio. Email 1: bienvenida y entrega del lead magnet. Email 2: historia y valor. Email 3: primera oferta suave.',
+      deliverables: [
+        'Subject line + preview text de cada email',
+        'Cuerpo completo de los 3 emails',
+        'Diagrama del timing (día 0, día 2, día 5)',
+      ],
+      rubrica: [
+        'Progresión lógica entre los 3 emails',
+        'Tono consistente con la marca',
+        'Subject lines bajo 50 caracteres',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'Brevo (ex-Sendinblue) — email marketing con plan gratuito generoso', url: 'https://www.brevo.com', type: 'tool' },
+      { title: 'Really Good Emails — biblioteca de emails de inspiración', url: 'https://reallygoodemails.com', type: 'article' },
+    ],
+  },
+  {
+    id: 'email-2',
+    number: 50,
+    title: 'Automatización y funnels de email',
+    description: 'Construye secuencias de email que trabajan 24/7: bienvenida, nurturing, recuperación de carritos y reactivación.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'email',
+    lessons: [
+      {
+        id: 'email-2-1',
+        title: 'La secuencia de bienvenida: la más importante que construirás',
+        type: 'reading',
+        content: '## Por qué la bienvenida es tu email más valioso\n\nEl momento en que alguien se suscribe es cuando más atención e intención tiene hacia tu contenido. En las primeras 24-48 horas, tu open rate puede estar 3-5x por encima del promedio. No desperdiciar ese momento con un solo email genérico de "¡Gracias por suscribirte!" es uno de los errores más costosos en email marketing.\n\n## Estructura de una secuencia de bienvenida efectiva (5-7 emails)\n\n**Email 1 — Día 0: Entrega inmediata + presentación**\nEntrega lo que prometiste (lead magnet, descuento, acceso). Preséntate brevemente. Establece qué recibirán y con qué frecuencia. CTA: responde este email (mejora deliverability).\n\n**Email 2 — Día 1: Tu historia / la historia de la marca**\nConecta emocionalmente. ¿Por qué existes? ¿Qué problema personal resolviste? Las historias generan confianza más rápido que cualquier argumento lógico.\n\n**Email 3 — Día 3: El problema que resuelves**\nNombra el dolor específico que tiene tu suscriptor. Hazles sentir que los entiendes mejor de lo que ellos se entienden a sí mismos.\n\n**Email 4 — Día 5: Tu solución + social proof**\nIntroduce tu oferta principal. Un testimonial o caso de estudio concreto. No es un pitch agresivo — es mostrar que funciona.\n\n**Email 5 — Día 7: La oferta**\nCTA claro a la acción que quieres que tomen (compra, llamada, prueba gratuita). Urgencia legítima si aplica.\n\n## Automatización: cómo configurarlo\n\nTodas las plataformas modernas (Brevo, Mailchimp, Klaviyo) permiten crear flujos automáticos basados en trigger. El trigger más básico: cuando alguien se suscribe a la lista X, inicia la secuencia Y con los delays definidos.',
+        tasks: [
+          'Escribe los 5 asuntos de la secuencia de bienvenida para un negocio de tu elección. Cada asunto debe crear curiosidad sobre el email siguiente',
+          'Configura un flujo de bienvenida básico de 3 emails (días 0, 2 y 5) en Brevo o Mailchimp con los delays correctos',
+          'Suscríbete a 3 newsletters de referencia de tu industria y documenta cómo manejan su secuencia de bienvenida. ¿Qué funciona bien? ¿Qué harías diferente?',
+        ],
+        tip: 'El email más abierto de cualquier secuencia es el primero. Si no logras que también abran el segundo, tienes un problema de "qué prometiste vs. qué entregaste". Revisa la consistencia entre el lead magnet y el contenido de la secuencia.',
+        completed: false,
+      },
+      {
+        id: 'email-2-2',
+        title: 'Flujos avanzados: carritos abandonados, reactivación y nurturing',
+        type: 'practice',
+        content: '## Los flujos que más revenue generan en e-commerce\n\n**Carrito abandonado**: el 70% de los carritos de compra se abandonan sin completar la compra. Un flujo de 3 emails puede recuperar entre el 5-15% de esas ventas perdidas. Estructura:\n- Email 1 (1 hora después): recordatorio amable con foto del producto\n- Email 2 (24 horas después): social proof + respuesta a objeciones comunes\n- Email 3 (72 horas después): urgencia o incentivo (descuento, envío gratis)\n\n**Browse abandonment**: cuando alguien ve un producto pero no lo agrega al carrito. Email automatizado 24 horas después con el producto que vio + recomendaciones relacionadas.\n\n**Post-compra**: el mejor momento para generar una segunda compra es justo después de la primera. Secuencia: confirmación de pedido → guía de uso del producto → solicitud de testimonial (7-14 días después) → oferta de producto complementario.\n\n## Flujos de reactivación\n\nLos suscriptores inactivos (no han abierto ningún email en 90+ días) dañan tu deliverability. Antes de limpiarlos, intenta una campaña de reactivación:\n\n- Email 1: "¿Sigues ahí?" — directo, sin adornos\n- Email 2 (3 días después): tu mejor contenido o una oferta exclusiva\n- Email 3 (3 días después): "Este es mi último email si no escucho de ti"\n\nQuienes no abren ninguno de los tres: eliminalos de la lista. Parece contraproducente pero mejora el deliverability y las métricas generales.\n\n## Nurturing B2B para agencias\n\nPara leads B2B que no están listos para comprar inmediatamente, el nurturing es crítico. Estructura mensual:\n- Semana 1: educación (tip accionable del sector)\n- Semana 2: caso de estudio de cliente\n- Semana 3: tendencia del sector con tu perspectiva\n- Semana 4: CTA suave (llamada gratuita, consultoría, recurso descargable)',
+        tasks: [
+          'Diseña el flujo de carrito abandonado de 3 emails: escribe el asunto, el primer párrafo y el CTA de cada uno',
+          'Crea un flujo de reactivación de 3 emails para suscriptores inactivos de 90+ días. El tono debe ser honesto y directo, no desesperado',
+          'Define la cadencia de nurturing mensual para los leads B2B de una agencia digital: 4 emails con tema, objetivo y CTA de cada uno',
+        ],
+        tip: 'En los flujos de recuperación (carrito abandonado, reactivación), la honestidad funciona mejor que la manipulación. "Notamos que dejaste algo en tu carrito" convierte mejor que crear urgencia falsa.',
+        completed: false,
+      },
+          {
+        id: 'email-2-proj-inter',
+        title: 'Proyecto Intermedio: Lead magnet + landing page de suscripción',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Crea el lead magnet completo y la landing page de suscripción para construir una lista de emails.',
+        deliverables: [
+          'Lead magnet producido: PDF, checklist, template o mini-guía (mínimo 5 páginas de contenido real, no relleno)',
+          'Landing page de suscripción publicada: headline, beneficios del lead magnet, formulario y prueba social',
+          'Formulario conectado a la herramienta de email marketing (Brevo o Mailchimp)',
+          'Email de entrega automático del lead magnet configurado y probado',
+          'Link de la landing page publicada y screenshot del email de entrega recibido',
+        ],
+        tip: 'El lead magnet más efectivo no es el más largo — es el que resuelve una duda específica de forma tan completa que el suscriptor piensa "esto lo habría pagado".',
+        completed: false,
+      },
+],
+    resources: [
+      { title: 'Klaviyo — la plataforma de referencia para e-commerce email', url: 'https://www.klaviyo.com', type: 'tool' },
+      { title: 'Email on Acid — testing de renders en todos los clientes de email', url: 'https://www.emailonacid.com', type: 'tool' },
+    ],
+  },
+  {
+    id: 'email-capstone',
+    number: 51,
+    title: 'Proyecto: Sistema de email para un cliente',
+    description: 'Diseña e implementa el sistema completo de email marketing para un negocio real o ficticio.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'email',
+    lessons: [
+      {
+        id: 'email-capstone-1',
+        title: 'Proyecto: Sistema de email marketing completo',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Diseña el sistema de email marketing completo para un negocio de tu elección (puede ser ficticio o un cliente real). El entregable es el sistema documentado + los flujos configurados en una herramienta real.',
+        deliverables: [
+          'Estrategia: objetivo principal del email marketing para este negocio, KPIs definidos con benchmarks, y herramienta elegida con justificación',
+          'Lead magnet: descripción del lead magnet principal, mockup o descripción del formulario de suscripción',
+          'Secuencia de bienvenida: 5 emails escritos con asunto, preview text, cuerpo y CTA de cada uno',
+          'Al menos 1 flujo automatizado adicional (carrito abandonado, nurturing, reactivación) con los emails escritos',
+          'Template de newsletter mensual: estructura y primer draft del email de valor del mes',
+          'Plan de contenido: calendario de 3 meses con tema, tipo de email y objetivo de cada envío',
+          'Setup técnico: prueba de que los flujos están configurados en la herramienta (screenshots o link de acceso)',
+        ],
+        tasks: [
+          'Implementa el sistema en Brevo o Mailchimp y comparte screenshots del dashboard con los flujos activos',
+          'Suscríbete tú mismo al lead magnet y documenta la experiencia del suscriptor nuevo (qué recibe, cuándo, cómo)',
+          'Comparte el documento de estrategia en #proyecto-email y pide feedback específico sobre la secuencia de bienvenida',
+        ],
+        tip: 'El sistema de email más efectivo es el que realmente se usa. Empieza simple: un buen lead magnet + una secuencia de bienvenida de 5 emails. Complejidad después, consistencia primero.',
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
+  // ─── Track: Video y Contenido Social ─────────────────────────────────────────
+  {
+    id: 'video-1',
+    number: 52,
+    title: 'Estrategia de video para redes sociales',
+    description: 'El video es el formato dominante en todas las plataformas. Aprende a pensar estratégicamente antes de grabar el primer segundo.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'video',
+    lessons: [
+      {
+        id: 'video-1-1',
+        title: 'El ecosistema de video en 2025: plataformas y formatos',
+        type: 'reading',
+        content: '## Por qué el video ganó\n\nEn 2025, el video representa más del 80% del tráfico de internet y es el formato con mayor alcance orgánico en todas las plataformas sociales. Los algoritmos de TikTok, Instagram, YouTube y LinkedIn priorizan video porque mantiene a los usuarios más tiempo en la plataforma. Para una agencia, dominar video no es opcional — es el servicio con mayor demanda.\n\n## Plataformas y sus particularidades\n\n**TikTok**: el algoritmo más poderoso para descubrimiento orgánico. Puede llevar a cero seguidores a millones de vistas en horas si el video conecta. Formato: vertical 9:16, 15-60 segundos idealmente. Audiencia más joven pero en expansión.\n\n**Instagram Reels**: el formato de mayor alcance orgánico en Instagram. El algoritmo lo prioriza sobre cualquier otro formato. Aparece en el tab de Explore, llegando a personas que no siguen la cuenta. Formato: vertical 9:16, hasta 90 segundos.\n\n**YouTube Shorts**: vertical 9:16, hasta 60 segundos. Integrado con el ecosistema de YouTube — un Short exitoso puede llevar tráfico al canal principal. Ideal para clientes con presencia en YouTube.\n\n**LinkedIn Video**: el formato que más alcance orgánico tiene en LinkedIn en 2024-2025. Horizontal o vertical funcionan. Los videos de "behind the scenes", opiniones profesionales y casos de estudio funcionan excepcionalmente bien en un contexto B2B.\n\n## La estrategia de repropósito (content repurposing)\n\nGrabar un video y publicarlo en una sola plataforma es desperdiciar el 80% del valor. La estrategia eficiente: graba una vez, edita y publica en múltiples plataformas adaptando el formato. Un video horizontal de 10 min para YouTube → recorta los mejores 60 segundos → Shorts/Reels/TikTok → extrae el audio → podcast → transcribe → artículo de blog.',
+        tasks: [
+          'Para un cliente de tu elección, define en qué 2-3 plataformas de video tiene más sentido estar presente y por qué (audiencia objetivo, tipo de contenido, recursos disponibles)',
+          'Investiga las cuentas de 3 competidores de ese cliente en las plataformas elegidas. ¿Qué formatos usan? ¿Qué frecuencia? ¿Qué videos tienen más views?',
+          'Diseña el flujo de repropósito para un video de 5 minutos: lista todas las piezas de contenido que puedes sacar de ese único video',
+        ],
+        tip: 'El error más común al empezar con video es intentar estar en todas las plataformas. Elige 1-2 plataformas donde está la audiencia objetivo y hazlas bien antes de expandirte.',
+        completed: false,
+      },
+      {
+        id: 'video-1-2',
+        title: 'El hook: los 3 segundos que deciden todo',
+        type: 'reading',
+        content: '## Por qué los primeros 3 segundos son la métrica que más importa\n\nEn TikTok e Instagram Reels, el algoritmo mide el Completion Rate (porcentaje de personas que ven el video completo). Si en los primeros 3 segundos el usuario hace scroll, el algoritmo interpreta que el contenido no es bueno y reduce su distribución. Si se queda, el algoritmo lo distribuye más. Todo empieza con el hook.\n\n## Los 7 tipos de hook que detienen el scroll\n\n**1. Pregunta que identifica al target**: "¿Tienes un negocio en Instagram pero tus ventas no crecen?"\n\n**2. Afirmación controversial**: "El diseño de tu logo no importa" / "Los anuncios de Meta están muertos para negocios pequeños"\n\n**3. Revelación de número**: "Cómo conseguí 50 clientes en 30 días sin gastar en ads"\n\n**4. "Nadie te dice que..."**: "Nadie te dice que el 70% de los freelancers abandona en el primer año. Aquí está por qué"\n\n**5. Antes/Después visual**: mostrar el resultado final en el primer frame para crear curiosidad sobre el proceso\n\n**6. Promesa directa de aprendizaje**: "En los próximos 60 segundos te voy a enseñar..."\n\n**7. Elemento visual disruptivo**: algo inesperado en el primer frame que no tiene sentido sin contexto — el cerebro quiere resolver el puzzle\n\n## El texto on-screen como hook adicional\n\nEn muchas plataformas, los videos se reproducen sin sonido por defecto. El texto on-screen en el primer frame es tu segunda oportunidad de capturar atención. Debe complementar el hook hablado, no repetirlo.',
+        tasks: [
+          'Para los mismos 3 videos que estás analizando de la competencia: identifica el tipo de hook que usa cada uno y evalúa si es efectivo o no',
+          'Escribe 5 hooks originales para el negocio del cliente usando al menos 3 tipos diferentes de los 7 listados',
+          'Graba 2 variantes del mismo hook de 5 segundos y compara: ¿cuál detiene más el scroll? (pide feedback a 5 personas)',
+        ],
+        tip: 'El mejor hook no es el más creativo — es el más específico para tu audiencia objetivo. Un hook que identifica exactamente el problema de tu cliente ideal convierte mejor que uno genérico aunque sea más "llamativo".',
+        completed: false,
+      },
+      {
+        id: 'video-1-3',
+        title: 'Producción básica: grabar bien con lo que tienes',
+        type: 'practice',
+        content: '## La trampa del equipo perfecto\n\nEl error más común de quien empieza con video: esperar a tener la cámara perfecta, el micrófono perfecto, el set perfecto. Los creadores con más tracción en TikTok e Instagram en 2024-2025 son los que publican consistentemente con equipo básico, no los que publican raramente con producción Hollywood.\n\n## Los 3 factores que sí importan en producción básica\n\n**1. Audio**: el mal audio destruye cualquier video, sin importar qué tan buena sea la imagen. Antes de comprar una cámara nueva, invierte en un micrófono. Un micrófono de solapa de $30-50 USD mejora el audio más que cualquier cámara de $1,000.\n\n**2. Iluminación**: la luz natural es gratis y es la mejor. Graba cerca de una ventana con luz natural difusa (no luz directa del sol — hace sombras duras). Si necesitas luz artificial, un ring light de $40-60 USD hace la diferencia.\n\n**3. Fondo y composición**: el fondo debe ser limpio y no distraer. La regla de los tercios: pon el sujeto en el tercio izquierdo o derecho del frame, no en el centro. La cámara a la altura de los ojos o ligeramente superior.\n\n## El setup mínimo viable para empezar\n\nTeléfono moderno (cualquier iPhone del 11 en adelante o Android flagship de los últimos 3 años) + micrófono de solapa + luz natural = videos profesionales. Sin más.\n\n## Guión vs. espontaneidad\n\nLa mayor diferencia entre creadores que suenan naturales y los que suenan robóticos no es el talento — es la preparación. Los mejores en cámara conocen tan bien lo que van a decir que no necesitan memorizarlo. Prepara bullet points, no un guión palabra por palabra. Practica en voz alta antes de grabar.',
+        tasks: [
+          'Con tu teléfono y la luz natural disponible ahora mismo, graba un video de 60 segundos sobre un tema que domines. Sin editar, sin filtros. Analiza: qué funciona del audio, la iluminación y la composición, y qué mejorar',
+          'Define el setup de grabación que recomendarías a un cliente con $200 de presupuesto máximo: micrófono, soporte, iluminación (links reales de productos)',
+          'Graba el mismo hook 5 veces seguidas. Nota cómo cada toma se siente más natural. Esta práctica se llama "calentamiento de cámara" — la primera toma rara vez es la mejor',
+        ],
+        tip: 'La consistencia supera a la perfección. Un video decente publicado hoy vale más que un video perfecto que nunca se publica porque "falta algo". Empieza con lo que tienes y mejora gradualmente.',
+        completed: false,
+      },
+      {
+        id: 'video-1-exam',
+        title: 'Examen: Estrategia de Video',
+        type: 'exam',
+        content: 'Valida tu comprensión de estrategia de video antes de pasar a edición y distribución.',
+        questions: [
+          {
+            q: '¿Qué métrica usa el algoritmo de TikTok e Instagram para decidir si distribuir más o menos un video?',
+            options: ['Número de likes en las primeras 24 horas', 'Completion Rate — porcentaje de personas que ven el video completo', 'Número de comentarios generados', 'Cantidad de veces que se comparte'],
+            correct: 1,
+            explanation: 'El Completion Rate es la métrica más importante para los algoritmos de TikTok e Instagram Reels. Si la mayoría de personas ven el video completo, el algoritmo interpreta que es contenido de valor y lo distribuye más. Si la mayoría hace scroll en los primeros segundos, lo limita. Esto es por qué el hook es tan crítico.',
+          },
+          {
+            q: '¿Cuál es el único factor de producción que puede destruir un video independientemente de la calidad visual?',
+            options: ['Un fondo desordenado', 'Mala iluminación', 'Audio de mala calidad', 'Resolución baja del video'],
+            correct: 2,
+            explanation: 'El audio malo es intolerable para el espectador de una forma que la imagen de baja calidad no lo es. Las personas perdonan imagen pixelada pero no toleran audio con eco, ruido de fondo o voz apagada. La inversión en un buen micrófono tiene el mayor ROI en producción básica.',
+          },
+          {
+            q: '¿Qué es el "content repurposing" y por qué es importante para una agencia?',
+            options: [
+              'Publicar el mismo video en múltiples plataformas sin modificar',
+              'Grabar una pieza de contenido y editarla en múltiples formatos para diferentes plataformas',
+              'Reutilizar videos de otros creadores con crédito',
+              'Reciclar contenido antiguo que funcionó bien',
+            ],
+            correct: 1,
+            explanation: 'Content repurposing es grabar una vez y crear múltiples piezas para distintas plataformas: un video largo → Shorts/Reels/TikTok + audio para podcast + transcripción para artículo. Para una agencia, esto multiplica el valor entregado al cliente sin multiplicar el tiempo de producción.',
+          },
+          {
+            q: 'De los 7 tipos de hook, ¿cuál usa la psicología de "completar el puzzle" para retener la atención?',
+            options: ['La pregunta que identifica al target', 'La revelación de número', 'El elemento visual disruptivo', 'La promesa directa de aprendizaje'],
+            correct: 2,
+            explanation: 'El elemento visual disruptivo muestra algo inesperado o fuera de contexto en el primer frame. El cerebro humano tiene un impulso natural de resolver la incoherencia — necesita entender por qué está viendo eso. Esta tensión cognitiva mantiene al espectador para descubrir el contexto.',
+          },
+          {
+            q: '¿Por qué se recomienda preparar bullet points en lugar de un guión memorizado para hablar en cámara?',
+            options: [
+              'Porque los bullet points son más cortos y fáciles de memorizar',
+              'Porque el guión memorizado suena robótico; los bullet points permiten hablar con naturalidad sin improvisar el contenido',
+              'Porque las plataformas penalizan el contenido que se ve muy preparado',
+              'Porque con bullet points el video puede ser más corto',
+            ],
+            correct: 1,
+            explanation: 'Un guión memorizado palabra por palabra produce una performance que suena artificial — el cerebro humano detecta la diferencia entre alguien que habla y alguien que recita. Los bullet points te dan la estructura y los puntos clave que quieres comunicar, pero te dejan encontrar las palabras naturalmente en el momento, resultado en una energía más auténtica.',
+          },
+        ],
+        completed: false,
+      },
+          {
+        id: 'video-1-proj-basico',
+        title: 'Proyecto Básico: 5 variantes de hook en video',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Graba 5 variantes del mismo hook de 5-8 segundos usando diferentes tipos. Compara y elige la más efectiva.',
+        deliverables: [
+          '5 videos de 5-8 segundos: cada uno usando un tipo de hook diferente (pregunta, afirmación controversial, número, "nadie te dice que", promesa de aprendizaje)',
+          'Para cada variante: el guión escrito del hook',
+          'Análisis propio: cuál crees que es más efectiva y por qué',
+          'Feedback de 3 personas que vieron los 5 videos: cuál los detendría más en el scroll',
+        ],
+        tip: 'Graba cada variante 3 veces y queda con la mejor toma. La quinta grabación siempre es más natural que la primera.',
+        completed: false,
+      },
+
+    {
+      id: 'video-1-p2',
+      title: 'Proyecto: Guión de video de 60 segundos',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Escribe un guión completo para un video de 60 segundos explicando un producto o servicio. Incluye gancho, desarrollo y CTA. Opcionalmente graba el video.',
+      deliverables: [
+        'Guión estructurado (gancho / desarrollo / CTA)',
+        'Duración estimada marcada por sección',
+        'Descripción de visuales para cada parte',
+      ],
+      rubrica: [
+        'Gancho en los primeros 5 segundos',
+        'Mensaje central claro y único',
+        'CTA específico y accionable',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'CapCut — edición de video móvil, la más usada en 2025', url: 'https://www.capcut.com', type: 'tool' },
+      { title: 'TikTok Creative Center — tendencias y análisis de contenido viral', url: 'https://ads.tiktok.com/business/creativecenter', type: 'tool' },
+    ],
+  },
+  {
+    id: 'video-2',
+    number: 53,
+    title: 'Edición y distribución de video',
+    description: 'Edita videos que enganchen de principio a fin y domina la distribución en múltiples plataformas.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'video',
+    lessons: [
+      {
+        id: 'video-2-1',
+        title: 'Edición de video para redes sociales: ritmo, captions y b-roll',
+        type: 'practice',
+        content: '## El principio del ritmo en edición\n\nLa edición de video para redes sociales tiene una regla: no dejes que el espectador tenga tiempo de aburrirse. Cada corte, cada cambio de plano, cada texto on-screen resetea la atención. Los videos virales en TikTok e Instagram cortan cada 1-3 segundos. Los tutoriales más lentos pueden ir cada 5-8 segundos.\n\n## Los elementos de edición que más impacto tienen\n\n**Captions on-screen**: el 85% de los videos en redes sociales se ven sin sonido. Los captions automáticos (CapCut los genera en segundos) son imprescindibles. Los captions bien estilizados (con palabras clave resaltadas en color) aumentan el retention rate.\n\n**B-roll**: el footage secundario que ilustra lo que estás diciendo. Si hablas de un proceso, muestra el proceso. Si hablas de un resultado, muestra el resultado. El b-roll rompe la monotonía del "talking head" (alguien hablando a cámara) y hace el video más dinámico.\n\n**Música de fondo**: baja intensidad para no competir con la voz. El 20-30% del volumen de la voz. Las plataformas tienen bibliotecas de música libre de derechos. TikTok tiene su propia biblioteca; CapCut también.\n\n**Texto animado**: palabras clave que aparecen on-screen sincronizadas con lo que estás diciendo. Refuerza los puntos clave y mantiene enganchados a los que leen antes de escuchar.\n\n## Herramientas de edición por nivel\n\n**Principiante (móvil)**: CapCut — gratis, potente, genera captions automáticamente, tiene templates.\n\n**Intermedio (desktop)**: DaVinci Resolve (gratis) o Adobe Premiere.\n\n**Avanzado**: After Effects para motion graphics, Final Cut Pro para Mac.',
+        tasks: [
+          'Toma el video de 60 segundos que grabaste en la lección anterior y edítalo en CapCut: agrega captions automáticos, música de fondo (20% del volumen), y al menos 3 textos on-screen destacando puntos clave',
+          'Graba 30 segundos de b-roll relacionado al tema de tu video (manos trabajando, pantalla de computadora, proceso, etc.) e intégralo en la edición',
+          'Compara el video editado con el video original sin editar. ¿En cuál crees que el espectador se quedaría más tiempo? ¿Por qué?',
+        ],
+        tip: 'CapCut tiene una función de "auto-captions" que transcribe el audio en segundos. Pero siempre revisa el resultado — los nombres propios, términos técnicos y palabras en inglés suelen transcribirse mal.',
+        completed: false,
+      },
+      {
+        id: 'video-2-2',
+        title: 'Calendario de contenido y consistencia de publicación',
+        type: 'reading',
+        content: '## Por qué la consistencia supera al contenido perfecto\n\nEl algoritmo de todas las plataformas favorece a las cuentas que publican consistentemente. No por ser más "justos" — sino porque la consistencia genera datos suficientes para que el algoritmo sepa a quién mostrar el contenido. Una cuenta que publica 5 veces por semana durante 3 meses tiene 60+ videos con datos de rendimiento. El algoritmo tiene material para optimizar.\n\n## Frecuencia recomendada por plataforma (para cuentas de clientes)\n\n**TikTok**: 1-2 videos diarios si el objetivo es crecimiento acelerado. Mínimo 3-5 por semana para mantener presencia.\n\n**Instagram Reels**: 3-5 por semana. Los Reels + Stories + posts estáticos forman una presencia completa.\n\n**YouTube Shorts**: 3-5 por semana. El canal principal de YouTube: 1-2 videos de formato largo por semana es suficiente.\n\n**LinkedIn**: 2-3 videos por semana para B2B. El algoritmo de LinkedIn premia la constancia con mayor alcance orgánico.\n\n## Cómo construir un sistema de contenido que escale\n\nEl error: grabar y publicar de manera reactiva (cuando hay tiempo o inspiración). El sistema correcto:\n\n**Batch recording**: graba 4-8 videos en una sola sesión. La primera toma siempre es de calentamiento — después de 3-4 videos, hablas con más naturalidad y energía.\n\n**Banco de ideas**: mantén una lista permanente de ideas de contenido (Notion, Notes, lo que uses). Cada vez que se te ocurra algo bueno — en la ducha, manejando, leyendo — anótalo inmediatamente.\n\n**Calendario editorial**: define con 2 semanas de anticipación qué se publica qué día. El equipo no improvisa, ejecuta el plan.',
+        tasks: [
+          'Crea un banco de 30 ideas de video para un cliente específico: 10 educativos, 10 de behind the scenes, 10 de opinión o tendencias',
+          'Diseña el calendario editorial de video para 1 mes: qué tipo de video se publica qué día, en qué plataforma, con qué hook',
+          'Graba 3 videos en una sola sesión de 2 horas usando batch recording. Documenta cómo se compara la energía del video 1 vs. el video 3',
+        ],
+        tip: 'El batch recording es la diferencia entre agencias que escalan y agencias que se ahogan. Si cada video requiere preparación individual de 2 horas + 1 hora de grabación, nunca podrás manejar más de 2-3 clientes de video. Con batch, 4 horas producen 8 videos.',
+        completed: false,
+      },
+          {
+        id: 'video-2-proj-inter',
+        title: 'Proyecto Intermedio: Video tutorial editado de 60-90 segundos',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Produce un video tutorial completo: guión, grabación, edición con captions y b-roll, y publicación.',
+        deliverables: [
+          'Guión completo: hook (5 seg), desarrollo en 3 pasos (45 seg), conclusión y CTA (10 seg)',
+          'Video grabado y editado en CapCut: captions automáticos revisados, música de fondo al 20%, al menos 3 textos on-screen de puntos clave',
+          'B-roll integrado: mínimo 2 cortes de b-roll relacionado al tema',
+          'Publicado en al menos 1 plataforma con el caption optimizado (hook en texto + hashtags)',
+          'Link de la publicación y métricas de las primeras 24 horas',
+        ],
+        tip: 'Graba el b-roll el mismo día que el talking head. El lighting y el ambiente son más consistentes y la edición es más rápida.',
+        completed: false,
+      },
+],
+    resources: [
+      { title: 'CapCut Web — edición profesional desde el navegador', url: 'https://www.capcut.com/create', type: 'tool' },
+      { title: 'Epidemic Sound — biblioteca de música libre de derechos', url: 'https://www.epidemicsound.com', type: 'tool' },
+    ],
+  },
+  {
+    id: 'video-capstone',
+    number: 54,
+    title: 'Proyecto: Serie de video para una marca',
+    description: 'Produce y publica una serie de 4 videos para una cuenta real, con estrategia, producción y distribución completa.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'video',
+    lessons: [
+      {
+        id: 'video-capstone-1',
+        title: 'Proyecto: Serie de 4 videos para un cliente',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Produce y publica una serie de 4 videos cortos (30-90 segundos) para una marca real o ficticia en al menos 2 plataformas. El proyecto incluye la estrategia, producción, edición y distribución.',
+        deliverables: [
+          'Estrategia de video: objetivo (awareness/educación/conversión), plataformas elegidas, audiencia objetivo y tono de la marca',
+          'Bank de ideas: 20 ideas de contenido para el cliente, con hook, formato y plataforma de cada una',
+          'Calendario editorial: 4 semanas de publicaciones con fechas, plataformas y hooks definidos',
+          'Producción: 4 videos grabados, editados con captions y música, listos para publicar',
+          'Distribución: los 4 videos publicados en las plataformas elegidas (o preparados para publicación si es un cliente ficticio)',
+          'Análisis de resultados: reporte de los primeros 7 días con métricas de cada video (views, completion rate, engagement)',
+        ],
+        tasks: [
+          'Publica los 4 videos y espera al menos 7 días para recopilar métricas reales',
+          'Documenta el proceso de producción: fotos del setup, tiempo total por video, aprendizajes de cada grabación',
+          'Comparte los videos en #proyecto-video con el link de las publicaciones y el análisis de métricas',
+        ],
+        tip: 'El primer video que publicas nunca es el mejor. El objetivo de este proyecto es completar el ciclo completo (estrategia → grabación → edición → publicación → análisis), no producir el video perfecto.',
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
+  // ─── Track: Community Management ─────────────────────────────────────────────
+  {
+    id: 'community-1',
+    number: 55,
+    title: 'Community management: estrategia y operación',
+    description: 'Gestiona redes sociales de clientes con sistema, no con intuición. Calendarios, engagement, reportes y manejo de crisis.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'community',
+    lessons: [
+      {
+        id: 'community-1-1',
+        title: 'El rol real de un community manager en 2025',
+        type: 'reading',
+        content: '## Community manager no es quien publica en Instagram\n\nEl error más común de clientes y agencias nuevas: confundir community manager con "la persona que sube fotos". Un CM en 2025 es un estratega de comunicación digital que:\n\n- Define la voz y el tono de la marca en cada plataforma\n- Diseña la estrategia de contenidos alineada al objetivo de negocio\n- Construye relaciones reales con la audiencia (no solo publica)\n- Monitorea la conversación de la marca en internet\n- Maneja crisis de reputación antes de que escalen\n- Reporta métricas que se conectan a objetivos de negocio\n\n## Plataformas por tipo de negocio\n\n**Instagram**: negocios visuales (moda, restaurantes, diseño, lifestyle). Audiencia 18-45. Requiere alta producción de contenido visual.\n\n**Facebook**: negocios locales, audiencia 35+, grupos de comunidad, eventos. Menor alcance orgánico pero sigue siendo relevante para negocios de comunidad local.\n\n**LinkedIn**: B2B, servicios profesionales, personal branding de founders. La plataforma con mayor alcance orgánico para contenido profesional en 2025.\n\n**TikTok**: marcas que quieren llegar a audiencias jóvenes o que tienen contenido entretenido/educativo. El algoritmo más democrático — no necesitas seguidores para tener alcance.\n\n**X (Twitter)**: opinión, tecnología, política, startups. Funciona para marcas con perspectiva clara y personas dispuestas a opinar.\n\n## La pregunta filtro para cada cliente\n\nAntes de crear ninguna cuenta: ¿tu cliente ideal está en esta plataforma, tiene el hábito de consumir este tipo de contenido, y puedes producir consistentemente lo que esa plataforma requiere? Si las tres respuestas son sí, adelante. Si alguna es no, repiensa.',
+        tasks: [
+          'Para un cliente real o ficticio, define en cuáles 2 plataformas tiene presencia y por qué. Aplica la pregunta filtro de las 3 condiciones',
+          'Investiga el tono de voz de 3 marcas que admiras en redes sociales. Documenta: cómo se expresan, qué evitan decir, cómo responden a comentarios',
+          'Define el tono de voz de tu cliente: 5 adjetivos que SÍ describen cómo habla la marca y 3 que NO',
+        ],
+        tip: 'Hacer mal una plataforma daña más la marca que no estar. Antes de tomar un cliente de community management, asegúrate de que puedas ejecutar bien en las plataformas donde quieren estar — no las que te pidan estar si no puedes ejecutarlas con calidad.',
+        completed: false,
+      },
+      {
+        id: 'community-1-2',
+        title: 'Calendario de contenido y creación en sistema',
+        type: 'practice',
+        content: '## El calendario no es un lujo — es la base de la operación\n\nSin calendario editorial, el contenido se produce reactivamente: cuando hay tiempo, cuando hay inspiración, cuando el cliente recuerda que necesita publicar. El resultado es inconsistencia, que destruye el alcance orgánico y la confianza del algoritmo.\n\n## Estructura del calendario editorial\n\nCada entrada del calendario debe tener:\n- **Fecha y hora de publicación**: específica, no "esta semana"\n- **Plataforma**: Instagram feed, Stories, Reels, LinkedIn, etc.\n- **Tipo de contenido**: carrusel, video, imagen, texto\n- **Tema**: sobre qué trata\n- **Copy principal**: el texto del post o el hook del video\n- **CTA**: qué acción quieres que tome la audiencia\n- **Assets necesarios**: qué fotos/videos/diseños se necesitan\n- **Estado**: en preparación / listo para revisar / aprobado / publicado\n\n## La regla 80/20 de contenido\n\nError clásico: publicar 100% contenido de venta. La audiencia deja de seguir. La regla general:\n- **80% contenido de valor**: educativo, entretenido, inspiracional, behind the scenes\n- **20% contenido de conversión**: producto, servicio, oferta, CTA directo\n\n## Herramientas de gestión y programación\n\n**Meta Business Suite**: gratis, programa posts en Facebook e Instagram, ve métricas básicas.\n\n**Buffer**: gestión multi-plataforma con análisis de mejores horarios. Plan gratuito generoso.\n\n**Later**: especializado en Instagram, vista de grilla para planear el feed visualmente.\n\n**Notion o Airtable**: para calendarios más complejos con múltiples clientes y aprobaciones del equipo.',
+        tasks: [
+          'Crea el calendario editorial de un mes para un cliente en Notion o Google Sheets: 3-5 posts por semana en 2 plataformas, con todos los campos de la estructura definida',
+          'Produce 3 posts completos (copy + diseño o fotografía) de ese calendario y programa uno en Meta Business Suite o Buffer',
+          'Define el proceso de aprobación: ¿cómo presenta el contenido al cliente para revisión? ¿Cuántos días de anticipación? ¿Cuántas rondas de revisión están incluidas en tu fee?',
+        ],
+        tip: 'El proceso de aprobación no documentado es el origen del 80% de los conflictos con clientes de community management. Define desde el contrato: cuántos días hábiles tiene el cliente para aprobar, qué pasa si no responde, y cuántas revisiones incluye tu fee.',
+        completed: false,
+      },
+      {
+        id: 'community-1-3',
+        title: 'Engagement, crisis y métricas para clientes',
+        type: 'reading',
+        content: '## Engagement: construir comunidad, no solo acumular seguidores\n\nUn engagement rate bajo (muchos seguidores, pocos likes/comentarios/shares) es peor que pocos seguidores muy activos. El algoritmo interpreta el engagement bajo como señal de que el contenido no interesa, y reduce el alcance. Los benchmarks de engagement rate por sector varían, pero generalmente:\n\n- <1%: bajo. Algo está fallando en el contenido o la audiencia.\n- 1-3%: normal para cuentas medianas.\n- 3-6%: bueno. La audiencia está genuinamente interesada.\n- >6%: excelente. Comunidad muy comprometida.\n\n## Tácticas de engagement reales\n\n**Responder comentarios en las primeras horas**: el algoritmo mide el tiempo que tarda una cuenta en responder. Las cuentas que responden rápido reciben más distribución.\n\n**Hacer preguntas en el copy**: "¿Cuál de estas dos opciones prefieren?" genera más comentarios que cualquier declaración.\n\n**Stories interactivas**: encuestas, quizzes, preguntas abiertas. Las Stories con stickers interactivos tienen el mayor engagement rate de cualquier formato.\n\n**DMs proactivos**: cuando alguien menciona la marca o comenta algo significativo, un DM personalizado crea una conexión que ningún post puede lograr.\n\n## Manejo de crisis en redes sociales\n\nUna crisis en redes es cualquier situación que amenaza la reputación de la marca: comentario negativo viral, error del producto que se hace público, mala experiencia de cliente que se comparte.\n\nProtocolo de crisis:\n1. Detectar rápido (monitoreo de menciones con Google Alerts o Mention.com)\n2. Evaluar el nivel de riesgo (¿es un troll o un problema real?)\n3. Responder con rapidez y empatía (no defensividad)\n4. Llevar la conversación a privado (DM o email)\n5. Resolver el problema real, no solo gestionar la imagen\n\n## El reporte mensual para clientes de community\n\nNo reportes solo seguidores y likes. Reporta métricas que conectan con objetivos de negocio:\n- Alcance: cuántas personas nuevas llegaron a la marca\n- Engagement rate: calidad de la conversación\n- Clicks al sitio web: tráfico generado\n- Leads generados (si hay formularios en bio o stories)\n- Top contenido: qué funcionó mejor y por qué',
+        tasks: [
+          'Configura Google Alerts para el nombre de un cliente ficticio o real para monitorear menciones en internet',
+          'Simula una crisis: escribe la respuesta pública y el DM privado para un comentario negativo que se está viralizando sobre el cliente',
+          'Crea el template de reporte mensual de community management con las 5 métricas de negocio + análisis de top 3 posts y plan del mes siguiente',
+        ],
+        tip: 'En una crisis de redes sociales, el silencio es el peor error. Responde siempre, aunque sea para decir "estamos revisando la situación y te contactamos pronto". La velocidad de respuesta define si la crisis escala o se contiene.',
+        completed: false,
+      },
+          {
+        id: 'community-1-proj-basico',
+        title: 'Proyecto Básico: Auditoría de redes de un competidor',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Analiza las redes sociales de un competidor directo de un negocio de tu elección. Extrae aprendizajes accionables.',
+        deliverables: [
+          'Inventario de plataformas: todas las cuentas del competidor con seguidores, frecuencia y engagement rate',
+          'Análisis de contenido: los 5 posts con más engagement del último mes y por qué crees que funcionaron',
+          'Análisis de tono y voz: cómo habla la marca, qué palabras usa, cómo responde comentarios',
+          '5 aprendizajes para aplicar en la estrategia del cliente analizado',
+        ],
+        tip: 'Copiar al competidor es el error. Entender por qué funciona su contenido y adaptarlo con tu propia voz es la estrategia.',
+        completed: false,
+      },
+      {
+        id: 'community-1-proj-inter',
+        title: 'Proyecto Intermedio: Template de reporte mensual de redes',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Diseña el template de reporte mensual de community management que enviarías a un cliente. Debe ser claro para alguien sin conocimiento de marketing.',
+        deliverables: [
+          'Executive summary de 3 líneas: qué pasó este mes en lenguaje simple',
+          'Métricas del período: alcance, impresiones, engagement rate, nuevos seguidores y clicks al sitio',
+          'Top 3 contenidos del mes: screenshot + métricas + por qué funcionó cada uno',
+          'Aprendizajes: 2-3 insights sobre la audiencia o el contenido',
+          'Plan del próximo mes: 3-5 iniciativas con objetivo de cada una',
+          'Template en Notion, Google Slides o PDF con diseño limpio y profesional',
+        ],
+        tip: 'El reporte que el cliente entiende y valora es el que hace que renueve. Invierte el mismo tiempo en presentarlo bien que en recolectar los datos.',
+        completed: false,
+      },
+
+    {
+      id: 'community-1-p2',
+      title: 'Proyecto: Plan de comunidad 30 días',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Diseña un plan de activación de comunidad para los primeros 30 días de una comunidad nueva. Incluye calendario de contenido, mecanismos de engagement y métricas de éxito.',
+      deliverables: [
+        'Calendario de 30 días con al menos 3 posts por semana',
+        'Plan de bienvenida para nuevos miembros',
+        'Definición de 5 métricas de éxito con targets',
+        'Protocolo para manejar conflictos o spam',
+      ],
+      rubrica: [
+        'Variedad de tipos de contenido',
+        'Mecanismos de engagement bidireccional',
+        'Métricas SMART y realistas',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'Buffer — programación multi-plataforma con plan gratuito', url: 'https://buffer.com', type: 'tool' },
+      { title: 'Meta Business Suite — gestión oficial de Facebook e Instagram', url: 'https://business.facebook.com', type: 'tool' },
+    ],
+  },
+  {
+    id: 'community-capstone',
+    number: 56,
+    title: 'Proyecto: Plan de redes para un cliente real',
+    description: 'Diseña y ejecuta el sistema completo de community management para un cliente.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'community',
+    lessons: [
+      {
+        id: 'community-capstone-1',
+        title: 'Proyecto: Sistema de community management completo',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Diseña el sistema completo de community management para un cliente real o ficticio. El entregable incluye estrategia, calendario, contenido producido y sistema de reporte.',
+        deliverables: [
+          'Estrategia de marca en redes: plataformas seleccionadas con justificación, tono de voz documentado, regla 80/20 de contenido aplicada al cliente',
+          'Calendario editorial de 1 mes completo: 4 semanas de contenido con todos los campos definidos',
+          'Producción: 8 piezas de contenido listas para publicar (mix de formatos: imagen, carrusel, video corto)',
+          'Proceso de aprobación documentado: flujo, plazos y herramienta de comunicación con el cliente',
+          'Protocolo de crisis: 3 escenarios de crisis probables para el cliente con respuesta pública y privada redactadas',
+          'Template de reporte mensual con las métricas definidas y la visualización que enviarías al cliente',
+        ],
+        tasks: [
+          'Publica al menos 4 de las 8 piezas en cuentas reales (las propias u otras con permiso) para tener métricas reales',
+          'Comparte el sistema completo en #proyecto-community con el link al calendario y 2 ejemplos de contenido producido',
+          'Comenta el proyecto de al menos 2 compañeros con feedback sobre el tono de voz y la diversidad de formatos',
+        ],
+        tip: 'Un sistema de community management bien documentado es lo que diferencia a una agencia profesional de un freelancer. El cliente no compra publicaciones — compra el sistema que garantiza consistencia y resultados.',
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
+  // ─── Track: Productividad con IA ──────────────────────────────────────────────
+  {
+    id: 'prodai-1',
+    number: 57,
+    title: 'ChatGPT, Claude y Gemini como herramientas de trabajo',
+    description: 'Deja de usar la IA para tareas triviales. Aprende a integrarla en flujos de trabajo reales que multiplican tu productividad como agencia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'prodai',
+    lessons: [
+      {
+        id: 'prodai-1-1',
+        title: 'Prompts avanzados: la diferencia entre una respuesta mediocre y una excelente',
+        type: 'practice',
+        content: '## Por qué el prompt importa más que el modelo\n\nLa mayoría de las personas usa ChatGPT como si fuera Google: escribe una pregunta corta y espera una respuesta genérica. Los profesionales que sacan 10x más valor de la IA construyen prompts con contexto, rol, formato y restricciones.\n\n## La anatomía de un prompt profesional\n\n**1. Rol**: "Actúa como un copywriter especializado en SaaS B2B con 10 años de experiencia"\n\n**2. Contexto**: "Estoy trabajando con un cliente que ofrece software de gestión de inventario para restaurantes en México"\n\n**3. Tarea específica**: "Escribe el headline y subheadline para su landing page principal"\n\n**4. Audiencia**: "El target es dueño de restaurante, 35-55 años, sin formación técnica, frustrado con el control manual de inventario"\n\n**5. Restricciones**: "Máximo 8 palabras en el headline, 15 en el subheadline. Sin jerga técnica. Enfoque en el resultado (ahorro de tiempo), no en la tecnología"\n\n**6. Formato de salida**: "Dame 5 opciones en formato: Headline | Subheadline"\n\n## Los 5 usos de IA que más tiempo ahorran en una agencia\n\n**Primer borrador de copy**: brief → prompt → 5 opciones → elige y refina. Lo que antes tomaba 2 horas, ahora es 20 minutos.\n\n**Investigación de audiencia**: "¿Cuáles son las 10 objeciones más comunes de [tipo de cliente] cuando considera [tipo de servicio]?"\n\n**Revisión y feedback**: "Revisa este email de ventas como si fueras el CMO de una startup que recibe 50 propuestas por semana. ¿Qué te haría responder y qué te haría ignorarlo?"\n\n**Generación de ideas**: "Dame 20 ideas de contenido para una agencia de diseño en Instagram. La audiencia son founders de startups en LATAM"\n\n**Traducción de técnico a cliente**: "Traduce esta descripción técnica de un sistema de automatización a lenguaje que entienda un dueño de negocio sin background técnico"',
+        tasks: [
+          'Toma un prompt simple que usas normalmente ("escríbeme un caption de Instagram sobre X") y reescríbelo con los 6 elementos de la anatomía del prompt profesional. Compara la calidad de las dos respuestas',
+          'Construye una biblioteca personal de prompts: 5 prompts que uses regularmente en tu trabajo, optimizados con la estructura completa',
+          'Usa la IA para investigar la audiencia de un cliente: pídele las 10 objeciones más comunes y 10 preguntas frecuentes del cliente ideal. Evalúa qué tan preciso es el resultado',
+        ],
+        tip: 'Guarda los prompts que funcionan en un documento de Notion o Google Docs. Una biblioteca de prompts bien construida es un activo de la agencia — no empieces desde cero cada vez.',
+        completed: false,
+      },
+      {
+        id: 'prodai-1-2',
+        title: 'Flujos de trabajo con IA: casos de uso reales para agencias',
+        type: 'reading',
+        content: '## El error: usar IA como asistente. El acierto: usarla como sistema\n\nLa diferencia entre alguien que "usa ChatGPT a veces" y una agencia que multiplica su output con IA está en si la IA está integrada en el flujo de trabajo como parte del sistema, no como herramienta de emergencia.\n\n## Flujos de trabajo con IA para los servicios de una agencia\n\n**Propuestas de servicios**:\n1. Cliente llena briefing\n2. Claude/ChatGPT analiza el briefing y genera: resumen del problema, objetivos clave, preguntas de clarificación, estructura de propuesta sugerida\n3. Humano refina y personaliza\n4. Claude redacta el primer borrador de la propuesta\n5. Humano edita y envía\nTiempo ahorrado: 60-70% del tiempo de redacción\n\n**Brief de diseño → conceptos de marca**:\n1. Cliente brief\n2. Claude genera: 3 conceptos de posicionamiento, keywords de personalidad de marca, paletas de color sugeridas por concepto, referencias de estilos\n3. Diseñador usa esto como punto de partida, no punto de llegada\n\n**SEO content en escala**:\n1. Keyword research → lista de artículos a escribir\n2. Para cada artículo: Claude genera outline detallado con H2s, H3s y puntos clave de cada sección\n3. Escritor expande el outline con experiencia real y voz de marca\n4. Claude revisa SEO: densidad de keywords, estructura, meta description\n\n**Reporting de clientes**:\n1. Exporta los datos de las plataformas (Meta Ads, Google Analytics, etc.)\n2. Pega los datos en Claude con el prompt: "Analiza estos resultados como si fueras el account manager. Identifica 3 insights principales, 2 áreas de mejora y 3 recomendaciones para el próximo mes"\n3. Refina y personaliza el análisis con contexto del cliente',
+        tasks: [
+          'Elige 1 de los 4 flujos de trabajo y documenta cómo lo implementarías para un cliente actual o ficticio: paso a paso, con los prompts específicos que usarías en cada etapa',
+          'Ejecuta el flujo completo una vez: toma un proyecto real o simulado y pásalo por el proceso. Documenta cuánto tiempo tardaste vs. tu estimado sin IA',
+          'Identifica 3 tareas en tu trabajo semanal que podrían automatizarse parcialmente con IA. Para cada una, escribe el prompt que usarías',
+        ],
+        tip: 'La IA no reemplaza el juicio — acelera la ejecución. Los mejores resultados llegan cuando usas IA para generar el primer borrador (rápido y amplio) y tu criterio profesional para editar y refinar (lento y preciso).',
+        completed: false,
+      },
+      {
+        id: 'prodai-1-3',
+        title: 'Notion AI, Perplexity y herramientas de IA especializadas',
+        type: 'reading',
+        content: '## Más allá de ChatGPT: el ecosistema de IA de una agencia\n\n**Claude (Anthropic)**: el mejor para texto largo, análisis de documentos y razonamiento complejo. Puedes pegarle un contrato completo y pedirle que identifique riesgos. O un brief de 20 páginas y pedirle un resumen ejecutivo. Su ventana de contexto es mucho mayor que ChatGPT.\n\n**Perplexity AI**: la alternativa a Google para investigación. A diferencia de ChatGPT, cita fuentes verificables y hace búsquedas en tiempo real. Ideal para research de mercado, tendencias del sector, y datos actualizados.\n\n**Notion AI**: si ya usas Notion, la IA integrada convierte bases de datos en resúmenes, genera documentos desde templates, y resume reuniones. El valor está en que vive donde ya tienes el trabajo.\n\n**Otter.ai / Fireflies**: transcripción automática de reuniones con resumen y action items. Conecta con Zoom y Google Meet. Después de una call con cliente, tienes en 2 minutos: transcripción completa + resumen ejecutivo + lista de acción. Lo que antes tardaba 30 minutos de notas.\n\n**Midjourney / DALL-E**: generación de imágenes para moodboards, referencias de diseño, y assets de contenido. Para briefings de diseño, generar referencias visuales en minutos en lugar de buscar en Pinterest durante horas.\n\n**Runway / Kling AI**: generación y edición de video con IA. Para agencias de video, puede extender clips, cambiar fondos, o generar b-roll de alta calidad sin cámara.\n\n## Construir el stack de IA de tu agencia\n\nNo necesitas todas las herramientas desde el día 1. El stack mínimo para una agencia en 2025:\n- ChatGPT Pro o Claude Pro: $20/mes. El núcleo de todo.\n- Perplexity Pro: $20/mes. Para research verificado.\n- Otter.ai: $10-17/mes. Para reuniones con clientes.\n- Midjourney: $10/mes. Para referencias visuales y moodboards.',
+        tasks: [
+          'Configura Otter.ai o Fireflies en tu cuenta de Google Meet o Zoom. En tu próxima reunión (puede ser ficticia), prueba la transcripción automática y evalúa la calidad del resumen generado',
+          'Usa Perplexity para investigar el mercado de un cliente: tendencias del sector, principales competidores y oportunidades. Compara la calidad vs. una búsqueda tradicional en Google',
+          'Define el stack de IA de tu agencia: cuáles herramientas usarás, para qué uso específico cada una, y cuánto cuesta mensualmente',
+        ],
+        tip: 'El ROI de las suscripciones de IA se mide en tiempo ahorrado. Si Claude Pro a $20/mes te ahorra 5 horas de trabajo al mes y facturas $50/hora, tu ROI es 12.5x. Haz ese cálculo para cada herramienta antes de suscribirte.',
+        completed: false,
+      },
+          {
+        id: 'prodai-1-proj-basico',
+        title: 'Proyecto Básico: Optimiza 3 prompts de tu trabajo diario',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Identifica 3 tareas que ya haces con IA y optimiza los prompts para obtener mejores resultados.',
+        deliverables: [
+          'Los 3 prompts originales que usabas (pueden ser simples o incompletos)',
+          'Los 3 prompts optimizados con la estructura completa (rol, contexto, tarea, audiencia, restricciones, formato)',
+          'Comparativa de outputs: copia el resultado del prompt original y del optimizado para cada caso',
+          'Análisis: qué cambio en la estructura del prompt generó el mayor impacto en la calidad del resultado',
+        ],
+        tip: 'No intentes optimizar los 3 prompts a la vez. Optimiza uno, evalúa, y luego el siguiente.',
+        completed: false,
+      },
+],
+    resources: [
+      { title: 'Claude — IA de Anthropic, mejor para texto y análisis largo', url: 'https://claude.ai', type: 'tool' },
+      { title: 'Perplexity AI — búsqueda con IA y fuentes verificadas', url: 'https://www.perplexity.ai', type: 'tool' },
+      { title: 'Otter.ai — transcripción automática de reuniones', url: 'https://otter.ai', type: 'tool' },
+    ],
+  },
+  {
+    id: 'prodai-2',
+    number: 58,
+    title: 'Automatización con n8n',
+    description: 'Construye flujos de automatización sin código que conectan tus herramientas y eliminan trabajo manual repetitivo.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'prodai',
+    lessons: [
+      {
+        id: 'prodai-2-1',
+        title: 'n8n: el sistema nervioso de tu agencia',
+        type: 'reading',
+        content: '## Por qué n8n y no Zapier\n\nn8n es la alternativa de código abierto a Zapier con ventajas clave para agencias: puede correr en tu propio servidor (sin límite de ejecuciones), tiene lógica condicional más poderosa, permite integrar código JavaScript cuando los nodos nativos no alcanzan, y tiene una interfaz visual más expresiva para flujos complejos.\n\nZapier sigue siendo válido para automatizaciones simples y equipos no técnicos. n8n es para quien quiere control total y escalar sin pagar por ejecución.\n\n## Conceptos fundamentales de n8n\n\n**Workflow**: el flujo completo de automatización. Puede tener desde 2 nodos hasta 50+.\n\n**Nodo**: cada paso del flujo. Puede ser un trigger, una acción, una transformación de datos, o lógica condicional.\n\n**Trigger**: el evento que dispara el workflow. Puede ser: tiempo (cada hora, cada lunes), webhook (cuando llega una petición HTTP), evento en una app (nuevo email, nuevo formulario, nuevo lead).\n\n**Credentials**: las conexiones autenticadas a tus apps. Configuras una vez, usas en todos los workflows.\n\n## Casos de uso de n8n para una agencia\n\n**Onboarding de clientes**: formulario de briefing → crea carpeta en Google Drive → crea proyecto en Linear/Notion → envía email de bienvenida con accesos → notifica al equipo en Slack.\n\n**Reporte automático de ads**: cada lunes a las 9am → extrae datos de Meta Ads API y Google Ads API → formatea en tablas → genera PDF → envía por email al cliente.\n\n**Gestión de leads**: formulario del sitio web → agrega a CRM → envía secuencia de nurturing en email → notifica al vendedor si el lead abre el email 3 veces.\n\n**Publicación de contenido**: aprueba post en Notion → webhook dispara n8n → publica en Instagram + LinkedIn + Twitter automáticamente.',
+        tasks: [
+          'Instala n8n en la nube (n8n.cloud tiene plan gratuito) o con Docker en tu máquina local. Configura las credenciales de Gmail y Google Sheets',
+          'Construye tu primer workflow: cuando alguien llena un formulario de Google Forms → agrega la respuesta a una hoja de Google Sheets → envía un email de confirmación automático',
+          'Identifica 3 procesos repetitivos en tu agencia o práctica actual que podrías automatizar con n8n. Para cada uno, dibuja el flujo: trigger → pasos → resultado',
+        ],
+        tip: 'El primer workflow de n8n siempre parece complicado. El segundo ya es fácil. Empieza con el más simple posible (formulario → email) y construye complejidad gradualmente.',
+        completed: false,
+      },
+      {
+        id: 'prodai-2-2',
+        title: 'Workflows avanzados: IA + n8n + APIs',
+        type: 'practice',
+        content: '## Cuando n8n se conecta con IA, la automatización se vuelve inteligente\n\nn8n tiene nodos nativos para OpenAI, Anthropic (Claude), Google Gemini y otros modelos. Esto permite flujos donde la IA no solo ejecuta pasos mecánicos — toma decisiones, clasifica, resume y genera contenido en el medio del flujo.\n\n## Workflow de agencia con IA integrada\n\n**Lead scoring automático**:\n1. Nuevo lead desde formulario de contacto\n2. n8n pasa los datos del lead a Claude con el prompt: "Basado en estos datos, califica este lead del 1-10 según fit con una agencia digital de LATAM especializada en SaaS. Justifica brevemente"\n3. Si score > 7: notifica al equipo por Slack con prioridad alta\n4. Si score 4-7: agrega a secuencia de nurturing de email\n5. Si score < 4: solo registra en CRM sin acción\n\n**Resumen automático de reuniones**:\n1. Reunión termina en Zoom\n2. Otter.ai genera transcripción automáticamente\n3. n8n recibe el webhook de Otter con la transcripción\n4. Claude recibe la transcripción y genera: resumen ejecutivo, action items con responsable, y 3 puntos clave para el cliente\n5. El resumen se guarda en Notion en la página del cliente\n6. Se envía automáticamente por email al cliente\n\n**Monitoreo de menciones con respuesta asistida**:\n1. Google Alerts detecta mención de la marca del cliente\n2. n8n recibe el alert\n3. Claude clasifica si es positivo/negativo/neutral y sugiere una respuesta apropiada\n4. Notifica al CM con el contexto y la sugerencia de respuesta para revisión humana',
+        tasks: [
+          'Construye el workflow de resumen de reuniones: toma un archivo de texto como simulación de transcripción → Claude lo resume → el resumen se guarda en Google Docs',
+          'Agrega un paso de clasificación de leads a tu formulario de contacto: cuando llega un nuevo envío, Claude lo clasifica y envía la notificación correcta según el score',
+          'Documenta el workflow más complejo que construiste con diagrama visual (export desde n8n) y descripción de cada nodo',
+        ],
+        tip: 'n8n tiene una función de "error workflow" — un flujo separado que se activa cuando otro falla. Configura siempre un workflow de error para flujos críticos (como el onboarding de clientes). Un fallo silencioso es peor que un fallo visible.',
+        completed: false,
+      },
+          {
+        id: 'prodai-2-proj-inter',
+        title: 'Proyecto Intermedio: Workflow n8n que conecta 3 herramientas',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Construye un workflow en n8n que conecte al menos 3 herramientas diferentes y resuelva un problema real de tu agencia.',
+        deliverables: [
+          'Descripción del problema que resuelve: qué proceso manual reemplaza',
+          'Workflow funcional en n8n con mínimo 3 herramientas integradas',
+          'Diagrama del flujo exportado desde n8n',
+          'Video de demostración de 90 segundos mostrando el workflow activándose y completándose (Loom)',
+          'Cálculo de tiempo ahorrado: cuántas veces por semana se ejecuta × tiempo manual que reemplaza',
+        ],
+        tip: 'El workflow más valioso no es el más sofisticado — es el que automatiza la tarea más repetitiva y aburrida que tienes.',
+        completed: false,
+      },
+
+    {
+      id: 'prodai-2-p2',
+      title: 'Proyecto: Agente de automatización con n8n',
+      type: 'project',
+      difficulty: 'intermedio',
+      projectBrief: 'Construye un workflow en n8n que tome una solicitud de usuario vía webhook, la procese con un modelo de IA para clasificarla y responda automáticamente con una acción diferente según la categoría.',
+      deliverables: [
+        'Workflow exportado en JSON',
+        'Captura del workflow funcionando',
+        'Video de 2 minutos mostrando el flujo end-to-end',
+        'Documento explicando la lógica de clasificación',
+      ],
+      rubrica: [
+        'Workflow funciona sin errores',
+        'Clasificación correcta en al menos 3 categorías',
+        'Manejo de errores implementado',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'n8n — plataforma de automatización open source', url: 'https://n8n.io', type: 'tool' },
+      { title: 'n8n Templates — flujos preconfigurados para empezar rápido', url: 'https://n8n.io/workflows', type: 'tool' },
+    ],
+  },
+  {
+    id: 'prodai-capstone',
+    number: 59,
+    title: 'Proyecto: Sistema de productividad con IA para tu agencia',
+    description: 'Integra IA y automatización en los flujos reales de tu práctica o agencia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'prodai',
+    lessons: [
+      {
+        id: 'prodai-capstone-1',
+        title: 'Proyecto: Stack de productividad completo',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Diseña e implementa el sistema de productividad con IA de tu agencia o práctica freelance. El objetivo es que al terminar, al menos 3 procesos repetitivos en tu trabajo estén automatizados o acelerados con IA.',
+        deliverables: [
+          'Stack de IA documentado: herramientas elegidas, para qué uso específico, costo mensual y ROI estimado',
+          'Biblioteca de prompts: mínimo 10 prompts optimizados para los casos de uso más frecuentes de tu agencia (propuestas, copy, research, reportes)',
+          'Al menos 2 workflows de n8n funcionando: documentados con diagrama + descripción de cada nodo + video de demostración de 2 minutos mostrando el flujo en acción',
+          'Caso de uso documentado: un proceso real que tardaba X tiempo y ahora, con IA + automatización, tarda Y. Incluye: descripción del proceso anterior, proceso nuevo, tiempo ahorrado y calidad comparativa',
+          'Guía de onboarding de IA para un colaborador nuevo: cómo usarías estas herramientas si incorporaras a alguien al equipo mañana',
+        ],
+        tasks: [
+          'Implementa los 2 workflows en n8n y graba un video de 2 minutos demostrando que funcionan',
+          'Comparte el stack documentado en #proyecto-prodai y pide feedback sobre flujos que podrías mejorar o agregar',
+          'Calcula el ahorro de tiempo real de los flujos implementados: horas por semana × tu tarifa horaria = valor del sistema',
+        ],
+        tip: 'Un sistema de IA que funciona para ti no necesariamente funciona para tu cliente. Separa: qué usas internamente para ser más eficiente (nunca lo ve el cliente) vs. qué le entregas al cliente como parte del servicio.',
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
+  // ─── Track: Ventas y Funnels ──────────────────────────────────────────────────
+  {
+    id: 'ventas-1',
+    number: 60,
+    title: 'Ventas para servicios creativos y tech',
+    description: 'Vender servicios de agencia es diferente a vender productos. Aprende el proceso completo: prospectar, calificar, presentar y cerrar sin perder tu precio.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ventas',
+    lessons: [
+      {
+        id: 'ventas-1-1',
+        title: 'El proceso de ventas consultivo para agencias',
+        type: 'reading',
+        content: '## Por qué el pitch de ventas no funciona para servicios de agencia\n\nCuando vendes un producto físico, el proceso es directo: presentas características, beneficios y precio. Cuando vendes servicios creativos o técnicos, el proceso debe ser diferente: primero entiendes el problema, luego propones la solución. El cliente que compra sin entender bien qué necesita es el cliente que termina insatisfecho, pide revisiones infinitas y daña tu reputación.\n\n## El proceso de ventas consultivo en 5 pasos\n\n**1. Prospección (crear el pipeline)**\nIdentificar prospectos que tienen el problema que resuelves, el presupuesto para pagarte y la autoridad para tomar la decisión. Fuentes: red personal, contenido en redes, referidos, outreach directo.\n\n**2. Discovery call (escuchar antes que hablar)**\nLa discovery no es una presentación de tu agencia — es una entrevista al prospecto. Preguntas clave:\n- ¿Cuál es el mayor desafío que tienes en [área relevante] ahora mismo?\n- ¿Qué has intentado antes? ¿Por qué no funcionó?\n- ¿Cuál sería el impacto de resolver este problema?\n- ¿Cuándo necesitas que esté resuelto?\n- ¿Tienes presupuesto definido para esto?\n\n**3. Propuesta personalizada (48-72 horas después)**\nBased on exactamente lo que escuchaste. No es un catálogo de servicios — es una solución específica al problema específico que describieron.\n\n**4. Presentación y negociación**\nPresenta el valor antes del precio. El precio nunca debería ser el primer número que escucha el cliente.\n\n**5. Cierre y follow-up**\nPedir explícitamente la decisión. Manejar objeciones. Follow-up sistemático.',
+        tasks: [
+          'Escribe el guión de tu discovery call: 8-10 preguntas que harías a un prospecto de los servicios que ofreces. Practica en voz alta hasta que suenen naturales',
+          'Define el perfil de tu cliente ideal (ICP): industria, tamaño, etapa de negocio, problema específico, presupuesto aproximado, y señales de que ES un buen prospecto vs. señales de alerta',
+          'Roleplay de discovery call: pide a alguien que juegue al cliente y practica tu proceso completo de 30 minutos. Graba o pide feedback',
+        ],
+        tip: 'La discovery call más efectiva tiene 80% de preguntas del vendedor y 20% de respuestas del vendedor. Si hablas más de lo que escuchas, estás haciendo pitch, no discovery.',
+        completed: false,
+      },
+      {
+        id: 'ventas-1-2',
+        title: 'Manejo de objeciones: precio, tiempo y confianza',
+        type: 'reading',
+        content: '## Las 3 objeciones universales en ventas de servicios\n\nToda objeción en ventas de servicios profesionales es una variación de tres cosas:\n\n**1. "Es muy caro"** (objeción de precio)\nEn el 90% de los casos, no es que no tengan el dinero — es que no ven suficiente valor para justificar el precio. La respuesta no es bajar el precio; es aumentar el valor percibido o reducir el scope para ajustarlo al presupuesto.\n\nRespuesta efectiva: "Entiendo que el presupuesto es una consideración importante. ¿Qué resultado necesitas ver para que esta inversión se justifique sola?"\n\nLuego: calcular el ROI. Si tu servicio de $5,000 puede generar $20,000 en valor, el precio es una inversión, no un gasto.\n\n**2. "Ahora no es buen momento"** (objeción de timing)\nEsta objeción casi siempre significa una de dos cosas: no están convencidos del valor, o hay algo que les frena que no han dicho.\n\nRespuesta efectiva: "Entiendo. ¿Cuándo sería un buen momento? ¿Qué necesitaría pasar para que el timing sea correcto?"\n\n**3. "Necesito pensarlo / consultarlo"** (objeción de autoridad)\nSi alguien necesita consultarlo, hay otra persona que toma la decisión. La pregunta es: ¿por qué no están en esta llamada?\n\nRespuesta efectiva: "Por supuesto. ¿Tendría sentido incluir a esa persona en una próxima llamada para que tengamos toda la información disponible?"\n\n## Sostener el precio\n\nEl momento más difícil en ventas de servicios: cuando el cliente presiona el precio y tú tienes miedo de perder el negocio. Herramientas para sostener:\n- Silencio estratégico (después de dar el precio, callarse)\n- "¿Qué necesitaríamos cambiar en el scope para ajustar el presupuesto?" (cedes scope, no precio)\n- Mostrar el costo de NO resolver el problema',
+        tasks: [
+          'Escribe la respuesta completa a las 3 objeciones para tus servicios específicos: no las genéricas de arriba, adaptadas a tu contexto real',
+          'Practica con roleplay: pide que alguien te diga "es muy caro" con tu precio real y ensaya la respuesta hasta que no sientas incomodidad al darla',
+          'Calcula el ROI de tu servicio principal para un cliente típico: cuánto valor genera para el cliente vs. lo que cobras. Este número es tu argumento más poderoso',
+        ],
+        tip: 'La primera vez que alguien dices tu precio real en voz alta es incómoda. La décima vez es natural. La única forma de llegar a la décima es haberlo dicho nueve veces antes. Practica en voz alta, solo, hasta que el número no te produzca ansiedad.',
+        completed: false,
+      },
+      {
+        id: 'ventas-1-3',
+        title: 'Funnels digitales para generar leads de forma predecible',
+        type: 'reading',
+        content: '## La diferencia entre conseguir clientes y tener un sistema de clientes\n\nConseguir un cliente es un evento. Un funnel de ventas es un sistema que genera prospectos de forma predecible. La diferencia entre una agencia que vive de referidos (irregular, sin control) y una que tiene un flujo constante de leads (predecible, escalable).\n\n## Los 4 componentes de un funnel de ventas digital\n\n**1. Tráfico**: la fuente que trae personas al funnel. Puede ser orgánico (SEO, contenido social, LinkedIn), pagado (Meta Ads, Google Ads), o referidos (programa de afiliados, partnerships).\n\n**2. Lead magnet + landing page**: la oferta gratuita de alto valor que intercambias por el email. Para servicios B2B: diagnóstico gratuito, checklist de auditoría, guía específica, plantilla. La landing page debe tener: headline que identifica el pain, beneficios del lead magnet, prueba social, y un formulario simple.\n\n**3. Nurturing (secuencia de emails + contenido)**: el proceso de construir confianza y demostrar expertise antes de hacer cualquier pitch. Puede durar días o semanas dependiendo del ticket del servicio.\n\n**4. Conversión**: el CTA final que invita a la acción. Para servicios de agencia: reserva una llamada de discovery, completa este diagnóstico gratuito, envía tu solicitud.\n\n## Herramientas para construir el funnel\n\n**Landing pages**: Framer, Webflow, o incluso una página de Next.js simple para agencias técnicas.\n\n**Email**: Brevo, Mailchimp, ConvertKit.\n\n**CRM y pipeline**: HubSpot Free, Notion, o Airtable para rastrear en qué etapa está cada prospecto.\n\n**Booking de llamadas**: Calendly (plan gratuito) para que los prospectos agenden la discovery call directamente sin ida y vuelta de emails.',
+        tasks: [
+          'Diseña el funnel de ventas completo para tu servicio principal: fuente de tráfico, lead magnet, secuencia de nurturing (3 emails) y CTA de conversión',
+          'Crea la landing page del lead magnet en Framer o con el stack que uses (no tiene que ser perfecta — tiene que existir y funcionar)',
+          'Configura Calendly para tu discovery call con: duración (30 min), preguntas de calificación (3 preguntas que te ayuden a preparar la llamada), y conexión a tu calendario',
+        ],
+        tip: 'El funnel más efectivo para una agencia nueva no es el más sofisticado — es el que te permite hablar con más prospectos calificados. Una landing page simple + Calendly + seguimiento manual al principio supera a un funnel automatizado complicado que nunca se lanza.',
+        completed: false,
+      },
+          {
+        id: 'ventas-1-proj-basico',
+        title: 'Proyecto Básico: Guión de discovery call',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Escribe el guión completo de tu discovery call. Debe ser específico para los servicios que ofreces.',
+        deliverables: [
+          'Introducción: cómo abres la llamada y estableces el tono (2-3 líneas)',
+          'Preguntas de discovery: 8-10 preguntas abiertas específicas para tu tipo de cliente',
+          'Preguntas de calificación: las 3 preguntas que determinan si el prospecto es un buen fit',
+          'Cierre de la discovery: cómo terminas la llamada y cuáles son los próximos pasos',
+          'Roleplay documentado: practica el guión con alguien y anota qué funcionó y qué ajustar',
+        ],
+        tip: 'El guión de discovery no se memoriza — se internaliza. Practica en voz alta hasta que las preguntas salgan naturales.',
+        completed: false,
+      },
+      {
+        id: 'ventas-1-proj-inter',
+        title: 'Proyecto Intermedio: Propuesta de servicios completa',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Redacta una propuesta de servicios completa para un cliente real o ficticio basándote en un brief de discovery.',
+        deliverables: [
+          'Contexto del cliente: el problema identificado en la discovery en las palabras del cliente',
+          'Solución propuesta: qué harás exactamente, en qué orden y con qué entregables',
+          'Proceso de trabajo: las fases del proyecto con fechas y gates de aprobación',
+          'Inversión: el precio presentado como inversión con el ROI esperado si aplica',
+          'Próximos pasos: qué tiene que hacer el cliente para arrancar',
+          'Propuesta en formato visual (Notion, Google Docs o PDF) con diseño limpio y legible',
+        ],
+        tip: 'El precio en una propuesta nunca debería ser la primera cifra que el cliente lee. Presenta el valor primero, el precio último.',
+        completed: false,
+      },
+
+    {
+      id: 'ventas-1-p2',
+      title: 'Proyecto: Script de llamada de ventas',
+      type: 'project',
+      difficulty: 'básico',
+      projectBrief: 'Crea un script completo para una llamada de descubrimiento de 20 minutos. Incluye apertura, preguntas de descubrimiento, manejo de objeciones más comunes y cierre.',
+      deliverables: [
+        'Script estructurado por fases',
+        'Mínimo 5 preguntas de descubrimiento',
+        'Respuestas a 3 objeciones típicas',
+        'Frase de cierre con siguiente paso claro',
+      ],
+      rubrica: [
+        'Apertura natural, no de vendedor',
+        'Preguntas abiertas que generan insight',
+        'Manejo de objeciones sin presión',
+      ],
+      completed: false,
+    },],
+    resources: [
+      { title: 'Calendly — agenda discovery calls sin ida y vuelta de emails', url: 'https://calendly.com', type: 'tool' },
+      { title: 'HubSpot Free CRM — gestión de pipeline de ventas gratuito', url: 'https://www.hubspot.com/products/crm', type: 'tool' },
+    ],
+  },
+  {
+    id: 'ventas-capstone',
+    number: 61,
+    title: 'Proyecto: Funnel completo de ventas',
+    description: 'Construye y lanza el sistema completo de generación de leads para tu agencia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ventas',
+    lessons: [
+      {
+        id: 'ventas-capstone-1',
+        title: 'Proyecto: Sistema de ventas de agencia',
+        type: 'project',
+      difficulty: 'profesional',
+        projectBrief: 'Diseña e implementa el sistema completo de ventas para tu agencia: desde la generación de leads hasta el cierre. El entregable es un sistema funcional, no un plan en papel.',
+        deliverables: [
+          'ICP documentado: perfil del cliente ideal con todos los atributos: industria, tamaño, etapa, problema, presupuesto, señales positivas y de alerta',
+          'Lead magnet + landing page: el lead magnet creado (PDF, checklist, template) y la landing page publicada en internet (URL real)',
+          'Secuencia de nurturing: 5 emails escritos y configurados en la herramienta de email marketing',
+          'Guión de discovery call: preguntas, flujo de la llamada, y respuestas a las 3 objeciones principales',
+          'CRM configurado: pipeline con 5 etapas (prospecto → discovery → propuesta → negociación → cerrado) y al menos 3 prospectos reales registrados',
+          'Calendly configurado: link de booking con preguntas de calificación y conectado al calendario real',
+          'Métricas del primer mes: cuántos leads generó el funnel, cuántas discovery calls se realizaron, cuántas propuestas se enviaron',
+        ],
+        tasks: [
+          'Lanza el funnel: landing page publicada, secuencia de email activa, Calendly funcional. Comparte el link en #proyecto-ventas',
+          'Realiza al menos 1 discovery call real (con un prospecto real o un compañero en roleplay) y documenta cómo fue',
+          'Comenta el sistema de al menos 2 compañeros con feedback sobre la landing page y la secuencia de nurturing',
+        ],
+        tip: 'El mejor funnel de ventas es el que realmente usas. Un sistema simple que ejecutas consistentemente supera a un sistema sofisticado que no arrancas nunca.',
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
+  // ─── UI/UX additions: lo que Platzi tiene que nosotros no ────────────────────
+  {
+    id: 'uiux-9',
+    number: 62,
+    title: 'UX Writing: el copy que hace las interfaces funcionar',
+    description: 'Las palabras de una interfaz no son decoración — son parte del diseño. Aprende a escribir microcopy, mensajes de error, onboarding y empty states que guían sin frustrar.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'uiux',
+    lessons: [
+      {
+        id: 'uiux-9-1',
+        title: 'Qué es UX Writing y por qué define la experiencia tanto como el diseño',
+        type: 'reading',
+        content: '## Las palabras son parte del diseño\n\nEl diseño de una interfaz no termina en los colores, tipografía y layout. Termina cuando el usuario completa la tarea que vino a hacer. Y las palabras que guían ese proceso son tan críticas como cualquier elemento visual.\n\nUX Writing es la disciplina de diseñar el texto de las interfaces: botones, mensajes de error, labels de formularios, tooltips, empty states, onboarding y cualquier palabra que el usuario lee mientras usa el producto.\n\n## La diferencia entre copywriting y UX Writing\n\n**Copywriting** (marketing): el objetivo es persuadir, convertir, vender. Puede ser creativo, emocional, largo.\n\n**UX Writing** (interfaces): el objetivo es guiar, aclarar y reducir fricción. Debe ser claro, conciso, útil. Un buen UX Writer no se nota — la experiencia fluye sin que el usuario piense en las palabras.\n\n## Los principios del buen UX Writing\n\n**Claro**: el usuario no debería tener que interpretar. Si un mensaje de error dice "Error 403", el usuario no sabe qué hacer. Si dice "No tienes permiso para ver esta página — inicia sesión para continuar", sí.\n\n**Conciso**: cada palabra que no agrega valor, sobra. "Haz clic aquí para continuar con el proceso de registro" → "Registrarse"\n\n**Útil**: ¿qué necesita saber el usuario en este momento? Ni más ni menos.\n\n**Consistente**: mismos términos para las mismas acciones. Si en una pantalla dices "Guardar" y en otra "Salvar", el usuario duda si son lo mismo.\n\n**Humano**: las interfaces no deben sonar a robots. "Su solicitud ha sido procesada exitosamente" → "¡Listo! Tu pedido está confirmado"',
+        tasks: [
+          'Revisa 3 apps o sitios que usas frecuentemente. Encuentra 3 ejemplos de mal UX Writing (mensajes confusos, errores crípticos, botones ambiguos) y propón una versión mejorada',
+          'Reescribe este mensaje de error usando los principios de UX Writing: "Error al procesar la solicitud. Código: ERR_INVALID_INPUT_002. Contacte al administrador del sistema"',
+          'Compara el UX Writing de dos competidores directos en el mismo sector. ¿Cuál tiene mejor voz y tono? ¿Por qué?',
+        ],
+        tip: 'El test más simple de UX Writing: pídele a alguien que nunca ha visto la interfaz que haga una tarea sin instrucciones. Donde se confunde o pregunta "¿qué significa esto?", hay un problema de UX Writing.',
+        completed: false,
+      },
+      {
+        id: 'uiux-9-2',
+        title: 'Microcopy en práctica: botones, errores, empty states y onboarding',
+        type: 'practice',
+        content: '## Los 5 tipos de microcopy que más impacto tienen\n\n**1. Botones y CTAs**\nEl texto del botón debe decir QUÉ PASA cuando haces clic, no qué acción realizas. "Enviar" → "Publicar mi artículo". "Siguiente" → "Ver los precios". "Confirmar" → "Reservar mi lugar".\n\n**2. Mensajes de error**\nLa fórmula del buen error message:\n- Qué pasó (sin tecnicismos)\n- Por qué pasó (si es relevante para el usuario)\n- Qué hacer ahora\nEjemplo: "No pudimos verificar tu email. Revisa que no haya typos — o prueba con una dirección diferente."\n\n**3. Empty states**\nCuando el usuario llega a una sección vacía (bandeja de entrada vacía, lista sin items), la mayoría de interfaces muestra solo "No hay nada aquí". Un buen empty state:\n- Explica por qué está vacío\n- Invita a la primera acción\n- Usa un tono positivo, no de error\nEjemplo: "Tu bandeja está limpia ✓" + "Aquí aparecerán los mensajes que recibas de tus clientes"\n\n**4. Onboarding y walkthroughs**\nLas instrucciones de onboarding deben responder: ¿qué puedo hacer aquí? ¿por qué me beneficia? ¿cuál es el primer paso obvio? Nunca asumas que el usuario entiende el valor desde el inicio.\n\n**5. Tooltips e información de ayuda**\nContexto justo cuando lo necesitas. Los tooltips no deben explicar la interfaz — deben agregar información que no cabe en el label. "Contraseña" no necesita tooltip. "Webhook URL" sí: "La URL a la que enviaremos las notificaciones cuando haya un evento".',
+        tasks: [
+          'Reescribe los 5 botones más confusos de una app que uses diariamente. Aplica la fórmula: el botón dice QUÉ PASA, no qué haces',
+          'Diseña el empty state de un inbox de mensajes dentro de una app de gestión de proyectos: texto + icono o ilustración sugerida',
+          'Escribe el onboarding en 3 pasos para un producto SaaS de tu elección: qué ve el usuario en el paso 1, 2 y 3 del wizard de configuración inicial',
+        ],
+        tip: 'Prueba siempre el microcopy con personas reales. Lo que parece obvio para quien diseñó el producto suele ser confuso para quien lo usa por primera vez. 5 minutos de usability testing revelan más que horas de deliberación interna.',
+        completed: false,
+      },
+      {
+        id: 'uiux-9-3',
+        title: 'Voz y tono de marca en interfaces',
+        type: 'reading',
+        content: '## Voz vs. Tono\n\n**La voz** es constante — la personalidad de la marca expresada en palabras. Informal, directo, empático, técnico, cálido. No cambia.\n\n**El tono** varía según el contexto. La misma marca puede tener un tono celebratorio cuando el usuario completa algo ("¡Excelente! Tu perfil está completo") y un tono serio y claro cuando hay un problema de seguridad ("Detectamos actividad inusual en tu cuenta. Revisa tus dispositivos conectados").\n\n## Cómo definir la voz de una marca en una interfaz\n\n**Paso 1: Define 3-4 adjetivos de personalidad**\nEj: "Directo, experto, sin relleno, accesible". Estos adjetivos guían cada decisión de copy.\n\n**Paso 2: Define el antónimo de cada uno**\n"Directo" ≠ "Grosero". "Experto" ≠ "Condescendiente". Los antónimos te dicen dónde está la línea.\n\n**Paso 3: Crea ejemplos de voz en diferentes contextos**\nEscribe cómo sonaría la marca en: un mensaje de bienvenida, un error grave, una confirmación exitosa, y un tooltip técnico.\n\n**Paso 4: Construye el glosario de términos**\nQué palabras usamos y qué palabras nunca usamos. "Factura" o "invoice"? "Usuario" o "cliente"? "Eliminar" o "borrar"? La consistencia en terminología reduce la fricción cognitiva.\n\n## Content design para interfaces de alta complejidad\n\nEn productos con flujos complejos (onboarding de 10 pasos, configuración técnica, contratos y términos legales), el UX Writer trabaja junto al diseñador desde el wireframe, no al final. El copy no se agrega encima del diseño — es parte del diseño.',
+        tasks: [
+          'Define la voz de tu propia agencia o de un cliente: 4 adjetivos de personalidad + el antónimo de cada uno + 3 frases de ejemplo en diferentes contextos de interfaz',
+          'Crea el glosario de términos para un producto SaaS: 10 términos con la definición de cuándo usar cada uno y por qué',
+          'Reescribe la sección de "Términos y condiciones" de cualquier app que uses, traduciendo el lenguaje legal a lenguaje humano (para una cláusula importante)',
+        ],
+        tip: 'Las interfaces que suenan como robots suelen ser el resultado de copy escrito por abogados o desarrolladores. Un UX Writer que trabaja desde el wireframe previene el 80% de los problemas de microcopy antes de que lleguen a producción.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'UX Writing Hub — recursos y comunidad de UX Writing', url: 'https://uxwritinghub.com', type: 'article' },
+      { title: 'Figma Content — plugin para gestionar copy en Figma', url: 'https://www.figma.com/community/plugin/731627216655469804', type: 'tool' },
+    ],
+  },
+  {
+    id: 'uiux-10',
+    number: 63,
+    title: 'UX Testing: validar con usuarios reales',
+    description: 'El diseño que no se testea con usuarios es solo una hipótesis. Aprende las técnicas de research y testing que usan los mejores equipos de producto.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'uiux',
+    lessons: [
+      {
+        id: 'uiux-10-1',
+        title: 'Métodos de UX Research: cuándo usar cada uno',
+        type: 'reading',
+        content: '## El mapa de métodos de UX Research\n\nExiste una enorme cantidad de métodos de investigación en UX. La clave no es conocerlos todos — es saber cuándo usar cuál según el stage del producto, el presupuesto y la pregunta que necesitas responder.\n\n## Los 4 métodos más usados en agencias\n\n**1. Entrevistas con usuarios (User Interviews)**\nCuándo usarlo: cuando necesitas entender el problema antes de diseñar la solución. Al inicio del proyecto, cuando hay conflicto sobre qué necesita el usuario.\nCómo: 30-60 minutos de conversación semi-estructurada con 5-8 usuarios representativos. Escucha, no guías. La meta es sorprenderte, no confirmar lo que ya piensas.\nOutput: insights cualitativos sobre comportamientos, frustraciones y objetivos reales.\n\n**2. Pruebas de usabilidad (Usability Testing)**\nCuándo usarlo: cuando tienes un prototipo o un producto ya construido y quieres saber si la gente puede usarlo.\nCómo: le pides al usuario que complete tareas específicas mientras observas (sin ayudar). Mides: ¿puede completar la tarea? ¿dónde se confunde? ¿cuánto tiempo tarda?\nOutput: problemas específicos del diseño con evidencia directa de usuarios.\n\n**3. Card Sorting**\nCuándo usarlo: cuando necesitas diseñar la arquitectura de información de un sitio o app (qué va en qué menú, cómo organizar las categorías).\nCómo: el usuario organiza tarjetas con conceptos en grupos que tienen sentido para él. Revela el modelo mental del usuario, que puede diferir completamente del modelo mental del equipo.\nOutput: arquitectura de información basada en cómo piensa el usuario, no en cómo piensa el equipo.\n\n**4. A/B Testing**\nCuándo usarlo: cuando tienes dos hipótesis concretas y suficiente tráfico para obtener resultados estadísticamente significativos.\nCómo: mostrar la variante A al 50% del tráfico y la variante B al otro 50%. Medir cuál genera más conversiones/clics/tiempo en página.\nOutput: evidencia cuantitativa de qué diseño funciona mejor.',
+        tasks: [
+          'Conduce una entrevista de usuario de 20 minutos con alguien de tu audiencia objetivo. Prepara 8 preguntas abiertas y documenta los insights más inesperados',
+          'Diseña un plan de usability test para un prototipo tuyo o de un cliente: 5 tareas que el usuario debe completar, métricas que medirás y cómo reclutarás los participantes',
+          'Hace un card sorting de 15-20 tarjetas con 3 personas y analiza los patrones: ¿dónde agruparon igual? ¿dónde difirieron? ¿qué implica eso para la arquitectura de información?',
+        ],
+        tip: 'El sesgo de confirmación es el enemigo del UX Research. Antes de cada sesión, escribe explícitamente qué esperas encontrar — luego activamente busca evidencia que contradiga esas expectativas. Eso es donde están los insights reales.',
+        completed: false,
+      },
+      {
+        id: 'uiux-10-2',
+        title: 'Pruebas de usabilidad sin laboratorio: herramientas y técnicas',
+        type: 'practice',
+        content: '## Hacer UX Testing sin presupuesto de laboratorio\n\nLas grandes empresas tienen laboratorios de UX con espejos unidireccionales, grabaciones profesionales y paneles de usuarios pagados. Las agencias y startups no tienen eso — y no lo necesitan. Las pruebas de usabilidad más valiosas se pueden hacer con Zoom, un prototipo en Figma, y 5 personas.\n\n## La regla de los 5 usuarios\n\nJakob Nielsen demostró que con solo 5 usuarios en una prueba de usabilidad, encuentras el 85% de los problemas de usabilidad del diseño. No necesitas 100 personas. 5 bien seleccionados son suficientes para identificar los problemas críticos.\n\n## Herramientas para UX Testing remoto\n\n**Maze**: conecta con Figma y te permite crear tests remotos sin moderador. El usuario recibe un link, completa las tareas solo, y Maze registra: si completó la tarea, cuánto tardó, en qué hizo clic, y el heatmap de clics. Resultados cuantitativos automáticos.\n\n**UserTesting.com**: plataforma con panel de usuarios que puedes contratar. En 2 horas tienes videos de 5 usuarios completando tus tareas. Más caro pero más rápido.\n\n**Lookback.io**: para tests moderados en video. El investigador guía la sesión por Zoom mientras el software graba la pantalla, la cara y el audio.\n\n**Zoom + FigJam**: el setup más básico y gratuito. Pides al usuario que comparta pantalla en Zoom, le pides que complete tareas en el prototipo de Figma, observas y tomas notas en FigJam.\n\n## Cómo moderar sin contaminar los resultados\n\nError común: "¿Entendiste para qué sirve este botón?" (pregunta directiva). Correcto: "¿Qué harías ahora?" (pregunta abierta).\n\nLa regla de oro: no respondas ninguna pregunta del usuario durante el test. Si el usuario pregunta "¿Aquí debo hacer clic?", la respuesta es "¿Qué harías tú normalmente?".',
+        tasks: [
+          'Configura un test de usabilidad remoto en Maze con un prototipo de Figma (puede ser uno existente): 3 tareas, métricas de tiempo y completion rate',
+          'Modera una sesión de usabilidad de 20 minutos por Zoom con un usuario real. Graba la sesión (con permiso) y documenta los 3 problemas de usabilidad más importantes que encontraste',
+          'Analiza los resultados del test de Maze: qué tareas tuvieron menor completion rate y qué implica eso para rediseñar esos flujos',
+        ],
+        tip: 'Testa el prototipo, no al usuario. El objetivo no es descubrir si el usuario "entiende" — es descubrir qué partes del diseño confunden. La responsabilidad siempre está en el diseño, no en la inteligencia del usuario.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Maze — plataforma de usability testing conectada a Figma', url: 'https://maze.co', type: 'tool' },
+      { title: 'Nielsen Norman Group — recursos de UX Research de referencia', url: 'https://www.nngroup.com', type: 'article' },
+    ],
+  },
+
+  // ─── IA additions: lo que Platzi tiene que nosotros no ───────────────────────
+  {
+    id: 'ia-5',
+    number: 64,
+    title: 'Agentes de IA: construir sistemas que razonan y actúan',
+    description: 'Los agentes de IA son el siguiente nivel de automatización: no solo ejecutan tareas — razonan, toman decisiones y usan herramientas de forma autónoma. Aprende a construirlos.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia-5-1',
+        title: 'Qué es un agente de IA y cómo se diferencia de un chatbot',
+        type: 'reading',
+        content: '## La diferencia fundamental\n\nUn chatbot responde preguntas. Un agente de IA razona, planifica, usa herramientas y ejecuta tareas de múltiples pasos para lograr un objetivo.\n\nEjemplo: le dices al chatbot "¿Cuánto cuesta un vuelo a Madrid?" y te da información. Le dices al agente "Búscame el vuelo más barato a Madrid para el 15 de julio, con menos de 1 escala, asiento de ventana, y reserva el que esté por debajo de $800" — y el agente busca, compara, verifica disponibilidad y hace la reserva.\n\n## Los componentes de un agente de IA\n\n**LLM (Large Language Model)**: el cerebro que razona, planifica y genera texto. GPT-4o, Claude, Gemini.\n\n**Herramientas (Tools/Functions)**: las acciones que el agente puede ejecutar. Buscar en internet, leer archivos, enviar emails, llamar APIs, acceder a bases de datos. El agente decide cuándo y cómo usar cada herramienta.\n\n**Memoria**: el contexto que el agente retiene. Short-term (conversación actual), long-term (base de datos persistente de información sobre el usuario o el proyecto).\n\n**Planning**: la capacidad de dividir un objetivo complejo en subtareas y ejecutarlas en orden.\n\n## Casos de uso de agentes en una agencia\n\n**Agente de research**: le dices "Analiza los últimos 3 meses de redes sociales de [competidor] y dame un informe de su estrategia de contenidos, sus posts con más engagement y los temas que más resuenan con su audiencia". El agente busca, recopila, analiza y genera el reporte.\n\n**Agente de SEO**: monitorea el ranking de keywords de un cliente, detecta caídas, identifica la causa probable y sugiere acciones correctivas automáticamente.\n\n**Agente de atención al cliente**: responde consultas de clientes en nombre de la marca, con acceso a la base de datos de productos, políticas y FAQ. Escala a humano solo cuando el caso lo requiere.',
+        tasks: [
+          'Diseña en papel (no código) la arquitectura de un agente de IA para uno de los casos de uso de tu agencia: qué herramientas necesita, qué decisiones toma solo y cuándo involucra a un humano',
+          'Explora la documentación de Claude Tool Use o OpenAI Function Calling. Identifica los conceptos clave: cómo el modelo "llama" a una función y cómo procesa el resultado',
+          'Encuentra 3 plataformas no-code para construir agentes (ej: Voiceflow, Botpress, n8n con AI nodes) y compara sus capacidades y casos de uso',
+        ],
+        tip: 'Un agente de IA mal diseñado toma decisiones erróneas con mucha confianza. El diseño de "guardrails" (limitaciones explícitas de lo que el agente puede y no puede hacer) es tan importante como el diseño del agente mismo.',
+        completed: false,
+      },
+      {
+        id: 'ia-5-2',
+        title: 'Construir agentes con n8n + LLM: sin código, con lógica real',
+        type: 'practice',
+        content: '## Por qué n8n es la plataforma ideal para agentes no-code\n\nn8n tiene nodos de IA nativos que se pueden encadenar para crear flujos donde el LLM no solo genera texto — toma decisiones sobre qué herramienta usar, ejecuta esas herramientas, y procesa los resultados en un ciclo.\n\n## El patrón de agente más común en n8n\n\n**ReAct Loop (Reason + Act)**:\n1. El usuario envía un objetivo (ej: "Analiza el sitio web de este competidor")\n2. El LLM razona: ¿qué información necesito? → "Necesito el contenido del sitio, sus redes sociales y sus reviews"\n3. El LLM usa herramientas: llama al nodo de scraping, al nodo de búsqueda web, al nodo de extracción de datos\n4. El LLM analiza los resultados\n5. ¿Necesita más información? → vuelve al paso 2. ¿Tiene suficiente? → genera el output final\n\n## Construir un agente de research en n8n\n\n**Nodos necesarios**:\n- Trigger (webhook o chat UI)\n- AI Agent (n8n tiene nodo nativo de AI Agent)\n- Herramientas: Web Search (SerpApi o Tavily), HTTP Request (para APIs), Code (JavaScript para procesamiento de datos)\n- Output: envía el reporte por email o lo guarda en Notion\n\n## Memoria en agentes con n8n\n\nn8n permite conectar el agente a una base de datos vectorial (como Pinecone o Qdrant) para darle memoria persistente. Esto permite que el agente recuerde conversaciones anteriores, el contexto del cliente, y decisiones previas — convirtiéndolo en un asistente que mejora con cada interacción.',
+        tasks: [
+          'Construye un agente básico en n8n: el usuario envía una URL de sitio web → el agente extrae el contenido → Claude lo analiza → el agente responde con: 3 fortalezas, 3 debilidades y 3 oportunidades del sitio',
+          'Agrega una herramienta de búsqueda web al agente (SerpApi o Tavily) para que pueda buscar información adicional sobre la empresa antes de hacer el análisis',
+          'Documenta el workflow con diagrama y comparte en #ia-agentes con una descripción de qué hace cada nodo',
+        ],
+        tip: 'Empieza con agentes de un solo paso antes de intentar bucles de razonamiento complejo. "El usuario manda texto → Claude lo analiza → el agente responde" ya es un agente básico. La complejidad viene gradualmente.',
+        completed: false,
+      },
+      {
+        id: 'ia-5-3',
+        title: 'Agentes de IA con código: LangChain y Claude Tool Use',
+        type: 'reading',
+        content: '## Cuándo no es suficiente el no-code\n\nn8n y herramientas similares son potentes para el 80% de los casos de uso. Pero hay situaciones que requieren código:\n- Lógica condicional muy compleja\n- Procesamiento de datos a escala\n- Integración con APIs que n8n no soporta nativamente\n- Agentes con memoria vectorial personalizada\n- Deployment de agentes como microservicios\n\n## Claude Tool Use (Function Calling)\n\nAnthropic tiene soporte nativo para herramientas (tools) — funciones que el modelo puede llamar cuando necesita información o acción externa. El flujo:\n\n1. Defines las herramientas disponibles (búsqueda web, base de datos, API de calendario, etc.) con una descripción y el schema de parámetros\n2. Le das al modelo un mensaje del usuario\n3. El modelo responde indicando qué herramienta usar y con qué parámetros\n4. Tu código ejecuta la herramienta y devuelve el resultado\n5. El modelo procesa el resultado y decide si necesita más herramientas o si ya tiene suficiente para responder\n\n## LangChain: el framework de agentes más popular\n\nLangChain es el framework de Python/JavaScript más usado para construir agentes de IA. Tiene abstracciones para: chains (secuencias de pasos), agents (razonamiento con herramientas), memory (persistencia de contexto), y RAG (retrieval-augmented generation para dar contexto al modelo desde una base de datos).\n\nNo es necesario entender LangChain a profundidad para ser efectivo — pero conocer su estructura te ayuda a entender el patrón de diseño de agentes y comunicarte con desarrolladores que lo usan.',
+        tasks: [
+          'Lee la documentación de Claude Tool Use y reproduce el ejemplo básico de la documentación: define 1 herramienta simple, envía un mensaje que requiera usarla, y procesa el tool_use response',
+          'Explora LangChain Docs y construye el agente más básico del tutorial "Quickstart": un agente que puede buscar en DuckDuckGo para responder preguntas',
+          'Compara: ¿cuándo usarías n8n vs. LangChain para construir el mismo agente? Define 3 criterios de decisión',
+        ],
+        tip: 'No necesitas aprender LangChain para construir agentes útiles. n8n con los nodos de AI Agent es suficiente para el 90% de casos de uso de una agencia. Aprende LangChain cuando los requisitos técnicos de un proyecto específico lo requieran.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Anthropic Tool Use Documentation', url: 'https://docs.anthropic.com/claude/docs/tool-use', type: 'documentation' },
+      { title: 'n8n AI Nodes — construye agentes sin código', url: 'https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent', type: 'documentation' },
+      { title: 'LangChain — framework de agentes en Python/JS', url: 'https://python.langchain.com/docs/get_started/quickstart', type: 'documentation' },
+    ],
+  },
+  {
+    id: 'ia-6',
+    number: 65,
+    title: 'IA para creativos: imágenes, video y audio generativo',
+    description: 'Integra generación de imágenes, video y audio con IA en los flujos creativos de la agencia. Midjourney, Stable Diffusion, Runway y más.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'ia',
+    lessons: [
+      {
+        id: 'ia-6-1',
+        title: 'Generación de imágenes con IA: Midjourney, DALL-E y Stable Diffusion',
+        type: 'practice',
+        content: '## El estado del arte en generación de imágenes en 2025\n\nEn 2025, la generación de imágenes con IA pasó de ser un experimento a ser una herramienta de producción estándar en agencias y estudios de diseño. Las tres plataformas principales:\n\n**Midjourney**: la mejor calidad estética general. Interfaz en Discord. El modelo más popular entre diseñadores y creativos. Plan desde $10/mes.\n\n**DALL-E 3 (integrado en ChatGPT)**: el más accesible y con mejor seguimiento de instrucciones de texto. Ideal para conceptos que requieren descripción precisa o integración con texto.\n\n**Stable Diffusion (local/ComfyUI)**: open source, corre en tu máquina si tienes GPU. Máxima flexibilidad y control — puedes entrenar modelos personalizados con el estilo de una marca específica. Curva de aprendizaje más alta.\n\n**Ideogram**: especializado en generar imágenes con texto integrado (logos conceptuales, posters, thumbnails con texto legible). Resuelve el problema histórico de la IA con texto en imágenes.\n\n## Casos de uso en una agencia\n\n**Moodboards en minutos**: en lugar de buscar referencias en Pinterest por horas, generas 20 variaciones de concepto en 20 minutos. El cliente elige el estilo y el diseñador lo ejecuta.\n\n**Assets de contenido social**: thumbnails de YouTube, posts de Instagram, fondos para Reels. Producción masiva de assets visuales con consistencia de estilo.\n\n**Conceptos de brand identity**: explorar 10 direcciones visuales antes de elegir una para desarrollar. El proceso de exploración pasa de días a horas.\n\n**Mockups y visualizaciones**: mostrar al cliente cómo quedará el diseño en un contexto real (packaging en una tienda, señalética en un edificio, merch con la marca).',
+        tasks: [
+          'Genera 3 variaciones de moodboard para un cliente ficticio usando Midjourney o DALL-E: define el concepto visual y escribe el prompt completo (estilo, paleta, mood, composición, formato)',
+          'Crea 5 thumbnails de YouTube para un canal del sector que elijas, todos con el mismo estilo visual coherente. Itera hasta lograr consistencia entre las 5 imágenes',
+          'Compara el resultado de los mismos 3 prompts en Midjourney vs. DALL-E. Documenta: cuál sigue mejor las instrucciones, cuál tiene mejor calidad estética, cuál es más útil para tu flujo de trabajo',
+        ],
+        tip: 'La calidad de los resultados de generación de imágenes depende directamente de la calidad del prompt. Invierte 10 minutos en construir el prompt correcto antes de generar. Un prompt bien construido ahorra 30 minutos de iteraciones.',
+        completed: false,
+      },
+      {
+        id: 'ia-6-2',
+        title: 'Video e IA: Runway, Kling y el futuro de la producción',
+        type: 'reading',
+        content: '## El video generativo en 2025: ya es viable para producción\n\nHace 2 años, el video generado con IA era inestable — personas con manos de 7 dedos, movimientos imposibles, coherencia visual inexistente. En 2025, modelos como Runway Gen-3, Kling AI y Sora producen video de calidad suficiente para casos de uso comerciales reales.\n\n## Herramientas de video con IA\n\n**Runway Gen-3**: el estándar de la industria para video generativo. Imagen-a-video (una imagen fija → video de 5-10 segundos), texto-a-video, y herramientas de edición como background removal, green screen, extend (alargar el video generativamente). Plan desde $15/mes.\n\n**Kling AI**: competidor chino de Runway. Produce movimientos más estables en algunos escenarios. Plan gratuito con créditos limitados.\n\n**HeyGen**: especializado en generación de videos con avatares de IA. Un humano graba un video una vez → HeyGen lo clona → puedes hacer el mismo video en 50 idiomas sin grabar nada más. Para agencias con clientes internacionales, es un servicio diferenciador.\n\n**Sora (OpenAI)**: el más espectacular en demos, con acceso limitado. Cuando sea ampliamente disponible, cambiará el estándar de calidad.\n\n## Casos de uso para agencias en 2025\n\n**B-roll sin cámara**: para marcas que no tienen footage propio, genera b-roll conceptual de alta calidad para usar en Reels, ads y presentaciones.\n\n**Personalización en escala**: HeyGen para videos de ventas personalizados por nombre y empresa. Imagina 100 videos de prospección, cada uno con el nombre y logo del prospecto, sin grabar 100 veces.\n\n**Explainers animados**: convertir un texto o storyboard en un video animado explicativo sin animador. Para servicios de SaaS o procesos complejos.\n\n**Extiende footage existente**: un cliente tiene un video de 5 segundos que necesita ser de 10. Runway puede extender el video generativamente con coherencia visual.',
+        tasks: [
+          'Crea un video de 5 segundos con Runway Gen-3 usando imagen-a-video: elige una imagen de alta calidad (puede ser generada con Midjourney) y genera el video. Experimenta con el prompt de movimiento',
+          'Explora HeyGen y crea un video de avatar de 30 segundos: sube una foto o video de referencia y genera una versión del avatar hablando un texto que escribas',
+          'Define 3 servicios de video con IA que podrías ofrecer como agencia con un precio estimado para cada uno (basándote en el tiempo de producción + costo de las herramientas)',
+        ],
+        tip: 'El video generativo con IA tiene artefactos visuales que el ojo humano detecta fácilmente (movimientos extraños en rostros, físicas imposibles). Para 2025, úsalo más para b-roll, fondos y conceptos abstractos que para videos con personas reales.',
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Midjourney — generación de imágenes de alta calidad', url: 'https://www.midjourney.com', type: 'tool' },
+      { title: 'Runway — video generativo para producción', url: 'https://runwayml.com', type: 'tool' },
+      { title: 'Ideogram — imágenes con texto integrado', url: 'https://ideogram.ai', type: 'tool' },
+    ],
+  },
+
+]
+
+
+// ─── Learning Paths ───────────────────────────────────────────────────────────
+// Curated sequences of modules for specific career goals.
+// moduleIds must match existing MODULES ids in the recommended study order.
+
+export const LEARNING_PATHS: LearningPath[] = [
+  {
+    id: 'digital-creator',
+    title: 'Digital Creator',
+    subtitle: 'De cero a crear contenido profesional que vende',
+    description: 'La ruta para quien quiere dominar el lado creativo del marketing digital: construyes la marca, escribes el copy, creas el contenido y lo posicionas en Google. Sin necesitar saber código.',
+    level: 'principiante',
+    duration: '6–8 meses',
+    tracks: ['branding', 'copy', 'marketing', 'seo'],
+    moduleIds: [
+      'branding-1', 'branding-2', 'branding-3', 'branding-capstone',
+      'copy-1', 'copy-2', 'copy-3', 'copy-4', 'copy-capstone',
+      'modulo-1', 'modulo-2', 'modulo-3', 'modulo-4', 'marketing-capstone',
+      'seo-1', 'seo-2', 'seo-3', 'seo-capstone',
+    ],
+    forWho: 'Emprendedores, freelancers creativos, community managers y cualquier persona que quiera vivir de crear contenido digital con propósito estratégico.',
+    outcome: 'Al terminar puedes: crear sistemas de identidad visual completos, escribir copy que convierte para web y ads, gestionar campañas de marketing digital y posicionar contenido en Google.',
+  },
+  {
+    id: 'full-stack-builder',
+    title: 'Full-Stack Builder',
+    subtitle: 'De la idea al producto en producción',
+    description: 'La ruta técnica completa: aprendes a construir aplicaciones web modernas, a integrar IA en el workflow de desarrollo y a medir el impacto con analytics. El stack exacto que usa AlphaDev Studios.',
+    level: 'principiante',
+    duration: '7–9 meses',
+    tracks: ['web', 'ia', 'data'],
+    moduleIds: [
+      'web-1', 'web-2', 'web-3', 'web-4', 'web-capstone',
+      'ia-1', 'ia-2', 'ia-3', 'ia-4', 'ia-capstone',
+      'data-1', 'data-2', 'data-3', 'data-4', 'data-5', 'data-capstone',
+    ],
+    forWho: 'Personas sin experiencia en programación que quieren convertirse en developers full-stack. También para developers con experiencia que quieren modernizar su stack e integrar IA.',
+    outcome: 'Al terminar puedes: construir y desplegar aplicaciones SaaS con Next.js y Supabase, crear automatizaciones con IA, medir el comportamiento de usuarios con analytics y tomar decisiones basadas en datos.',
+  },
+  {
+    id: 'ux-designer-pro',
+    title: 'UX/UI Designer Pro',
+    subtitle: 'Diseño de producto con estrategia de marca',
+    description: 'La ruta para diseñadores que quieren ir más allá de la interfaz: integras el pensamiento de marca con el diseño de producto y el copy, produciendo experiencias completamente coherentes.',
+    level: 'principiante',
+    duration: '8–10 meses',
+    tracks: ['uiux', 'branding', 'copy'],
+    moduleIds: [
+      'uiux-1', 'uiux-2', 'uiux-3', 'uiux-4', 'uiux-5',
+      'uiux-6', 'uiux-7', 'uiux-8', 'uiux-capstone',
+      'branding-1', 'branding-2', 'branding-3', 'branding-capstone',
+      'copy-1', 'copy-2', 'copy-capstone',
+    ],
+    forWho: 'Diseñadores gráficos que quieren entrar al UX digital, estudiantes de diseño, y profesionales de otras áreas con sensibilidad visual que quieren especializarse en product design.',
+    outcome: 'Al terminar puedes: diseñar productos digitales completos (research → prototipo → handoff), crear sistemas de identidad visual desde la estrategia y escribir el UX copy de cualquier interfaz.',
+  },
+  {
+    id: 'performance-marketer',
+    title: 'Performance Marketer',
+    subtitle: 'Marketing que se mide y que escala',
+    description: 'La ruta del marketer data-driven: aprendes a crear campañas que funcionan, a escribir copy que convierte, a posicionarte en Google y a medir todo con analytics profesional. Cada decisión respaldada por datos.',
+    level: 'intermedio',
+    duration: '7–9 meses',
+    tracks: ['marketing', 'copy', 'seo', 'data'],
+    moduleIds: [
+      'modulo-1', 'modulo-2', 'modulo-3', 'modulo-4', 'marketing-capstone',
+      'copy-1', 'copy-2', 'copy-3', 'copy-4', 'copy-capstone',
+      'seo-1', 'seo-2', 'seo-3', 'seo-4', 'seo-5', 'seo-capstone',
+      'data-1', 'data-2', 'data-3', 'data-4', 'data-5', 'data-capstone',
+    ],
+    forWho: 'Marketing managers, growth hackers, fundadores de negocios digitales y consultores de marketing que quieren sistematizar su trabajo y justificar sus resultados con datos.',
+    outcome: 'Al terminar puedes: gestionar campañas de marketing digital end-to-end, escribir copy para todos los formatos, posicionar contenido en Google con estrategia de clusters y reportar resultados con dashboards profesionales.',
+  },
+  {
+    id: 'agency-ready',
+    title: 'Agency Ready',
+    subtitle: 'Todo el conocimiento para operar una agencia digital',
+    description: 'La ruta completa de AlphaDev Studios: todos los tracks en el orden óptimo para alguien que quiere trabajar en o crear una agencia digital completa. Del diseño al código, del copy al analytics.',
+    level: 'avanzado',
+    duration: '18–24 meses',
+    tracks: ['branding', 'uiux', 'copy', 'marketing', 'web', 'seo', 'data', 'ia'],
+    moduleIds: [
+      'branding-1', 'branding-2', 'branding-3', 'branding-capstone',
+      'uiux-1', 'uiux-2', 'uiux-3', 'uiux-4', 'uiux-5',
+      'uiux-6', 'uiux-7', 'uiux-8', 'uiux-capstone',
+      'copy-1', 'copy-2', 'copy-3', 'copy-4', 'copy-capstone',
+      'modulo-1', 'modulo-2', 'modulo-3', 'modulo-4', 'marketing-capstone',
+      'web-1', 'web-2', 'web-3', 'web-4', 'web-capstone',
+      'seo-1', 'seo-2', 'seo-3', 'seo-4', 'seo-5', 'seo-capstone',
+      'data-1', 'data-2', 'data-3', 'data-4', 'data-5', 'data-capstone',
+      'ia-1', 'ia-2', 'ia-3', 'ia-4', 'ia-capstone',
+    ],
+    forWho: 'Personas ambiciosas que quieren una formación digital completa: desde el diseño y el copy hasta el código y los datos. Ideal para fundadores de agencias, directores creativos que quieren habilidades técnicas, o developers que quieren entender el negocio completo.',
+    outcome: 'Al terminar tienes el conocimiento para: diseñar productos, crear sistemas de marca, escribir copy, gestionar campañas, desarrollar aplicaciones, posicionar en SEO, medir con analytics e integrar IA. El kit completo de una agencia digital moderna.',
+  },
+]
+
+// ─── Retos ────────────────────────────────────────────────────────────────────
+// Tiempo-boxed challenges where students build something real and the
+// community votes on the best submissions.
+
+export const RETOS: Reto[] = [
+  {
+    id: 'reto-landing-21',
+    title: 'Reto: Lanza tu Landing Page en 21 Días',
+    tagline: '21 días. Una landing page real. En producción.',
+    description: 'Diseña, escribe y despliega una landing page completa para un producto o servicio real. En 21 días, de idea a URL en producción. Aplican todos los conocimientos de web, copy y branding — en un proyecto que queda en tu portafolio y puede conseguirte clientes.',
+    tracks: ['web', 'copy', 'branding'],
+    duration: '21 días',
+    deliverable: 'URL pública en producción con landing page completa: diseño propio, copy optimizado y métricas de analytics configuradas.',
+    requirements: [
+      'La landing debe estar en producción en una URL real (Vercel, Netlify o dominio propio)',
+      'Debe tener: hero con propuesta de valor clara, sección de beneficios, prueba social (aunque sea ficticia bien elaborada), CTA y formulario funcional',
+      'El copy debe aplicar al menos 1 framework (AIDA, PAS o BAB) — mencionar cuál en la presentación',
+      'Debe tener GA4 configurado con al menos 1 conversión (form submit o click en CTA)',
+      'Mobile responsive verificado en 375px de ancho mínimo',
+      'Presentar en 5 minutos máximo: el producto, las decisiones de diseño, el copy elegido y las métricas del primer día',
+    ],
+    howToSubmit: [
+      'Publica la URL en el canal #reto-landing de la comunidad el día 21 a las 11:59pm',
+      'Incluye: URL + 3 screenshots (mobile + desktop + hero close-up) + párrafo explicando las decisiones más importantes',
+      'Comenta y da feedback a mínimo 3 submissions de otros participantes antes del día 23',
+      'La votación de la comunidad abre el día 22 y cierra el día 25',
+    ],
+    prizes: [
+      '1er lugar: Feature en el newsletter de AlphaDev Studios + mención en Instagram + 1 sesión de mentoring 1:1 de 60 minutos',
+      '2do lugar: Mención en redes sociales + acceso anticipado al siguiente reto',
+      '3er lugar: Mención en la comunidad + badge exclusivo de "Landing Launcher"',
+      'Participación: Badge "21-Day Builder" para todos los que entreguen en tiempo',
+    ],
+    status: 'proximo',
+  },
+  {
+    id: 'reto-contenido-30',
+    title: 'Reto: 30 Días de Contenido',
+    tagline: '30 días. 30 piezas. Un negocio que empieza a existir en redes.',
+    description: 'Crea y publica 30 piezas de contenido en 30 días para un negocio real. Puede ser tu agencia, tu proyecto freelance, o el negocio de alguien que te dé permiso. El objetivo: construir presencia orgánica real con constancia y estrategia — no contenido al azar.',
+    tracks: ['marketing', 'copy'],
+    duration: '30 días',
+    deliverable: 'Carpeta o Notion con las 30 piezas creadas (aunque no todas publicadas), el calendario de contenido, métricas de engagement del período y 3 aprendizajes documentados.',
+    requirements: [
+      'Mínimo 20 de las 30 piezas deben estar publicadas en redes reales (no simuladas)',
+      'El contenido debe cubrir al menos 3 formatos distintos (reels, carruseles, posts estáticos, stories, artículos, etc.)',
+      'Cada pieza debe tener copy escrito con intención — no solo imágenes con texto genérico',
+      'Documentar el proceso: 1 post semanal en la comunidad del reto mostrando qué publicaste, qué funcionó y qué no',
+      'Al final: reporte con métricas reales (alcance, engagement, follows ganados) y análisis honesto',
+    ],
+    howToSubmit: [
+      'El día 30: publica el link a tu perfil + link a la carpeta/Notion con todas las piezas + el reporte',
+      'Incluye el screenshot de las métricas del período desde la plataforma (Instagram Insights, LinkedIn Analytics, etc.)',
+      'La votación premia al contenido más consistente Y de mayor calidad — no solo el de más likes',
+    ],
+    prizes: [
+      '1er lugar: Feature como caso de estudio en el blog de AlphaDev Studios + 1 sesión de mentoring',
+      '2do y 3er lugar: Mencion en redes + badge "Content Machine"',
+      'Participación: Badge "30-Day Creator" + acceso al banco de templates de contenido de AlphaDev',
+    ],
+    status: 'proximo',
+  },
+  {
+    id: 'reto-app-15',
+    title: 'Reto: App en 15 Días',
+    tagline: '15 días para pasar de idea a aplicación en producción.',
+    description: 'Construye y despliega una aplicación web funcional en 15 días con Next.js, TypeScript y Supabase. No importa que sea pequeña — importa que esté en producción, funcione bien y tenga un caso de uso real. La velocidad de entrega es parte del reto.',
+    tracks: ['web', 'ia'],
+    duration: '15 días',
+    deliverable: 'URL en producción en Vercel + repositorio público en GitHub + README con descripción, screenshots y video demo de 2 minutos.',
+    requirements: [
+      'La app debe estar en producción en Vercel con URL pública accesible para cualquiera',
+      'Stack requerido: Next.js + TypeScript + Tailwind (Supabase es opcional pero valorado)',
+      'Debe tener al menos 2 features funcionales (no solo una landing estática)',
+      'TypeScript strict — tsc --noEmit debe pasar sin errores',
+      'Repositorio público en GitHub con README profesional',
+      'Video demo de 2 minutos mostrando el uso real de la app (no slides, no presentación — demo en vivo)',
+    ],
+    howToSubmit: [
+      'El día 15: publica en #reto-app: URL de producción + GitHub repo + video demo',
+      'Los primeros 3 en publicar reciben bonus de "Fast Launcher" en la votación',
+      'La comunidad evalúa: funcionalidad, código limpio (revisando el GitHub) y utilidad del caso de uso',
+    ],
+    prizes: [
+      '1er lugar: Feature en el portfolio de proyectos de AlphaDev Studios + mentoring técnico de 90 minutos',
+      '2do lugar: Code review personalizado de 60 minutos + badge "App Builder"',
+      '3er lugar: Badge + mención en la comunidad',
+      'Bonus "Fast Launcher": badge especial para los primeros 3 en publicar el día 15',
+    ],
+    status: 'proximo',
+  },
+  {
+    id: 'reto-automatiza-21',
+    title: 'Reto: Automatiza tu Agencia en 21 Días',
+    tagline: 'Un workflow de IA que te devuelve horas cada semana.',
+    description: 'Construye un sistema de automatización con IA que resuelva un problema real de tu flujo de trabajo. En 21 días, de proceso manual a workflow que corre solo. Aplica lo aprendido en el track de IA: n8n, LLMs, y agentes.',
+    tracks: ['ia'],
+    duration: '21 días',
+    deliverable: 'Workflow en n8n exportado como JSON + video demo de 3-5 minutos mostrándolo en funcionamiento + análisis de tiempo ahorrado.',
+    requirements: [
+      'El workflow debe correr de forma autónoma (trigger → acción → output) sin intervención manual',
+      'Debe integrar al menos 1 LLM (Claude, GPT o Gemini) con un prompt bien diseñado',
+      'Debe resolver un problema real — documentar cuánto tiempo tardaba el proceso manual vs ahora',
+      'Demo en vivo en el video: mostrar el trigger real, el workflow corriendo y el output real generado',
+      'Incluir el prompt principal usado con el LLM y al menos 3 ejemplos de inputs/outputs reales',
+    ],
+    howToSubmit: [
+      'El día 21: publica en #reto-automatiza: video + JSON del workflow + análisis de impacto',
+      'La votación evalúa: utilidad real del workflow, calidad del output del LLM y creatividad del caso de uso',
+      'Bonus: si el workflow ya está en producción y tienes métricas de uso real, mencionarlo suma puntos',
+    ],
+    prizes: [
+      '1er lugar: Feature en el blog de AlphaDev como caso de estudio + sesión de mentoring en automatizaciones',
+      '2do y 3er lugar: Badge "Automation Architect" + mención en la newsletter',
+      'Participación: Badge "21-Day Automator" + acceso a la biblioteca de workflows de la comunidad',
+    ],
+    status: 'proximo',
+  },
+  {
+    id: 'reto-brand-10',
+    title: 'Reto: Brand en 10 Días',
+    tagline: '10 días para crear una identidad que se vea de millones.',
+    description: 'Diseña el sistema de identidad visual completo para un negocio en 10 días. Logo, paleta, tipografía y 3 aplicaciones. La velocidad es parte del desafío — los mejores diseñadores no solo hacen buen trabajo, lo hacen rápido.',
+    tracks: ['branding', 'uiux'],
+    duration: '10 días',
+    deliverable: 'Archivo de Figma con link público: sistema de logo (4 variantes), paleta documentada, escala tipográfica y 3 aplicaciones de marca.',
+    requirements: [
+      'Sistema de logo completo: versión primaria, compacta, monocromática y negativa',
+      'Paleta documentada: mínimo 1 primario + 2 neutros + 1 acento, con nombre propio y valor hex de cada uno',
+      'Escala tipográfica: mínimo 4 niveles (display/H1, H2/H3, body, caption) con familia y peso definidos',
+      'Mínimo 3 aplicaciones: pueden ser perfil de Instagram, mockup de tarjeta, post template, packaging, etc.',
+      'El Figma debe tener link de "View" público para que cualquiera pueda verlo',
+      'Presentar en 3 minutos: el brief del cliente (ficticio está bien), las decisiones de diseño y el resultado',
+    ],
+    howToSubmit: [
+      'El día 10: publica en #reto-brand: link de Figma + párrafo con el brief y las 3 decisiones de diseño más importantes',
+      'La votación evalúa: coherencia del sistema, calidad de ejecución y si el resultado comunica lo que el brief pedía',
+      'Feedback obligatorio: comenta en mínimo 2 submissions antes de que cierre la votación',
+    ],
+    prizes: [
+      '1er lugar: Feature en Instagram de AlphaDev Studios + sesión de feedback 1:1 de diseño',
+      '2do lugar: Mención + badge "Brand Sprinter"',
+      '3er lugar: Badge + mención en la comunidad',
+      'Participación: Badge "10-Day Brander" para todos los que entreguen en tiempo',
+    ],
+    status: 'proximo',
+  },
 ]
