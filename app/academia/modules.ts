@@ -4,7 +4,7 @@
 export type LessonType = 'video' | 'audio' | 'reading' | 'practice' | 'exam' | 'project'
 export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification' | 'documentation'
 export type ModuleStatus = 'locked' | 'available' | 'completed'
-export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'data' | 'ads' | 'email' | 'video' | 'community' | 'prodai' | 'ventas'
+export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'geo' | 'data' | 'ads' | 'email' | 'video' | 'community' | 'prodai' | 'ventas'
 export type RetoStatus = 'proximo' | 'activo' | 'completado'
 export type PathLevel = 'principiante' | 'intermedio' | 'avanzado'
 
@@ -11556,6 +11556,225 @@ Este capstone produce el segundo escenario.`,
       { title: 'Ideogram — imágenes con texto integrado', url: 'https://ideogram.ai', type: 'tool' },
     ],
   },
+
+  // ─── GEO: Generative Engine Optimization ─────────────────────────────────
+  {
+    id: 'geo-1',
+    number: 73,
+    title: 'GEO: Optimización para la búsqueda generativa',
+    description: 'ChatGPT, Perplexity y Google AI Overviews están redefiniendo cómo la gente encuentra información. Aprende qué es GEO, cómo difiere del SEO y por qué es la habilidad de búsqueda más importante de los próximos años.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'geo',
+    lessons: [
+      {
+        id: 'geo-1-1',
+        title: 'Qué es GEO y cómo cambió la búsqueda',
+        type: 'reading',
+        content: '## La búsqueda ya no es lo que era\n\nDurante 25 años, Google dominó con un modelo simple: el usuario escribe una consulta, el algoritmo devuelve una lista de links ordenados por relevancia. El SEO tradicional era la ciencia de aparecer en esa lista.\n\nEn 2023-2024, ese modelo se rompió. Las AI Overviews de Google, los chats de Perplexity, la búsqueda integrada de ChatGPT y los assistants de Bing y Claude cambiaron radicalmente qué significa "aparecer en búsqueda".\n\n## La diferencia fundamental\n\n**SEO tradicional**: optimizás tu contenido para que Google lo posicione en la página de resultados (SERP). El usuario hace clic en tu link.\n\n**GEO (Generative Engine Optimization)**: optimizás tu contenido y tu presencia digital para que los modelos de IA te citen, te mencionen o usen tu información cuando responden preguntas relacionadas con tu industria. El usuario puede o no hacer clic — a veces la respuesta de la IA es suficiente, pero la mención construye autoridad.\n\n## Por qué importa ahora\n\nSegún datos de 2024, el 40% de las búsquedas de Google en EEUU ahora incluyen AI Overviews. Perplexity creció de 0 a 100M de usuarios en 18 meses. ChatGPT con búsqueda web se usa para consultas que antes irían a Google.\n\nEl tráfico orgánico tradicional está bajando — no porque los sitios hagan peor SEO, sino porque la IA responde directamente y reduce los clics. Esto se llama "zero-click search" llevado al extremo.\n\n## Cómo funciona la IA cuando busca\n\nCuando Perplexity o ChatGPT responden una pregunta, hacen básicamente esto:\n1. Detectan si necesitan información actualizada o de fuentes externas\n2. Buscan en la web (o en su base de conocimiento si el tema es estable)\n3. Evalúan las fuentes por credibilidad, autoridad y relevancia\n4. Sintetizan la información en una respuesta coherente\n5. Citan las fuentes que usaron\n\nGEO es la práctica de aparecer en los pasos 2, 3 y 5 de ese proceso.',
+        tasks: [
+          'Buscá en Perplexity, ChatGPT y Google AI Overviews la misma consulta relacionada con tu industria. Analizá: ¿qué fuentes cita cada uno? ¿aparece algún competidor tuyo? ¿aparecés vos?',
+          'Identificá 5 preguntas que tus clientes hacen frecuentemente y que ahora responde la IA directamente. ¿Qué sitios están siendo citados en esas respuestas?',
+        ],
+        tip: 'GEO no reemplaza al SEO — lo complementa. Un sitio con buen SEO técnico tiene mejor base para GEO, porque la IA usa los mismos signals de autoridad (backlinks, E-E-A-T, velocidad) que Google.',
+        completed: false,
+      },
+      {
+        id: 'geo-1-2',
+        title: 'Los motores generativos: Perplexity, ChatGPT Search, Google AI Overviews',
+        type: 'reading',
+        content: '## Los 3 players principales\n\n**Google AI Overviews (SGE)**\nEl más importante por volumen. Aparece en la parte superior de los resultados de Google para queries informacionales y de "cómo hacer X". Usa las fuentes que Google ya tiene indexadas y con autoridad. La ventaja: si ya tenés buen SEO, es más fácil aparecer en AI Overviews. La desventaja: reduce el CTR de los links que aparecen debajo.\n\n**Perplexity AI**\nEl que más cita fuentes explícitamente. Cada respuesta incluye referencias numeradas que el usuario puede verificar. Favorece: contenido técnico detallado, fuentes especializadas, publicaciones recientes. Tiene el mayor potencial de tráfico referido de los tres porque los usuarios hacen clic en las fuentes.\n\n**ChatGPT con búsqueda**\nMás conservador en citar, pero el de mayor base de usuarios (>100M activos). Usa Bing como motor de búsqueda subyacente. Favorece: contenido con autoridad establecida, marcas conocidas, Wikipedia-style structured content.\n\n## Cómo decide la IA qué citar\n\nNo hay una lista publicada de criterios, pero los patrones observados muestran:\n\n1. **Autoridad del dominio**: sitios con muchos backlinks de calidad y DA alto\n2. **E-E-A-T**: Experience, Expertise, Authoritativeness, Trustworthiness — señales de que el autor y el sitio son expertos reales\n3. **Claridad del contenido**: respuestas directas, sin relleno, que responden la pregunta en el primer párrafo\n4. **Structured data / Schema**: ayuda a los modelos a entender de qué trata el contenido\n5. **Frescura**: contenido reciente para topics que cambian (noticias, precios, tendencias)\n6. **Menciones de marca**: si otros sitios mencionan tu marca como autoridad en un tema, la IA lo toma como señal positiva',
+        tasks: [
+          'Crea una hoja de análisis: para cada motor generativo (Perplexity, ChatGPT, Google AI), lista las 3 características que más favorecen que una fuente sea citada',
+          'Buscá 5 competidores en tu nicho y verificá si aparecen en respuestas de IA. ¿Qué tienen en común los que sí aparecen?',
+        ],
+        tip: 'Perplexity es el mejor laboratorio para GEO porque muestra exactamente qué citó y por qué. Usalo para testear si tu contenido es "citable" antes de publicarlo.',
+        completed: false,
+      },
+      {
+        id: 'geo-1-p1',
+        title: 'Proyecto: Auditoría de presencia en IA',
+        type: 'project',
+        difficulty: 'básico',
+        projectBrief: 'Auditá la presencia actual de una marca (tuya o de un cliente) en los principales motores generativos. Identificá en qué consultas aparece, en cuáles no, y qué competidores dominan esas respuestas.',
+        deliverables: [
+          'Lista de 20 queries relevantes para la marca',
+          'Tabla de resultados: qué dice cada motor (Perplexity, ChatGPT, Google AI) para cada query',
+          'Análisis de competidores citados en esas respuestas',
+          'Brecha identificada: dónde debería aparecer la marca y no aparece',
+        ],
+        rubrica: [
+          'Queries representativas del negocio real',
+          'Análisis comparativo entre los 3 motores',
+          'Identificación clara de oportunidades de mejora',
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Perplexity AI', url: 'https://perplexity.ai', type: 'tool' },
+      { title: 'Google Search Generative Experience', url: 'https://labs.google', type: 'article' },
+    ],
+  },
+  {
+    id: 'geo-2',
+    number: 74,
+    title: 'Estrategia de contenido para ser citado por la IA',
+    description: 'No todo el contenido es igual para los motores generativos. Aprende qué formatos, estructuras y tipos de información hacen que un LLM te cite en lugar de a tu competencia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'geo',
+    lessons: [
+      {
+        id: 'geo-2-1',
+        title: 'El contenido que la IA prefiere citar',
+        type: 'reading',
+        content: '## Por qué la IA no cita igual a todos\n\nLos modelos generativos no son neutrales en qué fuentes prefieren. Optimizan para dar la mejor respuesta posible a su usuario, y eso significa favorecer contenido que sea: claro, verificable, específico y autorizado.\n\n## Los 6 tipos de contenido con mayor tasa de citación\n\n**1. Definiciones y explicaciones claras**\nCuando alguien pregunta "¿qué es X?", la IA busca definiciones directas. Si tu artículo empieza con "X es...", tiene más probabilidad de ser citado que uno que demora 3 párrafos en llegar al punto.\n\n**2. Estadísticas y datos con fuente**\nLas IAs aman citar números concretos. "El 73% de los usuarios abandona un sitio si tarda más de 3 segundos" es citable. "Muchos usuarios se van si el sitio es lento" no lo es. Siempre incluye fecha y fuente de tus datos.\n\n**3. Listas estructuradas (como esta)**\nLas listas son fáciles de procesar para los LLMs. Pasos numerados, pros/contras, comparativas — estos formatos facilitan que la IA extraiga y cite información específica.\n\n**4. Respuestas directas a preguntas específicas**\nEstructura tu contenido en formato Q&A o FAQ. "¿Cuánto cuesta X?" → respuesta directa en el primer párrafo. No hagas al modelo buscar la respuesta en un mar de texto.\n\n**5. Casos de estudio con resultados concretos**\n"Implementamos X y el resultado fue Y" es altamente citable porque es específico, real y verificable.\n\n**6. Guías paso a paso**\nCuando el usuario pregunta "cómo hacer X", la IA quiere extraer los pasos. Si tu contenido tiene H2/H3 claros como "Paso 1: ...", "Paso 2: ...", es mucho más probable que seas citado.\n\n## Lo que reduce la probabilidad de ser citado\n- Texto de marketing ("¡Somos líderes del mercado!")\n- Contenido sin datos específicos\n- Artículos sin estructura clara (un bloque de texto)\n- Contenido que no responde una pregunta concreta\n- Actualización de hace 5 años sobre un topic cambiante',
+        tasks: [
+          'Revisá tus 5 páginas más importantes. ¿Cuántas tienen definiciones claras en el primer párrafo? ¿Cuántas tienen datos con fuente? ¿Cuántas usan estructura de lista o pasos? Puntuales del 0 al 3.',
+          'Reescribe el primer párrafo de tu página de servicios principal para que responda directamente "¿qué hace [tu marca]?" en las primeras 2 líneas.',
+        ],
+        tip: 'El "snippet de IA" funciona igual que el featured snippet de Google: una respuesta directa, concisa y en formato de lista o definición tiene 3x más probabilidad de aparecer que un párrafo genérico.',
+        completed: false,
+      },
+      {
+        id: 'geo-2-2',
+        title: 'Construir autoridad de marca para la IA: menciones, entities y E-E-A-T',
+        type: 'reading',
+        content: '## Las IAs leen la web entera, no solo tu sitio\n\nUno de los insights más importantes de GEO: los modelos de lenguaje aprenden sobre tu marca no solo desde tu propio sitio web, sino desde TODAS las menciones de tu marca en internet. Reseñas, artículos de terceros, menciones en foros, entrevistas, directorio de negocios — todo eso construye (o destruye) tu "entity" en la mente del modelo.\n\n## El concepto de Entity\n\nEn el mundo de la IA y el knowledge graph, una "entity" es una persona, lugar, organización o concepto con identidad propia y verificable. Google, ChatGPT y otros modelos tienen "conocimiento" sobre entities conocidas.\n\nSi tu marca es una entity establecida, la IA puede mencionar tu marca incluso sin buscar en la web en tiempo real. Si no lo eres, dependés 100% de que la IA encuentre tu sitio en el momento de la búsqueda.\n\n## Cómo construir tu entity\n\n**1. Consistencia de información**\nNombre, descripción, industria, fundadores, servicios — deben ser idénticos en tu sitio, LinkedIn, Google Business, Crunchbase, Wikipedia (si aplica), y cualquier directorio relevante.\n\n**2. Menciones en medios confiables**\nUna mención en un medio reconocido (aunque sea una cita o un listado) vale mucho más que 10 backlinks de sitios desconocidos. Los modelos de IA fueron entrenados con grandes cantidades de contenido periodístico.\n\n**3. E-E-A-T para IA**\nExperience + Expertise + Authoritativeness + Trustworthiness. Las IAs, al igual que Google, favorecen contenido firmado por autores reales con credenciales verificables. Tener un About page detallado, perfiles de LinkedIn de los autores, y credenciales mencionadas explícitamente ayuda.\n\n**4. Structured data (Schema.org)**\nEtiqueta tu contenido con schema markup: Organization, Person, Article, FAQ, HowTo. Esto ayuda tanto a Google como a los modelos de IA a entender de qué trata tu contenido.',
+        tasks: [
+          'Auditá la consistencia de tu marca: verificá que nombre, descripción e industria sean idénticos en tu sitio, LinkedIn, Google Business y directorios relevantes de tu sector',
+          'Crea o actualiza tu página About con: nombre completo del founder, experiencia relevante, credenciales, y por qué son expertos en lo que ofrecen. Esto alimenta el E-E-A-T.',
+          'Implementá schema markup de Organization en tu homepage si aún no lo tenés',
+        ],
+        tip: 'Wikipedia es la fuente más citada por los LLMs. Si tu marca o industria tiene relevancia suficiente para una entrada de Wikipedia, es una de las mejores inversiones de GEO que podés hacer.',
+        completed: false,
+      },
+      {
+        id: 'geo-2-p1',
+        title: 'Proyecto: Optimización GEO de una página existente',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Tomá una página existente de tu sitio (o de un cliente) y reescribila aplicando todos los principios GEO: definición clara, datos con fuente, estructura de listas/pasos, schema markup, y E-E-A-T. Documentá los cambios y justificá cada decisión.',
+        deliverables: [
+          'URL de la página original',
+          'Versión reescrita con cambios marcados y justificados',
+          'Schema markup añadido (código JSON-LD)',
+          'Análisis: qué preguntas responde ahora la página que antes no respondía',
+        ],
+        rubrica: [
+          'Respuesta directa a una pregunta en el primer párrafo',
+          'Al menos 2 datos estadísticos con fuente citada',
+          'Estructura de H2/H3 clara y descriptiva',
+          'Schema markup correctamente implementado',
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Schema.org', url: 'https://schema.org', type: 'documentation' },
+    ],
+  },
+  {
+    id: 'geo-3',
+    number: 75,
+    title: 'Medir y escalar: GEO en la práctica',
+    description: 'A diferencia del SEO donde medís rankings, en GEO medís menciones, presencia en respuestas y share of voice en la IA. Aprende a medir lo que importa y a escalar tu estrategia.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'geo',
+    lessons: [
+      {
+        id: 'geo-3-1',
+        title: 'Métricas GEO: cómo medir lo que los rankings no miden',
+        type: 'reading',
+        content: '## El problema de medir GEO\n\nEl SEO tiene métricas claras: posición en SERP, tráfico orgánico, CTR. GEO es más complejo porque no hay un "ranking de IA" público ni una herramienta oficial que diga "tu marca aparece en el 30% de las respuestas sobre X tema".\n\n## Las métricas que SÍ podemos medir\n\n**1. AI Mention Rate (AMR)**\nDe forma manual o con herramientas: ¿en qué porcentaje de consultas relevantes aparece tu marca o sitio citado? Proceso: lista de 50 queries relevantes → verificar en 3 motores → calcular % de aparición.\n\n**2. Share of Voice en IA**\nDe las veces que la IA cita a alguien sobre tu tema, ¿qué % sos vos vs competidores? Este es el KPI más estratégico de GEO.\n\n**3. Branded search en AI**\nCuántas personas buscan directamente "[tu marca]" en ChatGPT o Perplexity. Esto lo podés aproximar con Google Trends y branded search en GA4.\n\n**4. Tráfico referido desde Perplexity**\nPerplexity sí aparece como referrer en Google Analytics. Es el único motor generativo que genera tráfico medible de forma directa. Seguile el crecimiento mes a mes.\n\n**5. Ranking en AI Overview de Google**\nGoogle Search Console no muestra directamente cuándo aparecés en AI Overviews, pero hay herramientas de terceros (como Semrush, Ahrefs) que están incorporando este tracking.\n\n## Herramientas actuales para GEO (2024-2025)\n- **Perplexity Analytics** (para creators): si publicás en Perplexity Spaces, tenés métricas de citación\n- **Semrush AI Visibility**: tracking de presencia en AI Overview\n- **Search Atlas**: especializado en GEO metrics\n- **Manual tracking**: el método más confiable por ahora — lista de queries + revisión semanal',
+        tasks: [
+          'Construí tu "GEO scorecard": 30 queries relevantes para tu negocio. Verifica en qué porcentaje aparece tu marca en Perplexity, ChatGPT y Google AI. Esto es tu baseline.',
+          'Configurá en GA4 un segmento para tráfico referido desde perplexity.ai. Si no tenés tráfico, lo que medís en el futuro viene desde 0 — documéntalo como baseline.',
+        ],
+        tip: 'Medí tu GEO score una vez al mes usando el mismo set de queries. Los cambios de mes a mes, combinados con los cambios de contenido que hiciste, te dicen qué funciona.',
+        completed: false,
+      },
+      {
+        id: 'geo-3-2',
+        title: 'Plan de contenido GEO: publicación, frecuencia y formatos',
+        type: 'practice',
+        content: '## GEO necesita contenido diferente al de SEO\n\nEl contenido SEO tradicional apunta a keywords con volumen de búsqueda. El contenido GEO apunta a preguntas que las personas hacen a la IA — y esas preguntas son más conversacionales, más específicas, y a veces tienen volumen de búsqueda bajo pero altísima intención.\n\n## El stack de contenido GEO\n\n**Cornerstone pieces (1 por mes)**\nGuías definitivas sobre los temas clave de tu negocio. Formato: 2000-4000 palabras, con definiciones, datos, estructura de H2/H3, FAQ al final. Son las piezas que la IA cita como referencia principal.\n\n**Data-driven posts (2 por mes)**\nEstudios propios, encuestas, análisis de datos que tenés acceso único. "Analizamos 500 campañas de email y encontramos que..." es oro para GEO porque es contenido que SOLO vos podés producir.\n\n**FAQ pages (ongoing)**\nPáginas dedicadas a responder preguntas específicas de tu industria en formato Q&A. La IA ama el formato FAQ porque ya viene estructurado como "pregunta → respuesta directa".\n\n**Comparativas y versus (según necesidad)**\n"X vs Y: cuál es mejor para [caso de uso]" es uno de los tipos de contenido más buscados en IA. Si podés ser la fuente de referencia para comparativas en tu nicho, capturás tráfico de alta intención.\n\n## Frecuencia y consistencia\n\nGEO no premia la cantidad — premia la calidad y autoridad. Es mejor publicar 2 piezas definitivas por mes que 8 posts mediocres. Los modelos aprenden de patrones: si siempre producís contenido de alta calidad sobre un tema, tu autoridad en ese tema crece con el tiempo.',
+        tasks: [
+          'Crea un calendario de contenido GEO para los próximos 3 meses: 1 cornerstone + 2 data posts + 4 FAQs por mes',
+          'Escribe una FAQ completa (mínimo 10 preguntas) sobre el tema principal de tu negocio usando el formato Q&A directo',
+        ],
+        tip: 'Las FAQ pages son el tipo de contenido más subestimado para GEO. Una página bien estructurada con 20 preguntas específicas puede capturar decenas de queries de IA que antes no cubrías.',
+        completed: false,
+      },
+      {
+        id: 'geo-3-p1',
+        title: 'Proyecto: Estrategia GEO de 90 días',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Desarrollá una estrategia GEO completa de 90 días para una marca. Incluye auditoría inicial, calendario de contenido, plan de construcción de autoridad, y sistema de medición.',
+        deliverables: [
+          'GEO audit inicial con AI Mention Rate baseline',
+          'Análisis de share of voice vs 3 competidores',
+          'Calendario de contenido 90 días (tipos, temas, formatos)',
+          'Plan de construcción de entity/autoridad',
+          'Dashboard de métricas con baseline y metas',
+        ],
+        rubrica: [
+          'Baseline medible y documentado',
+          'Calendario de contenido orientado a queries de IA específicas',
+          'Plan de autoridad con acciones concretas y tiempos',
+          'KPIs realistas con método de medición definido',
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      { title: 'Search Atlas GEO', url: 'https://searchatlas.com', type: 'tool' },
+    ],
+  },
+  {
+    id: 'geo-capstone',
+    number: 76,
+    title: 'Proyecto Final: Dominar un nicho en la búsqueda generativa',
+    description: 'Integrá todo lo aprendido en GEO para convertirte en la fuente de referencia para la IA en un nicho específico: auditoría, estrategia de contenido, construcción de autoridad y medición continua.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'geo',
+    lessons: [
+      {
+        id: 'geo-cap-1',
+        title: 'Brief del proyecto final de GEO',
+        type: 'reading',
+        content: '## El proyecto\n\nEl objetivo de este capstone es demostrar que podés posicionar una marca como fuente de referencia para la IA en un nicho concreto. Vas a combinar todo lo aprendido: auditoría de presencia, optimización de contenido, construcción de entity, y sistema de medición.\n\n## El proceso\n\n1. **Elegí la marca y el nicho** — puede ser tu propio negocio, un cliente, o una marca ficticia con datos reales de la industria\n2. **Hace el audit completo** — AI Mention Rate, share of voice, análisis de competidores en IA\n3. **Crea la estrategia** — qué queries querés ganar, qué contenido necesitás crear, cómo construís autoridad\n4. **Implementá al menos 3 piezas de contenido** — aplicando los principios GEO aprendidos\n5. **Mide y documenta** — muestra el before/after en al menos 1 query donde mejoraste la presencia',
+        completed: false,
+      },
+      {
+        id: 'geo-cap-2',
+        title: 'Entrega final: tu estrategia GEO completa',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: 'Entregá un plan GEO completo con implementación parcial para una marca real. El objetivo es demostrar que podés auditar, estrategizar, crear contenido GEO-optimizado y medir resultados.',
+        deliverables: [
+          'Informe de auditoría GEO (baseline documentado)',
+          'Estrategia de 6 meses con objetivos de AI Mention Rate',
+          'Mínimo 3 piezas de contenido publicadas y optimizadas para GEO',
+          'Schema markup implementado en al menos 2 páginas',
+          'Dashboard de métricas con primer mes de datos reales',
+        ],
+        rubrica: [
+          'Auditoría con datos reales y metodología clara',
+          'Estrategia conectada directamente a las gaps identificadas',
+          'Contenido que aplica los principios GEO (estructura, datos, E-E-A-T)',
+          'Medición real, aunque sea de solo 1-2 queries mejoradas',
+        ],
+        completed: false,
+      },
+    ],
+    resources: [],
+  },
+
 
 ]
 

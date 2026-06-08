@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { MODULES, type Track } from './modules'
 import { useProgress } from './hooks/useProgress'
@@ -23,6 +23,7 @@ const TRACKS: { id: Track; label: string; icon: string; description: string }[] 
   { id: 'web', label: 'Desarrollo Web', icon: '◻', description: 'HTML, CSS, React, Next.js y deployment en producción.' },
   { id: 'copy', label: 'Copywriting', icon: '◉', description: 'Persuasión, fórmulas, landing pages y emails que convierten.' },
   { id: 'seo', label: 'SEO', icon: '◇', description: 'Keyword research, SEO técnico y link building.' },
+  { id: 'geo', label: 'GEO', icon: '◉', description: 'Optimización para motores generativos: ChatGPT, Perplexity y Google AI.' },
   { id: 'branding', label: 'Branding', icon: '◆', description: 'Identidad de marca, naming y brand strategy.' },
   { id: 'data', label: 'Data & Analytics', icon: '○', description: 'GA4, Looker Studio, SQL y toma de decisiones basada en datos.' },
   { id: 'ads', label: 'Publicidad', icon: '▲', description: 'Meta Ads, Google Ads, TikTok Ads y remarketing.' },
@@ -36,6 +37,11 @@ const TRACKS: { id: Track; label: string; icon: string; description: string }[] 
 export default function AcademiaContent() {
   const [activeTrack, setActiveTrack] = useState<Track>('marketing')
   const { getModuleProgress, hydrated } = useProgress()
+  const trackScrollRef = useRef<HTMLDivElement>(null)
+
+  function scrollTracks(dir: 'left' | 'right') {
+    trackScrollRef.current?.scrollBy({ left: dir === 'left' ? -220 : 220, behavior: 'smooth' })
+  }
 
   const activeTrackData = TRACKS.find((t) => t.id === activeTrack)!
 
@@ -100,20 +106,34 @@ export default function AcademiaContent() {
           </p>
         </div>
 
-        {/* Track selector — horizontal scrollable tabs */}
-        <div
-          style={{
-            overflowX: 'auto',
-            marginBottom: '1.75rem',
-            marginLeft: '-1.5rem',
-            marginRight: '-1.5rem',
-            paddingLeft: '1.5rem',
-            paddingRight: '1.5rem',
-            scrollbarWidth: 'none',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '0.5rem', paddingBottom: '4px', width: 'max-content' }}>
-            {TRACKS.map((track) => {
+        {/* Track selector — horizontal scrollable tabs with arrows */}
+        <div style={{ position: 'relative', marginBottom: '1.75rem' }}>
+          {/* Left arrow */}
+          <button
+            onClick={() => scrollTracks('left')}
+            aria-label="Scroll izquierda"
+            style={{
+              position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)',
+              zIndex: 2, background: 'var(--bg)', border: '1px solid var(--border)',
+              borderRadius: '50%', width: '2rem', height: '2rem', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-inter)', fontSize: '1rem', color: 'var(--text-muted)',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+            }}
+          >‹</button>
+
+          {/* Scroll container */}
+          <div
+            ref={trackScrollRef}
+            style={{
+              overflowX: 'auto',
+              paddingLeft: '2.5rem',
+              paddingRight: '2.5rem',
+              scrollbarWidth: 'none',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '0.5rem', paddingBottom: '4px', width: 'max-content' }}>
+              {TRACKS.map((track) => {
               const isActive = activeTrack === track.id
               const mods = MODULES.filter((m) => m.track === track.id)
               return (
@@ -167,7 +187,22 @@ export default function AcademiaContent() {
                 </button>
               )
             })}
+            </div>
           </div>
+
+          {/* Right arrow */}
+          <button
+            onClick={() => scrollTracks('right')}
+            aria-label="Scroll derecha"
+            style={{
+              position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
+              zIndex: 2, background: 'var(--bg)', border: '1px solid var(--border)',
+              borderRadius: '50%', width: '2rem', height: '2rem', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-inter)', fontSize: '1rem', color: 'var(--text-muted)',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+            }}
+          >›</button>
         </div>
 
         {/* Active track header */}
