@@ -23,6 +23,7 @@ const TRACKS: { id: Track; label: string; icon: string; description: string }[] 
   { id: 'web', label: 'Desarrollo Web', icon: '◻', description: 'HTML, CSS, React, Next.js y deployment en producción.' },
   { id: 'copy', label: 'Copywriting', icon: '◉', description: 'Persuasión, fórmulas, landing pages y emails que convierten.' },
   { id: 'seo', label: 'SEO', icon: '◇', description: 'Keyword research, SEO técnico y link building.' },
+  { id: 'geo', label: 'GEO', icon: '◉', description: 'Optimización para motores generativos: ChatGPT, Perplexity y Google AI.' },
   { id: 'branding', label: 'Branding', icon: '◆', description: 'Identidad de marca, naming y brand strategy.' },
   { id: 'data', label: 'Data & Analytics', icon: '○', description: 'GA4, Looker Studio, SQL y toma de decisiones basada en datos.' },
   { id: 'ads', label: 'Publicidad', icon: '▲', description: 'Meta Ads, Google Ads, TikTok Ads y remarketing.' },
@@ -100,19 +101,9 @@ export default function AcademiaContent() {
           </p>
         </div>
 
-        {/* Track selector — horizontal scrollable tabs */}
-        <div
-          style={{
-            overflowX: 'auto',
-            marginBottom: '1.75rem',
-            marginLeft: '-1.5rem',
-            marginRight: '-1.5rem',
-            paddingLeft: '1.5rem',
-            paddingRight: '1.5rem',
-            scrollbarWidth: 'none',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '0.5rem', paddingBottom: '4px', width: 'max-content' }}>
+        {/* Track selector — 2 rows */}
+        <div style={{ marginBottom: '1.75rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {TRACKS.map((track) => {
               const isActive = activeTrack === track.id
               const mods = MODULES.filter((m) => m.track === track.id)

@@ -13,6 +13,7 @@ const TRACKS: { id: Track; label: string; icon: string }[] = [
   { id: 'web', label: 'Desarrollo Web', icon: '◻' },
   { id: 'copy', label: 'Copywriting', icon: '◉' },
   { id: 'seo', label: 'SEO', icon: '◇' },
+  { id: 'geo', label: 'GEO', icon: '◉' },
   { id: 'branding', label: 'Branding', icon: '◆' },
   { id: 'data', label: 'Data & Analytics', icon: '○' },
   { id: 'ads', label: 'Publicidad', icon: '▲' },
