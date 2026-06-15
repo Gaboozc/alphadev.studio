@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AlphaDev Studios — Te hacemos existir en internet</title>
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { margin: 0; background: var(--surface-page); color: var(--text-primary); font-family: var(--font-body); line-height: 1.65; }
+
+  /* Film grain overlay */
+  html::after {
+    content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    background-size: 180px 180px; opacity: 0.028; mix-blend-mode: multiply;
+  }
+
+  /* Nav pill (frosted glass) */
+  .nav-pill {
+    background: rgba(250,250,247,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(232,226,217,0.9);
+    box-shadow: 0 2px 24px rgba(26,21,18,0.06), 0 1px 4px rgba(26,21,18,0.04);
+  }
+  .nav-link { position: relative; color: var(--text-muted); font-weight: 500; text-decoration: none; }
+  .nav-underline { position: absolute; left: 0; bottom: -3px; width: 100%; height: 1.5px; background: var(--gold-500); transform: scaleX(0); transform-origin: left center; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); pointer-events: none; }
+  .nav-link:hover { color: var(--gold-500); }
+  .nav-link:hover .nav-underline { transform: scaleX(1); }
+  .nav-link.is-active { color: var(--gold-500) !important; font-weight: 600; }
+  .nav-link.is-active .nav-underline { transform: scaleX(1) !important; transition: none; }
+  .foot-link:hover { color: var(--gold-500) !important; }
+
+  /* Ambient orb keyframes */
+  @keyframes orb-drift-1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.06)} 66%{transform:translate(-20px,20px) scale(0.96)} }
+  @keyframes orb-drift-2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-50px,30px) scale(1.08)} 75%{transform:translate(25px,-15px) scale(0.94)} }
+
+  /* ── Process folder cards ───────────────────────────── */
+  .process-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+  @media (max-width: 900px) { .process-row { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .process-row { grid-template-columns: 1fr; } }
+  .process-card { position: relative; width: 100%; height: 11rem; transform-style: preserve-3d; }
+  .process-file { position: relative; width: 100%; height: 100%; cursor: pointer; transform-origin: bottom; perspective: 1500px; transform-style: preserve-3d; z-index: 1; }
+  .process-work-5 { position: relative; width: 100%; height: 100%; border-radius: 1rem; border-top-left-radius: 0; background: var(--gold-500); transition: box-shadow 300ms ease; }
+  .process-work-5::after { content: ''; position: absolute; bottom: 99%; left: 0; width: 5rem; height: 0.9rem; background: var(--gold-500); border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+  .process-work-5::before { content: ''; position: absolute; top: -0.9rem; left: 4.7rem; width: 0.9rem; height: 0.9rem; background: var(--gold-500); clip-path: polygon(0 35%, 0 100%, 50% 100%); }
+  .process-work-4, .process-work-3, .process-work-2 { position: absolute; inset: 0.25rem; border-radius: 1rem; transition: transform 300ms ease; transform-origin: bottom; }
+  .process-work-4 { background: #C9A465; }
+  .process-work-3 { background: #DFC08A; }
+  .process-work-2 { background: #EDD8AA; }
+  .process-work-1 { position: absolute; bottom: 0; width: 100%; height: 9.75rem; border-radius: 1rem; border-top-right-radius: 0; background: linear-gradient(to top, var(--gold-700), var(--gold-300)); transition: transform 300ms ease, box-shadow 300ms ease; transform-origin: bottom; }
+  .process-work-1::after { content: ''; position: absolute; bottom: 99%; right: 0; width: 9.2rem; height: 1rem; background: var(--gold-300); border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+  .process-work-1::before { content: ''; position: absolute; top: -0.7rem; right: 8.9rem; width: 0.75rem; height: 0.75rem; background: var(--gold-300); clip-path: polygon(100% 14%, 50% 100%, 100% 100%); }
+  .process-card-text { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.1rem 1.1rem 1.2rem; color: #FAFAF7; pointer-events: none; }
+  .process-num { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(250,250,247,0.7); margin-bottom: 0.35rem; }
+  .process-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin: 0 0 0.3rem; color: #FAFAF7; }
+  .process-description { font-size: 0.78rem; color: rgba(250,250,247,0.85); line-height: 1.4; margin: 0; }
+  .process-card:hover .process-work-5 { box-shadow: 0 20px 40px rgba(122,88,40,0.25); }
+  .process-card:hover .process-work-4 { transform: rotateX(-20deg); }
+  .process-card:hover .process-work-3 { transform: rotateX(-30deg); }
+  .process-card:hover .process-work-2 { transform: rotateX(-38deg); }
+  .process-card:hover .process-work-1 { transform: rotateX(-46deg) translateY(1px); box-shadow: inset 0 20px 40px rgba(201,164,101,0.4), inset 0 -20px 40px rgba(122,88,40,0.35); }
+
+  /* Responsive nav + grids */
+  @media (max-width: 820px) { .nav-links { display: none !important; } }
+  @media (max-width: 560px) { .contact-grid { grid-template-columns: 1fr !important; } .foot-grid { grid-template-columns: 1fr 1fr !important; } }
+
+  /* Dedicated-page interactions */
+  .phase-card:hover { border-color: var(--border-hover) !important; }
+  .cat-card:hover { border-color: var(--border-hover) !important; box-shadow: 0 4px 20px rgba(154,114,53,0.1); transform: translateY(-2px); }
+  .cat-card:active { transform: translateY(0); }
+  @media (max-width: 620px) { .phase-card { flex-direction: column !important; } .phase-card .phase-num-bar { min-width: 0 !important; padding: 1.25rem !important; } }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="copy.js"></script>
+<script type="text/babel" data-presets="react">
+
+const { Button, Eyebrow, SectionHeader, Card, Badge, Input, LanguageToggle } = window.AlphaDevStudiosDesignSystem_3c302f;
+const COPY = window.ADS_COPY;
+const container = { maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--container-pad)' };
+const sectionPad = { padding: 'var(--section-pad-y) 0' };
+
+// ─── Navbar (routes) ───────────────────────────────────────────────────
+function SiteNav({ lang, setLang, current, onNavigate }) {
+  const c = COPY[lang];const routes = c.routes;
+  return (
+    <div style={{ position: 'sticky', top: 16, zIndex: 50, width: 'calc(100% - 2rem)', maxWidth: 880, margin: '16px auto 0' }}>
+      <nav className="nav-pill" style={{ borderRadius: 'var(--radius-2xl)', padding: '0.5rem 0.75rem 0.5rem 1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+        <a href="#top" onClick={(e) => {e.preventDefault();onNavigate('home');}} style={{ flexShrink: 0, display: 'flex' }}>
+          <img src="../../assets/logos/navbar-logo.png" alt="AlphaDev Studios" style={{ height: 40, width: 'auto' }} />
+        </a>
+        <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: 24, flex: 1, justifyContent: 'center' }}>
+          {c.nav.links.map((label, i) => {
+            const active = current === routes[i];
+            return (
+              <a key={label} href="#" onClick={(e) => {e.preventDefault();onNavigate(routes[i]);}}
+              className={active ? 'nav-link is-active' : 'nav-link'} style={{ fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>
+                {label}
+                <span className="nav-underline" />
+              </a>);
+
+          })}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          <LanguageToggle value={lang} onChange={setLang} />
+          <Button size="sm" onClick={() => onNavigate('contacto')}>{c.nav.cta}</Button>
+        </div>
+      </nav>
+    </div>);
+
+}
+
+function SiteFooter({ lang, onNavigate }) {
+  const f = COPY[lang].footer;
+  const col = (title, items, routes) =>
+  <div>
+      <h4 style={{ fontFamily: 'var(--font-ui)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 1rem' }}>{title}</h4>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {items.map((l, i) =>
+      <li key={l}><a href="#" onClick={(e) => {e.preventDefault();onNavigate(routes[i] || routes[0]);}} className="foot-link" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textDecoration: 'none' }}>{l}</a></li>
+      )}
+      </ul>
+    </div>;
+
+  return (
+    <footer style={{ background: 'var(--surface-page)', borderTop: '1px solid var(--border)' }}>
+      <div style={{ ...container, padding: '3.5rem var(--container-pad)' }}>
+        <div className="foot-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1.2fr', gap: 40, marginBottom: 40 }}>
+          <div>
+            <img src="../../assets/logos/footer-logo.png" alt="AlphaDev Studios" style={{ width: '100%', maxWidth: 260, height: 'auto', marginBottom: 16 }} />
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-subtle)', lineHeight: 1.6, margin: 0 }}>{f.tagline}</p>
+          </div>
+          {col(f.servicesTitle, f.services, ['servicios', 'servicios', 'servicios'])}
+          {col(f.companyTitle, f.company, ['resultados', 'proceso', 'contacto'])}
+          <div>
+            <h4 style={{ fontFamily: 'var(--font-ui)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 1rem' }}>{f.contactTitle}</h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8, fontSize: '0.85rem' }}>
+              {['zavarsegabriel@gmail.com', '+1 (407) 686-7561 · US', '+52 56 3711 3563 · MX', '@alphadev.studio'].map((t) =>
+              <li key={t}><a href="#" className="foot-link" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{t}</a></li>
+              )}
+            </ul>
+          </div>
+        </div>
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24, fontSize: '0.75rem', color: 'var(--text-subtle)', textAlign: "center" }}>{f.rights}</div>
+      </div>
+    </footer>);
+
+}
+
+// ─── Hero ──────────────────────────────────────────────────────────────
+function HeroSection({ lang, onContact, onScrollNext }) {
+  const c = COPY[lang].hero;
+  return (
+    <section id="top" style={{ position: 'relative', overflow: 'hidden', minHeight: 'calc(100vh - 72px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '4rem var(--container-pad) 3rem', background: 'var(--surface-page)' }}>
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '8%', left: '12%', width: 360, height: 360, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,164,101,0.22) 0%, transparent 65%)', filter: 'blur(40px)', animation: 'orb-drift-1 16s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', bottom: '4%', right: '10%', width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle, rgba(154,114,53,0.16) 0%, transparent 65%)', filter: 'blur(50px)', animation: 'orb-drift-2 20s ease-in-out infinite' }} />
+      </div>
+      <div aria-hidden="true" className="bg-dot-grid" style={{ position: 'absolute', inset: 0, opacity: 0.4, maskImage: 'radial-gradient(ellipse 70% 60% at 50% 45%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 45%, black 10%, transparent 75%)' }} />
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 820, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Eyebrow style={{ marginBottom: '1.75rem' }}>{c.eyebrow}</Eyebrow>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-hero)', fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.015em', color: 'var(--text-heading)', margin: 0, whiteSpace: 'pre-line' }}>{c.headline}</h1>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 560, margin: '1.75rem 0 2.25rem' }}>{c.sub}</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center' }}>
+          <Button size="lg" onClick={onContact}>{c.cta1}</Button>
+          <Button size="lg" variant="secondary" onClick={onScrollNext}>{c.cta2}</Button>
+        </div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.6875rem', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-subtle)' }}>{c.scroll}</span>
+        <div style={{ width: 1, height: 28, background: 'linear-gradient(to bottom, var(--gold-300), transparent)' }} />
+      </div>
+    </section>);
+
+}
+
+// ─── Home sections ─────────────────────────────────────────────────────
+function ProblemSection({ lang }) {
+  const c = COPY[lang].problem;
+  return (
+    <section style={{ ...sectionPad, background: 'var(--surface-alt)', borderTop: '1px solid var(--border)' }}>
+      <div style={container}>
+        <SectionHeader eyebrow={c.eyebrow} title={c.title} subtitle={c.body} />
+        <div style={{ maxWidth: 560, margin: '0 auto', background: 'var(--surface-card)', border: '1px solid var(--gold-border)', borderRadius: 'var(--radius-xl)', padding: '1.75rem 2rem', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.1rem,2.5vw,1.4rem)', fontWeight: 700, color: 'var(--text-heading)', lineHeight: 1.4, margin: 0 }}>{c.punch}</p>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ServicesSection({ lang, onContact }) {
+  const c = COPY[lang].services;
+  return (
+    <section id="services" style={{ ...sectionPad, background: 'var(--surface-page)', borderTop: '1px solid var(--border)' }}>
+      <div style={container}>
+        <SectionHeader eyebrow={c.eyebrow} title={c.title} subtitle={c.sub} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+          {c.items.map((it) =>
+          <Card key={it.t} href="#" onClick={(e) => {e.preventDefault();onContact();}}>
+              <div style={{ fontSize: '1.6rem', color: 'var(--gold-500)', lineHeight: 1 }}>{it.icon}</div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-heading)', margin: 0 }}>{it.t}</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, flex: 1 }}>{it.d}</p>
+              <div style={{ alignSelf: 'flex-end', color: 'var(--gold-500)', fontWeight: 700, fontSize: '1.1rem', marginTop: 4 }}>→</div>
+            </Card>
+          )}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 48 }}><Button onClick={onContact}>{c.cta}</Button></div>
+      </div>
+    </section>);
+
+}
+
+function ProcessSection({ lang, onNavigate }) {
+  const c = COPY[lang].process;
+  return (
+    <section style={{ ...sectionPad, position: 'relative', overflow: 'hidden', background: 'var(--surface-alt)', borderTop: '1px solid var(--border)' }}>
+      <div aria-hidden="true" className="bg-dot-grid" style={{ position: 'absolute', inset: 0, opacity: 0.25, maskImage: 'radial-gradient(ellipse 90% 70% at 50% 50%, black 20%, transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 90% 70% at 50% 50%, black 20%, transparent 100%)' }} />
+      <div style={{ ...container, position: 'relative', zIndex: 1 }}>
+        <SectionHeader eyebrow={c.eyebrow} title={c.title} />
+        <div className="process-row">
+          {c.phases.map((p) =>
+          <div key={p.n} className="process-card">
+              <div className="process-file">
+                <div className="process-work-5" /><div className="process-work-4" /><div className="process-work-3" /><div className="process-work-2" /><div className="process-work-1" />
+              </div>
+              <div className="process-card-text">
+                <span className="process-num">{p.n}</span>
+                <h3 className="process-title">{p.t}</h3>
+                <p className="process-description">{p.d}</p>
+              </div>
+            </div>
+          )}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 48 }}><Button variant="secondary" onClick={() => onNavigate('proceso')}>{c.cta}</Button></div>
+      </div>
+    </section>);
+
+}
+
+function CasesSection({ lang }) {
+  const c = COPY[lang].cases;
+  return (
+    <section style={{ ...sectionPad, background: 'var(--surface-page)', borderTop: '1px solid var(--border)' }}>
+      <div style={container}>
+        <SectionHeader eyebrow={c.eyebrow} title={c.title} subtitle={c.sub} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+          {c.items.map((it) =>
+          <Card key={it.t}>
+              <Badge>{it.meta}</Badge>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-heading)', margin: 0, lineHeight: 1.3 }}>{it.t}</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', margin: 0, flex: 1 }}>{it.r}</p>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12, marginTop: 4, fontSize: '0.78rem', color: 'var(--text-subtle)' }}>{it.s}</div>
+            </Card>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function WhySection({ lang, onContact }) {
+  const c = COPY[lang].why;
+  return (
+    <section style={{ ...sectionPad, background: 'var(--surface-alt)', borderTop: '1px solid var(--border)' }}>
+      <div style={container}>
+        <SectionHeader eyebrow={c.eyebrow} title={c.title} subtitle={c.sub} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, maxWidth: 760, margin: '0 auto 2.5rem' }}>
+          {c.points.map((pt) =>
+          <div key={pt} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, background: 'var(--surface-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '1.125rem 1.25rem' }}>
+              <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--gold-500)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 700, marginTop: 1 }}>✓</span>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--text-primary)', lineHeight: 1.5, margin: 0 }}>{pt}</p>
+            </div>
+          )}
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1rem,2vw,1.25rem)', fontWeight: 700, color: 'var(--gold-500)', marginBottom: '1.75rem' }}>{c.wordplay}</p>
+          <Button onClick={onContact}>{COPY[lang].nav.cta}</Button>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function ClosingCTA({ lang, onContact }) {
+  const c = COPY[lang].cta;
+  return (
+    <section style={{ ...sectionPad, position: 'relative', overflow: 'hidden', background: 'var(--surface-invert)', borderTop: '1px solid var(--gold-border)', textAlign: 'center' }}>
+      <div aria-hidden="true" style={{ position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)', width: '70vw', maxWidth: 800, height: '70vw', maxHeight: 800, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,164,101,0.16) 0%, transparent 60%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+      <div style={{ ...container, position: 'relative', zIndex: 1 }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.25rem,5vw,3.5rem)', fontWeight: 700, color: 'var(--text-on-invert)', lineHeight: 1.15, whiteSpace: 'pre-line', margin: 0 }}>{c.title}</h2>
+        <hr className="gold-divider" style={{ background: 'linear-gradient(90deg, transparent, var(--gold-300), transparent)' }} />
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'rgba(250,247,242,0.72)', maxWidth: 540, margin: '0 auto 2rem', lineHeight: 1.6 }}>{c.sub}</p>
+        <Button size="lg" onClick={onContact}>{c.button}</Button>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'rgba(250,247,242,0.5)', marginTop: 18 }}>{c.note}</p>
+      </div>
+    </section>);
+
+}
+
+// ─── Dedicated pages ───────────────────────────────────────────────────
+function PageHero({ eyebrow, title, subtitle }) {
+  return (
+    <section style={{ background: 'var(--surface-page)', padding: '9rem 0 4rem', textAlign: 'center' }}>
+      <div style={container}><SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} style={{ marginBottom: 0 }} /></div>
+    </section>);
+
+}
+
+function ServiciosPage({ lang, onNavigate }) {
+  const c = COPY[lang].services;
+  return (
+    <main>
+      <PageHero eyebrow={c.eyebrow} title={c.title} subtitle={c.pageSub} />
+      <section style={{ background: 'var(--surface-alt)', borderTop: '1px solid var(--border)', padding: '4rem 0 var(--section-pad-y)' }}>
+        <div style={container}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+            {c.items.map((it) =>
+            <Card key={it.t} wash={false}>
+                <div style={{ fontSize: '1.8rem', color: 'var(--gold-500)', lineHeight: 1 }}>{it.icon}</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-heading)', margin: 0 }}>{it.t}</h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>{it.d}</p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0.5rem 0 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {it.details.map((d) =>
+                <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                      <span style={{ color: 'var(--gold-500)', marginTop: 2, flexShrink: 0 }}>✓</span><span>{d}</span>
+                    </li>
+                )}
+                </ul>
+              </Card>
+            )}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 56 }}><Button size="lg" onClick={() => onNavigate('contacto')}>{c.pageCta}</Button></div>
+        </div>
+      </section>
+      <ClosingCTA lang={lang} onContact={() => onNavigate('contacto')} />
+    </main>);
+
+}
+
+function ResultadosPage({ lang, onNavigate }) {
+  const c = COPY[lang].cases;
+  return (
+    <main>
+      <PageHero eyebrow={c.eyebrow} title={c.title} subtitle={c.sub} />
+      <section style={{ background: 'var(--surface-alt)', borderTop: '1px solid var(--border)', padding: '4rem 0 var(--section-pad-y)' }}>
+        <div style={container}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {c.items.map((it) =>
+            <Card key={it.t} wash={false}>
+                <div style={{ fontSize: '1.8rem', color: 'var(--gold-500)', lineHeight: 1 }}>{it.icon}</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-heading)', margin: 0 }}>{it.t}</h3>
+                <p style={{ fontFamily: 'var(--font-ui)', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--gold-500)', margin: 0 }}>{it.meta}</p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, flex: 1 }}>{it.r}</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingTop: 16, marginTop: 4, borderTop: '1px solid var(--border)' }}>
+                  {it.tags.map((tag) => <Badge key={tag} variant="outline">{tag}</Badge>)}
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </section>
+      <ClosingCTA lang={lang} onContact={() => onNavigate('contacto')} />
+    </main>);
+
+}
+
+function ProcesoPage({ lang, onNavigate }) {
+  const c = COPY[lang].process;
+  return (
+    <main>
+      <PageHero title={c.title} subtitle={lang === 'es' ? 'De invisible a imparable, en pasos simples.' : 'From invisible to unstoppable, in simple steps.'} />
+      <section style={{ background: 'var(--surface-alt)', borderTop: '1px solid var(--border)', padding: '4rem 0 var(--section-pad-y)' }}>
+        <div style={container}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {c.phases.map((p) =>
+            <div key={p.n} className="phase-card" style={{ background: 'var(--surface-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-2xl)', overflow: 'hidden', display: 'flex', transition: 'border-color var(--dur-base) var(--ease-out)' }}>
+                <div className="phase-num-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', minWidth: 112, background: 'linear-gradient(135deg, var(--gold-500), var(--gold-700))' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem', fontWeight: 700, color: '#FAFAF7', opacity: 0.75 }}>{p.n}</span>
+                </div>
+                <div style={{ flex: 1, padding: '2rem 2.25rem' }}>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-heading)', margin: '0 0 0.5rem' }}>{p.t}</h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0 0 1.25rem', lineHeight: 1.6 }}>{p.d}</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+                    {p.details.map((d) =>
+                  <div key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                        <span style={{ color: 'var(--gold-500)', marginTop: 2, flexShrink: 0 }}>✓</span><span>{d}</span>
+                      </div>
+                  )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+      <ClosingCTA lang={lang} onContact={() => onNavigate('contacto')} />
+    </main>);
+
+}
+
+function ContactoPage({ lang }) {
+  const c = COPY[lang].contact;
+  const [cat, setCat] = React.useState(null);
+  const [sent, setSent] = React.useState(false);
+  const chosen = cat != null ? c.categories[cat] : null;
+  return (
+    <main>
+      <section style={{ background: 'var(--surface-page)', padding: '9rem 0 4rem', textAlign: 'center' }}>
+        <div style={container}><SectionHeader eyebrow={c.eyebrow} title={c.title} subtitle={c.sub} style={{ marginBottom: 0 }} /></div>
+      </section>
+      <section style={{ background: 'var(--surface-alt)', borderTop: '1px solid var(--border)', padding: '4rem 0 var(--section-pad-y)' }}>
+        <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 var(--container-pad)' }}>
+          {sent ?
+          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--gold-border)', borderRadius: 'var(--radius-xl)', padding: '3.5rem 2rem', textAlign: 'center' }}>
+              <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--gold-500)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', margin: '0 auto 1.25rem' }}>✓</div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-heading)', margin: '0 0 0.75rem' }}>{c.successT}</h3>
+              <p style={{ fontFamily: 'var(--font-body)', color: 'var(--text-muted)', margin: '0 0 1.75rem', lineHeight: 1.6 }}>{c.successM}</p>
+              <Button variant="secondary" onClick={() => {setSent(false);setCat(null);}}>← {c.another}</Button>
+            </div> :
+          cat == null ?
+          <div>
+              <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0 0 2rem' }}>{c.pickerLabel}</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+                {c.categories.map((ct, i) =>
+              <button key={ct.label} type="button" onClick={() => setCat(i)} className="cat-card"
+              style={{ textAlign: 'left', cursor: 'pointer', background: 'var(--surface-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: 6, transition: 'border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out)' }}>
+                    <span style={{ fontSize: '1.5rem', color: 'var(--gold-500)', lineHeight: 1, marginBottom: 4 }}>{ct.icon}</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--text-heading)' }}>{ct.label}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>{ct.desc}</span>
+                  </button>
+              )}
+              </div>
+            </div> :
+
+          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
+                <span style={{ fontSize: '1.75rem', color: 'var(--gold-500)', lineHeight: 1 }}>{chosen.icon}</span>
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-heading)', margin: 0 }}>{chosen.label}</h3>
+                  <button type="button" onClick={() => setCat(null)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'var(--font-ui)', fontSize: '0.8rem', color: 'var(--gold-500)' }}>{c.back}</button>
+                </div>
+              </div>
+              <form onSubmit={(e) => {e.preventDefault();setSent(true);}} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <Input label={`${c.name} *`} placeholder={c.namePh} required />
+                  <Input label={`${c.email} *`} type="email" placeholder={c.emailPh} required />
+                </div>
+                <Input label={c.biz} placeholder={c.bizPh} />
+                {chosen.field && <Input label={chosen.field.label} placeholder={chosen.field.ph} />}
+                <Input label={`${c.msg} *`} multiline rows={5} placeholder={c.msgPh} required />
+                <div style={{ marginTop: 4 }}><Button type="submit" size="lg" style={{ width: '100%' }}>{c.submit}</Button></div>
+              </form>
+            </div>
+          }
+          <div style={{ textAlign: 'center', borderTop: '1px solid var(--border)', marginTop: 48, paddingTop: 32 }}>
+            <a href="#" style={{ fontSize: '0.875rem', color: 'var(--gold-500)', textDecoration: 'none' }}>zavarsegabriel@gmail.com</a>
+          </div>
+        </div>
+      </section>
+    </main>);
+
+}
+
+// ─── Router ────────────────────────────────────────────────────────────
+function App() {
+  const [lang, setLang] = React.useState('es');
+  const [view, setView] = React.useState('home');
+  const navigate = (route) => {setView(route);window.scrollTo({ top: 0, behavior: 'smooth' });};
+  const scrollNext = () => {const el = document.getElementById('services');if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });};
+
+  let page;
+  if (view === 'servicios') page = <ServiciosPage lang={lang} onNavigate={navigate} />;else
+  if (view === 'resultados') page = <ResultadosPage lang={lang} onNavigate={navigate} />;else
+  if (view === 'proceso') page = <ProcesoPage lang={lang} onNavigate={navigate} />;else
+  if (view === 'contacto') page = <ContactoPage lang={lang} />;else
+  page =
+  <main>
+      <HeroSection lang={lang} onContact={() => navigate('contacto')} onScrollNext={scrollNext} />
+      <ProblemSection lang={lang} />
+      <ServicesSection lang={lang} onContact={() => navigate('contacto')} />
+      <ProcessSection lang={lang} onNavigate={navigate} />
+      <CasesSection lang={lang} />
+      <WhySection lang={lang} onContact={() => navigate('contacto')} />
+      <ClosingCTA lang={lang} onContact={() => navigate('contacto')} />
+    </main>;
+
+
+  return (
+    <div>
+      <SiteNav lang={lang} setLang={setLang} current={view} onNavigate={navigate} />
+      {page}
+      <SiteFooter lang={lang} onNavigate={navigate} />
+    </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

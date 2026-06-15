@@ -49,6 +49,7 @@ export default function Navbar() {
             src={navbarLogo}
             alt="AlphaDev Studios"
             height={64}
+            priority
             style={{ width: 'auto', height: '48px' }}
             className="md:!h-[56px]"
           />
