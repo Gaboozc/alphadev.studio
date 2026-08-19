@@ -11,7 +11,7 @@ export default function ServicesSection() {
   const s = dict.services;
 
   return (
-    <section className="py-24 md:py-32" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+    <section className="section-pad" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
       <div className="section-container">
         <div className="section-header">
           <h2 className="section-title" data-animate="title">{s.title}</h2>

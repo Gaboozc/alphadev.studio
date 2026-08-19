@@ -35,6 +35,10 @@
   /* Spacing */
   --space-3xl:    4rem;
   --space-4xl:    6rem;
+
+  /* Padding vertical de sección — fluido, editorial (spec: 60 → 120px).
+     Fuente única para el ritmo entre secciones. */
+  --section-pad-y: clamp(3.75rem, 9vw, 7.5rem);
 }
 
 /* ─── Film grain overlay — editorial premium feel ─────── */
@@ -169,6 +173,19 @@ a, button {
 /* ═══════════════════════════════════════════════════════
    LAYOUT UTILITIES
 ═══════════════════════════════════════════════════════ */
+
+/* Ritmo vertical de sección — una sola fuente (spec del design system).
+   .section-pad            → sección estándar (simétrica).
+   .section-pad-after-hero → sección de contenido justo debajo de un page-hero
+                             (menos aire arriba, respiración completa abajo). */
+.section-pad {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+}
+.section-pad-after-hero {
+  padding-top: 4rem;
+  padding-bottom: var(--section-pad-y);
+}
 
 .section-container {
   max-width: 1280px;
@@ -689,8 +706,8 @@ a, button {
 
 .capabilities-section {
   background: var(--bg);
-  /* Respiración editorial: ~60px mobile → ~120px desktop */
-  padding: clamp(3.75rem, 9vw, 7.5rem) 0;
+  /* Respiración editorial: token único (60 → 120px) */
+  padding: var(--section-pad-y) 0;
 }
 
 .capability-grid {
@@ -784,7 +801,7 @@ a, button {
 
 .case-studies-section {
   background: var(--bg-alt);
-  padding: clamp(3.75rem, 9vw, 7.5rem) 0;
+  padding: var(--section-pad-y) 0;
   border-top: 1px solid var(--border);
 }
 

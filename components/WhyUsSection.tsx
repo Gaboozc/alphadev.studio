@@ -48,7 +48,7 @@ export default function WhyUsSection() {
 
   return (
     <section
-      className="py-24 md:py-32"
+      className="section-pad"
       style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}
     >
       <div className="section-container">

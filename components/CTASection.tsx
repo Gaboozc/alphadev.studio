@@ -9,7 +9,7 @@ export default function CTASection() {
 
   return (
     <section
-      className="cta-dark py-24 md:py-32 text-center relative overflow-hidden"
+      className="cta-dark section-pad text-center relative overflow-hidden"
       style={{ borderTop: '1px solid var(--border)' }}
     >
       {/* Background treatments */}

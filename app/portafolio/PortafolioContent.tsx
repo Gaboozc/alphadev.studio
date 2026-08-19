@@ -29,8 +29,8 @@ export default function PortafolioContent() {
         </div>
       </section>
 
-      <section className="pb-24" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container pt-16">
+      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+        <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
             {p.items.map((project, index) => (
               <div

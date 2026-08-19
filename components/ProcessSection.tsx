@@ -15,7 +15,7 @@ export default function ProcessSection() {
   const p = dict.process;
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden" style={{ background: 'var(--bg)', borderTop: '1px solid var(--border)' }}>
+    <section className="section-pad relative overflow-hidden" style={{ background: 'var(--bg)', borderTop: '1px solid var(--border)' }}>
       {/* Background dot grid accent */}
       <div aria-hidden="true" className="absolute inset-0 bg-dot-grid pointer-events-none"
         style={{ opacity: 0.25, maskImage: 'radial-gradient(ellipse 90% 70% at 50% 50%, black 20%, transparent 100%)' }} />

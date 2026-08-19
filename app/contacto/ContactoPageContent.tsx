@@ -20,8 +20,8 @@ export default function ContactoPageContent() {
         </div>
       </section>
 
-      <section className="pb-24" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container pt-16">
+      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+        <div className="section-container">
           <div className="max-w-2xl mx-auto">
             <ContactoForm />
             <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>

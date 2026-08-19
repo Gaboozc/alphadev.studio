@@ -159,8 +159,8 @@ export default function ServiciosContent() {
       </section>
 
       {/* Services grid */}
-      <section className="pb-24" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container pt-16">
+      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+        <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
             {services.map((service, index) => (
               <div
@@ -197,7 +197,7 @@ export default function ServiciosContent() {
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12">
             <Link href="/contacto" className="btn-glow inline-flex">
               {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
             </Link>
