@@ -147,19 +147,8 @@ export default function ServiciosContent() {
       {/* Page hero */}
       <section className="pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-            data-animate="fade"
-          >
-            Servicios
+          <p className="eyebrow" data-animate="fade">
+            {lang === 'es' ? 'Servicios' : 'Services'}
           </p>
           <h1 className="section-title mb-3" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
             {copy.title}
@@ -170,8 +159,8 @@ export default function ServiciosContent() {
       </section>
 
       {/* Services grid */}
-      <section className="pb-24" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container pt-16">
+      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+        <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
             {services.map((service, index) => (
               <div
@@ -208,9 +197,9 @@ export default function ServiciosContent() {
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12">
             <Link href="/contacto" className="btn-glow inline-flex">
-              {lang === 'es' ? 'Quiero mi llamada gratis' : 'I want my free call'}
+              {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
             </Link>
           </div>
         </div>

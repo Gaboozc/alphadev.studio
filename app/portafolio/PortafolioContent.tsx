@@ -7,9 +7,9 @@ const PROJECT_ICONS = ['◉', '✦', '★'];
 
 // Non-technical category tags — replace tech stack with service type
 const PROJECT_TAGS = [
-  ['Identidad visual', 'Redes sociales', 'Contenido'],
-  ['Sitio web', 'Google Business', 'Estrategia digital'],
-  ['Próximamente', 'Tu negocio aquí'],
+  ['Presencia desde cero', 'En desarrollo'],
+  ['Sitio web', 'Diseño', 'SEO'],
+  ['Cupos abiertos'],
 ];
 
 export default function PortafolioContent() {
@@ -20,18 +20,7 @@ export default function PortafolioContent() {
     <main style={{ background: 'var(--bg)' }}>
       <section className="pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-            data-animate="fade"
-          >
+          <p className="eyebrow" data-animate="fade">
             {lang === 'es' ? 'Resultados' : 'Results'}
           </p>
           <h1 className="section-title mb-3" data-animate="title">{p.title}</h1>
@@ -40,8 +29,8 @@ export default function PortafolioContent() {
         </div>
       </section>
 
-      <section className="pb-24" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container pt-16">
+      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
+        <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
             {p.items.map((project, index) => (
               <div

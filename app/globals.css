@@ -35,6 +35,10 @@
   /* Spacing */
   --space-3xl:    4rem;
   --space-4xl:    6rem;
+
+  /* Padding vertical de sección — fluido, editorial (spec: 60 → 120px).
+     Fuente única para el ritmo entre secciones. */
+  --section-pad-y: clamp(3.75rem, 9vw, 7.5rem);
 }
 
 /* ─── Film grain overlay — editorial premium feel ─────── */
@@ -51,10 +55,16 @@ html::after {
 }
 
 /* ─── Reset ───────────────────────────────────────────── */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* En @layer base para NO pisar las utilidades de spacing de Tailwind
+   (py-*, mt-*, gap-*, etc.). Sin esto, un reset universal sin capa gana
+   por cascada de layers y anula todo el spacing de Tailwind → secciones
+   colapsadas y CTAs pegados al borde. */
+@layer base {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 /* ─── Base — unlayered (beats any @layer rule) ────────── */
@@ -163,6 +173,19 @@ a, button {
 /* ═══════════════════════════════════════════════════════
    LAYOUT UTILITIES
 ═══════════════════════════════════════════════════════ */
+
+/* Ritmo vertical de sección — una sola fuente (spec del design system).
+   .section-pad            → sección estándar (simétrica).
+   .section-pad-after-hero → sección de contenido justo debajo de un page-hero
+                             (menos aire arriba, respiración completa abajo). */
+.section-pad {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+}
+.section-pad-after-hero {
+  padding-top: 4rem;
+  padding-bottom: var(--section-pad-y);
+}
 
 .section-container {
   max-width: 1280px;
@@ -291,6 +314,23 @@ a, button {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 1.25rem auto;
+}
+
+/* ═══════════════════════════════════════════════════════
+   EYEBROW — micro-label dorado sobre los títulos (spec del
+   design system: Inter 12px / 600 / 0.16em / uppercase / gold).
+   Clase única para evitar el drift de tracking que había con
+   los estilos inline duplicados por sección.
+═══════════════════════════════════════════════════════ */
+
+.eyebrow {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -666,8 +706,8 @@ a, button {
 
 .capabilities-section {
   background: var(--bg);
-  /* Respiración editorial: ~60px mobile → ~120px desktop */
-  padding: clamp(3.75rem, 9vw, 7.5rem) 0;
+  /* Respiración editorial: token único (60 → 120px) */
+  padding: var(--section-pad-y) 0;
 }
 
 .capability-grid {
@@ -747,11 +787,12 @@ a, button {
 }
 
 .capability-card li::before {
-  content: '—';
+  content: '✓';
   position: absolute;
   left: 0;
-  color: var(--gold-light);
+  color: var(--gold);
   font-size: 0.8rem;
+  font-weight: 700;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -760,7 +801,7 @@ a, button {
 
 .case-studies-section {
   background: var(--bg-alt);
-  padding: clamp(3.75rem, 9vw, 7.5rem) 0;
+  padding: var(--section-pad-y) 0;
   border-top: 1px solid var(--border);
 }
 

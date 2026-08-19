@@ -1,20 +1,25 @@
 'use client'
 
-import { useState, useEffect, type FormEvent } from 'react'
+import { useState, useSyncExternalStore, type FormEvent } from 'react'
 
 // Cambiá esta contraseña cuando quieras
 const PASSWORD = 'windshare28'
 
+// Detecta el montaje en cliente sin setState-en-effect: en SSR y el primer
+// render devuelve false (getServerSnapshot); tras la hidratación, true.
+const emptySubscribe = () => () => {}
+
 export default function PasswordGate({ children }: { children: React.ReactNode }) {
   const [unlocked, setUnlocked] = useState(false)
-  const [hydrated, setHydrated] = useState(false)
   const [input, setInput] = useState('')
   const [error, setError] = useState(false)
   const [shake, setShake] = useState(false)
 
-  useEffect(() => {
-    setHydrated(true)
-  }, [])
+  const hydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  )
 
   function submit(e: FormEvent) {
     e.preventDefault()

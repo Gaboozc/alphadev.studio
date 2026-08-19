@@ -4,6 +4,7 @@ import ConditionalLayout from '@/components/ConditionalLayout';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollAnimations from '@/components/ScrollAnimations';
+import MagneticButtons from '@/components/MagneticButtons';
 import './globals.css';
 
 const inter = Inter({
@@ -156,6 +157,7 @@ export default function RootLayout({
         <LanguageProvider>
           <SmoothScroll />
           <ScrollAnimations />
+          <MagneticButtons />
           <ConditionalLayout>{children}</ConditionalLayout>
         </LanguageProvider>
       </body>

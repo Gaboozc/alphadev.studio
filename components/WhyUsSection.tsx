@@ -24,7 +24,7 @@ const COPY: Record<Lang, {
       'Precios pensados para negocios que están creciendo',
     ],
     wordplay: 'ADS. Tres letras. Tu negocio, visible.',
-    cta: 'Agendar llamada gratis',
+    cta: 'Agendar llamada',
   },
   en: {
     eyebrow: 'Why ADS',
@@ -38,7 +38,7 @@ const COPY: Record<Lang, {
       'Pricing designed for growing businesses',
     ],
     wordplay: 'ADS. Three letters. Your business, visible.',
-    cta: 'Book a free call',
+    cta: 'Book a call',
   },
 };
 
@@ -48,23 +48,12 @@ export default function WhyUsSection() {
 
   return (
     <section
-      className="py-24 md:py-32"
+      className="section-pad"
       style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}
     >
       <div className="section-container">
         <div className="section-header">
-          <p
-            data-animate="fade"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-          >
+          <p className="eyebrow" data-animate="fade">
             {c.eyebrow}
           </p>
           <h2

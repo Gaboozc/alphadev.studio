@@ -92,6 +92,53 @@ export default function HeroContent() {
           }}
         />
 
+        {/* Ambient gold orbs — drift lento detrás del headline (on-spec del design system) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: '-6%',
+            left: '8%',
+            width: 'clamp(220px, 28vw, 460px)',
+            height: 'clamp(220px, 28vw, 460px)',
+            background: 'radial-gradient(circle at 50% 50%, rgba(201,164,101,0.18) 0%, transparent 70%)',
+            filter: 'blur(40px)',
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            animation: 'orb-drift-1 22s ease-in-out infinite',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: '10%',
+            right: '6%',
+            width: 'clamp(180px, 22vw, 380px)',
+            height: 'clamp(180px, 22vw, 380px)',
+            background: 'radial-gradient(circle at 50% 50%, rgba(154,114,53,0.14) 0%, transparent 70%)',
+            filter: 'blur(44px)',
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            animation: 'orb-drift-2 27s ease-in-out infinite',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: '4%',
+            left: '38%',
+            width: 'clamp(200px, 24vw, 420px)',
+            height: 'clamp(200px, 24vw, 420px)',
+            background: 'radial-gradient(circle at 50% 50%, rgba(201,164,101,0.10) 0%, transparent 70%)',
+            filter: 'blur(48px)',
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            animation: 'orb-drift-3 31s ease-in-out infinite',
+          }}
+        />
+
         <div
           className="section-container"
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem', position: 'relative' }}
@@ -103,7 +150,7 @@ export default function HeroContent() {
               fontFamily: 'var(--font-inter)',
               fontSize: '0.6875rem',
               fontWeight: 700,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: 'var(--gold)',
               display: 'flex',

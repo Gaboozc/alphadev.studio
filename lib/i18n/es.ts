@@ -51,25 +51,25 @@ export const es: Translations = {
   },
   portfolio: {
     title: 'Resultados',
-    subtitle: 'Negocios que pasaron de invisibles a encontrados.',
+    subtitle: 'Somos un estudio joven y no inventamos clientes. Esto es real: en lo que trabajamos hoy.',
     items: [
       {
-        title: "Psique 'n' Pixel",
-        type: 'Identidad + Redes sociales',
+        title: 'Imperial Barbershop',
+        type: 'Cliente · Barbería',
         description:
-          'Marca creada desde cero: nombre, logo, identidad visual y presencia activa en Instagram y TikTok.',
+          'Nuestro primer cliente. Construimos su presencia digital desde cero para que aparezca cuando alguien busca dónde cortarse el pelo.',
       },
       {
         title: 'AlphaDev Studios',
-        type: 'Presencia digital completa',
+        type: 'Proyecto propio',
         description:
-          'Sitio web profesional, perfil de Google optimizado y estrategia de contenido para captar clientes.',
+          'Este sitio. Hecho con el mismo stack y criterio que aplicamos a cada cliente: es nuestra carta de presentación.',
       },
       {
         title: 'Tu negocio podría estar aquí',
-        type: 'Próximo caso de éxito',
+        type: 'Próximo proyecto',
         description:
-          'Estamos construyendo nuestra cartera de clientes. Sé uno de los primeros y pagas precio de lanzamiento.',
+          'Estamos abriendo cupos para los primeros clientes del estudio. Si querés ser uno, hablemos.',
       },
     ],
   },
@@ -81,7 +81,7 @@ export const es: Translations = {
         title: 'Conversamos',
         description: 'Nos cuentas de tu negocio. Entendemos qué vendes, a quién, y qué quieres lograr.',
         details: [
-          'Llamada de 30 minutos sin costo',
+          'Llamada inicial de 30 minutos',
           'Escuchamos, no vendemos de entrada',
           'Te hacemos las preguntas correctas',
           'Sin tecnicismos, en tu idioma',
@@ -142,7 +142,7 @@ export const es: Translations = {
     picker_label: '¿Qué necesita tu negocio?',
     categories: {
       consultation: {
-        label: 'Consulta gratis',
+        label: 'Consulta inicial',
         description: 'Quiero saber por dónde empezar. Necesito orientación antes de decidir.',
         platform_label: '',
         platform_options: [],
@@ -192,33 +192,19 @@ export const es: Translations = {
       message: 'Cuéntanos sobre tu negocio',
       message_placeholder:
         '¿Qué vendes? ¿Quiénes son tus clientes? ¿Cuál es tu mayor problema para conseguir más? Mientras más nos cuentas, mejor te podemos ayudar.',
-      submit: 'Quiero mi llamada gratis',
+      submit: 'Quiero mi llamada',
       submitting: 'Enviando...',
       success_title: '¡Mensaje recibido!',
       success_message: 'Nos ponemos en contacto en menos de 24 horas. Revisa tu email.',
       back: '← Cambiar opción',
     },
   },
-  trust: {
-    title: 'Construido para negocios como el tuyo',
-    subtitle: 'PyMEs, emprendedores y profesionales independientes que querían existir online.',
-    clients: [
-      'Barbería · CDMX',
-      'Nutricionista · Buenos Aires',
-      'Boutique · Bogotá',
-      'Dentista · Lima',
-      'Fotógrafo · Santiago',
-      'Coach · Madrid',
-      'Restaurante · Miami',
-      'Arquitecta · Montevideo',
-    ],
-  },
   cta: {
     title: 'Tu competencia ya está\nen internet. ¿Y tú?',
     subtitle:
-      'Agenda una llamada gratis de 30 minutos. Te decimos exactamente qué necesita tu negocio para empezar a existir online. Sin compromiso.',
-    button: 'Quiero mi llamada gratis',
-    note: 'Sin costo, sin compromiso. Solo una conversación.',
+      'Agenda una llamada de 30 minutos. Te decimos exactamente qué necesita tu negocio para empezar a existir online. Sin compromiso.',
+    button: 'Quiero mi llamada',
+    note: 'Sin compromiso. Solo una conversación.',
   },
   footer: {
     tagline: 'Te hacemos existir en internet.',

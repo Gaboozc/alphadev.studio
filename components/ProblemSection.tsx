@@ -24,23 +24,12 @@ export default function ProblemSection() {
 
   return (
     <section
-      className="py-24 md:py-32"
+      className="section-pad"
       style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}
     >
       <div className="section-container">
         <div className="section-header">
-          <p
-            data-animate="fade"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-          >
+          <p className="eyebrow" data-animate="fade">
             {c.eyebrow}
           </p>
           <h2

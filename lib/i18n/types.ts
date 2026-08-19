@@ -66,11 +66,6 @@ export interface Translations {
       back: string;
     };
   };
-  trust: {
-    title: string;
-    subtitle: string;
-    clients: readonly string[];
-  };
   cta: {
     title: string;
     subtitle: string;

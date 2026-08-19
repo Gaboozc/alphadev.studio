@@ -13,42 +13,42 @@ type CaseStudy = {
 const CASES: Record<Lang, CaseStudy[]> = {
   es: [
     {
-      title: "Psique 'n' Pixel",
-      industry: 'Marca personal · Buenos Aires',
-      result: 'Identidad visual completa + 0 a presencia activa en redes.',
-      scope: 'Marca + Logo + Instagram + TikTok',
+      title: 'Imperial Barbershop',
+      industry: 'Cliente · Barbería',
+      result: 'Construyendo su presencia digital desde cero.',
+      scope: 'Marca + Sitio + Google Business',
     },
     {
       title: 'AlphaDev Studios',
-      industry: 'Agencia digital · LATAM',
-      result: 'Presencia digital construida desde cero.',
-      scope: 'Sitio web + Google Business + Contenido',
+      industry: 'Proyecto propio · LATAM',
+      result: 'Nuestra propia presencia, con el mismo criterio que damos al cliente.',
+      scope: 'Sitio web + Diseño + SEO',
     },
     {
       title: 'Tu negocio podría estar aquí',
-      industry: 'Próximo caso de éxito',
-      result: 'Estamos construyendo nuestra cartera. Sé parte de los primeros.',
-      scope: 'Precio de lanzamiento disponible',
+      industry: 'Próximo proyecto',
+      result: 'Abriendo cupos para los primeros clientes del estudio.',
+      scope: 'Hablemos',
     },
   ],
   en: [
     {
-      title: "Psique 'n' Pixel",
-      industry: 'Personal brand · Buenos Aires',
-      result: 'Complete visual identity + 0 to active social media presence.',
-      scope: 'Brand + Logo + Instagram + TikTok',
+      title: 'Imperial Barbershop',
+      industry: 'Client · Barbershop',
+      result: 'Building their digital presence from scratch.',
+      scope: 'Brand + Site + Google Business',
     },
     {
       title: 'AlphaDev Studios',
-      industry: 'Digital agency · LATAM',
-      result: 'Full digital presence built from scratch.',
-      scope: 'Website + Google Business + Content',
+      industry: 'Our own project · LATAM',
+      result: 'Our own presence, built to the same standard we give clients.',
+      scope: 'Website + Design + SEO',
     },
     {
       title: 'Your business could be here',
-      industry: 'Next success story',
-      result: "We're building our portfolio. Be one of the first.",
-      scope: 'Launch pricing available',
+      industry: 'Next project',
+      result: "We're opening spots for the studio's first clients.",
+      scope: "Let's talk",
     },
   ],
 };
@@ -75,23 +75,13 @@ export default function CaseStudiesSection() {
     <section className="case-studies-section">
       <div className="section-container">
         <div className="section-header">
-          <p
-            data-animate="fade"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-          >
+          <p className="eyebrow" data-animate="fade">
             {copy.eyebrow}
           </p>
           <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
             {copy.title}
           </h2>
+          <div className="gold-divider" data-animate="divider" />
           <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
         </div>
 
