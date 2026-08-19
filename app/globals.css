@@ -300,6 +300,23 @@ a, button {
 }
 
 /* ═══════════════════════════════════════════════════════
+   EYEBROW — micro-label dorado sobre los títulos (spec del
+   design system: Inter 12px / 600 / 0.16em / uppercase / gold).
+   Clase única para evitar el drift de tracking que había con
+   los estilos inline duplicados por sección.
+═══════════════════════════════════════════════════════ */
+
+.eyebrow {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+}
+
+/* ═══════════════════════════════════════════════════════
    NAVBAR (floating pill — light frosted glass)
 ═══════════════════════════════════════════════════════ */
 
@@ -753,11 +770,12 @@ a, button {
 }
 
 .capability-card li::before {
-  content: '—';
+  content: '✓';
   position: absolute;
   left: 0;
-  color: var(--gold-light);
+  color: var(--gold);
   font-size: 0.8rem;
+  font-weight: 700;
 }
 
 /* ═══════════════════════════════════════════════════════

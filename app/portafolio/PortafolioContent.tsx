@@ -20,18 +20,7 @@ export default function PortafolioContent() {
     <main style={{ background: 'var(--bg)' }}>
       <section className="pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-            data-animate="fade"
-          >
+          <p className="eyebrow" data-animate="fade">
             {lang === 'es' ? 'Resultados' : 'Results'}
           </p>
           <h1 className="section-title mb-3" data-animate="title">{p.title}</h1>

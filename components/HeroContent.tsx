@@ -150,7 +150,7 @@ export default function HeroContent() {
               fontFamily: 'var(--font-inter)',
               fontSize: '0.6875rem',
               fontWeight: 700,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: 'var(--gold)',
               display: 'flex',

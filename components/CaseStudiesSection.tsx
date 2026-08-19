@@ -75,23 +75,13 @@ export default function CaseStudiesSection() {
     <section className="case-studies-section">
       <div className="section-container">
         <div className="section-header">
-          <p
-            data-animate="fade"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--gold)',
-              marginBottom: '1.25rem',
-            }}
-          >
+          <p className="eyebrow" data-animate="fade">
             {copy.eyebrow}
           </p>
           <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
             {copy.title}
           </h2>
+          <div className="gold-divider" data-animate="divider" />
           <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
         </div>
 

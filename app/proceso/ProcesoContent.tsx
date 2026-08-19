@@ -6,13 +6,16 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 const PHASE_NUMBERS = ['01', '02', '03', '04', '05'];
 
 export default function ProcesoContent() {
-  const { dict } = useLang();
+  const { dict, lang } = useLang();
   const p = dict.process;
 
   return (
     <main style={{ background: 'var(--bg)' }}>
       <section className="pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
+          <p className="eyebrow" data-animate="fade">
+            {lang === 'es' ? 'Cómo trabajamos' : 'How we work'}
+          </p>
           <h1 className="section-title mb-3" data-animate="title">{p.title}</h1>
           <div className="gold-divider" data-animate="divider" />
           <p className="section-subtitle mt-4" data-animate="subtitle">{p.subtitle}</p>
