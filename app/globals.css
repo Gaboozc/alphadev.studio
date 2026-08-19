@@ -190,11 +190,18 @@ a, button {
 .section-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  /* Solo padding horizontal — con `padding: 0 X` (shorthand, sin capa) el
+     padding vertical quedaba en 0 y pisaba cualquier py-* de Tailwind
+     (utilidades en @layer, que pierden ante CSS sin capa). */
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 @media (min-width: 768px) {
-  .section-container { padding: 0 2.5rem; }
+  .section-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .section-header {

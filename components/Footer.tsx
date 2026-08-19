@@ -21,7 +21,7 @@ export default function Footer() {
         color: 'var(--text-muted)',
       }}
     >
-      <div className="section-container py-14">
+      <div className="section-container pt-20 pb-14">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
 
           {/* Brand */}

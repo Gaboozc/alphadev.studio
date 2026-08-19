@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
-import navbarLogo from '../assets/navbar-logo.png';
+import navbarLogo from '../assets/footer-logo.png';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,8 +50,8 @@ export default function Navbar() {
             alt="AlphaDev Studios"
             height={64}
             priority
-            style={{ width: 'auto', height: '48px' }}
-            className="md:!h-[56px]"
+            style={{ width: 'auto', height: '30px' }}
+            className="md:!h-[40px]"
           />
         </Link>
 
