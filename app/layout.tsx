@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import ConditionalLayout from '@/components/ConditionalLayout';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -159,9 +158,7 @@ export default function RootLayout({
           <SmoothScroll />
           <ScrollAnimations />
           <MagneticButtons />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </LanguageProvider>
       </body>
     </html>
