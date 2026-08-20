@@ -13,42 +13,42 @@ type CaseStudy = {
 const CASES: Record<Lang, CaseStudy[]> = {
   es: [
     {
+      title: 'BFS Karate',
+      industry: 'Cliente · Artes marciales',
+      result: 'Presencia digital completa desde cero.',
+      scope: 'Sitio + Redes + Google Business',
+    },
+    {
       title: 'Imperial Barbershop',
       industry: 'Cliente · Barbería',
-      result: 'Construyendo su presencia digital desde cero.',
-      scope: 'Marca + Sitio + Google Business',
+      result: 'Visible cuando buscan dónde cortarse el pelo.',
+      scope: 'Sitio + Google Business',
     },
     {
-      title: 'AlphaDev Studios',
-      industry: 'Proyecto propio · LATAM',
-      result: 'Nuestra propia presencia, con el mismo criterio que damos al cliente.',
-      scope: 'Sitio web + Diseño + SEO',
-    },
-    {
-      title: 'Tu negocio podría estar aquí',
-      industry: 'Próximo proyecto',
-      result: 'Abriendo cupos para los primeros clientes del estudio.',
-      scope: 'Hablemos',
+      title: 'The Latin Grill',
+      industry: 'Cliente · Restaurante',
+      result: 'Sitio rediseñado desde cero, listo para el celular.',
+      scope: 'Rediseño web',
     },
   ],
   en: [
     {
+      title: 'BFS Karate',
+      industry: 'Client · Martial arts',
+      result: 'A complete digital presence from scratch.',
+      scope: 'Site + Social + Google Business',
+    },
+    {
       title: 'Imperial Barbershop',
       industry: 'Client · Barbershop',
-      result: 'Building their digital presence from scratch.',
-      scope: 'Brand + Site + Google Business',
+      result: 'Visible when people search for a haircut.',
+      scope: 'Site + Google Business',
     },
     {
-      title: 'AlphaDev Studios',
-      industry: 'Our own project · LATAM',
-      result: 'Our own presence, built to the same standard we give clients.',
-      scope: 'Website + Design + SEO',
-    },
-    {
-      title: 'Your business could be here',
-      industry: 'Next project',
-      result: "We're opening spots for the studio's first clients.",
-      scope: "Let's talk",
+      title: 'The Latin Grill',
+      industry: 'Client · Restaurant',
+      result: 'Site redesigned from scratch, mobile-ready.',
+      scope: 'Web redesign',
     },
   ],
 };

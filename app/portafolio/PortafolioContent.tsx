@@ -2,15 +2,23 @@
 
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import type { Lang } from '@/lib/i18n';
 
 const PROJECT_ICONS = ['◉', '✦', '★'];
 
-// Non-technical category tags — replace tech stack with service type
-const PROJECT_TAGS = [
-  ['Presencia desde cero', 'En desarrollo'],
-  ['Sitio web', 'Diseño', 'SEO'],
-  ['Cupos abiertos'],
-];
+// Tags de servicio por cliente (mismo orden que portfolio.items), bilingües.
+const PROJECT_TAGS: Record<Lang, string[][]> = {
+  es: [
+    ['Sitio web', 'Redes', 'Google + SEO'],
+    ['Sitio web', 'Google + SEO'],
+    ['Rediseño web', 'Diseño'],
+  ],
+  en: [
+    ['Website', 'Social', 'Google + SEO'],
+    ['Website', 'Google + SEO'],
+    ['Web redesign', 'Design'],
+  ],
+};
 
 export default function PortafolioContent() {
   const { dict, lang } = useLang();
@@ -59,7 +67,7 @@ export default function PortafolioContent() {
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
-                  {PROJECT_TAGS[index]?.map((tag) => (
+                  {PROJECT_TAGS[lang][index]?.map((tag) => (
                     <span
                       key={tag}
                       className="text-xs px-3 py-1 rounded-full"

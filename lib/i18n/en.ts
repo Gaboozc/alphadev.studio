@@ -51,25 +51,25 @@ export const en: Translations = {
   },
   portfolio: {
     title: 'Results',
-    subtitle: "We're a young studio and we don't invent clients. This is real: what we're working on right now.",
+    subtitle: "Real clients, not made up. This is what we built for businesses like yours.",
     items: [
+      {
+        title: 'BFS Karate',
+        type: 'Client · Martial arts',
+        description:
+          'A complete digital presence from scratch: website, social media management, and an optimized Google profile so they show up when someone searches for a place to train.',
+      },
       {
         title: 'Imperial Barbershop',
         type: 'Client · Barbershop',
         description:
-          'Our first client. We are building their digital presence from scratch so they show up when someone searches for a place to get a haircut.',
+          'Website and optimized Google profile so they show up when someone searches for a place to get a haircut.',
       },
       {
-        title: 'AlphaDev Studios',
-        type: 'Our own project',
+        title: 'The Latin Grill',
+        type: 'Client · Restaurant',
         description:
-          'This site. Built with the same stack and standards we apply to every client — it is our calling card.',
-      },
-      {
-        title: 'Your business could be here',
-        type: 'Next project',
-        description:
-          "We're opening spots for the studio's first clients. If you want to be one, let's talk.",
+          'We redesigned their site from scratch — clear menu and info, mobile-ready — so it looks as good as their food.',
       },
     ],
   },
