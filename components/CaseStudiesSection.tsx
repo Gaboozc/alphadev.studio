@@ -53,6 +53,13 @@ const CASES: Record<Lang, CaseStudy[]> = {
   ],
 };
 
+// Sitio web real de cada cliente (mismo orden que CASES).
+const CASE_URLS = [
+  'https://www.bfsmartialart.com/',
+  'https://imperialbarbercoacalco.com/',
+  'https://www.thelatingrillfl.com/',
+];
+
 const SECTION_COPY: Record<Lang, { eyebrow: string; title: string; subtitle: string }> = {
   es: {
     eyebrow: 'Resultados',
@@ -86,12 +93,22 @@ export default function CaseStudiesSection() {
         </div>
 
         <div className="section-content case-grid" data-animate="stagger">
-          {cases.map((item) => (
+          {cases.map((item, i) => (
             <div key={item.title} className="case-card">
               <div className="case-meta">{item.industry}</div>
               <h3>{item.title}</h3>
               <p className="case-result">{item.result}</p>
               <div className="case-scope">{item.scope}</div>
+              {CASE_URLS[i] && (
+                <a
+                  href={CASE_URLS[i]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="case-link"
+                >
+                  {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
+                </a>
+              )}
             </div>
           ))}
         </div>

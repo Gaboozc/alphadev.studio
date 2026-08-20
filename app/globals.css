@@ -890,6 +890,23 @@ a, button {
   padding-top: 0.75rem;
 }
 
+.case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.case-link:hover {
+  opacity: 0.7;
+}
+
 /* ═══════════════════════════════════════════════════════
    CONTACT FORM
 ═══════════════════════════════════════════════════════ */

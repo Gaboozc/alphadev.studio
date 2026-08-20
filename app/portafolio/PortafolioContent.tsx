@@ -6,6 +6,13 @@ import type { Lang } from '@/lib/i18n';
 
 const PROJECT_ICONS = ['◉', '✦', '★'];
 
+// Sitio web real de cada cliente (mismo orden que portfolio.items).
+const PROJECT_URLS = [
+  'https://www.bfsmartialart.com/',
+  'https://imperialbarbercoacalco.com/',
+  'https://www.thelatingrillfl.com/',
+];
+
 // Tags de servicio por cliente (mismo orden que portfolio.items), bilingües.
 const PROJECT_TAGS: Record<Lang, string[][]> = {
   es: [
@@ -77,6 +84,17 @@ export default function PortafolioContent() {
                     </span>
                   ))}
                 </div>
+                {PROJECT_URLS[index] && (
+                  <a
+                    href={PROJECT_URLS[index]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-semibold mt-5 transition-opacity hover:opacity-70"
+                    style={{ color: 'var(--gold)', fontFamily: 'var(--font-inter)' }}
+                  >
+                    {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
+                  </a>
+                )}
               </div>
             ))}
           </div>
