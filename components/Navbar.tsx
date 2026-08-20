@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <div
-      className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-50"
+      className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50"
       style={{
         opacity: isScrolled ? 1 : 0,
         pointerEvents: isScrolled ? 'auto' : 'none',
@@ -56,7 +56,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6 text-sm flex-1 justify-center">
+        <div className="hidden lg:flex items-center gap-6 text-sm flex-1 justify-center">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
@@ -70,7 +70,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop right */}
-        <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
           <LanguageToggle />
           <Link href="/contacto" className="btn-glow text-sm py-2 px-4">
             {dict.nav.cta}
@@ -83,7 +83,7 @@ export default function Navbar() {
           aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
-          className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl border transition-colors"
+          className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl border transition-colors"
           style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
         >
           <span className="text-base leading-none select-none">{menuOpen ? '✕' : '☰'}</span>
@@ -92,7 +92,7 @@ export default function Navbar() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="md:hidden mt-2 rounded-2xl px-5 py-4 flex flex-col gap-1"
+        <div className="lg:hidden mt-2 rounded-2xl px-5 py-4 flex flex-col gap-1"
           style={{
             background: 'rgba(250,250,247,0.97)',
             backdropFilter: 'blur(20px)',
