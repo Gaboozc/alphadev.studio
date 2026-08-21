@@ -5350,7 +5350,7 @@ Ejemplo:
 > **[A]** Tu startup necesita 6 meses y $50k para salir al mercado. Hay otra forma.
 > **[I]** La mayoría de founders pierde en desarrollo lo que debería estar invirtiendo en crecer.
 > **[D]** AlphaDev entrega en 3 semanas lo que una agencia tradicional tarda 4 meses. Stack moderno, IA integrada, sin sorpresas.
-> **[A]** Agenda una llamada gratuita de 30 minutos esta semana.
+> **[A]** Agenda una llamada de 30 minutos esta semana.
 
 **Cuándo usar AIDA**: landing pages largas, emails de ventas, anuncios.
 
@@ -8964,11 +8964,11 @@ El A/B testing reemplaza opiniones con evidencia.
 ### Estructura de un experimento válido
 
 \`\`\`
-Hipótesis: "Cambiar el CTA de 'Contáctanos' a 'Agenda tu llamada gratis'
+Hipótesis: "Cambiar el CTA de 'Contáctanos' a 'Agenda tu llamada'
             aumentará la tasa de clicks en el botón principal"
 
 Control (A): versión original con "Contáctanos"
-Variante (B): versión nueva con "Agenda tu llamada gratis"
+Variante (B): versión nueva con "Agenda tu llamada"
 
 Métrica primaria: CTR del botón CTA
 Duración: hasta alcanzar significancia estadística

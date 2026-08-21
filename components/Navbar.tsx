@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
@@ -11,12 +12,21 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { dict } = useLang();
+  const pathname = usePathname();
+
+  // El home tiene hero de video a pantalla completa: el navbar se revela al
+  // hacer scroll. En el resto de las rutas debe verse desde que entrás.
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const visible = isHome ? isScrolled : true;
+  const solid = isScrolled || !isHome;
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -32,15 +42,15 @@ export default function Navbar() {
     <div
       className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50"
       style={{
-        opacity: isScrolled ? 1 : 0,
-        pointerEvents: isScrolled ? 'auto' : 'none',
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? 'auto' : 'none',
         transition: 'opacity 0.4s ease',
       }}
     >
 
       {/* Main pill */}
       <nav className={`rounded-2xl px-5 py-2 flex items-center justify-between gap-4 transition-all duration-300 ${
-        isScrolled ? 'nav-pill--scrolled' : 'nav-pill'
+        solid ? 'nav-pill--scrolled' : 'nav-pill'
       }`}>
 
         {/* Wordmark */}
