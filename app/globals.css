@@ -907,6 +907,204 @@ a, button {
   opacity: 0.7;
 }
 
+/* ─── Card de caso con preview de sitio (página Resultados) ──────── */
+.case-detail-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.case-detail-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 8px 32px rgba(154, 114, 53, 0.1);
+  transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-detail-card:hover { transform: none; }
+}
+
+.case-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 120% at 50% 0%, var(--gold-bg) 0%, transparent 60%),
+    var(--bg-card);
+  overflow: hidden;
+}
+
+button.case-thumb {
+  cursor: pointer;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+}
+
+.case-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.case-detail-card:hover .case-thumb img {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-detail-card:hover .case-thumb img { transform: none; }
+}
+
+/* Overlay "Ver galería" — aparece al hover del thumb */
+.case-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #FAFAF7;
+  background: rgba(26, 21, 18, 0.42);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.case-detail-card:hover .case-thumb-overlay {
+  opacity: 1;
+}
+
+/* Badge con cantidad de fotos */
+.case-thumb-count {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #FAFAF7;
+  background: rgba(26, 21, 18, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+/* Placeholder mientras no hay fotos */
+.case-thumb-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+/* ─── Lightbox de galería ───────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 5vw, 3rem);
+  background: rgba(20, 16, 13, 0.92);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.2s ease;
+}
+
+.lightbox-img {
+  max-width: min(1100px, 92vw);
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FAFAF7;
+  background: rgba(250, 250, 247, 0.1);
+  border: 1px solid rgba(250, 250, 247, 0.25);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background: rgba(250, 250, 247, 0.2);
+  border-color: var(--gold-light);
+}
+
+.lightbox-close {
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.lightbox-prev { left: clamp(0.75rem, 3vw, 2rem); }
+.lightbox-next { right: clamp(0.75rem, 3vw, 2rem); }
+
+.lightbox-caption {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.8rem;
+  color: rgba(250, 250, 247, 0.8);
+}
+
+.case-detail-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.75rem;
+}
+
 /* ═══════════════════════════════════════════════════════
    CONTACT FORM
 ═══════════════════════════════════════════════════════ */
