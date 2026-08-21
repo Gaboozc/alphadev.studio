@@ -2,16 +2,17 @@
 
 import { FormEvent, useState } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import Icon, { type IconName } from '@/components/Icon';
 
 type Category = 'consultation' | 'app' | 'internal' | 'api' | 'other';
 
-// Glifos geométricos del sistema (sin emoji — coherente con Servicios).
-const CATEGORY_ICONS: Record<Category, string> = {
-  consultation: '◈',
-  app: '◉',
-  internal: '✦',
-  api: '★',
-  other: '◻',
+// Iconos de línea por categoría (sin emoji ni glifos).
+const CATEGORY_ICONS: Record<Category, IconName> = {
+  consultation: 'message',
+  app: 'monitor',
+  internal: 'share',
+  api: 'megaphone',
+  other: 'sparkles',
 };
 
 export default function ContactoForm() {
@@ -72,7 +73,7 @@ export default function ContactoForm() {
               onClick={() => setCategory(key)}
               className="contact-category-card text-left"
             >
-              <span className="text-3xl mb-3 block" style={{ color: 'var(--gold)' }}>{CATEGORY_ICONS[key]}</span>
+              <span className="mb-3 block" style={{ color: 'var(--gold)' }}><Icon name={CATEGORY_ICONS[key]} size={28} /></span>
               <span className="block font-semibold mb-1" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--text)' }}>{c.categories[key].label}</span>
               <span className="block text-sm leading-snug" style={{ color: 'var(--text-muted)' }}>{c.categories[key].description}</span>
             </button>
@@ -89,7 +90,7 @@ export default function ContactoForm() {
     <div className="space-y-8">
       {/* Category header + back */}
       <div className="flex items-center gap-4">
-        <span className="text-3xl" style={{ color: 'var(--gold)' }}>{CATEGORY_ICONS[category]}</span>
+        <span style={{ color: 'var(--gold)' }}><Icon name={CATEGORY_ICONS[category]} size={26} /></span>
         <div>
           <h3 className="text-xl font-bold" style={{ color: 'var(--text)' }}>{cat.label}</h3>
           <button

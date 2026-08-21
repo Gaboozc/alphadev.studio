@@ -27,31 +27,12 @@ export default function ProcessSection() {
           <p className="section-subtitle" data-animate="subtitle">{p.subtitle}</p>
         </div>
 
-        <div className="section-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-6" data-animate="stagger">
+        <div className="section-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5" data-animate="stagger">
           {p.phases.map((phase, index) => (
-            <div key={index} className="relative group">
-              <div className="process-card">
-                <div className="process-file">
-                  <div className="process-work-5" />
-                  <div className="process-work-4" />
-                  <div className="process-work-3" />
-                  <div className="process-work-2" />
-                  <div className="process-work-1" />
-                </div>
-                <div className="process-card-text">
-                  <div className="process-number">{PHASE_NUMBERS[index]}</div>
-                  <h3 className="process-title">{phase.title}</h3>
-                  <p className="process-description">{phase.description}</p>
-                </div>
-              </div>
-
-              {index < p.phases.length - 1 && (
-                <div
-                  aria-hidden="true"
-                  className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-px transition-all duration-300"
-                  style={{ background: 'linear-gradient(90deg, var(--gold-light), transparent)' }}
-                />
-              )}
+            <div key={index} className="process-step">
+              <span className="process-step-num">{PHASE_NUMBERS[index]}</span>
+              <h3 className="process-step-title">{phase.title}</h3>
+              <p className="process-step-desc">{phase.description}</p>
             </div>
           ))}
         </div>

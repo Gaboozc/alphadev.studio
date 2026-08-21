@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import Icon, { type IconName } from './Icon';
 
-// Glifos geométricos coherentes con la página de servicios (sin emojis)
-const SERVICE_ICONS = ['✦', '◉', '★', '◈', '◻'];
+// Iconos de línea por servicio (mismo orden que services.items)
+const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
 
 export default function ServicesSection() {
   const { dict } = useLang();
@@ -23,7 +24,9 @@ export default function ServicesSection() {
           {s.items.map((service, index) => (
             <Link key={index} href="/contacto" className="block">
               <div className="service-card h-full">
-                <div className="service-card-icon">{SERVICE_ICONS[index]}</div>
+                <div className="service-card-icon" style={{ color: 'var(--gold)' }}>
+                  <Icon name={SERVICE_ICONS[index]} size={28} />
+                </div>
                 <h3 className="service-card-title">{service.title}</h3>
                 <p className="service-card-description">{service.description}</p>
                 <div className="service-card-corner">

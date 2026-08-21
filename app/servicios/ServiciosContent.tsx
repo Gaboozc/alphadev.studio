@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import CTASection from '@/components/CTASection';
+import Icon, { type IconName } from '@/components/Icon';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 
-const SERVICE_ICONS = ['✦', '◉', '★', '◈', '◻'];
+const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
 
 type ServiceDetail = { title: string; description: string; details: string[] };
 
@@ -176,8 +177,8 @@ export default function ServiciosContent() {
                   (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
               >
-                <div className="text-3xl mb-4" style={{ color: 'var(--gold)' }}>
-                  {SERVICE_ICONS[index]}
+                <div className="mb-4" style={{ color: 'var(--gold)' }}>
+                  <Icon name={SERVICE_ICONS[index]} size={30} />
                 </div>
                 <h3 className="text-xl mb-2" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, color: 'var(--text)' }}>
                   {service.title}
