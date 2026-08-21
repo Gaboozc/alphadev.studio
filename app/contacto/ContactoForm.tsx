@@ -5,12 +5,13 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 
 type Category = 'consultation' | 'app' | 'internal' | 'api' | 'other';
 
+// Glifos geométricos del sistema (sin emoji — coherente con Servicios).
 const CATEGORY_ICONS: Record<Category, string> = {
-  consultation: '💬',
-  app: '📱',
-  internal: '🏢',
-  api: '⚡',
-  other: '🔧',
+  consultation: '◈',
+  app: '◉',
+  internal: '✦',
+  api: '★',
+  other: '◻',
 };
 
 export default function ContactoForm() {
@@ -71,7 +72,7 @@ export default function ContactoForm() {
               onClick={() => setCategory(key)}
               className="contact-category-card text-left"
             >
-              <span className="text-3xl mb-3 block">{CATEGORY_ICONS[key]}</span>
+              <span className="text-3xl mb-3 block" style={{ color: 'var(--gold)' }}>{CATEGORY_ICONS[key]}</span>
               <span className="block font-semibold mb-1" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--text)' }}>{c.categories[key].label}</span>
               <span className="block text-sm leading-snug" style={{ color: 'var(--text-muted)' }}>{c.categories[key].description}</span>
             </button>
@@ -88,7 +89,7 @@ export default function ContactoForm() {
     <div className="space-y-8">
       {/* Category header + back */}
       <div className="flex items-center gap-4">
-        <span className="text-3xl">{CATEGORY_ICONS[category]}</span>
+        <span className="text-3xl" style={{ color: 'var(--gold)' }}>{CATEGORY_ICONS[category]}</span>
         <div>
           <h3 className="text-xl font-bold" style={{ color: 'var(--text)' }}>{cat.label}</h3>
           <button

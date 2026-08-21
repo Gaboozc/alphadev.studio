@@ -192,11 +192,11 @@ a, button {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(154, 114, 53, 0.12) 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.55;
-  -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 42%, black 8%, transparent 72%);
-  mask-image: radial-gradient(ellipse 62% 62% at 50% 42%, black 8%, transparent 72%);
+  background-image: radial-gradient(circle, rgba(154, 114, 53, 0.16) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.9;
+  -webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 42%, black 22%, transparent 82%);
+  mask-image: radial-gradient(ellipse 80% 78% at 50% 42%, black 22%, transparent 82%);
   pointer-events: none;
 }
 
@@ -206,9 +206,9 @@ a, button {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(60vw, 640px);
-  height: 55%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(154, 114, 53, 0.09) 0%, transparent 70%);
+  width: min(70vw, 760px);
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(154, 114, 53, 0.13) 0%, transparent 72%);
   pointer-events: none;
 }
 
