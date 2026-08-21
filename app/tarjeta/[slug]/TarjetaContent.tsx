@@ -28,9 +28,6 @@ export default function TarjetaContent({ slug }: { slug: string }) {
   card.phones.forEach((p) => {
     actions.push({ flag: p.label === 'US' ? 'us' : 'mx', label: `${t('Llamar', 'Call')} · ${p.label}`, href: `tel:${p.e164}`, value: p.display });
   });
-  if (card.email) {
-    actions.push({ icon: 'mail', label: 'Email', href: `mailto:${card.email}`, value: card.email });
-  }
   if (card.instagram) {
     actions.push({ icon: 'instagram', label: 'Instagram', href: `https://instagram.com/${card.instagram}`, value: `@${card.instagram}`, external: true });
   }
@@ -51,7 +48,12 @@ export default function TarjetaContent({ slug }: { slug: string }) {
         <p className="tarjeta-role">{card.role[lang]}</p>
         <p className="tarjeta-tagline">{card.tagline[lang]}</p>
 
-        <a href={card.vcard} download className="btn-glow tarjeta-save">
+        <a href="https://alphadev.studio/contacto" className="btn-glow tarjeta-save">
+          <Icon name="calendar" size={18} />
+          {t('Agendar cita', 'Book a call')}
+        </a>
+
+        <a href={card.vcard} download className="btn-secondary tarjeta-book">
           <Icon name="download" size={18} />
           {t('Guardar contacto', 'Save contact')}
         </a>
