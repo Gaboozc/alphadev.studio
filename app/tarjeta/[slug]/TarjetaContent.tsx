@@ -2,10 +2,12 @@
 
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Icon, { type IconName } from '@/components/Icon';
+import Flag, { type Country } from '@/components/Flag';
 import { CARDS } from '../cards';
 
 type Action = {
-  icon: IconName;
+  icon?: IconName;
+  flag?: Country;
   label: string;
   href: string;
   value?: string;
@@ -24,7 +26,7 @@ export default function TarjetaContent({ slug }: { slug: string }) {
     actions.push({ icon: 'message', label: 'WhatsApp', href: `https://wa.me/${card.whatsapp}`, external: true });
   }
   card.phones.forEach((p) => {
-    actions.push({ icon: 'phone', label: `${t('Llamar', 'Call')} · ${p.label}`, href: `tel:${p.e164}`, value: p.display });
+    actions.push({ flag: p.label === 'US' ? 'us' : 'mx', label: `${t('Llamar', 'Call')} · ${p.label}`, href: `tel:${p.e164}`, value: p.display });
   });
   if (card.email) {
     actions.push({ icon: 'mail', label: 'Email', href: `mailto:${card.email}`, value: card.email });
@@ -39,7 +41,12 @@ export default function TarjetaContent({ slug }: { slug: string }) {
   return (
     <main className="tarjeta-page page-hero">
       <article className="tarjeta-card">
-        <div className="tarjeta-avatar" aria-hidden="true">{card.initials}</div>
+        {card.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="tarjeta-avatar tarjeta-avatar-img" src={card.photo} alt={card.name} width={96} height={96} />
+        ) : (
+          <div className="tarjeta-avatar" aria-hidden="true">{card.initials}</div>
+        )}
         <h1 className="tarjeta-name">{card.name}</h1>
         <p className="tarjeta-role">{card.role[lang]}</p>
         <p className="tarjeta-tagline">{card.tagline[lang]}</p>
@@ -58,7 +65,9 @@ export default function TarjetaContent({ slug }: { slug: string }) {
               rel={a.external ? 'noopener noreferrer' : undefined}
               className="tarjeta-action"
             >
-              <span className="tarjeta-action-icon"><Icon name={a.icon} size={19} /></span>
+              <span className="tarjeta-action-icon">
+                {a.flag ? <Flag country={a.flag} height={16} /> : a.icon ? <Icon name={a.icon} size={19} /> : null}
+              </span>
               <span className="tarjeta-action-body">
                 <span className="tarjeta-action-label">{a.label}</span>
                 {a.value && <span className="tarjeta-action-value">{a.value}</span>}

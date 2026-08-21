@@ -257,6 +257,12 @@ a, button {
   margin-bottom: 1.25rem;
 }
 
+.tarjeta-avatar-img {
+  object-fit: cover;
+  background: none;
+  border: 2px solid var(--gold-light);
+}
+
 .tarjeta-name {
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 1.7rem;
