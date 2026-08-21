@@ -145,7 +145,7 @@ export default function ServiciosContent() {
   return (
     <main style={{ background: 'var(--bg)' }}>
       {/* Page hero */}
-      <section className="pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
+      <section className="page-hero pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
           <p className="eyebrow" data-animate="fade">
             {lang === 'es' ? 'Servicios' : 'Services'}
