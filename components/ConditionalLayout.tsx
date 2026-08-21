@@ -6,13 +6,14 @@ import Footer from './Footer'
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isAcademia = pathname.startsWith('/academia')
+  // Rutas "bare": sin navbar/footer global (academia y tarjetas digitales)
+  const bare = pathname.startsWith('/academia') || pathname.startsWith('/tarjeta')
 
   return (
     <>
-      {!isAcademia && <Navbar />}
+      {!bare && <Navbar />}
       <main>{children}</main>
-      {!isAcademia && <Footer />}
+      {!bare && <Footer />}
     </>
   )
 }

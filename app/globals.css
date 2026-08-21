@@ -212,6 +212,148 @@ a, button {
   pointer-events: none;
 }
 
+/* ═══════════════════════════════════════════════════════
+   TARJETA DIGITAL (/tarjeta/<slug>)
+═══════════════════════════════════════════════════════ */
+.tarjeta-page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem;
+  background: var(--bg);
+}
+
+.tarjeta-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2.5rem 1.75rem 2rem;
+  box-shadow: 0 30px 70px -30px rgba(154, 114, 53, 0.3),
+              0 10px 30px rgba(26, 21, 18, 0.06);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tarjeta-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: #FAFAF7;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+  box-shadow: 0 8px 20px rgba(154, 114, 53, 0.3);
+  margin-bottom: 1.25rem;
+}
+
+.tarjeta-name {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.tarjeta-role {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 0.5rem;
+}
+
+.tarjeta-tagline {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.85rem;
+  max-width: 26rem;
+  line-height: 1.5;
+}
+
+.tarjeta-save {
+  margin-top: 1.5rem;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.tarjeta-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.tarjeta-action {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.tarjeta-action:hover {
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+  transform: translateY(-1px);
+}
+
+.tarjeta-action-icon { color: var(--gold); display: flex; flex-shrink: 0; }
+.tarjeta-action-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.tarjeta-action-label { font-family: var(--font-inter), system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.tarjeta-action-value { font-size: 0.78rem; color: var(--text-subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tarjeta-action-arrow { color: var(--gold); font-weight: 700; flex-shrink: 0; transition: transform 0.2s ease; }
+.tarjeta-action:hover .tarjeta-action-arrow { transform: translateX(3px); }
+
+.tarjeta-qr {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tarjeta-qr img { border-radius: 12px; display: block; }
+
+.tarjeta-qr-caption {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.tarjeta-brand {
+  margin-top: 1.5rem;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-subtle);
+  letter-spacing: 0.04em;
+}
+
 /* ─── Hero showcase (2 columnas: copy + visual) ───────────────────── */
 .hero-showcase-grid {
   display: grid;
