@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
 
@@ -11,14 +12,34 @@ export default function ProcesoContent() {
 
   return (
     <main style={{ background: 'var(--bg)' }}>
-      <section className="page-hero pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
+      <section className="page-hero pt-36 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p className="eyebrow" data-animate="fade">
-            {lang === 'es' ? 'Cómo trabajamos' : 'How we work'}
-          </p>
-          <h1 className="section-title mb-3" data-animate="title">{p.title}</h1>
-          <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle mt-4" data-animate="subtitle">{p.subtitle}</p>
+          <div className="hero-showcase-grid">
+            <div className="hero-copy">
+              <p className="eyebrow" data-animate="fade">
+                {lang === 'es' ? 'Cómo trabajamos' : 'How we work'}
+              </p>
+              <h1 className="section-title" data-animate="title">{p.title}</h1>
+              <div className="gold-divider" data-animate="divider" />
+              <p className="section-subtitle hero-sub" data-animate="subtitle">{p.subtitle}</p>
+              <div className="hero-cta" data-animate="fade">
+                <Link href="/contacto" className="btn-glow inline-flex">
+                  {lang === 'es' ? 'Quiero empezar' : 'I want to start'}
+                </Link>
+              </div>
+            </div>
+            <div className="hero-visual" data-animate="fade">
+              <div className="browser-frame browser-float">
+                <div className="browser-bar"><span /><span /><span /></div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/cases/bfs-karate-1.png"
+                  alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

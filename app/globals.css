@@ -212,6 +212,80 @@ a, button {
   pointer-events: none;
 }
 
+/* ─── Hero showcase (2 columnas: copy + visual) ───────────────────── */
+.hero-showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.75rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero-showcase-grid {
+    grid-template-columns: 1.02fr 0.98fr;
+    gap: 4rem;
+  }
+}
+
+.hero-copy {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-copy .section-title { margin-bottom: 0; }
+.hero-copy .hero-sub { margin: 1.25rem 0 0; max-width: 34rem; }
+.hero-copy .hero-cta { margin-top: 2rem; }
+
+@media (min-width: 900px) {
+  .hero-copy { text-align: left; align-items: flex-start; }
+  .hero-copy .gold-divider { margin-left: 0; margin-right: 0; }
+  .hero-copy .hero-sub { margin-left: 0; }
+}
+
+/* Marco de navegador que envuelve una captura real de trabajo */
+.browser-frame {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+  overflow: hidden;
+  box-shadow: 0 34px 70px -28px rgba(154, 114, 53, 0.35),
+              0 12px 34px rgba(26, 21, 18, 0.08);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.65rem 0.9rem;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.browser-bar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-deep);
+}
+
+.browser-bar span:first-child { background: var(--gold-light); }
+
+.browser-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.browser-float { animation: float-soft 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .browser-float { animation: none; }
+}
+
 /* Ritmo vertical de sección — una sola fuente (spec del design system).
    .section-pad            → sección estándar (simétrica).
    .section-pad-after-hero → sección de contenido justo debajo de un page-hero

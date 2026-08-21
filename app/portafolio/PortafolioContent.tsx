@@ -180,14 +180,29 @@ export default function PortafolioContent() {
 
   return (
     <main style={{ background: 'var(--bg)' }}>
-      <section className="page-hero pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
+      <section className="page-hero pt-36 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p className="eyebrow" data-animate="fade">
-            {lang === 'es' ? 'Resultados' : 'Results'}
-          </p>
-          <h1 className="section-title mb-3" data-animate="title">{p.title}</h1>
-          <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle mt-4" data-animate="subtitle">{p.subtitle}</p>
+          <div className="hero-showcase-grid">
+            <div className="hero-copy">
+              <p className="eyebrow" data-animate="fade">
+                {lang === 'es' ? 'Resultados' : 'Results'}
+              </p>
+              <h1 className="section-title" data-animate="title">{p.title}</h1>
+              <div className="gold-divider" data-animate="divider" />
+              <p className="section-subtitle hero-sub" data-animate="subtitle">{p.subtitle}</p>
+            </div>
+            <div className="hero-visual" data-animate="fade">
+              <div className="browser-frame browser-float">
+                <div className="browser-bar"><span /><span /><span /></div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/cases/the-latin-grill-1.png"
+                  alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

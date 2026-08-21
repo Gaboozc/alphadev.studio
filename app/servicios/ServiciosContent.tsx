@@ -146,16 +146,36 @@ export default function ServiciosContent() {
   return (
     <main style={{ background: 'var(--bg)' }}>
       {/* Page hero */}
-      <section className="page-hero pt-36 pb-20 text-center" style={{ background: 'var(--bg)' }}>
+      <section className="page-hero pt-36 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="section-container">
-          <p className="eyebrow" data-animate="fade">
-            {lang === 'es' ? 'Servicios' : 'Services'}
-          </p>
-          <h1 className="section-title mb-3" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
-            {copy.title}
-          </h1>
-          <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle mt-4" data-animate="subtitle">{copy.subtitle}</p>
+          <div className="hero-showcase-grid">
+            <div className="hero-copy">
+              <p className="eyebrow" data-animate="fade">
+                {lang === 'es' ? 'Servicios' : 'Services'}
+              </p>
+              <h1 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
+                {copy.title}
+              </h1>
+              <div className="gold-divider" data-animate="divider" />
+              <p className="section-subtitle hero-sub" data-animate="subtitle">{copy.subtitle}</p>
+              <div className="hero-cta" data-animate="fade">
+                <Link href="/contacto" className="btn-glow inline-flex">
+                  {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
+                </Link>
+              </div>
+            </div>
+            <div className="hero-visual" data-animate="fade">
+              <div className="browser-frame browser-float">
+                <div className="browser-bar"><span /><span /><span /></div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/cases/imperial-barbershop-1.png"
+                  alt={lang === 'es' ? 'Sitio profesional hecho por AlphaDev' : 'Professional site built by AlphaDev'}
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
