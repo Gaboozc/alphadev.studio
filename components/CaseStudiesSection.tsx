@@ -60,6 +60,9 @@ const CASE_URLS = [
   'https://www.thelatingrillfl.com/',
 ];
 
+// Portada del trabajo (captura real): /assets/cases/<slug>-1.png
+const CASE_SLUGS = ['bfs-karate', 'imperial-barbershop', 'the-latin-grill'];
+
 const SECTION_COPY: Record<Lang, { eyebrow: string; title: string; subtitle: string }> = {
   es: {
     eyebrow: 'Resultados',
@@ -94,22 +97,34 @@ export default function CaseStudiesSection() {
 
         <div className="section-content case-grid" data-animate="stagger">
           {cases.map((item, i) => (
-            <div key={item.title} className="case-card">
-              <div className="case-meta">{item.industry}</div>
-              <h3>{item.title}</h3>
-              <p className="case-result">{item.result}</p>
-              <div className="case-scope">{item.scope}</div>
-              {CASE_URLS[i] && (
-                <a
-                  href={CASE_URLS[i]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="case-link"
-                >
-                  {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
-                </a>
-              )}
-            </div>
+            <article key={item.title} className="case-card">
+              <a
+                href={CASE_URLS[i]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="case-card-thumb"
+                aria-label={lang === 'es' ? `Ver sitio de ${item.title}` : `View ${item.title} site`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/assets/cases/${CASE_SLUGS[i]}-1.png`} alt={`Trabajo para ${item.title}`} loading="lazy" />
+              </a>
+              <div className="case-card-body">
+                <div className="case-meta">{item.industry}</div>
+                <h3>{item.title}</h3>
+                <p className="case-result">{item.result}</p>
+                <div className="case-scope">{item.scope}</div>
+                {CASE_URLS[i] && (
+                  <a
+                    href={CASE_URLS[i]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="case-link"
+                  >
+                    {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
+                  </a>
+                )}
+              </div>
+            </article>
           ))}
         </div>
       </div>

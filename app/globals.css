@@ -862,28 +862,16 @@ a, button {
 
 .case-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 2rem;
   overflow: hidden;
   transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-.case-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--gold-bg) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.case-card > * { position: relative; z-index: 1; }
 
 .case-card:hover {
   border-color: var(--border-hover);
@@ -891,10 +879,42 @@ a, button {
   transform: translateY(-4px);
 }
 
-.case-card:hover::before { opacity: 1; }
-
 @media (prefers-reduced-motion: reduce) {
   .case-card:hover { transform: none; }
+}
+
+/* Portada del trabajo (captura real del sitio del cliente) */
+.case-card-thumb {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.case-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.case-card:hover .case-card-thumb img {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-card:hover .case-card-thumb img { transform: none; }
+}
+
+.case-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.75rem;
 }
 
 .case-meta {
