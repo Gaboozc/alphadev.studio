@@ -259,6 +259,7 @@ a, button {
 
 .tarjeta-avatar-img {
   object-fit: cover;
+  object-position: center 22%;
   background: none;
   border: 2px solid var(--gold-light);
 }
