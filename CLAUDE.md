@@ -467,6 +467,42 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 
 ---
 
+## 🎓 Academia — estructura (rediseñada septiembre 2026)
+
+Área privada en `/academia`. Jerarquía: **Familia → Rama → Área → Módulo → Lección**.
+
+| Familia | Ramas |
+|---------|-------|
+| **Construir** | Programación, Diseño, Inteligencia Artificial |
+| **Crecer** | Marketing, Contenido & SEO, Negocio & Datos |
+
+### Archivos clave
+
+| Archivo | Rol |
+|---------|-----|
+| `app/academia/types.ts` | Interfaces (Module, Lesson, LearningPath, Reto, Audience) |
+| `app/academia/ramas.ts` | Metadata de familias/ramas/áreas + helpers de URL. **No importa contenido** |
+| `app/academia/queries.ts` | Consultas que sí cargan el contenido. Único punto a tocar para filtrar por permisos |
+| `app/academia/content/<rama>.ts` | El contenido real, un archivo por rama |
+| `app/academia/modules.ts` | Barril que junta y re-exporta. No editar contenido acá |
+
+### Reglas
+
+- **Para agregar un módulo**: editar `content/<rama>.ts`. La rama se deriva del `track` vía `RAMA_OF_TRACK` — no se declara a mano.
+- **Los links se arman con** `ramaHref()` / `moduleHref()` / `lessonHref()`, nunca a mano.
+- **Metadata de áreas**: fuente única en `TRACK_META`. No duplicar la tabla en componentes.
+- **`audience`** en cada módulo separa contenido vendible (`'aprendizaje'`) de formación interna (`'capacitacion'`). Ausente = `'aprendizaje'`.
+- URLs: `/academia/<rama>/<módulo>/<lección>`. Un módulo vive en una sola rama; pedirlo bajo otra da 404.
+- Estilos nuevos usan clases `.acad-*` en `globals.css`, no estilos inline.
+
+### Pendiente — Fases 2 y 3
+
+- **Fase 2 (auth)**: `PasswordGate` es una contraseña en texto plano dentro de un componente de cliente. No protege nada: la contraseña se lee en el bundle y el contenido de los cursos viaja al navegador sin autenticarse. Reemplazar por Supabase Auth con validación en servidor antes de vender acceso. El progreso también debe migrar de `localStorage` a la base.
+- **Fase 3 (permisos)**: tabla de permisos por usuario (acceso total / por rama / por módulo, con vencimiento) + panel `/academia/admin`.
+- El middleware de la Fase 2 es también el lugar para mapear las URLs viejas `/academia/<módulo>`.
+
+---
+
 ## 📚 Documentos relacionados
 
 - `docs/site-analysis-report.md` — análisis completo del estado actual (mayo 2026)

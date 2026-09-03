@@ -3,26 +3,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Icon from '@/components/Icon'
 import { MODULES, type Track } from '../modules'
+import { RAMAS, TRACK_META, moduleHref } from '../ramas'
 import { useProgress } from '../hooks/useProgress'
 
-const TRACKS: { id: Track; label: string; icon: string }[] = [
-  { id: 'marketing', label: 'Marketing', icon: '◎' },
-  { id: 'uiux', label: 'UI/UX', icon: '◑' },
-  { id: 'ia', label: 'Inteligencia Artificial', icon: '◈' },
-  { id: 'web', label: 'Desarrollo Web', icon: '◻' },
-  { id: 'copy', label: 'Copywriting', icon: '◉' },
-  { id: 'seo', label: 'SEO', icon: '◇' },
-  { id: 'geo', label: 'GEO', icon: '◉' },
-  { id: 'branding', label: 'Branding', icon: '◆' },
-  { id: 'data', label: 'Data & Analytics', icon: '○' },
-  { id: 'ads', label: 'Publicidad', icon: '▲' },
-  { id: 'email', label: 'Email Marketing', icon: '◲' },
-  { id: 'video', label: 'Video', icon: '▶' },
-  { id: 'community', label: 'Community', icon: '◐' },
-  { id: 'prodai', label: 'Producto IA', icon: '◍' },
-  { id: 'ventas', label: 'Ventas', icon: '◁' },
-]
+// Las áreas se listan en el orden de las ramas, no sueltas.
+const TRACKS = RAMAS.flatMap((r) => r.tracks.map((t) => TRACK_META[t]))
 
 export default function AcademiaNav() {
   const [open, setOpen] = useState(false)
@@ -265,13 +252,13 @@ export default function AcademiaNav() {
                 >
                   <span
                     style={{
-                      fontSize: '0.875rem',
+                      display: 'flex',
                       color: isExpanded ? 'var(--gold)' : 'var(--text-subtle)',
                       flexShrink: 0,
                       width: '1.25rem',
                     }}
                   >
-                    {track.icon}
+                    <Icon name={track.icon} size={16} />
                   </span>
                   <span
                     style={{
@@ -327,7 +314,7 @@ export default function AcademiaNav() {
                       return (
                         <Link
                           key={mod.id}
-                          href={`/academia/${mod.id}`}
+                          href={moduleHref(mod)}
                           onClick={close}
                           style={{
                             display: 'flex',
@@ -380,13 +367,10 @@ export default function AcademiaNav() {
 
                           {isCapstone && (
                             <span
-                              style={{
-                                fontSize: '0.5rem',
-                                color: 'var(--gold)',
-                                flexShrink: 0,
-                              }}
+                              title="Proyecto final"
+                              style={{ display: 'flex', color: 'var(--gold)', flexShrink: 0 }}
                             >
-                              ◆
+                              <Icon name="flag" size={12} />
                             </span>
                           )}
                         </Link>
@@ -416,7 +400,7 @@ export default function AcademiaNav() {
               margin: 0,
             }}
           >
-            {MODULES.length} módulos · 14 áreas de estudio
+            {MODULES.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
           </p>
         </div>
       </aside>

@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import type { Module } from '../modules'
-import { useProgress } from '../hooks/useProgress'
+import type { Module } from '../../types'
+import { moduleHref, lessonHref } from '../../ramas'
+import { useProgress } from '../../hooks/useProgress'
 
 const TYPE_LABEL: Record<string, string> = {
   video: 'Video',
@@ -111,7 +112,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
               return (
                 <Link
                   key={m.id}
-                  href={`/academia/${m.id}`}
+                  href={moduleHref(m)}
                   style={{
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -288,7 +289,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                 return (
                   <Link
                     key={lesson.id}
-                    href={`/academia/${mod.id}/${lesson.id}`}
+                    href={lessonHref(mod, lesson.id)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -452,7 +453,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
           >
             {prev ? (
               <Link
-                href={`/academia/${prev.id}`}
+                href={moduleHref(prev)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -486,7 +487,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
 
             {next ? (
               <Link
-                href={`/academia/${next.id}`}
+                href={moduleHref(next)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',

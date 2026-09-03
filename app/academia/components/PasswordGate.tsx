@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore, type FormEvent } from 'react'
 
-// Cambiá esta contraseña cuando quieras
+// Cambia esta contraseña cuando quieras
 const PASSWORD = 'windshare28'
 
 // Detecta el montaje en cliente sin setState-en-effect: en SSR y el primer
@@ -97,7 +97,7 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
               color: 'var(--text-muted)',
             }}
           >
-            Área privada — ingresá la contraseña para continuar.
+            Área privada — ingresa la contraseña para continuar.
           </p>
         </div>
 

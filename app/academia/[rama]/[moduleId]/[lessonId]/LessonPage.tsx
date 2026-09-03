@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import type { Module, Lesson } from '../../modules'
-import { useProgress } from '../../hooks/useProgress'
-import LessonContent from '../../components/LessonContent'
-import MediaEmbed from '../../components/MediaEmbed'
+import type { Module, Lesson } from '../../../types'
+import { moduleHref, lessonHref } from '../../../ramas'
+import { useProgress } from '../../../hooks/useProgress'
+import LessonContent from '../../../components/LessonContent'
+import MediaEmbed from '../../../components/MediaEmbed'
 
 const TYPE_LABEL: Record<string, string> = {
   video: 'Video',
@@ -82,7 +83,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
         >
           {/* Back to module */}
           <Link
-            href={`/academia/${mod.id}`}
+            href={moduleHref(mod)}
             style={{
               fontFamily: 'var(--font-inter)',
               fontSize: '0.8125rem',
@@ -158,7 +159,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
               return (
                 <Link
                   key={l.id}
-                  href={`/academia/${mod.id}/${l.id}`}
+                  href={lessonHref(mod, l.id)}
                   style={{
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -423,7 +424,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
           >
             {prevLesson ? (
               <Link
-                href={`/academia/${mod.id}/${prevLesson.id}`}
+                href={lessonHref(mod, prevLesson.id)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -453,7 +454,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
               </Link>
             ) : (
               <Link
-                href={`/academia/${mod.id}`}
+                href={moduleHref(mod)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -485,7 +486,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
 
             {nextLesson ? (
               <Link
-                href={`/academia/${mod.id}/${nextLesson.id}`}
+                href={lessonHref(mod, nextLesson.id)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -516,7 +517,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
               </Link>
             ) : (
               <Link
-                href={`/academia/${mod.id}`}
+                href={moduleHref(mod)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
