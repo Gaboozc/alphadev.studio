@@ -19,7 +19,14 @@ export async function createClient() {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options)
+              // @supabase/ssr no marca httpOnly por su cuenta. Lo forzamos:
+              // es lo que impide que un script de la página lea la sesión.
+              cookieStore.set(name, value, {
+                ...options,
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+              })
             })
           } catch {
             // Un Server Component no puede escribir cookies. No es un error:
