@@ -492,13 +492,15 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 - **Los links se arman con** `ramaHref()` / `moduleHref()` / `lessonHref()`, nunca a mano.
 - **Metadata de áreas**: fuente única en `TRACK_META`. No duplicar la tabla en componentes.
 - **`audience`** en cada módulo separa contenido vendible (`'aprendizaje'`) de formación interna (`'capacitacion'`). Ausente = `'aprendizaje'`.
+- **Nunca importes `Module` ni `MODULES` desde un componente `'use client'`.** Eso mete el texto de las 433 lecciones en el paquete de JavaScript del navegador. Los componentes de cliente reciben `ModuleMeta` (sin `content`, `tasks`, `tip`, `questions`) construido en el servidor con `toModuleMeta()`. Comprobación: `grep -rl "<frase de una lección>" .next/static/` debe dar cero.
 - **Markdown de las lecciones** (`components/LessonContent.tsx`): soporta `## sección`, `### subtítulo`, `**negrita**`, `` `código` `` (también dentro de negritas), bloques ` ``` ` con lenguaje opcional y listas con `- `. No hay más sintaxis: cualquier otra cosa se renderiza como texto plano.
 - URLs: `/academia/<rama>/<módulo>/<lección>`. Un módulo vive en una sola rama; pedirlo bajo otra da 404.
 - Estilos nuevos usan clases `.acad-*` en `globals.css`, no estilos inline.
 
 ### Pendiente — Fases 2 y 3
 
-- **Fase 2 (auth)**: `PasswordGate` es una contraseña en texto plano dentro de un componente de cliente. No protege nada: la contraseña se lee en el bundle y el contenido de los cursos viaja al navegador sin autenticarse. Reemplazar por Supabase Auth con validación en servidor antes de vender acceso. El progreso también debe migrar de `localStorage` a la base.
+- **Fase 2 (auth)**: `PasswordGate` sigue siendo una contraseña en texto plano dentro de un componente de cliente. No protege nada: se lee en el bundle, y cualquiera puede abrir la URL de una lección y leerla. Reemplazar por Supabase Auth con validación en servidor antes de vender acceso. El progreso también debe migrar de `localStorage` a la base.
+  - *Ya hecho (commit `df2032a`)*: el contenido dejó de viajar en bloque al navegador. Antes había un chunk de 1 MB con las 433 lecciones; ahora solo baja la lección que se está viendo. Falta la sesión de verdad.
 - **Fase 3 (permisos)**: tabla de permisos por usuario (acceso total / por rama / por módulo, con vencimiento) + panel `/academia/admin`.
 - El middleware de la Fase 2 es también el lugar para mapear las URLs viejas `/academia/<módulo>`.
 
