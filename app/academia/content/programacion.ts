@@ -4,6 +4,1296 @@ import type { Module } from '../types'
 // Cada módulo declara su `track`; la rama se deriva del track en ramas.ts.
 export const MODULES_PROGRAMACION: Module[] = [
   {
+    id: 'web-ts',
+    number: 14,
+    title: 'TypeScript: JavaScript con red de seguridad',
+    description: 'Tipos que atrapan los errores antes de que lleguen al navegador, y que convierten tu editor en documentación viva.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'web',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'wts-l1',
+        title: 'Por qué TypeScript, en concreto',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El error que TypeScript elimina
+
+En JavaScript esto se ejecuta sin quejarse y falla en producción:
+
+\`\`\`js
+function calcularTotal(precio, cantidad) {
+  return precio * cantidad
+}
+
+calcularTotal('100', 2)      // '100' * 2 = 200 ... por casualidad
+calcularTotal(100)           // 100 * undefined = NaN
+calcularTotal({ precio: 100 }, 2)  // NaN
+\`\`\`
+
+Ninguna de las tres llamadas produce un error visible. La primera funciona de casualidad, las otras dos devuelven \`NaN\` y ese \`NaN\` viaja por el sistema hasta aparecer como "Total: NaN" en la pantalla de un cliente.
+
+Con tipos, las tres se detienen antes de correr:
+
+\`\`\`ts
+function calcularTotal(precio: number, cantidad: number): number {
+  return precio * cantidad
+}
+
+calcularTotal('100', 2)   // Error: string no es asignable a number
+calcularTotal(100)        // Error: se esperaban 2 argumentos, llegó 1
+\`\`\`
+
+### Qué es TypeScript exactamente
+
+Es JavaScript más un sistema de tipos. Se **compila** a JavaScript normal: el navegador nunca ve TypeScript. Los tipos existen solo mientras escribes y compilas; en tiempo de ejecución desaparecen por completo.
+
+Esa última frase tiene una consecuencia que hay que entender desde el primer día: **TypeScript no valida los datos que llegan de afuera.** Si una API te devuelve algo distinto de lo que declaraste, TypeScript no se entera. Para eso está Zod, que valida en tiempo de ejecución. Los dos se complementan.
+
+### Los tres beneficios reales
+
+**Errores antes de ejecutar.** El editor los subraya mientras escribes, no cuando un usuario los encuentra.
+
+**Autocompletado que sabe.** Si una función devuelve un \`Usuario\`, tu editor te ofrece sus campos exactos. Dejas de ir a mirar cómo se llamaba la propiedad.
+
+**Refactorizar sin miedo.** Renombra un campo y el editor te muestra los 14 lugares que hay que actualizar. En JavaScript, buscarías por texto y rezarías.
+
+### El coste
+
+Escribes más. Al principio peleas con el compilador. Cuanto más grande el proyecto, más rentable es: en un archivo de 50 líneas apenas se nota, en un proyecto de 200 archivos es lo que lo hace mantenible.
+
+### Ponerlo a andar
+
+En un proyecto Next.js ya viene configurado: basta con nombrar los archivos \`.ts\` y \`.tsx\`. Para un proyecto desde cero:
+
+\`\`\`bash
+npm install -D typescript
+npx tsc --init
+\`\`\`
+
+Y la opción que de verdad importa en \`tsconfig.json\`:
+
+\`\`\`json
+{
+  "compilerOptions": {
+    "strict": true
+  }
+}
+\`\`\`
+
+Sin \`strict\`, TypeScript deja pasar \`null\` y \`undefined\` en todas partes y pierdes la mitad del valor. Enciéndelo desde el primer día: activarlo después, con el proyecto crecido, es mucho más doloroso.`,
+        tasks: [
+          'Crea un proyecto con npx tsc --init y activa strict en el tsconfig.json',
+          'Escribe una función sin tipos, comprueba que compila, y luego agrégalos para ver el error aparecer',
+          'Explica en una frase por qué TypeScript no puede validar la respuesta de una API en tiempo de ejecución',
+          'Renombra un campo de un objeto usado en tres archivos y observa cómo el editor te señala los tres',
+        ],
+        tip: 'La confusión más común al empezar: creer que TypeScript protege en tiempo de ejecución. No lo hace. Los tipos se borran al compilar. Todo lo que entra de afuera —formularios, APIs, localStorage— sigue necesitando validación real con Zod.',
+        completed: false,
+      },
+      {
+        id: 'wts-l2',
+        title: 'Tipos básicos, inferencia y el pecado del any',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Los tipos que vas a usar
+
+\`\`\`ts
+const nombre: string = 'Gabriel'
+const edad: number = 32
+const activo: boolean = true
+const etiquetas: string[] = ['web', 'diseño']
+const par: [string, number] = ['total', 100]   // tupla: orden y longitud fijos
+\`\`\`
+
+### Deja que infiera
+
+TypeScript deduce el tipo solo. Anotar lo obvio es ruido:
+
+\`\`\`ts
+const nombre: string = 'Gabriel'   // redundante
+const nombre = 'Gabriel'           // ya es string
+\`\`\`
+
+**Anota siempre** los parámetros de función y el valor de retorno de las funciones públicas. **Deja inferir** las variables locales. Esa es la regla práctica.
+
+### null y undefined con strict
+
+Con \`strict\` activado, un \`string\` no puede ser \`null\`. Si algo puede faltar, hay que decirlo:
+
+\`\`\`ts
+let apodo: string | null = null
+function buscar(id: string): Usuario | undefined { ... }
+\`\`\`
+
+Y entonces TypeScript te obliga a comprobarlo antes de usarlo, que es exactamente el error que quieres evitar:
+
+\`\`\`ts
+const usuario = buscar('123')
+console.log(usuario.nombre)        // Error: puede ser undefined
+
+if (usuario) {
+  console.log(usuario.nombre)      // aquí sí: dentro del if ya no puede serlo
+}
+\`\`\`
+
+### any: la puerta de atrás
+
+\`any\` desactiva todas las comprobaciones para ese valor. Es contagioso: lo que toca un \`any\` deja de estar protegido.
+
+\`\`\`ts
+const datos: any = await respuesta.json()
+datos.usuario.nombre.toUpperCase()   // compila, y puede reventar en ejecución
+\`\`\`
+
+Cuando de verdad no sabes el tipo, usa \`unknown\`. Es como \`any\` pero honesto: te obliga a comprobar antes de usar.
+
+\`\`\`ts
+const datos: unknown = await respuesta.json()
+
+datos.usuario                        // Error: no se puede acceder a unknown
+if (typeof datos === 'object' && datos !== null && 'usuario' in datos) {
+  // aquí TypeScript ya sabe algo del valor
+}
+\`\`\`
+
+En la práctica, para respuestas de API lo que haces es validar con Zod y obtener un tipo seguro de regalo:
+
+\`\`\`ts
+const Usuario = z.object({ nombre: z.string(), edad: z.number() })
+const usuario = Usuario.parse(await respuesta.json())   // tipado y validado
+\`\`\`
+
+### Funciones
+
+\`\`\`ts
+function saludar(nombre: string): string {
+  return \`Hola, \${nombre}\`
+}
+
+// parámetro opcional: va al final y su tipo incluye undefined
+function crear(nombre: string, apodo?: string) { ... }
+
+// valor por defecto: el tipo se infiere del defecto
+function conectar(puerto = 3000) { ... }
+
+// función que no devuelve nada
+function registrar(mensaje: string): void {
+  console.log(mensaje)
+}
+\`\`\``,
+        tasks: [
+          'Escribe cinco funciones tipadas: una con parámetro opcional, una con valor por defecto y una que devuelva void',
+          'Busca en un proyecto tuyo todos los any y sustituye al menos uno por unknown con su comprobación',
+          'Provoca a propósito el error de "puede ser undefined" y resuélvelo con una comprobación previa',
+          'Valida la respuesta de una API con Zod y comprueba que el tipo resultante es correcto en el editor',
+        ],
+        tip: 'Si te ves poniendo any para que el compilador se calle, ese es justo el punto donde había un error real esperándote. Casi siempre lo que necesitas es unknown más una comprobación, o un esquema de Zod.',
+        completed: false,
+      },
+      {
+        id: 'wts-l3',
+        title: 'Interfaces, uniones y narrowing',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Describir la forma de los objetos
+
+\`\`\`ts
+interface Usuario {
+  id: string
+  nombre: string
+  email: string
+  apodo?: string          // opcional
+  readonly creadoEn: Date // no se puede reasignar
+}
+
+function saludar(usuario: Usuario): string {
+  return \`Hola, \${usuario.nombre}\`
+}
+\`\`\`
+
+### interface o type
+
+Hacen casi lo mismo. La diferencia práctica: \`interface\` se puede extender y reabrir; \`type\` sirve además para uniones y alias de cualquier tipo.
+
+\`\`\`ts
+interface Admin extends Usuario {
+  permisos: string[]
+}
+
+type Estado = 'borrador' | 'publicado' | 'archivado'
+type Id = string | number
+\`\`\`
+
+Convención razonable: \`interface\` para la forma de objetos, \`type\` para todo lo demás.
+
+### Uniones literales: el tipo que más rendimiento da
+
+\`\`\`ts
+type Estado = 'borrador' | 'publicado' | 'archivado'
+
+function publicar(estado: Estado) { ... }
+
+publicar('publicado')   // bien
+publicar('publicadp')   // Error, y el editor sugiere las tres opciones válidas
+\`\`\`
+
+Esto sustituye a las constantes de texto sueltas y elimina de raíz una familia entera de errores de tipeo. En el sistema de la Academia, \`Track\` y \`Rama\` son exactamente esto.
+
+### Narrowing: TypeScript te sigue el razonamiento
+
+Cuando compruebas algo, TypeScript acota el tipo dentro de esa rama:
+
+\`\`\`ts
+function formatear(valor: string | number): string {
+  if (typeof valor === 'string') {
+    return valor.toUpperCase()    // aquí es string
+  }
+  return valor.toFixed(2)         // aquí solo puede ser number
+}
+\`\`\`
+
+Las herramientas de narrowing: \`typeof\`, \`instanceof\`, \`in\`, \`Array.isArray\` y comparar contra literales.
+
+### Uniones discriminadas
+
+El patrón más útil de todos. Un campo común distingue las variantes:
+
+\`\`\`ts
+type Resultado =
+  | { estado: 'ok'; datos: Usuario[] }
+  | { estado: 'error'; mensaje: string }
+
+function mostrar(r: Resultado) {
+  if (r.estado === 'ok') {
+    console.log(r.datos.length)    // datos existe aquí
+  } else {
+    console.log(r.mensaje)         // mensaje existe aquí
+  }
+}
+\`\`\`
+
+Intentar leer \`r.datos\` en la rama de error es un error de compilación. El sistema de tipos te impide olvidar el caso de fallo, que es justo el que todo el mundo olvida.
+
+### Índices y registros
+
+\`\`\`ts
+// un objeto cuyas claves son de un conjunto conocido
+const etiquetas: Record<Estado, string> = {
+  borrador: 'Borrador',
+  publicado: 'Publicado',
+  archivado: 'Archivado',
+}
+\`\`\`
+
+Si mañana agregas un cuarto estado a \`Estado\`, este objeto deja de compilar hasta que lo completes. Un olvido menos.`,
+        tasks: [
+          'Define una interface para una entidad real de tu proyecto, con un campo opcional y uno readonly',
+          'Sustituye tres constantes de texto sueltas por una unión literal y comprueba el autocompletado',
+          'Escribe una unión discriminada para el resultado de una petición: éxito con datos, fallo con mensaje',
+          'Usa Record para una tabla de etiquetas y agrega un valor nuevo a la unión para ver el error aparecer',
+        ],
+        tip: 'La unión discriminada es el patrón que más errores evita en aplicaciones reales, porque hace imposible leer los datos sin haber contemplado antes el caso de error. Úsala para toda respuesta que pueda fallar.',
+        completed: false,
+      },
+      {
+        id: 'wts-l4',
+        title: 'Genéricos y tipos utilitarios',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Genéricos: funciones que conservan el tipo
+
+Sin genéricos hay que elegir entre repetir código o perder la información:
+
+\`\`\`ts
+function primero(lista: any[]): any { return lista[0] }
+
+const u = primero(usuarios)   // any — perdimos que era Usuario
+\`\`\`
+
+Con un genérico, el tipo entra y sale intacto:
+
+\`\`\`ts
+function primero<T>(lista: T[]): T | undefined {
+  return lista[0]
+}
+
+const u = primero(usuarios)   // Usuario | undefined
+const n = primero([1, 2, 3])  // number | undefined
+\`\`\`
+
+\`T\` es un hueco que se rellena en cada llamada. No hace falta pasarlo: TypeScript lo deduce del argumento.
+
+### Restringir el genérico
+
+\`\`\`ts
+// solo acepta cosas que tengan id
+function porId<T extends { id: string }>(lista: T[], id: string): T | undefined {
+  return lista.find((item) => item.id === id)
+}
+\`\`\`
+
+### Los utilitarios que vas a usar de verdad
+
+\`\`\`ts
+interface Usuario {
+  id: string
+  nombre: string
+  email: string
+  password: string
+}
+
+Partial<Usuario>              // todos los campos opcionales — ideal para actualizaciones
+Required<Usuario>             // todos obligatorios
+Pick<Usuario, 'id' | 'nombre'>    // solo esos dos campos
+Omit<Usuario, 'password'>         // todos menos password
+Readonly<Usuario>             // ninguno se puede reasignar
+Record<string, number>        // objeto de claves string y valores number
+\`\`\`
+
+Casos reales:
+
+\`\`\`ts
+// lo que sale hacia el cliente nunca lleva la contraseña
+type UsuarioPublico = Omit<Usuario, 'password'>
+
+// una actualización solo trae los campos que cambian
+function actualizar(id: string, cambios: Partial<Usuario>) { ... }
+\`\`\`
+
+Lo valioso es que se derivan del tipo original: si mañana agregas un campo a \`Usuario\`, todos estos se actualizan solos.
+
+### Derivar tipos en vez de escribirlos
+
+\`\`\`ts
+// el tipo de un valor existente
+const config = { puerto: 3000, host: 'localhost' }
+type Config = typeof config
+
+// las claves de un tipo, como unión
+type CampoUsuario = keyof Usuario    // 'id' | 'nombre' | 'email' | 'password'
+
+// el tipo que devuelve una función
+type Resultado = ReturnType<typeof calcularTotal>
+\`\`\`
+
+La regla general: **una sola fuente de verdad**. Si el tipo se puede derivar de algo que ya existe, derívalo en vez de escribirlo aparte. Dos definiciones separadas terminan siempre desincronizadas.`,
+        tasks: [
+          'Escribe una función genérica que devuelva el último elemento de cualquier lista conservando el tipo',
+          'Restringe un genérico con extends para que solo acepte objetos con un campo concreto',
+          'Crea un tipo UsuarioPublico con Omit y comprueba que la contraseña ya no aparece',
+          'Deriva un tipo con typeof a partir de un objeto de configuración existente',
+        ],
+        tip: 'Si estás escribiendo un tipo que repite campos de otro que ya existe, casi siempre hay un utilitario que lo deriva. Derivar en vez de duplicar es lo que evita que los tipos se queden viejos cuando el modelo cambia.',
+        completed: false,
+      },
+      {
+        id: 'wts-l5',
+        title: 'TypeScript en React y Next.js',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Tipar las props
+
+\`\`\`tsx
+interface BotonProps {
+  texto: string
+  variante?: 'primario' | 'secundario'
+  onClick: () => void
+  disabled?: boolean
+}
+
+export default function Boton({ texto, variante = 'primario', onClick, disabled }: BotonProps) {
+  return (
+    <button onClick={onClick} disabled={disabled} className={variante}>
+      {texto}
+    </button>
+  )
+}
+\`\`\`
+
+Con esto, quien use el componente recibe autocompletado de sus props y un error si olvida \`onClick\` o escribe mal la variante.
+
+### children y props del DOM
+
+\`\`\`tsx
+import type { ReactNode, ButtonHTMLAttributes } from 'react'
+
+interface CardProps {
+  titulo: string
+  children: ReactNode        // cualquier cosa renderizable
+}
+
+// heredar todas las props nativas de un <button>
+interface BotonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variante?: 'primario' | 'secundario'
+}
+\`\`\`
+
+### Hooks
+
+\`\`\`tsx
+const [nombre, setNombre] = useState('')              // infiere string
+const [usuario, setUsuario] = useState<Usuario | null>(null)  // hay que decirlo
+const [items, setItems] = useState<string[]>([])      // si arranca vacío, también
+\`\`\`
+
+La regla: si el valor inicial ya representa el tipo final, deja inferir. Si arranca en \`null\` o en lista vacía, anótalo.
+
+\`\`\`tsx
+const ref = useRef<HTMLInputElement>(null)
+ref.current?.focus()     // el ? porque puede ser null antes del montaje
+\`\`\`
+
+### Eventos
+
+\`\`\`tsx
+function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+  setNombre(e.target.value)
+}
+
+function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+}
+\`\`\`
+
+Truco: si escribes el manejador en línea, TypeScript deduce el tipo del evento solo. Solo hace falta anotarlo cuando la función se declara aparte.
+
+### Next.js App Router
+
+Los \`params\` de una página son una promesa y hay que esperarlos:
+
+\`\`\`tsx
+interface Props {
+  params: Promise<{ slug: string }>
+}
+
+export default async function Pagina({ params }: Props) {
+  const { slug } = await params
+  ...
+}
+\`\`\`
+
+### El error de tipos más frecuente en React
+
+\`\`\`tsx
+// Mal: se ejecuta al renderizar, no al hacer clic
+<button onClick={borrar(id)}>Borrar</button>
+
+// Bien
+<button onClick={() => borrar(id)}>Borrar</button>
+\`\`\`
+
+TypeScript lo atrapa: \`onClick\` espera una función, y \`borrar(id)\` es el *resultado* de llamarla. En JavaScript puro este error borra el elemento nada más cargar la página.`,
+        tasks: [
+          'Tipa las props de tres componentes tuyos, con una unión literal para una variante',
+          'Crea un componente que herede las props nativas de un elemento del DOM con ButtonHTMLAttributes',
+          'Tipa un useState que arranque en null y resuelve los errores de acceso que aparezcan',
+          'Escribe un manejador de formulario declarado aparte, con su tipo de evento correcto',
+        ],
+        tip: 'Cuando no sepas qué tipo lleva un evento o una prop, pásale el cursor por encima en el editor: te muestra el tipo exacto que espera. Es más rápido y más fiable que buscarlo en la documentación.',
+        completed: false,
+      },
+      {
+        id: 'wts-l6',
+        title: 'Práctica: migrar un archivo real a TypeScript',
+        type: 'practice',
+        difficulty: 'profesional',
+        content: `## El ejercicio
+
+Migrar de golpe un proyecto entero es la forma segura de abandonarlo. Se hace archivo por archivo, y este ejercicio te enseña el procedimiento con uno real.
+
+### El procedimiento
+
+1. **Elige el archivo correcto.** No el más grande: uno con lógica y pocas dependencias. Un módulo de utilidades o de cálculo es ideal.
+2. **Renómbralo** de \`.js\` a \`.ts\` (o \`.jsx\` a \`.tsx\`).
+3. **Mira los errores que aparecen.** Van a ser muchos. No es que hayas roto nada: son errores que ya existían y estaban invisibles.
+4. **Arréglalos de arriba abajo.** Muchos se resuelven solos al tipar los parámetros de una función.
+5. **Prohibido usar \`any\` para callar el compilador.** Si no sabes el tipo, usa \`unknown\` y comprueba.
+6. **Comprueba que sigue funcionando** antes de pasar al siguiente archivo.
+
+### Los errores que vas a encontrar y qué significan
+
+\`Parameter 'x' implicitly has an 'any' type\`
+Falta anotar el parámetro. Es el más común y el más fácil.
+
+\`Object is possibly 'undefined'\`
+Un valor puede faltar y no lo estabas comprobando. **Este es un error real que ya tenías**, no una molestia del compilador.
+
+\`Property 'nombre' does not exist on type '{}'\`
+Un objeto sin forma declarada. Define su interface.
+
+\`Type 'string | undefined' is not assignable to type 'string'\`
+Estás pasando algo que puede faltar donde se exige un valor. Comprueba antes, o marca el destino como opcional.
+
+### Lo que hay que documentar
+
+Anota cada error que resultó ser un fallo real y no solo una anotación faltante. Esa lista es la respuesta concreta a "¿para qué sirve TypeScript?", con evidencia de tu propio código.`,
+        tasks: [
+          'Elige un archivo con lógica de un proyecto tuyo y renómbralo a .ts',
+          'Resuelve todos los errores sin usar any ni una sola vez',
+          'Anota cuáles de esos errores eran fallos reales que ya existían en el código',
+          'Comprueba que el proyecto sigue funcionando y repite con un segundo archivo',
+        ],
+        tip: 'Los errores de "posiblemente undefined" son los valiosos: cada uno es un lugar donde tu aplicación podía romperse con datos incompletos. Cuéntalos al terminar, porque son la medida real de lo que ganaste.',
+        completed: false,
+      },
+      {
+        id: 'wts-l7',
+        title: 'Examen: TypeScript',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: 'Declaras que una función recibe un Usuario, pero la API devuelve un objeto sin el campo email. ¿Qué pasa en tiempo de ejecución?',
+            options: [
+              'TypeScript lanza un error porque el objeto no cumple el tipo',
+              'Nada: los tipos se borran al compilar, así que el objeto entra igual y falla más adelante',
+              'El campo email se rellena automáticamente con una cadena vacía',
+              'La función no se ejecuta y devuelve undefined',
+            ],
+            correct: 1,
+            explanation: 'TypeScript solo existe en tiempo de compilación: el JavaScript resultante no contiene ninguna comprobación de tipos. Los datos que vienen de fuera —APIs, formularios, localStorage— necesitan validación real en ejecución, para lo que se usa Zod.',
+          },
+          {
+            q: '¿Cuál es la diferencia práctica entre any y unknown?',
+            options: [
+              'Son sinónimos, unknown es el nombre moderno de any',
+              'any desactiva las comprobaciones y se propaga; unknown también es un valor sin tipo, pero obliga a comprobarlo antes de usarlo',
+              'unknown solo se puede usar en parámetros de función',
+              'any es para objetos y unknown para valores primitivos',
+            ],
+            correct: 1,
+            explanation: 'Los dos representan "no sé qué tipo es", pero any te deja hacer cualquier cosa sin avisar y contagia esa falta de protección a todo lo que toca. unknown no permite acceder a nada hasta que hayas comprobado de qué se trata, que es el comportamiento honesto.',
+          },
+          {
+            q: '¿Qué ventaja tiene una unión discriminada sobre un objeto con campos opcionales?',
+            options: [
+              'Ocupa menos memoria en tiempo de ejecución',
+              'Impide leer los datos sin haber comprobado antes el caso de error, porque cada variante solo expone sus propios campos',
+              'Permite usar any de forma segura',
+              'Hace que el código compile más rápido',
+            ],
+            correct: 1,
+            explanation: 'Con campos opcionales podrías leer datos en el caso de error y TypeScript no diría nada. Con una unión discriminada, cada variante declara exactamente qué campos tiene, así que acceder a los datos sin comprobar primero el discriminante es un error de compilación.',
+          },
+          {
+            q: 'Necesitas un tipo igual a Usuario pero sin el campo password, para lo que se envía al cliente. ¿Cuál usas?',
+            options: [
+              'Partial<Usuario>',
+              'Omit<Usuario, "password">',
+              'Readonly<Usuario>',
+              'Escribir una interface nueva con los campos restantes',
+            ],
+            correct: 1,
+            explanation: 'Omit deriva el tipo del original quitando las claves indicadas. Escribir una interface nueva a mano funciona hoy pero se desincroniza en cuanto alguien agregue un campo a Usuario: derivar mantiene una sola fuente de verdad.',
+          },
+          {
+            q: '¿Por qué conviene activar "strict": true desde el primer día?',
+            options: [
+              'Porque hace que el código compilado sea más rápido',
+              'Porque sin strict, null y undefined se aceptan en todas partes y se pierde gran parte de la protección; activarlo con el proyecto ya crecido es mucho más costoso',
+              'Porque es obligatorio en Next.js',
+              'Porque permite usar genéricos, que de otro modo no están disponibles',
+            ],
+            correct: 1,
+            explanation: 'Sin strict —en particular sin strictNullChecks— cualquier valor puede ser null o undefined sin que TypeScript avise, que es justo la familia de errores más común en JavaScript. Encenderlo después obliga a resolver cientos de errores acumulados de golpe.',
+          },
+          {
+            q: 'En React, ¿qué error de tipos atrapa TypeScript en <button onClick={borrar(id)}>?',
+            options: [
+              'Ninguno: es la forma correcta de pasar argumentos a un manejador',
+              'Que onClick espera una función, pero borrar(id) es el resultado de llamarla — se ejecutaría al renderizar',
+              'Que falta declarar el tipo del evento de clic',
+              'Que id debería ser string y no number',
+            ],
+            correct: 1,
+            explanation: 'onClick espera una referencia a una función. Al escribir borrar(id) la estás llamando durante el render y pasando su valor de retorno. En JavaScript puro esto borra el elemento nada más cargar la página; TypeScript lo detiene en el editor. La forma correcta es onClick={() => borrar(id)}.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'TypeScript Handbook — documentación oficial',
+        url: 'https://www.typescriptlang.org/docs/handbook/intro.html',
+        type: 'documentation',
+      },
+      {
+        title: 'Type Challenges — ejercicios de tipos por dificultad',
+        url: 'https://github.com/type-challenges/type-challenges',
+        type: 'tool',
+      },
+      {
+        title: 'React TypeScript Cheatsheet',
+        url: 'https://react-typescript-cheatsheet.netlify.app/',
+        type: 'documentation',
+      },
+      {
+        title: 'Zod — validar en ejecución lo que TypeScript no puede',
+        url: 'https://zod.dev/',
+        type: 'documentation',
+      },
+    ],
+  },
+  {
+    id: 'fund-3',
+    number: 3,
+    title: 'Python: el segundo lenguaje',
+    description: 'El lenguaje que abre el backend, los datos y la IA. De la sintaxis a un script que resuelve un problema real de tu trabajo.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'fundamentos',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'f3-l1',
+        title: 'Por qué Python, y cómo montarlo sin ensuciar tu máquina',
+        type: 'reading',
+        difficulty: 'básico',
+        content: `## Dos lenguajes, dos territorios
+
+JavaScript domina el navegador. Python domina casi todo lo demás: automatización, análisis de datos, aprendizaje automático y la mayor parte de las bibliotecas de IA. Si quieres entrenar un modelo, procesar un archivo de un millón de filas o construir una API que hable con modelos de lenguaje, el ecosistema está en Python.
+
+No compiten. Un perfil que maneja los dos cubre el producto entero: la interfaz en TypeScript, el procesamiento y la IA en Python.
+
+### Instalar
+
+Python 3.11 o superior. En macOS y Linux ya viene una versión, pero conviene no tocar la del sistema.
+
+\`\`\`bash
+python3 --version      # comprobar qué hay
+\`\`\`
+
+En Windows, descárgalo de python.org y **marca la casilla "Add Python to PATH"** durante la instalación. Saltarse esa casilla es el motivo número uno de que \`python\` no funcione en la terminal después.
+
+### El entorno virtual: la parte que no se puede saltar
+
+Python instala paquetes de forma global por defecto. Dos proyectos que necesiten versiones distintas de la misma biblioteca se pisan y rompen. Un **entorno virtual** es una carpeta con su propia copia de Python y sus propios paquetes, aislada del resto.
+
+\`\`\`bash
+python3 -m venv .venv           # crear el entorno, una vez por proyecto
+
+source .venv/bin/activate       # activarlo — macOS y Linux
+.venv\\Scripts\\activate           # activarlo — Windows
+
+deactivate                      # salir
+\`\`\`
+
+Cuando está activo, el nombre aparece al principio de la línea de la terminal:
+
+\`\`\`
+(.venv) usuario@equipo proyecto %
+\`\`\`
+
+Si no ves ese prefijo, **no está activo** y todo lo que instales va a parar al sistema. Es el error más común al empezar.
+
+### Instalar paquetes y dejar constancia
+
+\`\`\`bash
+pip install requests
+pip freeze > requirements.txt   # anotar las versiones exactas
+pip install -r requirements.txt # reproducir el entorno en otra máquina
+\`\`\`
+
+\`requirements.txt\` sí se sube al repositorio. \`.venv/\` no: es el equivalente a \`node_modules\`, se reconstruye. Agrégalo al \`.gitignore\`.
+
+### Correr código
+
+\`\`\`bash
+python archivo.py       # ejecutar un script
+python                  # abrir el intérprete interactivo para probar cosas
+\`\`\`
+
+El intérprete interactivo es una herramienta de trabajo real, no un juguete: pruebas una línea, ves el resultado y sigues.`,
+        tasks: [
+          'Instala Python 3.11 o superior y comprueba la versión desde la terminal',
+          'Crea un proyecto con su entorno virtual y confirma que ves el prefijo (.venv) al activarlo',
+          'Instala requests dentro del entorno y genera el requirements.txt',
+          'Agrega .venv/ al .gitignore y explica por qué requirements.txt sí se versiona',
+        ],
+        tip: 'Antes de ejecutar cualquier pip install, mira si tu línea de terminal empieza con (.venv). Si no está, estás instalando en el Python del sistema, y ese es el origen de la mayoría de los conflictos de versiones que verás en foros.',
+        completed: false,
+      },
+      {
+        id: 'f3-l2',
+        title: 'Sintaxis: lo que cambia respecto a JavaScript',
+        type: 'reading',
+        difficulty: 'básico',
+        content: `## La indentación es sintaxis
+
+En JavaScript los bloques van entre llaves y la indentación es estética. En Python **la indentación define el bloque**. Si la sangría está mal, el programa hace otra cosa o no corre.
+
+\`\`\`python
+if edad >= 18:
+    print("Mayor de edad")
+    print("Puede votar")      # dentro del if
+print("Fin")                  # fuera del if
+\`\`\`
+
+Cuatro espacios por nivel. Nunca mezcles tabuladores y espacios en el mismo archivo.
+
+### Variables y tipos
+
+\`\`\`python
+nombre = "Gabriel"        # str
+edad = 32                 # int
+altura = 1.78             # float
+activo = True             # bool — con mayúscula
+nada = None               # el equivalente de null
+\`\`\`
+
+Sin \`const\` ni \`let\`. Para indicar que algo es constante, la convención es escribirlo en mayúsculas: \`API_URL = "..."\`.
+
+### Cadenas
+
+\`\`\`python
+nombre = "Gabriel"
+print(f"Hola, {nombre}")             # f-string: como los template literals
+print(f"El total es {precio * 1.16:.2f}")   # con formato: dos decimales
+\`\`\`
+
+### Condicionales y bucles
+
+\`\`\`python
+if estado == "activo":
+    ...
+elif estado == "pausado":
+    ...
+else:
+    ...
+
+for producto in productos:           # como el for...of de JavaScript
+    print(producto)
+
+for i in range(5):                   # 0, 1, 2, 3, 4
+    print(i)
+
+while intentos < 3:
+    intentos += 1                    # no existe ++
+\`\`\`
+
+### Comparaciones y verdad
+
+\`\`\`python
+and   or   not          # en vez de &&  ||  !
+==    !=                # no existe ===, == ya compara por valor
+is                      # compara identidad, se usa sobre todo con None
+\`\`\`
+
+\`\`\`python
+if usuario is None:      # así se comprueba None, no con ==
+    ...
+\`\`\`
+
+Se consideran falsos: \`False\`, \`None\`, \`0\`, \`""\`, \`[]\`, \`{}\`. Igual que en JavaScript, una lista vacía es falsa, lo que permite escribir \`if productos:\`.
+
+### Funciones
+
+\`\`\`python
+def calcular_total(precio, cantidad, iva=0.16):
+    subtotal = precio * cantidad
+    return round(subtotal * (1 + iva), 2)
+
+total = calcular_total(100, 2)
+total = calcular_total(100, 2, iva=0.21)     # argumento por nombre
+\`\`\`
+
+Los argumentos por nombre son habituales en Python y hacen el código mucho más legible que una fila de valores sueltos.
+
+### Nombres
+
+La convención es \`snake_case\` para variables y funciones, \`PascalCase\` para clases. Es distinta de JavaScript y conviene respetarla: el código Python que no la sigue se lee como escrito por alguien de paso.`,
+        tasks: [
+          'Traduce a Python tres funciones que ya tengas escritas en JavaScript',
+          'Escribe una función con un argumento por defecto y llámala usando argumento por nombre',
+          'Provoca a propósito un error de indentación y lee el mensaje que da Python',
+          'Escribe una comprobación de None usando is y explica por qué no se usa ==',
+        ],
+        tip: 'El error más frecuente viniendo de JavaScript es olvidar los dos puntos al final de un if, un for o un def. El mensaje de Python es claro y señala la línea exacta: acostúmbrate a leerlo en vez de revisar el código a ojo.',
+        completed: false,
+      },
+      {
+        id: 'f3-l3',
+        title: 'Listas, diccionarios y comprensiones',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Las cuatro estructuras
+
+\`\`\`python
+lista = [1, 2, 3]                        # ordenada, modificable
+tupla = (1, 2, 3)                        # ordenada, inmutable
+conjunto = {1, 2, 3}                     # sin orden, sin repetidos
+diccionario = {"nombre": "Gabriel"}      # pares clave-valor, como un objeto de JS
+\`\`\`
+
+### Listas
+
+\`\`\`python
+productos = ["laptop", "mouse", "teclado"]
+
+productos[0]          # 'laptop'
+productos[-1]         # 'teclado' — índices negativos desde el final
+productos[0:2]        # ['laptop', 'mouse'] — rebanada
+len(productos)
+
+productos.append("monitor")
+productos.remove("mouse")
+"laptop" in productos     # True — comprobar pertenencia es directo
+\`\`\`
+
+Los índices negativos y las rebanadas son de lo más cómodo del lenguaje: \`texto[-4:]\` te da los últimos cuatro caracteres sin calcular longitudes.
+
+### Diccionarios
+
+\`\`\`python
+usuario = {"nombre": "Gabriel", "edad": 32}
+
+usuario["nombre"]                 # 'Gabriel' — falla si no existe
+usuario.get("apodo")              # None si no existe — más seguro
+usuario.get("apodo", "sin apodo") # con valor por defecto
+
+usuario["email"] = "g@mail.com"   # agregar o actualizar
+
+for clave, valor in usuario.items():
+    print(f"{clave}: {valor}")
+\`\`\`
+
+Usa \`.get()\` siempre que la clave pueda faltar. El acceso con corchetes sobre una clave inexistente lanza \`KeyError\` y detiene el programa.
+
+### Comprensiones: el idioma de Python
+
+Es la forma idiomática de transformar y filtrar. Sustituye a \`map\` y \`filter\`:
+
+\`\`\`python
+precios = [100, 250, 80, 500]
+
+# map
+con_iva = [p * 1.16 for p in precios]
+
+# filter
+caros = [p for p in precios if p > 100]
+
+# los dos a la vez
+caros_con_iva = [p * 1.16 for p in precios if p > 100]
+
+# sobre diccionarios
+nombres = {u["id"]: u["nombre"] for u in usuarios}
+\`\`\`
+
+Se lee de izquierda a derecha: qué produzco, de dónde lo saco, con qué condición. Si una comprensión no cabe cómodamente en una línea, escribe un bucle normal: la legibilidad vale más que la brevedad.
+
+### Desempaquetar
+
+\`\`\`python
+nombre, edad = ("Gabriel", 32)
+
+for indice, producto in enumerate(productos):    # con el índice
+    print(indice, producto)
+
+for nombre, precio in zip(nombres, precios):     # dos listas a la vez
+    print(nombre, precio)
+\`\`\`
+
+### Ordenar y agregar
+
+\`\`\`python
+sorted(productos)                                   # copia ordenada
+sorted(usuarios, key=lambda u: u["edad"])           # por un campo
+sorted(usuarios, key=lambda u: u["edad"], reverse=True)
+
+sum(precios)
+max(precios)
+min(precios)
+\`\`\``,
+        tasks: [
+          'Carga una lista de diccionarios con datos reales de un proyecto tuyo',
+          'Escribe tres comprensiones: una que transforme, una que filtre y una que haga las dos cosas',
+          'Ordena la lista por dos campos distintos usando key con una lambda',
+          'Sustituye un acceso con corchetes por .get() con valor por defecto y provoca el KeyError para ver la diferencia',
+        ],
+        tip: 'Las comprensiones son la marca de que alguien escribe Python y no JavaScript con otra sintaxis. Pero tienen un límite: en cuanto necesitas dos condiciones anidadas, el bucle explícito se entiende mejor y es la opción correcta.',
+        completed: false,
+      },
+      {
+        id: 'f3-l4',
+        title: 'Archivos, JSON y peticiones HTTP',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Leer y escribir archivos
+
+\`\`\`python
+# leer
+with open("datos.txt", "r", encoding="utf-8") as archivo:
+    contenido = archivo.read()
+
+# leer línea por línea, sin cargar todo en memoria
+with open("grande.csv", "r", encoding="utf-8") as archivo:
+    for linea in archivo:
+        procesar(linea)
+
+# escribir
+with open("salida.txt", "w", encoding="utf-8") as archivo:
+    archivo.write("Hola\\n")
+\`\`\`
+
+**Usa siempre \`with\`.** Cierra el archivo solo, incluso si ocurre un error a mitad. Y **pon siempre \`encoding="utf-8"\`**: sin eso, Python usa la codificación del sistema y en Windows los acentos y las eñes se rompen.
+
+Los modos: \`"r"\` leer, \`"w"\` escribir desde cero (borra lo que había), \`"a"\` agregar al final.
+
+### JSON
+
+\`\`\`python
+import json
+
+# de archivo a diccionario
+with open("config.json", "r", encoding="utf-8") as f:
+    config = json.load(f)
+
+# de diccionario a archivo
+with open("salida.json", "w", encoding="utf-8") as f:
+    json.dump(datos, f, indent=2, ensure_ascii=False)
+
+# entre texto y objeto
+objeto = json.loads(texto_json)
+texto = json.dumps(objeto)
+\`\`\`
+
+\`ensure_ascii=False\` es lo que hace que los acentos se guarden legibles en vez de como secuencias de escape.
+
+### CSV
+
+\`\`\`python
+import csv
+
+with open("ventas.csv", "r", encoding="utf-8") as f:
+    for fila in csv.DictReader(f):     # cada fila es un diccionario
+        print(fila["producto"], fila["total"])
+\`\`\`
+
+\`DictReader\` usa la primera línea como nombres de columna. Es casi siempre lo que quieres.
+
+### Peticiones HTTP
+
+\`\`\`python
+import requests
+
+respuesta = requests.get("https://api.ejemplo.com/productos", timeout=10)
+respuesta.raise_for_status()         # lanza excepción si el estado es 4xx o 5xx
+productos = respuesta.json()
+
+respuesta = requests.post(
+    "https://api.ejemplo.com/pedidos",
+    json={"producto_id": 12, "cantidad": 2},
+    headers={"Authorization": f"Bearer {token}"},
+    timeout=10,
+)
+\`\`\`
+
+**Pon siempre \`timeout\`.** Sin él, una petición a un servidor que no responde deja tu script colgado para siempre.
+
+### Errores
+
+\`\`\`python
+try:
+    respuesta = requests.get(url, timeout=10)
+    respuesta.raise_for_status()
+    datos = respuesta.json()
+except requests.Timeout:
+    print("El servidor tardó demasiado")
+except requests.HTTPError as e:
+    print(f"El servidor respondió con error: {e.response.status_code}")
+except requests.RequestException as e:
+    print(f"Fallo de red: {e}")
+\`\`\`
+
+Captura excepciones concretas, de la más específica a la más general. Un \`except\` sin tipo atrapa absolutamente todo, incluidos los errores de programación, y los esconde — el mismo problema que el \`catch\` vacío en JavaScript.
+
+### Rutas
+
+\`\`\`python
+from pathlib import Path
+
+ruta = Path("datos") / "ventas.csv"     # funciona en Windows, macOS y Linux
+if ruta.exists():
+    contenido = ruta.read_text(encoding="utf-8")
+\`\`\`
+
+\`pathlib\` evita el clásico problema de las barras invertidas de Windows.`,
+        tasks: [
+          'Lee un CSV real con DictReader y calcula un total agrupado por alguna columna',
+          'Escribe el resultado como JSON con indent=2 y ensure_ascii=False, y comprueba que los acentos se ven bien',
+          'Haz una petición a una API pública con timeout y maneja los tres tipos de error por separado',
+          'Reescribe una ruta de archivo usando pathlib en vez de concatenar cadenas',
+        ],
+        tip: 'Si abres un archivo sin encoding="utf-8" el código funciona en tu máquina y falla en la de otro. Es el error que más tiempo hace perder porque no falla siempre, solo a veces y en otro sistema operativo.',
+        completed: false,
+      },
+      {
+        id: 'f3-l5',
+        title: 'Type hints, módulos y herramientas modernas',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Type hints: TypeScript para Python
+
+Python es dinámico, pero desde la versión 3.5 permite anotar tipos. No los verifica al ejecutar —igual que TypeScript, se borran— pero el editor los usa para autocompletar y avisarte.
+
+\`\`\`python
+def calcular_total(precio: float, cantidad: int, iva: float = 0.16) -> float:
+    return round(precio * cantidad * (1 + iva), 2)
+
+def buscar_usuario(user_id: str) -> dict | None:
+    ...
+
+nombres: list[str] = []
+config: dict[str, int] = {}
+\`\`\`
+
+En proyectos serios se anotan todas las funciones públicas. Es la misma regla práctica que en TypeScript.
+
+### Estructurar con dataclasses
+
+En vez de pasar diccionarios sueltos, define la forma de tus datos:
+
+\`\`\`python
+from dataclasses import dataclass
+
+@dataclass
+class Producto:
+    nombre: str
+    precio: float
+    stock: int = 0
+
+p = Producto(nombre="Laptop", precio=1200)
+print(p.precio)        # autocompletado real en el editor
+\`\`\`
+
+Una \`dataclass\` genera sola el constructor, la comparación y una representación legible. Es el equivalente de una \`interface\` de TypeScript, pero además existe en tiempo de ejecución.
+
+Para validar datos que vienen de fuera, el estándar es **Pydantic**, que es a Python lo que Zod a TypeScript:
+
+\`\`\`python
+from pydantic import BaseModel, EmailStr
+
+class Contacto(BaseModel):
+    nombre: str
+    email: EmailStr
+    edad: int
+
+contacto = Contacto(**datos_del_formulario)   # valida y lanza si algo no cuadra
+\`\`\`
+
+### Módulos y paquetes
+
+\`\`\`python
+# precios.py
+def calcular_total(...): ...
+
+# main.py
+from precios import calcular_total
+import precios
+from precios import calcular_total as total
+\`\`\`
+
+Un archivo es un módulo. Una carpeta con varios archivos es un paquete.
+
+\`\`\`python
+if __name__ == "__main__":
+    main()
+\`\`\`
+
+Ese bloque significa "ejecuta esto solo si el archivo se corre directamente, no si alguien lo importa". Sin él, importar tu script ejecutaría todo su contenido de golpe.
+
+### Las herramientas del día a día
+
+\`\`\`bash
+pip install ruff mypy
+
+ruff check .        # detecta errores y problemas de estilo, muy rápido
+ruff format .       # formatea el código
+mypy .              # comprueba los type hints
+\`\`\`
+
+**Ruff** reemplaza a varias herramientas antiguas y es el estándar actual. **Mypy** hace lo que hace el compilador de TypeScript: verificar que los tipos anotados encajan.
+
+### La biblioteca estándar
+
+Python trae mucho resuelto sin instalar nada:
+
+\`\`\`python
+import datetime    # fechas y horas
+import re          # expresiones regulares
+import os          # sistema operativo y variables de entorno
+import collections # Counter, defaultdict — muy útiles para agrupar
+import itertools   # combinaciones y agrupaciones
+\`\`\`
+
+\`Counter\` en concreto resuelve en una línea el clásico "cuenta cuántas veces aparece cada valor":
+
+\`\`\`python
+from collections import Counter
+Counter(["a", "b", "a", "c", "a"])     # {'a': 3, 'b': 1, 'c': 1}
+\`\`\``,
+        tasks: [
+          'Anota con type hints todas las funciones de un script tuyo y pásale mypy',
+          'Convierte un diccionario que uses en varios sitios en una dataclass',
+          'Valida los datos de entrada de tu script con un modelo de Pydantic',
+          'Instala ruff, córrelo sobre tu código y corrige lo que reporte',
+        ],
+        tip: 'Si ya escribiste el módulo de TypeScript, aquí no estás aprendiendo un concepto nuevo sino la misma idea con otra sintaxis: dataclass es interface, Pydantic es Zod, mypy es el compilador. Apoyarte en ese paralelo acelera mucho.',
+        completed: false,
+      },
+      {
+        id: 'f3-l6',
+        title: 'Proyecto: un script que te ahorre trabajo de verdad',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: `Vas a escribir una herramienta de línea de comandos que resuelva una tarea repetitiva real de tu trabajo. No un ejercicio inventado: algo que hoy haces a mano y que a partir de mañana haga el script.
+
+Ideas que funcionan bien y salen de trabajo real de agencia:
+
+- Leer el CSV de exportación de una plataforma de anuncios y generar un resumen por campaña con coste, conversiones y coste por conversión.
+- Recorrer una carpeta de imágenes, renombrarlas con un patrón, convertirlas a WebP y reportar cuánto peso se ahorró.
+- Consultar una API pública y guardar un informe en JSON o Markdown listo para enviar a un cliente.
+- Revisar una lista de URLs, comprobar cuáles responden con error y generar un reporte.
+
+Lo importante no es el tamaño, es que sea algo que vas a volver a usar.`,
+        deliverables: [
+          'Repositorio con el script, requirements.txt y un README que explique qué hace y cómo se usa',
+          'El script acepta argumentos desde la línea de comandos con argparse, sin rutas escritas dentro del código',
+          'Type hints en todas las funciones y una dataclass o modelo de Pydantic para los datos que maneja',
+          'Manejo de errores con excepciones concretas: archivo que no existe, formato inválido, fallo de red',
+          'Un ejemplo de entrada y otro de salida incluidos en el repositorio',
+        ],
+        rubrica: [
+          'El script corre en una máquina limpia siguiendo solo lo que dice el README',
+          'No hay rutas ni claves escritas dentro del código: llegan por argumentos o variables de entorno',
+          'Al recibir un archivo que no existe, muestra un mensaje claro en vez de una traza de error',
+          'Las funciones están anotadas con type hints y mypy pasa sin errores',
+          'Ruff no reporta problemas',
+          'Existe el bloque if __name__ == "__main__" y la lógica está en funciones, no suelta',
+          'El README explica el problema que resuelve, no solo cómo se ejecuta',
+        ],
+        tasks: [
+          'Elige una tarea repetitiva real que hagas a mano hoy y descríbela en dos frases',
+          'Monta el proyecto con su entorno virtual y su requirements.txt',
+          'Escribe primero la función central y pruébala en el intérprete interactivo antes de armar el resto',
+          'Agrega argparse para los argumentos y el manejo de errores por tipo de excepción',
+          'Pásale ruff y mypy, y escribe el README con un ejemplo de uso real',
+        ],
+        discussionPrompts: [
+          '¿Cuánto tiempo te toma esa tarea a mano y cuántas veces al mes la haces? Ese número es el retorno real del script.',
+          '¿Qué pasa si el archivo de entrada viene con una columna de más o con un formato distinto al esperado?',
+        ],
+        tip: 'Elige una tarea que hagas al menos una vez por semana. Un script que usas una sola vez rara vez compensa el tiempo de escribirlo; uno que corres cada semana se paga en el primer mes y se convierte en algo que puedes ofrecerle a un cliente.',
+        completed: false,
+      },
+      {
+        id: 'f3-l7',
+        title: 'Examen: Python',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: '¿Para qué sirve un entorno virtual y qué pasa si no lo activas antes de instalar?',
+            options: [
+              'Acelera la ejecución del código; sin él, el script corre más lento',
+              'Aísla los paquetes del proyecto; sin activarlo, todo se instala en el Python del sistema y los proyectos se pisan entre sí',
+              'Cifra las dependencias para que nadie pueda leerlas',
+              'Es obligatorio solo en Windows',
+            ],
+            correct: 1,
+            explanation: 'Python instala paquetes de forma global por defecto, así que dos proyectos que necesiten versiones distintas de la misma biblioteca entran en conflicto. El entorno virtual da a cada proyecto su propia copia aislada. Si la terminal no muestra el prefijo (.venv), no está activo.',
+          },
+          {
+            q: 'En Python, ¿qué papel cumple la indentación?',
+            options: [
+              'Es solo estética, igual que en JavaScript',
+              'Define los bloques de código: una sangría incorrecta cambia el comportamiento del programa o impide que corra',
+              'Sirve únicamente dentro de las funciones',
+              'Es obligatoria solo cuando se usan type hints',
+            ],
+            correct: 1,
+            explanation: 'Python no usa llaves: la indentación es sintaxis. Una línea sangrada de más o de menos entra o sale de un bloque, lo que puede hacer que algo se ejecute en cada vuelta de un bucle en vez de una sola vez al final.',
+          },
+          {
+            q: '¿Por qué conviene usar .get() en vez de corchetes al leer un diccionario?',
+            options: [
+              'Porque es más rápido',
+              'Porque devuelve None o un valor por defecto si la clave no existe, en vez de lanzar KeyError y detener el programa',
+              'Porque los corchetes solo funcionan con claves numéricas',
+              'Porque .get() convierte el valor a cadena automáticamente',
+            ],
+            correct: 1,
+            explanation: 'usuario["apodo"] lanza KeyError si la clave falta y corta la ejecución. usuario.get("apodo", "sin apodo") devuelve el valor por defecto. Con datos que vienen de fuera, donde los campos opcionales son la norma, .get() es casi siempre lo correcto.',
+          },
+          {
+            q: '¿Qué hace el bloque if __name__ == "__main__":?',
+            options: [
+              'Define el punto de entrada obligatorio de todo programa Python',
+              'Hace que ese código se ejecute solo si el archivo se corre directamente, y no cuando otro archivo lo importa',
+              'Marca el archivo como módulo principal para pip',
+              'Activa el entorno virtual automáticamente',
+            ],
+            correct: 1,
+            explanation: 'Cuando importas un módulo, Python ejecuta todo su contenido de arriba abajo. Ese bloque separa lo que es biblioteca reutilizable de lo que es ejecución del script, así que importar tus funciones no dispara el programa entero.',
+          },
+          {
+            q: 'Abres un archivo con open("datos.csv", "r") sin especificar encoding. ¿Qué riesgo corres?',
+            options: [
+              'Ninguno, Python siempre usa UTF-8 por defecto',
+              'Que Python use la codificación del sistema, así que el mismo código funciona en tu máquina y rompe acentos y eñes en otra',
+              'Que el archivo quede bloqueado y no se pueda cerrar',
+              'Que se borre el contenido del archivo',
+            ],
+            correct: 1,
+            explanation: 'Sin encoding explícito, Python usa la codificación por defecto del sistema, que en Windows no suele ser UTF-8. El resultado es un fallo que no aparece en tu equipo y sí en el de otra persona, que es el tipo de error más caro de diagnosticar.',
+          },
+          {
+            q: '¿Qué relación tienen los type hints de Python con los tipos de TypeScript?',
+            options: [
+              'Ninguna: los type hints sí se verifican en tiempo de ejecución',
+              'Son análogos: sirven al editor y a herramientas como mypy, pero no se comprueban al ejecutar; para validar datos externos se usa Pydantic',
+              'Los type hints reemplazan la necesidad de validar datos de entrada',
+              'Solo se pueden usar en funciones, no en variables',
+            ],
+            correct: 1,
+            explanation: 'Igual que en TypeScript, los type hints son información para el editor y para el verificador estático, y no imponen nada al ejecutar. Para los datos que llegan de fuera hace falta validación real: Pydantic cumple en Python el mismo papel que Zod en TypeScript.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Documentación oficial de Python en español',
+        url: 'https://docs.python.org/es/3/',
+        type: 'documentation',
+      },
+      {
+        title: 'Real Python — tutoriales por tema',
+        url: 'https://realpython.com/',
+        type: 'article',
+      },
+      {
+        title: 'Ruff — el linter y formateador estándar actual',
+        url: 'https://docs.astral.sh/ruff/',
+        type: 'tool',
+      },
+      {
+        title: 'Pydantic — validación de datos en Python',
+        url: 'https://docs.pydantic.dev/latest/',
+        type: 'documentation',
+      },
+      {
+        title: 'requests — documentación de la biblioteca HTTP',
+        url: 'https://requests.readthedocs.io/en/latest/',
+        type: 'documentation',
+      },
+    ],
+  },
+  {
     id: 'fund-1',
     number: 1,
     title: 'Línea de comandos, Git y GitHub',
@@ -1021,7 +2311,7 @@ El alcance es un módulo, no la aplicación entera. Elige el que tenga más lóg
   },
   {
     id: 'web-5',
-    number: 16,
+    number: 17,
     title: 'Autenticación en aplicaciones web',
     description: 'Cuentas, sesiones y permisos hechos bien: contraseñas que no se pueden robar, rutas que de verdad están cerradas y recuperación de acceso.',
     duration: '3 semanas',
@@ -2378,7 +3668,7 @@ const [usuarios, posts, comentarios] = await Promise.all([
   },
   {
     id: 'web-3',
-    number: 14,
+    number: 15,
     title: 'React y Next.js App Router',
     description: 'Construye interfaces modernas con componentes reutilizables, estado reactivo y el poder del App Router de Next.js.',
     duration: '5 semanas',
@@ -2826,7 +4116,7 @@ const { data: usuarios } = useFetch<Usuario[]>('/api/users');
   },
   {
     id: 'web-4',
-    number: 15,
+    number: 16,
     title: 'Backend con Supabase y Deploy en Vercel',
     description: 'Conecta tu app a una base de datos real con Supabase, implementa autenticación y despliega en producción en Vercel.',
     duration: '4 semanas',
