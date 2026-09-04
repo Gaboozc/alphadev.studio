@@ -473,7 +473,7 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 
 | Familia | Ramas |
 |---------|-------|
-| **Construir** | Programación (Fundamentos del oficio → Desarrollo Web → Producto IA), Diseño, Inteligencia Artificial |
+| **Construir** | Programación (Fundamentos del oficio → Desarrollo Web → Back-end y datos → Producto IA), Diseño, IA Aplicada, Ingeniería de IA |
 | **Crecer** | Marketing, Contenido & SEO, Negocio & Datos |
 
 ### Archivos clave
