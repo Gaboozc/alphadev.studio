@@ -40,8 +40,10 @@ export async function entrar(_previo: string | null, formData: FormData): Promis
     // Un único mensaje para los dos casos: así el formulario no sirve para
     // averiguar qué correos están registrados (lección w5-l2).
     if (error) fallo = 'Correo o contraseña incorrectos.'
-  } catch {
+  } catch (e) {
     // Configuración ausente o servicio caído: no es culpa de quien entra.
+    // El detalle va al registro del servidor, nunca a la pantalla.
+    console.error('[acceso] fallo al iniciar sesión:', e)
     fallo = 'El servicio de acceso no está disponible. Inténtalo en unos minutos.'
   }
 
