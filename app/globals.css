@@ -1901,3 +1901,79 @@ button.case-thumb {
   .acad-mod { padding: 1.1rem 1.15rem; gap: 0.85rem; }
   .acad-meta { gap: 1rem 1.25rem; }
 }
+
+/* ── Layout de la página de lección ─────────────────────────────────────────
+   Estaba con estilos inline y sin punto de quiebre: en móvil la barra lateral
+   de 260px se comía la pantalla. Además `.lesson-main` necesita min-width: 0
+   porque un elemento de grid no baja de la anchura intrínseca de su contenido,
+   y un bloque de código ancho arrastraba la página al scroll horizontal.        */
+
+.lesson-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.lesson-main {
+  min-width: 0;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.lesson-aside {
+  position: sticky;
+  top: 1.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .lesson-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0 1.15rem;
+  }
+
+  .lesson-aside {
+    position: static;
+    max-height: 40vh;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lesson-main {
+    padding-top: 1.5rem;
+  }
+}
+
+/* Cuerpo de la lección. En escritorio se sangra para alinearse bajo el número
+   de la lección; en móvil esa sangría se come un cuarto de la pantalla. */
+.lesson-content {
+  padding-left: 2.625rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+@media (max-width: 900px) {
+  .lesson-content { padding-left: 0; }
+}
+
+/* Tarjeta que envuelve el cuerpo de la lección. */
+.lesson-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .lesson-card { padding: 1.25rem 1.1rem; border-radius: 0.75rem; }
+}

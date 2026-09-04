@@ -19,6 +19,7 @@ export type IconName =
   // Academia
   | 'code'
   | 'terminal'
+  | 'database'
   | 'palette'
   | 'penTool'
   | 'trendingUp'
@@ -119,6 +120,13 @@ const PATHS: Record<IconName, ReactNode> = {
     <>
       <polyline points="4 17 10 11 4 5" />
       <line x1="12" y1="19" x2="20" y2="19" />
+    </>
+  ),
+  database: (
+    <>
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v14a9 3 0 0 0 18 0V5" />
+      <path d="M3 12a9 3 0 0 0 18 0" />
     </>
   ),
   palette: (

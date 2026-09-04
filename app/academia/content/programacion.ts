@@ -4,6 +4,1762 @@ import type { Module } from '../types'
 // Cada módulo declara su `track`; la rama se deriva del track en ramas.ts.
 export const MODULES_PROGRAMACION: Module[] = [
   {
+    id: 'back-1',
+    number: 1,
+    title: 'Back-end con Python y FastAPI',
+    description: 'Construye la API que sostiene tu producto: endpoints, validación, estructura por dominios y documentación que se escribe sola.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'backend',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'b1-l1',
+        title: 'Qué hace un back-end y cómo se organiza',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El reparto de responsabilidades
+
+El front-end muestra y recoge. El back-end decide, guarda y protege. La línea que los separa no es estética: **todo lo que no puede confiarse al navegador vive en el back-end.**
+
+Cosas que solo pueden ocurrir en el servidor:
+
+- Guardar y consultar la base de datos.
+- Comprobar permisos de verdad.
+- Hablar con servicios que requieren claves secretas.
+- Aplicar reglas de negocio que el usuario no debe poder cambiar.
+
+Si un cálculo de precio ocurre solo en el navegador, cualquiera puede alterarlo desde la consola. Si ocurre en el servidor, no.
+
+### Por qué FastAPI
+
+En el stack que ya usas, Next.js resuelve muchas APIs con sus Route Handlers, y para un sitio web suele bastar. FastAPI entra cuando el back-end necesita el ecosistema de Python: procesamiento de datos, modelos de aprendizaje automático, integración con bibliotecas de IA. Es la puerta que abrió el módulo de Python.
+
+Sus tres razones concretas:
+
+- **Rápido de escribir.** Un endpoint son cinco líneas.
+- **Validación incluida.** Usa Pydantic, así que los datos de entrada se validan solos.
+- **Documentación automática.** Genera una interfaz interactiva a partir de tu código, sin escribir nada aparte.
+
+### El vocabulario
+
+**Endpoint**: una dirección que responde a peticiones. \`/productos\`, \`/usuarios/42\`.
+
+**Método HTTP**: qué se quiere hacer.
+
+\`\`\`
+GET     leer, sin efectos secundarios
+POST    crear algo nuevo
+PUT     reemplazar por completo
+PATCH   modificar una parte
+DELETE  borrar
+\`\`\`
+
+**Código de estado**: cómo salió.
+
+\`\`\`
+200  bien
+201  creado
+400  la petición está mal formada
+401  no sé quién eres
+403  sé quién eres y no puedes
+404  no existe
+422  los datos no pasaron la validación
+500  se rompió el servidor
+\`\`\`
+
+Devolver el código correcto no es un detalle: es lo que permite al cliente reaccionar sin adivinar. Un 200 con un mensaje de error dentro obliga a inspeccionar el cuerpo de cada respuesta.
+
+### Las arquitecturas que vas a encontrar
+
+**Monolito.** Todo en una aplicación. Es lo correcto para empezar, y para la enorme mayoría de los proyectos. Simple de desplegar, simple de depurar.
+
+**Servicios separados.** Cada parte del sistema es una aplicación independiente. Resuelve problemas de equipos grandes y de escala, y a cambio agrega complejidad en todo: despliegue, comunicación, seguimiento de errores.
+
+La recomendación honesta: **empieza con un monolito.** Separar después, cuando el dolor sea real, es mucho más fácil que unir microservicios que nunca hicieron falta.
+
+### REST en dos minutos
+
+La convención más extendida para nombrar endpoints: recursos en plural, jerarquía en la ruta, el método dice la acción.
+
+\`\`\`
+GET    /productos           lista
+POST   /productos           crear
+GET    /productos/42        uno
+PATCH  /productos/42        modificar
+DELETE /productos/42        borrar
+GET    /productos/42/reseñas   las reseñas de ese producto
+\`\`\`
+
+El error clásico es meter el verbo en la ruta: \`/crearProducto\`, \`/borrarProducto\`. El método HTTP ya dice el verbo.`,
+        tasks: [
+          'Toma un proyecto tuyo y lista qué operaciones deberían ocurrir en el servidor y por qué',
+          'Diseña en papel los endpoints REST de una entidad real: listar, crear, leer, modificar y borrar',
+          'Asigna el código de estado correcto a seis situaciones distintas de esa API',
+          'Explica en dos frases por qué un cálculo de precio en el navegador no es de fiar',
+        ],
+        tip: 'La pregunta que ordena el diseño de cualquier API: ¿qué pasa si alguien llama a este endpoint directamente, con los datos que quiera y sin pasar por tu interfaz? Todo lo que no sobreviva a esa pregunta está mal ubicado.',
+        completed: false,
+      },
+      {
+        id: 'b1-l2',
+        title: 'Tu primera API con FastAPI',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Montar el proyecto
+
+\`\`\`bash
+python3 -m venv .venv
+source .venv/bin/activate        # .venv\\Scripts\\activate en Windows
+pip install "fastapi[standard]"
+\`\`\`
+
+\`\`\`python
+# main.py
+from fastapi import FastAPI
+
+app = FastAPI(title="API de inventario")
+
+@app.get("/")
+def raiz():
+    return {"estado": "ok"}
+\`\`\`
+
+\`\`\`bash
+fastapi dev main.py
+\`\`\`
+
+Ya tienes una API corriendo en \`http://127.0.0.1:8000\`. Y algo más: abre \`http://127.0.0.1:8000/docs\` y verás una interfaz donde puedes probar cada endpoint sin escribir una sola línea de cliente. Está generada a partir de tu código.
+
+### Parámetros de ruta
+
+\`\`\`python
+@app.get("/productos/{producto_id}")
+def obtener_producto(producto_id: int):
+    return {"id": producto_id}
+\`\`\`
+
+El type hint \`int\` no es decorativo: FastAPI convierte el valor y, si alguien pide \`/productos/abc\`, responde 422 con un mensaje explicando el problema. No escribiste ninguna validación.
+
+### Parámetros de consulta
+
+\`\`\`python
+@app.get("/productos")
+def listar(limite: int = 20, buscar: str | None = None):
+    ...
+\`\`\`
+
+Todo lo que tenga valor por defecto se convierte en parámetro de consulta: \`/productos?limite=50&buscar=laptop\`.
+
+### Recibir un cuerpo
+
+\`\`\`python
+from pydantic import BaseModel
+
+class ProductoNuevo(BaseModel):
+    nombre: str
+    precio: float
+    stock: int = 0
+
+@app.post("/productos", status_code=201)
+def crear(producto: ProductoNuevo):
+    return {"id": 1, **producto.model_dump()}
+\`\`\`
+
+FastAPI lee el JSON del cuerpo, lo valida contra el modelo y te entrega un objeto tipado. Si falta \`nombre\` o \`precio\` llega como texto, responde 422 sin llegar a tu función.
+
+### Errores
+
+\`\`\`python
+from fastapi import HTTPException
+
+@app.get("/productos/{producto_id}")
+def obtener(producto_id: int):
+    producto = buscar_en_db(producto_id)
+    if producto is None:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return producto
+\`\`\`
+
+### Async: cuándo sí
+
+\`\`\`python
+@app.get("/productos")
+async def listar():
+    productos = await consultar_db()
+    return productos
+\`\`\`
+
+Usa \`async def\` cuando dentro vayas a esperar algo de entrada y salida —base de datos, otra API— con \`await\`. Si tu función solo hace cálculos o usa una biblioteca que no es asíncrona, deja \`def\` normal: FastAPI la ejecuta en un hilo aparte y no bloquea.
+
+El error habitual es poner \`async def\` en todo y luego llamar dentro a una biblioteca bloqueante. Eso sí congela el servidor.
+
+### CORS
+
+Si tu front-end corre en otro origen —lo normal en desarrollo— el navegador bloquea las peticiones hasta que el servidor autorice ese origen:
+
+\`\`\`python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+\`\`\`
+
+Nunca dejes \`allow_origins=["*"]\` junto a \`allow_credentials=True\` en producción: estarías permitiendo que cualquier sitio haga peticiones autenticadas en nombre de tus usuarios.`,
+        tasks: [
+          'Levanta una API con FastAPI y comprueba la documentación automática en /docs',
+          'Crea los cinco endpoints REST de una entidad, con datos en memoria por ahora',
+          'Provoca un 422 enviando datos inválidos y lee el mensaje que devuelve FastAPI',
+          'Devuelve un 404 con HTTPException cuando el recurso no exista y compruébalo desde /docs',
+        ],
+        tip: 'La página /docs no es solo documentación: es tu banco de pruebas. Antes de escribir una sola línea de front-end, prueba cada endpoint ahí. Si la API se siente incómoda de usar en /docs, va a ser incómoda de consumir desde el cliente.',
+        completed: false,
+      },
+      {
+        id: 'b1-l3',
+        title: 'Validar y serializar con Pydantic',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## La frontera del sistema
+
+Pydantic es a Python lo que Zod a TypeScript: valida en tiempo de ejecución lo que los type hints no pueden garantizar. En FastAPI es además el mecanismo que convierte JSON en objetos y objetos en JSON.
+
+\`\`\`python
+from pydantic import BaseModel, Field, EmailStr
+from datetime import datetime
+
+class ProductoNuevo(BaseModel):
+    nombre: str = Field(min_length=2, max_length=120)
+    precio: float = Field(gt=0)                    # mayor que cero
+    stock: int = Field(ge=0, default=0)            # mayor o igual que cero
+    categoria: str | None = None
+\`\`\`
+
+Cada restricción que declaras aquí es una comprobación que no tienes que escribir dentro de la función, y un error que nunca llega a tu lógica.
+
+### Modelos distintos para entrada y salida
+
+Este es el patrón que más importa y el que más se olvida. **Lo que entra no es lo mismo que lo que sale.**
+
+\`\`\`python
+class UsuarioNuevo(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=8)     # entra
+
+class UsuarioPublico(BaseModel):
+    id: int
+    email: EmailStr
+    creado_en: datetime                     # sale — sin contraseña
+
+@app.post("/usuarios", response_model=UsuarioPublico, status_code=201)
+def crear(datos: UsuarioNuevo):
+    usuario = guardar(datos)
+    return usuario
+\`\`\`
+
+\`response_model\` **filtra la respuesta**: aunque tu función devuelva un objeto con la contraseña dentro, FastAPI solo serializa los campos declarados en \`UsuarioPublico\`. Es una red de seguridad contra la fuga de datos más común de todas.
+
+### Validaciones propias
+
+\`\`\`python
+from pydantic import field_validator, model_validator
+
+class Reserva(BaseModel):
+    inicio: datetime
+    fin: datetime
+
+    @field_validator("inicio")
+    @classmethod
+    def no_en_el_pasado(cls, v: datetime) -> datetime:
+        if v < datetime.now():
+            raise ValueError("La reserva no puede empezar en el pasado")
+        return v
+
+    @model_validator(mode="after")
+    def fin_despues_de_inicio(self):
+        if self.fin <= self.inicio:
+            raise ValueError("La fecha de fin debe ser posterior al inicio")
+        return self
+\`\`\`
+
+\`field_validator\` valida un campo suelto; \`model_validator\` valida relaciones entre campos, que es donde viven las reglas de negocio de verdad.
+
+### Modelos para actualizaciones parciales
+
+\`\`\`python
+class ProductoActualizar(BaseModel):
+    nombre: str | None = None
+    precio: float | None = None
+    stock: int | None = None
+
+@app.patch("/productos/{producto_id}")
+def actualizar(producto_id: int, cambios: ProductoActualizar):
+    datos = cambios.model_dump(exclude_unset=True)   # solo lo que vino
+    ...
+\`\`\`
+
+\`exclude_unset=True\` distingue entre "no me mandaron este campo" y "me lo mandaron como null". Sin eso, un PATCH borraría todos los campos que el cliente no envió.
+
+### Configuración desde variables de entorno
+
+\`\`\`python
+from pydantic_settings import BaseSettings
+
+class Config(BaseSettings):
+    database_url: str
+    secret_key: str
+    debug: bool = False
+
+    class Config:
+        env_file = ".env"
+
+config = Config()
+\`\`\`
+
+Si falta una variable obligatoria, la aplicación **no arranca** y te dice cuál. Es infinitamente mejor que descubrirlo en producción cuando alguien pulsa el botón que la usa.`,
+        tasks: [
+          'Define modelos separados de entrada y salida para una entidad que tenga un campo sensible',
+          'Comprueba con response_model que el campo sensible no aparece aunque tu función lo devuelva',
+          'Escribe un model_validator que valide una regla entre dos campos',
+          'Implementa un PATCH con exclude_unset y verifica que no borra los campos ausentes',
+        ],
+        tip: 'Usar el mismo modelo para entrada y salida es la causa número uno de filtrar contraseñas y datos internos en una API. Sepáralos desde el primer endpoint, aunque al principio parezcan idénticos: dejan de serlo antes de lo que crees.',
+        completed: false,
+      },
+      {
+        id: 'b1-l4',
+        title: 'Estructura: separar por dominios y responsabilidades',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Cuando main.py deja de servir
+
+Un archivo funciona hasta los quince endpoints. Después nadie encuentra nada y cada cambio toca el mismo archivo que están tocando los demás.
+
+### La estructura que aguanta
+
+\`\`\`
+app/
+├── main.py              # crea la aplicación y monta los routers
+├── config.py            # configuración desde variables de entorno
+├── database.py          # conexión a la base
+├── productos/
+│   ├── router.py        # los endpoints
+│   ├── schemas.py       # los modelos de Pydantic
+│   ├── models.py        # las tablas
+│   └── service.py       # la lógica de negocio
+└── usuarios/
+    └── ...
+\`\`\`
+
+**Se agrupa por dominio, no por tipo de archivo.** Una carpeta \`routers/\` con veinte archivos y otra \`schemas/\` con veinte más obliga a saltar entre carpetas para tocar una sola funcionalidad. Con la estructura de arriba, todo lo de productos está junto.
+
+### Los routers
+
+\`\`\`python
+# productos/router.py
+from fastapi import APIRouter
+
+router = APIRouter(prefix="/productos", tags=["productos"])
+
+@router.get("")
+def listar():
+    ...
+
+@router.get("/{producto_id}")
+def obtener(producto_id: int):
+    ...
+\`\`\`
+
+\`\`\`python
+# main.py
+from fastapi import FastAPI
+from productos.router import router as productos_router
+from usuarios.router import router as usuarios_router
+
+app = FastAPI()
+app.include_router(productos_router)
+app.include_router(usuarios_router)
+\`\`\`
+
+El \`tags\` agrupa los endpoints en la documentación automática, que con veinte endpoints se agradece mucho.
+
+### Las tres capas
+
+**Router**: recibe la petición, valida con Pydantic, llama al servicio, devuelve. No lleva lógica de negocio.
+
+**Service**: la lógica. No sabe nada de HTTP. Esto es lo que hace que puedas probarlo sin levantar un servidor.
+
+**Model / repositorio**: el acceso a datos.
+
+\`\`\`python
+# productos/service.py — sin una sola referencia a HTTP
+def calcular_precio_final(producto, cupon=None):
+    precio = producto.precio
+    if cupon and cupon.es_valido():
+        precio *= (1 - cupon.descuento)
+    return round(precio, 2)
+\`\`\`
+
+\`\`\`python
+# productos/router.py
+@router.get("/{producto_id}/precio")
+def precio(producto_id: int):
+    producto = obtener_o_404(producto_id)
+    return {"precio": calcular_precio_final(producto)}
+\`\`\`
+
+La prueba de que la separación está bien hecha: **tus pruebas de la lógica de negocio no importan nada de FastAPI.**
+
+### Dependencias
+
+FastAPI resuelve con inyección de dependencias lo que se repite en muchos endpoints:
+
+\`\`\`python
+from fastapi import Depends
+
+def usuario_actual(token: str = Depends(leer_token)):
+    usuario = decodificar(token)
+    if usuario is None:
+        raise HTTPException(status_code=401, detail="No autorizado")
+    return usuario
+
+@router.post("/productos")
+def crear(producto: ProductoNuevo, usuario = Depends(usuario_actual)):
+    ...
+\`\`\`
+
+La comprobación de sesión se escribe una vez y se declara donde haga falta. Además aparece en la documentación automática como requisito del endpoint.`,
+        tasks: [
+          'Reorganiza una API de un solo archivo en carpetas por dominio',
+          'Extrae la lógica de negocio a un service que no importe nada de FastAPI',
+          'Escribe una prueba de ese service sin levantar el servidor',
+          'Crea una dependencia de usuario actual y aplícala a los endpoints que la necesiten',
+        ],
+        tip: 'La señal de que la lógica está en el lugar correcto: puedes probarla llamando a una función normal, sin cliente HTTP, sin levantar nada. Si para probar una regla de negocio necesitas hacer una petición, la regla está atrapada dentro del router.',
+        completed: false,
+      },
+      {
+        id: 'b1-l5',
+        title: 'Documentar y probar la API',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## La documentación ya existe
+
+FastAPI genera un esquema OpenAPI a partir de tus tipos y modelos, y lo sirve en dos interfaces: \`/docs\` y \`/redoc\`. No hay que mantenerla aparte, así que nunca se queda vieja.
+
+Lo que sí conviene añadir para que sea útil de verdad:
+
+\`\`\`python
+@router.post(
+    "",
+    status_code=201,
+    summary="Crear un producto",
+    description="Crea un producto nuevo. El nombre debe ser único dentro de la categoría.",
+    responses={
+        409: {"description": "Ya existe un producto con ese nombre"},
+    },
+)
+def crear(producto: ProductoNuevo):
+    """El texto de aquí también aparece en la documentación."""
+    ...
+\`\`\`
+
+Y ejemplos en los modelos, que es lo que convierte \`/docs\` en algo que se puede probar sin inventar datos:
+
+\`\`\`python
+class ProductoNuevo(BaseModel):
+    nombre: str
+    precio: float
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [{"nombre": "Laptop 14 pulgadas", "precio": 1200.00}]
+        }
+    }
+\`\`\`
+
+### Probar los endpoints
+
+\`\`\`bash
+pip install pytest httpx
+\`\`\`
+
+\`\`\`python
+# tests/test_productos.py
+from fastapi.testclient import TestClient
+from app.main import app
+
+cliente = TestClient(app)
+
+def test_crear_producto_devuelve_201():
+    respuesta = cliente.post("/productos", json={"nombre": "Laptop", "precio": 1200})
+    assert respuesta.status_code == 201
+    assert respuesta.json()["nombre"] == "Laptop"
+
+def test_precio_negativo_es_rechazado():
+    respuesta = cliente.post("/productos", json={"nombre": "Laptop", "precio": -5})
+    assert respuesta.status_code == 422
+
+def test_producto_inexistente_devuelve_404():
+    assert cliente.get("/productos/999999").status_code == 404
+\`\`\`
+
+\`TestClient\` llama a tu aplicación directamente, sin levantar un servidor ni abrir un puerto. Las pruebas corren en milisegundos.
+
+### Qué probar en una API
+
+Lo mismo que en el módulo de testing, aplicado aquí:
+
+- **El camino feliz** de cada endpoint.
+- **La validación**: datos inválidos devuelven 422.
+- **Los permisos**: sin sesión da 401, con sesión ajena da 403.
+- **Los casos límite**: recurso inexistente, lista vacía, valores en el borde.
+
+Y sobre todo: **la lógica de negocio se prueba en el service**, con funciones normales. Las pruebas de endpoint comprueban el cableado —rutas, códigos, validación, permisos—, no las reglas.
+
+### Base de datos en las pruebas
+
+Nunca contra la base real. Las dos opciones sanas:
+
+\`\`\`python
+# 1. una base de prueba que se crea y destruye en cada ejecución
+# 2. sustituir la dependencia de base de datos por una falsa
+app.dependency_overrides[get_db] = get_db_de_prueba
+\`\`\`
+
+\`dependency_overrides\` es una de las mejores ideas de FastAPI: sustituye cualquier dependencia en las pruebas sin tocar el código de producción.`,
+        tasks: [
+          'Agrega summary, description y un ejemplo a tres endpoints y revisa cómo queda /docs',
+          'Escribe pruebas con TestClient para el camino feliz, la validación y el 404 de una entidad',
+          'Sustituye la dependencia de base de datos con dependency_overrides en las pruebas',
+          'Corre las pruebas y comprueba que no necesitan que el servidor esté levantado',
+        ],
+        tip: 'Si tienes que explicarle a alguien cómo usar tu API por mensaje, es que a /docs le faltan descripciones y ejemplos. Una API bien documentada se consume sin preguntarle nada a quien la escribió.',
+        completed: false,
+      },
+      {
+        id: 'b1-l6',
+        title: 'Proyecto: API de inventario en producción',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: `Vas a construir la API completa de un sistema de inventario para un negocio real —puede ser el de un cliente tuyo o uno inventado con datos realistas— y dejarla desplegada y documentada.
+
+El escenario: un negocio necesita controlar productos, proveedores y movimientos de stock. Varias personas la usan, así que hay que distinguir quién puede leer de quién puede modificar.
+
+Este proyecto es la base sobre la que van a montarse los dos módulos siguientes: en el de bases de datos le pondrás persistencia real con relaciones, y en el de Docker lo empaquetarás para que corra igual en cualquier máquina. Constrúyelo pensando en eso.`,
+        deliverables: [
+          'API con FastAPI y los endpoints REST de productos, proveedores y movimientos de stock',
+          'Modelos de Pydantic separados para entrada y salida, con response_model en cada endpoint',
+          'Estructura por dominios con las tres capas: router, service y acceso a datos',
+          'Autenticación por token y una dependencia que distinga lectura de escritura',
+          'Documentación en /docs con descripciones y ejemplos en todos los endpoints',
+          'Pruebas con TestClient: camino feliz, validación, permisos y casos límite',
+          'README con instrucciones para levantarla desde cero',
+        ],
+        rubrica: [
+          'Los cinco métodos REST están implementados y devuelven el código de estado correcto en cada caso',
+          'Ningún endpoint devuelve campos sensibles: se comprueba que response_model los filtra',
+          'La lógica de negocio vive en services y se puede probar sin cliente HTTP',
+          'Un PATCH con exclude_unset no borra los campos que no se enviaron',
+          'Sin token, los endpoints de escritura responden 401; con token sin permisos, 403',
+          'Las pruebas corren con un solo comando y no tocan la base de datos real',
+          'La configuración llega por variables de entorno y la aplicación no arranca si falta alguna',
+          'En /docs se puede ejecutar cada endpoint sin tener que inventar el formato de los datos',
+        ],
+        tasks: [
+          'Diseña los endpoints y los modelos de entrada y salida antes de escribir código',
+          'Monta la estructura por dominios desde el principio, aunque al inicio parezca excesiva',
+          'Implementa productos completo, con pruebas, antes de pasar a proveedores',
+          'Agrega autenticación por token con una dependencia reutilizable',
+          'Prueba cada endpoint desde /docs como si fueras alguien externo consumiéndola',
+        ],
+        discussionPrompts: [
+          '¿Qué debe pasar si se intenta borrar un proveedor que tiene productos asociados? ¿Error, borrado en cascada o marcarlo como inactivo?',
+          '¿Un movimiento de stock debería poder editarse, o solo corregirse con otro movimiento en sentido contrario?',
+        ],
+        tip: 'Empieza con datos en memoria, sin base de datos. Suena a atajo pero es lo correcto: te obliga a definir bien la forma de la API y sus contratos antes de mezclarlos con problemas de persistencia. La base entra en el módulo siguiente y encaja sin reescribir los endpoints.',
+        completed: false,
+      },
+      {
+        id: 'b1-l7',
+        title: 'Examen: back-end y FastAPI',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: 'Tu API devuelve un objeto Usuario que incluye el hash de la contraseña. ¿Qué mecanismo de FastAPI impide que llegue al cliente?',
+            options: [
+              'El type hint del valor de retorno de la función',
+              'Declarar response_model con un modelo que no incluya ese campo: FastAPI serializa solo los campos declarados',
+              'Marcar el campo como privado con un guion bajo delante',
+              'Ninguno: hay que quitarlo a mano antes de devolver el objeto',
+            ],
+            correct: 1,
+            explanation: 'response_model actúa como filtro de salida: aunque la función devuelva un objeto con campos de más, FastAPI serializa únicamente lo declarado en ese modelo. Por eso conviene tener modelos separados de entrada y salida desde el primer endpoint.',
+          },
+          {
+            q: 'En un endpoint PATCH, ¿qué problema resuelve model_dump(exclude_unset=True)?',
+            options: [
+              'Convierte el modelo a JSON más rápido',
+              'Distingue entre un campo que no se envió y uno enviado como null, evitando borrar lo que el cliente no tocó',
+              'Excluye los campos que no pasaron la validación',
+              'Elimina los campos sensibles de la respuesta',
+            ],
+            correct: 1,
+            explanation: 'En un modelo de actualización todos los campos son opcionales con valor por defecto None. Sin exclude_unset, los campos ausentes llegarían como None y sobrescribirían los valores existentes con nulos. Con él solo obtienes lo que realmente se envió.',
+          },
+          {
+            q: '¿Cuándo conviene declarar un endpoint como async def?',
+            options: [
+              'Siempre: es más rápido en todos los casos',
+              'Cuando dentro se espera con await una operación de entrada y salida, como una consulta a la base o a otra API',
+              'Solo cuando el endpoint devuelve muchos datos',
+              'Nunca en FastAPI, se maneja automáticamente',
+            ],
+            correct: 1,
+            explanation: 'async def tiene sentido cuando hay awaits reales de entrada/salida. Si la función solo calcula o llama a una biblioteca bloqueante, es mejor def normal: FastAPI la ejecuta en un hilo aparte. Declarar async y luego llamar dentro a algo bloqueante es peor que no usar async, porque sí congela el bucle de eventos.',
+          },
+          {
+            q: '¿Por qué la lógica de negocio debe vivir en un service y no en el router?',
+            options: [
+              'Porque los routers tienen un límite de líneas en FastAPI',
+              'Porque un service no sabe nada de HTTP, así que se puede probar llamando funciones normales sin levantar un servidor',
+              'Porque mejora el rendimiento de las peticiones',
+              'Porque FastAPI no permite calcular dentro de un router',
+            ],
+            correct: 1,
+            explanation: 'Separar la lógica del transporte es lo que la hace verificable y reutilizable. Si para probar una regla de precios necesitas hacer una petición HTTP, esa regla está atrapada en la capa equivocada. La prueba de que la separación está bien: los tests de negocio no importan nada de FastAPI.',
+          },
+          {
+            q: 'Un cliente envía un producto con precio -5 y tu modelo declara precio: float = Field(gt=0). ¿Qué ocurre?',
+            options: [
+              'La función se ejecuta y hay que comprobar el valor dentro',
+              'FastAPI responde 422 con el detalle del campo que falló, sin llegar a ejecutar tu función',
+              'El valor se convierte automáticamente a 0',
+              'Se lanza una excepción 500',
+            ],
+            correct: 1,
+            explanation: 'La validación de Pydantic ocurre antes de entrar a tu función. Un dato que no cumple el esquema produce un 422 con la ruta del campo y el motivo, y tu lógica nunca ve datos inválidos: es la razón principal para declarar las restricciones en el modelo en vez de comprobarlas a mano.',
+          },
+          {
+            q: 'Estás escribiendo pruebas de tu API. ¿Qué hace dependency_overrides?',
+            options: [
+              'Desactiva la autenticación durante las pruebas',
+              'Sustituye una dependencia por otra solo en las pruebas, sin modificar el código de producción',
+              'Cambia las rutas de los endpoints para no chocar con el servidor real',
+              'Genera datos de prueba automáticamente a partir de los modelos',
+            ],
+            correct: 1,
+            explanation: 'Permite reemplazar cualquier dependencia declarada con Depends —la sesión de base de datos, el usuario actual— por una versión de prueba. Así los tests no tocan la base real ni necesitan credenciales, y el código de producción queda intacto.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'FastAPI — documentación oficial',
+        url: 'https://fastapi.tiangolo.com/es/',
+        type: 'documentation',
+      },
+      {
+        title: 'Pydantic — documentación de modelos y validación',
+        url: 'https://docs.pydantic.dev/latest/',
+        type: 'documentation',
+      },
+      {
+        title: 'MDN — Códigos de estado HTTP',
+        url: 'https://developer.mozilla.org/es/docs/Web/HTTP/Status',
+        type: 'documentation',
+      },
+      {
+        title: 'Full Stack FastAPI Template — estructura de referencia',
+        url: 'https://github.com/fastapi/full-stack-fastapi-template',
+        type: 'tool',
+      },
+    ],
+  },
+  {
+    id: 'back-2',
+    number: 2,
+    title: 'Bases de datos relacionales: modelado, SQL y ORM',
+    description: 'Diseñar bien las tablas, consultarlas con SQL y hacerlas evolucionar sin perder datos ni romper lo que ya funciona.',
+    duration: '4 semanas',
+    status: 'available',
+    track: 'backend',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'b2-l1',
+        title: 'Modelar datos: entidades, relaciones y claves',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El diseño se paga o se sufre
+
+Un mal modelo de datos no se nota el primer mes. Se nota cuando hay diez mil registros, tres funcionalidades construidas encima y cambiar una tabla implica migrar todo. **Es la decisión más cara de revertir de un proyecto**, más que el framework o el lenguaje.
+
+### Entidades y atributos
+
+Una entidad es una cosa del mundo real sobre la que guardas información: un producto, un cliente, un pedido. Se convierte en una tabla; cada atributo, en una columna; cada instancia, en una fila.
+
+\`\`\`
+productos
+├── id          clave primaria
+├── nombre
+├── precio
+├── stock
+└── creado_en
+\`\`\`
+
+### Claves
+
+**Clave primaria**: identifica una fila de forma única. Usa un \`id\` sin significado de negocio —un entero autoincremental o un UUID— y no el correo ni el código del producto. Los datos de negocio cambian; los identificadores no deberían.
+
+**Clave foránea**: apunta a la clave primaria de otra tabla. Es lo que crea la relación y lo que impide que existan referencias a filas que no existen.
+
+### Los tres tipos de relación
+
+**Uno a muchos.** La más común. Un proveedor tiene muchos productos; cada producto tiene un proveedor. La clave foránea va en el lado "muchos":
+
+\`\`\`
+proveedores               productos
+├── id  ←──────────────── ├── proveedor_id
+└── nombre                ├── nombre
+                          └── precio
+\`\`\`
+
+**Muchos a muchos.** Un producto puede estar en muchos pedidos y un pedido tener muchos productos. Necesita una **tabla intermedia**, y esa tabla suele tener datos propios:
+
+\`\`\`
+pedidos      pedido_items              productos
+├── id  ←─── ├── pedido_id   ────→ ─── ├── id
+└── fecha    ├── producto_id           └── nombre
+             ├── cantidad
+             └── precio_unitario
+\`\`\`
+
+Fíjate en \`precio_unitario\`: guarda el precio **en el momento de la compra**. Si solo apuntaras al producto, subir el precio mañana cambiaría el total de todos los pedidos históricos. Este es el tipo de detalle que separa un modelo pensado de uno improvisado.
+
+**Uno a uno.** Poco frecuente. Suele indicar que las dos tablas deberían ser una, salvo que separes por seguridad o porque una parte se consulta muy poco.
+
+### Normalizar: no repitas datos
+
+Si el nombre del proveedor está escrito en cada fila de productos, el día que cambie hay que actualizar mil filas y alguna se quedará vieja. La regla práctica: **cada dato vive en un solo lugar**, y el resto lo referencia.
+
+La excepción son los datos históricos, como el precio del ejemplo anterior: ahí sí quieres una copia congelada.
+
+### Tipos de columna
+
+Elegir bien evita problemas silenciosos:
+
+\`\`\`sql
+id            bigserial / uuid
+texto corto   varchar(255)
+texto largo   text
+dinero        numeric(10,2)      -- nunca float
+enteros       integer / bigint
+sí o no       boolean
+fecha y hora  timestamptz        -- con zona horaria
+estructurado  jsonb
+\`\`\`
+
+**Nunca uses \`float\` para dinero.** \`0.1 + 0.2\` no da \`0.3\` en coma flotante, y esos céntimos perdidos aparecen como descuadres en los totales. \`numeric\` es exacto.
+
+**Usa \`timestamptz\`, no \`timestamp\`.** Sin zona horaria, un pedido hecho a las 23:00 en México aparece con otra fecha para un cliente en España.
+
+### Restricciones: que la base defienda las reglas
+
+\`\`\`sql
+CREATE TABLE productos (
+  id          bigserial PRIMARY KEY,
+  nombre      varchar(120) NOT NULL,
+  precio      numeric(10,2) NOT NULL CHECK (precio > 0),
+  stock       integer NOT NULL DEFAULT 0 CHECK (stock >= 0),
+  proveedor_id bigint REFERENCES proveedores(id) ON DELETE RESTRICT,
+  creado_en   timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (nombre, proveedor_id)
+);
+\`\`\`
+
+Cada restricción es una regla que **no se puede saltar desde ningún sitio**: ni desde un error en tu código, ni desde un script suelto, ni desde alguien tocando la base a mano. Es la última línea de defensa, y la única que no depende de que nadie se olvide.
+
+\`ON DELETE RESTRICT\` impide borrar un proveedor que tenga productos. Las alternativas son \`CASCADE\` (borra los productos también, peligroso) y \`SET NULL\`.`,
+        tasks: [
+          'Modela en papel un negocio real con al menos cuatro entidades y sus relaciones',
+          'Identifica la relación muchos a muchos y define qué datos propios lleva su tabla intermedia',
+          'Escribe el CREATE TABLE de dos de esas tablas con NOT NULL, CHECK y clave foránea',
+          'Localiza un dato que deba congelarse por ser histórico y explica por qué no basta con referenciarlo',
+        ],
+        tip: 'Antes de escribir una línea de SQL, dibuja las tablas y las flechas entre ellas en papel. Diez minutos ahí ahorran semanas después: cambiar el modelo con datos en producción es de lo más caro que se puede hacer en un proyecto.',
+        completed: false,
+      },
+      {
+        id: 'b2-l2',
+        title: 'SQL: lo que vas a escribir todos los días',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Consultar
+
+\`\`\`sql
+SELECT nombre, precio FROM productos;
+
+SELECT * FROM productos
+WHERE precio > 100 AND stock > 0
+ORDER BY precio DESC
+LIMIT 20;
+\`\`\`
+
+Filtros que se usan a diario:
+
+\`\`\`sql
+WHERE categoria IN ('laptops', 'monitores')
+WHERE nombre ILIKE '%laptop%'          -- sin distinguir mayúsculas
+WHERE proveedor_id IS NULL             -- NULL se compara con IS, nunca con =
+WHERE creado_en >= now() - interval '30 days'
+\`\`\`
+
+\`NULL\` no es igual a nada, ni siquiera a sí mismo. \`WHERE proveedor_id = NULL\` no devuelve filas nunca. Es de los errores que más tiempo hacen perder.
+
+### JOIN: unir tablas
+
+\`\`\`sql
+SELECT p.nombre, pr.nombre AS proveedor
+FROM productos p
+JOIN proveedores pr ON pr.id = p.proveedor_id;
+\`\`\`
+
+\`INNER JOIN\` (o solo \`JOIN\`) devuelve las filas que **casan en las dos** tablas. Un producto sin proveedor no aparece.
+
+\`LEFT JOIN\` devuelve **todas las de la izquierda**, con nulos donde no haya pareja:
+
+\`\`\`sql
+SELECT p.nombre, pr.nombre AS proveedor
+FROM productos p
+LEFT JOIN proveedores pr ON pr.id = p.proveedor_id;
+\`\`\`
+
+La regla mental: si necesitas ver también lo que no tiene relación, \`LEFT JOIN\`. Si solo te interesan los emparejados, \`JOIN\`.
+
+### Agrupar y agregar
+
+\`\`\`sql
+SELECT
+  pr.nombre AS proveedor,
+  count(*) AS productos,
+  round(avg(p.precio), 2) AS precio_medio,
+  sum(p.stock) AS stock_total
+FROM productos p
+JOIN proveedores pr ON pr.id = p.proveedor_id
+GROUP BY pr.nombre
+HAVING count(*) > 3
+ORDER BY productos DESC;
+\`\`\`
+
+**\`WHERE\` filtra filas antes de agrupar; \`HAVING\` filtra grupos después.** Confundirlos es el error clásico: no puedes usar \`count(*)\` en un \`WHERE\`.
+
+### Escribir
+
+\`\`\`sql
+INSERT INTO productos (nombre, precio, proveedor_id)
+VALUES ('Laptop 14', 1200.00, 3)
+RETURNING id, creado_en;
+
+UPDATE productos SET precio = 1150.00 WHERE id = 42;
+
+DELETE FROM productos WHERE id = 42;
+\`\`\`
+
+\`RETURNING\` te devuelve los valores que generó la base —el id, la fecha— sin una segunda consulta. Es específico de Postgres y muy cómodo.
+
+**Antes de cada UPDATE o DELETE**, ejecuta el mismo \`WHERE\` con un \`SELECT\`. Un \`DELETE\` sin \`WHERE\` borra la tabla entera y no hay deshacer.
+
+### Índices
+
+Sin índice, buscar por una columna obliga a leer todas las filas. Con índice, la base va directa.
+
+\`\`\`sql
+CREATE INDEX idx_productos_proveedor ON productos(proveedor_id);
+\`\`\`
+
+Qué indexar: **las columnas por las que filtras y las claves foráneas**. Qué no: todo lo demás. Cada índice acelera las lecturas y ralentiza las escrituras, además de ocupar espacio.
+
+Para saber si una consulta usa un índice:
+
+\`\`\`sql
+EXPLAIN ANALYZE SELECT * FROM productos WHERE proveedor_id = 3;
+\`\`\`
+
+Si ves \`Seq Scan\` sobre una tabla grande, falta un índice.
+
+### Transacciones
+
+Cuando varias operaciones deben ocurrir todas o ninguna:
+
+\`\`\`sql
+BEGIN;
+  UPDATE productos SET stock = stock - 1 WHERE id = 42;
+  INSERT INTO movimientos (producto_id, tipo, cantidad) VALUES (42, 'salida', 1);
+COMMIT;
+\`\`\`
+
+Si algo falla entre medias, \`ROLLBACK\` deshace todo. Sin transacción, podrías descontar el stock y no registrar el movimiento, y nadie sabría por qué no cuadra.`,
+        tasks: [
+          'Escribe cinco consultas sobre un modelo real: filtro, orden, JOIN, agregación y agrupación con HAVING',
+          'Compara el resultado de un JOIN y un LEFT JOIN sobre la misma relación y explica la diferencia',
+          'Usa EXPLAIN ANALYZE sobre una consulta, crea el índice que falta y compara el plan',
+          'Escribe una operación que deba ser atómica y envuélvela en una transacción',
+        ],
+        tip: 'Adquiere el hábito de escribir primero el SELECT con el WHERE que vas a usar en un UPDATE o DELETE. Ver las filas afectadas antes de modificarlas convierte un error catastrófico en un susto de dos segundos.',
+        completed: false,
+      },
+      {
+        id: 'b2-l3',
+        title: 'Postgres con Supabase',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Por qué Postgres
+
+Es la base relacional por defecto del ecosistema moderno: sólida, con tipos ricos (\`jsonb\`, arreglos, rangos), extensiones para búsqueda de texto y vectores, y una comunidad enorme. Supabase la ofrece gestionada, con extras que ahorran trabajo real.
+
+### Lo que aporta Supabase
+
+- **Postgres gestionado**, con copias de seguridad y un editor SQL en el navegador.
+- **Auth** integrado, el mismo que viste en el módulo de autenticación.
+- **Row Level Security** para reglas de acceso dentro de la base.
+- **Storage** para archivos.
+- **API automática** sobre tus tablas, útil para prototipos.
+
+Es Postgres de verdad: puedes conectarte con cualquier cliente y llevártelo a otro proveedor. No hay encierro.
+
+### Conectarse desde Python
+
+Supabase da dos cadenas de conexión y elegir mal es un problema real:
+
+- **Conexión directa**, para migraciones y tareas administrativas.
+- **Pooler**, para tu aplicación. En entornos sin servidor —Vercel, Lambda— cada petición puede abrir una conexión nueva, y Postgres tiene un límite bajo. El pooler las reutiliza y evita agotarlo.
+
+\`\`\`python
+# .env
+DATABASE_URL=postgresql://usuario:clave@host:6543/postgres
+\`\`\`
+
+\`\`\`python
+import os
+from sqlalchemy import create_engine
+
+engine = create_engine(os.environ["DATABASE_URL"], pool_pre_ping=True)
+\`\`\`
+
+**La cadena de conexión nunca va en el código.** Va en \`.env\`, y \`.env\` va en \`.gitignore\`.
+
+### Row Level Security
+
+Reglas de acceso que viven en la base y se aplican aunque tu código se equivoque:
+
+\`\`\`sql
+ALTER TABLE pedidos ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "cada quien ve sus pedidos"
+ON pedidos FOR SELECT
+USING (auth.uid() = usuario_id);
+
+CREATE POLICY "cada quien crea sus pedidos"
+ON pedidos FOR INSERT
+WITH CHECK (auth.uid() = usuario_id);
+\`\`\`
+
+\`USING\` filtra lo que se puede leer; \`WITH CHECK\` valida lo que se intenta escribir.
+
+**El detalle que hay que entender:** al activar RLS sin políticas, la tabla queda cerrada para todos. Es el comportamiento correcto —denegar por defecto— pero sorprende la primera vez. Y las claves de servicio saltan RLS por diseño: por eso nunca deben llegar al navegador.
+
+### Buenas prácticas de conexión
+
+\`\`\`python
+from sqlalchemy.orm import sessionmaker
+
+SessionLocal = sessionmaker(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()          # siempre se cierra, aunque haya error
+\`\`\`
+
+En FastAPI esto se inyecta con \`Depends(get_db)\`, y es la dependencia que sustituías en las pruebas con \`dependency_overrides\`.
+
+### Copias de seguridad
+
+Supabase hace copias automáticas, pero **una copia que nunca has restaurado no es una copia**. Practica una restauración a un proyecto de prueba antes de necesitarla de verdad.`,
+        tasks: [
+          'Crea un proyecto en Supabase y define tus tablas desde el editor SQL',
+          'Conéctate desde Python con la cadena del pooler y ejecuta una consulta',
+          'Activa RLS en una tabla y comprueba que sin políticas no devuelve nada',
+          'Escribe políticas de lectura y escritura y verifica que un usuario solo ve lo suyo',
+        ],
+        tip: 'Usa la conexión directa para migraciones y la del pooler para la aplicación. Si despliegas en Vercel con la conexión directa, funcionará en pruebas y empezará a fallar con tráfico real, cuando se agoten las conexiones disponibles.',
+        completed: false,
+      },
+      {
+        id: 'b2-l4',
+        title: 'ORM: SQLAlchemy y cuándo conviene',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Qué resuelve un ORM
+
+Un ORM traduce entre tablas y objetos. En vez de escribir SQL y mapear resultados a mano, defines clases y trabajas con objetos.
+
+\`\`\`python
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, Numeric, String
+from decimal import Decimal
+
+class Base(DeclarativeBase):
+    pass
+
+class Proveedor(Base):
+    __tablename__ = "proveedores"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(120))
+    productos: Mapped[list["Producto"]] = relationship(back_populates="proveedor")
+
+class Producto(Base):
+    __tablename__ = "productos"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(120))
+    precio: Mapped[Decimal] = mapped_column(Numeric(10, 2))
+    proveedor_id: Mapped[int] = mapped_column(ForeignKey("proveedores.id"))
+    proveedor: Mapped[Proveedor] = relationship(back_populates="productos")
+\`\`\`
+
+Fíjate en \`Decimal\` y \`Numeric(10, 2)\` para el precio: el mismo cuidado con el dinero, ahora en el ORM.
+
+### Consultar
+
+\`\`\`python
+from sqlalchemy import select
+
+# todos
+productos = db.scalars(select(Producto)).all()
+
+# con filtro y orden
+caros = db.scalars(
+    select(Producto).where(Producto.precio > 100).order_by(Producto.precio.desc())
+).all()
+
+# uno
+producto = db.get(Producto, 42)
+
+# navegar la relación
+print(producto.proveedor.nombre)
+\`\`\`
+
+### El problema N+1
+
+Es el fallo de rendimiento más común con cualquier ORM, y es invisible hasta que la tabla crece:
+
+\`\`\`python
+productos = db.scalars(select(Producto)).all()   # 1 consulta
+for p in productos:
+    print(p.proveedor.nombre)                    # ¡una consulta por producto!
+\`\`\`
+
+Con 500 productos son 501 consultas. La solución es pedir la relación de una vez:
+
+\`\`\`python
+from sqlalchemy.orm import selectinload
+
+productos = db.scalars(
+    select(Producto).options(selectinload(Producto.proveedor))
+).all()                                          # 2 consultas en total
+\`\`\`
+
+**Cómo detectarlo:** activa el registro de consultas (\`create_engine(url, echo=True)\`) y mira cuántas se ejecutan al cargar una pantalla. Si el número crece con la cantidad de filas, tienes un N+1.
+
+### Escribir
+
+\`\`\`python
+producto = Producto(nombre="Laptop", precio=Decimal("1200.00"), proveedor_id=3)
+db.add(producto)
+db.commit()
+db.refresh(producto)      # trae el id generado
+\`\`\`
+
+### ORM o SQL: la respuesta honesta
+
+**El ORM gana** en las operaciones repetitivas —crear, leer por id, actualizar, borrar—, en seguridad frente a inyección SQL y en mantener el código junto a los tipos.
+
+**El SQL gana** en informes, agregaciones complejas y cualquier consulta donde el rendimiento importe. Un informe con tres JOIN, subconsultas y ventanas es más claro en SQL que expresado a través de un ORM.
+
+Lo sano es usar los dos. SQLAlchemy permite escribir SQL directo cuando conviene:
+
+\`\`\`python
+from sqlalchemy import text
+
+filas = db.execute(text("""
+    SELECT pr.nombre, count(*) AS total
+    FROM productos p JOIN proveedores pr ON pr.id = p.proveedor_id
+    GROUP BY pr.nombre ORDER BY total DESC
+""")).mappings().all()
+\`\`\`
+
+**Nunca construyas SQL concatenando texto con datos del usuario.** Eso es una inyección SQL esperando a ocurrir. Usa siempre parámetros:
+
+\`\`\`python
+db.execute(text("SELECT * FROM productos WHERE nombre = :nombre"), {"nombre": entrada})
+\`\`\``,
+        tasks: [
+          'Define con SQLAlchemy dos modelos relacionados y sus relationship en ambos sentidos',
+          'Activa echo=True y provoca un N+1 a propósito, contando las consultas',
+          'Resuélvelo con selectinload y compara el número de consultas',
+          'Escribe un informe con agregaciones en SQL directo, usando parámetros y no concatenación',
+        ],
+        tip: 'El N+1 no se ve en desarrollo con diez filas de prueba: aparece en producción con miles. Acostúmbrate a mirar el número de consultas que dispara cada pantalla, no solo si funciona.',
+        completed: false,
+      },
+      {
+        id: 'b2-l5',
+        title: 'Migraciones: hacer evolucionar la base sin romper nada',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## El problema
+
+Tu modelo cambia: hace falta una columna nueva. En desarrollo la agregas a mano y sigues. Pero la base de producción ya tiene datos, y tus compañeros tienen la suya. ¿Cómo se aplica el mismo cambio en todas, en el mismo orden, sin perder nada?
+
+Una **migración** es un archivo versionado que describe un cambio de esquema. Se guardan en el repositorio y se aplican en orden. Son el control de versiones de tu base de datos.
+
+### Alembic
+
+\`\`\`bash
+pip install alembic
+alembic init migrations
+\`\`\`
+
+\`\`\`bash
+# generar la migración comparando modelos contra la base
+alembic revision --autogenerate -m "agrega categoria a productos"
+
+# aplicar
+alembic upgrade head
+
+# deshacer la última
+alembic downgrade -1
+\`\`\`
+
+### Revisa siempre lo autogenerado
+
+\`--autogenerate\` detecta la mayoría de los cambios, pero **no todos**, y a veces propone cosas peligrosas. Abre el archivo antes de aplicarlo:
+
+\`\`\`python
+def upgrade():
+    op.add_column("productos", sa.Column("categoria", sa.String(60), nullable=True))
+
+def downgrade():
+    op.drop_column("productos", "categoria")
+\`\`\`
+
+Lo que suele fallar: renombrar una columna se detecta como borrar una y crear otra —lo que **pierde los datos**—, y los cambios de tipo o de restricciones a veces no se detectan.
+
+### Agregar una columna obligatoria con datos existentes
+
+No puedes añadir una columna \`NOT NULL\` a una tabla con filas: no hay valor para las existentes. Se hace en tres pasos:
+
+\`\`\`python
+def upgrade():
+    # 1. agregar como opcional
+    op.add_column("productos", sa.Column("categoria", sa.String(60), nullable=True))
+    # 2. rellenar las filas existentes
+    op.execute("UPDATE productos SET categoria = 'general' WHERE categoria IS NULL")
+    # 3. ahora sí, hacerla obligatoria
+    op.alter_column("productos", "categoria", nullable=False)
+\`\`\`
+
+### Cambios compatibles hacia atrás
+
+Mientras se despliega, conviven la versión vieja y la nueva del código. Una migración que rompe la versión vieja provoca errores durante el despliegue.
+
+**Seguro:** agregar una tabla, agregar una columna opcional, agregar un índice.
+
+**Peligroso:** borrar o renombrar una columna que el código actual todavía usa, o hacer obligatoria una columna que la versión anterior no rellena.
+
+Para renombrar sin cortes se hace en dos despliegues: primero agregas la nueva y escribes en las dos; después, cuando ningún código usa la vieja, la borras.
+
+### Reglas que evitan desastres
+
+1. **Las migraciones se versionan en git**, como el código.
+2. **Nunca edites una migración ya aplicada en producción.** Crea una nueva.
+3. **Pruébalas en una copia** antes de tocar producción.
+4. **Escribe siempre el \`downgrade\`.** El día que lo necesites, lo vas a necesitar rápido.
+5. **Haz una copia de seguridad antes** de una migración destructiva.`,
+        tasks: [
+          'Configura Alembic sobre tu proyecto y genera la migración inicial',
+          'Agrega una columna obligatoria a una tabla con datos usando los tres pasos',
+          'Revisa una migración autogenerada y localiza algo que hubieras corregido a mano',
+          'Aplica y deshaz una migración para comprobar que el downgrade funciona',
+        ],
+        tip: 'Un renombrado autogenerado casi siempre aparece como drop más add, lo que borra la columna con todos sus datos. Es la razón por la que hay que leer cada migración generada antes de aplicarla, sin excepción.',
+        completed: false,
+      },
+      {
+        id: 'b2-l6',
+        title: 'Proyecto: persistencia real para la API de inventario',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: `Vas a tomar la API de inventario que construiste en el módulo anterior —la que guardaba en memoria— y darle una base de datos de verdad, con relaciones, migraciones y consultas de informe.
+
+Si los endpoints estaban bien diseñados, apenas tienes que tocarlos: cambias la capa de acceso a datos y el resto sigue igual. Comprobar eso es parte del ejercicio, y es la mejor demostración de por qué se separan las capas.`,
+        deliverables: [
+          'Esquema con al menos cuatro tablas, incluyendo una relación muchos a muchos con datos propios',
+          'Modelos de SQLAlchemy con relaciones declaradas en ambos sentidos',
+          'Migraciones con Alembic versionadas en el repositorio, incluyendo una que agregue una columna obligatoria a una tabla con datos',
+          'La API del módulo anterior funcionando contra la base, con los mismos endpoints',
+          'Un endpoint de informe resuelto con SQL directo y agregaciones',
+          'Índices en las claves foráneas y en las columnas por las que se filtra, justificados en el README',
+          'Pruebas que corren contra una base de prueba, no contra la real',
+        ],
+        rubrica: [
+          'Los precios usan numeric y no float, y las fechas usan timestamptz',
+          'Las restricciones de negocio están en la base: NOT NULL, CHECK y claves foráneas',
+          'Existe al menos un dato histórico congelado, con su justificación escrita',
+          'Ninguna consulta de listado dispara un N+1: se demuestra con el registro de consultas',
+          'Las migraciones se aplican en una base vacía y dejan el esquema correcto',
+          'Cada migración tiene su downgrade y se ha comprobado que funciona',
+          'La cadena de conexión llega por variable de entorno y no está en el repositorio',
+          'El endpoint de informe usa parámetros y no concatena texto con datos de entrada',
+        ],
+        tasks: [
+          'Dibuja el modelo completo antes de escribir código, incluyendo la tabla intermedia',
+          'Escribe los modelos de SQLAlchemy y genera la migración inicial con Alembic',
+          'Sustituye la capa de datos en memoria por la base, sin tocar los routers',
+          'Activa echo=True, carga la pantalla de listado y cuenta las consultas: corrige el N+1 si aparece',
+          'Escribe el endpoint de informe en SQL y compara su claridad con la versión por ORM',
+        ],
+        discussionPrompts: [
+          '¿Qué debería pasar con los movimientos de stock si se borra un producto? ¿Y con los pedidos históricos?',
+          'Si mañana el negocio quiere manejar dos almacenes, ¿qué cambia en tu modelo y cuánto costaría esa migración?',
+        ],
+        tip: 'Al terminar, cuenta cuántos archivos tuviste que tocar fuera de la capa de datos. Si son pocos, tu separación por capas del módulo anterior estaba bien hecha. Si tuviste que reescribir los routers, ahí tienes la lección más valiosa del proyecto.',
+        completed: false,
+      },
+      {
+        id: 'b2-l7',
+        title: 'Examen: bases de datos relacionales',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: '¿Por qué el precio de un producto no debe guardarse con el tipo float?',
+            options: [
+              'Porque float ocupa más espacio que numeric',
+              'Porque la coma flotante es inexacta: operaciones como 0.1 + 0.2 no dan el resultado exacto y aparecen descuadres de céntimos en los totales',
+              'Porque float no admite números mayores a mil',
+              'Porque Postgres no permite float en columnas indexadas',
+            ],
+            correct: 1,
+            explanation: 'float usa representación binaria de coma flotante, que no puede representar exactamente muchos decimales. numeric guarda el valor exacto, a costa de ser algo más lento. Para dinero, la exactitud no es negociable.',
+          },
+          {
+            q: 'En una tabla intermedia pedido_items, ¿por qué se guarda precio_unitario en vez de leer siempre el precio actual del producto?',
+            options: [
+              'Para que la consulta sea más rápida y no haga JOIN',
+              'Porque el precio del pedido debe quedar congelado: si el producto sube de precio mañana, los pedidos históricos no deben cambiar de total',
+              'Porque la clave foránea no permite acceder al precio',
+              'Por una limitación de las tablas muchos a muchos',
+            ],
+            correct: 1,
+            explanation: 'Es la excepción legítima a la regla de no duplicar datos. Un pedido es un hecho histórico: refleja lo que se cobró en su momento. Referenciar el precio actual haría que los totales del pasado cambiaran solos cada vez que se ajusta una tarifa.',
+          },
+          {
+            q: '¿Cuál es la diferencia entre WHERE y HAVING?',
+            options: [
+              'Son sinónimos, HAVING es la forma antigua',
+              'WHERE filtra filas antes de agrupar; HAVING filtra grupos después de agrupar, y solo ahí se pueden usar funciones de agregación',
+              'WHERE se usa en SELECT y HAVING en UPDATE',
+              'HAVING solo funciona con JOIN',
+            ],
+            correct: 1,
+            explanation: 'El orden de ejecución es: WHERE filtra filas, GROUP BY agrupa, HAVING filtra los grupos resultantes. Por eso no se puede escribir WHERE count(*) > 3: en ese momento los grupos todavía no existen.',
+          },
+          {
+            q: 'Cargas 500 productos y en el bucle accedes a producto.proveedor.nombre. ¿Qué ocurre y cómo se corrige?',
+            options: [
+              'Nada especial: el ORM ya trae los proveedores en la consulta inicial',
+              'Se produce un N+1: una consulta por cada producto. Se corrige pidiendo la relación por adelantado con selectinload',
+              'El ORM lanza un error porque la relación no está cargada',
+              'Se corrige agregando un índice en proveedor_id',
+            ],
+            correct: 1,
+            explanation: 'El ORM carga las relaciones de forma perezosa: la primera consulta trae los productos y cada acceso a .proveedor dispara otra. Son 501 consultas. selectinload le dice al ORM que traiga los proveedores en una segunda consulta única. Un índice ayuda al rendimiento de cada consulta, pero no reduce su número.',
+          },
+          {
+            q: 'Necesitas agregar una columna NOT NULL a una tabla que ya tiene miles de filas. ¿Cómo se hace?',
+            options: [
+              'Directamente con ALTER TABLE ADD COLUMN ... NOT NULL',
+              'En tres pasos: agregarla como opcional, rellenar las filas existentes con un valor, y después marcarla como obligatoria',
+              'Borrando la tabla y recreándola con la columna incluida',
+              'No se puede: hay que dejarla siempre opcional',
+            ],
+            correct: 1,
+            explanation: 'Una columna NOT NULL sin valor por defecto no puede agregarse a filas existentes, porque no habría qué poner en ellas. La secuencia segura es nullable, UPDATE de relleno y luego alter a NOT NULL, todo dentro de la misma migración.',
+          },
+          {
+            q: 'Activas Row Level Security en una tabla y de pronto no devuelve ninguna fila. ¿Qué pasó?',
+            options: [
+              'Se borraron los datos al activar RLS',
+              'Al activar RLS sin políticas definidas, la tabla queda cerrada por defecto: hay que declarar explícitamente qué se permite',
+              'RLS solo funciona en tablas vacías',
+              'Falta crear un índice para que RLS pueda filtrar',
+            ],
+            correct: 1,
+            explanation: 'RLS deniega por defecto, que es el comportamiento correcto desde el punto de vista de seguridad: nada es accesible hasta que una política lo permita. Sorprende la primera vez, pero es preferible a lo contrario. Las claves de servicio saltan RLS, y por eso nunca deben llegar al navegador.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'PostgreSQL — documentación oficial',
+        url: 'https://www.postgresql.org/docs/current/',
+        type: 'documentation',
+      },
+      {
+        title: 'Supabase — guías de base de datos',
+        url: 'https://supabase.com/docs/guides/database/overview',
+        type: 'documentation',
+      },
+      {
+        title: 'SQLAlchemy 2.0 — tutorial oficial',
+        url: 'https://docs.sqlalchemy.org/en/20/tutorial/',
+        type: 'documentation',
+      },
+      {
+        title: 'Alembic — migraciones',
+        url: 'https://alembic.sqlalchemy.org/en/latest/tutorial.html',
+        type: 'documentation',
+      },
+      {
+        title: 'Use The Index, Luke — índices explicados a fondo',
+        url: 'https://use-the-index-luke.com/es',
+        type: 'article',
+      },
+    ],
+  },
+  {
+    id: 'back-3',
+    number: 3,
+    title: 'Contenedores con Docker',
+    description: 'Empaquetar la aplicación con todo lo que necesita para que corra igual en tu máquina, en la de tu socio y en el servidor.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'backend',
+    audience: 'capacitacion',
+    lessons: [
+      {
+        id: 'b3-l1',
+        title: 'Qué problema resuelve un contenedor',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## "En mi máquina funciona"
+
+Tu proyecto corre con Python 3.12 y Postgres 16. La máquina de tu socio tiene Python 3.9. El servidor tiene otra versión de una biblioteca del sistema. El mismo código se comporta distinto en los tres sitios y nadie sabe por qué.
+
+Un **contenedor** empaqueta la aplicación junto con su versión exacta de lenguaje, sus dependencias y su configuración. Lo que se ejecuta es el paquete completo, así que se comporta igual en todas partes.
+
+### No es una máquina virtual
+
+Una máquina virtual emula un ordenador entero, con su propio sistema operativo: pesa gigas y tarda minutos en arrancar. Un contenedor comparte el núcleo del sistema anfitrión y solo aísla los procesos y los archivos: pesa megas y arranca en segundos.
+
+Esa diferencia es lo que hace viable levantar cinco servicios a la vez en tu portátil.
+
+### Los tres conceptos
+
+**Imagen**: la plantilla, de solo lectura. Contiene el sistema base, tu código y sus dependencias.
+
+**Contenedor**: una instancia de una imagen en ejecución. De una imagen puedes levantar muchos contenedores.
+
+**Registro**: donde se guardan y comparten las imágenes. Docker Hub es el público.
+
+La analogía que funciona: la imagen es la clase, el contenedor es la instancia.
+
+### Los comandos del día a día
+
+\`\`\`bash
+docker build -t mi-api .          # construir una imagen desde el Dockerfile
+docker run -p 8000:8000 mi-api    # levantar un contenedor
+docker ps                         # ver los que están corriendo
+docker ps -a                      # ver todos, incluidos los detenidos
+docker logs <id>                  # ver su salida
+docker exec -it <id> bash         # entrar dentro
+docker stop <id>
+docker rm <id>
+docker image prune -a             # liberar espacio de imágenes sin usar
+\`\`\`
+
+\`-p 8000:8000\` conecta el puerto 8000 de tu máquina con el 8000 del contenedor. Sin eso, el servicio corre pero no lo alcanzas: es el motivo número uno de "levanté el contenedor y no responde".
+
+### Lo que se pierde al parar un contenedor
+
+Todo lo que escribió dentro. Un contenedor es desechable por diseño. Si tu base de datos vive en un contenedor sin volumen, al pararlo pierdes los datos.
+
+\`\`\`bash
+docker run -v datos_pg:/var/lib/postgresql/data postgres:16
+\`\`\`
+
+Un **volumen** es almacenamiento que sobrevive al contenedor. Toda base de datos en Docker necesita uno.
+
+### Cuándo usarlo y cuándo no
+
+**Sí**: cuando el proyecto tiene varias piezas (API, base, cache), cuando el equipo trabaja en sistemas distintos, cuando el despliegue debe ser reproducible.
+
+**No hace falta**: para un sitio estático o un Next.js que despliegas en Vercel. Vercel ya resuelve el entorno; meter Docker ahí es complejidad sin retorno.`,
+        tasks: [
+          'Instala Docker y levanta un contenedor de Postgres con un volumen',
+          'Conéctate a esa base desde tu máquina y crea una tabla',
+          'Para el contenedor, vuelve a levantarlo y comprueba que la tabla sigue ahí',
+          'Repite sin volumen y comprueba que los datos se pierden',
+        ],
+        tip: 'La confusión más común al empezar es entre imagen y contenedor. Si te equivocas de comando, recuerda: build y pull actúan sobre imágenes; run, stop, logs y exec actúan sobre contenedores.',
+        completed: false,
+      },
+      {
+        id: 'b3-l2',
+        title: 'Dockerfile: construir tu propia imagen',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## El archivo
+
+Un \`Dockerfile\` es la receta de tu imagen: instrucciones que se ejecutan en orden.
+
+\`\`\`dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+CMD ["fastapi", "run", "main.py", "--port", "8000"]
+\`\`\`
+
+### El orden importa más de lo que parece
+
+Cada instrucción crea una capa que Docker guarda en caché. Si una capa no cambió, reutiliza todo lo anterior.
+
+Por eso **primero se copia \`requirements.txt\` y se instala, y solo después el resto del código**. Al cambiar una línea de tu programa, Docker reutiliza la capa de dependencias y la construcción tarda segundos. Si copiaras todo de golpe antes de instalar, cada cambio en el código reinstalaría todas las dependencias.
+
+### .dockerignore
+
+\`\`\`
+.git
+.venv
+__pycache__
+*.pyc
+.env
+node_modules
+tests
+\`\`\`
+
+Sin este archivo, \`COPY . .\` mete dentro de la imagen tu entorno virtual, el historial de git y —lo importante— **tu archivo \`.env\` con las claves**. Es el mismo cuidado que con \`.gitignore\`, y se olvida con la misma frecuencia.
+
+### Imagen base: elige pequeña
+
+\`\`\`
+python:3.12          ~1 GB    todo incluido
+python:3.12-slim     ~150 MB  lo justo — la opción por defecto sensata
+python:3.12-alpine   ~50 MB   muy pequeña, pero con una librería de C distinta
+                              que rompe algunos paquetes científicos
+\`\`\`
+
+Empieza con \`slim\`. Alpine solo si el tamaño importa de verdad y comprobaste que tus dependencias compilan.
+
+### Construcción en varias etapas
+
+Para compilar hacen falta herramientas que en producción sobran. Se usan en una etapa y se descartan:
+
+\`\`\`dockerfile
+FROM python:3.12-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+FROM python:3.12-slim
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY . .
+ENV PATH=/root/.local/bin:$PATH
+CMD ["fastapi", "run", "main.py", "--port", "8000"]
+\`\`\`
+
+La imagen final solo lleva lo necesario para ejecutar.
+
+### No corras como root
+
+Por defecto el proceso dentro del contenedor es root. Si alguien consigue ejecutar código, tiene más privilegios de los que necesita:
+
+\`\`\`dockerfile
+RUN useradd --create-home appuser
+USER appuser
+\`\`\`
+
+### Las variables de entorno no van dentro
+
+\`\`\`dockerfile
+# MAL: la clave queda grabada en la imagen y en su historial
+ENV DATABASE_URL=postgresql://usuario:clave@host/db
+\`\`\`
+
+Las claves se pasan al **ejecutar**, no al construir:
+
+\`\`\`bash
+docker run --env-file .env mi-api
+\`\`\`
+
+Una imagen con secretos dentro es un secreto publicado en cuanto la subes a un registro. Y borrarlo de la capa no sirve: queda en el historial de la imagen.`,
+        tasks: [
+          'Escribe el Dockerfile de tu API y construye la imagen',
+          'Agrega un .dockerignore y compara el tamaño de la imagen antes y después',
+          'Cambia una línea de código y comprueba que la reconstrucción reutiliza la capa de dependencias',
+          'Pasa la configuración con --env-file y verifica que no hay secretos dentro de la imagen',
+        ],
+        tip: 'Si tu imagen tarda varios minutos en reconstruirse tras cambiar una línea de código, el orden de las instrucciones está mal: seguramente copias todo antes de instalar dependencias. Invertir esas dos líneas suele bajar la reconstrucción de minutos a segundos.',
+        completed: false,
+      },
+      {
+        id: 'b3-l3',
+        title: 'Docker Compose: varios servicios a la vez',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## El problema que resuelve
+
+Tu proyecto no es una sola cosa: es una API, una base de datos y quizá una cache. Levantarlos a mano con \`docker run\` y sus puertos, volúmenes y variables es tedioso y no se puede versionar.
+
+**Compose** describe todo el conjunto en un archivo.
+
+\`\`\`yaml
+# compose.yaml
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:clave@db:5432/inventario
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: clave
+      POSTGRES_DB: inventario
+    volumes:
+      - datos_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+volumes:
+  datos_pg:
+\`\`\`
+
+\`\`\`bash
+docker compose up -d       # levantar todo
+docker compose logs -f api # ver la salida de un servicio
+docker compose down        # parar y borrar los contenedores
+docker compose down -v     # ...y también los volúmenes (borra los datos)
+\`\`\`
+
+### El detalle que confunde a todos
+
+Fíjate en la cadena de conexión: el host es **\`db\`**, no \`localhost\`.
+
+Compose crea una red donde cada servicio es alcanzable por su nombre. Desde dentro de \`api\`, la base está en \`db:5432\`. Desde tu máquina, en \`localhost:5432\` solo si publicaste el puerto.
+
+Usar \`localhost\` dentro de un contenedor apunta al propio contenedor, no al anfitrión. Es la causa número uno de "no se conecta a la base".
+
+### depends_on no es suficiente
+
+\`depends_on\` controla el **orden de arranque**, no que el servicio esté listo. Postgres tarda unos segundos en aceptar conexiones, y tu API arrancaría antes y fallaría.
+
+Por eso se combina con \`healthcheck\` y \`condition: service_healthy\`: así la API espera a que la base responda de verdad.
+
+### Desarrollo con recarga automática
+
+\`\`\`yaml
+  api:
+    build: .
+    volumes:
+      - .:/app          # tu código entra en vivo
+    command: fastapi dev main.py --host 0.0.0.0
+\`\`\`
+
+Montar el directorio permite editar en tu editor y ver el cambio sin reconstruir. Este bloque es solo para desarrollo: en producción el código va dentro de la imagen.
+
+Y ojo con \`--host 0.0.0.0\`: sin eso el servidor solo escucha dentro del contenedor y no responde desde fuera.
+
+### Un archivo por entorno
+
+\`\`\`bash
+docker compose -f compose.yaml -f compose.dev.yaml up
+\`\`\`
+
+Un archivo base con lo común y otro que añade lo específico de desarrollo evita tener dos definiciones que se desincronizan.`,
+        tasks: [
+          'Escribe un compose.yaml con tu API y una base Postgres con volumen',
+          'Conecta la API a la base usando el nombre del servicio como host',
+          'Agrega un healthcheck y comprueba que la API espera a que la base esté lista',
+          'Monta el código como volumen y verifica que un cambio se refleja sin reconstruir',
+        ],
+        tip: 'Cuando un servicio no alcanza a otro, entra al contenedor con docker compose exec api bash y prueba la conexión desde dentro. Casi siempre el problema es haber usado localhost donde debía ir el nombre del servicio.',
+        completed: false,
+      },
+      {
+        id: 'b3-l4',
+        title: 'Práctica: contenerizar el proyecto completo',
+        type: 'practice',
+        difficulty: 'profesional',
+        content: `## El ejercicio
+
+Toma la API de inventario con su base de datos y déjala funcionando con un solo comando en cualquier máquina.
+
+La prueba de que está bien hecho: alguien clona el repositorio, ejecuta \`docker compose up\` y tiene el sistema entero corriendo, sin instalar Python ni Postgres.
+
+### Lo que hay que montar
+
+1. **Dockerfile de la API**, con las capas en el orden correcto, usuario sin privilegios y sin secretos dentro.
+2. **\`.dockerignore\`** que excluya \`.venv\`, \`.git\`, \`__pycache__\` y \`.env\`.
+3. **\`compose.yaml\`** con la API y Postgres, volumen para los datos y healthcheck.
+4. **Migraciones aplicadas al arrancar**, para que la base quede lista sola.
+5. **\`.env.example\`** en el repositorio con los nombres de las variables y sin sus valores.
+
+### Aplicar migraciones al arrancar
+
+\`\`\`yaml
+  api:
+    build: .
+    command: sh -c "alembic upgrade head && fastapi run main.py --host 0.0.0.0"
+\`\`\`
+
+### La comprobación final
+
+Bórralo todo y levántalo desde cero:
+
+\`\`\`bash
+docker compose down -v
+docker compose up --build
+\`\`\`
+
+Si el sistema queda funcionando con la base migrada y sin ningún paso manual, está terminado. Si tuviste que ejecutar algo a mano, ese algo tiene que estar en el compose.`,
+        tasks: [
+          'Escribe el Dockerfile, el .dockerignore y el compose.yaml del proyecto',
+          'Haz que las migraciones se apliquen solas al arrancar el servicio',
+          'Ejecuta docker compose down -v y luego up --build para probarlo desde cero',
+          'Documenta en el README el único comando que hace falta para levantarlo',
+        ],
+        tip: 'La prueba real es pedirle a alguien que no conoce el proyecto que lo levante siguiendo solo el README. Cada paso que tenga que preguntarte es un paso que falta automatizar o documentar.',
+        completed: false,
+      },
+      {
+        id: 'b3-l5',
+        title: 'Examen: contenedores',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia entre una imagen y un contenedor?',
+            options: [
+              'La imagen corre en producción y el contenedor en desarrollo',
+              'La imagen es la plantilla de solo lectura; el contenedor es una instancia suya en ejecución, y de una imagen se pueden levantar muchos',
+              'Son lo mismo con nombres distintos según el sistema operativo',
+              'El contenedor incluye el sistema operativo completo y la imagen no',
+            ],
+            correct: 1,
+            explanation: 'La analogía útil es la de clase e instancia. build y pull actúan sobre imágenes; run, stop, logs y exec actúan sobre contenedores. Entender esa separación resuelve la mayoría de las confusiones al empezar.',
+          },
+          {
+            q: 'En un Dockerfile, ¿por qué se copia requirements.txt e se instalan las dependencias ANTES de copiar el resto del código?',
+            options: [
+              'Porque Docker exige ese orden para encontrar el archivo',
+              'Por la caché de capas: si el código cambia pero las dependencias no, Docker reutiliza la capa de instalación y la reconstrucción tarda segundos en vez de minutos',
+              'Porque las dependencias deben instalarse como root y el código no',
+              'Para reducir el tamaño final de la imagen',
+            ],
+            correct: 1,
+            explanation: 'Cada instrucción genera una capa cacheada. Docker invalida una capa y todas las siguientes cuando su entrada cambia. Copiando primero solo el archivo de dependencias, un cambio en el código no invalida la instalación, que es la parte lenta.',
+          },
+          {
+            q: 'Tu API dentro de un contenedor no logra conectarse a la base de datos declarada en el mismo compose. La cadena usa localhost. ¿Qué pasa?',
+            options: [
+              'Falta abrir el puerto 5432 en el firewall del sistema',
+              'Dentro de un contenedor, localhost apunta al propio contenedor: hay que usar el nombre del servicio, por ejemplo db, que Compose resuelve en su red interna',
+              'Postgres no acepta conexiones desde contenedores',
+              'Falta declarar el volumen de datos',
+            ],
+            correct: 1,
+            explanation: 'Compose crea una red donde cada servicio es alcanzable por su nombre. localhost dentro del contenedor de la API se refiere a esa misma API. La cadena debe apuntar a db:5432, que es el nombre del servicio en el compose.',
+          },
+          {
+            q: '¿Por qué no se deben poner claves con ENV en el Dockerfile?',
+            options: [
+              'Porque ENV solo admite valores numéricos',
+              'Porque quedan grabadas en la imagen y en su historial de capas: al publicarla, el secreto queda expuesto y borrarlo después no lo elimina',
+              'Porque las variables definidas con ENV no están disponibles en tiempo de ejecución',
+              'Porque hacen la imagen considerablemente más grande',
+            ],
+            correct: 1,
+            explanation: 'Una imagen conserva el historial de todas sus capas. Un secreto escrito con ENV es recuperable por cualquiera que tenga la imagen, incluso si una capa posterior lo sobrescribe. La configuración sensible se pasa al ejecutar, con --env-file o variables del entorno de despliegue.',
+          },
+          {
+            q: 'Paras un contenedor de Postgres y al volver a levantarlo los datos desaparecieron. ¿Por qué?',
+            options: [
+              'Porque Postgres borra su base al detenerse de forma limpia',
+              'Porque el sistema de archivos de un contenedor es efímero: sin un volumen montado, todo lo escrito dentro se pierde al eliminarlo',
+              'Porque faltaba ejecutar las migraciones al arrancar',
+              'Porque la imagen de Postgres solo guarda datos en memoria',
+            ],
+            correct: 1,
+            explanation: 'Los contenedores son desechables por diseño: su capa de escritura desaparece con ellos. Cualquier dato que deba sobrevivir necesita un volumen, que es almacenamiento gestionado por Docker con vida independiente del contenedor.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Docker — documentación oficial',
+        url: 'https://docs.docker.com/',
+        type: 'documentation',
+      },
+      {
+        title: 'Docker Compose — referencia del archivo',
+        url: 'https://docs.docker.com/compose/compose-file/',
+        type: 'documentation',
+      },
+      {
+        title: 'Buenas prácticas para escribir Dockerfiles',
+        url: 'https://docs.docker.com/build/building/best-practices/',
+        type: 'documentation',
+      },
+      {
+        title: 'Play with Docker — practicar sin instalar nada',
+        url: 'https://labs.play-with-docker.com/',
+        type: 'tool',
+      },
+    ],
+  },
+  {
     id: 'web-ts',
     number: 14,
     title: 'TypeScript: JavaScript con red de seguridad',

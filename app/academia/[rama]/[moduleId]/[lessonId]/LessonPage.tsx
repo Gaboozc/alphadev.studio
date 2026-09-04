@@ -59,28 +59,9 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
-      <div
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 1.5rem',
-          display: 'grid',
-          gridTemplateColumns: '260px 1fr',
-          gap: '2rem',
-          alignItems: 'start',
-        }}
-      >
+      <div className="lesson-layout">
         {/* ── Sidebar ── */}
-        <aside
-          style={{
-            position: 'sticky',
-            top: '1.5rem',
-            paddingTop: '2rem',
-            paddingBottom: '2rem',
-            maxHeight: 'calc(100vh - 3rem)',
-            overflowY: 'auto',
-          }}
-        >
+        <aside className="lesson-aside">
           {/* Back to module */}
           <Link
             href={moduleHref(mod)}
@@ -236,7 +217,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
         </aside>
 
         {/* ── Main content ── */}
-        <main style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+        <main className="lesson-main">
 
           {/* Lesson header */}
           <div
@@ -339,15 +320,7 @@ export default function LessonPage({ module: mod, lesson, trackModules, lessonIn
           )}
 
           {/* Main lesson content */}
-          <div
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '1rem',
-              padding: '2rem',
-              marginBottom: '2rem',
-            }}
-          >
+          <div className="lesson-card">
             <LessonContent
               content={lesson.content}
               tasks={lesson.tasks}

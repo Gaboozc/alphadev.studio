@@ -50,7 +50,7 @@ export const RAMAS: RamaMeta[] = [
     icon: 'code',
     description: 'Del primer comando en la terminal a un producto en producción, con pruebas y deploy propios.',
     // Fundamentos va primero: es el prerrequisito del resto de la rama.
-    tracks: ['fundamentos', 'web', 'prodai'],
+    tracks: ['fundamentos', 'web', 'backend', 'prodai'],
   },
   {
     id: 'diseno',
@@ -112,6 +112,7 @@ export interface TrackMeta {
 export const TRACK_META: Record<Track, TrackMeta> = {
   fundamentos: { id: 'fundamentos', label: 'Fundamentos del oficio', icon: 'terminal', description: 'Terminal, Git y GitHub, manejo de errores y testing. La base que el resto da por sabida.' },
   web: { id: 'web', label: 'Desarrollo Web', icon: 'code', description: 'HTML, CSS, React, Next.js, autenticación y deployment en producción.' },
+  backend: { id: 'backend', label: 'Back-end y datos', icon: 'database', description: 'APIs con FastAPI, bases de datos relacionales y contenedores.' },
   prodai: { id: 'prodai', label: 'Producto IA', icon: 'box', description: 'Construir y lanzar productos digitales con IA integrada.' },
   uiux: { id: 'uiux', label: 'UI/UX', icon: 'palette', description: 'Figma, prototipos, UX Writing y testing de usabilidad.' },
   branding: { id: 'branding', label: 'Branding', icon: 'layers', description: 'Identidad de marca, naming y brand strategy.' },

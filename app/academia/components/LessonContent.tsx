@@ -269,14 +269,7 @@ export default function LessonContent({ content, tasks, tip }: Props) {
   if (!content && !tasks?.length && !tip) return null
 
   return (
-    <div
-      style={{
-        paddingLeft: '2.625rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.25rem',
-      }}
-    >
+    <div className="lesson-content">
       {/* Cuerpo principal de la lección */}
       {content && (
         <div style={{ marginBottom: tasks?.length || tip ? '1.25rem' : 0 }}>
