@@ -1,23 +1,29 @@
 import type { Metadata } from 'next'
-import PasswordGate from './components/PasswordGate'
+import { redirect } from 'next/navigation'
 import AcademiaNav from './components/AcademiaNav'
 import { allMeta } from './queries'
+import { getUsuario } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function AcademiaLayout({ children }: { children: React.ReactNode }) {
-  // El catálogo se construye aquí, en el servidor, y baja al menú sin el cuerpo
-  // de las lecciones. Ver la nota de ModuleMeta en types.ts.
+export default async function AcademiaLayout({ children }: { children: React.ReactNode }) {
+  // ── La protección real ──
+  // Ocurre en el servidor y ANTES de leer el catálogo. Si no hay sesión, no se
+  // construye nada: el contenido nunca sale de aquí. El middleware hace lo
+  // mismo antes, pero esta es la capa de la que dependemos de verdad.
+  const usuario = await getUsuario()
+  if (!usuario) redirect('/acceso')
+
   const catalogo = allMeta()
 
   return (
-    <PasswordGate>
-      <AcademiaNav catalogo={catalogo} />
+    <>
+      <AcademiaNav catalogo={catalogo} email={usuario.email ?? ''} />
       <div style={{ paddingTop: '3.5rem' }}>
         {children}
       </div>
-    </PasswordGate>
+    </>
   )
 }

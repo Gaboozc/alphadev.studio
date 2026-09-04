@@ -13,7 +13,7 @@ const TRACKS = RAMAS.flatMap((r) => r.tracks.map((t) => TRACK_META[t]))
 
 // Recibe el catálogo ya construido en el servidor: importar el contenido aquí
 // metería el texto de todas las lecciones en el paquete de JavaScript.
-export default function AcademiaNav({ catalogo }: { catalogo: ModuleMeta[] }) {
+export default function AcademiaNav({ catalogo, email }: { catalogo: ModuleMeta[]; email: string }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
@@ -399,11 +399,47 @@ export default function AcademiaNav({ catalogo }: { catalogo: ModuleMeta[] }) {
               fontSize: '0.75rem',
               color: 'var(--text-subtle)',
               textAlign: 'center',
-              margin: 0,
+              margin: '0 0 0.625rem',
             }}
           >
             {catalogo.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
           </p>
+
+          {/* Quién entró y cómo salir */}
+          <form action="/acceso/salir" method="post" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span
+              title={email}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                fontFamily: 'var(--font-inter)',
+                fontSize: '0.6875rem',
+                color: 'var(--text-muted)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {email}
+            </span>
+            <button
+              type="submit"
+              style={{
+                flexShrink: 0,
+                fontFamily: 'var(--font-inter)',
+                fontSize: '0.6875rem',
+                fontWeight: 600,
+                color: 'var(--gold)',
+                background: 'none',
+                border: '1px solid var(--gold-border)',
+                borderRadius: '0.375rem',
+                padding: '0.2rem 0.55rem',
+                cursor: 'pointer',
+              }}
+            >
+              Salir
+            </button>
+          </form>
         </div>
       </aside>
     </>

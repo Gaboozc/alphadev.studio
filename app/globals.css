@@ -1977,3 +1977,123 @@ button.case-thumb {
 @media (max-width: 900px) {
   .lesson-card { padding: 1.25rem 1.1rem; border-radius: 0.75rem; }
 }
+
+/* ── Página de acceso a la Academia ──────────────────────────────────────── */
+
+.acceso-page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.acceso-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2.25rem 2rem;
+}
+
+.acceso-card .eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.acceso-card h1 {
+  font-family: var(--font-playfair);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+
+.acceso-sub {
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 1.75rem;
+}
+
+.acceso-label {
+  font-family: var(--font-inter);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: 0.4rem;
+}
+
+.acceso-input {
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  padding: 0.75rem 0.875rem;
+  margin-bottom: 1.125rem;
+  outline: none;
+  transition: border-color 180ms ease;
+}
+
+.acceso-input:focus {
+  border-color: var(--gold);
+}
+
+.acceso-error {
+  font-family: var(--font-inter);
+  font-size: 0.8125rem;
+  color: #9C3B2E;
+  background: rgba(156, 59, 46, 0.08);
+  border: 1px solid rgba(156, 59, 46, 0.22);
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.acceso-btn {
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--gold);
+  border: none;
+  border-radius: 0.625rem;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.acceso-btn:hover:not(:disabled) {
+  background: var(--gold-dark);
+}
+
+.acceso-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.acceso-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.acceso-nota {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  text-align: center;
+  line-height: 1.6;
+  margin: 1.25rem 0 0;
+}
+
+.acceso-nota a {
+  color: var(--gold);
+}
