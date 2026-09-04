@@ -473,7 +473,7 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 
 | Familia | Ramas |
 |---------|-------|
-| **Construir** | Programación, Diseño, Inteligencia Artificial |
+| **Construir** | Programación (Fundamentos del oficio → Desarrollo Web → Producto IA), Diseño, Inteligencia Artificial |
 | **Crecer** | Marketing, Contenido & SEO, Negocio & Datos |
 
 ### Archivos clave
@@ -492,6 +492,7 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 - **Los links se arman con** `ramaHref()` / `moduleHref()` / `lessonHref()`, nunca a mano.
 - **Metadata de áreas**: fuente única en `TRACK_META`. No duplicar la tabla en componentes.
 - **`audience`** en cada módulo separa contenido vendible (`'aprendizaje'`) de formación interna (`'capacitacion'`). Ausente = `'aprendizaje'`.
+- **Markdown de las lecciones** (`components/LessonContent.tsx`): soporta `## sección`, `### subtítulo`, `**negrita**`, `` `código` `` (también dentro de negritas), bloques ` ``` ` con lenguaje opcional y listas con `- `. No hay más sintaxis: cualquier otra cosa se renderiza como texto plano.
 - URLs: `/academia/<rama>/<módulo>/<lección>`. Un módulo vive en una sola rama; pedirlo bajo otra da 404.
 - Estilos nuevos usan clases `.acad-*` en `globals.css`, no estilos inline.
 

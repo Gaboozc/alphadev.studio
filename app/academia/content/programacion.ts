@@ -4,6 +4,1565 @@ import type { Module } from '../types'
 // Cada módulo declara su `track`; la rama se deriva del track en ramas.ts.
 export const MODULES_PROGRAMACION: Module[] = [
   {
+    id: 'fund-1',
+    number: 1,
+    title: 'Línea de comandos, Git y GitHub',
+    description: 'El oficio antes del código: moverte por la terminal, versionar tu trabajo y colaborar en GitHub sin romper nada.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'fundamentos',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'f1-l1',
+        title: 'La terminal: por qué vas a vivir ahí',
+        type: 'reading',
+        difficulty: 'básico',
+        content: `## La terminal no es nostalgia
+
+Cada herramienta moderna que vas a usar —Next.js, Git, Vercel, Supabase, Docker— se instala, se configura y se despliega desde la terminal. No hay botón. Aprenderla no es volver a los años ochenta: es dejar de depender de que alguien te construya una interfaz para cada cosa que necesitas hacer.
+
+La diferencia práctica es esta: una interfaz gráfica te deja hacer lo que su diseñador previó. La terminal te deja combinar comandos que nadie previó.
+
+### Qué terminal usas
+
+- **macOS y Linux**: la que trae el sistema. En macOS conviene instalar iTerm2, pero la de fábrica sirve.
+- **Windows**: usa **Git Bash** (viene con Git) o **WSL**. Evita \`cmd.exe\`: la sintaxis no es la misma que verás en cualquier tutorial, y vas a perder tiempo traduciendo.
+
+### Los comandos que resuelven el 90% del día
+
+\`\`\`bash
+pwd                  # ¿dónde estoy?
+ls                   # ¿qué hay aquí?
+ls -la               # ...incluyendo archivos ocultos y permisos
+cd carpeta           # entrar a una carpeta
+cd ..                # subir un nivel
+cd ~                 # ir a tu carpeta personal
+
+mkdir proyecto       # crear carpeta
+touch index.html     # crear archivo vacío
+cp origen destino    # copiar
+mv origen destino    # mover o renombrar
+rm archivo           # borrar (NO va a la papelera)
+rm -r carpeta        # borrar carpeta y su contenido
+
+cat archivo          # ver el contenido completo
+head -20 archivo     # las primeras 20 líneas
+tail -20 archivo     # las últimas 20
+\`\`\`
+
+### El detalle que te va a morder
+
+\`rm\` no tiene papelera. No hay deshacer. \`rm -rf carpeta\` borra la carpeta, todo lo que contiene y no pregunta. Antes de ejecutar cualquier \`rm\`, corre primero \`ls\` sobre la misma ruta y mira qué hay.
+
+### Encadenar comandos
+
+Aquí empieza lo que la interfaz gráfica no te deja hacer:
+
+\`\`\`bash
+# la barra vertical pasa la salida de un comando al siguiente
+ls -la | grep ".ts"           # solo los archivos TypeScript
+cat log.txt | grep "ERROR"    # solo las líneas con ERROR
+
+# && encadena: el segundo corre solo si el primero salió bien
+mkdir proyecto && cd proyecto
+
+# > guarda la salida en un archivo (sobrescribe), >> la agrega al final
+ls -la > listado.txt
+\`\`\`
+
+### Atajos que te ahorran horas
+
+- **Tab** completa nombres de archivo y carpeta. Úsalo siempre: evita errores de tipeo.
+- **Flecha arriba** recupera el comando anterior.
+- **Ctrl + C** cancela lo que esté corriendo.
+- **Ctrl + L** limpia la pantalla.
+- **Ctrl + R** busca en el historial de comandos.`,
+        tasks: [
+          'Instala Git Bash si estás en Windows, o abre la terminal del sistema si estás en macOS o Linux',
+          'Navega hasta tu carpeta de proyectos usando solo cd, pwd y ls — sin tocar el explorador de archivos',
+          'Crea una carpeta llamada practica-terminal con tres archivos dentro usando mkdir y touch',
+          'Lista solo los archivos que terminen en .txt usando ls y grep encadenados con |',
+          'Guarda el listado de tu carpeta en un archivo listado.txt usando >',
+        ],
+        tip: 'Usa Tab de forma compulsiva. Los desarrolladores con experiencia casi nunca escriben un nombre de archivo completo: escriben tres letras y presionan Tab. Además de rapidez, es la mejor defensa contra los errores de tipeo en rutas.',
+        completed: false,
+      },
+      {
+        id: 'f1-l2',
+        title: 'Rutas, permisos y cómo está organizado tu disco',
+        type: 'reading',
+        difficulty: 'básico',
+        content: `## Rutas absolutas y relativas
+
+Casi todos los errores de "no encuentra el archivo" son en realidad errores de ruta.
+
+- **Ruta absoluta**: empieza desde la raíz del sistema. \`/Users/gabriel/proyectos/web/index.html\`. Funciona desde cualquier lugar.
+- **Ruta relativa**: empieza desde donde estás parado. \`./index.html\`, \`../imagenes/logo.png\`. Depende de tu ubicación actual.
+
+\`\`\`bash
+.        # la carpeta actual
+..       # la carpeta padre
+~        # tu carpeta personal
+/        # la raíz del sistema
+\`\`\`
+
+Cuando un script falla con "file not found", el primer diagnóstico siempre es el mismo: ejecuta \`pwd\` y pregúntate desde dónde se está resolviendo esa ruta relativa.
+
+### La estructura de un proyecto web típico
+
+\`\`\`
+mi-proyecto/
+├── .git/              # historial de Git (no se toca a mano)
+├── .gitignore         # qué NO se sube al repositorio
+├── node_modules/      # dependencias instaladas (nunca se sube)
+├── public/            # archivos servidos tal cual: imágenes, fuentes
+├── app/               # el código de la aplicación
+├── package.json       # dependencias y scripts del proyecto
+└── README.md          # qué es esto y cómo se corre
+\`\`\`
+
+Los archivos que empiezan con punto están ocultos. Por eso \`ls\` no los muestra y necesitas \`ls -la\`.
+
+### .gitignore: el archivo que evita desastres
+
+Hay tres cosas que nunca deben llegar a un repositorio:
+
+1. **\`node_modules/\`** — son cientos de megas que se reconstruyen con \`npm install\`.
+2. **\`.env\` y cualquier archivo con claves** — subir una clave de API a GitHub es filtrarla al mundo, aunque el repositorio sea privado hoy.
+3. **Archivos de build** (\`.next/\`, \`dist/\`) — se regeneran.
+
+\`\`\`bash
+# .gitignore mínimo de un proyecto Next.js
+node_modules/
+.next/
+.env
+.env.local
+.DS_Store
+\`\`\`
+
+### Permisos, en resumen práctico
+
+En macOS y Linux cada archivo tiene permisos de lectura (r), escritura (w) y ejecución (x). Lo verás así:
+
+\`\`\`
+-rw-r--r--   1 gabriel  staff   1420 Sep  3 10:22 index.html
+\`\`\`
+
+En el día a día solo necesitas una cosa: si un script no corre y dice "permission denied", dale permiso de ejecución con \`chmod +x script.sh\`.`,
+        tasks: [
+          'Ejecuta ls -la en la raíz de un proyecto y localiza los archivos ocultos que empiezan con punto',
+          'Abre el .gitignore de un proyecto existente y explica en una frase por qué está cada línea',
+          'Desde una subcarpeta, escribe la ruta relativa para llegar a un archivo que esté dos niveles arriba',
+          'Crea un .gitignore desde cero para un proyecto Next.js con las cinco entradas mínimas',
+        ],
+        tip: 'Si alguna vez subes una clave por accidente, borrarla en el siguiente commit no la elimina: sigue en el historial y cualquiera puede recuperarla. La única respuesta correcta es rotar esa clave de inmediato en el servicio que la emitió.',
+        completed: false,
+      },
+      {
+        id: 'f1-l3',
+        title: 'Git: versionar tu trabajo desde cero',
+        type: 'reading',
+        difficulty: 'básico',
+        content: `## Qué problema resuelve Git
+
+Sin control de versiones tu proyecto termina así: \`index.html\`, \`index-final.html\`, \`index-final-v2.html\`, \`index-final-BUENO.html\`. Nadie sabe cuál es el bueno y no hay forma de volver atrás.
+
+Git guarda una fotografía completa de tu proyecto cada vez que se lo pides, con una nota de qué cambiaste y cuándo. Puedes volver a cualquiera de esas fotografías en cualquier momento.
+
+### Las tres zonas
+
+Este es el modelo mental que hay que entender; el resto son comandos.
+
+\`\`\`
+Working directory  →  Staging area  →  Repositorio
+   (tus archivos)      (git add)       (git commit)
+\`\`\`
+
+1. **Working directory**: los archivos como están ahora en tu disco.
+2. **Staging area**: lo que has marcado para incluir en el próximo commit. Existe para que puedas guardar solo una parte de lo que cambiaste.
+3. **Repositorio**: el historial de commits, permanente.
+
+### El ciclo de todos los días
+
+\`\`\`bash
+git init                     # una sola vez, al crear el proyecto
+git status                   # ¿qué cambió? — el comando que más vas a usar
+git add archivo.ts           # marcar un archivo para el commit
+git add .                    # marcar todo lo cambiado
+git commit -m "mensaje"      # guardar la fotografía
+git log --oneline            # ver el historial
+\`\`\`
+
+### Configúrate una vez
+
+\`\`\`bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+\`\`\`
+
+### Escribir buenos mensajes de commit
+
+Un mensaje de commit lo escribes una vez y lo lee tu yo de dentro de seis meses buscando cuándo se rompió algo. "cambios" y "arreglos" no le sirven a nadie.
+
+La convención más extendida es **Conventional Commits**:
+
+\`\`\`bash
+git commit -m "feat: agrega formulario de contacto"
+git commit -m "fix: corrige cálculo del total en el carrito"
+git commit -m "refactor: extrae la lógica de precios a un módulo"
+git commit -m "docs: documenta las variables de entorno"
+git commit -m "style: unifica el espaciado de las secciones"
+\`\`\`
+
+La regla práctica: el mensaje completa la frase "Este commit va a...". Si no puedes describirlo en una línea, probablemente estás metiendo dos cambios en un commit.
+
+### Deshacer cosas
+
+\`\`\`bash
+git restore archivo.ts             # descartar cambios no guardados de un archivo
+git restore --staged archivo.ts    # sacarlo del staging, sin perder los cambios
+git commit --amend -m "mensaje"    # corregir el mensaje del último commit
+git revert <hash>                  # crear un commit que deshace otro commit
+\`\`\`
+
+\`git revert\` es la forma segura de deshacer algo ya publicado: no borra historia, agrega un commit que revierte. Existe \`git reset --hard\`, que sí borra, y por eso conviene no tocarlo hasta entender bien las consecuencias.`,
+        tasks: [
+          'Configura tu nombre y email globales en Git',
+          'Crea un repositorio nuevo con git init y haz tres commits con mensajes en formato Conventional Commits',
+          'Modifica un archivo, ejecuta git status y describe en qué zona está ese cambio antes y después de git add',
+          'Usa git log --oneline para ver tu historial y git revert para deshacer el segundo commit',
+        ],
+        tip: 'Ejecuta git status antes de cada add y antes de cada commit. Es dos segundos y evita el error más común de todos: subir un archivo que no querías, o creer que guardaste algo que sigue sin guardar.',
+        completed: false,
+      },
+      {
+        id: 'f1-l4',
+        title: 'Ramas, merge y conflictos',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Por qué existen las ramas
+
+Una rama es una línea de trabajo paralela. Te permite construir algo nuevo sin tocar la versión que funciona, y descartarlo entero si sale mal.
+
+La regla que sostiene todo esto: **la rama principal siempre funciona**. Lo que está en \`main\` se puede desplegar en cualquier momento. Todo lo demás pasa en otra rama.
+
+### Trabajar con ramas
+
+\`\`\`bash
+git branch                          # ver las ramas locales
+git switch -c feature/contacto      # crear una rama y moverte a ella
+git switch main                     # volver a main
+git branch -d feature/contacto      # borrar una rama ya integrada
+\`\`\`
+
+Verás \`git checkout -b\` en tutoriales viejos: hace lo mismo que \`git switch -c\`, pero \`switch\` es más claro porque hace una sola cosa.
+
+### Nombrar las ramas
+
+\`\`\`
+feature/formulario-contacto    # una funcionalidad nueva
+fix/error-calculo-total        # una corrección
+refactor/limpieza-estilos      # reorganización sin cambio de comportamiento
+\`\`\`
+
+### Integrar el trabajo
+
+\`\`\`bash
+git switch main
+git merge feature/contacto
+\`\`\`
+
+Si nadie tocó los mismos archivos, Git integra solo y no tienes que hacer nada.
+
+### Conflictos: qué son y cómo se resuelven
+
+Un conflicto ocurre cuando dos ramas cambiaron **las mismas líneas del mismo archivo**. Git no adivina cuál gana y te pide que decidas. No es un error, es el funcionamiento normal.
+
+Cuando pasa, Git marca el archivo así:
+
+\`\`\`
+<<<<<<< HEAD
+<h1>Bienvenido a AlphaDev</h1>
+=======
+<h1>AlphaDev Studios</h1>
+>>>>>>> feature/contacto
+\`\`\`
+
+Arriba está lo que hay en tu rama actual, abajo lo que trae la otra. Para resolverlo:
+
+1. Abre el archivo y decide cuál texto queda (o escribe uno nuevo que combine ambos).
+2. **Borra las tres líneas de marcadores** \`<<<<<<<\`, \`=======\` y \`>>>>>>>\`.
+3. Guarda, y luego:
+
+\`\`\`bash
+git add archivo.html
+git commit                 # cierra el merge
+\`\`\`
+
+### El error clásico
+
+Dejar un marcador \`=======\` olvidado en el archivo y hacer commit. El código deja de compilar y el mensaje de error no menciona Git por ningún lado. Antes de cerrar un merge, busca los marcadores:
+
+\`\`\`bash
+grep -rn "<<<<<<<" .
+\`\`\`
+
+### Mantener tu rama al día
+
+Mientras trabajas en tu rama, \`main\` avanza. Para traer esos cambios:
+
+\`\`\`bash
+git switch main
+git pull
+git switch feature/contacto
+git merge main
+\`\`\`
+
+Hacerlo seguido significa resolver conflictos pequeños y frecuentes en vez de uno gigante al final.`,
+        tasks: [
+          'Crea una rama feature/nueva-seccion, agrega una sección al proyecto y haz commit ahí',
+          'Vuelve a main, modifica la MISMA línea de ese archivo y haz commit',
+          'Intenta el merge y resuelve el conflicto a mano, borrando los tres marcadores',
+          'Verifica con grep -rn "<<<<<<<" . que no quedó ningún marcador olvidado antes de cerrar el merge',
+        ],
+        tip: 'Provoca un conflicto a propósito en un proyecto de práctica y resuélvelo con calma. Es mucho mejor aprender el procedimiento ahora que descubrirlo por primera vez con una entrega encima.',
+        completed: false,
+      },
+      {
+        id: 'f1-l5',
+        title: 'GitHub: pull requests y trabajo en equipo',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Git y GitHub no son lo mismo
+
+**Git** es el programa que corre en tu máquina y guarda el historial. **GitHub** es un servicio donde ese historial vive en internet, para que otras personas puedan verlo y colaborar. Puedes usar Git sin GitHub perfectamente.
+
+### Conectar tu repositorio local
+
+\`\`\`bash
+git remote add origin https://github.com/usuario/repo.git
+git push -u origin main       # la primera vez
+git push                      # las siguientes
+git pull                      # traer lo que otros subieron
+git clone https://github.com/usuario/repo.git   # copiar un repo existente
+\`\`\`
+
+### Autenticación: usa SSH
+
+GitHub ya no acepta contraseña para \`push\`. Tienes dos opciones: un token personal o una clave SSH. La clave SSH se configura una vez y no la vuelves a tocar:
+
+\`\`\`bash
+ssh-keygen -t ed25519 -C "tu@email.com"
+cat ~/.ssh/id_ed25519.pub      # copia esto y pégalo en GitHub > Settings > SSH keys
+\`\`\`
+
+### El pull request
+
+Un pull request (PR) es una propuesta de cambio: "traje esto en mi rama, ¿lo integramos?". Es donde ocurre la revisión de código, y donde de verdad se aprende a programar en equipo.
+
+El flujo completo:
+
+\`\`\`bash
+git switch -c feature/galeria
+# ... trabajas, haces commits ...
+git push -u origin feature/galeria
+\`\`\`
+
+Después, en GitHub, abres el PR desde la rama hacia \`main\`.
+
+### Un PR que la gente quiere revisar
+
+- **Pequeño.** Un PR de 40 líneas recibe comentarios útiles; uno de 2.000 recibe un "se ve bien" sin que nadie lo haya leído.
+- **Con título que dice qué hace**, no en qué archivos toca.
+- **Con una descripción** de qué problema resuelve y cómo probarlo.
+- **Con capturas** si cambia algo visual.
+
+### Recibir comentarios
+
+Una revisión de código es sobre el código, no sobre ti. Si no entiendes un comentario, pregunta. Si no estás de acuerdo, explica tu razonamiento con argumentos técnicos: a veces quien revisa no tiene el contexto que tú sí tienes.
+
+### Las otras dos cosas que vas a usar
+
+- **Issues**: para registrar tareas y errores. Un issue bien escrito dice qué esperabas, qué pasó y cómo reproducirlo.
+- **README.md**: la portada de tu repositorio. Qué es el proyecto, cómo se instala, cómo se corre. Si alguien no puede levantar tu proyecto leyendo el README, el README está incompleto.`,
+        tasks: [
+          'Configura una clave SSH y verifica que puedes hacer push sin que te pida contraseña',
+          'Sube un proyecto tuyo a GitHub con un README que explique qué es, cómo se instala y cómo se corre',
+          'Crea una rama, haz push y abre un pull request hacia main con título y descripción claros',
+          'Abre un issue describiendo una mejora pendiente: qué esperabas, qué pasa hoy y cómo reproducirlo',
+        ],
+        tip: 'Tu perfil de GitHub es tu currículum real. Un repositorio con historial limpio, mensajes de commit legibles y un README que se entiende dice más de ti en treinta segundos que cualquier lista de tecnologías.',
+        completed: false,
+      },
+      {
+        id: 'f1-l6',
+        title: 'Práctica: tu primer proyecto colaborativo',
+        type: 'practice',
+        difficulty: 'intermedio',
+        content: `## El ejercicio
+
+Vas a simular el ciclo completo de trabajo profesional en un repositorio real, tú solo, haciendo los dos papeles: quien propone el cambio y quien lo revisa.
+
+### Preparación
+
+Crea un repositorio en GitHub llamado \`practica-git\` con un README inicial y clónalo a tu máquina.
+
+### Ronda 1 — Una funcionalidad
+
+1. Crea la rama \`feature/perfil\`.
+2. Agrega un archivo \`perfil.md\` con tu bio en tres párrafos.
+3. Haz al menos dos commits con mensajes en formato Conventional Commits.
+4. Sube la rama y abre un pull request.
+5. Escribe una descripción real: qué agrega y cómo revisarlo.
+6. Revisa tu propio PR en GitHub, deja un comentario en una línea concreta, aplica el cambio y súbelo.
+7. Integra el PR y borra la rama.
+
+### Ronda 2 — El conflicto
+
+1. Crea la rama \`fix/titulo\` y cambia el título del README.
+2. Sin integrarla, vuelve a \`main\` y cambia **la misma línea** de otra forma.
+3. Intenta integrar y resuelve el conflicto a mano.
+4. Verifica que no quedó ningún marcador antes de hacer commit.
+
+### Ronda 3 — El desastre controlado
+
+1. Haz un commit con un cambio que rompa algo a propósito.
+2. Deshazlo con \`git revert\` en vez de borrar el commit.
+3. Explica en el mensaje del revert por qué se revirtió.`,
+        tasks: [
+          'Completa las tres rondas en un repositorio público llamado practica-git',
+          'El historial final debe tener al menos 6 commits, un merge y un revert',
+          'El README debe explicar qué es el repositorio y qué practicaste en él',
+          'Revisa git log --oneline --graph y comprueba que la historia se entiende sin explicaciones',
+        ],
+        tip: 'Haz esto en un repositorio de práctica que puedas romper sin consecuencias. La confianza con Git no viene de leer sobre los comandos, viene de haber roto y arreglado un repositorio varias veces.',
+        completed: false,
+      },
+      {
+        id: 'f1-l7',
+        title: 'Examen: línea de comandos y control de versiones',
+        type: 'exam',
+        difficulty: 'intermedio',
+        questions: [
+          {
+            q: '¿Cuál es la diferencia entre el staging area y el repositorio en Git?',
+            options: [
+              'El staging area guarda los archivos en la nube; el repositorio los guarda en tu disco',
+              'El staging area es lo que marcaste para el próximo commit; el repositorio es el historial permanente de commits ya guardados',
+              'Son lo mismo, staging area es el nombre antiguo del repositorio',
+              'El staging area guarda las ramas; el repositorio guarda los archivos',
+            ],
+            correct: 1,
+            explanation: 'Git tiene tres zonas: working directory (tus archivos como están ahora), staging area (lo que marcaste con git add para incluir en el próximo commit) y repositorio (el historial de commits). El staging existe para que puedas guardar solo una parte de lo que cambiaste, en vez de todo junto.',
+          },
+          {
+            q: 'Subiste por accidente un archivo .env con una clave de API a GitHub. ¿Cuál es la respuesta correcta?',
+            options: [
+              'Borrar el archivo y hacer un commit nuevo: con eso la clave ya no es accesible',
+              'Poner el archivo en .gitignore, con eso se elimina del historial',
+              'Rotar la clave de inmediato en el servicio que la emitió, porque sigue en el historial y es recuperable',
+              'Hacer el repositorio privado: si nadie lo ve, la clave está segura',
+            ],
+            correct: 2,
+            explanation: 'Borrar un archivo en un commit posterior no lo elimina del historial: cualquiera puede recuperar el contenido de cualquier commit anterior. Agregarlo a .gitignore tampoco afecta lo ya versionado. Y hacer el repositorio privado no ayuda si ya estuvo público. La única respuesta correcta es asumir la clave como comprometida y rotarla.',
+          },
+          {
+            q: '¿Qué significa exactamente un conflicto de merge?',
+            options: [
+              'Que dos ramas modificaron las mismas líneas del mismo archivo y Git no puede decidir cuál gana',
+              'Que hay un error de sintaxis en el código de una de las ramas',
+              'Que las dos ramas tienen nombres parecidos y Git se confunde',
+              'Que una de las ramas está desactualizada y hay que borrarla',
+            ],
+            correct: 0,
+            explanation: 'Un conflicto no es un error: es Git pidiéndote una decisión que no puede tomar solo. Ocurre únicamente cuando los cambios tocan las mismas líneas. Si dos ramas modifican archivos distintos, o partes distintas del mismo archivo, Git integra automáticamente sin preguntar.',
+          },
+          {
+            q: 'Necesitas deshacer un commit que ya está publicado en GitHub y que otras personas ya descargaron. ¿Qué usas?',
+            options: [
+              'git reset --hard, porque borra el commit del historial',
+              'git revert, porque agrega un commit nuevo que deshace los cambios sin reescribir la historia',
+              'Borrar el repositorio y volver a subirlo limpio',
+              'git commit --amend sobre el commit problemático',
+            ],
+            correct: 1,
+            explanation: 'git revert crea un commit nuevo que aplica los cambios inversos: la historia queda intacta y quien ya descargó el repositorio no tiene problemas. git reset --hard y git commit --amend reescriben la historia, lo que rompe el repositorio de todos los demás cuando el commit ya fue publicado.',
+          },
+          {
+            q: '¿Por qué node_modules/ nunca debe subirse a un repositorio?',
+            options: [
+              'Porque contiene claves privadas de los paquetes instalados',
+              'Porque son cientos de megas que se reconstruyen con npm install a partir de package.json',
+              'Porque GitHub cobra por almacenar esos archivos',
+              'Porque cambia de nombre en cada sistema operativo',
+            ],
+            correct: 1,
+            explanation: 'node_modules es una carpeta derivada: todo su contenido se reconstruye ejecutando npm install, porque package.json y el lockfile ya declaran exactamente qué instalar. Versionarla infla el repositorio, hace lentísimo cada clone y genera conflictos constantes sin aportar nada.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Pro Git — el libro oficial de Git, gratuito y en español',
+        url: 'https://git-scm.com/book/es/v2',
+        type: 'documentation',
+      },
+      {
+        title: 'GitHub Docs — Pull requests',
+        url: 'https://docs.github.com/en/pull-requests',
+        type: 'documentation',
+      },
+      {
+        title: 'Oh My Git! — aprender ramas y merges jugando',
+        url: 'https://ohmygit.org/',
+        type: 'tool',
+      },
+      {
+        title: 'Conventional Commits — la especificación',
+        url: 'https://www.conventionalcommits.org/es/v1.0.0/',
+        type: 'documentation',
+      },
+    ],
+  },
+  {
+    id: 'fund-2',
+    number: 2,
+    title: 'Errores, depuración y testing',
+    description: 'La diferencia entre entregar código y entregar código que no se rompe: manejar fallos, depurar con evidencia y escribir pruebas.',
+    duration: '2 semanas',
+    status: 'available',
+    track: 'fundamentos',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'f2-l1',
+        title: 'Manejar errores: fallar bien',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Los errores no son excepcionales
+
+Un usuario sin conexión, una API que tarda, un formulario a medio llenar, un archivo que no existe. Todo eso va a pasar. La pregunta no es si tu código va a fallar, sino qué hace cuando falla.
+
+Hay tres respuestas posibles y solo una es aceptable:
+
+1. **Romperse en silencio.** El peor caso: el usuario cree que funcionó.
+2. **Romperse en pantalla.** Una traza de error donde debería ir la interfaz.
+3. **Fallar de forma controlada.** El usuario entiende qué pasó y qué puede hacer; tú te enteras de que pasó.
+
+### El anti-patrón número uno
+
+\`\`\`js
+try {
+  await guardarPedido(pedido)
+} catch (e) {
+  // silencio
+}
+\`\`\`
+
+Este bloque convierte un error en un misterio. El pedido no se guardó, nadie se enteró, y dentro de tres semanas alguien va a pasar dos días buscando por qué faltan pedidos.
+
+Si capturas un error, tienes que hacer algo con él: mostrarlo, registrarlo o relanzarlo.
+
+\`\`\`js
+try {
+  await guardarPedido(pedido)
+} catch (error) {
+  console.error('No se pudo guardar el pedido', { pedidoId: pedido.id, error })
+  mostrarAviso('No pudimos guardar tu pedido. Vuelve a intentarlo en un momento.')
+  throw error
+}
+\`\`\`
+
+### Mensajes que sirven
+
+Un mensaje de error tiene dos audiencias distintas y necesita dos textos distintos.
+
+**Para el usuario**: qué pasó y qué puede hacer. Sin jerga, sin disculpas largas, sin códigos.
+
+\`\`\`
+Mal:  "Error 500: Internal Server Error"
+Mal:  "Ups, algo salió mal :("
+Bien: "No pudimos procesar el pago. Revisa los datos de tu tarjeta e inténtalo de nuevo."
+\`\`\`
+
+**Para ti**: todo el contexto necesario para reproducirlo. Qué operación, con qué datos, en qué momento.
+
+### Errores esperados y errores de programación
+
+No todo se trata igual:
+
+- **Esperados**: el usuario escribió un email inválido, la tarjeta fue rechazada. Se manejan con lógica normal, no con excepciones.
+- **De programación**: llamaste una función con el argumento equivocado. Estos deben fallar fuerte y temprano, para que los descubras tú y no un cliente.
+
+### Validar en la frontera
+
+Valida los datos donde entran al sistema: el formulario, la respuesta de una API, los parámetros de una URL. Una vez validados, el resto del código puede confiar en ellos.
+
+\`\`\`ts
+// con Zod, que ya usas en el stack
+import { z } from 'zod'
+
+const Contacto = z.object({
+  nombre: z.string().min(2),
+  email: z.string().email(),
+  mensaje: z.string().min(10),
+})
+
+const resultado = Contacto.safeParse(datosDelFormulario)
+if (!resultado.success) {
+  // aquí sabes exactamente qué campo falló y por qué
+  return { errores: resultado.error.flatten().fieldErrors }
+}
+\`\`\``,
+        tasks: [
+          'Busca en un proyecto tuyo un bloque catch vacío o que solo tenga console.log y arréglalo',
+          'Escribe dos versiones del mensaje de un mismo error: una para el usuario y otra para el registro técnico',
+          'Agrega validación con Zod a un formulario y muestra el error de cada campo junto a su input',
+          'Provoca un fallo de red a propósito (apaga el wifi) y comprueba qué ve el usuario en tu aplicación',
+        ],
+        tip: 'La prueba real de tu manejo de errores es desconectar internet a mitad de una acción. Si la interfaz se queda cargando para siempre o no dice nada, todavía no está terminado.',
+        completed: false,
+      },
+      {
+        id: 'f2-l2',
+        title: 'Depurar con evidencia, no con corazonadas',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El método
+
+Depurar mal es cambiar cosas hasta que funcione. Cuando funciona no sabes por qué, así que tampoco sabes si volverá a romperse.
+
+Depurar bien es una investigación con un método fijo:
+
+1. **Reproduce el error de forma confiable.** Si no puedes provocarlo cuando quieres, no puedes saber si lo arreglaste.
+2. **Lee el mensaje completo.** Entero, hasta abajo. La primera línea dice qué pasó; la traza dice dónde.
+3. **Formula una hipótesis concreta.** "Creo que \`usuario\` llega como \`undefined\` en la línea 42".
+4. **Diseña una comprobación que pueda refutarla.** Imprime el valor, pon un breakpoint.
+5. **Confirma o descarta, y repite.**
+
+El paso que casi todos se saltan es el 4. Una hipótesis que no puede fallar no es una hipótesis, es una creencia.
+
+### Reducir el área de búsqueda
+
+Cuando no tienes idea de dónde está el problema, no lo busques: divídelo. Comenta la mitad del código o del flujo. Si el error sigue, está en la mitad que quedó. Si desaparece, está en la que quitaste. Repite. En cinco o seis pasos localizas el punto exacto aunque el archivo tenga mil líneas.
+
+### Las herramientas
+
+**console.log tiene mejores versiones:**
+
+\`\`\`js
+console.table(arrayDeObjetos)     // datos tabulares legibles
+console.error(objeto)             // con traza de llamadas
+console.time('carga')             // medir cuánto tarda algo
+console.timeEnd('carga')
+\`\`\`
+
+Un truco útil: \`console.log({ usuario, pedido })\` en vez de \`console.log(usuario, pedido)\`. Las llaves conservan los nombres de las variables en la salida.
+
+**El debugger del navegador** es superior a console.log cuando el problema es de estado: pones un breakpoint, la ejecución se detiene y puedes inspeccionar todas las variables en ese instante, además de avanzar línea por línea.
+
+**La pestaña Network** resuelve la mitad de los errores de frontend. Antes de revisar tu código, mira qué respondió el servidor de verdad: el código de estado y el cuerpo de la respuesta.
+
+### Errores de JavaScript que vas a ver
+
+\`\`\`
+Cannot read properties of undefined (reading 'nombre')
+\`\`\`
+Intentaste \`usuario.nombre\` y \`usuario\` es \`undefined\`. El problema casi nunca está en esa línea: está antes, donde \`usuario\` debía haberse llenado.
+
+\`\`\`
+Hydration failed because the server rendered HTML didn't match the client
+\`\`\`
+En Next.js: el servidor y el navegador generaron HTML distinto. Las causas habituales son usar \`Date.now()\`, \`Math.random()\` o \`localStorage\` durante el render.
+
+### Cuando estás atascado
+
+Explica el problema en voz alta, de principio a fin, como si se lo contaras a alguien que no conoce el proyecto. Una cantidad sorprendente de veces encuentras la respuesta a mitad de la explicación, porque te obliga a decir en voz alta el supuesto que estabas dando por cierto sin haberlo verificado.`,
+        tasks: [
+          'Toma un error real de un proyecto tuyo y documenta los cinco pasos del método hasta encontrar la causa',
+          'Usa un breakpoint del navegador en vez de console.log para inspeccionar el estado de un componente',
+          'Abre la pestaña Network, provoca una petición fallida y describe qué respondió el servidor',
+          'Practica la búsqueda por bisección: comenta la mitad del flujo y localiza un fallo en menos de seis pasos',
+        ],
+        tip: 'Antes de tocar una línea de código, escribe en una frase qué crees que está pasando. Si no puedes escribirla, todavía no entiendes el problema y cualquier cambio que hagas va a ser adivinanza.',
+        completed: false,
+      },
+      {
+        id: 'f2-l3',
+        title: 'Qué es testing y por qué te pagan más por saberlo',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El problema que resuelve
+
+Cambias una función y sin querer rompes algo en otra pantalla. Nadie se entera hasta que un cliente lo reporta. Cuanto más grande es el proyecto, más probable es, y llega un punto en que da miedo tocar nada.
+
+Una prueba automatizada es código que ejecuta tu código y verifica que hizo lo correcto. Su valor real no es encontrar errores hoy: es **avisarte mañana** cuando un cambio rompa algo que antes funcionaba.
+
+Por eso el testing es la línea que separa a quien entrega un proyecto de quien puede mantenerlo durante dos años.
+
+### Los tres niveles
+
+- **Unitarias**: prueban una función aislada. Rápidas, precisas, muchas.
+- **De integración**: prueban que varias piezas funcionan juntas (un endpoint que consulta la base de datos).
+- **End-to-end**: simulan a un usuario real en un navegador, de principio a fin. Lentas, frágiles, pocas pero valiosas.
+
+La proporción sana: muchas unitarias, algunas de integración, unas pocas end-to-end sobre los flujos que no pueden fallar (registrarse, pagar).
+
+### La estructura de toda prueba
+
+Se llama **Arrange, Act, Assert**: preparas, ejecutas, verificas.
+
+\`\`\`ts
+test('calcula el total con IVA', () => {
+  // Arrange — preparas los datos
+  const productos = [{ precio: 100 }, { precio: 50 }]
+
+  // Act — ejecutas lo que quieres probar
+  const total = calcularTotal(productos, 0.16)
+
+  // Assert — verificas el resultado
+  expect(total).toBe(174)
+})
+\`\`\`
+
+### Qué probar y qué no
+
+**Prueba** la lógica de negocio: cálculos, validaciones, transformaciones de datos, reglas de precios, permisos. Es donde los errores cuestan dinero.
+
+**No pruebes** que React renderiza, que la librería de fechas suma días o que el framework enruta. Eso ya lo probaron sus autores.
+
+**Prueba siempre los casos límite**, que es donde vive el 90% de los errores reales:
+
+\`\`\`ts
+calcularTotal([], 0.16)              // lista vacía
+calcularTotal([{ precio: 0 }], 0.16) // precio cero
+calcularTotal(null, 0.16)            // dato ausente
+\`\`\`
+
+### Un buen nombre de prueba
+
+El nombre debe decir qué comportamiento se espera, para que cuando falle sepas qué se rompió sin abrir el archivo.
+
+\`\`\`
+Mal:  test('calcularTotal')
+Mal:  test('caso 3')
+Bien: test('devuelve 0 cuando el carrito está vacío')
+Bien: test('rechaza un email sin arroba')
+\`\`\`
+
+### Cuándo escribirlas
+
+No hace falta adoptar TDD para empezar. La regla más rentable para alguien que arranca: **cada vez que arregles un error, escribe primero una prueba que lo reproduzca.** Falla, arreglas el código, la prueba pasa. Ese error concreto ya no puede volver nunca.`,
+        tasks: [
+          'Identifica en un proyecto tuyo las tres funciones con más lógica de negocio: son las que hay que probar',
+          'Escribe en papel, sin código, cinco casos de prueba para una de ellas incluyendo los casos límite',
+          'Clasifica esos cinco casos en unitarios, de integración o end-to-end',
+          'Toma un error que hayas arreglado hace poco y escribe el nombre de la prueba que lo habría detectado',
+        ],
+        tip: 'Si una función es difícil de probar, casi siempre es porque hace demasiadas cosas o depende de algo externo que no controla. La dificultad para probar es una señal de diseño, no un problema del testing.',
+        completed: false,
+      },
+      {
+        id: 'f2-l4',
+        title: 'Pruebas unitarias en TypeScript con Vitest',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Poner Vitest a andar
+
+Vitest es el corredor de pruebas estándar para proyectos con Vite y Next.js. La configuración mínima:
+
+\`\`\`bash
+npm install -D vitest
+\`\`\`
+
+\`\`\`json
+// package.json
+{
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  }
+}
+\`\`\`
+
+\`vitest\` queda observando y vuelve a correr las pruebas al guardar. \`vitest run\` las corre una vez y termina: es la que usas en integración continua.
+
+### Tu primera prueba
+
+Los archivos van junto al código, con la extensión \`.test.ts\`:
+
+\`\`\`ts
+// lib/precios.ts
+export function calcularTotal(productos: { precio: number }[], iva: number): number {
+  if (!productos || productos.length === 0) return 0
+  const subtotal = productos.reduce((acc, p) => acc + p.precio, 0)
+  return Math.round(subtotal * (1 + iva) * 100) / 100
+}
+\`\`\`
+
+\`\`\`ts
+// lib/precios.test.ts
+import { describe, it, expect } from 'vitest'
+import { calcularTotal } from './precios'
+
+describe('calcularTotal', () => {
+  it('devuelve 0 cuando no hay productos', () => {
+    expect(calcularTotal([], 0.16)).toBe(0)
+  })
+
+  it('suma los precios y aplica el IVA', () => {
+    expect(calcularTotal([{ precio: 100 }, { precio: 50 }], 0.16)).toBe(174)
+  })
+
+  it('redondea a dos decimales', () => {
+    expect(calcularTotal([{ precio: 33.333 }], 0.16)).toBe(38.67)
+  })
+})
+\`\`\`
+
+### Las comprobaciones que más vas a usar
+
+\`\`\`ts
+expect(valor).toBe(3)                    // igualdad estricta (números, strings)
+expect(objeto).toEqual({ a: 1 })         // igualdad por contenido
+expect(lista).toHaveLength(3)
+expect(texto).toContain('error')
+expect(valor).toBeNull()
+expect(valor).toBeUndefined()
+expect(condicion).toBe(true)
+expect(() => funcion()).toThrow()        // que lance un error
+await expect(promesa).rejects.toThrow()  // que una promesa falle
+\`\`\`
+
+### Probar código asíncrono
+
+\`\`\`ts
+it('trae el usuario por id', async () => {
+  const usuario = await obtenerUsuario('123')
+  expect(usuario.nombre).toBe('Gabriel')
+})
+\`\`\`
+
+### Simular dependencias externas
+
+Una prueba unitaria no debe llamar a una API real: sería lenta, dependería de internet y fallaría por razones ajenas a tu código. Se reemplaza la dependencia:
+
+\`\`\`ts
+import { vi, it, expect } from 'vitest'
+
+it('avisa cuando la API falla', async () => {
+  global.fetch = vi.fn().mockResolvedValue({
+    ok: false,
+    status: 500,
+  } as Response)
+
+  const resultado = await cargarProductos()
+  expect(resultado.error).toBe('No pudimos cargar los productos')
+})
+\`\`\`
+
+### Cobertura: úsala con cabeza
+
+\`\`\`bash
+npx vitest run --coverage
+\`\`\`
+
+La cobertura te dice qué porcentaje de tu código ejecutan las pruebas. Es útil para **encontrar zonas sin probar**, no como meta. Un 100% de cobertura con comprobaciones vacías no prueba nada; un 60% bien elegido sobre la lógica de negocio protege lo que importa.
+
+### La regla de oro
+
+Antes de dar por buena una prueba, **rómpela a propósito**: cambia el código para que falle y confirma que la prueba se pone en rojo. Una prueba que pasa siempre, incluso con el código roto, es peor que no tener prueba, porque da una confianza falsa.`,
+        tasks: [
+          'Instala Vitest en un proyecto propio y configura los scripts test y test:run',
+          'Escribe pruebas para una función de lógica real tuya, cubriendo al menos dos casos límite',
+          'Rompe el código a propósito y confirma que cada prueba se pone en rojo',
+          'Corre la cobertura e identifica la función con más lógica que no tenga ninguna prueba',
+        ],
+        tip: 'Empieza por las funciones puras: reciben datos y devuelven datos, sin tocar la base ni el DOM. Son las más fáciles de probar y casi siempre son las que contienen las reglas de negocio que no pueden fallar.',
+        completed: false,
+      },
+      {
+        id: 'f2-l5',
+        title: 'Proyecto: blinda un módulo real',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: `Toma un proyecto tuyo que ya funcione —el sitio de un cliente, tu portafolio, cualquier cosa con lógica de negocio— y conviértelo en un proyecto que no se rompe en silencio.
+
+No vas a escribir código nuevo: vas a blindar el que ya tienes. Este es exactamente el trabajo que separa un entregable de un producto mantenible, y es lo que un cliente serio revisa antes de confiarte algo más grande.
+
+El alcance es un módulo, no la aplicación entera. Elige el que tenga más lógica: cálculo de precios, validación de un formulario, transformación de datos de una API.`,
+        deliverables: [
+          'Repositorio en GitHub con el módulo elegido, sus pruebas y un README que explique cómo correrlas',
+          'Al menos 8 pruebas unitarias sobre la lógica de negocio, incluyendo casos límite',
+          'Manejo de errores completo en el módulo: ningún catch vacío, mensajes separados para usuario y registro',
+          'Validación de los datos de entrada con Zod en la frontera del módulo',
+          'Un documento de una página con los errores que encontraste al escribir las pruebas',
+        ],
+        rubrica: [
+          'Las pruebas corren con un solo comando y pasan todas en verde',
+          'Cada prueba tiene un nombre que describe el comportamiento esperado, no el nombre de la función',
+          'Hay al menos tres casos límite cubiertos: entrada vacía, dato ausente y valor fuera de rango',
+          'Al romper el código a propósito, las pruebas correspondientes se ponen en rojo',
+          'Ningún bloque catch queda vacío ni se limita a un console.log',
+          'Los mensajes de error para el usuario no contienen jerga técnica ni códigos de estado',
+          'El README explica cómo instalar, cómo correr las pruebas y qué cubre cada grupo',
+        ],
+        tasks: [
+          'Elige el módulo con más lógica de negocio de un proyecto tuyo que ya funcione',
+          'Escribe las pruebas ANTES de tocar el manejo de errores: van a revelarte fallos que no sabías que tenías',
+          'Documenta cada error que descubras mientras escribes las pruebas',
+          'Agrega validación en la frontera y mensajes de error separados por audiencia',
+          'Rompe el código a propósito y confirma que las pruebas lo detectan',
+        ],
+        tip: 'Escribir pruebas sobre código que ya funciona casi siempre revela errores que nadie había notado: divisiones por cero, listas vacías que devuelven NaN, campos opcionales que rompen el cálculo. Documentar esos hallazgos es la mitad del valor del ejercicio.',
+        completed: false,
+      },
+      {
+        id: 'f2-l6',
+        title: 'Examen: errores, depuración y testing',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: '¿Por qué un bloque catch vacío es peor que no capturar el error?',
+            options: [
+              'Porque consume más memoria al crear el objeto de error',
+              'Porque convierte un fallo visible en un fallo silencioso: la operación no ocurrió y nadie se entera',
+              'Porque JavaScript lanza una advertencia en consola cuando detecta un catch vacío',
+              'No es peor, es la forma recomendada de ignorar errores que no importan',
+            ],
+            correct: 1,
+            explanation: 'Sin catch, el error se propaga y alguien lo ve. Con un catch vacío, el programa continúa como si todo hubiera salido bien: el pedido no se guardó, el usuario cree que sí, y el fallo aparecerá semanas después como datos faltantes sin ninguna pista de su origen. Si capturas, tienes que registrar, mostrar o relanzar.',
+          },
+          {
+            q: 'En el método de depuración, ¿cuál es el paso que la mayoría se salta?',
+            options: [
+              'Leer el mensaje de error completo',
+              'Reproducir el error de forma confiable',
+              'Diseñar una comprobación que pueda refutar la hipótesis',
+              'Cambiar el código hasta que funcione',
+            ],
+            correct: 2,
+            explanation: 'Lo habitual es formular una sospecha y pasar directo a cambiar código. Sin una comprobación que pueda demostrar que la hipótesis es falsa, no estás depurando: estás adivinando. Si funciona, no sabes por qué, y no puedes garantizar que no vuelva a ocurrir.',
+          },
+          {
+            q: '¿Cuál es el valor principal de una prueba automatizada?',
+            options: [
+              'Encontrar los errores que tiene el código hoy',
+              'Avisarte mañana cuando un cambio rompa algo que antes funcionaba',
+              'Demostrarle al cliente que el código es de calidad',
+              'Subir el porcentaje de cobertura del proyecto',
+            ],
+            correct: 1,
+            explanation: 'Los errores de hoy los encuentras probando a mano. Lo que no puedes hacer a mano es volver a comprobar todo el sistema cada vez que tocas una línea. Ese es el valor real: la prueba es una red de seguridad que hace que cambiar el código deje de dar miedo.',
+          },
+          {
+            q: 'Tu prueba pasa en verde. ¿Qué debes hacer antes de darla por buena?',
+            options: [
+              'Ejecutarla varias veces para confirmar que no es intermitente',
+              'Revisar que la cobertura haya subido',
+              'Romper el código a propósito y confirmar que la prueba se pone en rojo',
+              'Nada: si pasa, está bien escrita',
+            ],
+            correct: 2,
+            explanation: 'Una prueba mal escrita —sin comprobación real, o comprobando algo que siempre es cierto— pasa en verde igual que una buena, pero no protege nada y da confianza falsa. La única forma de saber que la prueba realmente vigila el comportamiento es verla fallar cuando ese comportamiento se rompe.',
+          },
+          {
+            q: 'Estás escribiendo una prueba unitaria de una función que consulta una API externa. ¿Qué haces con esa llamada?',
+            options: [
+              'La dejas: probar contra la API real es más fiel a la realidad',
+              'La reemplazas con una simulación, para que la prueba no dependa de internet ni de un servicio ajeno',
+              'Eliminas esa función del alcance de las pruebas',
+              'Creas una copia de la API en tu máquina para cada prueba',
+            ],
+            correct: 1,
+            explanation: 'Una prueba unitaria debe verificar tu código y solo tu código. Si llama a una API real, se vuelve lenta, falla sin conexión y puede ponerse en rojo por un problema del proveedor que no tiene nada que ver contigo. Se simula la dependencia y así puedes además probar el caso que más importa: qué hace tu código cuando esa API falla.',
+          },
+          {
+            q: '¿Qué significa que una función sea difícil de probar?',
+            options: [
+              'Que necesitas una herramienta de testing más avanzada',
+              'Que probablemente hace demasiadas cosas o depende de algo externo que no controla',
+              'Que esa función no necesita pruebas',
+              'Que el lenguaje no está pensado para testing',
+            ],
+            correct: 1,
+            explanation: 'La dificultad para probar es un síntoma de diseño. Una función que lee de la base, calcula y además pinta en pantalla es difícil de probar porque son tres responsabilidades. Separarlas hace el código más fácil de probar y, de paso, más fácil de entender y reutilizar.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'Vitest — documentación oficial',
+        url: 'https://vitest.dev/guide/',
+        type: 'documentation',
+      },
+      {
+        title: 'Zod — validación de esquemas en TypeScript',
+        url: 'https://zod.dev/',
+        type: 'documentation',
+      },
+      {
+        title: 'Chrome DevTools — depuración de JavaScript',
+        url: 'https://developer.chrome.com/docs/devtools/javascript',
+        type: 'documentation',
+      },
+      {
+        title: 'Testing Library — probar interfaces como las usa la gente',
+        url: 'https://testing-library.com/docs/',
+        type: 'documentation',
+      },
+    ],
+  },
+  {
+    id: 'web-5',
+    number: 16,
+    title: 'Autenticación en aplicaciones web',
+    description: 'Cuentas, sesiones y permisos hechos bien: contraseñas que no se pueden robar, rutas que de verdad están cerradas y recuperación de acceso.',
+    duration: '3 semanas',
+    status: 'available',
+    track: 'web',
+    audience: 'aprendizaje',
+    lessons: [
+      {
+        id: 'w5-l1',
+        title: 'Autenticación, autorización y dónde vive la verdad',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Dos preguntas distintas
+
+- **Autenticación**: ¿quién eres? Se resuelve una vez, al entrar.
+- **Autorización**: ¿qué puedes ver y hacer? Se resuelve en cada acción.
+
+Confundirlas produce el error más común de todos: sistemas donde iniciar sesión equivale a poder verlo todo. Son capas separadas y las dos hacen falta.
+
+### La regla que sostiene todo
+
+**La verdad vive en el servidor.** Siempre.
+
+El navegador es territorio del usuario: puede abrir las herramientas de desarrollo, editar variables, cambiar respuestas y ejecutar el código que quiera. Cualquier comprobación que hagas solo en el cliente es una sugerencia, no una barrera.
+
+\`\`\`tsx
+// Esto NO protege nada
+{usuario.esAdmin && <BotonBorrarTodo />}
+\`\`\`
+
+Ocultar el botón mejora la experiencia, pero el endpoint que borra sigue ahí y cualquiera puede llamarlo directamente. La comprobación real tiene que estar en el servidor, dentro del endpoint.
+
+### Un caso real: esta misma Academia
+
+La Academia de AlphaDev tuvo exactamente ese problema. La protegía un componente de cliente que comparaba contra una contraseña escrita en el propio código:
+
+\`\`\`tsx
+'use client'
+const PASSWORD = 'una-contraseña'   // visible en el navegador
+
+if (input === PASSWORD) setUnlocked(true)
+\`\`\`
+
+Dos fallos, y el segundo es peor que el primero. Uno: la contraseña se lee abriendo el código de la página. Dos, y más grave: **el contenido de los cursos se descargaba al navegador aunque nunca escribieras la contraseña.** El componente solo decidía qué se *mostraba*, no qué se *enviaba*. Quien pagaba y quien no recibían exactamente los mismos datos.
+
+La corrección no es esconder mejor la contraseña: es que el contenido no salga del servidor sin una sesión válida.
+
+### Los tres factores
+
+- **Algo que sabes**: contraseña, PIN.
+- **Algo que tienes**: teléfono, llave física, app de códigos.
+- **Algo que eres**: huella, cara.
+
+Pedir dos de categorías distintas es autenticación de dos factores. Contraseña + pregunta de seguridad no es doble factor: las dos son cosas que sabes.
+
+### Qué vas a construir en este módulo
+
+Un sistema de acceso completo: registro, inicio de sesión, sesión persistente, rutas protegidas en el servidor, recuperación de contraseña y permisos por usuario. El mismo que necesita cualquier área privada que cobres.`,
+        tasks: [
+          'Abre una aplicación que uses a diario y distingue tres acciones de autenticación de tres de autorización',
+          'Busca en un proyecto tuyo una comprobación de permisos que solo exista en el cliente',
+          'Escribe en una frase por qué ocultar un botón en el frontend no protege el endpoint que hay detrás',
+          'Enumera qué datos de tu aplicación no deberían salir del servidor sin una sesión válida',
+        ],
+        tip: 'La pregunta que hay que hacerse ante cualquier pantalla privada no es "¿se ve el botón?" sino "si llamo al endpoint directamente con curl, ¿qué me responde?". Si responde con datos, no está protegido.',
+        completed: false,
+      },
+      {
+        id: 'w5-l2',
+        title: 'Contraseñas: por qué nunca se guardan',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Nadie guarda contraseñas
+
+Ni tú, ni Google, ni tu banco. Lo que se guarda es un **hash**: el resultado de pasar la contraseña por una función que no se puede revertir.
+
+\`\`\`
+"miClave123"  →  hash  →  $2b$12$eImiTXuWVxfM37uY4JANjQ...
+\`\`\`
+
+Al iniciar sesión, el sistema vuelve a calcular el hash de lo que escribiste y lo compara con el guardado. Nunca necesita conocer la contraseña original. Por eso, cuando olvidas tu contraseña, un servicio serio te deja crear una nueva pero nunca te dice cuál era: no la tiene.
+
+### Por qué no sirve cualquier hash
+
+MD5 y SHA-1 fueron diseñados para ser **rápidos**, y esa es exactamente la propiedad que no quieres. Una tarjeta gráfica calcula miles de millones de hashes MD5 por segundo: probar todas las contraseñas comunes es cuestión de minutos.
+
+Los algoritmos correctos son **bcrypt, scrypt o Argon2**, diseñados para ser lentos y configurables. Si un hash tarda 100 milisegundos, el usuario no lo nota al entrar, pero un atacante pasa de mil millones de intentos por segundo a diez.
+
+### El salt
+
+Dos usuarios con la misma contraseña producirían el mismo hash, y eso permite atacar a muchos a la vez con tablas precalculadas. El **salt** es un valor aleatorio distinto para cada usuario que se mezcla antes de calcular el hash. Bcrypt lo genera e incluye dentro del propio hash: no tienes que gestionarlo tú.
+
+\`\`\`ts
+import bcrypt from 'bcryptjs'
+
+// al registrar
+const hash = await bcrypt.hash(password, 12)   // 12 = coste
+
+// al iniciar sesión
+const coincide = await bcrypt.compare(passwordEscrita, hashGuardado)
+\`\`\`
+
+El número de coste es exponencial: 12 tarda el doble que 11. Entre 10 y 12 es lo razonable hoy.
+
+### Requisitos de contraseña que sí sirven
+
+Las reglas clásicas —una mayúscula, un número, un símbolo— empujan a la gente hacia \`Password1!\`, que es predecible. Lo que de verdad importa es la **longitud** y que no sea una contraseña ya filtrada.
+
+- Mínimo 8 caracteres, idealmente 12.
+- Permite espacios y frases largas.
+- No obligues a cambiarla cada 90 días: eso produce \`Verano2026\`, luego \`Otoño2026\`.
+- Compara contra listas de contraseñas filtradas si puedes.
+
+### El error del mensaje que informa de más
+
+\`\`\`
+Mal:  "Ese usuario no existe"
+Mal:  "Contraseña incorrecta"
+Bien: "Email o contraseña incorrectos"
+\`\`\`
+
+Los dos primeros le confirman a un atacante qué correos están registrados, que es justo el primer paso de un ataque. El tercero no revela nada. Lo mismo aplica al registro y a la recuperación de contraseña.
+
+### Limitar los intentos
+
+Sin límite, cualquiera puede probar contraseñas indefinidamente. Lo mínimo: contar los intentos fallidos por cuenta y por dirección IP, y aplicar una espera creciente. Con cinco fallos, un minuto de bloqueo detiene la mayoría de los ataques automatizados sin molestar a quien de verdad se equivocó.`,
+        tasks: [
+          'Instala bcryptjs en un proyecto y guarda un hash de prueba con coste 12',
+          'Genera dos hashes de la MISMA contraseña y comprueba que son distintos: ahí ves el salt',
+          'Revisa los mensajes de error de inicio de sesión de un proyecto tuyo y unifícalos para que no revelen si el email existe',
+          'Diseña en papel una política de intentos fallidos: cuántos, por cuánto tiempo y contra qué se cuenta',
+        ],
+        tip: 'Si un servicio te envía tu contraseña por correo cuando la olvidas, significa que la guarda en texto plano o reversible. Es motivo suficiente para no confiarle nada importante — y para no hacerlo nunca en lo que tú construyas.',
+        completed: false,
+      },
+      {
+        id: 'w5-l3',
+        title: 'Sesiones y tokens: cookies, JWT y qué elegir',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## El problema
+
+HTTP no recuerda nada: cada petición llega sin saber quién eres. Después de iniciar sesión hay que darle al navegador algo que demuestre, en cada petición siguiente, que ya te identificaste.
+
+Hay dos formas de hacerlo.
+
+### Sesiones en servidor
+
+El servidor genera un identificador aleatorio, lo guarda junto al usuario y se lo entrega al navegador en una cookie. En cada petición busca ese identificador y sabe quién eres.
+
+- **A favor**: puedes cerrar una sesión al instante, borrándola del servidor.
+- **En contra**: el servidor tiene que guardar y consultar el estado.
+
+### Tokens (JWT)
+
+El servidor firma un token que contiene los datos del usuario. No guarda nada: verifica la firma en cada petición.
+
+\`\`\`
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJyb2wiOiJhZG1pbiJ9.4f3a...
+   cabecera            contenido                          firma
+\`\`\`
+
+**Lo importante: el contenido de un JWT no está cifrado, solo firmado.** Cualquiera puede leerlo pegándolo en jwt.io. La firma impide modificarlo, no leerlo. Nunca metas datos sensibles dentro.
+
+- **A favor**: el servidor no guarda estado.
+- **En contra**: no puedes invalidarlo antes de que expire. Si alguien lo roba, sirve hasta que caduque.
+
+### Cómo se resuelve en la práctica
+
+Un token de acceso de vida corta (15 minutos) más un token de refresco de vida larga, guardado de forma que se pueda revocar. Si roban el de acceso, la ventana de daño es pequeña.
+
+### Dónde se guarda: la decisión que más se equivoca
+
+\`\`\`
+localStorage        ❌  cualquier script en tu página puede leerlo
+sessionStorage      ❌  el mismo problema
+cookie normal       ❌  legible por JavaScript
+cookie httpOnly     ✅  el JavaScript de la página no puede tocarla
+\`\`\`
+
+Guardar un token en \`localStorage\` significa que cualquier vulnerabilidad de scripting —una dependencia comprometida, un comentario que inyecta HTML— permite robar la sesión. La cookie \`httpOnly\` no es accesible desde JavaScript, así que ese robo deja de ser posible.
+
+\`\`\`ts
+// Next.js — cookie de sesión bien configurada
+cookies().set('session', token, {
+  httpOnly: true,                              // JS no puede leerla
+  secure: process.env.NODE_ENV === 'production', // solo por HTTPS
+  sameSite: 'lax',                             // mitiga CSRF
+  maxAge: 60 * 60 * 24 * 7,                    // 7 días
+  path: '/',
+})
+\`\`\`
+
+Cada opción tapa un agujero concreto: \`httpOnly\` contra el robo por scripts, \`secure\` contra la lectura en redes abiertas, \`sameSite\` contra las peticiones desde otros sitios.
+
+### Supabase Auth
+
+En el stack que usas, Supabase resuelve casi todo esto: registro, inicio de sesión, verificación por correo, recuperación de contraseña y proveedores externos. Emite JWT y, con \`@supabase/ssr\`, los guarda en cookies \`httpOnly\`.
+
+Lo que Supabase **no** decide por ti es la autorización: qué puede ver cada usuario. Eso se define con políticas de Row Level Security en la base y comprobaciones en el servidor. La siguiente lección va sobre eso.`,
+        tasks: [
+          'Pega un JWT de ejemplo en jwt.io y comprueba que puedes leer su contenido sin ninguna clave',
+          'Busca en un proyecto tuyo si algún token se guarda en localStorage y anota qué implicaría un robo',
+          'Configura una cookie de sesión con las cuatro opciones y explica qué protege cada una',
+          'Compara sesiones en servidor y JWT para un caso concreto tuyo: ¿necesitas cerrar sesiones al instante?',
+        ],
+        tip: 'Si un token va a localStorage, asume que cualquier script que entre a tu página puede robarlo, incluidas las dependencias que instalas sin leer. La cookie httpOnly convierte ese riesgo en algo que el navegador impide por diseño.',
+        completed: false,
+      },
+      {
+        id: 'w5-l4',
+        title: 'Proteger rutas de verdad: el servidor decide',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Tres capas, y solo una protege
+
+1. **Ocultar la interfaz** — experiencia de usuario. No protege.
+2. **Redirigir en el cliente** — experiencia de usuario. No protege.
+3. **Comprobar en el servidor antes de responder** — esto sí protege.
+
+Las dos primeras hacen que la aplicación se sienta bien. La tercera es la que impide que alguien obtenga los datos con una petición directa.
+
+### El middleware: la puerta de entrada
+
+En Next.js, el middleware corre antes de que la petición llegue a la página. Es el lugar natural para cortar el acceso:
+
+\`\`\`ts
+// middleware.ts
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function middleware(request: NextRequest) {
+  const session = request.cookies.get('session')
+
+  if (!session) {
+    const url = new URL('/login', request.url)
+    url.searchParams.set('redirect', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/academia/:path*', '/admin/:path*'],
+}
+\`\`\`
+
+Guardar en \`redirect\` la ruta que pedía es un detalle pequeño con mucho efecto: después de iniciar sesión vuelve donde estaba, en vez de tirarlo al inicio.
+
+### El middleware no basta
+
+El middleware comprueba que hay sesión, no qué puede ver ese usuario. La comprobación fina va en el Server Component, junto a los datos:
+
+\`\`\`tsx
+// app/academia/[rama]/page.tsx
+import { redirect, notFound } from 'next/navigation'
+
+export default async function RamaPage({ params }) {
+  const { rama } = await params
+  const usuario = await getUsuario()          // lee la sesión en el servidor
+  if (!usuario) redirect('/login')
+
+  const permitido = await puedeVer(usuario.id, rama)
+  if (!permitido) notFound()
+
+  const modulos = await getModulos(rama)      // los datos se leen DESPUÉS de comprobar
+  return <RamaContent modulos={modulos} />
+}
+\`\`\`
+
+El orden importa y no es cosmético: **primero compruebas, después lees.** Si cargas los datos antes, van a viajar al navegador aunque luego decidas no pintarlos.
+
+### El error que cometió esta Academia
+
+Este es exactamente el fallo real que tuvo la Academia de AlphaDev: el contenido de los cursos se importaba en un componente de cliente, así que Next lo incluía en el paquete de JavaScript de la página. La comprobación decidía qué **pintar**, cuando ya era tarde: los datos habían salido del servidor.
+
+La corrección tiene una regla simple detrás: **el contenido que se paga se lee en el servidor, dentro de la función que ya comprobó el permiso, y solo se envía lo que esa persona puede ver.**
+
+### Proteger también los endpoints
+
+Cada Route Handler y cada Server Action necesita su propia comprobación. No heredan la del middleware si están fuera del \`matcher\`, y aunque estuvieran dentro, el middleware solo sabe que hay sesión:
+
+\`\`\`ts
+export async function POST(request: Request) {
+  const usuario = await getUsuario()
+  if (!usuario) return new Response('No autorizado', { status: 401 })
+  if (usuario.rol !== 'admin') return new Response('Prohibido', { status: 403 })
+
+  // recién aquí la lógica
+}
+\`\`\`
+
+**401** es "no sé quién eres"; **403** es "sé quién eres y no puedes".
+
+### Row Level Security
+
+Con Supabase puedes poner la última defensa en la base de datos: reglas que filtran las filas según quién consulta, aunque la consulta venga mal escrita.
+
+\`\`\`sql
+create policy "cada quien ve su progreso"
+on lesson_progress for select
+using (auth.uid() = user_id);
+\`\`\`
+
+Es la red que te salva del día en que alguien olvide una comprobación en el código.`,
+        tasks: [
+          'Escribe un middleware que proteja una ruta y conserve el destino original para volver después de entrar',
+          'Toma una página privada tuya y reordena el código: comprobar permiso primero, leer datos después',
+          'Prueba tus endpoints con curl sin sesión y confirma que responden 401 y no datos',
+          'Escribe una política de Row Level Security para una tabla donde cada usuario solo vea sus propias filas',
+        ],
+        tip: 'La prueba definitiva es intentar acceder sin sesión con curl o desde una ventana privada. Si tu aplicación te muestra la pantalla de login pero la petición directa al endpoint devuelve datos, no está protegida: está disimulada.',
+        completed: false,
+      },
+      {
+        id: 'w5-l5',
+        title: 'Recuperación de contraseña y verificación de correo',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## El flujo que casi todos dejan a medias
+
+Recuperar el acceso es la parte más olvidada de un sistema de cuentas, y la que más agujeros suele tener. El flujo correcto:
+
+1. El usuario pide recuperar su acceso escribiendo su correo.
+2. El servidor genera un token **aleatorio, de un solo uso y con caducidad corta**.
+3. Guarda el hash de ese token, no el token.
+4. Envía un enlace con el token al correo.
+5. El usuario abre el enlace y define una contraseña nueva.
+6. El token se marca como usado y **se cierran todas las sesiones activas**.
+
+### Los cuatro errores habituales
+
+**Responder distinto según si el correo existe.** El mensaje debe ser el mismo siempre: *"Si ese correo está registrado, te enviamos las instrucciones"*. De lo contrario, el formulario se convierte en una herramienta para averiguar quién tiene cuenta.
+
+**Tokens predecibles.** Nada de contadores ni del identificador del usuario. Aleatoriedad criptográfica:
+
+\`\`\`ts
+import { randomBytes, createHash } from 'crypto'
+
+const token = randomBytes(32).toString('hex')            // esto va en el enlace
+const tokenHash = createHash('sha256').update(token).digest('hex')  // esto se guarda
+\`\`\`
+
+Se guarda el hash por la misma razón que con las contraseñas: si alguien lee la base de datos, no puede usar los tokens.
+
+**Tokens que no caducan o se reutilizan.** Entre 15 y 60 minutos, y un solo uso. Un enlace de recuperación en una bandeja de correo es una llave permanente si no expira.
+
+**No cerrar las sesiones existentes.** Si alguien entró a la cuenta, cambiar la contraseña sin invalidar sus sesiones no lo echa: sigue dentro.
+
+### Verificación de correo
+
+Sirve para dos cosas: confirmar que el correo es real y que pertenece a quien se registró. El mecanismo es el mismo —token aleatorio con caducidad— y conviene decidir qué puede hacer alguien sin verificar. Lo habitual es dejar entrar pero limitar las acciones sensibles.
+
+### Con Supabase
+
+Supabase trae estos flujos resueltos, incluido el envío de correos:
+
+\`\`\`ts
+// pedir recuperación
+await supabase.auth.resetPasswordForEmail(email, {
+  redirectTo: 'https://alphadev.studio/reset',
+})
+
+// definir la contraseña nueva, ya con el enlace abierto
+await supabase.auth.updateUser({ password: nuevaPassword })
+\`\`\`
+
+Aun usándolo, tú sigues siendo responsable de dos cosas: que el mensaje de la pantalla no revele si el correo existe, y que la página de destino valide el token antes de mostrar el formulario.
+
+### El correo importa
+
+Un correo de recuperación que llega a spam es un usuario perdido. Configura SPF, DKIM y DMARC en tu dominio, y usa un servicio de envío transaccional. Escribe el asunto claro —"Restablece tu contraseña"— y pon el enlace visible, no escondido detrás de una imagen.`,
+        tasks: [
+          'Implementa el flujo completo de recuperación con token aleatorio, hasheado y con caducidad de 30 minutos',
+          'Comprueba que el mensaje es idéntico exista o no el correo en la base',
+          'Verifica que el token no se puede usar dos veces y que caduca',
+          'Confirma que al cambiar la contraseña se cierran las demás sesiones activas',
+        ],
+        tip: 'Prueba el flujo entero como si fueras un atacante: pide recuperación para un correo que no existe, reutiliza un enlace ya usado, espera a que caduque y edita el token a mano. Cada uno de esos intentos debe fallar de la misma manera y sin dar pistas.',
+        completed: false,
+      },
+      {
+        id: 'w5-l6',
+        title: 'Proyecto: área privada con permisos por usuario',
+        type: 'project',
+        difficulty: 'profesional',
+        projectBrief: `Vas a construir el sistema de acceso completo de un área privada real, con permisos que un administrador reparte. Es exactamente el problema que tiene la Academia de AlphaDev en su Fase 2, y el mismo que aparece en cualquier producto que cobre por contenido.
+
+El escenario: una plataforma con contenido dividido en secciones. Hay tres tipos de personas — administradores con acceso total, usuarios con acceso a algunas secciones, y visitantes sin acceso. Un administrador decide quién ve qué, y puede darle a un acceso fecha de vencimiento.
+
+El requisito que define el proyecto: **el contenido de una sección no puede llegar al navegador de alguien que no tenga permiso sobre ella.** No basta con esconderlo.`,
+        deliverables: [
+          'Aplicación Next.js con registro, inicio de sesión, cierre de sesión y recuperación de contraseña',
+          'Middleware que proteja las rutas privadas y conserve el destino original tras iniciar sesión',
+          'Tabla de permisos por usuario con alcance (total, por sección) y fecha de vencimiento opcional',
+          'Panel de administración para invitar personas y asignar o revocar permisos',
+          'Políticas de Row Level Security en la base como última capa de defensa',
+          'Un documento con las pruebas de seguridad que hiciste y su resultado',
+        ],
+        rubrica: [
+          'Las contraseñas se guardan hasheadas con bcrypt o mediante Supabase Auth, nunca en texto plano',
+          'La sesión viaja en una cookie httpOnly, secure y sameSite, no en localStorage',
+          'Pedir un endpoint privado con curl y sin sesión devuelve 401, no datos',
+          'Pedir una sección sin permiso devuelve 403 o 404, y el contenido no aparece en la respuesta',
+          'El contenido se lee en el servidor después de comprobar el permiso, no antes',
+          'El mensaje de inicio de sesión y el de recuperación no revelan si un correo está registrado',
+          'Los tokens de recuperación son aleatorios, se guardan hasheados, caducan y son de un solo uso',
+          'Un permiso vencido deja de dar acceso sin que nadie tenga que revocarlo a mano',
+          'El panel de administración está protegido por rol, comprobado en el servidor',
+        ],
+        tasks: [
+          'Diseña el esquema: usuarios, permisos (usuario, alcance, vencimiento) y contenido por sección',
+          'Implementa autenticación con Supabase Auth y cookies httpOnly usando @supabase/ssr',
+          'Escribe el middleware de rutas privadas y la comprobación fina en cada Server Component',
+          'Construye el panel de administración con comprobación de rol en el servidor',
+          'Añade las políticas de Row Level Security y comprueba que funcionan aunque el código falle',
+          'Ataca tu propia aplicación: sin sesión, con sesión ajena, con permiso vencido y con curl directo',
+        ],
+        discussionPrompts: [
+          '¿Qué pasa si un usuario mantiene abierta la pestaña cuando le revocas el permiso? ¿En cuánto tiempo debería dejar de funcionar?',
+          '¿Conviene que un permiso vencido muestre "tu acceso expiró" o que la sección desaparezca como si no existiera?',
+        ],
+        tip: 'Haz la prueba de curl antes de dar el proyecto por terminado. Abre una terminal, pide el endpoint de una sección sin enviar ninguna cookie y mira la respuesta completa. Si ahí aparece contenido, el trabajo no está hecho, por muy bien que se comporte la interfaz.',
+        completed: false,
+      },
+      {
+        id: 'w5-l7',
+        title: 'Examen: autenticación y autorización',
+        type: 'exam',
+        difficulty: 'profesional',
+        questions: [
+          {
+            q: 'Una aplicación oculta el botón de administrador con {usuario.esAdmin && <Boton />}. ¿Está protegida esa función?',
+            options: [
+              'Sí, si el usuario no ve el botón no puede ejecutar la acción',
+              'No: el endpoint sigue siendo accesible y la comprobación real debe estar en el servidor',
+              'Sí, siempre que el componente sea un Server Component',
+              'Depende de si la aplicación usa JWT o sesiones en servidor',
+            ],
+            correct: 1,
+            explanation: 'Ocultar la interfaz es experiencia de usuario, no seguridad. Cualquiera puede llamar al endpoint directamente con curl o desde la consola del navegador. La comprobación de permisos tiene que estar dentro del endpoint, en el servidor, donde el usuario no puede modificarla.',
+          },
+          {
+            q: '¿Por qué no se usa MD5 o SHA-1 para hashear contraseñas?',
+            options: [
+              'Porque producen hashes demasiado largos para guardar en la base de datos',
+              'Porque son reversibles y permiten recuperar la contraseña original',
+              'Porque fueron diseñados para ser rápidos, y eso permite probar miles de millones de contraseñas por segundo',
+              'Porque no aceptan caracteres especiales ni acentos',
+            ],
+            correct: 2,
+            explanation: 'MD5 y SHA-1 no son reversibles, pero sí rapidísimos: una GPU calcula miles de millones por segundo, así que probar todas las contraseñas comunes es cuestión de minutos. Bcrypt, scrypt y Argon2 están diseñados para ser deliberadamente lentos y con coste ajustable, lo que vuelve inviable la fuerza bruta.',
+          },
+          {
+            q: '¿Qué es cierto sobre el contenido de un JWT?',
+            options: [
+              'Está cifrado, solo el servidor con la clave puede leerlo',
+              'Está firmado pero no cifrado: cualquiera puede leerlo, aunque no modificarlo sin invalidar la firma',
+              'Está comprimido y por eso resulta ilegible',
+              'Solo contiene el identificador de sesión, nunca datos del usuario',
+            ],
+            correct: 1,
+            explanation: 'Un JWT es texto codificado en base64 y firmado. Cualquiera puede pegarlo en jwt.io y leer su contenido completo. La firma garantiza que nadie lo alteró, no que nadie lo lea. Por eso nunca deben ponerse datos sensibles dentro de un token.',
+          },
+          {
+            q: '¿Por qué guardar un token de sesión en localStorage es peor que en una cookie httpOnly?',
+            options: [
+              'Porque localStorage tiene un límite de tamaño menor',
+              'Porque localStorage se borra al cerrar el navegador y obliga a iniciar sesión de nuevo',
+              'Porque cualquier script que se ejecute en la página puede leer localStorage, mientras que una cookie httpOnly es inaccesible desde JavaScript',
+              'Porque las cookies se envían más rápido al servidor',
+            ],
+            correct: 2,
+            explanation: 'localStorage es accesible desde cualquier JavaScript de la página, incluidas las dependencias que instalas. Una vulnerabilidad de scripting o un paquete comprometido basta para robar la sesión. httpOnly le dice al navegador que no exponga la cookie a JavaScript, así que ese robo deja de ser posible.',
+          },
+          {
+            q: 'En una página privada, ¿cuál es el orden correcto de operaciones en el servidor?',
+            options: [
+              'Cargar los datos, comprobar el permiso y decidir qué se pinta',
+              'Comprobar el permiso y solo después leer los datos que esa persona puede ver',
+              'Cargar los datos y filtrarlos en el cliente según el rol',
+              'Da igual el orden mientras la comprobación exista en algún punto',
+            ],
+            correct: 1,
+            explanation: 'Si cargas los datos antes de comprobar, esos datos ya salieron del servidor y viajan al navegador aunque después decidas no pintarlos. Es exactamente el fallo que tuvo la Academia: el contenido se incluía en el paquete de JavaScript y la comprobación solo decidía qué mostrar.',
+          },
+          {
+            q: 'En un formulario de recuperación de contraseña, ¿qué debe responder el sistema si el correo no está registrado?',
+            options: [
+              '"Ese correo no está registrado", para que el usuario sepa que se equivocó',
+              'El mismo mensaje que si existiera: "Si ese correo está registrado, te enviamos las instrucciones"',
+              'Un error 404 para que el frontend muestre el aviso correspondiente',
+              'Ofrecer registrarse con ese correo automáticamente',
+            ],
+            correct: 1,
+            explanation: 'Responder distinto convierte el formulario en una herramienta para averiguar qué correos tienen cuenta, que es el primer paso de un ataque dirigido. El mensaje tiene que ser idéntico en ambos casos, y también el tiempo de respuesta.',
+          },
+          {
+            q: '¿Cuál es la diferencia entre responder 401 y 403?',
+            options: [
+              '401 es un error del servidor y 403 del cliente',
+              '401 significa "no sé quién eres"; 403 significa "sé quién eres y no tienes permiso"',
+              '401 se usa para páginas y 403 para endpoints de API',
+              'Son equivalentes, se elige uno por convención del equipo',
+            ],
+            correct: 1,
+            explanation: '401 Unauthorized indica falta de autenticación: no hay sesión válida, y la respuesta correcta del cliente es iniciar sesión. 403 Forbidden indica falta de autorización: la sesión es válida pero ese usuario no puede acceder a ese recurso, y volver a iniciar sesión no cambiaría nada.',
+          },
+        ],
+        completed: false,
+      },
+    ],
+    resources: [
+      {
+        title: 'OWASP — Guía de almacenamiento de contraseñas',
+        url: 'https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html',
+        type: 'documentation',
+      },
+      {
+        title: 'Supabase Auth — documentación oficial',
+        url: 'https://supabase.com/docs/guides/auth',
+        type: 'documentation',
+      },
+      {
+        title: 'Next.js — Autenticación y middleware',
+        url: 'https://nextjs.org/docs/app/guides/authentication',
+        type: 'documentation',
+      },
+      {
+        title: 'jwt.io — inspeccionar y entender tokens JWT',
+        url: 'https://jwt.io/',
+        type: 'tool',
+      },
+      {
+        title: 'Supabase — Row Level Security',
+        url: 'https://supabase.com/docs/guides/database/postgres/row-level-security',
+        type: 'documentation',
+      },
+    ],
+  },
+  {
     id: 'web-1',
     number: 12,
     title: 'Fundamentos Web: HTML & CSS',
