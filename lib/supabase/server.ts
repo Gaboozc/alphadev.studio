@@ -5,12 +5,26 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+/** true si el proyecto tiene configuradas las variables de Supabase. */
+export function hayConfiguracion(): boolean {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+}
+
 export async function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) {
+    throw new Error(
+      'Faltan NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
+        'En local van en .env.local; en Vercel, en Project Settings → Environment Variables.',
+    )
+  }
+
   const cookieStore = await cookies()
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    key,
     {
       cookies: {
         getAll() {
@@ -46,8 +60,15 @@ export async function createClient() {
  * getUser valida el token en cada llamada. En el servidor, siempre getUser.
  */
 export async function getUsuario() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error) return null
-  return data.user
+  // Nunca lanza: quien llama solo necesita saber si hay usuario o no. Un fallo
+  // de configuración o de red se trata como "no autenticado", que es la
+  // respuesta segura — deniega el acceso en vez de romper la página.
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase.auth.getUser()
+    if (error) return null
+    return data.user
+  } catch {
+    return null
+  }
 }

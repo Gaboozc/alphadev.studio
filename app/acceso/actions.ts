@@ -33,12 +33,20 @@ export async function entrar(_previo: string | null, formData: FormData): Promis
 
   if (!email || !password) return 'Escribe tu correo y tu contraseña.'
 
-  const supabase = await createClient()
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
+  let fallo: string | null = null
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    // Un único mensaje para los dos casos: así el formulario no sirve para
+    // averiguar qué correos están registrados (lección w5-l2).
+    if (error) fallo = 'Correo o contraseña incorrectos.'
+  } catch {
+    // Configuración ausente o servicio caído: no es culpa de quien entra.
+    fallo = 'El servicio de acceso no está disponible. Inténtalo en unos minutos.'
+  }
 
-  // Un único mensaje para los dos casos: así el formulario no sirve para
-  // averiguar qué correos están registrados (lección w5-l2).
-  if (error) return 'Correo o contraseña incorrectos.'
+  if (fallo) return fallo
 
+  // Fuera del try: redirect() funciona lanzando, y un catch se lo tragaría.
   redirect(destino)
 }
