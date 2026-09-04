@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { RAMAS, ramaBySlug } from '../ramas'
+import { metaOfRama } from '../queries'
 import RamaContent from './RamaContent'
 
 interface Props {
@@ -30,5 +31,5 @@ export default async function RamaPage({ params }: Props) {
   // aplica). El mapeo de URLs viejas va en el middleware de la Fase 2.
   if (!meta) notFound()
 
-  return <RamaContent ramaId={meta.id} />
+  return <RamaContent ramaId={meta.id} modulos={metaOfRama(meta.id)} />
 }

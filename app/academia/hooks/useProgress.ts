@@ -1,7 +1,10 @@
 'use client'
 
+// Este hook NO importa el contenido de los módulos a propósito: al ser de
+// cliente, hacerlo metería el texto de todas las lecciones en el paquete de
+// JavaScript. Recibe las lecciones por parámetro desde quien ya las tiene.
+
 import { useState, useEffect, useCallback } from 'react'
-import { MODULES } from '../modules'
 
 const STORAGE_KEY = 'alphadev-academia-progress'
 
@@ -49,31 +52,18 @@ export function useProgress() {
     [completed],
   )
 
+  // Recibe las lecciones del módulo, no su id: así el hook no necesita conocer
+  // el catálogo y el contenido se queda en el servidor.
   const getModuleProgress = useCallback(
-    (moduleId: string): { done: number; total: number; percent: number } => {
-      const mod = MODULES.find((m) => m.id === moduleId)
-      if (!mod) return { done: 0, total: 0, percent: 0 }
-      const total = mod.lessons.length
-      const done = mod.lessons.filter((l) => completed?.[l.id]).length
+    (lessons: { id: string }[]): { done: number; total: number; percent: number } => {
+      const total = lessons.length
+      const done = lessons.filter((l) => completed?.[l.id]).length
       return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100) }
     },
     [completed],
   )
 
-  const getGlobalProgress = useCallback((): {
-    done: number
-    total: number
-    percent: number
-  } => {
-    const total = MODULES.reduce((acc, m) => acc + m.lessons.length, 0)
-    const done = MODULES.reduce(
-      (acc, m) => acc + m.lessons.filter((l) => completed?.[l.id]).length,
-      0,
-    )
-    return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100) }
-  }, [completed])
-
   const hydrated = completed !== null
 
-  return { isCompleted, toggleLesson, getModuleProgress, getGlobalProgress, hydrated }
+  return { isCompleted, toggleLesson, getModuleProgress, hydrated }
 }

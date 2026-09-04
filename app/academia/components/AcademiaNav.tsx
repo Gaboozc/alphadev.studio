@@ -4,20 +4,22 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from '@/components/Icon'
-import { MODULES, type Track } from '../modules'
+import type { ModuleMeta, Track } from '../types'
 import { RAMAS, TRACK_META, moduleHref } from '../ramas'
 import { useProgress } from '../hooks/useProgress'
 
 // Las áreas se listan en el orden de las ramas, no sueltas.
 const TRACKS = RAMAS.flatMap((r) => r.tracks.map((t) => TRACK_META[t]))
 
-export default function AcademiaNav() {
+// Recibe el catálogo ya construido en el servidor: importar el contenido aquí
+// metería el texto de todas las lecciones en el paquete de JavaScript.
+export default function AcademiaNav({ catalogo }: { catalogo: ModuleMeta[] }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
 
   const currentModuleId = pathname.split('/')[2] ?? ''
-  const currentModule = MODULES.find((m) => m.id === currentModuleId)
+  const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
     currentModule?.track ?? 'marketing'
   )
@@ -213,7 +215,7 @@ export default function AcademiaNav() {
         {/* Track + module list */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '0.5rem 0' }}>
           {TRACKS.map((track) => {
-            const trackMods = MODULES.filter((m) => m.track === track.id).sort((a, b) => {
+            const trackMods = catalogo.filter((m) => m.track === track.id).sort((a, b) => {
               const aC = a.id.includes('capstone') ? 1 : 0
               const bC = b.id.includes('capstone') ? 1 : 0
               return aC - bC
@@ -225,7 +227,7 @@ export default function AcademiaNav() {
             let trackTotal = 0
             if (hydrated) {
               trackMods.forEach((m) => {
-                const p = getModuleProgress(m.id)
+                const p = getModuleProgress(m.lessons)
                 trackDone += p.done
                 trackTotal += p.total
               })
@@ -308,7 +310,7 @@ export default function AcademiaNav() {
                     {trackMods.map((mod, idx) => {
                       const isActive = mod.id === currentModuleId
                       const isCapstone = mod.id.includes('capstone')
-                      const progress = hydrated ? getModuleProgress(mod.id) : { done: 0, total: 0, percent: 0 }
+                      const progress = hydrated ? getModuleProgress(mod.lessons) : { done: 0, total: 0, percent: 0 }
                       const isDone = hydrated && progress.done === progress.total && progress.total > 0
 
                       return (
@@ -400,7 +402,7 @@ export default function AcademiaNav() {
               margin: 0,
             }}
           >
-            {MODULES.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
+            {catalogo.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
           </p>
         </div>
       </aside>

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { MODULES } from '../../modules'
 import { RAMAS, RAMA_OF_TRACK, moduleHref, ramaBySlug } from '../../ramas'
-import { modulesOfTrack } from '../../queries'
+import { metaOfTrack, toModuleMeta } from '../../queries'
 import ModuleContent from './ModuleContent'
 
 interface Props {
@@ -24,5 +24,6 @@ export default async function ModulePage({ params }: Props) {
   // no una alternativa. Así evitamos servir la misma página en dos URLs.
   if (moduleHref(mod) !== `/academia/${rama}/${moduleId}`) notFound()
 
-  return <ModuleContent module={mod} trackModules={modulesOfTrack(mod.track)} />
+  // Solo metadatos: la página del módulo lista lecciones, no las muestra.
+  return <ModuleContent module={toModuleMeta(mod)} trackModules={metaOfTrack(mod.track)} />
 }

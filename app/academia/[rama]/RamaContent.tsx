@@ -2,27 +2,27 @@
 
 import Link from 'next/link'
 import Icon from '@/components/Icon'
+import type { ModuleMeta } from '../types'
 import {
   RAMAS,
   TRACK_META,
-  countLessons,
   isCapstone,
   moduleHref,
   type Rama,
 } from '../ramas'
-import { modulesOfRama, modulesOfTrack } from '../queries'
 import { useProgress } from '../hooks/useProgress'
 
-export default function RamaContent({ ramaId }: { ramaId: Rama }) {
+// El catálogo llega desde el servidor sin el cuerpo de las lecciones.
+export default function RamaContent({ ramaId, modulos }: { ramaId: Rama; modulos: ModuleMeta[] }) {
   const { getModuleProgress, hydrated } = useProgress()
   const rama = RAMAS.find((r) => r.id === ramaId)!
-  const allMods = modulesOfRama(ramaId)
+  const allMods = modulos
 
   let done = 0
   let total = 0
   if (hydrated) {
     allMods.forEach((m) => {
-      const p = getModuleProgress(m.id)
+      const p = getModuleProgress(m.lessons)
       done += p.done
       total += p.total
     })
@@ -57,7 +57,7 @@ export default function RamaContent({ ramaId }: { ramaId: Rama }) {
               <span className="acad-stat-label">Módulos</span>
             </div>
             <div>
-              <span className="acad-stat-num">{countLessons(allMods)}</span>
+              <span className="acad-stat-num">{allMods.reduce((a, m) => a + m.lessons.length, 0)}</span>
               <span className="acad-stat-label">Lecciones</span>
             </div>
             {hydrated && percent > 0 && (
@@ -72,7 +72,7 @@ export default function RamaContent({ ramaId }: { ramaId: Rama }) {
         {/* ── Un bloque por área de estudio ── */}
         {rama.tracks.map((track) => {
           const meta = TRACK_META[track]
-          const mods = modulesOfTrack(track)
+          const mods = allMods.filter((m) => m.track === track)
 
           return (
             <section key={track} className="acad-area">
@@ -88,7 +88,7 @@ export default function RamaContent({ ramaId }: { ramaId: Rama }) {
 
               <div className="acad-mods">
                 {mods.map((mod, index) => {
-                  const p = getModuleProgress(mod.id)
+                  const p = getModuleProgress(mod.lessons)
                   const complete = hydrated && p.total > 0 && p.done === p.total
 
                   return (

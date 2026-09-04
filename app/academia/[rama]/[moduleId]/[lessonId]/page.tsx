@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { MODULES } from '../../../modules'
 import { RAMAS, RAMA_OF_TRACK, lessonHref, ramaBySlug } from '../../../ramas'
-import { modulesOfTrack } from '../../../queries'
+import { toModuleMeta } from '../../../queries'
 import LessonPage from './LessonPage'
 
 interface Props {
@@ -30,15 +30,17 @@ export default async function LessonRoute({ params }: Props) {
   if (lessonHref(mod, lessonId) !== `/academia/${rama}/${moduleId}/${lessonId}`) notFound()
 
   const lessonIndex = mod.lessons.findIndex((l) => l.id === lessonId)
+  const meta = toModuleMeta(mod)
 
+  // Del módulo y de las lecciones vecinas baja solo el metadato. La única
+  // lección cuyo contenido cruza al cliente es la que se está viendo.
   return (
     <LessonPage
-      module={mod}
+      module={meta}
       lesson={lesson}
-      trackModules={modulesOfTrack(mod.track)}
       lessonIndex={lessonIndex}
-      prevLesson={lessonIndex > 0 ? mod.lessons[lessonIndex - 1] : null}
-      nextLesson={lessonIndex < mod.lessons.length - 1 ? mod.lessons[lessonIndex + 1] : null}
+      prevLesson={lessonIndex > 0 ? meta.lessons[lessonIndex - 1] : null}
+      nextLesson={lessonIndex < meta.lessons.length - 1 ? meta.lessons[lessonIndex + 1] : null}
     />
   )
 }

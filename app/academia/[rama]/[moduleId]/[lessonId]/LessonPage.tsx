@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import type { Module, Lesson } from '../../../types'
+import type { Lesson, LessonMeta, ModuleMeta } from '../../../types'
 import { moduleHref, lessonHref } from '../../../ramas'
 import { useProgress } from '../../../hooks/useProgress'
 import LessonContent from '../../../components/LessonContent'
@@ -43,19 +43,19 @@ function getEmbedType(lesson: Lesson): 'youtube' | 'audio' | 'link' | null {
 }
 
 interface Props {
-  module: Module
-  lesson: Lesson
-  trackModules: Module[]
+  module: ModuleMeta
+  lesson: Lesson
   lessonIndex: number
-  prevLesson: Lesson | null
-  nextLesson: Lesson | null
+  // Solo metadatos: de la anterior y la siguiente basta el enlace, no su cuerpo.
+  prevLesson: LessonMeta | null
+  nextLesson: LessonMeta | null
 }
 
-export default function LessonPage({ module: mod, lesson, trackModules, lessonIndex, prevLesson, nextLesson }: Props) {
+export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesson, nextLesson }: Props) {
   const { isCompleted, toggleLesson, getModuleProgress, hydrated } = useProgress()
   const done = isCompleted(lesson.id)
   const embedType = getEmbedType(lesson)
-  const progress = getModuleProgress(mod.id)
+  const progress = getModuleProgress(mod.lessons)
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import type { Module } from '../../types'
+import type { ModuleMeta } from '../../types'
 import { moduleHref, lessonHref } from '../../ramas'
 import { useProgress } from '../../hooks/useProgress'
 
@@ -40,13 +40,13 @@ const TRACK_LABEL: Record<string, string> = {
 }
 
 interface Props {
-  module: Module
-  trackModules: Module[]
+  module: ModuleMeta
+  trackModules: ModuleMeta[]
 }
 
 export default function ModuleContent({ module: mod, trackModules }: Props) {
   const { isCompleted, getModuleProgress, hydrated } = useProgress()
-  const progress = getModuleProgress(mod.id)
+  const progress = getModuleProgress(mod.lessons)
 
   const currentIndex = trackModules.findIndex((m) => m.id === mod.id)
   const prev = currentIndex > 0 ? trackModules[currentIndex - 1] : null
@@ -107,7 +107,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             {trackModules.map((m) => {
               const isActive = m.id === mod.id
-              const mp = getModuleProgress(m.id)
+              const mp = getModuleProgress(m.lessons)
 
               return (
                 <Link
@@ -363,11 +363,11 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                         >
                           {TYPE_LABEL[lesson.type] ?? lesson.type}
                         </span>
-                        {lesson.tasks && lesson.tasks.length > 0 && (
+                        {lesson.tasksCount > 0 && (
                           <>
                             <span style={{ color: 'var(--border)', fontSize: '0.625rem' }}>·</span>
                             <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.6875rem', color: 'var(--text-subtle)' }}>
-                              {lesson.tasks.length} tareas
+                              {lesson.tasksCount} tareas
                             </span>
                           </>
                         )}

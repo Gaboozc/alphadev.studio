@@ -40,6 +40,34 @@ export interface Lesson {
   completed: boolean      // Default state; runtime state lives in localStorage/DB
 }
 
+// ─── Catálogo ligero ─────────────────────────────────────────────────────────
+// Lo que los componentes de cliente necesitan para listar y navegar, SIN el
+// cuerpo de las lecciones. El contenido de un módulo solo debe salir del
+// servidor cuando alguien pide esa lección concreta y tiene permiso.
+//
+// Importar `Module` desde un componente 'use client' mete el texto de los 433
+// contenidos en el paquete de JavaScript. Usa siempre `ModuleMeta` en cliente.
+
+export interface LessonMeta {
+  id: string
+  title: string
+  type: LessonType
+  difficulty?: 'básico' | 'intermedio' | 'profesional'
+  tasksCount: number
+}
+
+export interface ModuleMeta {
+  id: string
+  number: number
+  title: string
+  description: string
+  duration: string
+  track: Track
+  audience?: Audience
+  lessons: LessonMeta[]
+  resources: Resource[]
+}
+
 export interface Resource {
   title: string
   url: string

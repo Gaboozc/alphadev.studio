@@ -4,7 +4,7 @@
 // módulos. En la Fase 2 (permisos) estas funciones son el único lugar que hay
 // que tocar para filtrar por lo que cada usuario tiene permitido ver.
 
-import type { Audience, Module, Track } from './types'
+import type { Audience, LessonMeta, Module, ModuleMeta, Track } from './types'
 import { MODULES } from './modules'
 import { RAMAS, type Rama, audienceOf, sortModules } from './ramas'
 
@@ -29,6 +29,46 @@ export function modulesForAudience(mods: Module[], audience: Audience): Module[]
     const a = audienceOf(m)
     return a === 'ambos' || a === audience
   })
+}
+
+// ─── Catálogo para el cliente ─────────────────────────────────────────────────
+// Estas funciones corren SOLO en el servidor. Devuelven la versión sin cuerpo
+// de los módulos, que es lo único que debe cruzar hacia un componente de
+// cliente. Si alguna vez ves `content` en un prop de cliente, es un error.
+
+export function toModuleMeta(m: Module): ModuleMeta {
+  return {
+    id: m.id,
+    number: m.number,
+    title: m.title,
+    description: m.description,
+    duration: m.duration,
+    track: m.track,
+    audience: m.audience,
+    resources: m.resources,
+    lessons: m.lessons.map(
+      (l): LessonMeta => ({
+        id: l.id,
+        title: l.title,
+        type: l.type,
+        difficulty: l.difficulty,
+        tasksCount: l.tasks?.length ?? 0,
+      }),
+    ),
+  }
+}
+
+export function metaOfTrack(track: Track): ModuleMeta[] {
+  return modulesOfTrack(track).map(toModuleMeta)
+}
+
+export function metaOfRama(rama: Rama): ModuleMeta[] {
+  return modulesOfRama(rama).map(toModuleMeta)
+}
+
+// Catálogo completo, para la portada y el menú lateral.
+export function allMeta(): ModuleMeta[] {
+  return sortModules(MODULES).map(toModuleMeta)
 }
 
 export interface RamaStats {

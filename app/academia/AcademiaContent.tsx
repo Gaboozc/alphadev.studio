@@ -2,16 +2,25 @@
 
 import Link from 'next/link'
 import Icon from '@/components/Icon'
-import { MODULES, LEARNING_PATHS, RETOS } from './modules'
-import { FAMILIAS, RAMAS, TRACK_META, countLessons, ramaHref, ramasOfFamilia } from './ramas'
-import { modulesOfRama } from './queries'
+import type { ModuleMeta } from './types'
+import { FAMILIAS, RAMAS, RAMA_OF_TRACK, TRACK_META, ramaHref, ramasOfFamilia } from './ramas'
 import { useProgress } from './hooks/useProgress'
 
-export default function AcademiaContent() {
+interface Props {
+  catalogo: ModuleMeta[]
+  totalLecciones: number
+  rutas: number
+  retos: number
+  retosActivos: number
+}
+
+// Todo llega ya calculado desde el servidor: este componente nunca ve el
+// contenido de las lecciones.
+export default function AcademiaContent({ catalogo, totalLecciones, rutas, retos, retosActivos }: Props) {
   const { getModuleProgress, hydrated } = useProgress()
 
-  const totalLessons = countLessons(MODULES)
-  const retosActivos = RETOS.filter((r) => r.status === 'activo').length
+  const modulosDeRama = (rama: string) => catalogo.filter((m) => RAMA_OF_TRACK[m.track] === rama)
+  const cuentaLecciones = (ms: ModuleMeta[]) => ms.reduce((a, m) => a + m.lessons.length, 0)
 
   return (
     <div className="acad-page">
@@ -32,15 +41,15 @@ export default function AcademiaContent() {
               <span className="acad-stat-label">Ramas</span>
             </div>
             <div>
-              <span className="acad-stat-num">{MODULES.length}</span>
+              <span className="acad-stat-num">{catalogo.length}</span>
               <span className="acad-stat-label">Módulos</span>
             </div>
             <div>
-              <span className="acad-stat-num">{totalLessons}</span>
+              <span className="acad-stat-num">{totalLecciones}</span>
               <span className="acad-stat-label">Lecciones</span>
             </div>
             <div>
-              <span className="acad-stat-num">{LEARNING_PATHS.length}</span>
+              <span className="acad-stat-num">{rutas}</span>
               <span className="acad-stat-label">Rutas</span>
             </div>
           </div>
@@ -55,7 +64,7 @@ export default function AcademiaContent() {
             </div>
             <h3>¿No sabes por dónde empezar?</h3>
             <p>
-              {LEARNING_PATHS.length} recorridos armados que cruzan varias ramas y te
+              {rutas} recorridos armados que cruzan varias ramas y te
               llevan de cero a un perfil completo, en orden.
             </p>
           </Link>
@@ -67,7 +76,7 @@ export default function AcademiaContent() {
             </div>
             <h3>Aprende construyendo algo real</h3>
             <p>
-              {RETOS.length} retos con fecha, entregable concreto y criterios de
+              {retos} retos con fecha, entregable concreto y criterios de
               evaluación.{retosActivos > 0 ? ` ${retosActivos} activo${retosActivos > 1 ? 's' : ''} ahora.` : ''}
             </p>
           </Link>
@@ -83,13 +92,13 @@ export default function AcademiaContent() {
 
             <div className="acad-ramas">
               {ramasOfFamilia(familia.id).map((rama) => {
-                const mods = modulesOfRama(rama.id)
+                const mods = modulosDeRama(rama.id)
 
                 let done = 0
                 let total = 0
                 if (hydrated) {
                   mods.forEach((m) => {
-                    const p = getModuleProgress(m.id)
+                    const p = getModuleProgress(m.lessons)
                     done += p.done
                     total += p.total
                   })
@@ -119,7 +128,7 @@ export default function AcademiaContent() {
 
                     <div className="acad-rama-foot">
                       <span>
-                        {mods.length} módulos · {countLessons(mods)} lecciones
+                        {mods.length} módulos · {cuentaLecciones(mods)} lecciones
                         {hydrated && percent > 0 ? ` · ${percent}%` : ''}
                       </span>
                       <span className="acad-go">

@@ -8,7 +8,7 @@
 // Las consultas que sí necesitan el contenido viven en `queries.ts`.
 
 import type { IconName } from '@/components/Icon'
-import type { Audience, Module, Track } from './types'
+import type { Audience, Track } from './types'
 
 export type Rama = 'programacion' | 'diseno' | 'ia' | 'iaeng' | 'marketing' | 'contenido' | 'negocio'
 export type Familia = 'construir' | 'crecer'
@@ -150,20 +150,20 @@ export function ramaBySlug(slug: string): RamaMeta | undefined {
   return RAMAS.find((r) => r.slug === slug)
 }
 
-export function ramaOfModule(mod: Module): RamaMeta {
+export function ramaOfModule(mod: { track: Track }): RamaMeta {
   return RAMAS.find((r) => r.id === RAMA_OF_TRACK[mod.track])!
 }
 
-export function audienceOf(mod: Module): Audience {
+export function audienceOf(mod: { audience?: Audience }): Audience {
   return mod.audience ?? 'aprendizaje'
 }
 
-export function isCapstone(mod: Module): boolean {
+export function isCapstone(mod: { id: string }): boolean {
   return mod.id.includes('capstone')
 }
 
 // Ordena los módulos de un área: por `number`, con el capstone siempre al final.
-export function sortModules(mods: Module[]): Module[] {
+export function sortModules<T extends { id: string; number: number }>(mods: T[]): T[] {
   return [...mods].sort((a, b) => {
     const ac = isCapstone(a) ? 1 : 0
     const bc = isCapstone(b) ? 1 : 0
@@ -177,7 +177,7 @@ export function ramasOfFamilia(familia: Familia): RamaMeta[] {
 }
 
 // Cuenta lecciones de una lista de módulos.
-export function countLessons(mods: Module[]): number {
+export function countLessons(mods: { lessons: unknown[] }[]): number {
   return mods.reduce((acc, m) => acc + m.lessons.length, 0)
 }
 
@@ -190,10 +190,10 @@ export function ramaHref(rama: Rama | RamaMeta): string {
   return `/academia/${slug ?? ''}`
 }
 
-export function moduleHref(mod: Module): string {
+export function moduleHref(mod: { id: string; track: Track }): string {
   return `${ramaHref(ramaOfModule(mod))}/${mod.id}`
 }
 
-export function lessonHref(mod: Module, lessonId: string): string {
+export function lessonHref(mod: { id: string; track: Track }, lessonId: string): string {
   return `${moduleHref(mod)}/${lessonId}`
 }
