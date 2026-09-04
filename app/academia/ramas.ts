@@ -10,7 +10,7 @@
 import type { IconName } from '@/components/Icon'
 import type { Audience, Module, Track } from './types'
 
-export type Rama = 'programacion' | 'diseno' | 'ia' | 'marketing' | 'contenido' | 'negocio'
+export type Rama = 'programacion' | 'diseno' | 'ia' | 'iaeng' | 'marketing' | 'contenido' | 'negocio'
 export type Familia = 'construir' | 'crecer'
 
 // ─── Familias ─────────────────────────────────────────────────────────────────
@@ -64,11 +64,20 @@ export const RAMAS: RamaMeta[] = [
   {
     id: 'ia',
     slug: 'inteligencia-artificial',
-    label: 'Inteligencia Artificial',
+    label: 'IA Aplicada',
     familia: 'construir',
     icon: 'sparkles',
-    description: 'Prompting, agentes y automatizaciones que hacen el trabajo repetitivo por ti.',
+    description: 'Usar la IA en el día a día: prompting, herramientas y automatizaciones sin escribir código.',
     tracks: ['ia'],
+  },
+  {
+    id: 'iaeng',
+    slug: 'ingenieria-ia',
+    label: 'Ingeniería de IA',
+    familia: 'construir',
+    icon: 'cpu',
+    description: 'Construir los sistemas: modelos, RAG, agentes con herramientas y su entrega a un cliente. Requiere Programación.',
+    tracks: ['iaeng'],
   },
   {
     id: 'marketing',
@@ -116,7 +125,8 @@ export const TRACK_META: Record<Track, TrackMeta> = {
   prodai: { id: 'prodai', label: 'Producto IA', icon: 'box', description: 'Construir y lanzar productos digitales con IA integrada.' },
   uiux: { id: 'uiux', label: 'UI/UX', icon: 'palette', description: 'Figma, prototipos, UX Writing y testing de usabilidad.' },
   branding: { id: 'branding', label: 'Branding', icon: 'layers', description: 'Identidad de marca, naming y brand strategy.' },
-  ia: { id: 'ia', label: 'Inteligencia Artificial', icon: 'sparkles', description: 'Prompting, agentes, RAG y automatización con IA.' },
+  ia: { id: 'ia', label: 'IA Aplicada', icon: 'sparkles', description: 'Prompting, herramientas de IA y automatización sin código.' },
+  iaeng: { id: 'iaeng', label: 'Ingeniería de IA', icon: 'cpu', description: 'Modelos, embeddings y RAG, agentes con herramientas, evaluación y entrega.' },
   marketing: { id: 'marketing', label: 'Marketing', icon: 'megaphone', description: 'Estrategia, contenido orgánico, Meta Ads y medición.' },
   ads: { id: 'ads', label: 'Publicidad', icon: 'target', description: 'Meta Ads, Google Ads, TikTok Ads y remarketing.' },
   email: { id: 'email', label: 'Email Marketing', icon: 'mail', description: 'Listas, secuencias, automatizaciones y deliverability.' },

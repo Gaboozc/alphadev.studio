@@ -20,6 +20,7 @@ export type IconName =
   | 'code'
   | 'terminal'
   | 'database'
+  | 'cpu'
   | 'palette'
   | 'penTool'
   | 'trendingUp'
@@ -127,6 +128,13 @@ const PATHS: Record<IconName, ReactNode> = {
       <ellipse cx="12" cy="5" rx="9" ry="3" />
       <path d="M3 5v14a9 3 0 0 0 18 0V5" />
       <path d="M3 12a9 3 0 0 0 18 0" />
+    </>
+  ),
+  cpu: (
+    <>
+      <rect width="16" height="16" x="4" y="4" rx="2" />
+      <rect width="6" height="6" x="9" y="9" rx="1" />
+      <path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2" />
     </>
   ),
   palette: (

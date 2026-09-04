@@ -4,7 +4,7 @@
 export type LessonType = 'video' | 'audio' | 'reading' | 'practice' | 'exam' | 'project'
 export type ResourceType = 'course' | 'video' | 'article' | 'tool' | 'certification' | 'documentation'
 export type ModuleStatus = 'locked' | 'available' | 'completed'
-export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'geo' | 'data' | 'ads' | 'email' | 'video' | 'community' | 'prodai' | 'ventas' | 'fundamentos' | 'backend'
+export type Track = 'marketing' | 'uiux' | 'web' | 'ia' | 'branding' | 'copy' | 'seo' | 'geo' | 'data' | 'ads' | 'email' | 'video' | 'community' | 'prodai' | 'ventas' | 'fundamentos' | 'backend' | 'iaeng'
 export type RetoStatus = 'proximo' | 'activo' | 'completado'
 export type PathLevel = 'principiante' | 'intermedio' | 'avanzado'
 

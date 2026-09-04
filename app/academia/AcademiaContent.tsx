@@ -22,8 +22,8 @@ export default function AcademiaContent() {
           <p className="eyebrow">AlphaDev Studios — Estudio privado</p>
           <h1>Academia</h1>
           <p>
-            Seis ramas de estudio. Elige por dónde entrar y avanza a tu ritmo:
-            cada rama guarda tu progreso módulo por módulo.
+            {RAMAS.length} ramas de estudio. Elige por dónde entrar y avanza a tu
+            ritmo: cada rama guarda tu progreso módulo por módulo.
           </p>
 
           <div className="acad-stats">
