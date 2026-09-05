@@ -497,12 +497,30 @@ pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), p
 - URLs: `/academia/<rama>/<módulo>/<lección>`. Un módulo vive en una sola rama; pedirlo bajo otra da 404.
 - Estilos nuevos usan clases `.acad-*` en `globals.css`, no estilos inline.
 
-### Pendiente — Fases 2 y 3
+### Fase 2 (auth) — hecha, septiembre 2026
 
-- **Fase 2 (auth)**: `PasswordGate` sigue siendo una contraseña en texto plano dentro de un componente de cliente. No protege nada: se lee en el bundle, y cualquiera puede abrir la URL de una lección y leerla. Reemplazar por Supabase Auth con validación en servidor antes de vender acceso. El progreso también debe migrar de `localStorage` a la base.
-  - *Ya hecho (commit `df2032a`)*: el contenido dejó de viajar en bloque al navegador. Antes había un chunk de 1 MB con las 433 lecciones; ahora solo baja la lección que se está viendo. Falta la sesión de verdad.
-- **Fase 3 (permisos)**: tabla de permisos por usuario (acceso total / por rama / por módulo, con vencimiento) + panel `/academia/admin`.
-- El middleware de la Fase 2 es también el lugar para mapear las URLs viejas `/academia/<módulo>`.
+El `PasswordGate` ya no existe. La Academia va detrás de una sesión real de Supabase Auth.
+
+- **El login corre en el servidor** (`app/acceso/actions.ts`, Server Action), no en el navegador.
+  Es a propósito: `@supabase/ssr` en cliente guarda la sesión con `document.cookie`, y una cookie
+  escrita por JavaScript nunca puede ser `httpOnly`. Haciéndolo en el servidor sí lo es.
+- **La puerta de verdad es `app/academia/layout.tsx`** (`getUsuario()` → `redirect('/acceso')`).
+  El middleware es una segunda capa, no la única: Next 16.1.6 tiene avisos publicados de bypass.
+- **El middleware nunca lanza.** Falta de configuración o caída de Supabase = denegar lo privado
+  y dejar pasar el resto. Su matcher está limitado a `['/academia', '/academia/:path*', '/acceso']`;
+  cubrir todo el sitio tumbó producción entera una vez.
+- **Siempre `getUser()`, nunca `getSession()`** en el servidor: getSession lee la cookie sin
+  verificarla contra Supabase, así que un valor manipulado pasaría.
+- Variables: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`. En local en `.env.local`,
+  en Vercel en Project Settings → Environment Variables. La clave `sb_secret_` no se usa ni hace falta.
+
+### Pendiente — Fase 3 (permisos)
+
+- Tabla de permisos por usuario (acceso total / por rama / por módulo, con vencimiento) + panel
+  `/academia/admin`. Hoy **cualquier usuario autenticado ve el catálogo completo**.
+  `app/academia/queries.ts` es el único punto donde hay que filtrar.
+- El progreso sigue en `localStorage` y debe migrar a la base.
+- Mapear las URLs viejas `/academia/<módulo>` a las nuevas anidadas, en el middleware.
 
 ---
 
