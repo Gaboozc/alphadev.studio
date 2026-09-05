@@ -15,19 +15,27 @@ export type Familia = 'construir' | 'crecer'
 
 // ─── Familias ─────────────────────────────────────────────────────────────────
 // Dos maneras de entrar: construir el producto, o hacerlo crecer.
+//
+// Los ids se quedan en 'construir' / 'crecer' porque viven en las URLs y en el
+// contenido; solo cambia la etiqueta visible.
 
 export const FAMILIAS: { id: Familia; label: string; description: string }[] = [
   {
     id: 'construir',
-    label: 'Construir',
-    description: 'Todo lo que hace falta para diseñar y desarrollar el producto.',
+    label: 'Producto y Desarrollo',
+    description: 'Programación, diseño e IA: todo lo que hace falta para construir el producto.',
   },
   {
     id: 'crecer',
-    label: 'Crecer',
-    description: 'Todo lo que hace falta para conseguir clientes y sostener el negocio.',
+    label: 'Marketing y Contenido',
+    description: 'Contenido, SEO, ventas y datos: todo lo que hace falta para conseguir clientes.',
   },
 ]
+
+/** Etiqueta visible de una familia. Única fuente: FAMILIAS. */
+export function familiaLabel(id: Familia): string {
+  return FAMILIAS.find((f) => f.id === id)?.label ?? ''
+}
 
 // ─── Ramas ────────────────────────────────────────────────────────────────────
 

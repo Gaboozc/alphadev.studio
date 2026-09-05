@@ -6,6 +6,7 @@ import type { ModuleMeta } from '../types'
 import {
   RAMAS,
   TRACK_META,
+  familiaLabel,
   isCapstone,
   moduleHref,
   type Rama,
@@ -41,9 +42,7 @@ export default function RamaContent({ ramaId, modulos }: { ramaId: Rama; modulos
 
         {/* ── Encabezado de la rama ── */}
         <header className="acad-head">
-          <p className="eyebrow">
-            {rama.familia === 'construir' ? 'Construir' : 'Crecer'}
-          </p>
+          <p className="eyebrow">{familiaLabel(rama.familia)}</p>
           <h1>{rama.label}</h1>
           <p>{rama.description}</p>
 
