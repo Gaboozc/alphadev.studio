@@ -514,6 +514,31 @@ El `PasswordGate` ya no existe. La Academia va detrás de una sesión real de Su
 - Variables: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`. En local en `.env.local`,
   en Vercel en Project Settings → Environment Variables. La clave `sb_secret_` no se usa ni hace falta.
 
+### Inbox y panel de admin — hecho, septiembre 2026
+
+El formulario de contacto guarda en Supabase y `/academia/admin` lo lista.
+
+| Archivo | Rol |
+|---------|-----|
+| `supabase/sql/01-inbox.sql` | Tablas `perfiles` y `mensajes` con RLS. Idempotente, se pega en el SQL Editor |
+| `lib/mensajes.ts` | Validación, alta y consultas de la tabla `mensajes` |
+| `lib/perfil.ts` | `getPerfil()` / `esAdmin()`. Nunca lanzan |
+| `app/contacto/actions.ts` | Server Action del formulario: honeypot, límite por IP, validación |
+| `app/academia/admin/` | Panel. `layout.tsx` es la guarda, `actions.ts` re-comprueba admin |
+
+- **Las políticas RLS son el candado, no el código.** La clave anon viaja en el bundle:
+  cualquiera puede hablarle a la base directo. `mensajes` permite INSERT a todos (es un
+  formulario público) y SELECT/UPDATE solo a admin. Verificado con la clave anon real.
+- **`es_admin()` es SECURITY DEFINER** con `search_path` fijo: si no, la política de
+  `perfiles` se llamaría a sí misma y recursaría.
+- **Los límites de longitud están duplicados** (validación + CHECK) a propósito: uno da un
+  mensaje legible, el otro aguanta cuando alguien se salta la aplicación.
+- **El panel devuelve 404, no 403** — un 403 confirma que existe. Y las Server Actions
+  vuelven a comprobar `esAdmin()`: son endpoints públicos que no pasan por el layout.
+- **El error de envío es un código, no una frase** (`campos` | `ritmo` | `servidor`). El sitio
+  es bilingüe y el texto sale del diccionario.
+- Falta el aviso por correo: hoy hay que entrar al panel a mirar.
+
 ### Pendiente — Fase 3 (permisos)
 
 - Tabla de permisos por usuario (acceso total / por rama / por módulo, con vencimiento) + panel
