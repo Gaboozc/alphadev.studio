@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { useActionState, useState } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Icon, { type IconName } from '@/components/Icon';
+import { enviarMensaje, type ErrorEnvio } from './actions';
 
 type Category = 'consultation' | 'app' | 'internal' | 'api' | 'other';
 
@@ -20,8 +21,16 @@ export default function ContactoForm() {
   const c = dict.contact;
 
   const [category, setCategory] = useState<Category | null>(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // El envio ocurre en el servidor (./actions.ts). useActionState guarda su
+  // respuesta y expone el estado de "enviando" sin banderas propias.
+  const [resultado, enviar, enviando] = useActionState(enviarMensaje, null);
+
+  const ERRORES: Record<ErrorEnvio, string> = {
+    campos: c.form.error_campos,
+    ritmo: c.form.error_ritmo,
+    servidor: c.form.error_servidor,
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -40,17 +49,8 @@ export default function ContactoForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    console.log('Contact form submitted:', { category, ...formData });
-    await new Promise((r) => setTimeout(r, 1000));
-    setIsSubmitting(false);
-    setSubmitted(true);
-  };
-
   // ── Success state ──────────────────────────────────────────────
-  if (submitted) {
+  if (resultado?.ok) {
     return (
       <div className="text-center py-16 space-y-4">
         <div className="text-6xl">✓</div>
@@ -103,7 +103,17 @@ export default function ContactoForm() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form action={enviar} className="space-y-5">
+        {/* La categoria vive en estado de React; el servidor la necesita en el envio. */}
+        <input type="hidden" name="categoria" value={category} />
+
+        {/* Trampa para robots: fuera de pantalla, sin foco y anunciada como
+            oculta. Una persona nunca la rellena. */}
+        <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+          <label htmlFor="sitio">No rellenar</label>
+          <input type="text" id="sitio" name="sitio" tabIndex={-1} autoComplete="off" />
+        </div>
+
         {/* Name + Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
@@ -117,6 +127,7 @@ export default function ContactoForm() {
               value={formData.name}
               onChange={handleChange}
               required
+              maxLength={120}
               placeholder={c.form.name_placeholder}
               className="contact-input"
             />
@@ -132,6 +143,7 @@ export default function ContactoForm() {
               value={formData.email}
               onChange={handleChange}
               required
+              maxLength={200}
               placeholder={c.form.email_placeholder}
               className="contact-input"
             />
@@ -149,6 +161,7 @@ export default function ContactoForm() {
             name="company"
             value={formData.company}
             onChange={handleChange}
+            maxLength={160}
             placeholder={c.form.company_placeholder}
             className="contact-input"
           />
@@ -222,17 +235,24 @@ export default function ContactoForm() {
             onChange={handleChange}
             required
             rows={5}
+            maxLength={5000}
             placeholder={c.form.message_placeholder}
             className="contact-input resize-none"
           />
         </div>
 
+        {resultado && !resultado.ok && (
+          <p role="alert" className="contact-error">
+            {ERRORES[resultado.error]}
+          </p>
+        )}
+
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={enviando}
           className="w-full btn-glow disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? c.form.submitting : c.form.submit}
+          {enviando ? c.form.submitting : c.form.submit}
         </button>
       </form>
     </div>

@@ -197,6 +197,10 @@ export const es: Translations = {
       success_title: '¡Mensaje recibido!',
       success_message: 'Nos ponemos en contacto en menos de 24 horas. Revisa tu email.',
       back: '← Cambiar opción',
+      error_campos: 'Revisa los datos: falta algo o hay un campo demasiado largo.',
+      error_ritmo: 'Espera un momento antes de enviar otro mensaje.',
+      error_servidor:
+        'No pudimos enviar tu mensaje. Escríbenos a zavarsegabriel@gmail.com y lo resolvemos.',
     },
   },
   cta: {

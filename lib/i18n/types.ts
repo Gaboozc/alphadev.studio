@@ -64,6 +64,9 @@ export interface Translations {
       success_title: string;
       success_message: string;
       back: string;
+      error_campos: string;
+      error_ritmo: string;
+      error_servidor: string;
     };
   };
   cta: {

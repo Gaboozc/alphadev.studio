@@ -197,6 +197,10 @@ export const en: Translations = {
       success_title: 'Message received!',
       success_message: "We'll get in touch within 24 hours. Check your email.",
       back: '← Change option',
+      error_campos: 'Check the form: something is missing or a field is too long.',
+      error_ritmo: 'Hold on a moment before sending another message.',
+      error_servidor:
+        "We couldn't send your message. Email us at zavarsegabriel@gmail.com and we'll sort it out.",
     },
   },
   cta: {

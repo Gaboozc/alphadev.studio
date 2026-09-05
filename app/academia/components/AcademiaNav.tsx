@@ -13,7 +13,15 @@ const TRACKS = RAMAS.flatMap((r) => r.tracks.map((t) => TRACK_META[t]))
 
 // Recibe el catálogo ya construido en el servidor: importar el contenido aquí
 // metería el texto de todas las lecciones en el paquete de JavaScript.
-export default function AcademiaNav({ catalogo, email }: { catalogo: ModuleMeta[]; email: string }) {
+export default function AcademiaNav({
+  catalogo,
+  email,
+  admin,
+}: {
+  catalogo: ModuleMeta[]
+  email: string
+  admin: boolean
+}) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
@@ -404,6 +412,30 @@ export default function AcademiaNav({ catalogo, email }: { catalogo: ModuleMeta[
           >
             {catalogo.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
           </p>
+
+          {/* Solo para admin. Ocultarlo no protege el panel — eso lo hace la
+              guarda del servidor en admin/layout.tsx —, solo evita enseñar a
+              todos una puerta que no pueden abrir. */}
+          {admin && (
+            <Link
+              href="/academia/admin"
+              onClick={close}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                marginBottom: '0.625rem',
+                fontFamily: 'var(--font-inter)',
+                fontSize: '0.6875rem',
+                fontWeight: 600,
+                color: 'var(--gold)',
+                textDecoration: 'none',
+              }}
+            >
+              <Icon name="message" size={13} />
+              Panel
+            </Link>
+          )}
 
           {/* Quién entró y cómo salir */}
           <form action="/acceso/salir" method="post" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
