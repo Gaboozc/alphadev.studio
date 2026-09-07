@@ -7,8 +7,8 @@ export const MODULES_PROGRAMACION: Module[] = [
     id: 'back-1',
     number: 1,
     title: 'Back-end con Python y FastAPI',
-    description: 'Construye la API que sostiene tu producto: endpoints, validación, estructura por dominios y documentación que se escribe sola.',
-    duration: '4 semanas',
+    description: 'Construye la API que sostiene tu producto: entornos aislados, endpoints, validación, las arquitecturas entre las que elegir y documentación que se escribe sola.',
+    duration: '5 semanas',
     status: 'available',
     track: 'backend',
     audience: 'aprendizaje',
@@ -99,6 +99,77 @@ El error clásico es meter el verbo en la ruta: \`/crearProducto\`, \`/borrarPro
           'Explica en dos frases por qué un cálculo de precio en el navegador no es de fiar',
         ],
         tip: 'La pregunta que ordena el diseño de cualquier API: ¿qué pasa si alguien llama a este endpoint directamente, con los datos que quiera y sin pasar por tu interfaz? Todo lo que no sobreviva a esa pregunta está mal ubicado.',
+        completed: false,
+      },
+      {
+        id: 'b1-l1b',
+        title: 'Entornos virtuales: aislar el proyecto antes de instalar nada',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El problema que resuelven
+
+Python instala los paquetes en un sitio compartido por toda tu máquina. Sin aislamiento, dos proyectos que necesitan versiones distintas de la misma librería no pueden convivir: instalar lo que pide uno rompe al otro.
+
+Un **entorno virtual** es una carpeta con su propio Python y sus propios paquetes. Cada proyecto tiene el suyo, y lo que instales dentro no existe fuera.
+
+### Crearlo y activarlo
+
+\`\`\`bash
+# dentro de la carpeta del proyecto
+python -m venv .venv
+
+# activarlo
+source .venv/bin/activate      # macOS y Linux
+.venv\\Scripts\\activate         # Windows
+\`\`\`
+
+Sabrás que está activo porque el prompt cambia a \`(.venv)\`. A partir de ahí, \`pip\` instala dentro del proyecto y no en el sistema.
+
+\`deactivate\` lo desactiva. Y \`.venv/\` **nunca va a git**: se regenera en cualquier máquina a partir de la lista de dependencias.
+
+### Guardar lo que instalaste
+
+El entorno es desechable; la lista no. Es lo que permite que otra persona —o el servidor— reconstruya exactamente lo mismo.
+
+\`\`\`bash
+pip freeze > requirements.txt
+\`\`\`
+
+\`\`\`
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+\`\`\`
+
+Y para reconstruirlo en otra máquina:
+
+\`\`\`bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+\`\`\`
+
+### Fija las versiones
+
+Fíjate en que arriba dice \`==\` y no \`>=\`. Es deliberado.
+
+Un rango como \`fastapi>=0.115\` significa que la próxima persona que instale puede recibir una versión distinta de la que tú probaste. Eso convierte "funciona en mi máquina" en un problema real, y además abre la puerta a que se cuele una versión comprometida de un paquete sin que nadie lo decida.
+
+La regla es la misma que aplicamos en cualquier proyecto: **versiones exactas, y la lista siempre en git**.
+
+### Las alternativas que vas a ver
+
+- **Pipenv** — junta el entorno y las dependencias en \`Pipfile\` + \`Pipfile.lock\`. El lock guarda el hash de cada paquete, así que la instalación es reproducible bit a bit.
+- **Poetry** — parecido, más orientado a publicar librerías.
+- **uv** — mucho más rápido, compatible con \`requirements.txt\`. Es lo que usarías hoy si empiezas de cero.
+
+Cualquiera sirve. Lo que no sirve es no usar ninguno: instalar en el Python del sistema es cómodo durante dos semanas y doloroso para siempre.`,
+        tasks: [
+          'Crea un entorno virtual en un proyecto y comprueba que el prompt cambia al activarlo',
+          'Instala FastAPI dentro y verifica con pip list que fuera del entorno no aparece',
+          'Genera requirements.txt con versiones exactas y añádelo a git, con .venv en .gitignore',
+          'Borra .venv por completo y reconstrúyelo desde requirements.txt para comprobar que basta',
+        ],
+        tip: 'Si alguien clona tu repo y no puede levantarlo con dos comandos, el problema no es su máquina: es que falta la lista de dependencias o tiene rangos en vez de versiones exactas.',
         completed: false,
       },
       {
@@ -444,6 +515,90 @@ La comprobación de sesión se escribe una vez y se declara donde haga falta. Ad
         completed: false,
       },
       {
+        id: 'b1-l4b',
+        title: 'Arquitecturas de back-end: MVC, capas, hexagonal y serverless',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Por qué esto importa
+
+Un back-end de cuatro endpoints funciona con cualquier organización. El problema aparece a los seis meses, cuando hay cuarenta, tres personas tocándolos y nadie recuerda dónde vive la regla de negocio.
+
+Una arquitectura es una respuesta a una pregunta muy concreta: **cuando llegue un cambio, ¿cuántos archivos hay que tocar?** Si la respuesta es "depende", no hay arquitectura.
+
+### MVC
+
+El patrón más extendido. Tres piezas:
+
+- **Model** — los datos y las reglas que los gobiernan.
+- **View** — cómo se presentan. En una API, la serialización: tus modelos de respuesta.
+- **Controller** — recibe la petición, coordina y devuelve.
+
+El recorrido de una petición es siempre el mismo: el controlador recibe \`POST /pedidos\`, valida la entrada, le pide al modelo que cree el pedido, y devuelve lo que la vista serializa.
+
+Su límite: MVC te dice dónde va el código de entrada y salida, pero no dónde va la lógica. Por defecto se acumula en el controlador, y acabas con controladores de trescientas líneas.
+
+### Por capas
+
+Es lo que ya montaste en la lección anterior, con nombre propio:
+
+\`\`\`
+presentación   →  routers. HTTP, códigos, validación de entrada
+negocio        →  services. Las reglas. No sabe que existe HTTP
+acceso a datos →  repositories. Hablar con la base
+\`\`\`
+
+La regla que la sostiene: **cada capa solo habla con la de abajo**. Un router jamás consulta la base directamente, aunque en ese caso concreto sea más corto.
+
+El beneficio real está en las pruebas: el service se prueba con funciones normales, sin levantar servidor ni base de datos.
+
+### Hexagonal (puertos y adaptadores)
+
+Da un paso más. En vez de capas apiladas, pone la lógica de negocio en el centro y todo lo demás fuera, comunicándose por interfaces.
+
+\`\`\`python
+# El puerto: lo que el negocio necesita, dicho por el negocio
+class RepositorioDePedidos(Protocol):
+    def guardar(self, pedido: Pedido) -> None: ...
+    def buscar(self, id: int) -> Pedido | None: ...
+
+# Un adaptador: cómo se cumple. Postgres hoy, otra cosa mañana
+class PedidosEnPostgres:
+    def guardar(self, pedido: Pedido) -> None:
+        ...
+
+# El negocio depende del puerto, no del adaptador
+class ServicioDePedidos:
+    def __init__(self, repo: RepositorioDePedidos):
+        self.repo = repo
+\`\`\`
+
+Lo que compras: cambiar Postgres por otra cosa, o el envío de correos por otro proveedor, no toca ni una línea de negocio. Y en las pruebas pasas un repositorio falso sin trucos.
+
+Lo que pagas: más archivos y más indirección. En un CRUD pequeño es peso muerto. Vale la pena cuando la lógica es lo complejo y la infraestructura es intercambiable.
+
+### Serverless
+
+Aquí no organizas código: organizas **despliegue**. Cada endpoint es una función que el proveedor arranca cuando llega una petición y apaga cuando termina.
+
+A favor: no administras servidores, y si no hay tráfico no pagas.
+
+En contra: el **arranque en frío** —la primera petición tras un rato de inactividad tarda—, no hay estado en memoria entre llamadas, y las conexiones a base de datos necesitan un pool externo porque cada función abriría la suya.
+
+Es un buen encaje para cargas irregulares: webhooks, tareas programadas, APIs con picos. Mal encaje para algo con tráfico constante y conexiones persistentes.
+
+### Cuál eliges
+
+Casi siempre **por capas**, que es lo que ya tienes. Sube a hexagonal cuando la lógica de negocio sea lo valioso y quieras poder cambiar la infraestructura debajo. Y recuerda que serverless es una decisión de despliegue: se combina con cualquiera de las otras, no las sustituye.`,
+        tasks: [
+          'Dibuja el recorrido de una petición de tu API por las tres capas, nombrando el archivo de cada paso',
+          'Busca en tu código un router que hable con la base sin pasar por un service y corrígelo',
+          'Convierte un repositorio a puerto con Protocol y escribe un adaptador falso para las pruebas',
+          'Elige un endpoint tuyo y argumenta en tres líneas si serverless le conviene o no',
+        ],
+        tip: 'La pregunta que revela si tu arquitectura funciona: "si mañana cambiamos de base de datos, ¿cuántos archivos se tocan?". Si la respuesta incluye archivos con reglas de negocio, las capas están rotas.',
+        completed: false,
+      },
+      {
         id: 'b1-l5',
         title: 'Documentar y probar la API',
         type: 'reading',
@@ -540,6 +695,101 @@ app.dependency_overrides[get_db] = get_db_de_prueba
           'Corre las pruebas y comprueba que no necesitan que el servidor esté levantado',
         ],
         tip: 'Si tienes que explicarle a alguien cómo usar tu API por mensaje, es que a /docs le faltan descripciones y ejemplos. Una API bien documentada se consume sin preguntarle nada a quien la escribió.',
+        completed: false,
+      },
+      {
+        id: 'b1-l5b',
+        title: 'Guardar información sin base de datos: archivos, JSON y CSV',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## Antes de montar una base
+
+No todo lo que se guarda necesita Postgres. Configuración, un volcado de resultados, un registro de eventos, la semilla de datos de prueba: para eso un archivo basta, y montar una base sería trabajo de más.
+
+Conviene saber hacerlo bien, porque es también el paso previo a entender qué te da una base de datos de verdad.
+
+### Leer y escribir
+
+\`\`\`python
+from pathlib import Path
+
+ruta = Path("datos") / "pedidos.txt"
+ruta.parent.mkdir(parents=True, exist_ok=True)
+
+ruta.write_text("una línea\\n", encoding="utf-8")
+
+with ruta.open("a", encoding="utf-8") as f:
+    f.write("otra línea\\n")
+
+contenido = ruta.read_text(encoding="utf-8")
+\`\`\`
+
+Tres cosas que evitan casi todos los errores:
+
+- **\`pathlib\` y no concatenar cadenas.** \`Path("datos") / "x.txt"\` funciona igual en Windows y en Linux; \`"datos/" + nombre\` no.
+- **\`encoding="utf-8"\` siempre.** Sin él, Python usa la codificación del sistema y los acentos se corrompen al pasar de una máquina a otra. Es el origen de la mitad de los \`UnicodeDecodeError\`.
+- **\`with\` para abrir.** Cierra el archivo aunque salte una excepción.
+
+Los modos: \`"r"\` leer, \`"w"\` escribir **borrando lo que hubiera**, \`"a"\` añadir al final. Confundir \`w\` con \`a\` borra datos en silencio.
+
+### JSON
+
+Para estructuras. Es lo que usarás el noventa por ciento de las veces.
+
+\`\`\`python
+import json
+from pathlib import Path
+
+ruta = Path("datos/inventario.json")
+
+productos = [{"nombre": "Laptop", "precio": 1200.0, "stock": 3}]
+ruta.write_text(json.dumps(productos, indent=2, ensure_ascii=False), encoding="utf-8")
+
+productos = json.loads(ruta.read_text(encoding="utf-8"))
+\`\`\`
+
+\`ensure_ascii=False\` guarda los acentos como acentos y no como secuencias de escape. \`indent=2\` lo deja legible, que importa cuando alguien tiene que abrirlo a mirar.
+
+JSON no sabe de fechas ni de \`Decimal\`: hay que convertirlos a texto antes de guardar y de vuelta al leer.
+
+### CSV
+
+Para tablas, y sobre todo para lo que va a acabar en una hoja de cálculo.
+
+\`\`\`python
+import csv
+from pathlib import Path
+
+with Path("datos/pedidos.csv").open("w", newline="", encoding="utf-8") as f:
+    escritor = csv.DictWriter(f, fieldnames=["id", "cliente", "total"])
+    escritor.writeheader()
+    escritor.writerow({"id": 1, "cliente": "Ana", "total": 340.5})
+
+with Path("datos/pedidos.csv").open(encoding="utf-8") as f:
+    for fila in csv.DictReader(f):
+        print(fila["cliente"], fila["total"])
+\`\`\`
+
+\`newline=""\` al escribir no es opcional: sin él, en Windows salen líneas en blanco entre filas.
+
+Y ojo con lo que devuelve \`DictReader\`: **todo es texto**. \`fila["total"]\` es \`"340.5"\`, no un número. Convertir es tu trabajo.
+
+### Cuándo esto deja de servir
+
+Un archivo se rompe en cuanto hay concurrencia. Si dos peticiones leen el mismo JSON, cada una modifica su copia y ambas escriben, la segunda pisa a la primera y el cambio se pierde sin ningún error.
+
+También se rompe al crecer: leer un archivo entero en memoria para modificar un campo funciona con mil registros y no con un millón.
+
+Y no puedes preguntar. "Los pedidos de este mes por encima de mil" contra una base es una consulta; contra un archivo es cargarlo entero y filtrar a mano.
+
+Esas tres cosas —escrituras simultáneas, volumen y consultas— son exactamente lo que resuelve una base de datos, y es de lo que trata el módulo siguiente.`,
+        tasks: [
+          'Escribe y vuelve a leer un JSON con acentos y comprueba que se guardan como acentos',
+          'Exporta a CSV una lista de diccionarios y ábrelo en una hoja de cálculo',
+          'Lee un CSV y convierte las columnas numéricas a int o float antes de operar con ellas',
+          'Provoca la pérdida: lee el mismo JSON dos veces, modifica ambas copias, guarda las dos y observa qué queda',
+        ],
+        tip: 'Si te descubres inventando un formato propio para guardar datos en un .txt, para. JSON para estructuras, CSV para tablas, y una base de datos en cuanto haya más de un escritor.',
         completed: false,
       },
       {
@@ -688,12 +938,82 @@ Este proyecto es la base sobre la que van a montarse los dos módulos siguientes
     id: 'back-2',
     number: 2,
     title: 'Bases de datos relacionales: modelado, SQL y ORM',
-    description: 'Diseñar bien las tablas, consultarlas con SQL y hacerlas evolucionar sin perder datos ni romper lo que ya funciona.',
-    duration: '4 semanas',
+    description: 'Elegir la base adecuada, diseñar bien las tablas, consultarlas con SQL y hacerlas evolucionar sin perder datos ni romper lo que ya funciona.',
+    duration: '5 semanas',
     status: 'available',
     track: 'backend',
     audience: 'aprendizaje',
     lessons: [
+      {
+        id: 'b2-l0',
+        title: 'Qué base de datos elegir: relacional, documental o clave-valor',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## No todas guardan igual
+
+Antes de modelar tablas conviene saber por qué tablas y no otra cosa. Hay tres familias que vas a encontrar, y cada una está optimizada para una pregunta distinta.
+
+### Relacional
+
+Postgres, MySQL, SQLite. Los datos viven en tablas con columnas de tipo fijo, y las relaciones entre ellas son explícitas.
+
+Lo que te da y ninguna otra familia iguala:
+
+- **Esquema obligatorio.** Una columna \`precio numeric\` no puede recibir \`"barato"\`. La base rechaza el dato malo aunque tu código lo intente.
+- **Integridad referencial.** Una clave foránea impide que exista un pedido de un cliente que no existe.
+- **Transacciones.** Varias escrituras ocurren todas o ninguna. Es lo que hace que cobrar y registrar el pago no puedan quedarse a medias.
+- **JOIN.** Puedes preguntar cruzando tablas sin traer los datos a tu aplicación.
+
+Es la respuesta por defecto para casi todo lo que vas a construir: pedidos, usuarios, facturación, inventario. Datos con forma conocida y relaciones que importan.
+
+### Documental
+
+MongoDB, Firestore. Cada registro es un documento —en la práctica, un JSON— y no todos tienen que tener los mismos campos.
+
+\`\`\`json
+{
+  "id": "abc",
+  "nombre": "Laptop",
+  "specs": { "ram": "16GB", "pantalla": "14 pulgadas" },
+  "etiquetas": ["oferta", "envío gratis"]
+}
+\`\`\`
+
+Encaja cuando la forma varía de verdad —un catálogo donde cada categoría tiene atributos distintos— o cuando siempre lees el documento entero de una vez.
+
+Su precio: **la integridad pasa a ser tu problema**. Nada impide guardar \`precio: "mil"\` en un documento y \`precio: 1000\` en el siguiente. Lo que la base relacional rechazaba, aquí tienes que validarlo tú en cada punto de escritura, para siempre.
+
+### Clave-valor
+
+Redis. Una clave, un valor, acceso inmediato. Sin consultas, sin relaciones.
+
+\`\`\`
+sesion:8f3a  →  {"user_id": 42}     expira en 30 min
+carrito:99   →  [ ... ]
+\`\`\`
+
+No es donde vive tu información: es donde va lo que necesita ser rapidísimo y puede perderse. Sesiones, caché, contadores, límites de peticiones. Casi siempre acompaña a una base relacional; no la sustituye.
+
+### Cómo elegir
+
+Tres preguntas ordenan la decisión:
+
+1. **¿Los datos tienen relaciones que importan?** Si un pedido pertenece a un cliente y eso no puede romperse, quieres relacional.
+2. **¿La forma es estable?** Si sabes qué campos hay, el esquema es una ayuda, no un estorbo.
+3. **¿Necesitas preguntar cruzando cosas?** "Clientes de Guadalajara que compraron este mes más de mil" es una consulta trivial en SQL y un problema en las otras.
+
+Si dudas, **relacional**. Es la opción reversible: siempre puedes guardar un JSON dentro de una columna \`jsonb\` de Postgres cuando una parte concreta necesite flexibilidad, y conservar el esquema y las transacciones para todo lo demás. Al revés no funciona — recuperar integridad sobre datos que llevan un año sin ella es un proyecto entero.
+
+Y una regla de tamaño: **la mayoría de los proyectos nunca crece lo suficiente como para que la elección importe por rendimiento**. Importa por lo que la base te impide hacer mal.`,
+        tasks: [
+          'Escribe qué familia usarías para: sesiones, un catálogo con atributos variables y la facturación',
+          'Busca un caso real donde una base documental habría evitado datos corruptos y explica cómo',
+          'Enumera tres datos de tu proyecto y di, para cada uno, si su forma es estable o no',
+          'Prueba una columna jsonb en Postgres y compárala con guardar lo mismo en columnas',
+        ],
+        tip: 'La pregunta que decide: ¿qué pasa si alguien guarda un dato con la forma equivocada? Si la respuesta es "la base lo rechaza", duermes tranquilo. Si es "lo valida el código", solo estás tranquilo hasta que alguien escriba por otro camino.',
+        completed: false,
+      },
       {
         id: 'b2-l1',
         title: 'Modelar datos: entidades, relaciones y claves',
@@ -796,6 +1116,78 @@ Cada restricción es una regla que **no se puede saltar desde ningún sitio**: n
           'Localiza un dato que deba congelarse por ser histórico y explica por qué no basta con referenciarlo',
         ],
         tip: 'Antes de escribir una línea de SQL, dibuja las tablas y las flechas entre ellas en papel. Diez minutos ahí ahorran semanas después: cambiar el modelo con datos en producción es de lo más caro que se puede hacer en un proyecto.',
+        completed: false,
+      },
+      {
+        id: 'b2-l1b',
+        title: 'Normalización: que cada dato viva en un solo sitio',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El problema de repetir
+
+Mira esta tabla, que es como acaba cualquier modelo hecho de prisa:
+
+\`\`\`
+pedidos
+id | cliente        | email            | ciudad    | producto | precio
+1  | Ana Martínez   | ana@correo.mx    | Guadalajara | Laptop | 1200
+2  | Ana Martínez   | ana@correo.mx    | Guadalajara | Mouse  | 25
+3  | Luis Ortega    | luis@correo.mx   | Monterrey   | Laptop | 1200
+\`\`\`
+
+Funciona. Y trae tres problemas que no se ven hasta que muerden:
+
+- **Anomalía de actualización.** Ana cambia de correo. Hay que tocar todas sus filas, y si una se escapa, la base sostiene dos verdades a la vez.
+- **Anomalía de inserción.** Un cliente nuevo que aún no ha comprado no cabe: no hay dónde ponerlo sin inventar un pedido falso.
+- **Anomalía de borrado.** Borras el único pedido de Luis y desaparecen sus datos de contacto con él.
+
+**Normalizar** es repartir los datos en tablas de forma que cada hecho se guarde una sola vez.
+
+### Las tres formas que se usan
+
+**Primera forma normal (1FN): un valor por celda.**
+
+\`\`\`
+mal:  telefonos = "55-1234, 55-5678"
+bien: una tabla telefonos con una fila por número
+\`\`\`
+
+Guardar listas en un campo de texto obliga a partir cadenas para buscar, y no hay forma de poner una restricción sobre algo que está dentro.
+
+**Segunda forma normal (2FN): nada que dependa solo de una parte de la clave.**
+
+En una tabla con clave compuesta \`(pedido_id, producto_id)\`, el nombre del producto depende solo de \`producto_id\`. No pertenece ahí: va en \`productos\`.
+
+**Tercera forma normal (3FN): nada que dependa de otra cosa que no sea la clave.**
+
+En \`pedidos\`, la ciudad depende del cliente, no del pedido. Va en \`clientes\`.
+
+Con las tres aplicadas:
+
+\`\`\`
+clientes            productos           pedidos              lineas_pedido
+id | nombre | email id | nombre | precio  id | cliente_id | fecha  pedido_id | producto_id | cantidad
+\`\`\`
+
+Ahora el correo de Ana está en un solo lugar. Cambiarlo es una escritura, y no puede quedar a medias.
+
+### Cuándo conviene desnormalizar a propósito
+
+Normalizar tiene un precio: para responder "el nombre del cliente de este pedido" hace falta un JOIN. Con muchas tablas y mucho tráfico, eso se nota.
+
+Duplicar a propósito es legítimo cuando hay una razón, y las razones buenas son dos:
+
+- **Datos históricos.** El precio de la línea de pedido se **copia** en el momento de la compra. Si mañana sube el precio del producto, el pedido de ayer debe seguir diciendo lo que se cobró. Aquí no es duplicación: son dos hechos distintos que coinciden hoy.
+- **Un contador que se lee mil veces y se actualiza poco** — número de comentarios de un artículo, por ejemplo. Guardarlo cuesta mantenerlo sincronizado, y a veces sale a cuenta.
+
+Lo que no vale es duplicar por no haber pensado el modelo. La regla práctica: **normaliza primero, y desnormaliza solo cuando midas que hace falta y puedas explicar por qué**.`,
+        tasks: [
+          'Toma una tabla ancha con datos repetidos y repártela hasta la tercera forma normal',
+          'Señala en tu modelo qué campo provoca una anomalía de actualización y córrigelo',
+          'Explica en dos frases por qué el precio de una línea de pedido sí debe copiarse',
+          'Busca en algún proyecto tuyo un campo de texto que guarde una lista separada por comas',
+        ],
+        tip: 'La prueba rápida: si un dato aparece dos veces en la base y cambiar uno sin el otro deja la base mintiendo, sobra una tabla. La excepción es lo histórico, donde la copia es el punto.',
         completed: false,
       },
       {
@@ -3577,8 +3969,8 @@ Crea un repositorio en GitHub llamado \`practica-git\` con un README inicial y c
     id: 'fund-2',
     number: 2,
     title: 'Errores, depuración y testing',
-    description: 'La diferencia entre entregar código y entregar código que no se rompe: manejar fallos, depurar con evidencia y escribir pruebas.',
-    duration: '2 semanas',
+    description: 'La diferencia entre entregar código y entregar código que no se rompe: manejar fallos, depurar con evidencia y escribir pruebas en TypeScript y en Python, con TDD cuando conviene.',
+    duration: '3 semanas',
     status: 'available',
     track: 'fundamentos',
     audience: 'aprendizaje',
@@ -3928,6 +4320,226 @@ Antes de dar por buena una prueba, **rómpela a propósito**: cambia el código 
           'Corre la cobertura e identifica la función con más lógica que no tenga ninguna prueba',
         ],
         tip: 'Empieza por las funciones puras: reciben datos y devuelven datos, sin tocar la base ni el DOM. Son las más fáciles de probar y casi siempre son las que contienen las reglas de negocio que no pueden fallar.',
+        completed: false,
+      },
+      {
+        id: 'f2-l4b',
+        title: 'Pruebas en Python con pytest',
+        type: 'reading',
+        difficulty: 'intermedio',
+        content: `## El equivalente en el otro lenguaje
+
+Lo que hiciste con Vitest en TypeScript se hace con **pytest** en Python. Las ideas son las mismas; cambia la sintaxis, y pytest tiene una idea propia que vale la pena entender: las *fixtures*.
+
+\`\`\`bash
+pip install pytest
+\`\`\`
+
+### La primera prueba
+
+pytest no necesita que importes nada para empezar. Una función que empieza por \`test_\` es una prueba, y \`assert\` es toda la API.
+
+\`\`\`python
+# precios.py
+def con_iva(precio: float, tasa: float = 0.16) -> float:
+    if precio < 0:
+        raise ValueError("El precio no puede ser negativo")
+    return round(precio * (1 + tasa), 2)
+\`\`\`
+
+\`\`\`python
+# test_precios.py
+import pytest
+from precios import con_iva
+
+def test_aplica_el_iva_por_defecto():
+    assert con_iva(100) == 116.0
+
+def test_redondea_a_dos_decimales():
+    assert con_iva(33.333) == 38.67
+
+def test_precio_negativo_lanza_error():
+    with pytest.raises(ValueError, match="no puede ser negativo"):
+        con_iva(-1)
+\`\`\`
+
+\`\`\`bash
+pytest -v
+\`\`\`
+
+Cuando una prueba falla, pytest reescribe el \`assert\` para mostrarte los dos valores comparados. No hace falta \`assertEqual\` ni mensajes a mano.
+
+### Un caso, muchos datos
+
+Repetir la misma prueba con distintos valores es tan común que tiene sintaxis propia:
+
+\`\`\`python
+@pytest.mark.parametrize(
+    "precio,esperado",
+    [
+        (0, 0.0),
+        (100, 116.0),
+        (0.01, 0.01),
+        (999999, 1159998.84),
+    ],
+)
+def test_con_iva(precio, esperado):
+    assert con_iva(precio) == esperado
+\`\`\`
+
+Cada tupla es una prueba independiente con su propio nombre en la salida. Si falla el tercer caso, sabes exactamente cuál sin leer código.
+
+Fíjate en qué valores están ahí: cero, un caso normal, el mínimo, y uno grande. Son los **casos límite**, que es donde viven los errores de verdad. El camino feliz casi nunca falla.
+
+### Fixtures: preparar el terreno
+
+Una fixture es algo que varias pruebas necesitan listo antes de correr: datos de ejemplo, una conexión, un archivo temporal.
+
+\`\`\`python
+@pytest.fixture
+def carrito():
+    return [
+        {"nombre": "Laptop", "precio": 1200.0},
+        {"nombre": "Mouse", "precio": 25.0},
+    ]
+
+def test_total_del_carrito(carrito):
+    assert sum(p["precio"] for p in carrito) == 1225.0
+
+def test_el_carrito_no_llega_vacio(carrito):
+    assert len(carrito) == 2
+\`\`\`
+
+Pide la fixture por su nombre como parámetro y pytest la construye. Y la construye **de nuevo para cada prueba**: si una modifica el carrito, la siguiente recibe uno limpio. Ese aislamiento es lo que evita que el orden de ejecución cambie el resultado.
+
+Para lo que hay que recoger después —un archivo, una conexión— se usa \`yield\`:
+
+\`\`\`python
+@pytest.fixture
+def archivo_temporal(tmp_path):
+    ruta = tmp_path / "datos.json"
+    ruta.write_text('{"activo": true}', encoding="utf-8")
+    yield ruta
+    # lo de aquí abajo corre al terminar la prueba, falle o no
+\`\`\`
+
+\`tmp_path\` es una fixture que trae pytest: una carpeta temporal distinta por prueba, que se borra sola.
+
+### Cuánto de tu código está probado
+
+\`\`\`bash
+pip install pytest-cov
+pytest --cov=. --cov-report=term-missing
+\`\`\`
+
+\`term-missing\` es la parte útil: lista las **líneas concretas** que ninguna prueba ejecuta. Ahí es donde mirar.
+
+Y la advertencia de siempre: la cobertura mide qué se ejecuta, no qué se comprueba. Una prueba que llama a una función sin ningún \`assert\` da cobertura del 100% y no verifica nada.`,
+        tasks: [
+          'Escribe pruebas con pytest para una función tuya, incluyendo un caso que deba lanzar excepción',
+          'Convierte tres pruebas casi idénticas en una sola con parametrize',
+          'Crea una fixture con datos de ejemplo y úsala desde dos pruebas distintas',
+          'Corre pytest --cov con term-missing y escribe una prueba para la línea sin cubrir más importante',
+        ],
+        tip: 'Si una prueba pasa cuando la corres sola pero falla junto a las demás, hay estado compartido entre ellas. Casi siempre es un dato de módulo que una prueba modificó: eso es exactamente lo que las fixtures evitan.',
+        completed: false,
+      },
+      {
+        id: 'f2-l4c',
+        title: 'TDD: rojo, verde, refactor',
+        type: 'reading',
+        difficulty: 'profesional',
+        content: `## Escribir la prueba primero
+
+Hasta aquí las pruebas llegaron después del código. **Test-Driven Development** invierte el orden, y ese cambio de orden hace más de lo que parece.
+
+El ciclo tiene tres pasos y se repite en minutos, no en horas:
+
+1. **Rojo** — escribes una prueba de algo que todavía no existe. Falla. *Tiene* que fallar.
+2. **Verde** — escribes el código mínimo que la hace pasar. Mínimo de verdad, aunque sea feo.
+3. **Refactor** — ahora que hay red, limpias. Las pruebas te dicen si rompiste algo.
+
+### Un ciclo completo
+
+Regla de negocio: un pedido de más de mil pesos tiene envío gratis.
+
+**Rojo.** La función no existe todavía:
+
+\`\`\`python
+def test_envio_gratis_por_encima_de_mil():
+    assert costo_envio(1500) == 0
+\`\`\`
+
+Falla con \`NameError\`. Perfecto: acabas de comprobar que la prueba puede fallar.
+
+**Verde.** Lo mínimo:
+
+\`\`\`python
+def costo_envio(total: float) -> float:
+    return 0
+\`\`\`
+
+Sí, devuelve cero siempre. Es correcto para lo único que has especificado. La siguiente prueba se encarga:
+
+\`\`\`python
+def test_envio_cuesta_150_por_debajo_de_mil():
+    assert costo_envio(800) == 150
+\`\`\`
+
+Rojo otra vez. Ahora sí:
+
+\`\`\`python
+def costo_envio(total: float) -> float:
+    return 0 if total > 1000 else 150
+\`\`\`
+
+**Refactor.** Con las dos en verde, el número mágico se puede nombrar sin miedo:
+
+\`\`\`python
+UMBRAL_ENVIO_GRATIS = 1000
+COSTO_ENVIO = 150
+
+def costo_envio(total: float) -> float:
+    return 0 if total > UMBRAL_ENVIO_GRATIS else COSTO_ENVIO
+\`\`\`
+
+Corres las pruebas: siguen verdes. Eso es todo lo que necesitas saber para tocar el código con confianza.
+
+Y falta el caso interesante: ¿qué pasa exactamente con mil?
+
+\`\`\`python
+def test_exactamente_mil_paga_envio():
+    assert costo_envio(1000) == 150
+\`\`\`
+
+Esa pregunta —el borde— es la que TDD te obliga a hacerte antes de escribir el \`if\`. Escribiendo el código primero, \`>\` o \`>=\` se decide por inercia.
+
+### Por qué funciona
+
+- **Te obliga a definir el comportamiento antes que la implementación.** No puedes escribir la prueba sin decidir qué debe pasar.
+- **Garantiza que la prueba sirve.** Una prueba escrita después de que el código funciona nunca la viste fallar; podría estar comprobando nada.
+- **Produce código testeable por construcción.** Si es difícil de probar, lo notas en el primer minuto y no cuando ya hay cuatrocientas líneas.
+- **El refactor deja de dar miedo**, que es la diferencia entre un proyecto que se puede mejorar y uno que se congela.
+
+### Dónde no lo uses
+
+TDD brilla con **lógica de negocio**: reglas, cálculos, validaciones, transformaciones. Ahí sabes qué debe salir antes de escribirlo.
+
+Encaja mal cuando estás explorando y no sabes aún qué quieres —un prototipo, ajustar una interfaz, probar una librería nueva—. Ahí escribe código, decide qué quieres, y añade las pruebas cuando la forma esté clara.
+
+### Antipatrones que vas a ver
+
+- **Probar la implementación y no el comportamiento.** Si al renombrar una variable privada se rompen seis pruebas, están enganchadas al cómo, no al qué.
+- **Una prueba gigante que lo comprueba todo.** Cuando falla no sabes qué falló. Una razón de fallo por prueba.
+- **Perseguir el 100% de cobertura.** Lleva a probar getters y constantes mientras el cálculo complicado sigue sin un solo caso límite.
+- **Pruebas que dependen del orden.** Si tienen que correr en secuencia, comparten estado y mienten.`,
+        tasks: [
+          'Toma una regla de negocio sin implementar y escribe la prueba antes que el código',
+          'Comprueba que la prueba falla por la razón correcta antes de escribir nada',
+          'Haz el ciclo completo tres veces seguidas sin saltarte el refactor',
+          'Busca en tu suite una prueba enganchada a la implementación y reescríbela contra el comportamiento',
+        ],
+        tip: 'La señal de que estás haciendo TDD de verdad y no teatro: viste la prueba en rojo. Si nunca falló, no sabes si comprueba algo — y una prueba que siempre pasa es peor que ninguna, porque da confianza falsa.',
         completed: false,
       },
       {
