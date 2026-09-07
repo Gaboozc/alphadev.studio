@@ -6,6 +6,7 @@
 //   `código`        → código en línea
 //   ```lang ... ``` → bloque de código con scroll horizontal propio
 //   - ítem          → ítem de lista con bullet dorado
+//   1. ítem         → ítem de lista numerada, con el número en dorado
 //   párrafo\n\n     → separador de párrafo
 
 const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'
@@ -129,6 +130,50 @@ function parseContent(content: string): React.ReactNode[] {
   return parseProse(content, 0)
 }
 
+// «1. » al principio de una línea. El número se conserva tal como se escribió
+// en vez de generarlo con CSS: así una lista que empieza en 3 sigue diciendo 3.
+const ORDERED = /^(\d+)\.\s+/
+
+// Estilos compartidos por los ítems de las dos clases de lista.
+const ITEM_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-inter)',
+  fontSize: '0.9rem',
+  color: 'var(--text-muted)',
+  lineHeight: 1.65,
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '0.5rem',
+}
+
+const MARKER_STYLE: React.CSSProperties = {
+  color: 'var(--gold)',
+  fontSize: '0.75rem',
+  fontWeight: 700,
+  marginTop: '0.3rem',
+  flexShrink: 0,
+}
+
+// El número ocupa un ancho fijo para que el texto de todos los ítems arranque
+// en la misma columna, también al pasar de 9 a 10.
+const NUMBER_STYLE: React.CSSProperties = {
+  ...MARKER_STYLE,
+  minWidth: '1.1rem',
+  textAlign: 'right',
+}
+
+const LIST_STYLE: React.CSSProperties = {
+  margin: '0.75rem 0',
+  paddingLeft: 0,
+  listStyle: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.375rem',
+}
+
+// Para ítems sueltos en un bloque mixto: cada uno lleva su propia lista, así
+// que el margen va apretado para que varios seguidos se lean como uno solo.
+const LOOSE_LIST_STYLE: React.CSSProperties = { ...LIST_STYLE, margin: '0.1875rem 0' }
+
 function parseProse(content: string, offset: number): React.ReactNode[] {
   const nodes: React.ReactNode[] = []
   // Dividimos por doble salto de línea primero (párrafos)
@@ -138,45 +183,30 @@ function parseProse(content: string, offset: number): React.ReactNode[] {
     const lines = block.split('\n').filter((l) => l.trim().length > 0)
 
     // Verificar si el bloque es una lista
-    const isListBlock = lines.every((l) => l.trim().startsWith('- '))
+    const isListBlock = lines.length > 0 && lines.every((l) => l.trim().startsWith('- '))
+    const isOrderedBlock = lines.length > 0 && lines.every((l) => ORDERED.test(l.trim()))
 
-    if (isListBlock) {
+    if (isOrderedBlock) {
       nodes.push(
-        <ul
-          key={`list-${offset}-${blockIdx}`}
-          style={{
-            margin: '0.75rem 0',
-            paddingLeft: 0,
-            listStyle: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.375rem',
-          }}
-        >
+        <ol key={`olist-${offset}-${blockIdx}`} style={LIST_STYLE}>
+          {lines.map((line, lineIdx) => {
+            const trimmed = line.trim()
+            const numero = trimmed.match(ORDERED)![1]
+            return (
+              <li key={lineIdx} style={ITEM_STYLE}>
+                <span style={NUMBER_STYLE}>{numero}.</span>
+                <span>{parseInline(trimmed.replace(ORDERED, ''))}</span>
+              </li>
+            )
+          })}
+        </ol>
+      )
+    } else if (isListBlock) {
+      nodes.push(
+        <ul key={`list-${offset}-${blockIdx}`} style={LIST_STYLE}>
           {lines.map((line, lineIdx) => (
-            <li
-              key={lineIdx}
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '0.9rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.65,
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.5rem',
-              }}
-            >
-              <span
-                style={{
-                  color: 'var(--gold)',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  marginTop: '0.3rem',
-                  flexShrink: 0,
-                }}
-              >
-                ▸
-              </span>
+            <li key={lineIdx} style={ITEM_STYLE}>
+              <span style={MARKER_STYLE}>▸</span>
               <span>{parseInline(line.trim().slice(2))}</span>
             </li>
           ))}
@@ -221,26 +251,30 @@ function parseProse(content: string, offset: number): React.ReactNode[] {
             </p>
           )
         } else if (trimmed.startsWith('- ')) {
-          // Lista individual dentro de bloque mixto
+          // Ítem suelto dentro de un bloque mixto (una lista junto a un ##, por
+          // ejemplo). Va envuelto en su <ul>: un <li> sin lista alrededor es
+          // HTML inválido y un lector de pantalla lo anuncia como lista rota.
           nodes.push(
-            <li
-              key={`li-${offset}-${blockIdx}-${lineIdx}`}
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '0.9rem',
-                color: 'var(--text-muted)',
-                lineHeight: 1.65,
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.5rem',
-                listStyle: 'none',
-                marginLeft: 0,
-                paddingLeft: 0,
-              }}
+            <ul key={`li-${offset}-${blockIdx}-${lineIdx}`} style={LOOSE_LIST_STYLE}>
+              <li style={ITEM_STYLE}>
+                <span style={MARKER_STYLE}>▸</span>
+                <span>{parseInline(trimmed.slice(2))}</span>
+              </li>
+            </ul>
+          )
+        } else if (ORDERED.test(trimmed)) {
+          const numero = trimmed.match(ORDERED)![1]
+          nodes.push(
+            <ol
+              key={`oli-${offset}-${blockIdx}-${lineIdx}`}
+              start={Number(numero)}
+              style={LOOSE_LIST_STYLE}
             >
-              <span style={{ color: 'var(--gold)', fontSize: '0.75rem', fontWeight: 700, marginTop: '0.3rem', flexShrink: 0 }}>▸</span>
-              <span>{parseInline(trimmed.slice(2))}</span>
-            </li>
+              <li style={ITEM_STYLE}>
+                <span style={NUMBER_STYLE}>{numero}.</span>
+                <span>{parseInline(trimmed.replace(ORDERED, ''))}</span>
+              </li>
+            </ol>
           )
         } else {
           nodes.push(
