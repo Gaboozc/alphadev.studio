@@ -3,7 +3,7 @@
 // Se compone aquí y no es un PNG suelto a propósito: el texto sale de las
 // tipografías reales de la marca, con los hex exactos de la paleta, y si mañana
 // cambia el titular la imagen se regenera sola. El fondo sí es un asset
-// generado (public/assets/img/og-background.jpg).
+// generado (app/_og/background.jpg).
 //
 // Next detecta este archivo por convención y añade <meta og:image> y
 // twitter:image a todas las páginas. No hay que declararlo en el metadata.
@@ -16,13 +16,27 @@ export const alt = 'AlphaDev Studios — Te hacemos existir en internet'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-const raiz = process.cwd()
-const leer = (...partes: string[]) => readFileSync(join(raiz, ...partes))
+// Los assets viven en app/_og/: una carpeta privada, el guion bajo la deja
+// fuera del enrutador.
+//
+// Cada ruta se escribe literal y completa. Construirlas con partes sueltas
+// (`join(raiz, ...partes)`) impide que el analizador de Turbopack sepa qué se
+// lee, y entonces traza el proyecto entero —carpeta public incluida— dentro
+// del bundle del servidor.
+//
+// Y con readFileSync sobre una ruta del sistema, no con `new URL(...,
+// import.meta.url)`: dentro del bundle, import.meta.url no es una URL válida
+// y el objeto URL no es el que espera node:fs.
+const inter = readFileSync(join(process.cwd(), 'app/_og/Inter-SemiBold.ttf'))
+const playfair = readFileSync(join(process.cwd(), 'app/_og/PlayfairDisplay-Bold.ttf'))
 
-// El fondo va como data URI: Satori no resuelve rutas relativas del proyecto.
-const fondo = `data:image/jpeg;base64,${leer('public', 'assets', 'img', 'og-background.jpg').toString('base64')}`
+// Satori no resuelve rutas del proyecto: el fondo entra como data URI.
+const fondo = `data:image/jpeg;base64,${readFileSync(
+  join(process.cwd(), 'app/_og/background.jpg'),
+).toString('base64')}`
 
 export default async function Image() {
+
   return new ImageResponse(
     (
       <div
@@ -109,8 +123,8 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Playfair', data: leer('public', 'fonts', 'PlayfairDisplay-Bold.ttf'), weight: 700, style: 'normal' },
-        { name: 'Inter', data: leer('public', 'fonts', 'Inter-SemiBold.ttf'), weight: 600, style: 'normal' },
+        { name: 'Playfair', data: playfair, weight: 700, style: 'normal' },
+        { name: 'Inter', data: inter, weight: 600, style: 'normal' },
       ],
     },
   )
