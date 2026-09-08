@@ -24,7 +24,7 @@ Cuando alguien aterriza en alphadev.studio, la experiencia debe ser equivalente 
 ### Referencias canónicas (lo que queremos lograr)
 
 - **Linear.app** — sobriedad técnica, micro-interactions impecables
-- **Vercel.com** — typography-first, dark mode premium, gradients sutiles
+- **Vercel.com** — typography-first, gradients sutiles (su *dark mode* ya no aplica)
 - **Stripe.com** — claridad B2B con sofisticación visual
 - **Apple.com/m4** (o cualquier keynote) — 3D premium, depth, materiales
 - **Rauno.me** — animations que dejan sin palabras
@@ -44,9 +44,11 @@ Cuando alguien aterriza en alphadev.studio, la experiencia debe ser equivalente 
 ## 🎨 Sistema visual
 
 ### Mood
-**Oscuro técnico + futurista cyber controlado + 3D premium Apple-style.**
+**Editorial claro + lujo sobrio + tipografía como protagonista.**
 
-Pensemos: Linear × Vercel × Apple keynote × ligeros toques de sci-fi. NO cyberpunk neón total, NO glassmorphism orgánico fluido. Sobriedad con momentos de impacto visual.
+Pensemos: Stripe × consultoría de alto nivel × papel de alta gama. Crema cálida, dorado puntual, espacio que respira. NO oscuro, NO neón, NO glassmorphism, NO 3D brillante.
+
+> El *mood* anterior era «oscuro técnico + cyber + 3D premium». Cayó con el rediseño de mayo de 2026 junto con la paleta. Si algún texto de este archivo todavía sugiere fondos oscuros o azul, está desactualizado: manda la paleta Light Luxury de abajo.
 
 ### Paleta — Light Luxury (actualizada mayo 2026)
 
@@ -103,87 +105,89 @@ Pensemos: Linear × Vercel × Apple keynote × ligeros toques de sci-fi. NO cybe
 
 ## 🖼️ Pipeline de generación de assets visuales
 
-### Filosofía
-Cada elemento visual del sitio debe sentirse como si viniera del **mismo universo**: obsidiana translúcida, plasma azul controlado, materiales premium, profundidad cinematográfica. Un asset que rompa esta coherencia NO entra al sitio, sin importar qué tan bonito sea individualmente.
+> **Reescrita en septiembre de 2026.** La versión anterior describía la paleta oscura (obsidiana, plasma azul `#0080ff`, fondo `#0f172a`) que quedó obsoleta con el rediseño *light luxury* de mayo. Seguir aquellas reglas producía imágenes que no se parecían al sitio.
 
-### Modelos disponibles para generación
-- **Nanobanana (Gemini Advanced)** — PRINCIPAL. Iteración conversacional, excelente para 3D renders, materiales, paisajes abstractos. Prompts en inglés producen mejores resultados.
-- **GPT-4o / DALL-E** — ALTERNATIVO. Composiciones más controladas, bueno para iconografía y ilustraciones flat/semi-flat.
-- **Ideogram** — Para assets que necesiten tipografía integrada (posters, banners).
+### Filosofía
+Cada elemento visual debe venir del **mismo universo**: crema cálida, dorado como único acento, trazo fino tipo grabado, espacio negativo generoso. Papel de alta gama y prensa tipográfica, no producto tecnológico. Un asset que rompa esta coherencia NO entra al sitio, por bonito que sea por separado.
+
+**Lo que NO va, nunca**: fondos oscuros, azul, glows, glassmorphism, renders 3D de material brillante, neón. Todo eso pertenece al sitio anterior.
+
+### Modelos disponibles
+- **Nanobanana (Gemini Advanced)** — PRINCIPAL. Iteración conversacional, buena para fondos abstractos, texturas y filigrana. Prompts en inglés.
+- **Ideogram** — el único que renderiza tipografía de forma medio fiable. Aun así, ver la advertencia de abajo.
+- **GPT-4o / DALL-E** — alternativo, para composiciones más controladas e iconografía.
+
+### El texto NO se genera con IA
+
+Lección aprendida generando la OG image: **si el asset lleva texto de marca, se genera solo el fondo y el texto se compone en código.** Ninguno de los tres modelos renderiza tipografía de forma consistente, y el resultado no puede usar Playfair e Inter de verdad.
+
+El patrón que funcionó, y que hay que repetir:
+
+1. Prompt que pide **solo el fondo**, dejando explícitamente vacía la zona donde irá el texto.
+2. Composición con `next/og` (`ImageResponse`), con las fuentes reales en `app/_og/`.
+
+Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver `app/opengraph-image.tsx` como referencia viva.
 
 ### Workflow estándar
 ```
-1. Claude Code inspecciona el componente/sección del sitio
-2. Claude Code genera prompt optimizado para nanobanana/GPT
-   (en inglés, con hex codes, aspect ratio, composición, estilo)
-3. Gabriel copia el prompt → lo pega en Gemini/GPT → genera
-4. Gabriel itera conversacionalmente en Gemini hasta estar satisfecho
-5. Gabriel descarga en máxima calidad (PNG full size)
-6. Quitar watermarks si hay (Photopea, recorte, o pedirle al modelo)
-7. Optimizar en squoosh.app → WebP o AVIF, calidad ~80, target <500KB
-8. Subir a web/public/assets/img/ con nombre descriptivo
-9. Claude Code integra al componente con Next.js <Image>
+1. Claude Code inspecciona el componente/sección de destino
+2. Claude Code escribe el prompt (en inglés, con los hex de la paleta actual)
+3. Gabriel lo pega en Gemini/Ideogram y genera
+4. Gabriel itera EN LA MISMA conversación hasta estar satisfecho
+5. Gabriel descarga a máxima calidad
+6. Optimizar en squoosh.app (~80 de calidad)
+7. Claude Code integra: si lleva texto, componiéndolo con next/og
 ```
 
 ### Reglas para generación de prompts (obligatorio para Claude Code)
 
-**Estructura del prompt** (en este orden):
-1. Estilo dominante: "Premium 3D render in Apple keynote aesthetic"
-2. Sujeto/composición: qué hay en la imagen y dónde
-3. Materiales: "glossy obsidian, translucent, polished dark chrome"
-4. Iluminación: "volumetric blue (#0080ff) from below, subtle rim light"
-5. Background: "deep slate gradient (#0f172a to #000000)"
-6. Composición: dónde va el sujeto, dónde el negative space
-7. Mood: "cinematic, sophisticated, minimal, premium tech"
-8. Restricciones: "no text, no logos, no watermarks, no humans"
-9. Aspect ratio y resolución: "16:9 / 21:9 / 1:1, 2560px minimum"
+**Estructura del prompt**, en este orden:
+1. Estilo dominante: `"Ultra-premium editorial, luxury print, letterpress feeling"`
+2. Fondo: `"warm cream (#FAFAF7 to #F2EEE7), subtle paper grain"`
+3. Sujeto: qué hay y **dónde** — normalmente confinado a un tercio
+4. Materiales: `"thin engraved gold linework, delicate arcs, sparse geometric lattice"`
+5. Zona reservada: `"the left two thirds must stay clean and empty"`
+6. Mood: `"calm, warm, confident, expensive, generous negative space"`
+7. Restricciones: `"no dark backgrounds, no blue, no glow, no glassmorphism, no 3D render, no text, no logos, no watermarks, no people"`
+8. Aspecto y tamaño: `"1200x630"`, `"1:1"`, etc.
 
 **Coherencia obligatoria**:
-- SIEMPRE incluir `#0080ff` como color de acento/glow
-- SIEMPRE incluir `#0f172a` como background base
-- SIEMPRE referencia a materiales tipo "obsidian, dark chrome, translucent glass"
-- SIEMPRE pedir "Apple keynote / premium tech product photography" como estilo
+- SIEMPRE crema `#FAFAF7` / `#F2EEE7` como fondo
+- SIEMPRE dorado `#9A7235` o `#C9A465` como único acento
+- SIEMPRE trazo fino: grabado, filigrana, línea delicada — nunca relleno ni volumen
+- SIEMPRE dejar explícita la zona vacía si el asset va a llevar texto encima
 - NUNCA pedir colores fuera de paleta sin discusión previa
-- NUNCA mezclar estilos (no combinar flat illustration con 3D render)
+- NUNCA mezclar estilos (flat illustration junto a render 3D)
 
-**Para iteración en Gemini (nanobanana)**:
-- Iterar en la MISMA conversación (mantiene contexto visual)
-- Pedir cambios específicos: "move sphere to the right", "make glow more subtle"
-- NO empezar conversación nueva para cada variación
-- Si la imagen está al 80%, iterar. Si está al 30%, nuevo prompt desde cero.
+**Para iterar en Gemini**:
+- Iterar en la MISMA conversación: mantiene el contexto visual
+- Pedir cambios concretos: *"move the linework further right"*, *"make the lines thinner"*
+- Si está al 80%, iterar. Si está al 30%, prompt nuevo desde cero.
 
-### Inventario de assets necesarios (por prioridad)
+### Inventario de assets
 
-**🔴 Prioridad ALTA (definen la identidad visual)**:
-1. Hero background — esfera 3D obsidiana con plasma azul ✅ GENERADO (pendiente integrar)
-2. Logo — evaluar si el actual es suficiente o necesita upgrade al nuevo estilo 3D
-3. OG Image (1200×630px) — para social sharing
-4. Favicon SVG — versión simplificada del logo
+**Hecho**:
+- OG Image (1200×630) — `app/opengraph-image.tsx` + `app/_og/background.jpg`
+- Favicon SVG y apple-icon — `app/icon.svg`, `app/apple-icon.tsx`
+- Iconografía de servicios — resuelta con `components/Icon.tsx` (line art propio, sin emojis ni assets generados)
 
-**🟠 Prioridad MEDIA (mejoran la experiencia significativamente)**:
-5. Iconos de servicios (×6) — reemplazar emojis 🌐 ⚡ 🏢 por iconos 3D o line art coherentes
-6. Backgrounds de secciones — patterns sutiles (grids, dots, waves) para separar visualmente
-7. Ilustraciones de capabilities (×3) — Engineering, Product, Strategy
-8. Ilustraciones de proceso (×5) — para los 5 pasos del timeline
+**Pendiente, si alguna vez hace falta**:
+- Foto de Gabriel Muria para `/tarjeta/gabriel-muria` (la de Zavarse ya está)
+- Mockups de case studies — dispositivo mostrando el trabajo real
+- Texturas o patrones sutiles para fondos de sección
 
-**🟡 Prioridad BAJA (polish final)**:
-9. Mockups de case studies — dispositivos mostrando el trabajo (laptop + mobile)
-10. 404 page illustration — oportunidad creativa (esfera rota, glitch, portal)
-11. Loading skeleton — coherente con el tema
-12. Texturas/patterns reutilizables — para backgrounds de cards, secciones
+**Ya no aplica**: el hero background 3D con esfera de obsidiana. Era del diseño oscuro; el hero actual no lleva imagen de fondo.
 
-### Especificaciones técnicas por tipo de asset
+### Especificaciones técnicas
 
 | Tipo | Dimensiones | Formato | Peso máximo | Notas |
 |------|------------|---------|-------------|-------|
-| Hero bg | 2560×1080+ | WebP/AVIF | 500KB | 21:9 wide |
-| Section bg | 1920×800+ | WebP/AVIF | 300KB | Sutil, no dominar |
-| OG Image | 1200×630 | PNG | 500KB | Fondo oscuro + logo + tagline |
-| Service icon | 512×512 | PNG/SVG | 50KB | Fondo transparente |
-| Process icon | 256×256 | PNG/SVG | 30KB | Estilo consistente entre los 5 |
-| Case study mockup | 1200×800 | WebP | 400KB | Dispositivo + screenshot |
-| Favicon | 32×32 + 180×180 | SVG + PNG | 10KB | Simplificado |
-| Pattern/texture | 400×400 tileable | SVG/PNG | 20KB | Repetible sin costuras |
+| OG Image | 1200×630 | PNG | 500KB | Fondo generado + texto en `next/og` |
+| Fondo de sección | 1920×800+ | WebP/AVIF | 300KB | Sutil, nunca protagonista |
+| Mockup de case study | 1200×800 | WebP | 400KB | Dispositivo + captura real |
+| Foto de tarjeta | 800×800 | JPG | 200KB | Cuadrada, recorte de retrato |
+| Favicon | SVG + 180×180 | SVG + PNG | 10KB | Marca simplificada |
+| Patrón / textura | 400×400 repetible | SVG/PNG | 20KB | Sin costuras |
 
 ---
 

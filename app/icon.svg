@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Favicon: la marca reducida a lo que sobrevive a 16 pixeles.
+       El monograma ADS completo se convierte en barro a ese tamano, asi que
+       queda la "A" en serif sobre el dorado. Baldosa rellena y no letra suelta
+       sobre crema: en una barra de pestanas llena, la silueta con color propio
+       se distingue a un golpe de vista. -->
+  <rect width="32" height="32" rx="7" fill="#9A7235"/>
+  <text x="16" y="23.5"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="21"
+        font-weight="700"
+        fill="#FAFAF7"
+        text-anchor="middle">A</text>
+</svg>

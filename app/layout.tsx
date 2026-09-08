@@ -71,10 +71,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://alphadev.studio',
   },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-  },
+  // Los iconos NO se declaran aquí: los aportan app/icon.svg y
+  // app/apple-icon.tsx por convención de archivo. Declararlos a mano además
+  // sobrescribiría esa detección y volveríamos al .ico solo.
+  // public/favicon.ico se queda como respaldo para navegadores viejos, que lo
+  // piden por su cuenta sin necesidad de etiqueta.
 };
 
 const organizationJsonLd = {
