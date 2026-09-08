@@ -210,6 +210,19 @@ export const es: Translations = {
     button: 'Quiero mi llamada',
     note: 'Sin compromiso. Solo una conversación.',
   },
+  errors: {
+    not_found_label: 'Error 404',
+    not_found_title: 'Esta página no existe',
+    not_found_body:
+      'El enlace está roto o la página se movió. Desde el inicio llegas a todo lo demás.',
+    error_label: 'Algo falló',
+    error_title: 'Se nos rompió algo',
+    error_body:
+      'No es culpa tuya. Vuelve a intentarlo; si sigue pasando, escríbenos y lo revisamos.',
+    retry: 'Intentar de nuevo',
+    home: 'Ir al inicio',
+    contact: 'Escríbenos',
+  },
   footer: {
     tagline: 'Te hacemos existir en internet.',
     services_title: 'Servicios',

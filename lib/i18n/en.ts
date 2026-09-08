@@ -210,6 +210,19 @@ export const en: Translations = {
     button: 'I want my call',
     note: 'No commitment. Just a conversation.',
   },
+  errors: {
+    not_found_label: 'Error 404',
+    not_found_title: 'This page does not exist',
+    not_found_body:
+      'The link is broken or the page moved. Everything else is reachable from the home page.',
+    error_label: 'Something broke',
+    error_title: 'Something went wrong on our end',
+    error_body:
+      "It's not your fault. Try again — and if it keeps happening, write to us and we'll look into it.",
+    retry: 'Try again',
+    home: 'Go to home',
+    contact: 'Write to us',
+  },
   footer: {
     tagline: 'We make you exist on the internet.',
     services_title: 'Services',

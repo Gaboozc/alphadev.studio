@@ -75,6 +75,17 @@ export interface Translations {
     button: string;
     note: string;
   };
+  errors: {
+    not_found_label: string;
+    not_found_title: string;
+    not_found_body: string;
+    error_label: string;
+    error_title: string;
+    error_body: string;
+    retry: string;
+    home: string;
+    contact: string;
+  };
   footer: {
     tagline: string;
     services_title: string;

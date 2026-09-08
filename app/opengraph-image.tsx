@@ -36,6 +36,9 @@ export default async function Image() {
       >
         {/* El fondo se estira a 1200x630; la ilustración vive en el tercio
             derecho, así que un recorte leve no se lleva nada por delante. */}
+        {/* next/image no existe dentro de Satori: aquí no hay navegador ni
+            optimizador, solo un renderizador de SVG. <img> es lo único. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={fondo}
           width={1200}
