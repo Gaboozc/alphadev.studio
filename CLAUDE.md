@@ -431,7 +431,19 @@ El ecosistema npm sufrió un ataque masivo de supply chain ("Mini Shai-Hulud") q
    minimum-release-age=7
    save-exact=true
    ```
-   `minimum-release-age=7` espera 7 días antes de permitir instalar nuevos releases (tiempo para que ataques se detecten antes de llegar a tu máquina). `save-exact` evita rangos (`^`, `~`) que actualizan automáticamente.
+   `save-exact` **sí funciona**: evita rangos (`^`, `~`) que actualizan automáticamente.
+
+   > ⚠️ **`minimum-release-age` NO se está aplicando.** Es una opción de **pnpm**. npm la lee del `.npmrc`, no la entiende y la ignora — lo dice en cada comando: `npm warn Unknown project config "minimum-release-age"`. Comprobado con npm 11.12.1 en septiembre de 2026.
+   >
+   > O sea que **la espera de 7 días es un procedimiento manual, no una barrera técnica**. Nada impide instalar un paquete publicado hace una hora.
+   >
+   > **Antes de instalar o subir cualquier paquete, comprobar la fecha a mano:**
+   > ```bash
+   > npm view <paquete> time --json
+   > ```
+   > Si el release tiene menos de 7 días, esperar. Si hay una razón para no esperar, decirlo explícitamente en el commit.
+   >
+   > La alternativa real es migrar a pnpm, que sí implementa la opción. Es una decisión aparte (ver el final de esta sección): mientras no se tome, **no confiar en el `.npmrc` para esto**.
 
 2. **Lockfile siempre commiteado** — `package-lock.json` (o `pnpm-lock.yaml` si se migra) SIEMPRE en git. Nunca `.gitignore`-ar el lockfile.
 
@@ -463,7 +475,9 @@ El ecosistema npm sufrió un ataque masivo de supply chain ("Mini Shai-Hulud") q
 - `@tanstack/store` ✅
 
 ### Sobre migración a pnpm
-pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta), pero **NO es una mitigación de seguridad contra supply chain attacks**. Si se migra, es por rendimiento y organización, no por seguridad. La decisión de migrar se toma cuando haya tiempo y justificación, no en pánico.
+pnpm tiene ventajas reales sobre npm (velocidad, disco, resolución estricta). Cambiar de gestor **no protege** contra un paquete comprometido: todos tiran del mismo registry, y esa sigue siendo la razón por la que no se migra en pánico.
+
+Con un matiz que sí cuenta: **pnpm implementa `minimum-release-age` y npm no** (ver la regla 1). Hoy esa espera depende de que alguien mire la fecha a mano antes de instalar. Es el único argumento de seguridad concreto a favor de migrar, y es modesto —automatiza una comprobación, no añade una defensa nueva—. La decisión sigue siendo cuándo haya tiempo y justificación.
 
 ---
 
