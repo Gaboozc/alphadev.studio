@@ -501,7 +501,7 @@ Con un matiz que sí cuenta: **pnpm implementa `minimum-release-age` y npm no** 
 | `app/academia/types.ts` | Interfaces (Module, Lesson, LearningPath, Reto, Audience) |
 | `app/academia/ramas.ts` | Metadata de familias/ramas/áreas + helpers de URL. **No importa contenido** |
 | `app/academia/queries.ts` | Consultas que sí cargan el contenido. Único punto a tocar para filtrar por permisos |
-| `app/academia/content/<rama>.ts` | El contenido real, un archivo por rama |
+| `app/academia/content/<rama>.ts` | El contenido real, un archivo por rama. **Excepción: Ingeniería de IA** está partida en `content/iaeng/<área>/<módulo>.ts` porque va camino de 13 módulos |
 | `app/academia/modules.ts` | Barril que junta y re-exporta. No editar contenido acá |
 
 ### Reglas
@@ -511,7 +511,7 @@ Con un matiz que sí cuenta: **pnpm implementa `minimum-release-age` y npm no** 
 - **Metadata de áreas**: fuente única en `TRACK_META`. No duplicar la tabla en componentes.
 - **`audience`** en cada módulo separa contenido vendible (`'aprendizaje'`) de formación interna (`'capacitacion'`). Ausente = `'aprendizaje'`.
 - **Nunca importes `Module` ni `MODULES` desde un componente `'use client'`.** Eso mete el texto de las 433 lecciones en el paquete de JavaScript del navegador. Los componentes de cliente reciben `ModuleMeta` (sin `content`, `tasks`, `tip`, `questions`) construido en el servidor con `toModuleMeta()`. Comprobación: `grep -rl "<frase de una lección>" .next/static/` debe dar cero.
-- **Markdown de las lecciones** (`components/LessonContent.tsx`): soporta `## sección`, `### subtítulo`, `**negrita**`, `` `código` `` (también dentro de negritas), bloques ` ``` ` con lenguaje opcional y listas con `- `. No hay más sintaxis: cualquier otra cosa se renderiza como texto plano.
+- **Markdown de las lecciones** (`components/LessonContent.tsx`): soporta `## sección`, `### subtítulo`, `**negrita**`, `` `código` `` (también dentro de negritas), bloques ` ``` ` con lenguaje opcional, listas con `- ` y con `1. `, y tablas markdown (exigen la línea separadora `|---|---|`). No hay más sintaxis: cualquier otra cosa se renderiza como texto plano.
 - URLs: `/academia/<rama>/<módulo>/<lección>`. Un módulo vive en una sola rama; pedirlo bajo otra da 404.
 - Estilos nuevos usan clases `.acad-*` en `globals.css`, no estilos inline.
 

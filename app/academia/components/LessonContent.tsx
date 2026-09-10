@@ -7,6 +7,7 @@
 //   ```lang ... ``` → bloque de código con scroll horizontal propio
 //   - ítem          → ítem de lista con bullet dorado
 //   1. ítem         → ítem de lista numerada, con el número en dorado
+//   | a | b |     → tabla, si la segunda línea es la separadora |---|---|
 //   párrafo\n\n     → separador de párrafo
 
 const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'
@@ -134,6 +135,49 @@ function parseContent(content: string): React.ReactNode[] {
 // en vez de generarlo con CSS: así una lista que empieza en 3 sigue diciendo 3.
 const ORDERED = /^(\d+)\.\s+/
 
+// Tablas markdown: una fila es «| a | b |» y la segunda línea del bloque es la
+// separadora «|---|---|». Se exige la separadora para no convertir en tabla un
+// párrafo que casualmente empiece y termine con una barra.
+const FILA = /^\|.*\|$/
+const SEPARADORA = /^\|[\s:|-]+\|$/
+
+function celdas(linea: string): string[] {
+  return linea
+    .slice(1, -1)          // fuera las barras de los extremos
+    .split('|')
+    .map((c) => c.trim())
+}
+
+function Tabla({ lineas, clave }: { lineas: string[]; clave: string }) {
+  const cabecera = celdas(lineas[0])
+  const cuerpo = lineas.slice(2).map(celdas)
+
+  return (
+    // El scroll vive en este contenedor, nunca en la página: una tabla ancha
+    // no debe empujar el resto de la lección hacia los lados.
+    <div key={clave} className="acad-tabla-wrap">
+      <table className="acad-tabla">
+        <thead>
+          <tr>
+            {cabecera.map((c, i) => (
+              <th key={i}>{parseInline(c)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {cuerpo.map((fila, i) => (
+            <tr key={i}>
+              {fila.map((c, j) => (
+                <td key={j}>{parseInline(c)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 // Estilos compartidos por los ítems de las dos clases de lista.
 const ITEM_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-inter)',
@@ -185,8 +229,20 @@ function parseProse(content: string, offset: number): React.ReactNode[] {
     // Verificar si el bloque es una lista
     const isListBlock = lines.length > 0 && lines.every((l) => l.trim().startsWith('- '))
     const isOrderedBlock = lines.length > 0 && lines.every((l) => ORDERED.test(l.trim()))
+    const isTableBlock =
+      lines.length >= 3 &&
+      lines.every((l) => FILA.test(l.trim())) &&
+      SEPARADORA.test(lines[1].trim())
 
-    if (isOrderedBlock) {
+    if (isTableBlock) {
+      nodes.push(
+        <Tabla
+          key={`tabla-${offset}-${blockIdx}`}
+          clave={`tabla-${offset}-${blockIdx}`}
+          lineas={lines.map((l) => l.trim())}
+        />,
+      )
+    } else if (isOrderedBlock) {
       nodes.push(
         <ol key={`olist-${offset}-${blockIdx}`} style={LIST_STYLE}>
           {lines.map((line, lineIdx) => {

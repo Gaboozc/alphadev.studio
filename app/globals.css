@@ -2276,3 +2276,45 @@ button.case-thumb {
 @media (max-width: 640px) {
   .adm-mensaje-head { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 }
+
+/* ── Tablas dentro de una lección ──────────────────────────────────────────── */
+
+.acad-tabla-wrap {
+  margin: 1rem 0;
+  overflow-x: auto;              /* el scroll vive aquí, no en la página */
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+}
+
+.acad-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-inter);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.acad-tabla th {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  background: var(--gold-bg);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.acad-tabla td {
+  padding: 0.65rem 0.9rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.acad-tabla tbody tr:last-child td { border-bottom: none; }
+
+/* La primera columna suele ser la etiqueta de la fila. */
+.acad-tabla td:first-child { color: var(--text); font-weight: 500; }
