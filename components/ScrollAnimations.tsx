@@ -123,6 +123,65 @@ export default function ScrollAnimations() {
             );
           });
 
+          // ── Reveal-scrub: párrafo que se ilumina palabra por palabra
+          //    según el progreso del scroll (estilo Fantasy). El estado inicial
+          //    vive en el tween, nunca en CSS: sin JS el texto se lee al 100%.
+          gsap.utils.toArray<HTMLElement>('[data-animate="reveal-scrub"]').forEach((el) => {
+            const words = splitWords(el);
+            // Guard de coste: un párrafo muy largo scrubbeado palabra por palabra
+            // sería demasiados tweens por frame. Por encima de 140 se degrada a
+            // un fade-in simple, ya cubierto por la variante "fade".
+            if (!words.length || words.length > 140) return;
+            gsap.fromTo(
+              words,
+              { opacity: 0.12 },
+              {
+                opacity: 1,
+                ease: 'none',
+                stagger: { each: 0.08 },
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 78%',
+                  end: 'bottom 60%',
+                  scrub: 0.5,
+                },
+              }
+            );
+          });
+
+          // ── Clip-reveal: el contenido se destapa en vez de aparecer
+          //    (estilo Huge). Pensado para mockups y thumbnails de trabajo real.
+          gsap.utils.toArray<HTMLElement>('[data-animate="clip-reveal"]').forEach((el) => {
+            gsap.fromTo(
+              el,
+              { clipPath: 'inset(0 0 100% 0)', scale: 1.06 },
+              {
+                clipPath: 'inset(0 0 0% 0)',
+                scale: 1,
+                duration: 1,
+                ease: EASE,
+                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+              }
+            );
+          });
+
+          // ── Scroll-progress: escribe --p (0→1) como custom property en vez
+          //    de animar una propiedad directamente. El CSS del elemento decide
+          //    qué hacer con --p (escala, tracking, opacidad de máscara...).
+          //    Pensado para el nombre de cliente gigante de BrandProofStrip
+          //    (Fase 3); el motor ya queda listo aquí.
+          gsap.utils.toArray<HTMLElement>('[data-scroll-progress]').forEach((el) => {
+            gsap.fromTo(
+              el,
+              { '--p': 0 } as gsap.TweenVars,
+              {
+                '--p': 1,
+                ease: 'none',
+                scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
+              } as gsap.TweenVars
+            );
+          });
+
           // ── Parallax sutil — solo desktop ──────────────────────────
           if (isDesktop) {
             gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((el) => {

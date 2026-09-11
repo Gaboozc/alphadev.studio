@@ -31,6 +31,7 @@ function CaseCard({ index, title, type, description, tags, url, photos, lang, on
         <button
           type="button"
           className="case-thumb"
+          data-animate="clip-reveal"
           onClick={() => onOpen({ photos, index: 0, title })}
           aria-label={lang === 'es' ? `Ver galería de ${title}` : `View gallery of ${title}`}
         >

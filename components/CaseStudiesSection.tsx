@@ -46,6 +46,7 @@ export default function CaseStudiesSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="case-card-thumb"
+                  data-animate="clip-reveal"
                   aria-label={lang === 'es' ? `Ver sitio de ${item.name}` : `View ${item.name} site`}
                 >
                   <Image

@@ -42,7 +42,7 @@ export default function ProblemSection() {
           <div className="gold-divider" data-animate="divider" />
           <p
             className="section-subtitle"
-            data-animate="subtitle"
+            data-animate="reveal-scrub"
             style={{ maxWidth: '600px', margin: '0 auto' }}
           >
             {c.body}

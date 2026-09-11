@@ -67,29 +67,35 @@ export default function CapabilitiesSection() {
   return (
     <section className="capabilities-section">
       <div className="section-container">
-        <div className="section-header">
-          <p className="eyebrow" data-animate="fade">
-            {copy.eyebrow}
-          </p>
-          <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
-            {copy.title}
-          </h2>
-          <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
-        </div>
+        {/* Header fijo a la izquierda mientras los 3 pilares pasan por la
+            derecha (sticky-stack, ver globals.css) — antes era un encabezado
+            centrado seguido de un grid de 3 columnas sin ninguna relación de
+            scroll entre ambos. */}
+        <div className="sticky-stack">
+          <div className="sticky-stack-header">
+            <p className="eyebrow" data-animate="fade">
+              {copy.eyebrow}
+            </p>
+            <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
+              {copy.title}
+            </h2>
+            <div className="gold-divider" data-animate="divider" />
+            <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
+          </div>
 
-        <div className="section-content capability-grid" data-animate="stagger">
-          {pillars.map((pillar) => (
-            <div key={pillar.title} className="capability-card">
-              <h3>{pillar.title}</h3>
-              <p>{pillar.description}</p>
-              <ul>
-                {pillar.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="sticky-stack-items" data-animate="stagger">
+            {pillars.map((pillar) => (
+              <div key={pillar.title} className="capability-card">
+                <h3>{pillar.title}</h3>
+                <p>{pillar.description}</p>
+                <ul>
+                  {pillar.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

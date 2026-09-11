@@ -828,6 +828,63 @@ a, button {
 }
 
 /* ═══════════════════════════════════════════════════════
+   STICKY-STACK — encabezado fijo mientras el contenido de
+   la derecha pasa por debajo (estilo Huge/Fantasy). CSS puro,
+   sin GSAP. Se apila en móvil (< 900px): sin sticky, orden
+   natural de lectura.
+   Requisito: ningún ancestro entre .sticky-stack y el scroller
+   puede llevar overflow != visible, o el sticky no tiene dónde
+   "quedarse" — ver ProcessSection (el dot-grid de fondo se
+   mueve a su propio wrapper por esto).
+═══════════════════════════════════════════════════════ */
+.sticky-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.sticky-stack-header {
+  text-align: left;
+}
+
+/* Los títulos/dividers/subtítulos por defecto asumen centrado
+   (section-header los centra). Aquí el encabezado vive solo,
+   a la izquierda — mismo ajuste que ya usa .hero-copy. */
+.sticky-stack-header .gold-divider { margin-left: 0; margin-right: 0; }
+.sticky-stack-header .section-subtitle { margin-left: 0; margin-right: 0; }
+
+.sticky-stack-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .sticky-stack {
+    grid-template-columns: minmax(240px, 0.85fr) 1.4fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .sticky-stack-header {
+    position: sticky;
+    top: clamp(6rem, 18vh, 10rem);
+  }
+}
+
+/* Dentro del sticky-stack, cada process-step gana un ancho real que llenar
+   (antes vivía en una celda angosta de grid de 5 columnas): tipografía y
+   padding suben para no verse disperso en la columna ancha. */
+.sticky-stack-items .process-step {
+  padding: 2rem 2.2rem;
+}
+.sticky-stack-items .process-step-title {
+  font-size: 1.3rem;
+}
+.sticky-stack-items .process-step-desc {
+  font-size: 0.95rem;
+}
+
+/* ═══════════════════════════════════════════════════════
    TRUST / MARQUEE
 ═══════════════════════════════════════════════════════ */
 
@@ -895,16 +952,6 @@ a, button {
   background: var(--bg);
   /* Respiración editorial: token único (60 → 120px) */
   padding: var(--section-pad-y) 0;
-}
-
-.capability-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .capability-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .capability-card {
