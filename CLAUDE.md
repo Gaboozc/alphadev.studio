@@ -491,8 +491,23 @@ Con un matiz que sí cuenta: **pnpm implementa `minimum-release-age` y npm no** 
 
 | Familia | Ramas |
 |---------|-------|
-| **Construir** | Programación (Fundamentos del oficio → Desarrollo Web → Back-end y datos → Producto IA), Diseño, IA Aplicada, Ingeniería de IA |
+| **Construir** | Programación (Fundamentos del oficio → Desarrollo Web → Back-end y datos → Producto IA), Diseño, IA Aplicada, Ingeniería de IA (Modelos y datos → Agentes → IA en producción) |
 | **Crecer** | Marketing, Contenido & SEO, Negocio & Datos |
+
+### Ingeniería de IA — reescrita septiembre 2026 (70 lecciones, partió de 27)
+
+La rama se sentía hueca frente al bootcamp de 4Geeks en el que se basa el temario: 5 módulos delgados contra ~12 segmentos reales de ingeniería de IA. Se reescribió en tres áreas:
+
+| Área (track) | Módulos |
+|---|---|
+| `iaeng-modelos` | `iaeng-1` Modelos, embeddings y RAG |
+| `iaeng-agentes` | `iaeng-2` Ingeniería agéntica · `iaeng-langgraph` · `iaeng-3` Flujos agénticos y multiagente · `iaeng-mcp` |
+| `iaeng-produccion` | `iaeng-evals` · `iaeng-async` · `iaeng-realtime` · `iaeng-arquitectura` · `iaeng-4` Seguridad · `iaeng-capstone` |
+
+- **El contenido vive en `content/iaeng/<área>/<módulo>.ts`**, un archivo por módulo — es la excepción a "un archivo por rama" de la tabla de arriba. Con 13 módulos, un solo archivo por área ya pasaba de las 900 líneas.
+- **Huecos que tenía la rama y que ya no tiene**: MCP, procesamiento asíncrono (colas, workers, cron), tiempo real (SSE, streaming de tokens), evaluación y observabilidad con OpenTelemetry GenAI, y el OWASP Top 10 general más allá de lo específico de modelos.
+- **La fuente de 4Geeks estaba mal diagnosticada** — ver `[[fuente-4geeks-incompleta]]` en memoria. El temario de las cohortes "perdidas" vivía en `tasks/ai-engineering-4/*.json`, no solo en `markdown/`.
+- **`iaeng-evals` es la única fuente de contenido de evaluación/coste/observabilidad** en la rama — `iaeng-3` remite ahí en vez de duplicar, con nota explícita en el brief de su proyecto.
 
 ### Archivos clave
 
