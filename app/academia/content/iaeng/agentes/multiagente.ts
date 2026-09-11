@@ -4,9 +4,9 @@ import type { Module } from '../../../types'
 export const MOD_AGENTES_MULTIAGENTE: Module = {
   id: 'iaeng-3',
   number: 3,
-  title: 'Flujos agénticos, evaluación y observabilidad',
-  description: 'De un agente suelto a un sistema: enrutado con un clasificador tipado, descomposición en trabajadores paralelos, comunicación entre agentes, y cómo medir que todo eso funciona antes y después de ponerlo en producción.',
-  duration: '4 semanas',
+  title: 'Flujos agénticos y sistemas multiagente',
+  description: 'De un agente suelto a un sistema: enrutado con un clasificador tipado, descomposición en trabajadores paralelos con Send, y comunicación entre agentes que no depende de que se entiendan por casualidad.',
+  duration: '3 semanas',
   status: 'available',
   track: 'iaeng-agentes',
   audience: 'aprendizaje',
@@ -346,187 +346,15 @@ Los dos son compatibles en el mismo sistema: una pizarra central para el caso, y
       completed: false,
     },
     {
-      id: 'ie3-l2',
-      title: 'Evaluación: saber si funciona',
-      type: 'reading',
-      difficulty: 'profesional',
-      content: `## El problema
-
-Cambias el prompt, pruebas dos ejemplos, parece mejor y lo despliegas. Una semana después algo que antes funcionaba ya no. No lo sabes porque nunca lo mediste.
-
-**Sin evaluación no hay ingeniería, hay intuición.** Y la intuición sobre sistemas no deterministas es especialmente mala.
-
-### El conjunto de evaluación
-
-Lo mínimo viable: entre 30 y 100 casos reales con su resultado esperado.
-
-\`\`\`json
-[
-{
-  "id": "ev_01",
-  "entrada": "¿Cuál es la política de devoluciones para productos en oferta?",
-  "esperado": "30 días, siempre que conserve el empaque original",
-  "fuente": "politicas.pdf, sección 4.2",
-  "categoria": "devoluciones"
-}
-]
-\`\`\`
-
-De dónde salen: consultas reales de usuarios, los casos que ya fallaron, y los casos límite que te preocupan. **Cada error que encuentres en producción se convierte en un caso de evaluación nuevo**, y así el conjunto mejora con el tiempo.
-
-Incluye siempre casos que **deben** fallar: preguntas fuera de alcance donde la respuesta correcta es admitir desconocimiento.
-
-### Cómo se puntúa
-
-**Determinista**, cuando hay una respuesta verificable: ¿recuperó el documento correcto? ¿el JSON tiene la forma esperada? ¿el número coincide? Es lo más fiable; úsalo siempre que se pueda.
-
-**Con un modelo como juez**, cuando la respuesta es texto libre. Otro modelo compara la respuesta con la esperada según criterios explícitos:
-
-\`\`\`python
-prompt_juez = f"""Compara la respuesta con la esperada y responde solo con JSON.
-
-ESPERADA: {esperada}
-OBTENIDA: {obtenida}
-
-Evalúa:
-- correcta: ¿dice lo mismo en lo esencial? (true/false)
-- completa: ¿omite algo importante? (true/false)
-- inventada: ¿afirma algo que no está en la esperada? (true/false)
-
-Responde: {{"correcta": bool, "completa": bool, "inventada": bool, "motivo": "..."}}
-"""
-\`\`\`
-
-Criterios concretos y salida estructurada. Pedirle "puntúa del 1 al 10" produce números que no significan nada.
-
-**Con una persona**, para lo que de verdad importa. No escala, pero una revisión humana de 20 casos antes de un lanzamiento vale más que cualquier métrica automática.
-
-### Mide las etapas por separado
-
-En un sistema RAG con agente, un fallo puede estar en la recuperación, en la elección de herramienta o en la redacción final. Una métrica global solo dice que algo va mal.
-
-\`\`\`
-recuperación:  ¿trajo el documento correcto?          82%
-herramientas:  ¿eligió la correcta?                   91%
-respuesta:     ¿respondió bien teniendo lo necesario? 88%
-extremo a extremo: ¿el usuario obtuvo lo que pedía?   71%
-\`\`\`
-
-Ese desglose te dice exactamente dónde invertir. La métrica global sola, no.
-
-### Las cuatro dimensiones a vigilar
-
-**Calidad** (¿acierta?), **coste** (¿cuánto por tarea?), **latencia** (¿cuánto tarda?) y **fiabilidad** (¿qué porcentaje termina sin error?).
-
-Optimizar solo la calidad produce sistemas correctísimos que tardan cuarenta segundos y cuestan un dólar por consulta. Las cuatro se miran juntas.
-
-### Ejecutar la evaluación en cada cambio
-
-Que sea un comando, como las pruebas del módulo de testing:
-
-\`\`\`bash
-python -m evaluacion --conjunto casos.json --salida resultados.json
-\`\`\`
-
-Y compara siempre contra la ejecución anterior. Lo que importa no es el número absoluto sino si subió o bajó respecto a lo que había.`,
-      tasks: [
-        'Arma un conjunto de 30 casos reales incluyendo cinco que deban fallar',
-        'Implementa puntuación determinista para lo verificable y un juez para el texto libre',
-        'Mide por etapas y localiza cuál es la que más baja el resultado global',
-        'Cambia una sola cosa, vuelve a medir y documenta si mejoró o empeoró',
-      ],
-      tip: 'Cada fallo que aparezca en producción debe terminar como un caso nuevo en tu conjunto de evaluación. Es el mismo hábito que escribir una prueba al arreglar un error: garantiza que ese fallo concreto no vuelva sin que te enteres.',
-      completed: false,
-    },
-    {
-      id: 'ie3-l3',
-      title: 'Coste, latencia y observabilidad',
-      type: 'reading',
-      difficulty: 'profesional',
-      content: `## Lo que cuesta de verdad
-
-El precio por token parece pequeño hasta que lo multiplicas. Haz el cálculo antes de prometer nada:
-
-\`\`\`
-coste por tarea × tareas al día × 30 = coste mensual
-\`\`\`
-
-Una tarea de 0,04 USD parece nada. Con 500 al día son 600 USD al mes. Si le cobras al cliente una cuota fija de 400, el proyecto pierde dinero cada mes que funciona bien.
-
-### Reducir coste sin perder calidad
-
-**Modelo por tarea.** No todo necesita el modelo más capaz. Clasificar la intención de un mensaje lo hace bien un modelo pequeño y barato; redactar el informe final quizá no. Enrutar por dificultad es la optimización que más ahorra.
-
-**Caché de prompts.** Si el mismo contexto largo se repite entre llamadas —instrucciones del sistema, documentos fijos—, los proveedores permiten cachearlo y cobrarlo mucho más barato. En un agente que reenvía el historial, esto cambia el orden de magnitud de la factura.
-
-**Podar el contexto.** Ya visto: resumir lo viejo en vez de arrastrarlo.
-
-**Menos vueltas.** Cada paso del bucle es una llamada completa. Herramientas mejor descritas y prompts más claros reducen los pasos necesarios, y eso baja el coste más que cualquier otro ajuste.
-
-**No llamar al modelo.** La optimización más efectiva. Caché de respuestas para preguntas repetidas, reglas para los casos triviales, validaciones en código antes de invocar nada.
-
-### Latencia
-
-Los modelos grandes tardan segundos. En un flujo de cinco pasos son medio minuto, y eso se siente como roto.
-
-**Transmite la respuesta** en vez de esperar a tenerla completa: el usuario ve que algo pasa desde el primer momento.
-
-**Paraleliza** lo independiente.
-
-**Muestra el progreso.** "Consultando el inventario…", "Redactando el resumen…". No reduce la espera, pero cambia por completo cómo se percibe.
-
-**Responde rápido lo fácil.** Si una regla resuelve el caso, respóndelo al instante y reserva el camino lento para lo que lo necesite.
-
-### Observabilidad
-
-Sin trazas, un sistema con modelos es una caja negra. Lo mínimo que hay que registrar por ejecución:
-
-\`\`\`
-id de la tarea y del usuario
-prompt completo enviado, por llamada
-respuesta completa recibida
-herramientas invocadas, con argumentos y resultados
-tokens de entrada y de salida
-latencia por paso y total
-coste calculado
-resultado: éxito, fallo o escalado a humano
-\`\`\`
-
-Con eso respondes lo que un cliente pregunta cuando algo sale mal: **por qué el sistema hizo esto**. Sin eso, la respuesta es "no lo sé".
-
-### Vigilar la deriva
-
-Un sistema que funcionaba puede degradarse sin que cambies nada: el proveedor actualiza el modelo, los usuarios preguntan cosas distintas, los documentos se quedan viejos.
-
-Por eso la evaluación se ejecuta **periódicamente**, no solo al desplegar. Un descenso sostenido en la tasa de éxito es la señal, y solo la ves si estás midiendo de forma continua.
-
-### Alertas que valen la pena
-
-\`\`\`
-coste diario > presupuesto        → avisar
-tasa de fallo > umbral            → avisar
-latencia p95 > umbral             → avisar
-escalados a humano subiendo       → revisar qué cambió
-\`\`\`
-
-Usa el percentil 95 y no el promedio: el promedio esconde que uno de cada veinte usuarios espera cuarenta segundos.`,
-      tasks: [
-        'Calcula el coste mensual de tu sistema al volumen que espera el cliente',
-        'Enruta las tareas fáciles a un modelo más barato y mide cuánto ahorras',
-        'Activa la caché de prompts para el contexto fijo y compara la factura',
-        'Registra las trazas completas de veinte ejecuciones y calcula la latencia p95',
-      ],
-      tip: 'Haz el cálculo del coste mensual antes de cerrar el precio con el cliente, no después. Un proyecto de IA con cuota fija y coste variable sin tope es la forma más rápida de trabajar gratis o de perder dinero cuanto más éxito tenga.',
-      completed: false,
-    },
-    {
       id: 'ie3-l4',
-      title: 'Proyecto: sistema multiagente evaluado',
+      title: 'Proyecto: sistema multiagente',
       type: 'project',
       difficulty: 'profesional',
-      projectBrief: `Vas a construir un sistema que enrute consultas a agentes especializados, con evaluación automática, control de coste y trazas completas. Es la diferencia entre un agente que impresiona en una demostración y uno que un cliente puede poner frente a sus usuarios.
+      projectBrief: `Vas a construir un sistema que enrute consultas a agentes especializados, con al menos una parte resuelta por descomposición paralela y con comunicación entre agentes que no dependa de que se entiendan por casualidad. Es la diferencia entre un agente que impresiona en una demostración y uno que un cliente puede poner frente a sus usuarios.
 
-El caso: una empresa recibe consultas de distintos tipos —facturación, soporte técnico, información comercial— y quiere atender automáticamente lo que se pueda y escalar el resto con contexto suficiente para que la persona no empiece de cero.`,
+El caso: una empresa recibe consultas de distintos tipos —facturación, soporte técnico, información comercial— y quiere atender automáticamente lo que se pueda y escalar el resto con contexto suficiente para que la persona no empiece de cero.
+
+Este proyecto se apoya en la evaluación del módulo siguiente para comprobar que funciona — no repitas aquí ese trabajo, constrúyelo una vez allí y aplícalo a este sistema.`,
       deliverables: [
         'Clasificador con salida tipada (Literal) que enrute cada consulta al especialista correcto, con una rama de escalamiento por baja confianza',
         'Al menos dos agentes especializados, cada uno con sus propias herramientas y su prompt corto',
@@ -534,10 +362,6 @@ El caso: una empresa recibe consultas de distintos tipos —facturación, soport
         'Traspasos entre agentes con un esquema tipado (Pydantic), nunca instrucciones sueltas en lenguaje natural',
         'Contexto acotado: cada agente y cada worker documentan qué decisión toman y por qué solo reciben esos campos, no el estado completo',
         'Grafo de estado explícito donde el control de flujo esté en código y no en el prompt',
-        'Conjunto de evaluación de 40 casos con métricas por etapa y extremo a extremo',
-        'Registro de trazas: prompts, herramientas, tokens, latencia y coste por ejecución',
-        'Panel o informe con las cuatro dimensiones: calidad, coste, latencia y fiabilidad',
-        'Límite de gasto por tarea y por día, con corte automático',
       ],
       rubrica: [
         'El enrutado se puede probar con tests normales porque es código, no una decisión del modelo',
@@ -545,30 +369,22 @@ El caso: una empresa recibe consultas de distintos tipos —facturación, soport
         'El campo compartido entre workers paralelos usa un reductor; quitar el reductor y volver a correr pierde resultados de forma demostrable',
         'El sintetizador reordena explícitamente antes de unir — no asume que los workers vuelven en el orden en que se lanzaron',
         'Ningún traspaso entre agentes es una cadena de texto libre sin estructura',
-        'La evaluación distingue fallo de enrutado, de herramienta y de respuesta final',
-        'El conjunto de evaluación incluye casos donde la respuesta correcta es escalar a un humano',
-        'Existe el cálculo del coste mensual al volumen esperado, con su supuesto de tráfico escrito',
-        'Las trazas permiten reconstruir cualquier ejecución concreta a partir de su identificador',
-        'Al superar el límite de gasto, el sistema se detiene en vez de seguir facturando',
-        'El informe documenta al menos un cambio hecho a partir de los resultados de la evaluación',
       ],
       tasks: [
         'Diseña el grafo en papel antes de programarlo, marcando dónde decide el código y dónde el modelo',
-        'Construye el conjunto de evaluación antes que los agentes, para desarrollar contra una medida',
         'Implementa el enrutado y mide su acierto por separado antes de conectar los especialistas',
-        'Instrumenta las trazas desde el primer día, no al final',
-        'Ejecuta la evaluación completa, cambia una cosa y vuelve a ejecutarla',
+        'Construye el caso de orquestador-trabajador y comprueba qué pasa si quitas el reductor',
       ],
       discussionPrompts: [
         '¿Qué información debería llevar un caso escalado para que la persona no tenga que empezar de cero?',
         'Si el clasificador se equivoca de especialista, ¿el sistema debería poder corregirse solo o escalar?',
       ],
-      tip: 'Construye el conjunto de evaluación antes que el sistema. Suena al revés, pero desarrollar contra una medida cambia todo: cada cambio se juzga por su efecto y no por la impresión que da al probar dos ejemplos a mano.',
+      tip: 'Diseña el grafo completo en papel antes de escribir una línea: cuadros para los nodos, flechas para las aristas, y marca explícitamente cuáles son condicionales y cuáles fijas. Es mucho más barato encontrar un ciclo mal pensado en un diagrama que depurarlo ya escrito.',
       completed: false,
     },
     {
       id: 'ie3-l5',
-      title: 'Examen: orquestación y evaluación',
+      title: 'Examen: flujos agénticos y multiagente',
       type: 'exam',
       difficulty: 'profesional',
       questions: [
@@ -593,50 +409,6 @@ El caso: una empresa recibe consultas de distintos tipos —facturación, soport
           ],
           correct: 1,
           explanation: 'Cada decisión que se mueve del prompt al código elimina una fuente de variabilidad. El modelo debería decidir lo que requiere entender lenguaje; el flujo de control es lógica y pertenece al código, donde se puede leer, probar y depurar.',
-        },
-        {
-          q: 'Tu evaluación global da 71% de éxito. ¿Qué haces primero?',
-          options: [
-            'Cambiar a un modelo más capaz y volver a medir',
-            'Desglosar por etapas —recuperación, elección de herramienta, respuesta— para saber cuál arrastra el resultado',
-            'Ampliar el conjunto de evaluación a 200 casos',
-            'Subir el límite de pasos del agente',
-          ],
-          correct: 1,
-          explanation: 'Un 71% global no dice dónde está el problema. Si la recuperación acierta el 82%, ningún cambio de modelo va a arreglar el 18% de casos donde el sistema nunca vio la información correcta. El desglose por etapa convierte un número en una tarea concreta.',
-        },
-        {
-          q: 'Al usar un modelo como juez de las respuestas, ¿qué produce evaluaciones más útiles?',
-          options: [
-            'Pedirle una puntuación del 1 al 10 sobre la calidad general',
-            'Darle criterios concretos y pedir salida estructurada: correcta, completa, inventada, con el motivo',
-            'Pedirle que escriba un párrafo valorando la respuesta',
-            'Usar el mismo modelo que generó la respuesta, para que entienda el contexto',
-          ],
-          correct: 1,
-          explanation: 'Una puntuación numérica global no es reproducible ni accionable: no sabes qué significa un 7 ni qué cambiar para llegar a 8. Criterios binarios y concretos, con salida estructurada, producen métricas comparables entre ejecuciones y señalan qué falló.',
-        },
-        {
-          q: 'Un cliente paga una cuota mensual fija por tu sistema. ¿Qué cálculo hay que hacer antes de firmar?',
-          options: [
-            'El coste de desarrollo dividido entre los meses de contrato',
-            'El coste por tarea multiplicado por el volumen esperado al mes: con cuota fija y coste variable sin tope, el proyecto pierde dinero cuanto más se use',
-            'El coste de la infraestructura de alojamiento',
-            'El precio de la competencia por un servicio parecido',
-          ],
-          correct: 1,
-          explanation: 'El coste de un sistema con modelos es variable y proporcional al uso, mientras que la cuota es fija. Sin ese cálculo y sin un tope de gasto, el éxito del producto es exactamente lo que destruye su margen. Hay que hacerlo antes de fijar el precio, no después.',
-        },
-        {
-          q: '¿Por qué se vigila la latencia con el percentil 95 y no con el promedio?',
-          options: [
-            'Porque el percentil 95 es más fácil de calcular',
-            'Porque el promedio esconde la cola: uno de cada veinte usuarios puede estar esperando mucho más y el promedio no lo refleja',
-            'Porque los proveedores facturan por percentil',
-            'Porque el promedio solo aplica a sistemas deterministas',
-          ],
-          correct: 1,
-          explanation: 'Un promedio de 3 segundos es compatible con que el 5% de los usuarios espere 40. Ese 5% es el que abandona y el que se queja. El p95 hace visible la experiencia del peor caso habitual, que es la que determina si el sistema se percibe como fiable.',
         },
         {
           q: 'Necesitas dividir un informe en secciones, pero no sabes cuántas hasta ver el tema. ¿Router u orquestador-trabajador?',
@@ -680,21 +452,6 @@ El caso: una empresa recibe consultas de distintos tipos —facturación, soport
       title: 'LangGraph — grafos de estado para agentes',
       url: 'https://langchain-ai.github.io/langgraph/',
       type: 'documentation',
-    },
-    {
-      title: 'Anthropic — Caché de prompts',
-      url: 'https://docs.claude.com/en/docs/build-with-claude/prompt-caching',
-      type: 'documentation',
-    },
-    {
-      title: 'OpenTelemetry — trazas y métricas',
-      url: 'https://opentelemetry.io/docs/',
-      type: 'documentation',
-    },
-    {
-      title: 'Langfuse — observabilidad y evaluación de sistemas con modelos',
-      url: 'https://langfuse.com/docs',
-      type: 'tool',
     },
     {
       title: 'LangGraph — API de Send para grafos map-reduce',
