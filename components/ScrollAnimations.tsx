@@ -201,6 +201,29 @@ export default function ScrollAnimations() {
                 }
               );
             });
+
+            // ── Hero handoff: el video cede protagonismo al hacer scroll en
+            //    vez de simplemente desaparecer bajo el contenido siguiente
+            //    (estilo Huge/Fantasy). Solo desktop: en móvil el vídeo ya es
+            //    caro y esto añadiría un scrub más al hilo principal.
+            gsap.utils.toArray<HTMLElement>('[data-hero-handoff]').forEach((el) => {
+              gsap.fromTo(
+                el,
+                { yPercent: 0, scale: 1, opacity: 1 },
+                {
+                  yPercent: -8,
+                  scale: 0.96,
+                  opacity: 0.4,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true,
+                  },
+                }
+              );
+            });
           }
         }
       );
