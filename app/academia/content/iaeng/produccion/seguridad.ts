@@ -400,7 +400,7 @@ Un error debe **negar por defecto**, no dejar pasar. Un fallo en la comprobació
 
 ### Auditar lo propio
 
-El Top 10 no es una lista para leer una vez. Es una lista contra la que revisar **periódicamente** cualquier sistema que mantengas, con la misma disciplina con la que ejecutas la evaluación del módulo de agentes: no porque algo cambió, sino porque el sistema entero puede haberse degradado sin que nadie tocara nada.`,
+El Top 10 no es una lista para leer una vez. Es una lista contra la que revisar **periódicamente** cualquier sistema que mantengas, con la misma disciplina con la que ejecutas la evaluación del módulo de evaluación y observabilidad: no porque algo cambió, sino porque el sistema entero puede haberse degradado sin que nadie tocara nada.`,
       tasks: [
         'Busca en tu API un endpoint que reciba un id y compruebe que existe, pero no que pertenece a quien pregunta',
         'Revisa tus mensajes de error de producción y verifica que ninguno expone una traza completa',

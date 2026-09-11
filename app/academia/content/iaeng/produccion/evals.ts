@@ -281,11 +281,11 @@ Una tarea de 0,04 USD parece insignificante. Con 500 al día son 600 USD al mes.
 
 ### Bajar el coste sin bajar la calidad
 
-**Modelo por tarea.** Clasificar la intención de un mensaje lo hace bien un modelo pequeño; redactar el informe final quizá necesite uno más capaz. Enrutar por dificultad —el patrón router del módulo de agentes, aplicado a "qué modelo llamar"— es la optimización que más ahorra con menos esfuerzo.
+**Modelo por tarea.** Clasificar la intención de un mensaje lo hace bien un modelo pequeño; redactar el informe final quizá necesite uno más capaz. Enrutar por dificultad —el patrón router de la lección de flujos agénticos, aplicado a "qué modelo llamar"— es la optimización que más ahorra con menos esfuerzo.
 
 **Caché de prompts.** Cuando el mismo contexto largo se repite entre llamadas —instrucciones del sistema, documentos fijos—, los proveedores lo cachean a un coste mucho menor. En un agente que reenvía el historial completo en cada vuelta del bucle, esto cambia el orden de magnitud de la factura, no solo un porcentaje.
 
-**Podar el contexto.** Resumir lo viejo en vez de arrastrarlo entero — la técnica del módulo de memoria de agentes, motivada aquí también por el coste.
+**Podar el contexto.** Resumir lo viejo en vez de arrastrarlo entero — la técnica de la lección de memoria del módulo de fundamentos, motivada aquí también por el coste.
 
 **Menos vueltas del bucle.** Cada paso es una llamada completa. Herramientas mejor descritas reducen los pasos necesarios para completar una tarea, y eso baja el coste más que casi cualquier otro ajuste puntual.
 

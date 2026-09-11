@@ -354,7 +354,7 @@ Los dos son compatibles en el mismo sistema: una pizarra central para el caso, y
 
 El caso: una empresa recibe consultas de distintos tipos —facturación, soporte técnico, información comercial— y quiere atender automáticamente lo que se pueda y escalar el resto con contexto suficiente para que la persona no empiece de cero.
 
-Este proyecto se apoya en la evaluación del módulo siguiente para comprobar que funciona — no repitas aquí ese trabajo, constrúyelo una vez allí y aplícalo a este sistema.`,
+Este proyecto se apoya en la evaluación del módulo de evaluación y observabilidad, más adelante en la rama, para comprobar que funciona — no repitas aquí ese trabajo, constrúyelo una vez allí y aplícalo a este sistema.`,
       deliverables: [
         'Clasificador con salida tipada (Literal) que enrute cada consulta al especialista correcto, con una rama de escalamiento por baja confianza',
         'Al menos dos agentes especializados, cada uno con sus propias herramientas y su prompt corto',

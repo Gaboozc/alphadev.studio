@@ -373,7 +373,7 @@ if estado.next == ("herramientas_sensibles",):
 
 \`invoke(None, config)\` es el detalle que conviene retener: **no vuelve a empezar, continúa**. Los efectos ya causados no se repiten.
 
-Y como en la lección de interrupciones: el control está en \`interrupt_before\`, en el código. No es una instrucción del prompt que el modelo pueda pasar por alto.
+Y como con las interrupciones del módulo de fundamentos: el control está en \`interrupt_before\`, en el código. No es una instrucción del prompt que el modelo pueda pasar por alto.
 
 ### Emitir avance
 

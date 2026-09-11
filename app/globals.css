@@ -2318,3 +2318,245 @@ button.case-thumb {
 
 /* La primera columna suele ser la etiqueta de la fila. */
 .acad-tabla td:first-child { color: var(--text); font-weight: 500; }
+
+/* ── Lección de proyecto ──────────────────────────────────────────────────── */
+
+.acad-proyecto-bloque {
+  margin: 1.5rem 0;
+}
+
+.acad-proyecto-etiqueta {
+  font-family: var(--font-inter);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.75rem;
+}
+
+.acad-proyecto-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.acad-proyecto-lista li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-family: var(--font-inter);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.acad-proyecto-marca {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.8125rem;
+}
+
+.acad-proyecto-numero {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.05rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-border);
+  font-family: var(--font-inter);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.acad-proyecto-tip {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--gold-bg);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.acad-proyecto-tip-etiqueta {
+  font-family: var(--font-inter);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.3rem;
+}
+
+.acad-proyecto-tip p:not(.acad-proyecto-tip-etiqueta) {
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Lección de examen ────────────────────────────────────────────────────── */
+
+.acad-examen-resultado {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.acad-examen-resultado-num {
+  font-family: var(--font-playfair);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.acad-examen-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.acad-examen-pregunta { padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.acad-examen-pregunta:last-child { border-bottom: none; padding-bottom: 0; }
+
+.acad-examen-enunciado {
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0 0 1rem;
+}
+
+.acad-examen-num { color: var(--gold); }
+
+.acad-examen-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.acad-examen-opcion {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.acad-examen-opcion:hover:not(:disabled) {
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+}
+
+.acad-examen-opcion:disabled { cursor: default; }
+
+.acad-examen-opcion.is-elegida {
+  border-color: var(--gold);
+  background: var(--gold-bg);
+  color: var(--text);
+}
+
+.acad-examen-opcion.is-correcta {
+  border-color: #2f9e5f;
+  background: rgba(47, 158, 95, 0.08);
+  color: var(--text);
+}
+
+.acad-examen-opcion.is-fallada {
+  border-color: #c0453a;
+  background: rgba(192, 69, 58, 0.08);
+  color: var(--text);
+}
+
+.acad-examen-opcion-marca {
+  flex-shrink: 0;
+  width: 1rem;
+  font-weight: 700;
+}
+
+.acad-examen-opcion.is-correcta .acad-examen-opcion-marca { color: #2f9e5f; }
+.acad-examen-opcion.is-fallada .acad-examen-opcion-marca { color: #c0453a; }
+
+.acad-examen-explicacion {
+  margin: 0.9rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  font-family: var(--font-inter);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.acad-examen-explicacion.is-correcta {
+  background: rgba(47, 158, 95, 0.08);
+  color: var(--text-muted);
+  border-left: 3px solid #2f9e5f;
+}
+
+.acad-examen-explicacion.is-fallada {
+  background: rgba(192, 69, 58, 0.08);
+  color: var(--text-muted);
+  border-left: 3px solid #c0453a;
+}
+
+.acad-examen-corregir {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.875rem;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.acad-examen-corregir:hover:not(:disabled) { background: var(--gold-dark); }
+
+.acad-examen-corregir:disabled {
+  background: var(--bg-deep);
+  color: var(--text-subtle);
+  cursor: not-allowed;
+}
+
+.acad-examen-corregir--secundario {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold-border);
+}
+
+.acad-examen-corregir--secundario:hover { background: var(--gold-bg); }

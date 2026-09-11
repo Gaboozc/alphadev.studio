@@ -92,7 +92,9 @@ function parseCodeSpans(text: string, keyPrefix: string): React.ReactNode[] {
 
 // **texto** → negrita. El código en línea se resuelve dentro de cada tramo,
 // para que `código` funcione también anidado dentro de una negrita.
-function parseInline(text: string): React.ReactNode[] {
+// Exportada: ProjectDetails la reusa para negrita/código dentro de listas
+// (entregables, rúbrica) sin duplicar el parser.
+export function parseInline(text: string): React.ReactNode[] {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (

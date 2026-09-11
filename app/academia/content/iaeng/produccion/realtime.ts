@@ -3,7 +3,7 @@ import type { Module } from '../../../types'
 // Modulo: Tiempo real
 export const MOD_PROD_REALTIME: Module = {
   id: 'iaeng-realtime',
-  number: 3,
+  number: 4,
   title: 'Tiempo real: streaming de respuestas y notificaciones',
   description: 'La UX por defecto de cualquier producto con modelos: texto que aparece mientras se genera, y avisos que llegan sin que el usuario tenga que refrescar. SSE, sus trampas de producción, y cómo reconectar sin perder ni duplicar nada.',
   duration: '2 semanas',

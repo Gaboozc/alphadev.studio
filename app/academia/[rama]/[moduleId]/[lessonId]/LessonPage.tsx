@@ -5,6 +5,8 @@ import type { Lesson, LessonMeta, ModuleMeta } from '../../../types'
 import { moduleHref, lessonHref } from '../../../ramas'
 import { useProgress } from '../../../hooks/useProgress'
 import LessonContent from '../../../components/LessonContent'
+import ProjectDetails from '../../../components/ProjectDetails'
+import ExamQuestions from '../../../components/ExamQuestions'
 import MediaEmbed from '../../../components/MediaEmbed'
 
 const TYPE_LABEL: Record<string, string> = {
@@ -12,13 +14,20 @@ const TYPE_LABEL: Record<string, string> = {
   audio: 'Audio',
   reading: 'Lectura',
   practice: 'Práctica',
+  project: 'Proyecto',
+  exam: 'Examen',
 }
 
+// Hex planos, no var(--...): TYPE_COLOR se concatena con un sufijo de alpha
+// ("${color}18") para el fondo de la etiqueta, y eso no funciona sobre una
+// variable CSS.
 const TYPE_COLOR: Record<string, string> = {
   video: '#2563eb',
   audio: '#7c3aed',
   reading: '#059669',
   practice: '#d97706',
+  project: '#9A7235',
+  exam: '#b45309',
 }
 
 const RESOURCE_ICON: Record<string, string> = {
@@ -44,7 +53,7 @@ function getEmbedType(lesson: Lesson): 'youtube' | 'audio' | 'link' | null {
 
 interface Props {
   module: ModuleMeta
-  lesson: Lesson
+  lesson: Lesson
   lessonIndex: number
   // Solo metadatos: de la anterior y la siguiente basta el enlace, no su cuerpo.
   prevLesson: LessonMeta | null
@@ -319,13 +328,23 @@ export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesso
             </div>
           )}
 
-          {/* Main lesson content */}
+          {/* Main lesson content — la forma depende del tipo: una lectura
+              trae content/tasks/tip, un proyecto trae projectBrief y
+              entregables, un examen trae questions. Antes de esto solo se
+              pasaban los tres primeros campos, así que todo proyecto y
+              examen de la Academia mostraba el título y nada más. */}
           <div className="lesson-card">
-            <LessonContent
-              content={lesson.content}
-              tasks={lesson.tasks}
-              tip={lesson.tip}
-            />
+            {lesson.type === 'exam' && lesson.questions ? (
+              <ExamQuestions questions={lesson.questions} />
+            ) : lesson.type === 'project' ? (
+              <ProjectDetails lesson={lesson} />
+            ) : (
+              <LessonContent
+                content={lesson.content}
+                tasks={lesson.tasks}
+                tip={lesson.tip}
+              />
+            )}
           </div>
 
           {/* Module resources */}

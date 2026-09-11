@@ -3,7 +3,7 @@ import type { Module } from '../../../types'
 // Modulo: Arquitectura, coste y escalado
 export const MOD_PROD_ARQUITECTURA: Module = {
   id: 'iaeng-arquitectura',
-  number: 4,
+  number: 2,
   title: 'Arquitectura, coste y escalado',
   description: 'Decisiones de infraestructura que un sistema con modelos exige y que un backend normal puede posponer: dónde vive la memoria de un agente, cómo lo escalas horizontalmente, y las trampas de coste que solo aparecen con tráfico real.',
   duration: '3 semanas',
@@ -73,7 +73,7 @@ Si la segunda llamada no recuerda la primera, algo sigue viviendo en la memoria 
 
 ### Por qué esto no es prematuro
 
-Diseñar sin estado desde el primer servidor no cuesta más: es la misma línea de código —\`PostgresSaver\` en vez de \`SqliteSaver\`— y ya la escribiste en el módulo anterior. Lo caro no es diseñarlo bien desde el principio. Lo caro es migrar un sistema que ya asumió, en cien sitios distintos de su código, que solo existe un proceso.`,
+Diseñar sin estado desde el primer servidor no cuesta más: es la misma línea de código —\`PostgresSaver\` en vez de \`SqliteSaver\`— y ya la escribiste en el módulo de LangGraph. Lo caro no es diseñarlo bien desde el principio. Lo caro es migrar un sistema que ya asumió, en cien sitios distintos de su código, que solo existe un proceso.`,
       tasks: [
         'Identifica en un proyecto tuyo qué vive solo en la memoria o el disco de un proceso concreto',
         'Cambia el checkpointer de tu agente de SQLite a Postgres',

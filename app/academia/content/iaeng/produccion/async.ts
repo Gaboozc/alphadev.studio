@@ -3,7 +3,7 @@ import type { Module } from '../../../types'
 // Modulo: Procesamiento asincrono
 export const MOD_PROD_ASYNC: Module = {
   id: 'iaeng-async',
-  number: 2,
+  number: 3,
   title: 'Procesamiento asíncrono: colas, workers y cron',
   description: 'Dónde vive un agente que tarda cuarenta segundos. Colas de verdad en vez de una lista en memoria, los cinco disparadores que arrancan un trabajo, y cronjobs que no fallan en silencio.',
   duration: '3 semanas',
