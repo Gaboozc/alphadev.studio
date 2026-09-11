@@ -34,14 +34,17 @@ export default function Hero() {
           transition: 'background 0.8s ease',
         }}
       >
+        {/* preload="metadata" en vez de "auto": con autoPlay el navegador descarga
+            el vídeo igualmente, pero así no compite por ancho de banda antes de que
+            pinte el poster — que es el LCP de la home. */}
         <video
           ref={videoRef}
           src="/assets/hero.mp4"
-          poster="/assets/hero-poster.png"
+          poster="/assets/hero-poster.webp"
           autoPlay
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onEnded={() => setEnded(true)}
           style={{
             position: 'absolute',

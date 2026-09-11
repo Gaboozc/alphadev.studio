@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 
 const PHASE_NUMBERS = ['01', '02', '03', '04', '05'];
 
@@ -31,11 +33,13 @@ export default function ProcesoContent() {
             <div className="hero-visual" data-animate="fade">
               <div className="browser-frame browser-float">
                 <div className="browser-bar"><span /><span /><span /></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/cases/bfs-karate-1.png"
                   alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
-                  loading="eager"
+                  width={CASE_PHOTO_WIDTH}
+                  height={CASE_PHOTO_HEIGHT}
+                  sizes="(max-width: 899px) 100vw, 620px"
+                  priority
                 />
               </div>
             </div>

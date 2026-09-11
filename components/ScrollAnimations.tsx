@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { gsap, ScrollTrigger, registerGSAP } from '@/lib/gsap/setup';
 import { splitWords } from '@/lib/anim/splitWords';
 
@@ -8,8 +9,18 @@ import { splitWords } from '@/lib/anim/splitWords';
 const EASE = 'expo.out';
 
 export default function ScrollAnimations() {
+  // Este componente vive en el layout, así que sin la ruta como dependencia el
+  // efecto correría una sola vez en toda la sesión: al navegar de / a /servicios,
+  // los [data-animate] de la página nueva no recibirían ningún ScrollTrigger.
+  const pathname = usePathname();
+
   useEffect(() => {
     registerGSAP();
+
+    // La barra de direcciones de los navegadores móviles cambia la altura del
+    // viewport al hacer scroll. Sin esto, cada cambio dispara un refresh() y
+    // los triggers con scrub o pin dan saltos.
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -37,12 +48,15 @@ export default function ScrollAnimations() {
           gsap.utils.toArray<HTMLElement>('[data-animate="title"]').forEach((el) => {
             const words = splitWords(el);
             if (!words.length) return;
-            gsap.set(words, { yPercent: 115 });
+            // will-change se pone para la animación y se quita al terminar: dejarlo
+            // fijo mantendría una capa de composición por palabra para siempre.
+            gsap.set(words, { yPercent: 115, willChange: 'transform' });
             gsap.to(words, {
               yPercent: 0,
               duration: 0.9,
               ease: EASE,
               stagger: 0.06,
+              onComplete: () => gsap.set(words, { willChange: 'auto' }),
               scrollTrigger: { trigger: el, start: 'top 88%', once: true },
             });
           });
@@ -132,11 +146,26 @@ export default function ScrollAnimations() {
         }
       );
 
-      ScrollTrigger.refresh();
     });
 
-    return () => ctx.revert();
-  }, []);
+    // Playfair e Inter cargan con display:swap: al entrar cambian la altura de los
+    // titulares y los start/end calculados antes quedan desfasados. El refresh va
+    // después de las fuentes, y otro tras 'load' por las imágenes sin dimensiones.
+    let refreshRaf = 0;
+    const refresh = () => {
+      cancelAnimationFrame(refreshRaf);
+      refreshRaf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    refresh();
+    document.fonts?.ready.then(refresh).catch(() => {});
+    window.addEventListener('load', refresh);
+
+    return () => {
+      cancelAnimationFrame(refreshRaf);
+      window.removeEventListener('load', refresh);
+      ctx.revert();
+    };
+  }, [pathname]);
 
   return null;
 }

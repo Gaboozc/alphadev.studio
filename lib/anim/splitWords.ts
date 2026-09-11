@@ -14,6 +14,14 @@
  * llamarse (el texto se muestra plano).
  */
 export function splitWords(el: HTMLElement): HTMLElement[] {
+  // Ya partido: devolver los spans existentes en vez de re-partir.
+  // Sin esto, una segunda llamada (navegación de cliente, refresh de
+  // ScrollTrigger) leería el textContent ya sin saltos de línea y volvería a
+  // envolver spans dentro de spans.
+  if (el.dataset.split === 'true') {
+    return Array.from(el.querySelectorAll<HTMLElement>('[data-word]'));
+  }
+
   const text = el.textContent ?? '';
   if (!text.trim()) return [];
 
@@ -49,7 +57,7 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
 
       const inner = document.createElement('span');
       inner.style.display = 'inline-block';
-      inner.style.willChange = 'transform';
+      inner.dataset.word = '';
       inner.textContent = token;
 
       outer.appendChild(inner);

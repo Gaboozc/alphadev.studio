@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import Icon, { type IconName } from '@/components/Icon';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
 
 const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
@@ -167,11 +169,13 @@ export default function ServiciosContent() {
             <div className="hero-visual" data-animate="fade">
               <div className="browser-frame browser-float">
                 <div className="browser-bar"><span /><span /><span /></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/cases/imperial-barbershop-1.png"
                   alt={lang === 'es' ? 'Sitio profesional hecho por AlphaDev' : 'Professional site built by AlphaDev'}
-                  loading="eager"
+                  width={CASE_PHOTO_WIDTH}
+                  height={CASE_PHOTO_HEIGHT}
+                  sizes="(max-width: 899px) 100vw, 620px"
+                  priority
                 />
               </div>
             </div>

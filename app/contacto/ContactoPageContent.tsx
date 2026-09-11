@@ -1,7 +1,9 @@
 'use client';
 
-import ContactoForm from './ContactoForm';
+import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
+import ContactoForm from './ContactoForm';
 
 export default function ContactoPageContent() {
   const { dict, lang } = useLang();
@@ -23,11 +25,13 @@ export default function ContactoPageContent() {
             <div className="hero-visual" data-animate="fade">
               <div className="browser-frame browser-float">
                 <div className="browser-bar"><span /><span /><span /></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/cases/imperial-barbershop-1.png"
                   alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
-                  loading="eager"
+                  width={CASE_PHOTO_WIDTH}
+                  height={CASE_PHOTO_HEIGHT}
+                  sizes="(max-width: 899px) 100vw, 620px"
+                  priority
                 />
               </div>
             </div>
