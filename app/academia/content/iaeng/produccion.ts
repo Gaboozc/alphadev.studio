@@ -4,6 +4,7 @@ import { MOD_PROD_ARQUITECTURA } from './produccion/arquitectura'
 import { MOD_PROD_ASYNC } from './produccion/async'
 import { MOD_PROD_REALTIME } from './produccion/realtime'
 import { MOD_PROD_SEGURIDAD } from './produccion/seguridad'
+import { MOD_PROD_RESPONSABLE } from './produccion/responsable'
 import { MOD_PROD_ENTREGA } from './produccion/entrega'
 
 // Rama Ingenieria de IA — un archivo por modulo dentro de la carpeta del area.
@@ -18,5 +19,6 @@ export const MODULES_IAENG_PRODUCCION: Module[] = [
   MOD_PROD_ASYNC,
   MOD_PROD_REALTIME,
   MOD_PROD_SEGURIDAD,
+  MOD_PROD_RESPONSABLE,
   MOD_PROD_ENTREGA,
 ]

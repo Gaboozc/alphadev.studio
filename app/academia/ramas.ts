@@ -136,7 +136,7 @@ export const TRACK_META: Record<Track, TrackMeta> = {
   ia: { id: 'ia', label: 'IA Aplicada', icon: 'sparkles', description: 'Prompting, herramientas de IA y automatización sin código.' },
   'iaeng-modelos': { id: 'iaeng-modelos', label: 'Modelos y datos', icon: 'database', description: 'Aprendizaje automático, embeddings, RAG y los canales de datos que los alimentan.' },
   'iaeng-agentes': { id: 'iaeng-agentes', label: 'Agentes', icon: 'cpu', description: 'Del bucle en Python al grafo compilado: herramientas, LangGraph, multiagente y MCP.' },
-  'iaeng-produccion': { id: 'iaeng-produccion', label: 'IA en producción', icon: 'trendingUp', description: 'Evaluación, observabilidad, trabajo en segundo plano, tiempo real, seguridad y entrega.' },
+  'iaeng-produccion': { id: 'iaeng-produccion', label: 'IA en producción', icon: 'trendingUp', description: 'Evaluación, observabilidad, trabajo en segundo plano, tiempo real, seguridad, gobernanza responsable y entrega.' },
   marketing: { id: 'marketing', label: 'Marketing', icon: 'megaphone', description: 'Estrategia, contenido orgánico, Meta Ads y medición.' },
   ads: { id: 'ads', label: 'Publicidad', icon: 'target', description: 'Meta Ads, Google Ads, TikTok Ads y remarketing.' },
   email: { id: 'email', label: 'Email Marketing', icon: 'mail', description: 'Listas, secuencias, automatizaciones y deliverability.' },
