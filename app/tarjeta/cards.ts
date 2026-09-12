@@ -64,6 +64,7 @@ export const CARDS: Record<string, CardData> = {
     instagram: 'alphadev.studio',
     website: 'https://alphadev.studio',
     initials: 'GM',
+    photo: '/assets/tarjeta/gabriel-muria.jpg',
     qr: '/assets/tarjeta/gabriel-muria-qr.png',
     vcard: '/tarjeta/gabriel-muria.vcf',
   },
