@@ -6448,6 +6448,393 @@ const { data: usuarios } = useFetch<Usuario[]>('/api/users');
         tip: 'Si TypeScript te da un error que no entiendes, pégalo en Claude con el contexto del código. Generalmente hay una solución simple que el error no comunica bien.',
         completed: false,
       },
+      {
+        id: 'w3-l4',
+        title: 'Estado global: Context, Zustand y cuándo usar cada uno',
+        type: 'reading',
+        content: `## El problema que resuelve el estado global
+
+useState resuelve el estado de UN componente. Pero ¿qué pasa cuando cinco componentes distintos necesitan saber si el usuario está logueado, o qué hay en el carrito? Pasar props manualmente por cada nivel intermedio (\"prop drilling\") se vuelve inmantenible rápido.
+
+### Context API — la solución nativa de React
+
+Context evita el prop drilling compartiendo un valor entre cualquier componente del árbol, sin pasarlo manualmente nivel por nivel.
+
+\`\`\`tsx
+// contexts/AuthContext.tsx
+'use client';
+import { createContext, useContext, useState, type ReactNode } from 'react';
+
+type Usuario = { id: string; nombre: string; email: string };
+type AuthContextValue = {
+  usuario: Usuario | null;
+  login: (u: Usuario) => void;
+  logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+
+  const login = (u: Usuario) => setUsuario(u);
+  const logout = () => setUsuario(null);
+
+  return (
+    <AuthContext.Provider value={{ usuario, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// Hook de conveniencia: falla ruidosamente si se usa fuera del provider
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth debe usarse dentro de <AuthProvider>');
+  return ctx;
+}
+\`\`\`
+
+Cualquier componente hijo del \`<AuthProvider>\` puede leer \`usuario\` con \`const { usuario } = useAuth()\`, sin que ningún componente intermedio sepa que existe.
+
+### El límite real de Context: re-renders
+
+Context tiene un problema que no se nota hasta que la app crece: **cualquier cambio en el valor re-renderiza a TODOS los consumidores**, aunque solo les interese una parte del estado. Un contador que cambia cada segundo dentro del mismo contexto que el usuario logueado re-renderiza también los componentes que solo leen el usuario.
+
+Para estado que cambia poco (tema, idioma, sesión) Context es perfecto. Para estado que cambia seguido y en muchos lugares (carrito, filtros, UI compleja), hace falta algo con mejor control de qué se re-renderiza.
+
+### Zustand — estado global sin el ceremonial
+
+Zustand resuelve exactamente ese problema: cada componente se suscribe solo al fragmento del estado que usa, vía un selector.
+
+\`\`\`tsx
+// store/carrito.ts
+import { create } from 'zustand';
+
+type Item = { id: string; nombre: string; precio: number; cantidad: number };
+
+type CarritoStore = {
+  items: Item[];
+  agregar: (item: Item) => void;
+  quitar: (id: string) => void;
+  total: () => number;
+};
+
+export const useCarrito = create<CarritoStore>((set, get) => ({
+  items: [],
+  agregar: (item) =>
+    set((state) => ({ items: [...state.items, item] })),
+  quitar: (id) =>
+    set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
+  total: () => get().items.reduce((sum, i) => sum + i.precio * i.cantidad, 0),
+}));
+\`\`\`
+
+\`\`\`tsx
+// En cualquier componente, sin Provider, sin wrapping:
+function ContadorCarrito() {
+  // Se suscribe SOLO a items.length — si cambia el total, este componente no re-renderiza
+  const cantidad = useCarrito((state) => state.items.length);
+  return <span>{cantidad} items</span>;
+}
+
+function BotonAgregar({ producto }: { producto: Item }) {
+  const agregar = useCarrito((state) => state.agregar);
+  return <button onClick={() => agregar(producto)}>Agregar</button>;
+}
+\`\`\`
+
+Sin \`<Provider>\` envolviendo la app, sin reducers, sin action types. El store vive fuera del árbol de React y cualquier componente se conecta a él directamente.
+
+### Zustand vs Redux Toolkit
+
+Redux Toolkit sigue siendo el estándar en equipos grandes por su ecosistema (DevTools con time-travel, middleware maduro, patrones muy documentados) y porque fuerza una estructura predecible en apps con decenas de desarrolladores tocando el mismo estado. El costo es boilerplate: slices, reducers, un dispatch explícito por cada cambio.
+
+Zustand apunta a lo mismo con una API mínima — es la opción por defecto para productos de equipo chico a mediano, que es el 90% de los proyectos que vas a construir en tu carrera temprana.
+
+| | Context API | Zustand | Redux Toolkit |
+|---|---|---|---|
+| Setup | Cero deps | 1 dependencia | 2 dependencias |
+| Boilerplate | Bajo | Muy bajo | Medio |
+| Re-renders finos | No | Sí (por selector) | Sí (por selector) |
+| DevTools | No | Con plugin | Nativo, muy maduro |
+| Cuándo usarlo | Tema, idioma, sesión | Carrito, filtros, UI global | Equipos grandes, estado muy complejo |
+
+### La regla práctica
+
+No todo es estado global. Antes de sacar algo de \`useState\` local, pregúntate: ¿de verdad lo necesitan dos componentes que no son padre-hijo directo? Si la respuesta es no, el estado local sigue siendo la opción correcta — es más simple de razonar y no paga el costo de una suscripción global.`,
+        completed: false,
+      },
+      {
+        id: 'w3-l5',
+        title: 'Server Actions: mutaciones sin API routes',
+        type: 'reading',
+        content: `## El problema que resuelven
+
+Hasta ahora, para que un formulario guarde datos hacía falta: un API route que reciba el POST, un \`fetch\` en el cliente que lo llame, manejo manual de loading/error, y a veces un endpoint separado solo para eso. Las **Server Actions** de Next.js eliminan ese viaje redundante: una función que corre en el servidor, invocable directo desde un formulario o un evento de cliente, sin escribir un endpoint.
+
+### Tu primera Server Action
+
+\`\`\`tsx
+// app/proyectos/actions.ts
+'use server'; // marca TODO lo exportado de este archivo como Server Action
+
+import { revalidatePath } from 'next/cache';
+import { z } from 'zod';
+
+const ProyectoSchema = z.object({
+  titulo: z.string().min(3).max(80),
+  descripcion: z.string().min(10).max(500),
+});
+
+export async function crearProyecto(formData: FormData) {
+  const datos = ProyectoSchema.safeParse({
+    titulo: formData.get('titulo'),
+    descripcion: formData.get('descripcion'),
+  });
+
+  if (!datos.success) {
+    return { error: 'Revisa los campos: ' + datos.error.issues[0].message };
+  }
+
+  // Esto corre en el servidor: acceso directo a la base de datos,
+  // sin exponer ninguna URL ni credencial al navegador.
+  await db.proyecto.create({ data: datos.data });
+
+  // Le dice a Next.js que la ruta /proyectos tiene datos nuevos
+  revalidatePath('/proyectos');
+  return { error: null };
+}
+\`\`\`
+
+\`\`\`tsx
+// app/proyectos/FormularioProyecto.tsx
+'use client';
+import { useActionState } from 'react';
+import { crearProyecto } from './actions';
+
+export function FormularioProyecto() {
+  const [state, formAction, pending] = useActionState(
+    async (_prev: { error: string | null }, formData: FormData) => crearProyecto(formData),
+    { error: null }
+  );
+
+  return (
+    <form action={formAction}>
+      <input name="titulo" placeholder="Título" required />
+      <textarea name="descripcion" placeholder="Descripción" required />
+      <button disabled={pending}>{pending ? 'Guardando...' : 'Crear proyecto'}</button>
+      {state.error && <p role="alert">{state.error}</p>}
+    </form>
+  );
+}
+\`\`\`
+
+No hay \`fetch\`, no hay \`/api/proyectos/route.ts\`, no hay que serializar la respuesta a mano. El formulario invoca la función del servidor como si fuera local, React maneja el estado de carga con \`useActionState\`, y \`pending\` reemplaza el \`isLoading\` que antes armabas con un \`useState\` aparte.
+
+### ¿Cuándo SÍ usar un API route en vez de una Server Action?
+
+Las Server Actions están pensadas para mutaciones invocadas desde tu propia UI React. Un API route sigue siendo necesario cuando:
+
+- Un servicio externo (un webhook de Stripe, un tercero) necesita golpear una URL HTTP pública.
+- Necesitas exponer datos a un cliente que no es tu app React (una app móvil, otro servicio).
+- El endpoint debe soportar métodos HTTP arbitrarios con headers/status codes específicos que el consumidor exige.
+
+### Revalidación: la otra mitad del patrón
+
+Una Server Action que muta datos casi siempre necesita decirle a Next.js qué páginas quedaron desactualizadas:
+
+\`\`\`tsx
+import { revalidatePath, revalidateTag } from 'next/cache';
+
+// Invalida el cache de una ruta específica
+revalidatePath('/proyectos');
+
+// Invalida todo lo que se haya cacheado bajo un tag,
+// útil cuando el mismo dato aparece en varias páginas
+revalidateTag('proyectos');
+\`\`\`
+
+Sin esto, el usuario crea un proyecto y no lo ve aparecer hasta refrescar manualmente — el error más común al adoptar Server Actions por primera vez.
+
+### Seguridad: una Server Action es un endpoint público
+
+Es fácil olvidar esto porque se siente como llamar una función local, pero **cualquiera puede invocar una Server Action directamente**, sin pasar por tu formulario — inspeccionando el bundle se ve el nombre de la acción y se puede llamar con cualquier payload. Cada Server Action debe:
+
+1. Validar su entrada (Zod, como arriba) — nunca confiar en lo que llega.
+2. Revisar autenticación/autorización explícitamente, igual que harías en un API route.
+3. Nunca asumir que el \`formData\` viene del formulario que escribiste — puede venir de cualquier lado.`,
+        completed: false,
+      },
+      {
+        id: 'w3-l6',
+        title: 'Performance: lazy loading, next/image y memo',
+        type: 'reading',
+        content: `## Por qué performance no es opcional
+
+Un sitio que tarda más de 2.5 segundos en mostrar contenido pierde usuarios de forma medible — y Google penaliza esos tiempos en el ranking (Core Web Vitals). Next.js trae varias herramientas para esto integradas; el trabajo es saber cuándo usar cada una.
+
+### next/image: la optimización que casi nunca hay que pensar
+
+Una imagen sin optimizar es, en la mayoría de los sitios, el mayor peso de la página. El componente \`Image\` de Next.js resuelve varios problemas a la vez: sirve el formato correcto (AVIF/WebP) según el navegador, genera los tamaños necesarios para cada breakpoint, y difiere la carga de imágenes fuera de pantalla.
+
+\`\`\`tsx
+import Image from 'next/image';
+
+// Con dimensiones conocidas (recomendado: evita layout shift)
+<Image
+  src="/proyecto-hero.jpg"
+  alt="Captura del proyecto"
+  width={1200}
+  height={630}
+  sizes="(max-width: 768px) 100vw, 50vw"
+/>
+
+// La imagen más importante de la página (LCP) va con priority:
+// así el navegador no la trata como "diferible"
+<Image src="/hero.jpg" alt="Hero" fill priority sizes="100vw" />
+\`\`\`
+
+El atributo \`sizes\` no es cosmético: le dice al navegador qué ancho real va a ocupar la imagen en cada breakpoint, para que no descargue una versión de 1200px en un teléfono que solo la muestra a 375px.
+
+### Lazy loading de componentes con next/dynamic
+
+Un dashboard con un gráfico pesado (Chart.js, un editor de texto enriquecido) no debería bloquear la carga inicial de toda la página si ese componente vive más abajo, fuera de pantalla.
+
+\`\`\`tsx
+import dynamic from 'next/dynamic';
+
+// Este componente y sus dependencias NO entran en el bundle inicial
+const GraficoVentas = dynamic(() => import('./GraficoVentas'), {
+  loading: () => <p>Cargando gráfico...</p>,
+  ssr: false, // si la librería depende de window/document
+});
+\`\`\`
+
+El bundle inicial baja de tamaño, la página interactiva llega antes, y el componente pesado se descarga en paralelo mientras el usuario ya puede usar el resto de la interfaz.
+
+### memo y useMemo: evitar trabajo repetido
+
+React re-renderiza un componente cada vez que su padre re-renderiza, incluso si sus props no cambiaron. Para componentes baratos esto es invisible; para una tabla de 500 filas o un cálculo pesado, no.
+
+\`\`\`tsx
+import { memo, useMemo } from 'react';
+
+// memo: el componente NO re-renderiza si sus props son iguales
+// (comparación superficial) a la última vez
+const FilaTabla = memo(function FilaTabla({ item }: { item: Item }) {
+  return <tr><td>{item.nombre}</td><td>{item.precio}</td></tr>;
+});
+
+function TablaProductos({ items, filtro }: { items: Item[]; filtro: string }) {
+  // useMemo: el cálculo pesado solo corre de nuevo si items o filtro cambiaron,
+  // no en cada render de TablaProductos por otra razón (ej. un input no relacionado)
+  const filtrados = useMemo(
+    () => items.filter((i) => i.nombre.includes(filtro)),
+    [items, filtro]
+  );
+
+  return (
+    <table>
+      <tbody>
+        {filtrados.map((item) => <FilaTabla key={item.id} item={item} />)}
+      </tbody>
+    </table>
+  );
+}
+\`\`\`
+
+### La trampa: optimizar antes de medir
+
+\`memo\` y \`useMemo\` tienen su propio costo (guardar y comparar valores) — envolver TODO en memo por costumbre suele hacer el código más lento y más difícil de leer, no más rápido. La secuencia correcta es: medir con el panel Performance de Chrome DevTools o el Next.js Bundle Analyzer, encontrar el componente que de verdad re-renderiza de más o el bundle que de verdad pesa, y optimizar ESE. Optimizar a ciegas es la razón número uno por la que estas herramientas tienen mala fama de "complican el código para nada".`,
+        completed: false,
+      },
+      {
+        id: 'w3-l7',
+        title: 'Testing: Jest, React Testing Library y Cypress',
+        type: 'reading',
+        content: `## Tres niveles de testing, tres herramientas
+
+No todo se prueba igual. Una función pura de cálculo, un componente que renderiza según props, y un flujo completo de usuario en el navegador necesitan enfoques distintos — por eso el ecosistema React usa tres herramientas complementarias, no una sola.
+
+### Jest: unit tests de lógica pura
+
+Jest prueba funciones aisladas — sin DOM, sin React, solo entrada y salida.
+
+\`\`\`ts
+// lib/precio.ts
+export function calcularTotal(items: { precio: number; cantidad: number }[]) {
+  return items.reduce((sum, i) => sum + i.precio * i.cantidad, 0);
+}
+
+// lib/precio.test.ts
+import { calcularTotal } from './precio';
+
+describe('calcularTotal', () => {
+  it('suma precio × cantidad de cada item', () => {
+    const items = [{ precio: 10, cantidad: 2 }, { precio: 5, cantidad: 3 }];
+    expect(calcularTotal(items)).toBe(35);
+  });
+
+  it('devuelve 0 con un array vacío', () => {
+    expect(calcularTotal([])).toBe(0);
+  });
+});
+\`\`\`
+
+Rápidos (milisegundos por test), sin dependencias externas, ideales para lógica de negocio: cálculos de precio, validaciones, transformaciones de datos.
+
+### React Testing Library: componentes desde la perspectiva del usuario
+
+RTL prueba componentes sin acoplarse a los detalles de implementación — busca elementos por lo que un usuario vería (texto, roles), no por clases CSS ni estructura interna.
+
+\`\`\`tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { FormularioProyecto } from './FormularioProyecto';
+
+test('muestra un error si el título es muy corto', async () => {
+  render(<FormularioProyecto />);
+
+  fireEvent.change(screen.getByPlaceholderText('Título'), { target: { value: 'ab' } });
+  fireEvent.click(screen.getByText('Crear proyecto'));
+
+  expect(await screen.findByRole('alert')).toHaveTextContent(/título/i);
+});
+\`\`\`
+
+La filosofía de RTL es deliberada: si refactorizás el componente por dentro (cambiás de \`useState\` a \`useReducer\`, por ejemplo) sin cambiar lo que el usuario ve, el test sigue pasando. Un test que se rompe por refactors internos que no cambian el comportamiento es un test mal escrito.
+
+### Cypress: el flujo completo, en un navegador real
+
+Cypress abre un navegador de verdad y simula lo que hace un usuario de principio a fin — es el nivel más lento y más caro de mantener, así que se reserva para los flujos críticos del negocio, no para cada componente.
+
+\`\`\`ts
+// cypress/e2e/crear-proyecto.cy.ts
+describe('Crear proyecto', () => {
+  it('permite crear un proyecto y verlo en la lista', () => {
+    cy.visit('/proyectos');
+    cy.get('input[name="titulo"]').type('Mi primer proyecto');
+    cy.get('textarea[name="descripcion"]').type('Descripción de prueba con suficiente longitud');
+    cy.contains('Crear proyecto').click();
+
+    cy.contains('Mi primer proyecto').should('be.visible');
+  });
+});
+\`\`\`
+
+Este test golpea la app real, corriendo en un navegador real, contra (idealmente) una base de datos de test — detecta problemas que Jest y RTL no pueden: un CSS que oculta el botón, una Server Action que falla en producción pero no en el mock del test.
+
+### La pirámide: cuánto de cada uno
+
+La regla general es una pirámide: muchos unit tests (Jest) baratos y rápidos en la base, una capa media de tests de componente (RTL), y pocos tests end-to-end (Cypress) cubriendo solo los flujos que de verdad importan para el negocio (registro, checkout, el flujo que genera ingresos). Invertir la pirámide — muchos tests E2E, pocos unitarios — produce una suite lenta, frágil y cara de mantener.
+
+| Herramienta | Qué prueba | Velocidad | Cuándo |
+|---|---|---|---|
+| Jest | Funciones puras, lógica | Milisegundos | Cálculos, validaciones, transformaciones |
+| React Testing Library | Componentes aislados | Rápido | Formularios, interacciones de un componente |
+| Cypress | Flujos completos, navegador real | Lento (segundos) | Los 3-5 flujos que generan ingreso o son críticos |`,
+        completed: false,
+      },
           {
         id: 'web-3-proj-basico',
         title: 'Proyecto Básico: API REST con 3 endpoints',
@@ -6946,6 +7333,89 @@ Next.js 16+ App Router · TypeScript strict · Tailwind CSS · Supabase (Postgre
         completed: false,
       },
       {
+        id: 'web-cap-1b',
+        title: 'Roadmap de 6 semanas: los 4 milestones del capstone',
+        type: 'practice',
+        content: `## Por qué un proyecto de 6 semanas necesita milestones
+
+Seis semanas sin checkpoints intermedios es la receta exacta del "lo termino el último fin de semana" — y en un proyecto full-stack real, eso significa entregar sin auth, sin pulir, o directamente sin deploy. Cada milestone de abajo tiene una fecha objetivo y una definición de "hecho" verificable, no ambigua.
+
+### El roadmap completo
+
+| Semana | Milestone | Qué debe existir al final |
+|---|---|---|
+| 1 | Idea + schema | Proyecto elegido, wireframes de las 3-4 pantallas clave, schema de la base de datos diseñado (tablas, relaciones, RLS planeado) |
+| 2 | Auth + schema en producción | Supabase configurado, tablas creadas con RLS activo, login/registro funcionando en producción (aunque el resto de la app esté vacío) |
+| 3-4 | CRUD principal | La funcionalidad central del proyecto (crear/leer/editar/borrar la entidad principal) funcionando de punta a punta, con datos reales |
+| 5 | Feature diferenciadora | Lo que hace que tu proyecto no sea un CRUD genérico — la pieza que un reclutador recordaría |
+| 6 | Pulido y entrega | Responsive verificado, estados de loading/error, video demo, README, checklist final completo |
+
+### Por qué el orden importa
+
+Auth y schema van en la semana 2, no al final. Es la parte más tediosa de configurar (RLS, políticas, redirects) y la que más rompe cosas si se deja para último — mejor pelearla temprano, con cinco semanas de margen, que la noche antes de entregar.
+
+La feature diferenciadora va DESPUÉS del CRUD principal, no antes. Es tentador empezar por lo divertido, pero sin el CRUD base funcionando no hay dónde enganchar la feature — y si el tiempo se acaba, preferís tener un CRUD sólido sin diferenciador a un diferenciador brillante sobre una base rota.`,
+        tasks: [
+          'Escribe tu propia versión de esta tabla con fechas concretas (no "semana 1" sino la fecha real del calendario)',
+          'Comparte el roadmap con tu mentor o un compañero antes de empezar a programar — un scope revisado por otra persona detecta sobre-ambición temprano',
+          'Agenda un recordatorio para revisar tu progreso contra esta tabla cada domingo',
+        ],
+        tip: 'Si al final de la semana 2 no tienes auth funcionando en producción, ese es el momento de recortar scope — no la semana 6. Un roadmap solo sirve si de verdad lo revisás mientras hay tiempo de reaccionar.',
+        completed: false,
+      },
+      {
+        id: 'web-cap-1c',
+        title: 'Milestone semana 2: Auth y schema en producción',
+        type: 'practice',
+        tasks: [
+          'Proyecto de Supabase creado, con las tablas de tu schema ya creadas (no solo diseñadas en papel)',
+          'Row Level Security activo en TODAS las tablas que tengan datos de usuario — sin excepción, aunque sea "solo para probar"',
+          'Registro y login funcionando con Supabase Auth, desplegado en Vercel (no solo en localhost)',
+          'Una ruta protegida real: si no hay sesión, redirige a /login en vez de mostrar la página vacía',
+          'Logout funcional que de verdad invalida la sesión, no solo borra un estado de React',
+        ],
+        tip: 'Prueba las políticas de RLS con la anon key real, no solo confiando en que "deberían funcionar". Abre las DevTools, copia la petición que hace tu app, y probá pedir datos de otro usuario a mano — si te los da, la política está mal escrita.',
+        completed: false,
+      },
+      {
+        id: 'web-cap-1d',
+        title: 'Milestone semanas 3-4: CRUD principal funcionando',
+        type: 'practice',
+        tasks: [
+          'Crear, leer, editar y borrar la entidad principal de tu proyecto — las cuatro operaciones, no solo crear y listar',
+          'Los datos persisten en Supabase, no en un array de useState que se resetea al recargar',
+          'Cada usuario ve y modifica solo sus propios datos (verificado con RLS, no solo con un filtro en el frontend)',
+          'Estados de carga visibles mientras se piden datos — la pantalla nunca queda en blanco sin explicación',
+          'Manejo de errores: si una operación falla (red caída, validación), el usuario ve un mensaje, no una pantalla rota o un error de consola silencioso',
+          'Demo interna: mostrale el flujo completo a alguien que no conozca el proyecto y anotá dónde se confunde',
+        ],
+        tip: 'Este es el milestone donde más se subestima el tiempo. "Ya casi termino el CRUD" que se dice en la semana 3 casi siempre significa que falta el manejo de errores y los estados de carga — que no son opcionales, son la mitad del trabajo real.',
+        completed: false,
+      },
+      {
+        id: 'web-cap-1e',
+        title: 'Milestone semana 5: la feature diferenciadora',
+        type: 'practice',
+        content: `## Qué hace diferenciadora a una feature
+
+No es complejidad técnica por sí sola — es la pieza que responde "¿por qué este proyecto y no otro task manager más?" cuando alguien lo ve en tu portafolio. Ejemplos concretos por cada idea del brief:
+
+- **Task manager**: no "puede asignar tareas" sino un dashboard de carga de trabajo por persona con alertas cuando alguien está sobrecargado
+- **Link shortener**: no "acorta links" sino analytics con gráfica de clicks por día y detección de país de origen
+- **Portfolio CMS**: no "puedo editar proyectos" sino generación automática de un PDF del portfolio actualizado con un click
+- **Expense tracker**: no "registra gastos" sino un reporte mensual generado con IA que resume patrones de gasto en lenguaje natural
+- **Waitlist**: no "guarda emails" sino un sistema de referidos con posición en la fila que baja cuando invitás gente
+
+El patrón: la feature base la construye cualquiera siguiendo un tutorial. La diferenciadora resuelve algo que el usuario no sabía pedir.`,
+        tasks: [
+          'Define tu feature diferenciadora en una frase: "a diferencia de un [tipo de app] genérico, el mío [qué hace distinto]"',
+          'Constrýyela de punta a punta esta semana — no la dejes "empezada" para pulir después',
+          'Probála con alguien externo al proyecto: si no entiende por qué es valiosa en 30 segundos, la explicación (o la feature) necesita trabajo',
+        ],
+        tip: 'Si llegás a la semana 5 sin tiempo para una feature diferenciadora ambiciosa, una versión pequeña pero pulida vale más que una versión grande a medio hacer. Ver web-cap-1: "scope pequeño, calidad alta, enviado" aplica también acá.',
+        completed: false,
+      },
+      {
         id: 'web-cap-2',
         title: 'Checklist de entrega y criterios de evaluación',
         type: 'practice',
@@ -7137,6 +7607,34 @@ Next.js 16+ App Router · TypeScript strict · Tailwind CSS · Supabase (Postgre
     track: 'prodai',
     lessons: [
       {
+        id: 'prodai-capstone-0',
+        title: 'Antes de empezar: mapea tus procesos repetitivos',
+        type: 'practice',
+        content: `## No automatices al azar — mide primero
+
+El error más común al empezar este capstone es abrir n8n y empezar a conectar herramientas sin haber identificado qué vale la pena automatizar. Dos semanas alcanzan para un sistema enfocado en 2-3 procesos reales, no para "automatizar todo".
+
+### El ejercicio de mapeo (30 minutos, hazlo antes de tocar n8n)
+
+Lista cada tarea repetitiva de tu semana de trabajo con tres columnas: **frecuencia** (¿cuántas veces por semana?), **tiempo actual** (¿cuánto tarda cada vez?), **variabilidad** (¿es siempre igual, o cambia mucho caso a caso?).
+
+Los mejores candidatos para automatizar son los que combinan alta frecuencia + tiempo alto + baja variabilidad. Una tarea que haces una vez al mes no justifica el tiempo de automatizarla. Una tarea que cambia por completo cada vez tampoco — no hay patrón que un flujo pueda capturar.
+
+### Ejemplos de buenos candidatos
+
+- Armar el reporte semanal de resultados para un cliente (mismo formato, distintos datos)
+- Responder los mismos 5 tipos de pregunta en emails de leads entrantes
+- Crear la estructura inicial de un proyecto nuevo (carpetas, doc de brief, tablero de tareas)
+- Resumir transcripciones de llamadas con clientes en action items`,
+        tasks: [
+          'Completa la tabla de mapeo con al menos 8 tareas repetitivas de tu semana real',
+          'Elige los 2-3 procesos con mejor combinación de frecuencia + tiempo + baja variabilidad — esos son tu proyecto',
+          'Para cada uno, escribe en una frase qué pasos tiene HOY, antes de diseñar cómo automatizarlos',
+        ],
+        tip: 'Si no puedes describir el proceso actual en pasos concretos, tampoco vas a poder automatizarlo — un flujo de n8n no es más que esos mismos pasos, hechos por un sistema en vez de por vos.',
+        completed: false,
+      },
+            {
         id: 'prodai-capstone-1',
         title: 'Proyecto: Stack de productividad completo',
         type: 'project',
@@ -7155,6 +7653,21 @@ Next.js 16+ App Router · TypeScript strict · Tailwind CSS · Supabase (Postgre
           'Calcula el ahorro de tiempo real de los flujos implementados: horas por semana × tu tarifa horaria = valor del sistema',
         ],
         tip: 'Un sistema de IA que funciona para ti no necesariamente funciona para tu cliente. Separa: qué usas internamente para ser más eficiente (nunca lo ve el cliente) vs. qué le entregas al cliente como parte del servicio.',
+        completed: false,
+      },
+
+      {
+        id: 'prodai-capstone-2',
+        title: 'Checklist de entrega',
+        type: 'practice',
+        tasks: [
+          '¿Los workflows de n8n corren solos, sin que vos tengas que dispararlos a mano cada vez?',
+          '¿Probaste qué pasa si un paso falla (una API cae, un dato viene vacío)? ¿el flujo avisa o falla en silencio?',
+          '¿El documento de stack incluye el costo mensual real, no solo las herramientas elegidas?',
+          '¿La guía de onboarding la entendería alguien que nunca vio el sistema, sin que vos se lo expliques en persona?',
+          '¿Mediste el tiempo ahorrado con un número real (horas/semana), no una estimación vaga de \"ahorra tiempo\"?',
+        ],
+        tip: 'Un sistema de productividad que solo vos sabés operar no escala. La prueba real de este proyecto es si otra persona del equipo podría tomar tu documentación y usar el sistema sin preguntarte nada.',
         completed: false,
       },
     ],
