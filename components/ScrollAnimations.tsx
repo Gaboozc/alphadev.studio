@@ -224,6 +224,29 @@ export default function ScrollAnimations() {
                 }
               );
             });
+
+            // ── Pin-track: carrusel horizontal pinneado (WorkShowcase,
+            //    estilo Huge "Our work."). Es el UNICO pin de todo el sitio a
+            //    propósito: cada pin inserta un spacer y fuerza un recálculo
+            //    de todos los triggers posteriores, así que no se repite el
+            //    patrón en ningún otro sitio. Solo desktop: en móvil el mismo
+            //    markup es scroll-snap nativo, sin JS (ver globals.css).
+            gsap.utils.toArray<HTMLElement>('[data-pin-track]').forEach((section) => {
+              const track = section.querySelector<HTMLElement>('[data-pin-track-inner]');
+              if (!track) return;
+              gsap.to(track, {
+                x: () => -(track.scrollWidth - section.clientWidth),
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: section,
+                  pin: true,
+                  scrub: 1,
+                  anticipatePin: 1,
+                  end: () => '+=' + (track.scrollWidth - section.clientWidth),
+                  invalidateOnRefresh: true,
+                },
+              });
+            });
           }
         }
       );

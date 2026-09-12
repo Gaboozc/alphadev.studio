@@ -1345,6 +1345,239 @@ a, button {
 }
 
 /* ═══════════════════════════════════════════════════════
+   BRAND PROOF STRIP — el nombre del cliente como logo
+   (BrandProofStrip.tsx). No hay logos reales como asset;
+   la tipografía display gigante cumple ese rol a coste cero.
+═══════════════════════════════════════════════════════ */
+
+.brand-proof {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  padding: var(--section-pad-y) 0;
+}
+
+.brand-proof-eyebrow {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.brand-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.75rem 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+.brand-row:last-child { border-bottom: none; }
+
+.brand-row-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* permite que el nombre se encoja en vez de desbordar */
+}
+
+.brand-row-industry {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.brand-row-name {
+  display: inline-block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  /* Misma familia de escala que .hero-headline: el nombre es tipografía
+     protagonista, no una etiqueta. */
+  font-size: clamp(2.5rem, 9vw, 7rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  /* --p llega de data-scroll-progress (0 al entrar, 1 al pasar por completo).
+     Un settle sutil de escala en vez de tocar letter-spacing: eso reflowearía
+     el texto en cada frame de scroll, lo que las reglas de coste del sistema
+     de scroll prohíben (solo transform/opacity/clip-path). Fallback 1 = sin
+     JS (reduced-motion) el nombre queda en su tamaño final, nunca a medias. */
+  transform: scale(calc(0.985 + var(--p, 1) * 0.015));
+  transform-origin: left center;
+  transition: color 200ms ease;
+}
+.brand-row:hover .brand-row-name { color: var(--gold-dark); }
+
+.brand-row-divider {
+  margin: 1rem 0 0;
+  opacity: var(--p, 1);
+}
+
+.brand-row-frame {
+  width: 100%;
+  max-width: 380px;
+}
+
+@media (min-width: 900px) {
+  .brand-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+  .brand-row-copy { flex: 1; }
+  .brand-row-frame { flex-shrink: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   WORK SHOWCASE — carrusel horizontal pinneado
+   (WorkShowcase.tsx). El ÚNICO pin del sitio: ver la nota en
+   el componente y en ScrollAnimations.tsx antes de añadir otro.
+═══════════════════════════════════════════════════════ */
+
+.work-showcase {
+  position: relative;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.work-showcase-header {
+  flex-shrink: 0;
+  padding-top: clamp(3rem, 8vh, 5rem);
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+.work-showcase-header .section-title { margin-bottom: 0; }
+
+.work-track {
+  display: flex;
+  flex: 1;
+  min-height: 0; /* si no, el contenido intrínseco de los paneles ignoraría flex:1 */
+}
+
+.work-panel {
+  width: 100vw;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+}
+.work-panel.is-alt { background: var(--bg-alt); }
+
+.work-panel-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.work-panel-num {
+  display: block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+
+.work-panel-name {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.work-panel-industry {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 0.5rem;
+}
+
+.work-panel-result {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 32rem;
+  margin-top: 1.25rem;
+}
+
+.work-panel-scope {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+  margin-top: 0.75rem;
+}
+
+.work-panel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  width: fit-content;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-border);
+  padding-bottom: 3px;
+  transition: opacity 200ms ease, border-color 200ms ease;
+}
+.work-panel-cta:hover {
+  opacity: 0.75;
+  border-color: var(--gold);
+}
+
+.work-panel-frame {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .work-panel-inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 4rem;
+  }
+  .work-panel-copy { flex: 1; }
+  .work-panel-frame {
+    width: 60vw;
+    max-width: 640px;
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile: sin pin ni JS — overflow-x nativo con scroll-snap sobre el mismo
+   markup (el motor data-pin-track en ScrollAnimations.tsx solo corre en
+   desktop). overscroll-behavior-x evita que el swipe horizontal se filtre
+   al scroll vertical de la pagina. */
+@media (max-width: 899px) {
+  .work-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .work-panel {
+    scroll-snap-align: start;
+    padding: 0 1.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
    CASE STUDIES
 ═══════════════════════════════════════════════════════ */
 

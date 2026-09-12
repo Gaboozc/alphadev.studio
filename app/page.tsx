@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
 import HeroContent from '@/components/HeroContent';
+import BrandProofStrip from '@/components/BrandProofStrip';
+import WorkShowcase from '@/components/WorkShowcase';
 import ProblemSection from '@/components/ProblemSection';
 import CapabilitiesSection from '@/components/CapabilitiesSection';
 import ServicesSection from '@/components/ServicesSection';
 import ProcessSection from '@/components/ProcessSection';
-import CaseStudiesSection from '@/components/CaseStudiesSection';
 import WhyUsSection from '@/components/WhyUsSection';
 import CTASection from '@/components/CTASection';
 
@@ -22,11 +23,12 @@ export default function Home() {
     <>
       <Hero />
       <HeroContent />
+      <BrandProofStrip />
+      <WorkShowcase />
       <ProblemSection />
       <CapabilitiesSection />
       <ServicesSection />
       <ProcessSection />
-      <CaseStudiesSection />
       <WhyUsSection />
       <CTASection />
     </>
