@@ -7241,6 +7241,32 @@ export default function Layout({ children }) {
       },
     
     {
+        id: 'w4-l3',
+        title: 'Storage: subir y servir archivos con buckets y políticas',
+        type: 'reading',
+        content: `## La promesa que el módulo todavía no cumplió\n\nEl título de la primera lección menciona Storage, pero hasta ahora solo tocaste base de datos y auth. Storage es el tercer pilar: guardar y servir archivos —imágenes de perfil, PDFs, adjuntos— sin montar tu propio servidor de archivos.\n\n## Buckets: carpetas con sus propias reglas de acceso\n\nUn **bucket** es un contenedor de archivos, con su propia configuración de público/privado y sus propias políticas de Row Level Security —igual que una tabla, pero para archivos en vez de filas.\n\n\`\`\`sql\n-- Desde el SQL Editor de Supabase, o desde el dashboard de Storage\ninsert into storage.buckets (id, name, public)\nvalues ('avatares', 'avatares', true);  -- publico: cualquiera con la URL puede verlo\n\n-- Politica: cada usuario solo puede subir a su propia carpeta dentro del bucket\ncreate policy "usuarios suben su propio avatar"\non storage.objects for insert\nwith check (\n  bucket_id = 'avatares'\n  and (storage.foldername(name))[1] = auth.uid()::text\n);\n\`\`\`\n\n## Subir un archivo desde el cliente\n\n\`\`\`tsx\nasync function subirAvatar(archivo: File, userId: string) {\n  const ruta = \`\${userId}/\${archivo.name}\`;  // respeta la politica: carpeta = uid\n\n  const { error } = await supabase.storage\n    .from('avatares')\n    .upload(ruta, archivo, { upsert: true });\n\n  if (error) throw error;\n\n  const { data } = supabase.storage.from('avatares').getPublicUrl(ruta);\n  return data.publicUrl;\n}\n\`\`\`\n\n## Público vs privado: la decisión que hay que tomar antes de subir el primer archivo\n\nUn bucket **público** sirve cualquier archivo a quien tenga la URL, sin comprobar nada —cómodo para avatares o imágenes de producto, pero inadecuado para documentos privados de un usuario. Un bucket **privado** exige generar una URL firmada con caducidad para cada acceso, verificando permisos en cada solicitud:\n\n\`\`\`tsx\n// Bucket privado: la URL expira, y solo se genera si el usuario tiene permiso\nconst { data } = await supabase.storage\n  .from('documentos-privados')\n  .createSignedUrl(ruta, 60 * 5);  // valida por 5 minutos\n\`\`\`\n\nDecidir esto al crear el bucket —no después de que ya hay archivos sensibles ahí— evita el error más común: subir documentos privados a un bucket que se marcó público por comodidad al principio.`,
+        tasks: [
+          'Crea un bucket y una política que permita a cada usuario subir solo a su propia carpeta',
+          'Implementa la subida de un archivo desde un formulario y muestra la URL pública resultante',
+          'Explica con tus palabras cuándo un bucket privado con URL firmada es la opción correcta en vez de uno público',
+        ],
+        tip: 'Un bucket marcado público por comodidad y que después termina con archivos sensibles es un error que se nota tarde, cuando ya hay datos ahí. Decide público o privado ANTES de subir el primer archivo real.',
+        completed: false,
+      },
+      {
+        id: 'w4-l4',
+        title: 'Variables de entorno en Vercel: Development, Preview y Production',
+        type: 'reading',
+        content: `## Tres entornos, no uno\n\nVercel no tiene un solo conjunto de variables de entorno — tiene tres: **Development** (tu \`.env.local\`), **Preview** (cada rama que no es main genera su propio deploy con sus propias variables) y **Production** (lo que corre en tu dominio real). Confundirlos es la causa más común de "funciona en mi máquina pero no en el deploy".\n\n\`\`\`bash\n# .env.local -- solo para tu maquina, nunca se commitea (ya deberia estar en .gitignore)\nNEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co\nNEXT_PUBLIC_SUPABASE_ANON_KEY=ey...\n\n# En Vercel: Project Settings -> Environment Variables\n# Cada variable se marca para Development, Preview y/o Production por separado.\n\`\`\`\n\n## Las variables NEXT_PUBLIC_ terminan en el navegador, las demás no\n\nCualquier variable con el prefijo \`NEXT_PUBLIC_\` se incluye en el bundle de JavaScript que llega al navegador —visible para cualquiera que abra las DevTools—. Una variable sin ese prefijo solo existe del lado del servidor. La clave anónima de Supabase está pensada para ser pública (las políticas de RLS son el candado real, no el secreto de esa clave); una \`service_role\` key, que salta RLS por completo, **nunca** debe llevar el prefijo \`NEXT_PUBLIC_\` ni acercarse al navegador.\n\n## Preview deployments: la razón por la que un PR no rompe producción\n\nCada pull request que abrís genera automáticamente un deploy de Preview, con su propia URL, corriendo contra las variables de entorno marcadas para Preview —que pueden apuntar a un proyecto de Supabase de pruebas, distinto del de producción, para no arriesgar datos reales mientras revisás un cambio.\n\n## El error que arruina un deploy y tarda en diagnosticarse\n\nAgregar una variable de entorno nueva en el código y olvidar agregarla en Vercel produce un error que solo aparece en producción —nunca en local, porque ahí sí está en \`.env.local\`. El síntoma clásico: build exitoso, pero la funcionalidad que depende de esa variable falla en silencio o tira un error críptico sobre \`undefined\`. Antes de hacer merge de un cambio que agrega una variable nueva, confirmá que ya está configurada en Vercel para los tres entornos que la necesiten.`,
+        tasks: [
+          'Revisa las variables de entorno de un proyecto tuyo en Vercel: ¿cuáles están marcadas para los tres entornos y cuáles no?',
+          'Confirma que ninguna clave con privilegios elevados (service_role o equivalente) lleva el prefijo NEXT_PUBLIC_',
+          'Abre un PR de prueba y verifica en qué proyecto/base de datos corre su Preview deployment',
+        ],
+        tip: 'Si algo funciona en local pero falla solo en producción sin ningún error obvio en el build, las variables de entorno son de las primeras tres cosas a revisar — junto con RLS y con la versión de Node.',
+        completed: false,
+      },
+    {
       id: 'web-4-p1',
       title: 'Proyecto: App full-stack con autenticación',
       type: 'project',
