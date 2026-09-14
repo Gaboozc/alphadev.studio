@@ -12,6 +12,7 @@
 // de React que aquí no existe.
 
 import { useEffect } from 'react'
+import { CONTACT_EMAIL } from '@/lib/site-config'
 
 const SERIF = 'Georgia, "Times New Roman", serif'
 const SANS = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
@@ -78,8 +79,8 @@ export default function GlobalError({
               }}
             >
               No es culpa tuya. Vuelve a intentarlo; si sigue pasando, escríbenos a{' '}
-              <a href="mailto:zavarsegabriel@gmail.com" style={{ color: '#9A7235' }}>
-                zavarsegabriel@gmail.com
+              <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: '#9A7235' }}>
+                {CONTACT_EMAIL}
               </a>{' '}
               y lo revisamos.
             </p>

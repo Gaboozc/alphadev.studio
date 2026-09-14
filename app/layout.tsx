@@ -5,6 +5,7 @@ import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollAnimations from '@/components/ScrollAnimations';
 import MagneticButtons from '@/components/MagneticButtons';
+import { SITE_URL, CONTACT_EMAIL, PHONE_US, PHONE_MX } from '@/lib/site-config';
 import './globals.css';
 
 const inter = Inter({
@@ -20,7 +21,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://alphadev.studio'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'AlphaDev Studios | Te hacemos existir en internet',
     template: '%s | AlphaDev Studios',
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     'agencia de soluciones digitales',
     'AlphaDev Studios',
   ],
-  authors: [{ name: 'AlphaDev Studios', url: 'https://alphadev.studio' }],
+  authors: [{ name: 'AlphaDev Studios', url: SITE_URL }],
   creator: 'AlphaDev Studios',
   publisher: 'AlphaDev Studios',
   robots: {
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_MX',
-    url: 'https://alphadev.studio',
+    url: SITE_URL,
     siteName: 'AlphaDev Studios',
     title: 'AlphaDev Studios | Te hacemos existir en internet',
     description:
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
       'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren y te elijan.',
   },
   alternates: {
-    canonical: 'https://alphadev.studio',
+    canonical: SITE_URL,
   },
   // Los iconos NO se declaran aquí: los aportan app/icon.svg y
   // app/apple-icon.tsx por convención de archivo. Declararlos a mano además
@@ -82,24 +83,24 @@ const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'AlphaDev Studios',
-  url: 'https://alphadev.studio',
-  logo: 'https://alphadev.studio/assets/img/alphadev-logo.png',
+  url: SITE_URL,
+  logo: `${SITE_URL}/assets/img/alphadev-logo.png`,
   description:
     'Agencia de soluciones digitales. Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
-  email: 'zavarsegabriel@gmail.com',
-  telephone: '+1-407-686-7561',
+  email: CONTACT_EMAIL,
+  telephone: PHONE_US.e164,
   contactPoint: [
     {
       '@type': 'ContactPoint',
-      email: 'zavarsegabriel@gmail.com',
-      telephone: '+1-407-686-7561',
+      email: CONTACT_EMAIL,
+      telephone: PHONE_US.e164,
       contactType: 'customer service',
       areaServed: 'US',
       availableLanguage: ['Spanish', 'English'],
     },
     {
       '@type': 'ContactPoint',
-      telephone: '+52-56-3711-3563',
+      telephone: PHONE_MX.e164,
       contactType: 'customer service',
       areaServed: 'MX',
       availableLanguage: ['Spanish', 'English'],
@@ -133,7 +134,7 @@ const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'AlphaDev Studios',
-  url: 'https://alphadev.studio',
+  url: SITE_URL,
   description: 'Te hacemos existir en internet: presencia digital completa para tu negocio.',
 };
 

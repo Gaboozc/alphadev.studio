@@ -1,6 +1,8 @@
 // Datos de las tarjetas de presentación digitales (rutas /tarjeta/<slug>).
 // Rutas "secretas": no linkeadas en el sitio y con noindex.
 
+import { SITE_URL, CONTACT_EMAIL, PHONE_US, PHONE_MX, INSTAGRAM_HANDLE } from '@/lib/site-config';
+
 export type CardPhone = {
   label: string; // 'US' | 'MX' | 'Cel'
   display: string; // formato legible
@@ -33,14 +35,14 @@ export const CARDS: Record<string, CardData> = {
       es: 'Construimos tu presencia digital. Hablemos.',
       en: "We build your digital presence. Let's talk.",
     },
-    email: 'zavarsegabriel@gmail.com',
+    email: CONTACT_EMAIL,
     phones: [
-      { label: 'US', display: '+1 (407) 686-7561', e164: '+14076867561' },
-      { label: 'MX', display: '+52 56 3711 3563', e164: '+525637113563' },
+      { label: 'US', display: PHONE_US.display, e164: PHONE_US.e164 },
+      { label: 'MX', display: PHONE_MX.display, e164: PHONE_MX.e164 },
     ],
-    whatsapp: '14076867561',
-    instagram: 'alphadev.studio',
-    website: 'https://alphadev.studio',
+    whatsapp: PHONE_US.e164.replace('+', ''),
+    instagram: INSTAGRAM_HANDLE,
+    website: SITE_URL,
     initials: 'GZ',
     photo: '/assets/tarjeta/gabriel-zavarse.jpg',
     qr: '/assets/tarjeta/gabriel-zavarse-qr.png',
@@ -57,12 +59,12 @@ export const CARDS: Record<string, CardData> = {
     // Números compartidos del estudio (MX + US). Email personal pendiente.
     email: '',
     phones: [
-      { label: 'US', display: '+1 (407) 686-7561', e164: '+14076867561' },
-      { label: 'MX', display: '+52 56 3711 3563', e164: '+525637113563' },
+      { label: 'US', display: PHONE_US.display, e164: PHONE_US.e164 },
+      { label: 'MX', display: PHONE_MX.display, e164: PHONE_MX.e164 },
     ],
-    whatsapp: '14076867561',
-    instagram: 'alphadev.studio',
-    website: 'https://alphadev.studio',
+    whatsapp: PHONE_US.e164.replace('+', ''),
+    instagram: INSTAGRAM_HANDLE,
+    website: SITE_URL,
     initials: 'GM',
     photo: '/assets/tarjeta/gabriel-muria.jpg',
     qr: '/assets/tarjeta/gabriel-muria-qr.png',

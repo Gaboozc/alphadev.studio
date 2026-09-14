@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
+import { SITE_URL, CONTACT_EMAIL } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidad — Leer con Monstruos',
   description:
     'Política de privacidad de Leer con Monstruos, app educativa de lectura para niños de preescolar. La app no recopila datos personales y funciona completamente offline.',
   robots: { index: true, follow: false },
-  alternates: { canonical: 'https://alphadev.studio/privacy/leer-con-monstruos' },
-  openGraph: { url: 'https://alphadev.studio/privacy/leer-con-monstruos' },
+  alternates: { canonical: '/privacy/leer-con-monstruos' },
+  openGraph: { url: '/privacy/leer-con-monstruos' },
 };
 
 export default function PrivacyLeerConMonstruosPage() {
@@ -233,10 +234,10 @@ export default function PrivacyLeerConMonstruosPage() {
               <p style={{ marginTop: '0.5rem' }}>
                 Email:{' '}
                 <a
-                  href="mailto:zavarsegabriel@gmail.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   style={{ color: 'var(--gold)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
                 >
-                  zavarsegabriel@gmail.com
+                  {CONTACT_EMAIL}
                 </a>
               </p>
             </div>
@@ -255,7 +256,7 @@ export default function PrivacyLeerConMonstruosPage() {
               Para conocer las prácticas de privacidad generales de AlphaDev Studios,
               visita{' '}
               <a
-                href="https://alphadev.studio"
+                href={SITE_URL}
                 style={{ color: 'var(--gold)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
               >
                 alphadev.studio

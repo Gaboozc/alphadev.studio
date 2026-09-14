@@ -4,8 +4,8 @@ import ContactoPageContent from './ContactoPageContent';
 export const metadata: Metadata = {
   title: 'Contacto',
   description: 'Cuéntanos sobre tu proyecto. Sin compromiso, analizamos la mejor solución técnica para tu empresa.',
-  alternates: { canonical: 'https://alphadev.studio/contacto' },
-  openGraph: { url: 'https://alphadev.studio/contacto' },
+  alternates: { canonical: '/contacto' },
+  openGraph: { url: '/contacto' },
 };
 
 export default function ContactoPage() {

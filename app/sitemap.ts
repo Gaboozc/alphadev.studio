@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/site-config'
 
 // Sitemap generado, no un XML a mano.
 //
@@ -10,7 +11,7 @@ import type { MetadataRoute } from 'next'
 // noindex en su propio metadata): un sitemap que anuncia lo que luego pides no
 // indexar es una contradicción que Search Console reporta como error.
 
-const BASE = 'https://alphadev.studio'
+const BASE = SITE_URL
 
 type Pagina = { ruta: string; prioridad: number; frecuencia: MetadataRoute.Sitemap[number]['changeFrequency'] }
 
