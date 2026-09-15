@@ -44,6 +44,16 @@ export default function ScrollAnimations() {
 
           const travel = isDesktop ? 1 : 0.55; // factor de desplazamiento
 
+          // ScrollTrigger mide mal cuando el propio trigger es position:sticky
+          // (su getBoundingClientRect refleja la posición "pegada" en vez de la
+          // de documento en el momento del refresh, así que el cálculo de
+          // start/end queda mal para siempre y el reveal nunca dispara). Todo
+          // lo que vive dentro de .sticky-stack-header usa en su lugar el
+          // .sticky-stack contenedor (grid normal, no sticky) como trigger —
+          // misma posición vertical aproximada, sin el bug de medición.
+          const stableTrigger = (el: HTMLElement) =>
+            el.closest('.sticky-stack-header') ? (el.closest<HTMLElement>('.sticky-stack') ?? el) : el;
+
           // ── Titulares: reveal palabra por palabra (editorial) ──────
           gsap.utils.toArray<HTMLElement>('[data-animate="title"]').forEach((el) => {
             const words = splitWords(el);
@@ -57,7 +67,7 @@ export default function ScrollAnimations() {
               ease: EASE,
               stagger: 0.06,
               onComplete: () => gsap.set(words, { willChange: 'auto' }),
-              scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+              scrollTrigger: { trigger: stableTrigger(el), start: 'top 88%', once: true },
             });
           });
 
@@ -70,7 +80,7 @@ export default function ScrollAnimations() {
                 scaleX: 1,
                 duration: 0.7,
                 ease: 'power2.inOut',
-                scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+                scrollTrigger: { trigger: stableTrigger(el), start: 'top 92%', once: true },
               }
             );
           });
@@ -85,7 +95,7 @@ export default function ScrollAnimations() {
                 opacity: 1,
                 duration: 0.8,
                 ease: EASE,
-                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+                scrollTrigger: { trigger: stableTrigger(el), start: 'top 88%', once: true },
               }
             );
           });
@@ -104,7 +114,7 @@ export default function ScrollAnimations() {
                 duration: 0.7,
                 ease: EASE,
                 stagger: 0.08,
-                scrollTrigger: { trigger: grid, start: 'top 82%', once: true },
+                scrollTrigger: { trigger: stableTrigger(grid), start: 'top 82%', once: true },
               }
             );
           });
@@ -118,7 +128,7 @@ export default function ScrollAnimations() {
                 opacity: 1,
                 duration: 0.8,
                 ease: 'power1.out',
-                scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+                scrollTrigger: { trigger: stableTrigger(el), start: 'top 90%', once: true },
               }
             );
           });
@@ -182,6 +192,24 @@ export default function ScrollAnimations() {
             );
           });
 
+          // ── Section-theme: cuando una sección oscura (ej. CTASection) entra
+          //    en viewport, marca <html> para que el grano de fondo cambie a
+          //    'screen' — con 'multiply' sobre un fondo casi negro el grano
+          //    queda matemáticamente invisible (ver globals.css). Corre en
+          //    todos los tamaños: el fix de contraste no es un lujo de desktop.
+          gsap.utils.toArray<HTMLElement>('[data-section-theme]').forEach((el) => {
+            const theme = el.dataset.sectionTheme || 'dark';
+            ScrollTrigger.create({
+              trigger: el,
+              start: 'top 60%',
+              end: 'bottom 40%',
+              onEnter: () => { document.documentElement.dataset.themeScroll = theme; },
+              onEnterBack: () => { document.documentElement.dataset.themeScroll = theme; },
+              onLeave: () => { delete document.documentElement.dataset.themeScroll; },
+              onLeaveBack: () => { delete document.documentElement.dataset.themeScroll; },
+            });
+          });
+
           // ── Parallax sutil — solo desktop ──────────────────────────
           if (isDesktop) {
             gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((el) => {
@@ -225,7 +253,7 @@ export default function ScrollAnimations() {
               );
             });
 
-            // ── Pin-track: carrusel horizontal pinneado (WorkShowcase,
+          // ── Pin-track: carrusel horizontal pinneado (WorkShowcase,
             //    estilo Huge "Our work."). Es el UNICO pin de todo el sitio a
             //    propósito: cada pin inserta un spacer y fuerza un recálculo
             //    de todos los triggers posteriores, así que no se repite el
@@ -269,6 +297,9 @@ export default function ScrollAnimations() {
       cancelAnimationFrame(refreshRaf);
       window.removeEventListener('load', refresh);
       ctx.revert();
+      // Evita que una navegación a mitad de una sección oscura deje <html>
+      // marcado para siempre — la página nueva no tiene por qué serlo.
+      delete document.documentElement.dataset.themeScroll;
     };
   }, [pathname]);
 

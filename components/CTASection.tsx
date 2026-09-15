@@ -11,6 +11,7 @@ export default function CTASection() {
     <section
       className="cta-dark section-pad text-center relative overflow-hidden"
       style={{ borderTop: '1px solid var(--border)' }}
+      data-section-theme="dark"
     >
       {/* Background treatments */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -52,6 +52,17 @@ html::after {
   background-size: 180px 180px;
   opacity: 0.028;
   mix-blend-mode: multiply;
+  transition: opacity 0.4s ease;
+}
+
+/* 'multiply' sobre un fondo casi negro (.cta-dark, #1A1512) es matemáticamente
+   casi nulo: el grano desaparece justo donde más se notaría. 'screen' aclara
+   en vez de oscurecer, así que sobre fondo oscuro sí queda visible. El propio
+   ScrollAnimations marca <html data-theme-scroll="dark"> mientras una sección
+   con [data-section-theme="dark"] está en viewport. */
+html[data-theme-scroll='dark']::after {
+  mix-blend-mode: screen;
+  opacity: 0.045;
 }
 
 /* ─── Reset ───────────────────────────────────────────── */
@@ -482,6 +493,50 @@ a, button {
 
 @media (prefers-reduced-motion: reduce) {
   .browser-float { animation: none; }
+}
+
+/* Prueba real dentro de una service card: "esto se lo hicimos a X",
+   con la captura en un marco chico — versión sin flotar, sin sombra dramática,
+   para no competir con el resto de la grid de servicios. */
+.service-proof {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.service-proof-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: 0.6rem;
+}
+
+.service-proof-frame {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -14px rgba(154, 114, 53, 0.3);
+}
+
+.service-proof-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.service-proof-name {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.service-proof-name strong {
+  color: var(--text);
+  font-weight: 600;
 }
 
 /* Ritmo vertical de sección — una sola fuente (spec del design system).
@@ -1185,6 +1240,38 @@ a, button {
   line-height: 1.55;
 }
 
+/* Checklist opcional dentro de un process-step — usado en la página /proceso,
+   que además de la descripción corta lista qué incluye cada fase. */
+.process-step-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.process-step-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.process-step-detail::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+@media (min-width: 640px) {
+  .sticky-stack-items .process-step-details {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════
    STICKY-STACK — encabezado fijo mientras el contenido de
    la derecha pasa por debajo (estilo Huge/Fantasy). CSS puro,
@@ -1847,6 +1934,14 @@ button.case-thumb {
   backdrop-filter: blur(4px);
 }
 
+/* Hover propio del thumb, para cuando vive suelto en la galería de
+   /portafolio en vez de dentro de un .case-detail-card. */
+.case-thumb:hover img { transform: scale(1.04); }
+.case-thumb:hover .case-thumb-overlay { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .case-thumb:hover img { transform: none; }
+}
+
 /* Placeholder mientras no hay fotos */
 .case-thumb-empty {
   position: absolute;
@@ -1862,6 +1957,83 @@ button.case-thumb {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-subtle);
+}
+
+/* ─── /portafolio: sección full-bleed por cliente ─────────────────
+   Reusa .sticky-stack (header pegajoso a la izquierda mientras la galería
+   pasa a la derecha), con su propio contenido en vez de process-step. */
+.portfolio-client {
+  padding: var(--section-pad-y) 0;
+  border-top: 1px solid var(--border);
+}
+
+.portfolio-client-industry {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-client-name {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.portfolio-client-result {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  max-width: 34rem;
+}
+
+.portfolio-client-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-client-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.portfolio-client-link:hover { opacity: 0.7; }
+
+.portfolio-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .portfolio-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* La portada ocupa las 2 columnas; el resto se reparte debajo. */
+  .portfolio-gallery > button:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+.portfolio-gallery .case-thumb {
+  border-radius: 12px;
+  border: 1px solid var(--border);
 }
 
 /* ─── Lightbox de galería ───────────────────────────────────────── */
