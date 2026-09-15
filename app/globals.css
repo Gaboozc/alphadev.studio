@@ -163,6 +163,49 @@ h1, h2, h3, h4 {
   100% { transform: scale(0.95); opacity: 0;   }
 }
 
+/* ─── Academia: pantalla de carga entre navegaciones ─── */
+.acad-loading {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 4rem 1.5rem;
+}
+
+.acad-loading-ring {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.acad-loading-ring::before,
+.acad-loading-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+}
+
+.acad-loading-ring::before {
+  opacity: 0.25;
+}
+
+.acad-loading-ring::after {
+  animation: pulse-ring 1.4s ease-out infinite;
+}
+
+.acad-loading-label {
+  font-family: var(--font-inter);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
 /* ─── Smooth transitions (selective — not on everything) */
 a, button {
   transition: color 0.2s ease, background 0.2s ease,

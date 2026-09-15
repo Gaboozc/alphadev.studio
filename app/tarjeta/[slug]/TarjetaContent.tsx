@@ -4,6 +4,7 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 import Icon, { type IconName } from '@/components/Icon';
 import Flag, { type Country } from '@/components/Flag';
 import { CARDS } from '../cards';
+import { SITE_URL } from '@/lib/site-config';
 
 type Action = {
   icon?: IconName;
@@ -48,7 +49,7 @@ export default function TarjetaContent({ slug }: { slug: string }) {
         <p className="tarjeta-role">{card.role[lang]}</p>
         <p className="tarjeta-tagline">{card.tagline[lang]}</p>
 
-        <a href="https://alphadev.studio/contacto" className="btn-glow tarjeta-save">
+        <a href={`${SITE_URL}/contacto`} className="btn-glow tarjeta-save">
           <Icon name="calendar" size={18} />
           {t('Agendar cita', 'Book a call')}
         </a>

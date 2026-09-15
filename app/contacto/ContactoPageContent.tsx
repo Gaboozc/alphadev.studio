@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 import ContactoForm from './ContactoForm';
+import { CONTACT_EMAIL } from '@/lib/site-config';
 
 export default function ContactoPageContent() {
   const { dict, lang } = useLang();
@@ -44,8 +45,8 @@ export default function ContactoPageContent() {
           <div className="max-w-2xl mx-auto">
             <ContactoForm />
             <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>
-              <a href="mailto:zavarsegabriel@gmail.com" className="text-sm transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
-                zavarsegabriel@gmail.com
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-sm transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
+                {CONTACT_EMAIL}
               </a>
             </div>
           </div>

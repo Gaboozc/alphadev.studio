@@ -2631,6 +2631,34 @@ El proceso importa tanto como el resultado. Debes documentar: qué investigaste,
     track: 'branding',
     lessons: [
       {
+        id: 'branding-cap-0',
+        title: 'Roadmap de 5 semanas: los milestones del capstone',
+        type: 'practice',
+        content: `## Cinco semanas sin checkpoints es como llegar a la semana 5 sin estrategia definida
+
+Un brand book de 20+ páginas con 5 aplicaciones no se construye de una sentada al final. Sin milestones intermedios, lo más probable es escribir la estrategia la semana 1, dejarla "cerrada" sin validarla, y descubrir en la semana 4 que el logo no expresa el posicionamiento que se definió al principio — para entonces, ya es tarde para volver atrás sin perder semanas.
+
+### El roadmap completo
+
+| Semana | Milestone | Qué debe existir al final |
+|---|---|---|
+| 1 | Estrategia | Posicionamiento, audiencia, arquetipo y personalidad documentados — y validados con alguien que no sea vos |
+| 2 | Sistema de logo | Las 4 variantes (primaria, compacta, monocromática, negativa) con zona de respeto y tamaño mínimo definidos |
+| 3-4 | Brand book y aplicaciones | Paleta y tipografía documentadas, brand book armado, las 5 aplicaciones producidas |
+| 5 | Pulido y entrega | Checklist completo, archivos exportados y organizados, permisos de Figma verificados |
+
+### Por qué la estrategia se valida ANTES de tocar Figma para el logo
+
+Diseñar el logo antes de validar el posicionamiento es la causa más común de reescribir el sistema completo a mitad de proyecto — el logo que se ve bien pero no expresa lo que la estrategia después define no es un logo malo, es un logo que resolvió el problema equivocado. Mostrarle la estrategia (aunque sea en texto, sin ningún elemento visual todavía) a alguien que no la vio, y confirmar que entiende quién es la marca, es la validación mínima antes de avanzar.`,
+        tasks: [
+          'Escribe tu roadmap con fechas de calendario reales',
+          'Antes de terminar la semana 1, mostrale tu documento de estrategia a alguien y pedile que describa la personalidad de la marca solo con eso',
+          'Si la descripción no coincide con lo que definiste, ajustá la estrategia ANTES de pasar a diseñar el logo',
+        ],
+        tip: 'Si llegás a la semana 3 sin el sistema de logo cerrado, ese es el momento de recortar alcance en las aplicaciones (5 aplicaciones a 3, por ejemplo) — no de saltarte el brand book completo. Un sistema pequeño y coherente vale más que uno grande e inconsistente.',
+        completed: false,
+      },
+      {
         id: 'branding-cap-1',
         title: 'Proyecto Capstone: Brand Identity de Cero',
         type: 'project',
@@ -2669,6 +2697,33 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
           'Archivos exportados organizados: logos en SVG + PNG (todos los formatos y fondos), paleta como variables CSS, tipografías con instrucciones de uso',
         ],
         tip: 'Las mejores identidades de marca no son las más complejas — son las más coherentes. Cada elemento debe ser una expresión del mismo carácter. Prueba esto: muestra el brand book a alguien que no conoce la marca y pídele que describa la personalidad de la empresa. Si coincide con lo que definiste en la estrategia, el sistema funciona.',
+        completed: false,
+      },
+      {
+        id: 'branding-cap-1c',
+        title: 'Milestone semana 2: sistema de logo completo',
+        type: 'practice',
+        tasks: [
+          'Las 4 variantes del logo (primaria, compacta, monocromática, negativa) diseñadas, no solo la primaria',
+          'Zona de respeto y tamaño mínimo definidos y documentados, no solo "se ve bien" a ojo',
+          'El logo se prueba a 16x16px (tamaño de favicon) y sigue siendo reconocible',
+          'Alguien que vio la estrategia de la semana 1 confirma que el logo se siente coherente con lo definido — si no, ajustar ahora, no en la semana 5',
+        ],
+        tip: 'Un logo que solo funciona en su versión a color y tamaño grande no está terminado — las variantes compacta, monocromática y negativa no son un extra, son parte del sistema mínimo que cualquier cliente real va a necesitar.',
+        completed: false,
+      },
+      {
+        id: 'branding-cap-1d',
+        title: 'Milestone semanas 3-4: brand book y aplicaciones',
+        type: 'practice',
+        tasks: [
+          'Paleta de colores documentada con hex/RGB/HSL y uso específico de cada color, no solo una lista de swatches',
+          'Sistema tipográfico completo con la escala documentada (no solo "usamos esta fuente")',
+          'Brand book armado con todas las secciones — cada página con un propósito claro, sin páginas de relleno',
+          'Las 5 aplicaciones producidas (no bocetadas): perfil de redes, post template, tarjeta, firma de email, mockup físico',
+          'Las 5 aplicaciones se sienten del mismo universo de marca cuando se ven juntas',
+        ],
+        tip: 'Producí las aplicaciones EN PARALELO con terminar el brand book, no después — aplicar el sistema real (no solo documentarlo en teoría) revela inconsistencias que la documentación sola no muestra.',
         completed: false,
       },
       {
@@ -2755,6 +2810,39 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
         tip: 'Las interfaces que suenan como robots suelen ser el resultado de copy escrito por abogados o desarrolladores. Un UX Writer que trabaja desde el wireframe previene el 80% de los problemas de microcopy antes de que lleguen a producción.',
         completed: false,
       },
+      {
+        id: 'uiux-9-4',
+        title: 'Accesibilidad en el copy: alt text, lectores de pantalla y lenguaje inclusivo',
+        type: 'reading',
+        content: '## El copy que un lector de pantalla no puede omitir\n\nUn usuario que navega con lector de pantalla no ve el layout — escucha el texto, en el orden en que el HTML lo expone. Un ícono sin texto alternativo, un botón que solo dice "Enviar" sin contexto de qué envía, o un formulario donde el label no está asociado al campo, no son detalles menores de accesibilidad: son la diferencia entre poder usar el producto o no.\n\n## Alt text: describir el propósito, no la apariencia\n\nEl error más común en alt text es describir literalmente la imagen ("foto de una persona sonriendo con una laptop") en vez de su propósito en el contexto ("equipo de soporte disponible por chat"). La pregunta correcta no es "¿qué se ve en la imagen?" sino "¿qué información pierde alguien que no puede verla?". Una imagen puramente decorativa —que no aporta información— debe llevar alt vacío, no una descripción forzada que un lector de pantalla lea sin necesidad.\n\n## Botones y links: el texto tiene que tener sentido fuera de contexto\n\nUn lector de pantalla permite navegar saltando de link en link, sin leer el texto alrededor. Una lista de links que dicen todos "Ver más" es inútil en ese modo de navegación — cada uno debería decir a qué lleva: "Ver más sobre el plan Pro", no "Ver más" repetido diez veces en la misma página.\n\n## Lenguaje inclusivo: elegir palabras que no asuman de más\n\nEvitar lenguaje que asuma una configuración física, familiar o demográfica que no todos los usuarios comparten. Instrucciones que no dependen de color solo —"el campo en rojo" excluye a usuarios con daltonismo— agregar un ícono o texto que no dependa del color.\n\n## Accesibilidad no es una capa que se agrega al final\n\nIgual que con el copy en general, el error más caro es escribir la interfaz primero y agregar accesibilidad después. Revisar cada mensaje de error, cada botón y cada estado vacío con la pregunta ¿esto tiene sentido para alguien que no puede ver el layout? desde el wireframe evita reescribir todo el copy más tarde.',
+        tasks: [
+          'Revisa 5 imagenes de un producto tuyo o de un cliente: su alt text describe apariencia o proposito? Reescribe las que fallen',
+          'Busca 3 links o botones con texto generico y reescribelos para que tengan sentido fuera de contexto',
+          'Revisa un formulario tuyo: algun mensaje de error o instruccion depende solo del color para comunicar algo?',
+        ],
+        tip: 'Activa el lector de pantalla nativo de tu sistema operativo y navega tu propio producto sin mirar la pantalla. Vas a encontrar mas problemas de copy en 10 minutos asi que en horas de revision visual.',
+        completed: false,
+      },
+      {
+        id: 'uiux-9-proj',
+        title: 'Proyecto: audita y reescribe el microcopy de un producto real',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Vas a auditar y reescribir el microcopy de un producto real —el tuyo, el de un cliente, o una app que uses seguido y conozcas bien—. El objetivo no es encontrar errores por encontrarlos: es producir una entrega que un equipo de producto pueda usar directamente para mejorar la interfaz.',
+        deliverables: [
+          'Auditoria de minimo 15 textos de interfaz (botones, errores, empty states, tooltips) con el problema especifico de cada uno',
+          'Reescritura de cada uno de los 15, aplicando los principios de claro/conciso/util/consistente/humano',
+          'Definicion de voz de marca: 4 adjetivos de personalidad + su antonimo + 3 ejemplos en distintos contextos',
+          'Glosario de 10 terminos con la definicion de cuando usar cada uno',
+          'Al menos 3 correcciones de accesibilidad en el copy',
+        ],
+        tasks: [
+          'Completa la auditoria y la reescritura completa antes de pedir feedback',
+          'Comparte el antes/despues con alguien que no conozca el producto',
+        ],
+        tip: 'El antes/despues es lo que hace este proyecto convincente en un portafolio.',
+        completed: false,
+      },
     ],
     resources: [
       { title: 'UX Writing Hub — recursos y comunidad de UX Writing', url: 'https://uxwritinghub.com', type: 'article' },
@@ -2794,6 +2882,68 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
           'Analiza los resultados del test de Maze: qué tareas tuvieron menor completion rate y qué implica eso para rediseñar esos flujos',
         ],
         tip: 'Testa el prototipo, no al usuario. El objetivo no es descubrir si el usuario "entiende" — es descubrir qué partes del diseño confunden. La responsabilidad siempre está en el diseño, no en la inteligencia del usuario.',
+        completed: false,
+      },
+      {
+        id: 'uiux-10-3',
+        title: 'Testing presencial: moderación y sesgo del facilitador',
+        type: 'reading',
+        content: '## Por qué el testing presencial sigue importando\n\nUn test remoto no moderado (Maze) te da números: completion rate, tiempo por tarea. Un test presencial te da algo que ningún número captura — la cara del usuario cuando algo no tiene sentido, el mouse que duda antes de hacer clic, el comentario en voz alta que explica el POR QUÉ detrás del número. Para decisiones de diseño importantes, los dos métodos se complementan: remoto para volumen, presencial para profundidad.\n\n## El setup de una sesión presencial\n\n**Antes**: prepara un guión con las tareas exactas (no improvises en el momento), recluta al usuario con al menos 2 días de anticipación, prueba el prototipo vos mismo la noche anterior — nada mata una sesión más rápido que un link roto frente al usuario.\n\n**Durante**: sentáte al lado, no enfrente (enfrente se siente como un examen). Pide al usuario que piense en voz alta ("think-aloud"): "contame qué estás pensando mientras hacés esto". Toma notas de lo que HACE, no de lo que decís que va a hacer.\n\n**Después**: haz 3-5 preguntas de cierre abiertas ("¿qué fue lo más confuso?", "¿qué cambiarías?") y agradece específicamente — la gente que testea gratis merece saber que su tiempo importó.\n\n## Los 4 sesgos que arruinan un test sin que te des cuenta\n\n**Sesgo de la pregunta directiva**: "¿Viste el botón verde de arriba?" ya le dijo al usuario dónde mirar. La pregunta correcta es "¿qué harías ahora?", sin señalar nada.\n\n**Sesgo de la ayuda prematura**: el usuario duda 5 segundos y ya le explicaste cómo funciona. Esos 5 segundos de confusión SON el dato — dejarlo que se resuelva solo (o que falle) es la información que buscabas.\n\n**Sesgo de confirmación del facilitador**: si diseñaste la pantalla, querés inconscientemente que funcione. Notas ansiosamente cada éxito y minimizas cada tropiezo. Un segundo observador tomando notas independientes corrige esto.\n\n**Sesgo de la muestra cómoda**: testear solo con compañeros de trabajo o amigos que ya conocen el producto da resultados artificialmente buenos. Necesitás gente que nunca vio el diseño.',
+        tasks: [
+          'Escribe el guión completo de una sesión presencial: 3-5 tareas + las preguntas de cierre, listas antes de reclutar a nadie',
+          'Modera una sesión de 15-20 minutos en persona (o por videollamada con cámara) pidiendo think-aloud explícito',
+          'Revisa tus propias notas después: ¿hiciste alguna pregunta directiva sin darte cuenta? ¿ayudaste antes de tiempo en algún momento?',
+        ],
+        tip: 'Grabá la sesión (con permiso) aunque tomes notas en vivo. Vas a notar sesgos propios en la repetición que no viste en el momento — es la forma más rápida de mejorar como moderador.',
+        completed: false,
+      },
+      {
+        id: 'uiux-10-4',
+        title: 'Analizar resultados: heatmaps, task completion y SUS score',
+        type: 'reading',
+        content: '## De sesiones sueltas a un veredicto claro\n\nCinco sesiones de testing generan horas de video y decenas de notas dispersas. El trabajo de análisis convierte eso en 3-5 hallazgos accionables, respaldados por evidencia — sin ese paso, el testing fue teatro, no research.\n\n## Task completion rate\n\nEl métrico más simple y más útil: de los N usuarios que intentaron una tarea, ¿cuántos la completaron sin ayuda? Una tarea con completion rate menor a 70% es una señal de alarma — el problema no es el usuario, es el diseño de esa pantalla.\n\n\`\`\`\nTarea: "Encontrar y agregar un producto al carrito"\nUsuario 1: completó sin ayuda (32s)\nUsuario 2: completó con 1 intento fallido (58s)\nUsuario 3: no completó — abandonó tras buscar en 3 lugares\nUsuario 4: completó sin ayuda (28s)\nUsuario 5: completó con ayuda del moderador\n\nCompletion rate sin asistencia: 2/5 = 40% → rediseñar esta pantalla es prioridad\n\`\`\`\n\n## Heatmaps: dónde mira y hace clic la gente\n\nHerramientas como Maze o Hotjar generan un mapa de calor sobre las capturas del prototipo, mostrando dónde se concentraron los clics. Un heatmap con clics dispersos por toda la pantalla (en vez de concentrados en el elemento correcto) revela que los usuarios no encuentran el punto de acción con la mirada — el jerarquía visual falla, no el copy ni la lógica.\n\n## SUS Score (System Usability Scale)\n\nUn cuestionario estándar de 10 preguntas (alternando afirmaciones positivas y negativas, escala 1-5) que produce un número de 0 a 100 comparable entre productos y entre iteraciones del mismo producto.\n\n\`\`\`\nCálculo simplificado:\n- Preguntas impares (1,3,5,7,9): puntuación - 1\n- Preguntas pares (2,4,6,8,10): 5 - puntuación\n- Sumar los 10 valores × 2.5 = SUS score (0-100)\n\nBenchmark de referencia:\n- Menos de 50: usabilidad pobre, prioridad alta\n- 50-68: por debajo del promedio\n- 68: promedio de la industria\n- Más de 80: excelente\n\`\`\`\n\nEl valor del SUS no es el número aislado — es compararlo antes/después de un rediseño con el MISMO cuestionario, sobre el MISMO producto, para probar objetivamente que una iteración mejoró la usabilidad real.',
+        tasks: [
+          'Calcula el completion rate de las tareas que testeaste en las lecciones anteriores, aunque sea con 3-5 usuarios',
+          'Aplica el cuestionario SUS a los mismos usuarios y calcula el score',
+          'Si usaste Maze, exporta el heatmap y marca las 2 zonas donde el patrón de clics no coincide con dónde esperabas que la gente hiciera clic',
+        ],
+        tip: 'Con 5 usuarios el SUS score tiene un margen de error grande — no lo trates como un número exacto, tratalo como una señal direccional que confirmás con la siguiente ronda de testing.',
+        completed: false,
+      },
+      {
+        id: 'uiux-10-5',
+        title: 'Priorizar hallazgos: impacto vs esfuerzo',
+        type: 'reading',
+        content: '## El testing termina en una lista de cambios, no en un informe\n\nUn reporte de UX Testing con 15 hallazgos sin priorizar es inútil para un equipo con tiempo limitado — nadie sabe por dónde empezar. El último paso del proceso es traducir hallazgos en una lista ordenada de qué arreglar primero.\n\n## La matriz impacto/esfuerzo\n\nPara cada hallazgo, dos preguntas: ¿cuántos usuarios afecta y qué tan grave es el problema (impacto)? ¿cuánto trabajo de diseño e ingeniería toma arreglarlo (esfuerzo)?\n\n\`\`\`\nAlto impacto + bajo esfuerzo  → Arreglar YA (quick wins)\nAlto impacto + alto esfuerzo   → Planificar para el próximo sprint/release\nBajo impacto + bajo esfuerzo   → Hacer si sobra tiempo, nunca bloquea nada\nBajo impacto + alto esfuerzo   → Descartar o revisitar más adelante\n\`\`\`\n\nUn hallazgo como "el botón de checkout tiene poco contraste y 3 de 5 usuarios tardaron en encontrarlo" es alto impacto (afecta conversión directa) y bajo esfuerzo (cambiar un color) — va primero en la lista, sin excepción.\n\n## Cómo comunicar hallazgos a un equipo que no estuvo en las sesiones\n\nCada hallazgo en el reporte final debe tener tres partes: **la observación** (qué pasó, con el dato: "2 de 5 usuarios no encontraron el botón de checkout"), **la evidencia** (un clip del video o un heatmap, no solo tu palabra), y **la recomendación concreta** (no "mejorar el checkout" sino "aumentar el contraste del botón y moverlo sobre el fold").\n\nUn hallazgo sin las tres partes se descarta en la primera reunión de priorización — "deberíamos mejorar la UX" no es accionable, un cambio específico con evidencia sí lo es.',
+        tasks: [
+          'Toma los hallazgos de tus sesiones anteriores y clasifícalos en la matriz de impacto/esfuerzo',
+          'Escribe los 3 hallazgos de mayor prioridad con las tres partes completas: observación, evidencia, recomendación',
+          'Presenta la lista priorizada a alguien que no vio las sesiones (compañero, mentor) y verificá si entiende qué hacer sin que se lo expliques más',
+        ],
+        tip: 'La priorización es donde se nota si de verdad hiciste research o solo juntaste opiniones. Si no podés justificar por qué un hallazgo es "alto impacto" con un número o una cita textual del usuario, revisá si es un hallazgo real o una preferencia personal disfrazada.',
+        completed: false,
+      },
+      {
+        id: 'uiux-10-proj',
+        title: 'Proyecto: testea un producto real y entrega tu reporte',
+        type: 'project',
+        difficulty: 'intermedio',
+        projectBrief: 'Aplica el proceso completo de este módulo a un producto real: el tuyo, el de un cliente, o un producto público que uses seguido. El objetivo no es encontrar problemas por encontrarlos — es producir un reporte que un equipo de diseño pueda usar para decidir qué arreglar primero.',
+        deliverables: [
+          'Plan de testing: 4-5 tareas concretas, el método elegido (remoto no moderado, remoto moderado o presencial) y el criterio de reclutamiento de usuarios',
+          'Mínimo 3 sesiones ejecutadas (grabadas con permiso, o con notas detalladas si no se pudo grabar)',
+          'Métricas cuantitativas: completion rate por tarea y SUS score',
+          'Reporte de hallazgos: mínimo 5 hallazgos, cada uno con observación + evidencia (clip o cita textual) + recomendación',
+          'Matriz de priorización impacto/esfuerzo con los hallazgos ubicados',
+          'Presentación de 10 minutos (video o en vivo) del reporte a alguien que no participó en el testing',
+        ],
+        rubrica: [
+          'El plan de testing tiene tareas específicas y medibles, no genéricas ("navegar el sitio")',
+          'Los hallazgos están respaldados con evidencia real, no son opiniones del diseñador',
+          'La matriz de priorización refleja impacto real medido, no solo intuición',
+          'El reporte es comprensible para alguien que no vio las sesiones',
+        ],
+        tip: 'El error más común en este proyecto es testear el producto de uno mismo con demasiada indulgencia — es difícil ser objetivo con tu propio diseño. Si podés, consigue a alguien externo que revise tu reporte de hallazgos antes de entregarlo, buscando sesgos que se te hayan colado.',
         completed: false,
       },
     ],

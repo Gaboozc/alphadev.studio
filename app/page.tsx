@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   title: 'AlphaDev Studios | Te hacemos existir en internet',
   description:
     'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren, te elijan y vuelvan.',
-  alternates: { canonical: 'https://alphadev.studio' },
-  openGraph: { url: 'https://alphadev.studio' },
+  alternates: { canonical: '/' },
+  openGraph: { url: '/' },
 };
 
 export default function Home() {

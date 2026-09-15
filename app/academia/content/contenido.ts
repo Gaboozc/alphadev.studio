@@ -1369,6 +1369,128 @@ export default function sitemap(): MetadataRoute.Sitemap {
         completed: false,
       },
           {
+        id: 's2-l3',
+        title: 'Auditoría técnica a fondo con Screaming Frog',
+        type: 'reading',
+        content: `## Por qué un crawler de escritorio sigue siendo insustituible
+
+PageSpeed te dice cómo rinde UNA página. Screaming Frog rastrea el sitio COMPLETO como lo haría Googlebot, y expone patrones que no ves página por página: 200 URLs con el mismo title duplicado, una cadena de 4 redirects antes de llegar a la página final, o mil URLs indexables que en realidad son basura (páginas de filtro, parámetros de tracking).
+
+### El primer rastreo: qué mirar primero
+
+Al terminar un rastreo, revisa en este orden: **Response Codes** (¿cuántas URLs devuelven 404 o 500?), **Titles** (duplicados o vacíos), **Meta Description** (duplicadas o vacías), **Canonicals** (¿apuntan a sí mismas o a otra URL?), **Directives** (¿hay páginas importantes bloqueadas por noindex sin querer?).
+
+### El error más costoso que Screaming Frog revela
+
+Un \`noindex\` o un \`Disallow\` en \`robots.txt\` que se aplicó por accidente a secciones enteras del sitio — común después de una migración o un cambio de plantilla — puede desindexar meses de trabajo de SEO sin que nadie lo note hasta que el tráfico ya cayó. Un rastreo mensual con Screaming Frog es la red de seguridad contra este tipo de error silencioso.
+
+### Configuración avanzada: rastrear como Googlebot Mobile
+
+Por defecto, Screaming Frog rastrea como un navegador de escritorio. Cambiar el User-Agent a Googlebot Smartphone (Configuration → User-Agent) revela diferencias reales: contenido que solo carga en desktop, menús que no existen en la versión móvil — justo lo que Google indexa primero desde que adoptó mobile-first indexing.`,
+        tasks: [
+          'Rastrea un sitio real (el tuyo o uno de práctica) con Screaming Frog y exporta la lista de Titles duplicados',
+          'Cambia el User-Agent a Googlebot Smartphone y volvé a rastrear — compará si aparece contenido faltante respecto al rastreo de escritorio',
+          'Identifica al menos 3 URLs con canonical mal configurado (que no apunten a sí mismas sin razón) y explica qué corregirías',
+        ],
+        tip: 'Screaming Frog gratis rastrea hasta 500 URLs — suficiente para la mayoría de sitios de PyMEs. Para sitios más grandes, exportá por secciones (blog, productos, páginas estáticas) en rastreos separados.',
+        completed: false,
+      },
+      {
+        id: 's2-l4',
+        title: 'Crawl budget y análisis de logs: cómo rastrea Google tu sitio de verdad',
+        type: 'reading',
+        content: `## El presupuesto que Google no anuncia
+
+Google no rastrea infinitamente cualquier sitio — le asigna un \"crawl budget\" (cuántas URLs va a visitar en un período de tiempo) basado en la autoridad del dominio y la capacidad del servidor para responder rápido. Para un sitio de 50 páginas esto casi nunca importa. Para un e-commerce con 50,000 productos, un crawl budget mal gastado significa que Google nunca llega a rastrear (ni indexar) tus páginas más nuevas o importantes.
+
+### Qué desperdicia crawl budget
+
+- URLs con parámetros infinitos (filtros de e-commerce: \`?color=azul&talla=m&orden=precio\`) que generan miles de variantes de la misma página
+- Páginas huérfanas de baja calidad que siguen en el sitemap
+- Redirects encadenados (A→B→C) en vez de directos (A→C)
+- Errores del servidor (5xx) que hacen que Google reintente la misma URL varias veces
+
+### Log file analysis: la verdad sobre qué rastrea Google
+
+El servidor registra CADA visita de Googlebot con la URL exacta, la fecha y el código de respuesta. Analizando esos logs (con Screaming Frog Log File Analyser o un script propio) respondés preguntas que ninguna otra herramienta contesta con certeza: ¿Google rastrea mis páginas nuevas en las primeras 24 horas o tarda semanas? ¿está gastando su presupuesto en páginas irrelevantes que nunca debieron ser rastreables?
+
+\`\`\`\nEjemplo de patrón problemático en logs:\nGooglebot visitó /producto/x?color=rojo    340 veces este mes\nGooglebot visitó /producto/x?color=azul   298 veces este mes\nGooglebot visitó /blog/articulo-nuevo       2 veces este mes\n\n→ El presupuesto se está gastando en variantes de color\n  (que deberían tener canonical hacia la versión base)\n  en vez de en el contenido nuevo que sí queremos indexado\n\`\`\`
+
+### La solución más común: canonicalización de parámetros
+
+Cada variante generada por un filtro debe llevar un \`<link rel="canonical">\` apuntando a la versión sin parámetros, o usar \`Disallow\` en robots.txt para los patrones de URL que nunca deben rastrearse. Esto no es opcional en catálogos grandes — es la diferencia entre que Google indexe tu contenido real o se pierda rastreando combinaciones infinitas de filtros.`,
+        tasks: [
+          'Explica en tus palabras qué es crawl budget y por qué le importa más a un sitio de 50,000 páginas que a uno de 50',
+          'Si tuvieras acceso a los logs de un cliente con e-commerce, ¿qué 3 preguntas intentarías responder primero?',
+          'Diseña la regla de canonicalización para un catálogo con filtros de color y talla: ¿qué URL sería la canónica y cómo lo implementarías?',
+        ],
+        tip: 'El log file analysis requiere acceso al servidor (o a Google Search Console → Configuración → Estadísticas de rastreo, que da una versión simplificada). Para clientes sin acceso al servidor, Search Console es el punto de partida realista.',
+        completed: false,
+      },
+      {
+        id: 's2-l5',
+        title: 'JavaScript SEO: renderizado, prerender y dynamic rendering',
+        type: 'reading',
+        content: `## Por qué un sitio en React/Next.js no es automáticamente indexable
+
+Googlebot ejecuta JavaScript, pero no siempre de la misma forma ni con la misma prioridad que un navegador real — y otros motores (Bing, y cualquier bot que no sea Google) tienen soporte de JS mucho más limitado o inexistente. Un sitio construido enteramente en el cliente (client-side rendering puro) corre el riesgo de que Google indexe una página vacía si el renderizado tarda demasiado o falla.
+
+### Las tres estrategias de renderizado, de mejor a peor para SEO
+
+**Server-Side Rendering (SSR) / Static Site Generation (SSG)**: el HTML llega completo desde el servidor, con todo el contenido ya presente. Es lo que Next.js hace por defecto con Server Components — la opción más segura para SEO, sin trabajo extra.
+
+**Dynamic Rendering**: el servidor detecta si quien pide la página es un bot (por el User-Agent) y le sirve una versión pre-renderizada, mientras a los usuarios reales les sirve la app normal del lado del cliente. Es un parche, no una solución — Google lo desaconseja como estrategia permanente porque exige mantener dos versiones sincronizadas.
+
+**Client-Side Rendering (CSR) puro**: el HTML inicial llega casi vacío y JavaScript construye todo en el navegador. El mayor riesgo para SEO: si el bot no espera lo suficiente a que el JS termine de ejecutar, indexa una página en blanco.
+
+### Cómo verificar qué ve Google de verdad
+
+En Google Search Console, la herramienta **Inspección de URLs** muestra el HTML tal como Google lo renderizó, no el código fuente original. Si el contenido importante no aparece en esa vista renderizada, Google tampoco lo está indexando — sin importar qué tan bien se vea en el navegador.
+
+\`\`\`\n1. Search Console → Inspección de URLs → pegar la URL\n2. \"Ver página rastreada\" → pestaña \"HTML\"\n3. Buscar (Ctrl+F) el texto principal de la página\n4. Si no aparece: Google no está viendo ese contenido\n\`\`\``,
+        tasks: [
+          'Usa la Inspección de URLs de Search Console (o la herramienta "Ver como Google" equivalente) en 2 páginas de un sitio en React/Next.js y verifica si el contenido principal aparece en el HTML renderizado',
+          'Explica con tus palabras por qué Next.js con Server Components es una opción más segura para SEO que una SPA de React pura con Create React App',
+          'Identifica un caso donde usarías dynamic rendering como solución temporal, y por qué no la dejarías como solución permanente',
+        ],
+        tip: 'Si heredas un sitio en CSR puro y no podés migrarlo a SSR completo, prerenderizar solo las páginas críticas para SEO (home, landing pages, artículos de blog) con una herramienta como Prerender.io es un punto intermedio razonable mientras se planea la migración real.',
+        completed: false,
+      },
+      {
+        id: 's2-l6',
+        title: 'SEO multi-idioma: hreflang y schema markup avanzado',
+        type: 'reading',
+        content: `## El error de hreflang que más tráfico internacional cuesta
+
+Cuando un sitio tiene versiones en varios idiomas o países, Google necesita saber cuál mostrarle a cada usuario según su idioma y ubicación — sin esa señal, puede mostrar la versión en español a un usuario en Alemania, o crear contenido duplicado entre \`/es/\` y \`/mx/\` que compiten entre sí en vez de reforzarse.
+
+### hreflang: la etiqueta que resuelve esto
+
+\`\`\`html\n<link rel="alternate" hreflang="es-MX" href="https://ejemplo.com/mx/" />\n<link rel="alternate" hreflang="es-AR" href="https://ejemplo.com/ar/" />\n<link rel="alternate" hreflang="en-US" href="https://ejemplo.com/us/" />\n<link rel="alternate" hreflang="x-default" href="https://ejemplo.com/" />\n\`\`\`
+
+Reglas que se rompen seguido: **hreflang debe ser recíproco** (si la página MX apunta a AR, la página AR debe apuntar de vuelta a MX — si falta la reciprocidad, Google ignora la señal completa). El código de idioma va en ISO 639-1 (\`es\`, \`en\`) y el de país opcional en ISO 3166-1 (\`MX\`, \`AR\`) — \`es-mx\` en minúsculas funciona iagual, pero la convención es el formato mostrado arriba. **\`x-default\`** define qué versión mostrar cuando ningún hreflang coincide con el idioma/región del usuario.
+
+### Schema markup avanzado: más allá de LocalBusiness
+
+Los sitios con contenido rico se benefician de tipos de schema más específicos que generan **rich snippets** (resultados con estrellas, precios, o preguntas visibles directo en el buscador):
+
+- **FAQPage**: para secciones de preguntas frecuentes — puede mostrar las preguntas expandibles directo en los resultados de búsqueda
+- **Article** / **BlogPosting**: fecha de publicación, autor y imagen destacada visibles en el resultado
+- **Product**: precio, disponibilidad y rating con estrellas
+- **BreadcrumbList**: la ruta de navegación (Inicio > Categoría > Producto) visible en el resultado en vez de la URL cruda
+
+\`\`\`json\n{\n  "@context": "https://schema.org",\n  "@type": "FAQPage",\n  "mainEntity": [{\n    "@type": "Question",\n    "name": "¿Cuánto tarda el proyecto?",\n    "acceptedAnswer": {\n      "@type": "Answer",\n      "text": "Entre 3 y 6 semanas según el alcance."\n    }\n  }]\n}\n\`\`\`
+
+Un schema mal formado no genera error visible en el sitio — simplemente Google lo ignora en silencio. Siempre se valida con Rich Results Test antes de dar por hecho que funciona.`,
+        tasks: [
+          'Escribe las etiquetas hreflang completas (con reciprocidad) para un sitio con versiones en español de México, español de Argentina e inglés de Estados Unidos',
+          'Implementa un schema FAQPage con 3 preguntas para una sección de FAQ real o ficticia, y valídalo en el Rich Results Test de Google',
+          'Explica qué pasaría si una página en /mx/ tiene hreflang hacia /ar/ pero la página /ar/ no tiene el hreflang de vuelta hacia /mx/',
+        ],
+        tip: 'hreflang es, en la práctica, la fuente número uno de errores de SEO técnico en sitios multi-idioma — hasta equipos experimentados rompen la reciprocidad al agregar un nuevo idioma sin actualizar TODAS las páginas existentes. Un rastreo con Screaming Frog (pestaña Hreflang) detecta estos errores automáticamente.',
+        completed: false,
+      },
+      {
         id: 'seo-2-proj-inter',
         title: 'Proyecto Intermedio: Auditoría técnica de SEO',
         type: 'project',
@@ -2226,6 +2348,34 @@ Antes de entregar, pasa cada pieza por estas preguntas:
     track: 'seo',
     lessons: [
       {
+        id: 'seo-cap-0',
+        title: 'Roadmap de 8 semanas: los 4 milestones del capstone',
+        type: 'practice',
+        content: `## Ocho semanas sin checkpoints es la forma más fácil de perder el proyecto
+
+El SEO no da feedback inmediato — eso hace que sea el capstone más fácil de posponer, porque no hay una demo visual a mitad de camino que te obligue a avanzar. Estos 4 milestones existen exactamente para eso: dar checkpoints verificables cuando el algoritmo de Google todavía no dio ninguna señal.
+
+### El roadmap completo
+
+| Semanas | Milestone | Qué debe existir al final |
+|---|---|---|
+| 1-2 | Auditoría completa | Las 5 secciones de auditoría (técnico, on-page, contenido, autoridad, competencia) documentadas con evidencia |
+| 3-4 | Keyword map + primeros artículos | 50+ keywords en clusters con prioridad, y al menos 2 de los 5 artículos publicados y optimizados |
+| 5-6 | Contenido + outreach | Los 5 artículos publicados, y mínimo 15 emails de link building enviados y registrados en el log |
+| 7-8 | Resultados y reporte final | Capturas de GSC con la evolución real, dashboard de Looker Studio conectado, checklist de entrega completo |
+
+### Por qué la auditoría va primero y sola (2 semanas completas)
+
+Sin un diagnóstico completo, cualquier trabajo de contenido o link building se hace a ciegas — podrías estar escribiendo artículos excelentes sobre keywords que el sitio nunca podría rankear por un problema técnico no detectado. Dos semanas puede parecer mucho para "solo auditar", pero es la inversión que hace que las siguientes 6 semanas de trabajo no se desperdicien.`,
+        tasks: [
+          'Escribe tu roadmap con fechas de calendario reales, no solo "semana 1"',
+          'Bloquea en tu calendario las 2 primeras semanas completas para auditoría — sin excepciones ni adelantar contenido antes de terminarla',
+          'Define ahora mismo el sitio del proyecto: propio, de AlphaDev, o de un conocido con acceso — sin esta decisión no podés empezar la auditoría',
+        ],
+        tip: 'Si en la semana 4 todavía no publicaste ningún artículo, es momento de recortar el alcance de la auditoría, no de saltarte el link building — cada milestone existe para proteger el tiempo del siguiente.',
+        completed: false,
+      },
+      {
         id: 'seo-cap-1',
         title: 'Proyecto Capstone: SEO Real con Resultados Reales',
         type: 'project',
@@ -2257,6 +2407,32 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
           'Looker Studio dashboard conectado a GSC + GA4 mostrando el tráfico orgánico y las conversiones del período',
         ],
         tip: 'La sección de auditoría es donde más aprenden los clientes y donde más valor percibes como consultor SEO. Una auditoría bien documentada que muestra exactamente qué problemas tienen y por qué importan cada uno justifica el precio del proyecto antes de que empieces a trabajar. Invierte tiempo en que sea excelente.',
+        completed: false,
+      },
+      {
+        id: 'seo-cap-1b',
+        title: 'Milestone semanas 3-4: keyword map y primeros artículos',
+        type: 'practice',
+        tasks: [
+          'Keyword map con mínimo 50 keywords, organizadas en clusters temáticos (no una lista plana)',
+          'Cada keyword tiene volumen, KD (keyword difficulty) e intent (informacional, comercial, transaccional) documentados',
+          'Al menos 2 de los 5 artículos ya publicados, con 1,000+ palabras de contenido real (no relleno) y completamente optimizados: title, meta description, H1/H2/H3, internal linking, alt text',
+          'Cada artículo publicado responde mejor la pregunta de esa keyword que los 3 primeros resultados actuales de Google — revisalo antes de publicar',
+        ],
+        tip: 'Elegir keywords que "suenan bien" en vez de keywords con KD apropiado para tu autoridad de dominio actual es el error más común en esta etapa — revisa el KD contra tu DR real antes de comprometerte a escribir sobre una keyword.',
+        completed: false,
+      },
+      {
+        id: 'seo-cap-1c',
+        title: 'Milestone semanas 5-6: contenido completo y link building activo',
+        type: 'practice',
+        tasks: [
+          'Los 5 artículos publicados y optimizados, no solo los 2 del milestone anterior',
+          'Mínimo 15 emails de outreach de link building enviados, cada uno registrado en el log: sitio contactado, DR del sitio, contenido del email, respuesta (si la hubo)',
+          'Cada email de outreach está personalizado — menciona algo específico del sitio contactado, no es una plantilla genérica reemplazando solo el nombre',
+          'Revisa Google Search Console: ¿ya aparecen impressions para las keywords objetivo, aunque las posiciones todavía sean bajas?',
+        ],
+        tip: 'La tasa de respuesta normal en outreach de link building ronda el 5-10% — si mandaste 15 emails y no respondió nadie, el problema casi siempre es la personalización o el sitio elegido para pedir el link, no la cantidad de emails.',
         completed: false,
       },
       {
@@ -2467,6 +2643,32 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
         tip: 'El batch recording es la diferencia entre agencias que escalan y agencias que se ahogan. Si cada video requiere preparación individual de 2 horas + 1 hora de grabación, nunca podrás manejar más de 2-3 clientes de video. Con batch, 4 horas producen 8 videos.',
         completed: false,
       },
+      {
+        id: 'video-2-1b',
+        title: 'Color y audio: el pulido técnico que se nota aunque no se note',
+        type: 'reading',
+        content: '## El pulido que la audiencia no nota — hasta que falta\n\nCaptions, b-roll y ritmo de corte son lo que este módulo ya cubrió, y son lo más visible de una edición. Pero hay dos cosas que nadie elogia cuando están bien hechas y todo el mundo nota cuando faltan: el color y el audio. Un video con buen contenido y audio malo se abandona; uno con audio parejo y color plano se ve, sin que el espectador sepa explicar por qué se siente "profesional".\n\n## Audio: lo que hay que arreglar antes que cualquier otra cosa\n\nEl oído humano tolera mucho peor un audio malo que un video de baja calidad visual — es al revés de lo que la mayoría asume al invertir tiempo de edición. Tres ajustes básicos, en este orden de prioridad:\n\n**Nivelar el volumen**: que la voz no suba y baje de volumen entre cortes distintos —común cuando se graba en tomas separadas—. La mayoría de los editores (CapCut incluido) tienen normalización automática de audio.\n\n**Reducir ruido de fondo**: un ventilador, tráfico de fondo, eco de una habitación vacía. Las herramientas de reducción de ruido con IA (integradas en CapCut, DaVinci, y como plugin en Premiere) resuelven la mayoría de los casos sin necesitar reequipamiento.\n\n**EQ básico para voz**: realzar ligeramente las frecuencias medias-altas (donde vive la inteligibilidad de la voz humana) y recortar el extremo grave innecesario mejora la claridad sin sonar procesado — la mayoría de los editores tienen un preset de "voz" que hace esto automáticamente.\n\n## Color: consistencia antes que estilo\n\nAntes de buscar un "look" con estilo propio, el objetivo mínimo es que todos los cortes de un mismo video tengan el mismo balance de blancos y exposición — un corte que se ve más azulado o más oscuro que el anterior rompe la continuidad visual aunque el espectador no sepa nombrar el problema. La corrección de color (igualar exposición y temperatura entre tomas) es un paso distinto y previo a la gradación de color (darle un estilo visual particular), y para la mayoría de los videos de redes sociales, la corrección sola ya es suficiente.\n\n## Cuándo vale la pena invertir más tiempo en esto\n\nPara contenido de alto volumen y bajo presupuesto por pieza (varios Reels por semana), un ajuste automático rápido de audio y color es proporcional al tiempo disponible. Para piezas que van a vivir más tiempo o representar más a la marca —un video institucional, un caso de estudio en YouTube de formato largo— invertir en una pasada manual de color y audio se nota y se justifica.',
+        tasks: [
+          'Revisa un video tuyo ya editado: el volumen de la voz es parejo entre todos los cortes?',
+          'Aplica reduccion de ruido de fondo a un clip con audio de ambiente, y compara antes/despues',
+          'Iguala la exposicion y temperatura de color entre 2 tomas distintas del mismo video',
+        ],
+        tip: 'Si tenes que elegir en que invertir tiempo con presupuesto limitado, el audio gana siempre sobre el color — un espectador abandona un video con audio malo mucho antes de notar un problema de color.',
+        completed: false,
+      },
+      {
+        id: 'video-2-2b',
+        title: 'Miniaturas y títulos: lo que decide el clic antes de que empiece el video',
+        type: 'reading',
+        content: '## La decisión que pasa antes de que el video empiece\n\nEn YouTube y en cualquier feed con miniatura, la miniatura y el título deciden si alguien hace clic — antes de que el contenido del video importe en absoluto. Un video excelente con una miniatura genérica y un título vago puede tener una fracción de las vistas de uno mediocre con esos dos elementos bien resueltos.\n\n## Qué hace que una miniatura funcione\n\n**Un solo punto focal claro**: una cara con expresión clara, o un objeto/resultado central — no una composición ocupada con texto pequeño y varios elementos compitiendo por atención. La miniatura se ve primero a tamaño diminuto en un feed de celular; si no se entiende a ese tamaño, no funciona.\n\n**Contraste con el resto del feed**: mirar qué colores y estilos dominan el feed donde va a aparecer el video, y elegir deliberadamente algo que contraste —no por capricho, sino porque el ojo detecta lo distinto antes que lo similar al scrollear.\n\n**Texto mínimo, si acaso**: 2-4 palabras máximo, en fuente grande y con alto contraste contra el fondo. El texto de la miniatura complementa al título, no lo repite palabra por palabra.\n\n## El título: la otra mitad de la decisión de clic\n\nUn buen título de video crea una brecha de curiosidad específica —algo concreto que el espectador quiere saber la respuesta— sin ser clickbait vacío que no cumple lo que promete (lo que daña la retención y, con el tiempo, el propio alcance del canal). "Cómo hice esto" es débil; "El error de $500 que casi arruina el proyecto (y cómo lo arreglé)" es específico y genera curiosidad real, siempre que el video efectivamente cumpla esa promesa.\n\n## Miniatura y título se diseñan juntos, no por separado\n\nEl error común es escribir el título al subir el video y diseñar la miniatura como una idea de último momento, sin que se refuercen entre sí. La miniatura y el título deberían comunicarse como una sola unidad: si el título ya dice la información clave, la miniatura debería mostrar algo visual que la respalde, no repetir el mismo texto.',
+        tasks: [
+          'Diseña 3 miniaturas distintas para el mismo video y evalua cual se entiende mejor a tamano diminuto (probala achicada en tu celular)',
+          'Escribe 5 variantes de titulo para un video tuyo, cada una con una brecha de curiosidad distinta',
+          'Revisa 5 miniaturas de canales de tu nicho: cuales seguirian el consejo de un solo punto focal claro y cuales no?',
+        ],
+        tip: 'Un titulo que promete algo que el video no cumple genera clics a corto plazo pero dana la retencion y el alcance a mediano plazo — la plataforma nota cuando la gente abandona rapido despues de hacer clic.',
+        completed: false,
+      },
           {
         id: 'video-2-proj-inter',
         title: 'Proyecto Intermedio: Video tutorial editado de 60-90 segundos',
@@ -2499,6 +2701,18 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     track: 'video',
     lessons: [
       {
+        id: 'video-cap-0',
+        title: 'Antes de grabar: define el hook de cada video',
+        type: 'practice',
+        tasks: [
+          'De las 20 ideas de tu banco de contenido, elige las 4 con mejor hook (los primeros 2-3 segundos) — sin un hook fuerte, el resto del video nunca se ve',
+          'Escribe el hook exacto (la primera línea hablada o el primer texto en pantalla) de cada uno de los 4 videos antes de grabar nada',
+          'Define la plataforma principal de cada video ANTES de grabar: el formato vertical/horizontal, la duración objetivo y el estilo de edición cambian según sea para Reels, TikTok o YouTube Shorts',
+        ],
+        tip: 'El 80% de la decisión de "seguir viendo o hacer scroll" pasa en los primeros 2 segundos. Si dudas entre dos ideas para el mismo slot, elegí la que tenga el hook más fuerte, no la que técnicamente sea más fácil de producir.',
+        completed: false,
+      },
+      {
         id: 'video-capstone-1',
         title: 'Proyecto: Serie de 4 videos para un cliente',
         type: 'project',
@@ -2518,6 +2732,20 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
           'Comparte los videos en #proyecto-video con el link de las publicaciones y el análisis de métricas',
         ],
         tip: 'El primer video que publicas nunca es el mejor. El objetivo de este proyecto es completar el ciclo completo (estrategia → grabación → edición → publicación → análisis), no producir el video perfecto.',
+        completed: false,
+      },
+      {
+        id: 'video-cap-2',
+        title: 'Checklist de entrega',
+        type: 'practice',
+        tasks: [
+          '¿Cada uno de los 4 videos tiene un hook distinto, o son variaciones de la misma apertura?',
+          '¿Los captions están sincronizados y son legibles sin sonido — la mayoría del consumo en redes es sin audio?',
+          '¿Publicaste de verdad en las plataformas elegidas, o los videos quedaron solo en la carpeta de edición?',
+          '¿Esperaste los 7 días completos antes de reportar métricas, o reportaste con datos de las primeras horas?',
+          '¿El reporte de resultados compara los 4 videos entre sí y saca una conclusión (qué hook funcionó mejor), no solo lista números sueltos?',
+        ],
+        tip: 'La métrica más importante de los primeros 7 días no son las views totales — es el completion rate. Un video con pocas views pero alto completion rate tiene un hook y un ritmo que funcionan; ahí está la lección que se repite en el próximo video, no en el que tuvo más views por casualidad.',
         completed: false,
       },
     ],
