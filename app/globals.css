@@ -1185,6 +1185,24 @@ a, button {
   z-index: 1;
 }
 
+/* La imagen del servicio llega hasta los bordes de la card (compensa el
+   padding de 2rem) y queda por encima del gradiente de hover. */
+.service-card-media {
+  position: relative;
+  z-index: 1;
+  margin: -2rem -2rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.service-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
 .service-card-title {
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 1.15rem;
