@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
-import Icon from '@/components/Icon';
 
 const COPY: Record<Lang, { eyebrow: string; title: string; body: string; punchline: string }> = {
   es: {
@@ -30,9 +30,6 @@ export default function ProblemSection() {
     >
       <div className="section-container">
         <div className="section-header">
-          <div className="problem-icon" data-animate="fade" aria-hidden="true">
-            <Icon name="eyeOff" size={30} />
-          </div>
           <p className="eyebrow" data-animate="fade">
             {c.eyebrow}
           </p>
@@ -51,6 +48,20 @@ export default function ProblemSection() {
           >
             {c.body}
           </p>
+        </div>
+
+        {/* El negocio que se desvanece: la imagen dice lo mismo que el texto
+            (existe, es bueno, pero se está volviendo invisible) sin repetirlo. */}
+        <div className="problem-media" data-animate="clip-reveal">
+          <Image
+            src="/assets/secciones/problema.webp"
+            alt={lang === 'es'
+              ? 'Un negocio desvaneciéndose por no estar en internet'
+              : 'A business fading away for not being online'}
+            width={1200}
+            height={896}
+            sizes="(max-width: 899px) 100vw, 820px"
+          />
         </div>
 
         {/* Punchline card */}

@@ -5,10 +5,14 @@ import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
-import Icon, { type IconName } from '@/components/Icon';
-
 const PHASE_NUMBERS = ['01', '02', '03', '04', '05'];
-const PHASE_ICONS: IconName[] = ['message', 'target', 'box', 'flag', 'trendingUp'];
+const PHASE_IMAGES = [
+  '/assets/secciones/fase-conversamos.webp',
+  '/assets/secciones/fase-disenamos.webp',
+  '/assets/secciones/fase-construimos.webp',
+  '/assets/secciones/fase-lanzamos.webp',
+  '/assets/secciones/fase-crecemos.webp',
+];
 
 export default function ProcesoContent() {
   const { dict, lang } = useLang();
@@ -69,13 +73,17 @@ export default function ProcesoContent() {
 
             <div className="sticky-stack-items" data-animate="stagger">
               {p.phases.map((phase, index) => (
-                <div key={index} className="process-step">
-                  <div className="process-step-top">
-                    <span className="process-step-num">{PHASE_NUMBERS[index]}</span>
-                    <span className="process-step-icon" aria-hidden="true">
-                      <Icon name={PHASE_ICONS[index]} size={18} />
-                    </span>
+                <div key={index} className="process-step process-step-withmedia">
+                  <div className="process-step-media">
+                    <Image
+                      src={PHASE_IMAGES[index]}
+                      alt=""
+                      width={700}
+                      height={700}
+                      sizes="160px"
+                    />
                   </div>
+                  <span className="process-step-num">{PHASE_NUMBERS[index]}</span>
                   <h3 className="process-step-title">{phase.title}</h3>
                   <p className="process-step-desc">{phase.description}</p>
                   <div className="process-step-details">
