@@ -7,6 +7,15 @@ import Image from 'next/image';
 
 type Point = { text: string };
 
+// Mismo orden que points en ambos idiomas.
+const POINT_IMAGES = [
+  '/assets/secciones/why-idioma.webp',
+  '/assets/secciones/why-todo.webp',
+  '/assets/secciones/why-medible.webp',
+  '/assets/secciones/why-acompanamiento.webp',
+  '/assets/secciones/why-precios.webp',
+];
+
 const COPY: Record<Lang, {
   eyebrow: string;
   title: string;
@@ -72,24 +81,21 @@ export default function WhyUsSection() {
           </p>
         </div>
 
-        <div className="whyus-split">
-          <div className="whyus-media" data-animate="clip-reveal">
-            <Image
-              src="/assets/secciones/porque-ads.webp"
-              alt=""
-              width={1000}
-              height={546}
-              sizes="(max-width: 899px) 100vw, 520px"
-            />
-          </div>
-
-          <div className="whyus-points" data-animate="stagger">
-            {c.points.map((point) => (
-              <div key={point.text} className="whyus-point">
-                <span>{point.text}</span>
+        <div className="whyus-grid" data-animate="stagger">
+          {c.points.map((point, index) => (
+            <div key={point.text} className="whyus-card">
+              <div className="whyus-card-media">
+                <Image
+                  src={POINT_IMAGES[index]}
+                  alt=""
+                  width={800}
+                  height={500}
+                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 340px"
+                />
               </div>
-            ))}
-          </div>
+              <p>{point.text}</p>
+            </div>
+          ))}
         </div>
 
         <div className="section-content">
