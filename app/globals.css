@@ -1582,6 +1582,65 @@ a, button {
 }
 
 /* ═══════════════════════════════════════════════════════
+   WHY US — imagen a la izquierda, los 5 argumentos a la
+   derecha. Los badges de ícono salieron: el peso visual lo
+   lleva la imagen, y cada punto se marca con un check.
+═══════════════════════════════════════════════════════ */
+.whyus-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.whyus-media {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.whyus-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.whyus-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.whyus-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  padding: 1.05rem 1.25rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.whyus-point::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@media (min-width: 900px) {
+  .whyus-split {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
    BRAND PROOF STRIP — el nombre del cliente como logo
    (BrandProofStrip.tsx). No hay logos reales como asset;
    la tipografía display gigante cumple ese rol a coste cero.

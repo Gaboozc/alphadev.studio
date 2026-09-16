@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
-import Icon, { type IconName } from '@/components/Icon';
+import Image from 'next/image';
 
-type Point = { icon: IconName; text: string };
+type Point = { text: string };
 
 const COPY: Record<Lang, {
   eyebrow: string;
@@ -20,11 +20,11 @@ const COPY: Record<Lang, {
     title: 'No solo te ponemos online.\nTe hacemos crecer.',
     subtitle: 'Somos un equipo chico con foco total en tu resultado. Sin estructuras corporativas, sin intermediarios, sin excusas.',
     points: [
-      { icon: 'message', text: 'Hablamos tu idioma, no en tecnicismos' },
-      { icon: 'layers', text: 'Nos ocupamos de todo: tú te concentras en tu negocio' },
-      { icon: 'barChart', text: 'Resultados medibles, no promesas vacías' },
-      { icon: 'users', text: 'Acompañamiento real — no nos desaparecemos tras el lanzamiento' },
-      { icon: 'trendingUp', text: 'Precios pensados para negocios que están creciendo' },
+      { text: 'Hablamos tu idioma, no en tecnicismos' },
+      { text: 'Nos ocupamos de todo: tú te concentras en tu negocio' },
+      { text: 'Resultados medibles, no promesas vacías' },
+      { text: 'Acompañamiento real — no nos desaparecemos tras el lanzamiento' },
+      { text: 'Precios pensados para negocios que están creciendo' },
     ],
     wordplay: 'ADS. Tres letras. Tu negocio, visible.',
     cta: 'Agendar llamada',
@@ -34,11 +34,11 @@ const COPY: Record<Lang, {
     title: "We don't just put you online.\nWe make you grow.",
     subtitle: "We're a small team with total focus on your results. No corporate structures, no middlemen, no excuses.",
     points: [
-      { icon: 'message', text: 'We speak your language, not tech jargon' },
-      { icon: 'layers', text: 'We handle everything — you focus on your business' },
-      { icon: 'barChart', text: 'Measurable results, not empty promises' },
-      { icon: 'users', text: "Real support — we don't disappear after launch" },
-      { icon: 'trendingUp', text: 'Pricing designed for growing businesses' },
+      { text: 'We speak your language, not tech jargon' },
+      { text: 'We handle everything — you focus on your business' },
+      { text: 'Measurable results, not empty promises' },
+      { text: "Real support — we don't disappear after launch" },
+      { text: 'Pricing designed for growing businesses' },
     ],
     wordplay: 'ADS. Three letters. Your business, visible.',
     cta: 'Book a call',
@@ -72,62 +72,27 @@ export default function WhyUsSection() {
           </p>
         </div>
 
-        <div className="section-content" data-animate="stagger">
-          {/* Points grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1rem',
-              maxWidth: '760px',
-              margin: '0 auto 2.5rem',
-            }}
-          >
+        <div className="whyus-split">
+          <div className="whyus-media" data-animate="clip-reveal">
+            <Image
+              src="/assets/secciones/porque-ads.webp"
+              alt=""
+              width={1000}
+              height={546}
+              sizes="(max-width: 899px) 100vw, 520px"
+            />
+          </div>
+
+          <div className="whyus-points" data-animate="stagger">
             {c.points.map((point) => (
-              <div
-                key={point.text}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '0.875rem',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.875rem',
-                  padding: '1.125rem 1.25rem',
-                }}
-              >
-                <div
-                  aria-hidden="true"
-                  style={{
-                    flexShrink: 0,
-                    width: '2.25rem',
-                    height: '2.25rem',
-                    borderRadius: '10px',
-                    background: 'var(--gold-bg)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--gold)',
-                  }}
-                >
-                  <Icon name={point.icon} size={19} />
-                </div>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '0.9375rem',
-                    color: 'var(--text)',
-                    lineHeight: 1.5,
-                    margin: 0,
-                    marginTop: '0.3rem',
-                  }}
-                >
-                  {point.text}
-                </p>
+              <div key={point.text} className="whyus-point">
+                <span>{point.text}</span>
               </div>
             ))}
           </div>
+        </div>
 
+        <div className="section-content">
           {/* Wordplay + CTA */}
           <div style={{ textAlign: 'center' }}>
             <p
