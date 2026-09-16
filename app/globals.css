@@ -574,11 +574,16 @@ a, button {
   margin-bottom: 4.5rem;
 }
 
-/* Ancla visual de ProblemSection — antes era un ícono, ahora la escena
-   del negocio desvaneciéndose. */
+/* ProblemSection a dos columnas: la escena del negocio desvaneciéndose a la
+   izquierda, el texto a la derecha. En móvil se apila (imagen primero). */
+.problem-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
 .problem-media {
-  max-width: 820px;
-  margin: 0 auto 2.5rem;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -588,6 +593,34 @@ a, button {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Estos tres asumen centrado por defecto (viven dentro de .section-header en
+   el resto del sitio); acá el bloque va alineado a la izquierda. */
+.problem-copy .gold-divider { margin-left: 0; margin-right: 0; }
+.problem-copy .section-subtitle { margin-left: 0; margin-right: 0; max-width: none; }
+
+.problem-punchline {
+  margin-top: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+}
+
+.problem-punchline p {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+@media (min-width: 900px) {
+  .problem-split {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
 }
 
 .section-content {
@@ -1549,93 +1582,6 @@ a, button {
 }
 
 /* ═══════════════════════════════════════════════════════
-   WHY US — el founder real, con nombre y cara.
-   La foto es oscura y el sitio es crema: el marco dorado y
-   el fondo de card son los que la integran en la paleta en
-   vez de dejarla como un recorte pegado.
-═══════════════════════════════════════════════════════ */
-.whyus-founder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.5rem;
-  max-width: 820px;
-  margin: 0 auto 3.5rem;
-  padding: 2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-}
-
-.whyus-founder-photo {
-  flex-shrink: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid var(--gold-light);
-  box-shadow: 0 12px 32px -12px rgba(154, 114, 53, 0.45);
-}
-
-.whyus-founder-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 18%;
-  display: block;
-}
-
-.whyus-founder-quote {
-  margin: 0;
-}
-
-.whyus-founder-quote p {
-  font-family: var(--font-playfair), Georgia, serif;
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-  font-weight: 700;
-  line-height: 1.45;
-  color: var(--text);
-  margin-bottom: 1rem;
-}
-
-.whyus-founder-quote footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.whyus-founder-name {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--gold);
-}
-
-.whyus-founder-role {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 0.8rem;
-  color: var(--text-subtle);
-}
-
-@media (min-width: 768px) {
-  .whyus-founder {
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
-    gap: 2.25rem;
-    padding: 2.25rem 2.5rem;
-  }
-  .whyus-founder-photo {
-    width: 180px;
-    height: 180px;
-  }
-  .whyus-founder-quote footer {
-    align-items: flex-start;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
    BRAND PROOF STRIP — el nombre del cliente como logo
    (BrandProofStrip.tsx). No hay logos reales como asset;
    la tipografía display gigante cumple ese rol a coste cero.
@@ -2357,6 +2303,80 @@ button.case-thumb {
 
 .cta-dark .gold-divider {
   background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+
+/* Quién atiende, dentro del CTA oscuro. La foto es clara y el fondo es casi
+   negro: el aro dorado es lo que la ata a la paleta en vez de dejarla como
+   un recorte flotando. */
+.cta-founder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 760px;
+  margin: 3rem auto 0;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(201, 164, 101, 0.22);
+  text-align: center;
+}
+
+.cta-founder-photo {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--gold-light);
+}
+
+.cta-founder-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+}
+
+.cta-founder-quote { margin: 0; }
+
+.cta-founder-quote p {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(250, 247, 242, 0.82);
+  margin-bottom: 0.85rem;
+}
+
+.cta-founder-quote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.cta-founder-name {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.cta-founder-role {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: rgba(250, 247, 242, 0.45);
+}
+
+@media (min-width: 768px) {
+  .cta-founder {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 1.75rem;
+  }
+  .cta-founder-photo {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════

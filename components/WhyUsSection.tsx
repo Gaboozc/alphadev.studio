@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 import Icon, { type IconName } from '@/components/Icon';
@@ -13,9 +12,6 @@ const COPY: Record<Lang, {
   title: string;
   subtitle: string;
   points: Point[];
-  founderQuote: string;
-  founderName: string;
-  founderRole: string;
   wordplay: string;
   cta: string;
 }> = {
@@ -30,9 +26,6 @@ const COPY: Record<Lang, {
       { icon: 'users', text: 'Acompañamiento real — no nos desaparecemos tras el lanzamiento' },
       { icon: 'trendingUp', text: 'Precios pensados para negocios que están creciendo' },
     ],
-    founderQuote: 'Detrás de cada proyecto estoy yo, no un call center. Me escribes por WhatsApp y te contesto yo.',
-    founderName: 'Gabriel Zavarse',
-    founderRole: 'Founder, AlphaDev Studios',
     wordplay: 'ADS. Tres letras. Tu negocio, visible.',
     cta: 'Agendar llamada',
   },
@@ -47,9 +40,6 @@ const COPY: Record<Lang, {
       { icon: 'users', text: "Real support — we don't disappear after launch" },
       { icon: 'trendingUp', text: 'Pricing designed for growing businesses' },
     ],
-    founderQuote: "Behind every project is me, not a call center. You message me on WhatsApp and I'm the one who answers.",
-    founderName: 'Gabriel Zavarse',
-    founderRole: 'Founder, AlphaDev Studios',
     wordplay: 'ADS. Three letters. Your business, visible.',
     cta: 'Book a call',
   },
@@ -80,28 +70,6 @@ export default function WhyUsSection() {
           <p className="section-subtitle" data-animate="subtitle">
             {c.subtitle}
           </p>
-        </div>
-
-        {/* Founder — la prueba de que no hay call center detrás: una persona
-            real, con nombre, que es quien efectivamente contesta. Es el
-            argumento de esta sección, así que va antes que la lista. */}
-        <div className="whyus-founder" data-animate="fade">
-          <div className="whyus-founder-photo">
-            <Image
-              src="/assets/secciones/gabriel-founder.webp"
-              alt={c.founderName}
-              width={600}
-              height={750}
-              sizes="(max-width: 767px) 150px, 180px"
-            />
-          </div>
-          <blockquote className="whyus-founder-quote">
-            <p>{c.founderQuote}</p>
-            <footer>
-              <span className="whyus-founder-name">{c.founderName}</span>
-              <span className="whyus-founder-role">{c.founderRole}</span>
-            </footer>
-          </blockquote>
         </div>
 
         <div className="section-content" data-animate="stagger">

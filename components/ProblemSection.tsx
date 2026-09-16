@@ -29,65 +29,41 @@ export default function ProblemSection() {
       style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}
     >
       <div className="section-container">
-        <div className="section-header">
-          <p className="eyebrow" data-animate="fade">
-            {c.eyebrow}
-          </p>
-          <h2
-            className="section-title"
-            data-animate="title"
-            style={{ whiteSpace: 'pre-line' }}
-          >
-            {c.title}
-          </h2>
-          <div className="gold-divider" data-animate="divider" />
-          <p
-            className="section-subtitle"
-            data-animate="reveal-scrub"
-            style={{ maxWidth: '600px', margin: '0 auto' }}
-          >
-            {c.body}
-          </p>
-        </div>
+        {/* Imagen a la izquierda, texto a la derecha: el negocio que se
+            desvanece dice lo mismo que el copy sin repetirlo. */}
+        <div className="problem-split">
+          <div className="problem-media" data-animate="clip-reveal">
+            <Image
+              src="/assets/secciones/problema.webp"
+              alt={lang === 'es'
+                ? 'Un negocio desvaneciéndose por no estar en internet'
+                : 'A business fading away for not being online'}
+              width={1200}
+              height={896}
+              sizes="(max-width: 899px) 100vw, 560px"
+            />
+          </div>
 
-        {/* El negocio que se desvanece: la imagen dice lo mismo que el texto
-            (existe, es bueno, pero se está volviendo invisible) sin repetirlo. */}
-        <div className="problem-media" data-animate="clip-reveal">
-          <Image
-            src="/assets/secciones/problema.webp"
-            alt={lang === 'es'
-              ? 'Un negocio desvaneciéndose por no estar en internet'
-              : 'A business fading away for not being online'}
-            width={1200}
-            height={896}
-            sizes="(max-width: 899px) 100vw, 820px"
-          />
-        </div>
+          <div className="problem-copy">
+            <p className="eyebrow" data-animate="fade">
+              {c.eyebrow}
+            </p>
+            <h2
+              className="section-title"
+              data-animate="title"
+              style={{ whiteSpace: 'pre-line' }}
+            >
+              {c.title}
+            </h2>
+            <div className="gold-divider" data-animate="divider" />
+            <p className="section-subtitle" data-animate="reveal-scrub">
+              {c.body}
+            </p>
 
-        {/* Punchline card */}
-        <div
-          data-animate="fade"
-          style={{
-            maxWidth: '560px',
-            margin: '0 auto',
-            background: 'var(--bg-card)',
-            border: '1px solid var(--gold-border)',
-            borderRadius: '1rem',
-            padding: '1.75rem 2rem',
-            textAlign: 'center',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-playfair)',
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
-              fontWeight: 700,
-              color: 'var(--text)',
-              lineHeight: 1.4,
-            }}
-          >
-            {c.punchline}
-          </p>
+            <div className="problem-punchline" data-animate="fade">
+              <p>{c.punchline}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
