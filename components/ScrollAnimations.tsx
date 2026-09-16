@@ -58,15 +58,22 @@ export default function ScrollAnimations() {
           gsap.utils.toArray<HTMLElement>('[data-animate="title"]').forEach((el) => {
             const words = splitWords(el);
             if (!words.length) return;
-            // will-change se pone para la animación y se quita al terminar: dejarlo
-            // fijo mantendría una capa de composición por palabra para siempre.
+            // will-change se pone para la animación y se quita despues: dejarlo
+            // fijo mantendria una capa de composicion por palabra para siempre.
+            // El retiro se demora 300ms tras el onComplete (no es inmediato):
+            // quitarlo en el mismo frame en que el transform llega a su valor
+            // final le pide al navegador decomponer la capa GPU justo cuando
+            // el texto termina de asentarse — que es exactamente el instante en
+            // que alguien deja de scrollear para leerlo. Eso produjo un frame
+            // de parpadeo a invisible, visto en producción con capturas reales
+            // (BrandProofStrip: "BFS Karate" desaparecia por completo un frame).
             gsap.set(words, { yPercent: 115, willChange: 'transform' });
             gsap.to(words, {
               yPercent: 0,
               duration: 0.9,
               ease: EASE,
               stagger: 0.06,
-              onComplete: () => gsap.set(words, { willChange: 'auto' }),
+              onComplete: () => gsap.delayedCall(0.3, () => gsap.set(words, { willChange: 'auto' })),
               scrollTrigger: { trigger: stableTrigger(el), start: 'top 88%', once: true },
             });
           });

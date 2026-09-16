@@ -87,13 +87,13 @@ export const CASES: CaseStudy[] = [
     i18n: {
       es: {
         industry: 'Cliente · Restaurante',
-        result: 'Sitio rediseñado desde cero, listo para el celular.',
+        result: 'Sitio rediseñado por completo, de escritorio a celular.',
         scope: 'Rediseño web',
         tags: ['Rediseño web', 'Diseño'],
       },
       en: {
         industry: 'Client · Restaurant',
-        result: 'Site redesigned from scratch, mobile-ready.',
+        result: 'Site fully redesigned, from desktop to mobile.',
         scope: 'Web redesign',
         tags: ['Web redesign', 'Design'],
       },

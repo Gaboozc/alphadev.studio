@@ -37,10 +37,15 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
     lineEl.style.display = 'block';
     // Máscara: clipea las palabras que entran desde abajo.
     lineEl.style.overflow = 'hidden';
-    // Padding/margin compensados para no recortar descendentes (g, p, y)
-    // ni alterar el flujo del layout.
-    lineEl.style.paddingBottom = '0.12em';
-    lineEl.style.marginBottom = '-0.12em';
+    // Padding/margin compensados para no recortar ni los descendentes (g, p, y)
+    // ni los ascendentes/mayúsculas (line-height:1 en un display gigante como
+    // .brand-row-name corta la parte de arriba de las letras sin este margen
+    // — bug real visto en producción, no solo cosmético). Simétrico arriba y
+    // abajo para no alterar el flujo del layout.
+    lineEl.style.paddingTop = '0.18em';
+    lineEl.style.marginTop = '-0.18em';
+    lineEl.style.paddingBottom = '0.18em';
+    lineEl.style.marginBottom = '-0.18em';
 
     // Mantener los espacios como tokens para preservar el espaciado.
     const tokens = line.split(/(\s+)/);

@@ -1573,7 +1573,7 @@ a, button {
   /* Misma familia de escala que .hero-headline: el nombre es tipografía
      protagonista, no una etiqueta. */
   font-size: clamp(2.5rem, 9vw, 7rem);
-  line-height: 1;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--text);
   /* --p llega de data-scroll-progress (0 al entrar, 1 al pasar por completo).
