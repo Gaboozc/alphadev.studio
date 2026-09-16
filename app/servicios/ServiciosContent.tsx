@@ -3,21 +3,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import CTASection from '@/components/CTASection';
-import Icon, { type IconName } from '@/components/Icon';
+
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
 
-// "Publicidad que vende" (índice 2) aún no tiene imagen generada y conserva
-// su ícono hasta que llegue.
-const SERVICE_IMAGES: (string | null)[] = [
+// Mismo orden que SERVICES.
+const SERVICE_IMAGES: string[] = [
   '/assets/secciones/serv-presencia.webp',
   '/assets/secciones/serv-redes.webp',
-  null,
+  '/assets/secciones/serv-publicidad.webp',
   '/assets/secciones/serv-google.webp',
   '/assets/secciones/serv-sitio.webp',
 ];
-const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
 
 // Solo se linkea un caso real cuando de verdad hicimos ese servicio para ese
 // cliente — nada de "próximamente" ni de repetir el mismo caso en todo. Con
@@ -222,21 +220,15 @@ export default function ServiciosContent() {
                   (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
               >
-                {SERVICE_IMAGES[index] ? (
-                  <div className="service-card-media" style={{ margin: '-2rem -2rem 1.5rem' }}>
-                    <Image
-                      src={SERVICE_IMAGES[index]!}
-                      alt=""
-                      width={900}
-                      height={562}
-                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
-                    />
-                  </div>
-                ) : (
-                  <div className="mb-4" style={{ color: 'var(--gold)' }}>
-                    <Icon name={SERVICE_ICONS[index]} size={30} />
-                  </div>
-                )}
+                <div className="service-card-media" style={{ margin: '-2rem -2rem 1.5rem' }}>
+                  <Image
+                    src={SERVICE_IMAGES[index]}
+                    alt=""
+                    width={900}
+                    height={562}
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
+                  />
+                </div>
                 <h3 className="text-xl mb-2" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, color: 'var(--text)' }}>
                   {service.title}
                 </h3>

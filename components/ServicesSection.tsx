@@ -3,18 +3,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
-import Icon, { type IconName } from './Icon';
 
-// Mismo orden que services.items. "Publicidad que vende" todavía no tiene
-// imagen generada, así que esa card conserva su ícono hasta que llegue.
-const SERVICE_IMAGES: (string | null)[] = [
+// Mismo orden que services.items.
+const SERVICE_IMAGES: string[] = [
   '/assets/secciones/serv-presencia.webp',
   '/assets/secciones/serv-redes.webp',
-  null,
+  '/assets/secciones/serv-publicidad.webp',
   '/assets/secciones/serv-google.webp',
   '/assets/secciones/serv-sitio.webp',
 ];
-const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
 
 export default function ServicesSection() {
   const { dict } = useLang();
@@ -33,21 +30,15 @@ export default function ServicesSection() {
           {s.items.map((service, index) => (
             <Link key={index} href="/contacto" className="block">
               <div className="service-card h-full">
-                {SERVICE_IMAGES[index] ? (
-                  <div className="service-card-media">
-                    <Image
-                      src={SERVICE_IMAGES[index]!}
-                      alt=""
-                      width={900}
-                      height={562}
-                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
-                    />
-                  </div>
-                ) : (
-                  <div className="service-card-icon" style={{ color: 'var(--gold)' }}>
-                    <Icon name={SERVICE_ICONS[index]} size={28} />
-                  </div>
-                )}
+                <div className="service-card-media">
+                  <Image
+                    src={SERVICE_IMAGES[index]}
+                    alt=""
+                    width={900}
+                    height={562}
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
+                  />
+                </div>
                 <h3 className="service-card-title">{service.title}</h3>
                 <p className="service-card-description">{service.description}</p>
                 <div className="service-card-corner">
