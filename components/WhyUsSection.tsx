@@ -3,12 +3,15 @@
 import Link from 'next/link';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import Icon, { type IconName } from '@/components/Icon';
+
+type Point = { icon: IconName; text: string };
 
 const COPY: Record<Lang, {
   eyebrow: string;
   title: string;
   subtitle: string;
-  points: string[];
+  points: Point[];
   wordplay: string;
   cta: string;
 }> = {
@@ -17,11 +20,11 @@ const COPY: Record<Lang, {
     title: 'No solo te ponemos online.\nTe hacemos crecer.',
     subtitle: 'Somos un equipo chico con foco total en tu resultado. Sin estructuras corporativas, sin intermediarios, sin excusas.',
     points: [
-      'Hablamos tu idioma, no en tecnicismos',
-      'Nos ocupamos de todo: tú te concentras en tu negocio',
-      'Resultados medibles, no promesas vacías',
-      'Acompañamiento real — no nos desaparecemos tras el lanzamiento',
-      'Precios pensados para negocios que están creciendo',
+      { icon: 'message', text: 'Hablamos tu idioma, no en tecnicismos' },
+      { icon: 'layers', text: 'Nos ocupamos de todo: tú te concentras en tu negocio' },
+      { icon: 'barChart', text: 'Resultados medibles, no promesas vacías' },
+      { icon: 'users', text: 'Acompañamiento real — no nos desaparecemos tras el lanzamiento' },
+      { icon: 'trendingUp', text: 'Precios pensados para negocios que están creciendo' },
     ],
     wordplay: 'ADS. Tres letras. Tu negocio, visible.',
     cta: 'Agendar llamada',
@@ -31,11 +34,11 @@ const COPY: Record<Lang, {
     title: "We don't just put you online.\nWe make you grow.",
     subtitle: "We're a small team with total focus on your results. No corporate structures, no middlemen, no excuses.",
     points: [
-      'We speak your language, not tech jargon',
-      'We handle everything — you focus on your business',
-      'Measurable results, not empty promises',
-      "Real support — we don't disappear after launch",
-      'Pricing designed for growing businesses',
+      { icon: 'message', text: 'We speak your language, not tech jargon' },
+      { icon: 'layers', text: 'We handle everything — you focus on your business' },
+      { icon: 'barChart', text: 'Measurable results, not empty promises' },
+      { icon: 'users', text: "Real support — we don't disappear after launch" },
+      { icon: 'trendingUp', text: 'Pricing designed for growing businesses' },
     ],
     wordplay: 'ADS. Three letters. Your business, visible.',
     cta: 'Book a call',
@@ -82,7 +85,7 @@ export default function WhyUsSection() {
           >
             {c.points.map((point) => (
               <div
-                key={point}
+                key={point.text}
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
@@ -93,24 +96,21 @@ export default function WhyUsSection() {
                   padding: '1.125rem 1.25rem',
                 }}
               >
-                {/* Gold checkmark */}
                 <div
+                  aria-hidden="true"
                   style={{
                     flexShrink: 0,
-                    width: '1.375rem',
-                    height: '1.375rem',
-                    borderRadius: '50%',
-                    background: 'var(--gold)',
+                    width: '2.25rem',
+                    height: '2.25rem',
+                    borderRadius: '10px',
+                    background: 'var(--gold-bg)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#fff',
-                    fontSize: '0.6875rem',
-                    fontWeight: 700,
-                    marginTop: '1px',
+                    color: 'var(--gold)',
                   }}
                 >
-                  ✓
+                  <Icon name={point.icon} size={19} />
                 </div>
                 <p
                   style={{
@@ -119,9 +119,10 @@ export default function WhyUsSection() {
                     color: 'var(--text)',
                     lineHeight: 1.5,
                     margin: 0,
+                    marginTop: '0.3rem',
                   }}
                 >
-                  {point}
+                  {point.text}
                 </p>
               </div>
             ))}

@@ -574,6 +574,20 @@ a, button {
   margin-bottom: 4.5rem;
 }
 
+/* Acento de ProblemSection: una sección de solo texto necesita un ancla
+   visual, sin recurrir a una foto que no viene al caso. */
+.problem-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--gold-bg);
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
 .section-content {
   width: 100%;
 }
@@ -1217,13 +1231,31 @@ a, button {
   .process-step:hover { transform: none; }
 }
 
+.process-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
 .process-step-num {
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 1.9rem;
   font-weight: 700;
   line-height: 1;
   color: var(--gold);
-  margin-bottom: 0.5rem;
+}
+
+.process-step-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 10px;
+  background: var(--gold-bg);
+  color: var(--gold);
+  flex-shrink: 0;
 }
 
 .process-step-title {
@@ -1423,6 +1455,18 @@ a, button {
 }
 
 .capability-card > * { position: relative; z-index: 1; }
+
+.capability-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  background: var(--gold-bg);
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+}
 
 .capability-card:hover {
   border-color: var(--border-hover);

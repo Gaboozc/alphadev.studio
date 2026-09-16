@@ -2,6 +2,7 @@
 
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import Icon from '@/components/Icon';
 
 const COPY: Record<Lang, { eyebrow: string; title: string; body: string; punchline: string }> = {
   es: {
@@ -29,6 +30,9 @@ export default function ProblemSection() {
     >
       <div className="section-container">
         <div className="section-header">
+          <div className="problem-icon" data-animate="fade" aria-hidden="true">
+            <Icon name="eyeOff" size={30} />
+          </div>
           <p className="eyebrow" data-animate="fade">
             {c.eyebrow}
           </p>

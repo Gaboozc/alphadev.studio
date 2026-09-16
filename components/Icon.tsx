@@ -34,7 +34,8 @@ export type IconName =
   | 'flag'
   | 'lock'
   | 'check'
-  | 'arrowRight';
+  | 'arrowRight'
+  | 'eyeOff';
 
 const PATHS: Record<IconName, ReactNode> = {
   layers: (
@@ -224,6 +225,14 @@ const PATHS: Record<IconName, ReactNode> = {
     <>
       <line x1="5" y1="12" x2="19" y2="12" />
       <polyline points="12 5 19 12 12 19" />
+    </>
+  ),
+  eyeOff: (
+    <>
+      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+      <path d="M2 2l20 20" />
+      <path d="M9.363 9.363a3 3 0 0 0 4.243 4.243" />
     </>
   ),
   sparkles: (

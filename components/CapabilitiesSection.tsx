@@ -2,8 +2,10 @@
 
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import Icon, { type IconName } from '@/components/Icon';
 
 type PillarData = {
+  icon: IconName;
   title: string;
   description: string;
   items: string[];
@@ -12,16 +14,19 @@ type PillarData = {
 const PILLARS: Record<Lang, PillarData[]> = {
   es: [
     {
+      icon: 'monitor',
       title: 'Te ven',
       description: 'Sitio web profesional + perfil de Google optimizado. Cuando alguien te busca, te encuentra. Con una imagen que transmite confianza desde el primer segundo.',
       items: ['Sitio web a medida', 'Google Business Profile', 'SEO local', 'Imagen profesional'],
     },
     {
+      icon: 'share',
       title: 'Te siguen',
       description: 'Redes sociales activas y con contenido que conecta. Instagram, Facebook y TikTok manejados para que tu audiencia crezca y tu marca esté siempre presente.',
       items: ['Gestión de redes', 'Contenido original', 'Calendario editorial', 'Crecimiento orgánico'],
     },
     {
+      icon: 'megaphone',
       title: 'Te eligen',
       description: 'Publicidad inteligente que trae clientes reales. Campañas en Google y redes que ponen tu negocio frente a quien justo está buscando lo que ofreces.',
       items: ['Google Ads', 'Meta Ads', 'Retargeting', 'Métricas claras'],
@@ -29,16 +34,19 @@ const PILLARS: Record<Lang, PillarData[]> = {
   ],
   en: [
     {
+      icon: 'monitor',
       title: 'They see you',
       description: 'Professional website + optimized Google profile. When someone searches for you, they find you. With an image that builds trust from the first second.',
       items: ['Custom website', 'Google Business Profile', 'Local SEO', 'Professional image'],
     },
     {
+      icon: 'share',
       title: 'They follow you',
       description: 'Active social media with content that connects. Instagram, Facebook, and TikTok managed so your audience grows and your brand is always present.',
       items: ['Social media management', 'Original content', 'Editorial calendar', 'Organic growth'],
     },
     {
+      icon: 'megaphone',
       title: 'They choose you',
       description: 'Smart advertising that brings real customers. Campaigns on Google and social media that put your business in front of people searching for what you offer.',
       items: ['Google Ads', 'Meta Ads', 'Retargeting', 'Clear metrics'],
@@ -86,6 +94,9 @@ export default function CapabilitiesSection() {
           <div className="sticky-stack-items" data-animate="stagger">
             {pillars.map((pillar) => (
               <div key={pillar.title} className="capability-card">
+                <div className="capability-card-icon" aria-hidden="true">
+                  <Icon name={pillar.icon} size={26} />
+                </div>
                 <h3>{pillar.title}</h3>
                 <p>{pillar.description}</p>
                 <ul>

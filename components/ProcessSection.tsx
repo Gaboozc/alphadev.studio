@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import Icon, { type IconName } from '@/components/Icon';
 
 const PHASE_NUMBERS = ['01', '02', '03', '04', '05'];
+const PHASE_ICONS: IconName[] = ['message', 'target', 'box', 'flag', 'trendingUp'];
 const PROCESS_CTA: Record<Lang, string> = {
   es: 'Conocer Detalles del Proceso',
   en: 'See Process Details',
@@ -38,7 +40,12 @@ export default function ProcessSection() {
           <div className="sticky-stack-items" data-animate="stagger">
             {p.phases.map((phase, index) => (
               <div key={index} className="process-step">
-                <span className="process-step-num">{PHASE_NUMBERS[index]}</span>
+                <div className="process-step-top">
+                  <span className="process-step-num">{PHASE_NUMBERS[index]}</span>
+                  <span className="process-step-icon" aria-hidden="true">
+                    <Icon name={PHASE_ICONS[index]} size={18} />
+                  </span>
+                </div>
                 <h3 className="process-step-title">{phase.title}</h3>
                 <p className="process-step-desc">{phase.description}</p>
               </div>
