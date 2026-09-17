@@ -14,6 +14,14 @@
  * llamarse (el texto se muestra plano).
  */
 export function splitWords(el: HTMLElement): HTMLElement[] {
+  // Ya partido: devolver los spans existentes en vez de re-partir.
+  // Sin esto, una segunda llamada (navegación de cliente, refresh de
+  // ScrollTrigger) leería el textContent ya sin saltos de línea y volvería a
+  // envolver spans dentro de spans.
+  if (el.dataset.split === 'true') {
+    return Array.from(el.querySelectorAll<HTMLElement>('[data-word]'));
+  }
+
   const text = el.textContent ?? '';
   if (!text.trim()) return [];
 
@@ -29,10 +37,15 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
     lineEl.style.display = 'block';
     // Máscara: clipea las palabras que entran desde abajo.
     lineEl.style.overflow = 'hidden';
-    // Padding/margin compensados para no recortar descendentes (g, p, y)
-    // ni alterar el flujo del layout.
-    lineEl.style.paddingBottom = '0.12em';
-    lineEl.style.marginBottom = '-0.12em';
+    // Padding/margin compensados para no recortar ni los descendentes (g, p, y)
+    // ni los ascendentes/mayúsculas (line-height:1 en un display gigante como
+    // .brand-row-name corta la parte de arriba de las letras sin este margen
+    // — bug real visto en producción, no solo cosmético). Simétrico arriba y
+    // abajo para no alterar el flujo del layout.
+    lineEl.style.paddingTop = '0.18em';
+    lineEl.style.marginTop = '-0.18em';
+    lineEl.style.paddingBottom = '0.18em';
+    lineEl.style.marginBottom = '-0.18em';
 
     // Mantener los espacios como tokens para preservar el espaciado.
     const tokens = line.split(/(\s+)/);
@@ -49,7 +62,7 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
 
       const inner = document.createElement('span');
       inner.style.display = 'inline-block';
-      inner.style.willChange = 'transform';
+      inner.dataset.word = '';
       inner.textContent = token;
 
       outer.appendChild(inner);

@@ -1,9 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 
 type PillarData = {
+  image: string;
   title: string;
   description: string;
   items: string[];
@@ -12,16 +14,19 @@ type PillarData = {
 const PILLARS: Record<Lang, PillarData[]> = {
   es: [
     {
+      image: '/assets/secciones/te-ven.webp',
       title: 'Te ven',
       description: 'Sitio web profesional + perfil de Google optimizado. Cuando alguien te busca, te encuentra. Con una imagen que transmite confianza desde el primer segundo.',
       items: ['Sitio web a medida', 'Google Business Profile', 'SEO local', 'Imagen profesional'],
     },
     {
+      image: '/assets/secciones/te-siguen.webp',
       title: 'Te siguen',
       description: 'Redes sociales activas y con contenido que conecta. Instagram, Facebook y TikTok manejados para que tu audiencia crezca y tu marca esté siempre presente.',
       items: ['Gestión de redes', 'Contenido original', 'Calendario editorial', 'Crecimiento orgánico'],
     },
     {
+      image: '/assets/secciones/te-eligen.webp',
       title: 'Te eligen',
       description: 'Publicidad inteligente que trae clientes reales. Campañas en Google y redes que ponen tu negocio frente a quien justo está buscando lo que ofreces.',
       items: ['Google Ads', 'Meta Ads', 'Retargeting', 'Métricas claras'],
@@ -29,16 +34,19 @@ const PILLARS: Record<Lang, PillarData[]> = {
   ],
   en: [
     {
+      image: '/assets/secciones/te-ven.webp',
       title: 'They see you',
       description: 'Professional website + optimized Google profile. When someone searches for you, they find you. With an image that builds trust from the first second.',
       items: ['Custom website', 'Google Business Profile', 'Local SEO', 'Professional image'],
     },
     {
+      image: '/assets/secciones/te-siguen.webp',
       title: 'They follow you',
       description: 'Active social media with content that connects. Instagram, Facebook, and TikTok managed so your audience grows and your brand is always present.',
       items: ['Social media management', 'Original content', 'Editorial calendar', 'Organic growth'],
     },
     {
+      image: '/assets/secciones/te-eligen.webp',
       title: 'They choose you',
       description: 'Smart advertising that brings real customers. Campaigns on Google and social media that put your business in front of people searching for what you offer.',
       items: ['Google Ads', 'Meta Ads', 'Retargeting', 'Clear metrics'],
@@ -67,29 +75,44 @@ export default function CapabilitiesSection() {
   return (
     <section className="capabilities-section">
       <div className="section-container">
-        <div className="section-header">
-          <p className="eyebrow" data-animate="fade">
-            {copy.eyebrow}
-          </p>
-          <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
-            {copy.title}
-          </h2>
-          <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
-        </div>
+        {/* Header fijo a la izquierda mientras los 3 pilares pasan por la
+            derecha (sticky-stack, ver globals.css) — antes era un encabezado
+            centrado seguido de un grid de 3 columnas sin ninguna relación de
+            scroll entre ambos. */}
+        <div className="sticky-stack">
+          <div className="sticky-stack-header">
+            <p className="eyebrow" data-animate="fade">
+              {copy.eyebrow}
+            </p>
+            <h2 className="section-title" data-animate="title" style={{ whiteSpace: 'pre-line' }}>
+              {copy.title}
+            </h2>
+            <div className="gold-divider" data-animate="divider" />
+            <p className="section-subtitle" data-animate="subtitle">{copy.subtitle}</p>
+          </div>
 
-        <div className="section-content capability-grid" data-animate="stagger">
-          {pillars.map((pillar) => (
-            <div key={pillar.title} className="capability-card">
-              <h3>{pillar.title}</h3>
-              <p>{pillar.description}</p>
-              <ul>
-                {pillar.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="sticky-stack-items" data-animate="stagger">
+            {pillars.map((pillar) => (
+              <div key={pillar.title} className="capability-card">
+                <div className="capability-card-media" data-animate="clip-reveal">
+                  <Image
+                    src={pillar.image}
+                    alt=""
+                    width={900}
+                    height={672}
+                    sizes="(max-width: 899px) 100vw, 520px"
+                  />
+                </div>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.description}</p>
+                <ul>
+                  {pillar.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

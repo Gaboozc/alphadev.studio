@@ -1,133 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
-
-// Slug por cliente. Las fotos del trabajo van en:
-//   public/assets/cases/<slug>-1.png, <slug>-2.png, ... (hasta MAX_PHOTOS)
-// Dejá las que tengas; las que falten se ignoran solas.
-const PROJECT_SLUGS = ['bfs-karate', 'imperial-barbershop', 'the-latin-grill'];
-const MAX_PHOTOS = 6;
-
-// Sitio web real de cada cliente (mismo orden que portfolio.items).
-const PROJECT_URLS = [
-  'https://www.bfsmartialart.com/',
-  'https://imperialbarbercoacalco.com/',
-  'https://www.thelatingrillfl.com/',
-];
-
-// Tags de servicio por cliente (mismo orden que portfolio.items), bilingües.
-const PROJECT_TAGS: Record<Lang, string[][]> = {
-  es: [
-    ['Sitio web', 'Redes', 'Google + SEO'],
-    ['Sitio web', 'Google + SEO'],
-    ['Rediseño web', 'Diseño'],
-  ],
-  en: [
-    ['Website', 'Social', 'Google + SEO'],
-    ['Website', 'Google + SEO'],
-    ['Web redesign', 'Design'],
-  ],
-};
-
-const candidates = (slug: string) =>
-  Array.from({ length: MAX_PHOTOS }, (_, i) => `/assets/cases/${slug}-${i + 1}.png`);
-
-// Precarga cada candidato y devuelve solo los que existen, en orden.
-function useAvailablePhotos(slug: string): string[] {
-  const [status, setStatus] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    let alive = true;
-    candidates(slug).forEach((src) => {
-      const img = new Image();
-      img.onload = () => { if (alive) setStatus((s) => ({ ...s, [src]: true })); };
-      img.onerror = () => { if (alive) setStatus((s) => ({ ...s, [src]: false })); };
-      img.src = src;
-    });
-    return () => { alive = false; };
-  }, [slug]);
-
-  return candidates(slug).filter((src) => status[src]);
-}
+import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 
 type LightboxState = { photos: string[]; index: number; title: string };
-
-type CaseCardProps = {
-  index: number;
-  title: string;
-  type: string;
-  description: string;
-  tags: string[];
-  url: string;
-  slug: string;
-  lang: Lang;
-  onOpen: (state: LightboxState) => void;
-};
-
-function CaseCard({ index, title, type, description, tags, url, slug, lang, onOpen }: CaseCardProps) {
-  const photos = useAvailablePhotos(slug);
-  const cover = photos[0];
-  const count = photos.length;
-
-  return (
-    <article className="case-detail-card" data-animate="fade" style={{ animationDelay: `${index * 0.06}s` }}>
-      {count > 0 ? (
-        <button
-          type="button"
-          className="case-thumb"
-          onClick={() => onOpen({ photos, index: 0, title })}
-          aria-label={lang === 'es' ? `Ver galería de ${title}` : `View gallery of ${title}`}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={cover} alt={`Trabajo realizado para ${title}`} loading="lazy" />
-          <span className="case-thumb-overlay">{lang === 'es' ? 'Ver galería' : 'View gallery'}</span>
-          <span className="case-thumb-count">▦ {count}</span>
-        </button>
-      ) : (
-        <span className="case-thumb">
-          <span className="case-thumb-empty">{lang === 'es' ? 'Galería próximamente' : 'Gallery coming soon'}</span>
-        </span>
-      )}
-
-      <div className="case-detail-body">
-        <h3 className="text-lg mb-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, color: 'var(--text)' }}>
-          {title}
-        </h3>
-        <p className="text-xs font-semibold mb-3" style={{ color: 'var(--gold)', fontFamily: 'var(--font-inter)' }}>
-          {type}
-        </p>
-        <p className="text-sm mb-5 leading-relaxed" style={{ color: 'var(--text-muted)', flex: 1 }}>
-          {description}
-        </p>
-        <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs px-3 py-1 rounded-full"
-              style={{ background: 'var(--gold-bg)', color: 'var(--gold)', border: '1px solid var(--gold-border)' }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-semibold mt-5 transition-opacity hover:opacity-70"
-            style={{ color: 'var(--gold)', fontFamily: 'var(--font-inter)' }}
-          >
-            {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
-          </a>
-        )}
-      </div>
-    </article>
-  );
-}
 
 function Lightbox({ state, onClose, onChange, lang }: {
   state: LightboxState;
@@ -161,8 +41,15 @@ function Lightbox({ state, onClose, onChange, lang }: {
       {total > 1 && (
         <button type="button" className="lightbox-nav lightbox-prev" onClick={(e) => { e.stopPropagation(); go(-1); }} aria-label={lang === 'es' ? 'Anterior' : 'Previous'}>‹</button>
       )}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="lightbox-img" src={photos[index]} alt={`${title} — ${index + 1}/${total}`} onClick={(e) => e.stopPropagation()} />
+      <Image
+        className="lightbox-img"
+        src={photos[index]}
+        alt={`${title} — ${index + 1}/${total}`}
+        width={CASE_PHOTO_WIDTH}
+        height={CASE_PHOTO_HEIGHT}
+        sizes="(max-width: 1199px) 92vw, 1100px"
+        onClick={(e) => e.stopPropagation()}
+      />
       {total > 1 && (
         <button type="button" className="lightbox-nav lightbox-next" onClick={(e) => { e.stopPropagation(); go(1); }} aria-label={lang === 'es' ? 'Siguiente' : 'Next'}>›</button>
       )}
@@ -194,11 +81,13 @@ export default function PortafolioContent() {
             <div className="hero-visual" data-animate="fade">
               <div className="browser-frame browser-float">
                 <div className="browser-bar"><span /><span /><span /></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/cases/the-latin-grill-1.png"
                   alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
-                  loading="eager"
+                  width={CASE_PHOTO_WIDTH}
+                  height={CASE_PHOTO_HEIGHT}
+                  sizes="(max-width: 899px) 100vw, 620px"
+                  priority
                 />
               </div>
             </div>
@@ -206,26 +95,81 @@ export default function PortafolioContent() {
         </div>
       </section>
 
-      <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
-        <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
-            {p.items.map((project, index) => (
-              <CaseCard
-                key={index}
-                index={index}
-                title={project.title}
-                type={project.type}
-                description={project.description}
-                tags={PROJECT_TAGS[lang][index] ?? []}
-                url={PROJECT_URLS[index] ?? ''}
-                slug={PROJECT_SLUGS[index] ?? ''}
-                lang={lang}
-                onOpen={setLightbox}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Una sección full-bleed por cliente: el nombre queda sticky a la
+          izquierda mientras la galería completa pasa a la derecha — el
+          trabajo real es el protagonista, no una tarjeta de un tercio. */}
+      {CASES.map((item, index) => {
+        const t = item.i18n[lang];
+        const project = p.items[index];
+        return (
+          <section
+            key={item.slug}
+            className="portfolio-client"
+            style={{ background: index % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)' }}
+          >
+            <div className="section-container">
+              <div className="sticky-stack">
+                <div className="sticky-stack-header">
+                  <p className="portfolio-client-industry" data-animate="fade">{t.industry}</p>
+                  <h2 className="portfolio-client-name" data-animate="title">{item.name}</h2>
+                  <p className="portfolio-client-result" data-animate="subtitle">
+                    {project?.description ?? t.result}
+                  </p>
+                  <div className="portfolio-client-tags" data-animate="fade">
+                    {t.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-3 py-1 rounded-full"
+                        style={{ background: 'var(--gold-bg)', color: 'var(--gold)', border: '1px solid var(--gold-border)' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  {item.url && (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="portfolio-client-link"
+                      data-animate="fade"
+                    >
+                      {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                </div>
+
+                {item.photos.length > 0 ? (
+                  <div className="portfolio-gallery" data-animate="stagger">
+                    {item.photos.map((photo, photoIndex) => (
+                      <button
+                        key={photo}
+                        type="button"
+                        className="case-thumb"
+                        data-animate="clip-reveal"
+                        onClick={() => setLightbox({ photos: item.photos, index: photoIndex, title: item.name })}
+                        aria-label={lang === 'es' ? `Ver ${item.name}, foto ${photoIndex + 1}` : `View ${item.name}, photo ${photoIndex + 1}`}
+                      >
+                        <Image
+                          src={photo}
+                          alt={lang === 'es' ? `Trabajo realizado para ${item.name}` : `Work delivered for ${item.name}`}
+                          fill
+                          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 460px"
+                        />
+                        <span className="case-thumb-overlay">{lang === 'es' ? 'Ver galería' : 'View gallery'}</span>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="case-thumb">
+                    <span className="case-thumb-empty">{lang === 'es' ? 'Galería próximamente' : 'Gallery coming soon'}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </section>
+        );
+      })}
 
       <CTASection />
 

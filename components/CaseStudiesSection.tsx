@@ -1,67 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
-
-type CaseStudy = {
-  title: string;
-  industry: string;
-  result: string;
-  scope: string;
-};
-
-const CASES: Record<Lang, CaseStudy[]> = {
-  es: [
-    {
-      title: 'BFS Karate',
-      industry: 'Cliente · Artes marciales',
-      result: 'Presencia digital completa desde cero.',
-      scope: 'Sitio + Redes + Google Business',
-    },
-    {
-      title: 'Imperial Barbershop',
-      industry: 'Cliente · Barbería',
-      result: 'Visible cuando buscan dónde cortarse el pelo.',
-      scope: 'Sitio + Google Business',
-    },
-    {
-      title: 'The Latin Grill',
-      industry: 'Cliente · Restaurante',
-      result: 'Sitio rediseñado desde cero, listo para el celular.',
-      scope: 'Rediseño web',
-    },
-  ],
-  en: [
-    {
-      title: 'BFS Karate',
-      industry: 'Client · Martial arts',
-      result: 'A complete digital presence from scratch.',
-      scope: 'Site + Social + Google Business',
-    },
-    {
-      title: 'Imperial Barbershop',
-      industry: 'Client · Barbershop',
-      result: 'Visible when people search for a haircut.',
-      scope: 'Site + Google Business',
-    },
-    {
-      title: 'The Latin Grill',
-      industry: 'Client · Restaurant',
-      result: 'Site redesigned from scratch, mobile-ready.',
-      scope: 'Web redesign',
-    },
-  ],
-};
-
-// Sitio web real de cada cliente (mismo orden que CASES).
-const CASE_URLS = [
-  'https://www.bfsmartialart.com/',
-  'https://imperialbarbercoacalco.com/',
-  'https://www.thelatingrillfl.com/',
-];
-
-// Portada del trabajo (captura real): /assets/cases/<slug>-1.png
-const CASE_SLUGS = ['bfs-karate', 'imperial-barbershop', 'the-latin-grill'];
+import { CASES } from '@/lib/content/cases';
 
 const SECTION_COPY: Record<Lang, { eyebrow: string; title: string; subtitle: string }> = {
   es: {
@@ -78,7 +20,6 @@ const SECTION_COPY: Record<Lang, { eyebrow: string; title: string; subtitle: str
 
 export default function CaseStudiesSection() {
   const { lang } = useLang();
-  const cases = CASES[lang];
   const copy = SECTION_COPY[lang];
 
   return (
@@ -96,36 +37,42 @@ export default function CaseStudiesSection() {
         </div>
 
         <div className="section-content case-grid" data-animate="stagger">
-          {cases.map((item, i) => (
-            <article key={item.title} className="case-card">
-              <a
-                href={CASE_URLS[i]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="case-card-thumb"
-                aria-label={lang === 'es' ? `Ver sitio de ${item.title}` : `View ${item.title} site`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/assets/cases/${CASE_SLUGS[i]}-1.png`} alt={`Trabajo para ${item.title}`} loading="lazy" />
-              </a>
-              <div className="case-card-body">
-                <div className="case-meta">{item.industry}</div>
-                <h3>{item.title}</h3>
-                <p className="case-result">{item.result}</p>
-                <div className="case-scope">{item.scope}</div>
-                {CASE_URLS[i] && (
+          {CASES.map((item) => {
+            const t = item.i18n[lang];
+            return (
+              <article key={item.slug} className="case-card">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="case-card-thumb"
+                  data-animate="clip-reveal"
+                  aria-label={lang === 'es' ? `Ver sitio de ${item.name}` : `View ${item.name} site`}
+                >
+                  <Image
+                    src={item.photos[0]}
+                    alt={lang === 'es' ? `Trabajo para ${item.name}` : `Work for ${item.name}`}
+                    fill
+                    sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 400px"
+                  />
+                </a>
+                <div className="case-card-body">
+                  <div className="case-meta">{t.industry}</div>
+                  <h3>{item.name}</h3>
+                  <p className="case-result">{t.result}</p>
+                  <div className="case-scope">{t.scope}</div>
                   <a
-                    href={CASE_URLS[i]}
+                    href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="case-link"
                   >
                     {lang === 'es' ? 'Ver sitio' : 'View site'} <span aria-hidden="true">→</span>
                   </a>
-                )}
-              </div>
-            </article>
-          ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

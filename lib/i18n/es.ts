@@ -69,7 +69,7 @@ export const es: Translations = {
         title: 'The Latin Grill',
         type: 'Cliente · Restaurante',
         description:
-          'Rediseñamos su sitio desde cero —menú e información claros, listos para el celular— para que se vea tan bueno como su comida.',
+          'Rediseñamos su sitio por completo, de escritorio a celular —menú e información claros— para que se vea tan bueno como su comida.',
       },
     ],
   },

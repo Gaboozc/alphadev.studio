@@ -1,12 +1,33 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import CTASection from '@/components/CTASection';
-import Icon, { type IconName } from '@/components/Icon';
+
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
 
-const SERVICE_ICONS: IconName[] = ['layers', 'share', 'megaphone', 'mapPin', 'monitor'];
+// Mismo orden que SERVICES.
+const SERVICE_IMAGES: string[] = [
+  '/assets/secciones/serv-presencia.webp',
+  '/assets/secciones/serv-redes.webp',
+  '/assets/secciones/serv-publicidad.webp',
+  '/assets/secciones/serv-google.webp',
+  '/assets/secciones/serv-sitio.webp',
+];
+
+// Solo se linkea un caso real cuando de verdad hicimos ese servicio para ese
+// cliente — nada de "próximamente" ni de repetir el mismo caso en todo. Con
+// 3 clientes reales y 5 servicios, dos quedan sin prueba (redes, publicidad)
+// en vez de forzar una asociación que no es cierta.
+const SERVICE_PROOF_SLUGS: (string | null)[] = [
+  'bfs-karate', // Presencia desde cero: sitio + redes + Google Business
+  null, // Manejo de redes sociales
+  null, // Publicidad que vende — ningún cliente actual tuvo campañas pagadas
+  'imperial-barbershop', // Aparece en Google: scope Sitio + Google Business
+  'the-latin-grill', // Sitio web profesional: rediseño web completo
+];
 
 type ServiceDetail = { title: string; description: string; details: string[] };
 
@@ -167,11 +188,13 @@ export default function ServiciosContent() {
             <div className="hero-visual" data-animate="fade">
               <div className="browser-frame browser-float">
                 <div className="browser-bar"><span /><span /><span /></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/assets/cases/imperial-barbershop-1.png"
                   alt={lang === 'es' ? 'Sitio profesional hecho por AlphaDev' : 'Professional site built by AlphaDev'}
-                  loading="eager"
+                  width={CASE_PHOTO_WIDTH}
+                  height={CASE_PHOTO_HEIGHT}
+                  sizes="(max-width: 899px) 100vw, 620px"
+                  priority
                 />
               </div>
             </div>
@@ -197,8 +220,14 @@ export default function ServiciosContent() {
                   (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
               >
-                <div className="mb-4" style={{ color: 'var(--gold)' }}>
-                  <Icon name={SERVICE_ICONS[index]} size={30} />
+                <div className="service-card-media" style={{ margin: '-2rem -2rem 1.5rem' }}>
+                  <Image
+                    src={SERVICE_IMAGES[index]}
+                    alt=""
+                    width={900}
+                    height={562}
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
+                  />
                 </div>
                 <h3 className="text-xl mb-2" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, color: 'var(--text)' }}>
                   {service.title}
@@ -214,6 +243,30 @@ export default function ServiciosContent() {
                     </li>
                   ))}
                 </ul>
+
+                {(() => {
+                  const proof = SERVICE_PROOF_SLUGS[index] ? caseBySlug(SERVICE_PROOF_SLUGS[index]!) : undefined;
+                  if (!proof) return null;
+                  return (
+                    <div className="service-proof">
+                      <p className="service-proof-label">
+                        {lang === 'es' ? 'Esto se lo hicimos a' : 'We did this for'}
+                      </p>
+                      <div className="service-proof-frame" data-animate="clip-reveal">
+                        <Image
+                          src={proof.photos[0]}
+                          alt={lang === 'es' ? `Trabajo real para ${proof.name}` : `Real work for ${proof.name}`}
+                          width={CASE_PHOTO_WIDTH}
+                          height={CASE_PHOTO_HEIGHT}
+                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 400px"
+                        />
+                      </div>
+                      <p className="service-proof-name">
+                        <strong>{proof.name}</strong> · {proof.i18n[lang].result}
+                      </p>
+                    </div>
+                  );
+                })()}
               </div>
             ))}
           </div>
