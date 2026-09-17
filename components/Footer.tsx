@@ -5,7 +5,7 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 
 import Image from 'next/image';
 import footerLogo from '../assets/footer-logo.png';
-import { CONTACT_EMAIL, PHONE_US, PHONE_MX, INSTAGRAM_HANDLE, INSTAGRAM_URL } from '@/lib/site-config';
+import { PHONE_US, PHONE_MX } from '@/lib/site-config';
 
 const COMPANY_HREFS = ['/portafolio', '/proceso', '/contacto'];
 const SERVICE_HREF = '/servicios';
@@ -113,14 +113,6 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="transition-colors hover:text-[--gold]"
-                >
-                  {CONTACT_EMAIL}
-                </a>
-              </li>
-              <li>
-                <a
                   href={PHONE_US.href}
                   className="transition-colors hover:text-[--gold]"
                 >
@@ -133,16 +125,6 @@ export default function Footer() {
                   className="transition-colors hover:text-[--gold]"
                 >
                   {PHONE_MX.display} · MX
-                </a>
-              </li>
-              <li>
-                <a
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-[--gold]"
-                >
-                  @{INSTAGRAM_HANDLE}
                 </a>
               </li>
             </ul>

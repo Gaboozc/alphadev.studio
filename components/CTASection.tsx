@@ -10,12 +10,12 @@ import type { Lang } from '@/lib/i18n';
 // la promesa es "te conoce por tu nombre", no "te contesto yo".
 const FOUNDER: Record<Lang, { quote: string; name: string; role: string }> = {
   es: {
-    quote: 'Detrás de cada proyecto hay un equipo chico, no un call center. Escribes por WhatsApp y te contesta alguien que conoce tu cuenta.',
+    quote: 'Detrás de cada proyecto hay un equipo preparado. Contáctanos y serás atendido por alguien que te dará soluciones reales.',
     name: 'Gabriel Zavarse',
     role: 'Founder, AlphaDev Studios',
   },
   en: {
-    quote: 'Behind every project is a small team, not a call center. You message on WhatsApp and someone who knows your account answers.',
+    quote: 'Behind every project is a prepared team. Reach out and you\'ll be helped by someone who gives you real solutions.',
     name: 'Gabriel Zavarse',
     role: 'Founder, AlphaDev Studios',
   },
