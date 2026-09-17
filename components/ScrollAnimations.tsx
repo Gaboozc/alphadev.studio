@@ -14,6 +14,32 @@ export default function ScrollAnimations() {
   // los [data-animate] de la página nueva no recibirían ningún ScrollTrigger.
   const pathname = usePathname();
 
+  // Bug real encontrado en producción: cualquier click en un link interno
+  // (navbar, footer, CTAs) rompía la página con "Failed to execute
+  // 'removeChild' on 'Node'". Causa aislada por bisección: el ÚNICO `pin`
+  // del sitio (WorkShowcase, más abajo) hace que ScrollTrigger reparente esa
+  // sección dentro de un `.pin-spacer` que React no conoce. El cleanup normal
+  // (`ctx.revert()` en el efecto de abajo) llega tarde: corre como passive
+  // effect DESPUÉS de que React ya intentó remover el DOM viejo en el mismo
+  // commit que arma la página nueva, así que nunca llega a tiempo de deshacer
+  // el reparenting antes de que el removeChild falle.
+  // Fix: matar todos los ScrollTrigger (incluido el pin) en cuanto se hace
+  // click en un link interno, en fase de captura — antes de que Next.js
+  // dispare el cambio de ruta que corre el commit. El efecto de abajo los
+  // vuelve a crear en la página nueva porque sigue atado a `pathname`.
+  useEffect(() => {
+    const killOnInternalNav = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement)?.closest?.('a[href]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href') ?? '';
+      if (href.startsWith('/') && !href.startsWith('//')) {
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+      }
+    };
+    document.addEventListener('click', killOnInternalNav, true);
+    return () => document.removeEventListener('click', killOnInternalNav, true);
+  }, []);
+
   useEffect(() => {
     registerGSAP();
 
