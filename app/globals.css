@@ -436,6 +436,14 @@ a, button {
   }
 }
 
+/* El home hero vive en un flex-column centrado (.hero-stage-inner), que por
+   default encoge a los hijos a su ancho de contenido — sin esto el grid de
+   2 columnas quedaría angosto en vez de ocupar el ancho real de la sección. */
+.hero-stage-inner > .hero-intro-grid {
+  align-self: stretch;
+  width: 100%;
+}
+
 .hero-copy {
   text-align: center;
   display: flex;

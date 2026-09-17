@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 
 // ── Service modules — the ecosystem ADS builds ────────────────────────────────
 const MODULES: Record<Lang, { label: string; sub: string }[]> = {
@@ -57,33 +59,62 @@ export default function HeroContent() {
       <div aria-hidden="true" className="hero-orb hero-orb-3" />
 
       <div className="section-container hero-stage-inner">
-        {/* Eyebrow */}
-        <p data-animate="fade" className="hero-badge">
-          {/* Animated pulse dot */}
-          <span className="hero-badge-dot module-dot" />
-          {EYEBROW[lang]}
-        </p>
+        <div className="hero-showcase-grid hero-intro-grid">
+          <div className="hero-copy">
+            {/* Eyebrow */}
+            <p data-animate="fade" className="hero-badge">
+              {/* Animated pulse dot */}
+              <span className="hero-badge-dot module-dot" />
+              {EYEBROW[lang]}
+            </p>
 
-        {/* Headline */}
-        <h1 data-animate="title" className="hero-headline">
-          {h.headline}
-        </h1>
+            {/* Headline */}
+            <h1 data-animate="title" className="hero-headline">
+              {h.headline}
+            </h1>
 
-        <div className="gold-divider" data-animate="divider" />
+            <div className="gold-divider" data-animate="divider" />
 
-        {/* Subheadline */}
-        <p data-animate="subtitle" className="hero-subheadline">
-          {h.subheadline}
-        </p>
+            {/* Subheadline */}
+            <p data-animate="subtitle" className="hero-subheadline">
+              {h.subheadline}
+            </p>
 
-        {/* CTAs */}
-        <div data-animate="fade" className="hero-cta-row flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/contacto" className="btn-glow inline-flex">
-            {h.cta_primary}
-          </Link>
-          <Link href="/proceso" className="hero-cta-secondary">
-            {h.cta_secondary} →
-          </Link>
+            {/* CTAs */}
+            <div data-animate="fade" className="hero-cta-row flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link href="/contacto" className="btn-glow inline-flex">
+                {h.cta_primary}
+              </Link>
+              <Link href="/proceso" className="hero-cta-secondary">
+                {h.cta_secondary} →
+              </Link>
+            </div>
+          </div>
+
+          {/* El mismo abanico de clientes reales que /servicios, /proceso y
+              /contacto — el home era la única de las 4 páginas sin trabajo
+              real a la vista en su hero. */}
+          <div className="hero-visual" data-animate="fade">
+            <div className="hero-case-stack" style={{ '--stack-last': CASES.length - 1 } as React.CSSProperties}>
+              {CASES.map((item, index) => (
+                <div
+                  key={item.slug}
+                  className="browser-frame hero-case-stack-item"
+                  style={{ '--i': index } as React.CSSProperties}
+                >
+                  <div className="browser-bar"><span /><span /><span /></div>
+                  <Image
+                    src={item.photos[0]}
+                    alt={lang === 'es' ? `Sitio de ${item.name} hecho por AlphaDev` : `${item.name} site built by AlphaDev`}
+                    width={CASE_PHOTO_WIDTH}
+                    height={CASE_PHOTO_HEIGHT}
+                    sizes="(max-width: 899px) 100vw, 620px"
+                    priority={index === CASES.length - 1}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* ── Service modules grid ─────────────────────────────────────────── */}
