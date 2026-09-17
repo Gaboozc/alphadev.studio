@@ -1912,20 +1912,35 @@ a, button {
   }
 }
 
-/* Mobile: sin pin ni JS — overflow-x nativo con scroll-snap sobre el mismo
-   markup (el motor data-pin-track en ScrollAnimations.tsx solo corre en
-   desktop). overscroll-behavior-x evita que el swipe horizontal se filtre
-   al scroll vertical de la pagina. */
+/* Mobile/tablet: nada de pin ni carrusel escondido (el motor data-pin-track
+   en ScrollAnimations.tsx solo corre en desktop). En vez de una version
+   diminuida del efecto de escritorio -swipe horizontal sin ninguna pista
+   visual, contenido apretado en un alto fijo-, cada cliente pasa a ser un
+   bloque vertical a pantalla completa: la simplificacion deliberada estilo
+   Huge, no un fallback pobre del mismo layout. */
 @media (max-width: 899px) {
+  .work-showcase {
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  .work-showcase-header {
+    padding-top: clamp(3rem, 10vh, 4rem);
+    padding-bottom: 1rem;
+  }
   .work-track {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
+    display: block;
   }
   .work-panel {
-    scroll-snap-align: start;
-    padding: 0 1.5rem;
+    width: 100%;
+    min-height: 100dvh;
+    padding: 3.5rem 1.5rem;
+  }
+  .work-panel-inner {
+    gap: 2rem;
+  }
+  .work-panel-name {
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
   }
 }
 
