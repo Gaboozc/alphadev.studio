@@ -6,6 +6,7 @@ import WorkShowcase from '@/components/WorkShowcase';
 import ProblemSection from '@/components/ProblemSection';
 import CapabilitiesSection from '@/components/CapabilitiesSection';
 import ServicesSection from '@/components/ServicesSection';
+import TemplatesSection from '@/components/TemplatesSection';
 import ProcessSection from '@/components/ProcessSection';
 import WhyUsSection from '@/components/WhyUsSection';
 import CTASection from '@/components/CTASection';
@@ -28,6 +29,7 @@ export default function Home() {
       <ProblemSection />
       <CapabilitiesSection />
       <ServicesSection />
+      <TemplatesSection limit={3} showCta />
       <ProcessSection />
       <WhyUsSection />
       <CTASection />

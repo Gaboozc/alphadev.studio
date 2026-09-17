@@ -2427,6 +2427,78 @@ button.case-thumb {
   border: 1px solid var(--border);
 }
 
+/* ═══════════════════════════════════════════════════════
+   PLANTILLAS POR RUBRO — el "aquí puede ir tu marca".
+   Grilla propia y no .portfolio-gallery: aquella está capada
+   a 2 columnas y su primer hijo ocupa el ancho completo, que
+   es el ritmo correcto para una galería de un solo cliente
+   pero no para un catálogo de plantillas.
+═══════════════════════════════════════════════════════ */
+.templates-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .templates-gallery { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1024px) {
+  .templates-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Dentro de una card de servicio, la plantilla va después de la prueba real:
+   borde más liviano para que no compita con el trabajo de cliente, que es la
+   prueba fuerte. */
+.service-proof--template {
+  border-top-style: dashed;
+}
+
+.template-card {
+  margin: 0;
+}
+
+/* El marco es el ancla del badge, que va sobre la captura. */
+.template-card .browser-frame {
+  position: relative;
+}
+
+.template-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #FAFAF7;
+  background: rgba(26, 21, 18, 0.82);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.template-card-name {
+  margin-top: 0.9rem;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.template-card-pitch {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
 /* ─── Lightbox de galería ───────────────────────────────────────── */
 .lightbox {
   position: fixed;

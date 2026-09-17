@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import CTASection from '@/components/CTASection';
+import TemplatesSection from '@/components/TemplatesSection';
 
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
+import { TEMPLATE_IMAGE_HEIGHT, TEMPLATE_IMAGE_WIDTH, templateBySlug } from '@/lib/content/templates';
 import type { Lang } from '@/lib/i18n';
 
 // Mismo orden que SERVICES.
@@ -29,11 +31,30 @@ const SERVICE_PROOF_SLUGS: (string | null)[] = [
   'the-latin-grill', // Sitio web profesional: rediseño web completo
 ];
 
-type ServiceDetail = { title: string; description: string; details: string[] };
+// Id estable por servicio. Los arrays de arriba se mapean por índice (deuda
+// heredada), pero para las plantillas se usa este id: un tercer array paralelo
+// que mantener en sincronía es exactamente lo que la cabecera de cases.ts
+// advierte que no se haga, y `Record<ServiceId, …>` lo verifica el compilador.
+type ServiceId = 'presencia' | 'redes' | 'publicidad' | 'google' | 'sitio';
+
+type ServiceDetail = { id: ServiceId; title: string; description: string; details: string[] };
+
+// Solo donde una plantilla de sitio prueba de verdad ese servicio. Redes y
+// publicidad quedan fuera a propósito: son plantillas de sitio web, no
+// demuestran gestión de redes ni campañas pagadas, y forzarlas sería el mismo
+// atajo deshonesto que ya se evita en SERVICE_PROOF_SLUGS.
+const SERVICE_TEMPLATE: Record<ServiceId, string | null> = {
+  presencia: 'barberia',
+  redes: null,
+  publicidad: null,
+  google: 'optica',
+  sitio: 'dental',
+};
 
 const SERVICES: Record<Lang, ServiceDetail[]> = {
   es: [
     {
+      id: 'presencia',
       title: 'Presencia desde cero',
       description: '¿Empiezas de la nada? Te creamos todo: marca, logo, sitio web y perfiles sociales. Sales a internet con una imagen profesional completa.',
       details: [
@@ -45,6 +66,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'redes',
       title: 'Manejo de redes sociales',
       description: 'Nos encargamos de tus redes: contenido, publicaciones, respuestas. Tu marca activa y creciendo, sin que muevas un dedo.',
       details: [
@@ -56,6 +78,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'publicidad',
       title: 'Publicidad que vende',
       description: 'Campañas en Google y redes sociales diseñadas para traer clientes reales, no solo "likes". Medimos cada peso invertido.',
       details: [
@@ -67,6 +90,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'google',
       title: 'Aparece en Google',
       description: 'Optimizamos tu perfil de Google para que aparezcas en el mapa y en las búsquedas cuando alguien necesite lo que ofreces.',
       details: [
@@ -78,6 +102,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'sitio',
       title: 'Sitio web profesional',
       description: 'Una página que carga rápido, se ve increíble en el celular, y convierte visitantes en clientes.',
       details: [
@@ -91,6 +116,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
   ],
   en: [
     {
+      id: 'presencia',
       title: 'Presence from scratch',
       description: "Starting from zero? We build everything: brand, logo, website, and social profiles. You launch online with a complete, professional image.",
       details: [
@@ -102,6 +128,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'redes',
       title: 'Social media management',
       description: "We handle your social media: content, posts, responses. Your brand stays active and growing without you lifting a finger.",
       details: [
@@ -113,6 +140,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'publicidad',
       title: 'Advertising that sells',
       description: "Campaigns on Google and social media designed to bring real customers, not just 'likes'. We track every dollar spent.",
       details: [
@@ -124,6 +152,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'google',
       title: 'Show up on Google',
       description: "We optimize your Google profile so you appear on the map and in searches when someone needs what you offer.",
       details: [
@@ -135,6 +164,7 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
+      id: 'sitio',
       title: 'Professional website',
       description: "A page that loads fast, looks amazing on mobile, and turns visitors into customers.",
       details: [
@@ -278,6 +308,35 @@ export default function ServiciosContent() {
                     </div>
                   );
                 })()}
+
+                {(() => {
+                  const slug = SERVICE_TEMPLATE[service.id];
+                  const tpl = slug ? templateBySlug(slug) : undefined;
+                  if (!tpl) return null;
+                  return (
+                    <div className="service-proof service-proof--template">
+                      <p className="service-proof-label">
+                        {lang === 'es' ? 'Así se podría ver el tuyo' : 'This is how yours could look'}
+                      </p>
+                      <div className="service-proof-frame" data-animate="clip-reveal">
+                        <Image
+                          src={tpl.image}
+                          alt={
+                            lang === 'es'
+                              ? `Plantilla de sitio para ${tpl.i18n.es.industry}`
+                              : `Website template for ${tpl.i18n.en.industry}`
+                          }
+                          width={TEMPLATE_IMAGE_WIDTH}
+                          height={TEMPLATE_IMAGE_HEIGHT}
+                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 400px"
+                        />
+                      </div>
+                      <p className="service-proof-name">
+                        {lang === 'es' ? 'Plantilla · ' : 'Template · '}{tpl.i18n[lang].industry}
+                      </p>
+                    </div>
+                  );
+                })()}
               </div>
             ))}
           </div>
@@ -289,6 +348,8 @@ export default function ServiciosContent() {
           </div>
         </div>
       </section>
+
+      <TemplatesSection />
 
       <CTASection />
     </main>
