@@ -80,6 +80,29 @@ export const CASES: CaseStudy[] = [
     },
   },
   {
+    slug: 'fenix-group',
+    name: 'Fenix Group',
+    url: 'https://fenixgroup.us/',
+    // Una sola foto y explícita, no photosOf(): ese helper asume .png y tres
+    // capturas. Hoy el sitio publica una landing de lanzamiento mientras se
+    // construye el resto, así que hay una sola pantalla real que mostrar.
+    photos: ['/assets/cases/fenix-group-1.webp'],
+    i18n: {
+      es: {
+        industry: 'Cliente · Agencia de publicidad',
+        result: 'Redes y campañas ya corriendo; el sitio completo, en desarrollo.',
+        scope: 'Sitio + Redes + Ads',
+        tags: ['Sitio web', 'Redes', 'Ads', 'En desarrollo'],
+      },
+      en: {
+        industry: 'Client · Advertising agency',
+        result: 'Social and ad campaigns already running; full site in development.',
+        scope: 'Site + Social + Ads',
+        tags: ['Website', 'Social', 'Ads', 'In development'],
+      },
+    },
+  },
+  {
     slug: 'the-latin-grill',
     name: 'The Latin Grill',
     url: 'https://www.thelatingrillfl.com/',

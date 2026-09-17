@@ -19,7 +19,6 @@ const SECTION_COPY: Record<Lang, { eyebrow: string; title: string }> = {
   },
 };
 
-const PANEL_NUMBERS = ['01', '02', '03'];
 
 /**
  * Carrusel horizontal pinneado — un panel a pantalla completa por cliente.
@@ -53,7 +52,7 @@ export default function WorkShowcase() {
             <article key={item.slug} className={`work-panel${i % 2 === 1 ? ' is-alt' : ''}`}>
               <div className="section-container work-panel-inner">
                 <div className="work-panel-copy">
-                  <span className="work-panel-num">{PANEL_NUMBERS[i]}</span>
+                  <span className="work-panel-num">{String(i + 1).padStart(2, '0')}</span>
                   <h3 className="work-panel-name">{item.name}</h3>
                   <p className="work-panel-industry">{t.industry}</p>
                   <p className="work-panel-result">{t.result}</p>

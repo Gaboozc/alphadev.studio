@@ -44,12 +44,6 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  // Cerrar el overlay si cambia la ruta (click en un link ya lo hace, pero
-  // cubre navegación por atrás/adelante del navegador).
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   const visible = isHome ? isScrolled || menuOpen : true;
   const solid = isScrolled || !isHome || menuOpen;
 
@@ -75,7 +69,7 @@ export default function Navbar() {
           solid ? 'nav-pill--scrolled' : 'nav-pill'
         }`}>
           {/* Wordmark */}
-          <Link href="/" className="flex-shrink-0">
+          <Link href="/" className="flex-shrink-0" onClick={() => setMenuOpen(false)}>
             <Image
               src={navbarLogo}
               alt="AlphaDev Studios"
@@ -123,6 +117,7 @@ export default function Navbar() {
               href={href}
               className={`nav-overlay-link${pathname === href ? ' is-active' : ''}`}
               tabIndex={menuOpen ? 0 : -1}
+              onClick={() => setMenuOpen(false)}
             >
               <span className="nav-overlay-link-num">{LINK_NUMBERS[i]}</span>
               <span className="nav-overlay-link-label">{label}</span>
@@ -135,6 +130,7 @@ export default function Navbar() {
             href="/contacto"
             className="btn-glow"
             tabIndex={menuOpen ? 0 : -1}
+            onClick={() => setMenuOpen(false)}
           >
             {dict.nav.cta}
           </Link>
