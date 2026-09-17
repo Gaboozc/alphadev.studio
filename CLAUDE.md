@@ -108,9 +108,16 @@ Pensemos: Stripe × consultoría de alto nivel × papel de alta gama. Crema cál
 > **Reescrita en septiembre de 2026.** La versión anterior describía la paleta oscura (obsidiana, plasma azul `#0080ff`, fondo `#0f172a`) que quedó obsoleta con el rediseño *light luxury* de mayo. Seguir aquellas reglas producía imágenes que no se parecían al sitio.
 
 ### Filosofía
-Cada elemento visual debe venir del **mismo universo**: crema cálida, dorado como único acento, trazo fino tipo grabado, espacio negativo generoso. Papel de alta gama y prensa tipográfica, no producto tecnológico. Un asset que rompa esta coherencia NO entra al sitio, por bonito que sea por separado.
 
-**Lo que NO va, nunca**: fondos oscuros, azul, glows, glassmorphism, renders 3D de material brillante, neón. Todo eso pertenece al sitio anterior.
+> **Corregida en septiembre de 2026 (rediseño visual).** La versión anterior exigía "trazo fino tipo grabado, nunca relleno ni volumen". Se probó y **no funcionó**: por más que se variara la composición, una línea plana dorada siempre se lee como un ícono, no como una imagen — y una sección con un ícono grande no le explica nada a quien entra. La regla de línea plana queda derogada para las imágenes de sección.
+
+Cada elemento visual debe venir del **mismo universo**: crema cálida, dorado como acento, luz de estudio suave, sombras reales. El estilo es **render 3D tangible** — objetos con volumen y materiales creíbles (dorado cepillado, cerámica crema, papel), fotografiados como si estuvieran sobre una mesa. Un asset que rompa esta coherencia NO entra al sitio, por bonito que sea por separado.
+
+**La prueba que tiene que pasar toda imagen**: alguien que entra y la mira *sin leer el texto de al lado*, ¿entiende de qué va la sección? Si no, la imagen es decoración y no sirve, por más bien renderizada que esté.
+
+**Lo que NO va, nunca**: fondos oscuros, azul, glows de neón, glassmorphism, plateado/gris frío, fotos de stock genéricas de gente en oficina.
+
+**Logos de plataformas reales (Instagram, WhatsApp, Google, Meta, TikTok…) SÍ se usan** cuando la sección habla de esas plataformas — es lo que hace que la imagen se entienda de un vistazo. Van como tiles 3D pequeños con sus colores oficiales; el resto de la escena se mantiene crema/dorado.
 
 ### Modelos disponibles
 - **Nanobanana (Gemini Advanced)** — PRINCIPAL. Iteración conversacional, buena para fondos abstractos, texturas y filigrana. Prompts en inglés.
@@ -145,19 +152,19 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 1. Estilo dominante: `"Ultra-premium editorial, luxury print, letterpress feeling"`
 2. Fondo: `"warm cream (#FAFAF7 to #F2EEE7), subtle paper grain"`
 3. Sujeto: qué hay y **dónde** — normalmente confinado a un tercio
-4. Materiales: `"thin engraved gold linework, delicate arcs, sparse geometric lattice"`
-5. Zona reservada: `"the left two thirds must stay clean and empty"`
-6. Mood: `"calm, warm, confident, expensive, generous negative space"`
-7. Restricciones: `"no dark backgrounds, no blue, no glow, no glassmorphism, no 3D render, no text, no logos, no watermarks, no people"`
+4. Materiales: `"brushed gold metal, matte cream ceramic, soft studio lighting, real shadows"`
+5. Composición: asimétrica, llenando el cuadro, sangrando por algún borde — **nunca un objeto centrado con vacío alrededor** (eso produce un ícono)
+6. Mood: `"calm, warm, confident, expensive"`
+7. Restricciones: `"no dark backgrounds, no blue, no neon glow, no glassmorphism, no flat 2D line-art icon look, no frames or borders, no blueprint dimension lines, no text, no watermarks, no people"`
 8. Aspecto y tamaño: `"1200x630"`, `"1:1"`, etc.
 
 **Coherencia obligatoria**:
 - SIEMPRE crema `#FAFAF7` / `#F2EEE7` como fondo
 - SIEMPRE dorado `#9A7235` o `#C9A465` como único acento
-- SIEMPRE trazo fino: grabado, filigrana, línea delicada — nunca relleno ni volumen
+- SIEMPRE volumen real: objetos 3D con luz de estudio y sombra, no línea plana
+- SIEMPRE una sola escena coherente: si hay dos objetos, tienen que tener una razón física para estar juntos. Unir dos props sueltos con un cable dorado se ve absurdo — probado y descartado
 - SIEMPRE dejar explícita la zona vacía si el asset va a llevar texto encima
-- NUNCA pedir colores fuera de paleta sin discusión previa
-- NUNCA mezclar estilos (flat illustration junto a render 3D)
+- NUNCA pedir colores fuera de paleta, salvo los colores oficiales de un logo de plataforma real
 
 **Para iterar en Gemini**:
 - Iterar en la MISMA conversación: mantiene el contexto visual
@@ -169,11 +176,15 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 **Hecho**:
 - OG Image (1200×630) — `app/opengraph-image.tsx` + `app/_og/background.jpg`
 - Favicon SVG y apple-icon — `app/icon.svg`, `app/apple-icon.tsx`
-- Iconografía de servicios — resuelta con `components/Icon.tsx` (line art propio, sin emojis ni assets generados)
+- **Imágenes de sección** — `public/assets/secciones/*.webp`. Una por pilar, servicio, fase del proceso y argumento de "por qué ADS", más la del problema. Los fuentes sin optimizar viven en `OneDrive/Pictures/ADS`; se convierten con `ffmpeg -vf scale=<ancho>:-2 -quality 82` a WebP (de ~2.3 MB a ~40 KB cada una)
+- Foto del founder — `public/assets/secciones/gabriel-founder.webp`, en el CTA oscuro. Es la foto real de Gabriel relightada a crema; cierra el CTA porque ahí es donde alguien decide si escribir
+- Foto de Gabriel Muria para `/tarjeta/gabriel-muria`
+- Favicon SVG y apple-icon — `app/icon.svg`, `app/apple-icon.tsx`
+
+**`components/Icon.tsx` sigue existiendo** para UI chica (tarjetas digitales, Academia, flechas). Lo que ya NO hace es representar una sección completa del sitio público.
 
 **Pendiente, si alguna vez hace falta**:
-- Foto de Gabriel Muria para `/tarjeta/gabriel-muria` (la de Zavarse ya está)
-- Mockups de case studies — dispositivo mostrando el trabajo real
+- Grabaciones de pantalla de los sitios de clientes scrolleando
 - Texturas o patrones sutiles para fondos de sección
 
 **Ya no aplica**: el hero background 3D con esfera de obsidiana. Era del diseño oscuro; el hero actual no lleva imagen de fondo.
@@ -236,7 +247,7 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 - ✅ Multi-idioma es/en planeado (no implementado aún)
 - ✅ Imperial Barbershop = case study real, el resto placeholder hasta tener más
 - ✅ Logo animado SVG inline en Hero (mantener, no reemplazar)
-- ❌ NO usar libraries pesadas (Framer Motion sí, GSAP no a menos que necesidad real)
+- ✅ **GSAP 3.15 + ScrollTrigger + Lenis** es el motor de scroll del sitio (`components/ScrollAnimations.tsx`, `components/SmoothScroll.tsx`). La regla anterior decía "Framer Motion sí, GSAP no" — se invirtió con el rediseño visual, y Framer Motion salió del `package.json`
 - ❌ NO usar componentes de shadcn por ahora (mantener todo custom)
 - ❌ NO Tailwind v3 downgrade
 
