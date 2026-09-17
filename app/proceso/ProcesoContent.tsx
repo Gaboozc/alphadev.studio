@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
-import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
+import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 const PHASE_NUMBERS = ['01', '02', '03', '04', '05'];
 const PHASE_IMAGES = [
   '/assets/secciones/fase-conversamos.webp',
@@ -37,16 +37,24 @@ export default function ProcesoContent() {
               </div>
             </div>
             <div className="hero-visual" data-animate="fade">
-              <div className="browser-frame browser-float">
-                <div className="browser-bar"><span /><span /><span /></div>
-                <Image
-                  src="/assets/cases/bfs-karate-1.png"
-                  alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
-                  width={CASE_PHOTO_WIDTH}
-                  height={CASE_PHOTO_HEIGHT}
-                  sizes="(max-width: 899px) 100vw, 620px"
-                  priority
-                />
+              <div className="hero-case-stack" style={{ '--stack-last': CASES.length - 1 } as React.CSSProperties}>
+                {CASES.map((item, index) => (
+                  <div
+                    key={item.slug}
+                    className="browser-frame hero-case-stack-item"
+                    style={{ '--i': index } as React.CSSProperties}
+                  >
+                    <div className="browser-bar"><span /><span /><span /></div>
+                    <Image
+                      src={item.photos[0]}
+                      alt={lang === 'es' ? `Sitio de ${item.name} hecho por AlphaDev` : `${item.name} site built by AlphaDev`}
+                      width={CASE_PHOTO_WIDTH}
+                      height={CASE_PHOTO_HEIGHT}
+                      sizes="(max-width: 899px) 100vw, 620px"
+                      priority={index === CASES.length - 1}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
