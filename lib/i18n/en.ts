@@ -9,6 +9,9 @@ export const en: Translations = {
     contact: 'Contact',
     cta: 'Get online',
     lang_label: 'Change language',
+    menu_open: 'Menu',
+    menu_close: 'Close',
+    menu_tagline: 'We make you exist online.',
   },
   hero: {
     headline: "If you're not online,\nyou don't exist.",

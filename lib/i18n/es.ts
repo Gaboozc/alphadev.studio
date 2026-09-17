@@ -9,6 +9,9 @@ export const es: Translations = {
     contact: 'Contacto',
     cta: 'Quiero existir',
     lang_label: 'Cambiar idioma',
+    menu_open: 'Menú',
+    menu_close: 'Cerrar',
+    menu_tagline: 'Te hacemos existir en internet.',
   },
   hero: {
     headline: 'Si no estás en internet,\nno existes.',

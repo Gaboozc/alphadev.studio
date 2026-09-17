@@ -16,6 +16,9 @@ export interface Translations {
     contact: string;
     cta: string;
     lang_label: string;
+    menu_open: string;
+    menu_close: string;
+    menu_tagline: string;
   };
   hero: {
     headline: string;

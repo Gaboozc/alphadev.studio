@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
 import navbarLogo from '../assets/footer-logo.png';
+
+const LINK_NUMBERS = ['01', '02', '03', '04', '05'];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,10 +27,31 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const visible = isHome ? isScrolled : true;
-  const solid = isScrolled || !isHome;
+  // El overlay reemplaza al scroll de la página mientras está abierto —
+  // sin esto, el fondo se desliza detrás y rompe la sensación de pantalla
+  // completa (estilo Huge/Fantasy).
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      document.documentElement.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
+  // Cerrar el overlay si cambia la ruta (click en un link ya lo hace, pero
+  // cubre navegación por atrás/adelante del navegador).
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const visible = isHome ? isScrolled || menuOpen : true;
+  const solid = isScrolled || !isHome || menuOpen;
 
   const navLinks = [
     { href: '/', label: dict.nav.home },
@@ -39,99 +62,88 @@ export default function Navbar() {
   ];
 
   return (
-    <div
-      className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50"
-      style={{
-        opacity: visible ? 1 : 0,
-        pointerEvents: visible ? 'auto' : 'none',
-        transition: 'opacity 0.4s ease',
-      }}
-    >
+    <>
+      <div
+        className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-[60]"
+        style={{
+          opacity: visible ? 1 : 0,
+          pointerEvents: visible ? 'auto' : 'none',
+          transition: 'opacity 0.4s ease',
+        }}
+      >
+        <nav className={`rounded-2xl px-5 py-2 flex items-center justify-between gap-4 transition-all duration-300 ${
+          solid ? 'nav-pill--scrolled' : 'nav-pill'
+        }`}>
+          {/* Wordmark */}
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src={navbarLogo}
+              alt="AlphaDev Studios"
+              height={64}
+              priority
+              style={{ width: 'auto', height: '30px' }}
+              className="md:!h-[40px]"
+            />
+          </Link>
 
-      {/* Main pill */}
-      <nav className={`rounded-2xl px-5 py-2 flex items-center justify-between gap-4 transition-all duration-300 ${
-        solid ? 'nav-pill--scrolled' : 'nav-pill'
-      }`}>
+          {/* Sparso a propósito: nada de lista de links en la pastilla — un
+              solo trigger abre el overlay a pantalla completa (estilo
+              Huge/Fantasy en vez del pill "genérico SaaS" con 5 links +
+              toggle + CTA apretados). */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="hidden sm:block">
+              <LanguageToggle />
+            </div>
+            <button
+              type="button"
+              aria-label={menuOpen ? dict.nav.menu_close : dict.nav.menu_open}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((o) => !o)}
+              className="nav-menu-trigger"
+            >
+              <span className="nav-menu-trigger-label">
+                {menuOpen ? dict.nav.menu_close : dict.nav.menu_open}
+              </span>
+              <span className={`nav-menu-trigger-icon${menuOpen ? ' is-open' : ''}`} aria-hidden="true">
+                <span />
+                <span />
+              </span>
+            </button>
+          </div>
+        </nav>
+      </div>
 
-        {/* Wordmark */}
-        <Link href="/" onClick={closeMenu} className="flex-shrink-0">
-          <Image
-            src={navbarLogo}
-            alt="AlphaDev Studios"
-            height={64}
-            priority
-            style={{ width: 'auto', height: '30px' }}
-            className="md:!h-[40px]"
-          />
-        </Link>
-
-        {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-6 text-sm flex-1 justify-center">
-          {navLinks.map(({ href, label }) => (
+      {/* Overlay a pantalla completa — huge tipografía Playfair, un link
+          por línea, CTA + tagline abajo. */}
+      <div className={`nav-overlay${menuOpen ? ' is-open' : ''}`} aria-hidden={!menuOpen}>
+        <nav className="nav-overlay-links">
+          {navLinks.map(({ href, label }, i) => (
             <Link
               key={href}
               href={href}
-              className="nav-link"
-              style={{ fontFamily: 'var(--font-inter)' }}
+              className={`nav-overlay-link${pathname === href ? ' is-active' : ''}`}
+              tabIndex={menuOpen ? 0 : -1}
             >
-              {label}
+              <span className="nav-overlay-link-num">{LINK_NUMBERS[i]}</span>
+              <span className="nav-overlay-link-label">{label}</span>
             </Link>
           ))}
-        </div>
+        </nav>
 
-        {/* Desktop right */}
-        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
-          <LanguageToggle />
-          <Link href="/contacto" className="btn-glow text-sm py-2 px-4">
+        <div className="nav-overlay-footer">
+          <Link
+            href="/contacto"
+            className="btn-glow"
+            tabIndex={menuOpen ? 0 : -1}
+          >
             {dict.nav.cta}
           </Link>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          type="button"
-          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((o) => !o)}
-          className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl border transition-colors"
-          style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
-        >
-          <span className="text-base leading-none select-none">{menuOpen ? '✕' : '☰'}</span>
-        </button>
-      </nav>
-
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="lg:hidden mt-2 rounded-2xl px-5 py-4 flex flex-col gap-1"
-          style={{
-            background: 'rgba(250,250,247,0.97)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid var(--border)',
-            boxShadow: '0 8px 32px rgba(26,21,18,0.1)',
-          }}>
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={closeMenu}
-              className="py-2.5 text-sm font-medium transition-colors border-b last:border-0"
-              style={{
-                color: 'var(--text-muted)',
-                borderColor: 'var(--border)',
-                fontFamily: 'var(--font-inter)',
-              }}
-            >
-              {label}
-            </Link>
-          ))}
-          <div className="flex items-center justify-between pt-3 mt-1">
+          <p className="nav-overlay-tagline">{dict.nav.menu_tagline}</p>
+          <div className="sm:hidden">
             <LanguageToggle />
-            <Link href="/contacto" className="btn-glow text-sm py-2 px-4" onClick={closeMenu}>
-              {dict.nav.cta}
-            </Link>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
