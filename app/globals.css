@@ -495,6 +495,44 @@ a, button {
   .browser-float { animation: none; }
 }
 
+/* Abanico de capturas reales en el hero de una página interna (hoy
+   /servicios) — reemplaza la captura única de un solo cliente por las 3,
+   apiladas, para no dar la impresión de que solo existe ese proyecto.
+   `--i` (0, 1, 2…) lo pone el componente por cada item; el último del
+   array queda al frente, sin rotar, y los anteriores se asoman detrás. */
+.hero-case-stack {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+
+.hero-case-stack-item {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  transform-origin: bottom center;
+  transform: rotate(calc((var(--i) - var(--stack-last)) * 6deg))
+             translate(calc((var(--i) - var(--stack-last)) * 3%), calc((var(--stack-last) - var(--i)) * 4%));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* z-index no acepta calc() con custom properties de forma fiable entre
+   navegadores, así que se asigna por índice explícito (máximo 4 clientes
+   antes de necesitar generar más reglas). */
+.hero-case-stack-item:nth-child(1) { z-index: 1; }
+.hero-case-stack-item:nth-child(2) { z-index: 2; }
+.hero-case-stack-item:nth-child(3) { z-index: 3; }
+.hero-case-stack-item:nth-child(4) { z-index: 4; }
+
+.hero-case-stack:hover .hero-case-stack-item {
+  transform: rotate(calc((var(--i) - var(--stack-last)) * 10deg))
+             translate(calc((var(--i) - var(--stack-last)) * 6%), calc((var(--stack-last) - var(--i)) * 6%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-case-stack-item { transition: none; }
+}
+
 /* Prueba real dentro de una service card: "esto se lo hicimos a X",
    con la captura en un marco chico — versión sin flotar, sin sombra dramática,
    para no competir con el resto de la grid de servicios. */

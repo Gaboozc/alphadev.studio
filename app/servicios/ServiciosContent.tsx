@@ -5,7 +5,7 @@ import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 
 import { useLang } from '@/lib/i18n/LanguageContext';
-import { CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
+import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
 
 // Mismo orden que SERVICES.
@@ -186,16 +186,27 @@ export default function ServiciosContent() {
               </div>
             </div>
             <div className="hero-visual" data-animate="fade">
-              <div className="browser-frame browser-float">
-                <div className="browser-bar"><span /><span /><span /></div>
-                <Image
-                  src="/assets/cases/imperial-barbershop-1.png"
-                  alt={lang === 'es' ? 'Sitio profesional hecho por AlphaDev' : 'Professional site built by AlphaDev'}
-                  width={CASE_PHOTO_WIDTH}
-                  height={CASE_PHOTO_HEIGHT}
-                  sizes="(max-width: 899px) 100vw, 620px"
-                  priority
-                />
+              {/* Abanico con los 3 clientes reales — antes era una sola
+                  captura de Imperial que daba la impresión de que solo
+                  existía ese proyecto. */}
+              <div className="hero-case-stack" style={{ '--stack-last': CASES.length - 1 } as React.CSSProperties}>
+                {CASES.map((item, index) => (
+                  <div
+                    key={item.slug}
+                    className="browser-frame hero-case-stack-item"
+                    style={{ '--i': index } as React.CSSProperties}
+                  >
+                    <div className="browser-bar"><span /><span /><span /></div>
+                    <Image
+                      src={item.photos[0]}
+                      alt={lang === 'es' ? `Sitio de ${item.name} hecho por AlphaDev` : `${item.name} site built by AlphaDev`}
+                      width={CASE_PHOTO_WIDTH}
+                      height={CASE_PHOTO_HEIGHT}
+                      sizes="(max-width: 899px) 100vw, 620px"
+                      priority={index === CASES.length - 1}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
