@@ -14,7 +14,7 @@ const MODULES: Record<Lang, { label: string; sub: string }[]> = {
     { label: 'Ads',           sub: 'Campañas que venden' },
     { label: 'Automatización',sub: 'Flujos inteligentes' },
     { label: 'IA',            sub: 'Integración nativa' },
-    { label: 'GEO',           sub: 'Visible en ChatGPT y Perplexity' },
+    { label: 'GEO',           sub: 'Visible para la IA' },
   ],
   en: [
     { label: 'Web',        sub: 'Professional sites' },
@@ -24,7 +24,7 @@ const MODULES: Record<Lang, { label: string; sub: string }[]> = {
     { label: 'Ads',        sub: 'Campaigns that sell' },
     { label: 'Automation', sub: 'Smart workflows' },
     { label: 'AI',         sub: 'Native integration' },
-    { label: 'GEO',        sub: 'Visible on ChatGPT and Perplexity' },
+    { label: 'GEO',        sub: 'Visible to AI' },
   ],
 };
 
