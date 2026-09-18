@@ -6,8 +6,7 @@ import CTASection from '@/components/CTASection';
 import TemplatesSection from '@/components/TemplatesSection';
 
 import { useLang } from '@/lib/i18n/LanguageContext';
-import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH, caseBySlug } from '@/lib/content/cases';
-import { TEMPLATE_IMAGE_HEIGHT, TEMPLATE_IMAGE_WIDTH, templateBySlug } from '@/lib/content/templates';
+import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
 
 // Mismo orden que SERVICES.
@@ -19,42 +18,12 @@ const SERVICE_IMAGES: string[] = [
   '/assets/secciones/serv-sitio.webp',
 ];
 
-// Solo se linkea un caso real cuando de verdad hicimos ese servicio para ese
-// cliente — nada de "próximamente" ni de repetir el mismo caso en todo. Con
-// 3 clientes reales y 5 servicios, dos quedan sin prueba (redes, publicidad)
-// en vez de forzar una asociación que no es cierta.
-const SERVICE_PROOF_SLUGS: (string | null)[] = [
-  'bfs-karate', // Presencia desde cero: sitio + redes + Google Business
-  null, // Manejo de redes sociales
-  null, // Publicidad que vende — ningún cliente actual tuvo campañas pagadas
-  'imperial-barbershop', // Aparece en Google: scope Sitio + Google Business
-  'the-latin-grill', // Sitio web profesional: rediseño web completo
-];
 
-// Id estable por servicio. Los arrays de arriba se mapean por índice (deuda
-// heredada), pero para las plantillas se usa este id: un tercer array paralelo
-// que mantener en sincronía es exactamente lo que la cabecera de cases.ts
-// advierte que no se haga, y `Record<ServiceId, …>` lo verifica el compilador.
-type ServiceId = 'presencia' | 'redes' | 'publicidad' | 'google' | 'sitio';
-
-type ServiceDetail = { id: ServiceId; title: string; description: string; details: string[] };
-
-// Solo donde una plantilla de sitio prueba de verdad ese servicio. Redes y
-// publicidad quedan fuera a propósito: son plantillas de sitio web, no
-// demuestran gestión de redes ni campañas pagadas, y forzarlas sería el mismo
-// atajo deshonesto que ya se evita en SERVICE_PROOF_SLUGS.
-const SERVICE_TEMPLATE: Record<ServiceId, string | null> = {
-  presencia: 'barberia',
-  redes: null,
-  publicidad: null,
-  google: 'optica',
-  sitio: 'dental',
-};
+type ServiceDetail = { title: string; description: string; details: string[] };
 
 const SERVICES: Record<Lang, ServiceDetail[]> = {
   es: [
     {
-      id: 'presencia',
       title: 'Presencia desde cero',
       description: '¿Empiezas de la nada? Te creamos todo: marca, logo, sitio web y perfiles sociales. Sales a internet con una imagen profesional completa.',
       details: [
@@ -66,7 +35,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'redes',
       title: 'Manejo de redes sociales',
       description: 'Nos encargamos de tus redes: contenido, publicaciones, respuestas. Tu marca activa y creciendo, sin que muevas un dedo.',
       details: [
@@ -78,7 +46,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'publicidad',
       title: 'Publicidad que vende',
       description: 'Campañas en Google y redes sociales diseñadas para traer clientes reales, no solo "likes". Medimos cada peso invertido.',
       details: [
@@ -90,7 +57,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'google',
       title: 'Aparece en Google',
       description: 'Optimizamos tu perfil de Google para que aparezcas en el mapa y en las búsquedas cuando alguien necesite lo que ofreces.',
       details: [
@@ -102,7 +68,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'sitio',
       title: 'Sitio web profesional',
       description: 'Una página que carga rápido, se ve increíble en el celular, y convierte visitantes en clientes.',
       details: [
@@ -116,7 +81,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
   ],
   en: [
     {
-      id: 'presencia',
       title: 'Presence from scratch',
       description: "Starting from zero? We build everything: brand, logo, website, and social profiles. You launch online with a complete, professional image.",
       details: [
@@ -128,7 +92,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'redes',
       title: 'Social media management',
       description: "We handle your social media: content, posts, responses. Your brand stays active and growing without you lifting a finger.",
       details: [
@@ -140,7 +103,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'publicidad',
       title: 'Advertising that sells',
       description: "Campaigns on Google and social media designed to bring real customers, not just 'likes'. We track every dollar spent.",
       details: [
@@ -152,7 +114,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'google',
       title: 'Show up on Google',
       description: "We optimize your Google profile so you appear on the map and in searches when someone needs what you offer.",
       details: [
@@ -164,7 +125,6 @@ const SERVICES: Record<Lang, ServiceDetail[]> = {
       ],
     },
     {
-      id: 'sitio',
       title: 'Professional website',
       description: "A page that loads fast, looks amazing on mobile, and turns visitors into customers.",
       details: [
@@ -246,98 +206,37 @@ export default function ServiciosContent() {
       {/* Services grid */}
       <section className="section-pad-after-hero" style={{ background: 'var(--bg-alt)', borderTop: '1px solid var(--border)' }}>
         <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
+          {/* Filas alternadas: imagen a un lado, texto al otro, y se invierte
+              en cada fila. Antes era una grilla de 3 columnas donde cada
+              tarjeta medía distinto según cuántas pruebas colgaran de ella
+              — una con cliente y plantilla, otra con nada— y el escalonado
+              se leía como desorden. */}
+          <div className="service-rows" data-animate="stagger">
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="rounded-2xl p-8 border transition-all duration-200"
-                style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-hover)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(154,114,53,0.08)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
-                }}
-              >
-                <div className="service-card-media" style={{ margin: '-2rem -2rem 1.5rem' }}>
+              <article key={index} className="service-row">
+                <div className="service-row-media">
                   <Image
                     src={SERVICE_IMAGES[index]}
                     alt=""
                     width={900}
                     height={562}
-                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px"
+                    sizes="(max-width: 899px) 100vw, 50vw"
                   />
                 </div>
-                <h3 className="text-xl mb-2" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, color: 'var(--text)' }}>
-                  {service.title}
-                </h3>
-                <p className="text-sm mb-5 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                  {service.description}
-                </p>
-                <ul className="space-y-2">
-                  {service.details.map((detail, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
-                      <span style={{ color: 'var(--gold)', marginTop: '2px' }}>✓</span>
-                      <span>{detail}</span>
-                    </li>
-                  ))}
-                </ul>
 
-                {(() => {
-                  const proof = SERVICE_PROOF_SLUGS[index] ? caseBySlug(SERVICE_PROOF_SLUGS[index]!) : undefined;
-                  if (!proof) return null;
-                  return (
-                    <div className="service-proof">
-                      <p className="service-proof-label">
-                        {lang === 'es' ? 'Esto se lo hicimos a' : 'We did this for'}
-                      </p>
-                      <div className="service-proof-frame" data-animate="clip-reveal">
-                        <Image
-                          src={proof.photos[0]}
-                          alt={lang === 'es' ? `Trabajo real para ${proof.name}` : `Real work for ${proof.name}`}
-                          width={CASE_PHOTO_WIDTH}
-                          height={CASE_PHOTO_HEIGHT}
-                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 400px"
-                        />
-                      </div>
-                      <p className="service-proof-name">
-                        <strong>{proof.name}</strong> · {proof.i18n[lang].result}
-                      </p>
-                    </div>
-                  );
-                })()}
-
-                {(() => {
-                  const slug = SERVICE_TEMPLATE[service.id];
-                  const tpl = slug ? templateBySlug(slug) : undefined;
-                  if (!tpl) return null;
-                  return (
-                    <div className="service-proof service-proof--template">
-                      <p className="service-proof-label">
-                        {lang === 'es' ? 'Así se podría ver el tuyo' : 'This is how yours could look'}
-                      </p>
-                      <div className="service-proof-frame" data-animate="clip-reveal">
-                        <Image
-                          src={tpl.image}
-                          alt={
-                            lang === 'es'
-                              ? `Plantilla de sitio para ${tpl.i18n.es.industry}`
-                              : `Website template for ${tpl.i18n.en.industry}`
-                          }
-                          width={TEMPLATE_IMAGE_WIDTH}
-                          height={TEMPLATE_IMAGE_HEIGHT}
-                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 400px"
-                        />
-                      </div>
-                      <p className="service-proof-name">
-                        {lang === 'es' ? 'Plantilla · ' : 'Template · '}{tpl.i18n[lang].industry}
-                      </p>
-                    </div>
-                  );
-                })()}
-              </div>
+                <div className="service-row-copy">
+                  <h3 className="service-row-title">{service.title}</h3>
+                  <p className="service-row-desc">{service.description}</p>
+                  <ul className="service-row-list">
+                    {service.details.map((detail, i) => (
+                      <li key={i}>
+                        <span aria-hidden="true">✓</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
             ))}
           </div>
 
