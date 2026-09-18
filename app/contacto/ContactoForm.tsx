@@ -2,18 +2,32 @@
 
 import { useActionState, useState } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import Image from 'next/image';
 import Icon, { type IconName } from '@/components/Icon';
 import { enviarMensaje, type ErrorEnvio } from './actions';
 
 type Category = 'consultation' | 'app' | 'internal' | 'api' | 'other';
 
-// Iconos de línea por categoría (sin emoji ni glifos).
+// Iconos de línea por categoría (sin emoji ni glifos). Se siguen usando en
+// la cabecera del formulario, donde el espacio es de una línea de alto.
 const CATEGORY_ICONS: Record<Category, IconName> = {
   consultation: 'message',
   app: 'monitor',
   internal: 'share',
   api: 'megaphone',
   other: 'sparkles',
+};
+
+// En las tarjetas del selector van los mismos renders 3D que el resto del
+// sitio: un trazo dorado plano ahí se leía como ícono suelto, no como el
+// lenguaje visual de las demás secciones. Las cinco imágenes ya existían,
+// así que no hizo falta generar ninguna.
+const CATEGORY_IMAGES: Record<Category, string> = {
+  consultation: '/assets/secciones/why-idioma.webp',   // explicar sin tecnicismos
+  app: '/assets/secciones/serv-sitio.webp',
+  internal: '/assets/secciones/serv-redes.webp',
+  api: '/assets/secciones/serv-publicidad.webp',
+  other: '/assets/secciones/fase-conversamos.webp',    // contarlo directamente
 };
 
 export default function ContactoForm() {
@@ -73,9 +87,19 @@ export default function ContactoForm() {
               onClick={() => setCategory(key)}
               className="contact-category-card text-left"
             >
-              <span className="mb-3 block" style={{ color: 'var(--gold)' }}><Icon name={CATEGORY_ICONS[key]} size={28} /></span>
-              <span className="block font-semibold mb-1" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--text)' }}>{c.categories[key].label}</span>
-              <span className="block text-sm leading-snug" style={{ color: 'var(--text-muted)' }}>{c.categories[key].description}</span>
+              <span className="contact-category-media">
+                <Image
+                  src={CATEGORY_IMAGES[key]}
+                  alt=""
+                  width={900}
+                  height={562}
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 320px"
+                />
+              </span>
+              <span className="contact-category-body">
+                <span className="block font-semibold mb-1" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--text)' }}>{c.categories[key].label}</span>
+                <span className="block text-sm leading-snug" style={{ color: 'var(--text-muted)' }}>{c.categories[key].description}</span>
+              </span>
             </button>
           ))}
         </div>

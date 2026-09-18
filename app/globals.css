@@ -2871,13 +2871,36 @@ button.case-thumb {
 ═══════════════════════════════════════════════════════ */
 
 .contact-category-card {
-  padding: 1.5rem;
+  /* El padding se mudó al cuerpo: la imagen va a sangre hasta los bordes,
+     como en las tarjetas de servicio y de pilares. */
+  padding: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
+  overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-category-media {
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-category-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.contact-category-body {
+  display: block;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
 .contact-category-card:hover {
