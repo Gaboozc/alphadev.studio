@@ -58,40 +58,41 @@ export const en: Translations = {
   },
   process: {
     title: 'How we work',
-    subtitle: 'From invisible to unstoppable, in simple steps.',
+    subtitle: 'Never from a blank page. That is why it is measured in weeks, not months.',
     phases: [
       {
         title: 'We talk',
         description: 'You tell us about your business. We understand what you sell, to whom, and what you want to achieve.',
         details: [
           '30-minute intro call',
-          'We listen, we don\'t pitch first',
+          "We listen, we don't pitch first",
           'We ask the right questions',
           'No jargon, in your language',
-          'We define if there\'s a fit',
+          "We define if there's a fit",
         ],
       },
       {
-        title: 'We design your strategy',
-        description: 'We build a plan tailored to you: what you need, in what order, and what results to expect.',
-        details: [
-          'Personalized proposal',
-          'Clear priorities',
-          'Realistic timeline',
-          'Transparent pricing',
-          'Everything in writing',
-        ],
-      },
-      {
-        title: 'We build',
+        title: 'We pick your starting point',
         description:
-          'We create your presence: site, social media, profiles, campaigns. We keep you in the loop without you needing to understand technology.',
+          "We show you the base built for your industry and plan on top of it: what you need, in what order, and how far it goes. We don't design from scratch what is already solved.",
         details: [
-          'Website or profiles per plan',
-          'Weekly updates',
+          "You see your industry's base before deciding",
+          'Fixed scope, in writing',
+          'Clear priorities: what comes first',
+          'Pricing with no fine print',
+          'Agreed delivery date',
+        ],
+      },
+      {
+        title: 'We make it yours',
+        description:
+          'We adapt that base to your brand: your words, your photos, your colors, the way you sell. What you see on the finished site is yours, not a template with your logo on top.',
+        details: [
+          'Your identity on a proven base',
+          'Content and photos from your business',
+          'You watch it progress every week',
           'Your approval at every step',
           'No surprises or hidden costs',
-          'Delivered on time',
         ],
       },
       {

@@ -58,7 +58,7 @@ export const es: Translations = {
   },
   process: {
     title: 'Cómo trabajamos',
-    subtitle: 'De invisible a imparable, en pasos simples.',
+    subtitle: 'Nunca desde una hoja en blanco. Por eso se mide en semanas, no en meses.',
     phases: [
       {
         title: 'Conversamos',
@@ -72,26 +72,27 @@ export const es: Translations = {
         ],
       },
       {
-        title: 'Diseñamos tu estrategia',
-        description: 'Armamos un plan a tu medida: qué necesitas, en qué orden, y qué resultados esperar.',
+        title: 'Elegimos tu punto de partida',
+        description:
+          'Te mostramos la base de tu rubro y armamos el plan sobre ella: qué necesitas, en qué orden y con qué alcance. No diseñamos desde cero lo que ya está resuelto.',
         details: [
-          'Propuesta personalizada',
-          'Prioridades claras',
-          'Timeline realista',
-          'Presupuesto transparente',
-          'Todo por escrito',
+          'Ves la base de tu rubro antes de decidir',
+          'Alcance cerrado, por escrito',
+          'Prioridades claras: qué va primero',
+          'Presupuesto sin letra chica',
+          'Fecha de entrega acordada',
         ],
       },
       {
-        title: 'Construimos',
+        title: 'La hacemos tuya',
         description:
-          'Creamos tu presencia: sitio, redes, perfiles, campañas. Te mantenemos al tanto sin que tengas que entender de tecnología.',
+          'Adaptamos esa base a tu marca: tus textos, tus fotos, tus colores, tu forma de vender. Lo que ves en el sitio terminado es tuyo, no una plantilla con tu logo encima.',
         details: [
-          'Sitio web o perfiles según el plan',
-          'Actualizaciones semanales',
+          'Tu identidad sobre una base ya probada',
+          'Contenido y fotos de tu negocio',
+          'Lo ves avanzar cada semana',
           'Tu aprobación en cada paso',
           'Sin sorpresas ni costos ocultos',
-          'Entrega en el tiempo acordado',
         ],
       },
       {
