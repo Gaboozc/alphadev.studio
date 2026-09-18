@@ -1842,7 +1842,9 @@ a, button {
   color: var(--text);
 }
 
-@media (min-width: 640px) {
+/* 900px, no 640px: entre 640 y 899 esto era una grilla de escritorio
+   encogida, justo lo contrario de "una idea por pantalla". */
+@media (min-width: 900px) {
   .whyus-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -2440,7 +2442,8 @@ button.case-thumb {
   gap: 2rem 1.5rem;
 }
 
-@media (min-width: 640px) {
+/* Ver la nota de .whyus-grid: sube de 640 a 900 por la misma razón. */
+@media (min-width: 900px) {
   .templates-gallery { grid-template-columns: 1fr 1fr; }
 }
 
@@ -3907,3 +3910,86 @@ button.case-thumb {
 }
 
 .acad-examen-corregir--secundario:hover { background: var(--gold-bg); }
+
+
+/* ═════════════════════════════════════════════════════
+   ESCALA MÓVIL — "una idea por pantalla" (estilo Huge)
+
+   El problema que resuelve: los clamp() del sitio son fluidos
+   solo en escritorio. `clamp(2.5rem, 5vw, 4rem)` a 375px da
+   5vw = 18.75px, muy por debajo del piso, así que el término
+   fluido NUNCA se activa en un teléfono: todos los móviles,
+   de 320 a 899px, recibían exactamente 40px. La tipografía
+   "fluida" era fija y tímida justo donde más importa.
+
+   Acá el coeficiente vw sí muerde en el rango de teléfono, y
+   el techo corta cerca del valor de escritorio para que el
+   salto en el breakpoint sea chico.
+
+   Referencia medida en hugeinc.com a 375px: hero 156px,
+   declaración de sección 68px, párrafo de entrada 32px,
+   padding vertical 130px. Vamos deliberadamente por debajo:
+   Playfair es una serif de alto contraste y a los tamaños de
+   Huge (que usa una sans de 600) se vuelve pesada.
+═════════════════════════════════════════════════════ */
+@media (max-width: 899px) {
+  :root {
+    /* 60px → 96px. El aire es la mitad del efecto: sin él, la
+       tipografía grande se siente apretada, no dominante. */
+    --section-pad-y: 6rem;
+  }
+
+  .section-title {
+    font-size: clamp(3rem, 14vw, 4rem);
+    line-height: 1.04;
+  }
+
+  .section-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.55;
+  }
+
+  /* El encabezado ya no necesita tanto colchón: el titular
+     grande genera su propia separación. */
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  /* .hero-stage ya aporta 1.5rem y .section-container otros 1.5rem: 48px
+     por lado en un teléfono, que dejaban 279px útiles. A esta escala la
+     palabra "internet," mide 357px y quedaba cortada. Se queda un solo
+     padding, el del container. */
+  .hero-stage {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Techo atado a la palabra más larga del titular, no al gusto: a 22vw
+     "internet," entra justo en el ancho útil desde 320px. */
+  .hero-headline {
+    font-size: clamp(3.25rem, 22vw, 5.25rem);
+  }
+
+  .hero-subheadline {
+    font-size: 1.25rem;
+    line-height: 1.55;
+  }
+
+  /* El nombre de cliente es el elemento más fuerte del sitio en
+     escritorio (112px) y caía a 40px en móvil. */
+  .brand-row-name {
+    font-size: clamp(3.25rem, 16vw, 5rem);
+  }
+
+  /* Gana a la utilidad de Tailwind del markup: las utilidades
+     viven en @layer y pierden ante CSS sin capa. */
+  .cta-title {
+    font-size: clamp(2.75rem, 13vw, 3.75rem);
+    line-height: 1.06;
+  }
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    margin-bottom: 1rem;
+  }
+}

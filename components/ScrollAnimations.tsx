@@ -58,7 +58,11 @@ export default function ScrollAnimations() {
       mm.add(
         {
           motionOK: '(prefers-reduced-motion: no-preference)',
-          isDesktop: '(min-width: 768px)',
+          // 900px, no 768px: el CSS aplana el carrusel pinneado hasta 899px
+          // (ver el bloque max-width:899px de globals.css). Con 768 el pin de
+          // GSAP corría entre 768 y 899 sobre un layout que el CSS ya había
+          // convertido en paneles verticales.
+          isDesktop: '(min-width: 900px)',
         },
         (context) => {
           const { motionOK, isDesktop } = context.conditions as {
