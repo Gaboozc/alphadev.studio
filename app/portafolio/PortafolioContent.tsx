@@ -79,16 +79,27 @@ export default function PortafolioContent() {
               <p className="section-subtitle hero-sub" data-animate="subtitle">{p.subtitle}</p>
             </div>
             <div className="hero-visual" data-animate="fade">
-              <div className="browser-frame browser-float">
-                <div className="browser-bar"><span /><span /><span /></div>
-                <Image
-                  src="/assets/cases/the-latin-grill-1.png"
-                  alt={lang === 'es' ? 'Sitio de cliente hecho por AlphaDev' : 'Client site built by AlphaDev'}
-                  width={CASE_PHOTO_WIDTH}
-                  height={CASE_PHOTO_HEIGHT}
-                  sizes="(max-width: 899px) 100vw, 620px"
-                  priority
-                />
+              {/* El mismo abanico que /servicios, /proceso y /contacto. Antes
+                  era una captura fija de un solo cliente, justo en la página
+                  que existe para mostrarlos a todos. */}
+              <div className="hero-case-stack" style={{ '--stack-last': CASES.length - 1 } as React.CSSProperties}>
+                {CASES.map((item, index) => (
+                  <div
+                    key={item.slug}
+                    className="browser-frame hero-case-stack-item"
+                    style={{ '--i': index } as React.CSSProperties}
+                  >
+                    <div className="browser-bar"><span /><span /><span /></div>
+                    <Image
+                      src={item.photos[0]}
+                      alt={lang === 'es' ? `Sitio de ${item.name} hecho por AlphaDev` : `${item.name} site built by AlphaDev`}
+                      width={CASE_PHOTO_WIDTH}
+                      height={CASE_PHOTO_HEIGHT}
+                      sizes="(max-width: 899px) 100vw, 620px"
+                      priority={index === CASES.length - 1}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
