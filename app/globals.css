@@ -3992,4 +3992,20 @@ button.case-thumb {
     font-size: 0.8125rem;
     margin-bottom: 1rem;
   }
+
+  /* iOS Safari hace zoom automático al enfocar un input de menos de 16px,
+     y después deja la página descuadrada. 16px exactos lo evitan. */
+  .contact-input {
+    font-size: 1rem;
+  }
+
+  /* En escritorio esta señal vive en :hover, que en un teléfono no existe:
+     sin esto nada indica que la miniatura abre el visor. */
+  .case-thumb-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(26, 21, 18, 0.55) 0%, transparent 55%);
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0.85rem 1rem;
+  }
 }
