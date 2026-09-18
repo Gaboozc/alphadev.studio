@@ -43,7 +43,12 @@ export default function ProcessSection() {
             </div>
           </div>
 
-          <div className="sticky-stack-items" data-animate="stagger">
+          {/* process-compact: en teléfono estas 5 fases se vuelven una lista
+              numerada. La página /proceso muestra exactamente las mismas
+              fases con más detalle y el botón de arriba lleva ahí, así que
+              en móvil esto gastaba 3,8 pantallas repitiendo lo que está a un
+              toque. Ver el bloque max-width:899px de globals.css. */}
+          <div className="sticky-stack-items process-compact" data-animate="stagger">
             {p.phases.map((phase, index) => (
               <div key={index} className="process-step process-step-withmedia">
                 <div className="process-step-media">

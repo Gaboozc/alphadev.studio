@@ -4048,4 +4048,46 @@ button.case-thumb {
   .process-step-detail {
     font-size: 0.9rem;
   }
+
+  /* ── Fases del home como lista ─────────────────────────────
+     Solo el home (.process-compact). /proceso muestra las mismas 5 fases
+     con su checklist completo y el botón de la sección lleva justo ahí:
+     en un teléfono repetirlas con imagen y descripción costaba 3,8
+     pantallas de scroll para no decir nada nuevo. Queda el número y el
+     nombre, que es lo que se escanea. */
+  .process-compact {
+    gap: 0;
+  }
+
+  .process-compact .process-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 0 1rem;
+    padding: 1.15rem 0.25rem;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+  }
+
+  .process-compact .process-step:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .process-compact .process-step-media,
+  .process-compact .process-step-desc,
+  .process-compact .process-step-details {
+    display: none;
+  }
+
+  .process-compact .process-step-num {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  .process-compact .process-step-title {
+    font-size: 1.5rem;
+    line-height: 1.15;
+  }
 }
