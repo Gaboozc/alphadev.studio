@@ -100,7 +100,6 @@ export default function PortafolioContent() {
           trabajo real es el protagonista, no una tarjeta de un tercio. */}
       {CASES.map((item, index) => {
         const t = item.i18n[lang];
-        const project = p.items[index];
         return (
           <section
             key={item.slug}
@@ -113,7 +112,7 @@ export default function PortafolioContent() {
                   <p className="portfolio-client-industry" data-animate="fade">{t.industry}</p>
                   <h2 className="portfolio-client-name" data-animate="title">{item.name}</h2>
                   <p className="portfolio-client-result" data-animate="subtitle">
-                    {project?.description ?? t.result}
+                    {t.detail}
                   </p>
                   <div className="portfolio-client-tags" data-animate="fade">
                     {t.tags.map((tag) => (

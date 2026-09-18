@@ -25,7 +25,10 @@ export type CaseStudy = {
   /** Textos que cambian con el idioma. */
   i18n: Record<Lang, {
     industry: string;
+    /** Una línea, para tarjetas y carrusel. */
     result: string;
+    /** Versión larga para /portafolio, donde hay espacio para contar. */
+    detail: string;
     scope: string;
     tags: string[];
   }>;
@@ -48,12 +51,14 @@ export const CASES: CaseStudy[] = [
       es: {
         industry: 'Cliente · Artes marciales',
         result: 'Presencia digital completa desde cero.',
+        detail: 'Presencia digital completa desde cero: sitio web, manejo de redes y perfil de Google optimizado, para que aparezca cuando alguien busca dónde entrenar.',
         scope: 'Sitio + Redes + Google Business',
         tags: ['Sitio web', 'Redes', 'Google + SEO'],
       },
       en: {
         industry: 'Client · Martial arts',
         result: 'A complete digital presence from scratch.',
+        detail: 'A complete digital presence from scratch: website, social media management and an optimized Google profile, so they show up when someone searches for a place to train.',
         scope: 'Site + Social + Google Business',
         tags: ['Website', 'Social', 'Google + SEO'],
       },
@@ -68,12 +73,14 @@ export const CASES: CaseStudy[] = [
       es: {
         industry: 'Cliente · Barbería',
         result: 'Visible cuando buscan dónde cortarse el pelo.',
+        detail: 'Sitio web y perfil de Google optimizado para que aparezca cuando alguien busca dónde cortarse el pelo.',
         scope: 'Sitio + Google Business',
         tags: ['Sitio web', 'Google + SEO'],
       },
       en: {
         industry: 'Client · Barbershop',
         result: 'Visible when people search for a haircut.',
+        detail: 'Website and optimized Google profile so they show up when someone searches for a place to get a haircut.',
         scope: 'Site + Google Business',
         tags: ['Website', 'Google + SEO'],
       },
@@ -91,12 +98,14 @@ export const CASES: CaseStudy[] = [
       es: {
         industry: 'Cliente · Agencia de publicidad',
         result: 'Redes y campañas ya corriendo; el sitio completo, en desarrollo.',
+        detail: 'Manejo de redes y campañas de publicidad ya en marcha. El sitio completo está en construcción: hoy publica una landing de lanzamiento.',
         scope: 'Sitio + Redes + Ads',
         tags: ['Sitio web', 'Redes', 'Ads', 'En desarrollo'],
       },
       en: {
         industry: 'Client · Advertising agency',
         result: 'Social and ad campaigns already running; full site in development.',
+        detail: 'Social media management and ad campaigns already running. The full site is under construction: today it ships a launch landing page.',
         scope: 'Site + Social + Ads',
         tags: ['Website', 'Social', 'Ads', 'In development'],
       },
@@ -111,12 +120,14 @@ export const CASES: CaseStudy[] = [
       es: {
         industry: 'Cliente · Restaurante',
         result: 'Sitio rediseñado por completo, de escritorio a celular.',
+        detail: 'Rediseñamos su sitio por completo, de escritorio a celular —menú e información claros— para que se vea tan bueno como su comida.',
         scope: 'Rediseño web',
         tags: ['Rediseño web', 'Diseño'],
       },
       en: {
         industry: 'Client · Restaurant',
         result: 'Site fully redesigned, from desktop to mobile.',
+        detail: 'We fully redesigned their site, from desktop to mobile —clear menu and information— so it looks as good as their food.',
         scope: 'Web redesign',
         tags: ['Web redesign', 'Design'],
       },

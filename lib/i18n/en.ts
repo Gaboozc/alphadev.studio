@@ -55,26 +55,6 @@ export const en: Translations = {
   portfolio: {
     title: 'Results',
     subtitle: "Real clients, not made up. This is what we built for businesses like yours.",
-    items: [
-      {
-        title: 'BFS Karate',
-        type: 'Client · Martial arts',
-        description:
-          'A complete digital presence from scratch: website, social media management, and an optimized Google profile so they show up when someone searches for a place to train.',
-      },
-      {
-        title: 'Imperial Barbershop',
-        type: 'Client · Barbershop',
-        description:
-          'Website and optimized Google profile so they show up when someone searches for a place to get a haircut.',
-      },
-      {
-        title: 'The Latin Grill',
-        type: 'Client · Restaurant',
-        description:
-          'We fully redesigned their site, from desktop to mobile — clear menu and info — so it looks as good as their food.',
-      },
-    ],
   },
   process: {
     title: 'How we work',

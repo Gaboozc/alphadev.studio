@@ -35,7 +35,6 @@ export interface Translations {
   portfolio: {
     title: string;
     subtitle: string;
-    items: ReadonlyArray<{ title: string; type: string; description: string }>;
   };
   process: {
     title: string;
