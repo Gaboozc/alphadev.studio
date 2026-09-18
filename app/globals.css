@@ -4008,4 +4008,44 @@ button.case-thumb {
     justify-content: flex-start;
     padding: 0.85rem 1rem;
   }
+
+  /* ── Densidad de tarjetas ─────────────────────────────────
+     Los paddings de 2rem+ y los cuerpos de 13-14px vienen del diseño de
+     escritorio, donde la tarjeta mide ~380px. En un teléfono la tarjeta
+     mide 327px y ese mismo padding se come 70px de ancho útil mientras el
+     texto queda por debajo del mínimo cómodo de lectura. Ahora que los
+     titulares de sección son grandes, un h3 de 19px además se desconecta
+     de la jerarquía. */
+  .capability-card,
+  .service-card,
+  .sticky-stack-items .process-step {
+    padding: 1.5rem;
+  }
+
+  .capability-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .capability-card p,
+  .service-card-description {
+    font-size: 1rem;
+  }
+
+  .service-card-title {
+    font-size: 1.4rem;
+  }
+
+  .process-step-title,
+  .sticky-stack-items .process-step-title {
+    font-size: 1.4rem;
+  }
+
+  .process-step-desc,
+  .sticky-stack-items .process-step-desc {
+    font-size: 1rem;
+  }
+
+  .process-step-detail {
+    font-size: 0.9rem;
+  }
 }
