@@ -53,8 +53,9 @@ export const en: Translations = {
     ],
   },
   portfolio: {
-    title: 'Results',
-    subtitle: "Real clients, not made up. This is what we built for businesses like yours.",
+    title: "We won't just tell you.\nGo see it.",
+    subtitle:
+      "Four businesses, their live sites, and what we did for each. Every link opens the client's site, not a screenshot.",
   },
   process: {
     title: 'How we work',

@@ -53,8 +53,9 @@ export const es: Translations = {
     ],
   },
   portfolio: {
-    title: 'Resultados',
-    subtitle: 'Clientes reales, no inventados. Esto es lo que construimos para negocios como el tuyo.',
+    title: 'No te lo contamos.\nEntra y míralo.',
+    subtitle:
+      'Cuatro negocios, sus sitios en línea y lo que hicimos para cada uno. Cada enlace abre el sitio del cliente, no una captura.',
   },
   process: {
     title: 'Cómo trabajamos',

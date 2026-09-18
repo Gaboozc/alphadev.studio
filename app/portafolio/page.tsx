@@ -3,7 +3,8 @@ import PortafolioContent from './PortafolioContent';
 
 export const metadata: Metadata = {
   title: 'Resultados',
-  description: 'Negocios que pasaron de invisibles a encontrados. Psique\'n\'Pixel, AlphaDev Studios y más próximamente.',
+  description:
+    'Los sitios de BFS Karate, Imperial Barbershop, Fenix Group y The Latin Grill, en línea. El trabajo real que hicimos para cada negocio.',
   alternates: { canonical: '/portafolio' },
   openGraph: { url: '/portafolio' },
 };
