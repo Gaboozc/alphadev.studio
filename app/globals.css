@@ -2084,19 +2084,69 @@ a, button {
     padding-top: clamp(3rem, 10vh, 4rem);
     padding-bottom: 1rem;
   }
+  /* Abanico horizontal, mismo mecanismo que el radial-cards-marquee de
+     hugeinc.com: un track más ancho que la pantalla con las cards
+     inclinadas sobre un arco. La card siguiente asoma siempre — eso, y no
+     un cartel, es la señal de que se desliza. */
   .work-track {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-inline: 1.5rem;
+    padding-block: 1rem 2.5rem;
   }
+
+  .work-track::-webkit-scrollbar {
+    display: none;
+  }
+
   .work-panel {
-    width: 100%;
-    min-height: 100dvh;
-    padding: 3.5rem 1.5rem;
+    flex: 0 0 80vw;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    scroll-snap-align: center;
+    background: transparent;
+    /* Ángulos chicos: con el eje abajo, más de ~3° por paso se come el
+       alto y una card empieza a pisar a la vecina. */
+    transform: rotate(calc(var(--i, 0) * 2.25deg - 3.375deg));
+    transform-origin: bottom center;
   }
+
+  .work-panel.is-alt {
+    background: transparent;
+  }
+
+  /* El panel ya trae su propio padding del track. */
   .work-panel-inner {
-    gap: 2rem;
+    gap: 1.25rem;
+    padding-inline: 0;
   }
+
   .work-panel-name {
-    font-size: clamp(2.5rem, 11vw, 3.5rem);
+    font-size: clamp(2.25rem, 10vw, 3rem);
+  }
+
+  /* El scope es el nivel de detalle que vive en /portafolio; en una card
+     de 80vw solo agrega ruido. */
+  .work-panel-scope {
+    display: none;
+  }
+
+  .work-panel-frame {
+    width: 100%;
+  }
+
+  /* El strip de clientes mostraba exactamente estos mismos 4 clientes
+     justo arriba. En un teléfono eso eran dos secciones seguidas diciendo
+     lo mismo; queda la que trae resultado y link. */
+  .brand-proof {
+    display: none;
   }
 }
 
@@ -4091,52 +4141,4 @@ button.case-thumb {
     line-height: 1.15;
   }
 
-  /* ── Clientes como abanico horizontal ───────────────────────
-     El home mostraba los mismos 4 clientes dos veces en vertical — acá y
-     otra vez en WorkShowcase — gastando 7,3 de 26,7 pantallas en repetirse.
-     Este pasa a ser un abanico que se desliza de lado, como el
-     radial-cards-marquee de Huge (6 cards de 315px rotadas +14° cada una
-     dentro de un track más ancho que la pantalla).
-
-     La pista de que se desliza no es un cartel: la card siguiente asoma
-     siempre (86vw por card, más el sangrado a los bordes). Eso es lo que
-     faltaba en el carrusel nativo anterior, que se quitó por invisible. */
-  .brand-rows {
-    flex-direction: row;
-    gap: 0.75rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    /* Sangra hasta los bordes del viewport para que el asomo se lea como
-       continuidad y no como un recorte. */
-    margin-inline: -1.5rem;
-    padding-inline: 1.5rem;
-    padding-block-end: 2.5rem;
-  }
-
-  .brand-rows::-webkit-scrollbar {
-    display: none;
-  }
-
-  .brand-row {
-    flex: 0 0 80vw;
-    scroll-snap-align: center;
-    gap: 1.25rem;
-    padding: 0;
-    border-bottom: 0;
-    /* El abanico. Ángulos chicos: con 4 cards y el eje abajo, más de ~3°
-       por paso empieza a comerse el alto y a pisar la card vecina. */
-    transform: rotate(calc(var(--i, 0) * 2.25deg - 3.375deg));
-    transform-origin: bottom center;
-  }
-
-  .brand-row-name {
-    font-size: clamp(2.25rem, 10vw, 3rem);
-  }
-
-  .brand-row-frame {
-    max-width: none;
-  }
 }

@@ -49,7 +49,13 @@ export default function WorkShowcase() {
         {CASES.map((item, i) => {
           const t = item.i18n[lang];
           return (
-            <article key={item.slug} className={`work-panel${i % 2 === 1 ? ' is-alt' : ''}`}>
+            <article
+              key={item.slug}
+              className={`work-panel${i % 2 === 1 ? ' is-alt' : ''}`}
+              // --i alimenta la rotación del abanico en teléfono (ver el bloque
+              // max-width:899px de globals.css). En escritorio no se usa.
+              style={{ '--i': i } as React.CSSProperties}
+            >
               <div className="section-container work-panel-inner">
                 <div className="work-panel-copy">
                   <span className="work-panel-num">{String(i + 1).padStart(2, '0')}</span>
