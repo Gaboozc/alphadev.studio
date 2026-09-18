@@ -28,7 +28,7 @@ export default function BrandProofStrip() {
         </p>
 
         <div className="brand-rows">
-          {CASES.map((item) => {
+          {CASES.map((item, index) => {
             const t = item.i18n[lang];
             return (
               <a
@@ -38,6 +38,9 @@ export default function BrandProofStrip() {
                 rel="noopener noreferrer"
                 className="brand-row"
                 data-scroll-progress
+                // --i alimenta la rotación del abanico en móvil (ver el bloque
+                // max-width:899px de globals.css). En escritorio no se usa.
+                style={{ '--i': index } as React.CSSProperties}
                 aria-label={lang === 'es' ? `Ver sitio de ${item.name}` : `View ${item.name} site`}
               >
                 <div className="brand-row-copy">
