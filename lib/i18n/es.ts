@@ -185,7 +185,7 @@ export const es: Translations = {
       error_campos: 'Revisa los datos: falta algo o hay un campo demasiado largo.',
       error_ritmo: 'Espera un momento antes de enviar otro mensaje.',
       error_servidor:
-        'No pudimos enviar tu mensaje. Escríbenos a zavarsegabriel@gmail.com y lo resolvemos.',
+        'No pudimos enviar tu mensaje. Vuelve a intentarlo o llámanos al +52 56 3711 3563.',
     },
   },
   cta: {

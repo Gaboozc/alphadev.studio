@@ -4222,6 +4222,117 @@ button.case-thumb {
 
 /* El max-width vivía en un style inline, que le ganaba a la regla móvil:
    en un teléfono el logo medía 300px dentro de una columna de 327. */
+/* ═══════════════════════════════════════════════════════
+   PÁGINAS LEGALES (privacidad, términos)
+   Una columna angosta y medida de línea corta: son textos
+   para leer, no para escanear.
+═══════════════════════════════════════════════════════ */
+.legal-page {
+  background: var(--bg);
+  padding: clamp(8rem, 18vh, 11rem) 0 var(--section-pad-y);
+}
+
+.legal-doc {
+  max-width: 44rem;
+}
+
+.legal-header {
+  margin-bottom: 2.5rem;
+}
+
+.legal-header .section-title {
+  margin-bottom: 0.75rem;
+}
+
+.legal-updated {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+}
+
+.legal-lead {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-doc section {
+  margin-top: 2.5rem;
+}
+
+.legal-doc h2 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.85rem;
+}
+
+.legal-doc p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.legal-doc p + p {
+  margin-top: 0.85rem;
+}
+
+.legal-doc ul {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.legal-doc li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.legal-doc li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.legal-doc strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.legal-doc a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-doc code {
+  font-size: 0.9em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 5px;
+  background: var(--gold-bg);
+  color: var(--gold-dark);
+}
+
+.legal-note {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+}
+
 .footer-logo {
   max-width: 300px;
 }

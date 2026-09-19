@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 import ContactoForm from './ContactoForm';
-import { CONTACT_EMAIL } from '@/lib/site-config';
+import { PHONE_MX, PHONE_US } from '@/lib/site-config';
 
 export default function ContactoPageContent() {
   const { dict, lang } = useLang();
@@ -52,10 +52,20 @@ export default function ContactoPageContent() {
         <div className="section-container">
           <div className="max-w-2xl mx-auto">
             <ContactoForm />
+            {/* Si prefieres no escribir el formulario, el teléfono. El correo
+                personal salió de las superficies públicas del sitio. */}
             <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-sm transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
-                {CONTACT_EMAIL}
-              </a>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                {lang === 'es' ? '¿Prefieres llamar?' : 'Rather call?'}{' '}
+                <a href={PHONE_MX.href} className="transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
+                  {PHONE_MX.display}
+                </a>{' '}
+                · MX{'  '}
+                <a href={PHONE_US.href} className="transition-colors hover:opacity-80" style={{ color: 'var(--gold)' }}>
+                  {PHONE_US.display}
+                </a>{' '}
+                · US
+              </p>
             </div>
           </div>
         </div>

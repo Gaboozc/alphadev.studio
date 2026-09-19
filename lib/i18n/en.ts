@@ -185,7 +185,7 @@ export const en: Translations = {
       error_campos: 'Check the form: something is missing or a field is too long.',
       error_ritmo: 'Hold on a moment before sending another message.',
       error_servidor:
-        "We couldn't send your message. Email us at zavarsegabriel@gmail.com and we'll sort it out.",
+        "We couldn't send your message. Try again or call us at +1 (407) 686-7561.",
     },
   },
   cta: {

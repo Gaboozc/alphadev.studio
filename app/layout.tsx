@@ -5,7 +5,7 @@ import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollAnimations from '@/components/ScrollAnimations';
 import MagneticButtons from '@/components/MagneticButtons';
-import { SITE_URL, CONTACT_EMAIL, PHONE_US, PHONE_MX } from '@/lib/site-config';
+import { SITE_URL, PHONE_US, PHONE_MX } from '@/lib/site-config';
 import './globals.css';
 
 const inter = Inter({
@@ -87,12 +87,10 @@ const organizationJsonLd = {
   logo: `${SITE_URL}/assets/img/alphadev-logo.png`,
   description:
     'Agencia de soluciones digitales. Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
-  email: CONTACT_EMAIL,
   telephone: PHONE_US.e164,
   contactPoint: [
     {
       '@type': 'ContactPoint',
-      email: CONTACT_EMAIL,
       telephone: PHONE_US.e164,
       contactType: 'customer service',
       areaServed: 'US',
