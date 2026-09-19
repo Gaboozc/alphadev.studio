@@ -4220,6 +4220,12 @@ button.case-thumb {
 .acad-examen-corregir--secundario:hover { background: var(--gold-bg); }
 
 
+/* El max-width vivía en un style inline, que le ganaba a la regla móvil:
+   en un teléfono el logo medía 300px dentro de una columna de 327. */
+.footer-logo {
+  max-width: 300px;
+}
+
 /* ═════════════════════════════════════════════════════
    ESCALA MÓVIL — "una idea por pantalla" (estilo Huge)
 
@@ -4315,6 +4321,46 @@ button.case-thumb {
     align-items: flex-end;
     justify-content: flex-start;
     padding: 0.85rem 1rem;
+  }
+
+  /* Las flechas de 3rem se montaban encima de la foto: con 375px de ancho,
+     la imagen ocupa 338 y cada flecha le comía 41px por lado. En teléfono
+     bajan al pie, flanqueando el contador, y el cambio de foto se hace
+     deslizando (ver PortafolioContent). */
+  .lightbox-nav {
+    top: auto;
+    bottom: 1.1rem;
+    transform: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.5rem;
+  }
+
+  .lightbox-prev { left: 1.25rem; }
+  .lightbox-next { right: 1.25rem; }
+
+  .lightbox-img {
+    max-height: 72vh;
+  }
+
+  .lightbox-caption {
+    bottom: 2rem;
+  }
+
+  /* El pie ocupaba 0.91 pantallas en un teléfono: cuatro bloques apilados
+     con 40px entre cada uno. Los tres grupos de enlaces son listas cortas y
+     entran de a dos; la marca se queda a lo ancho. */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.25rem;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-logo {
+    max-width: 210px;
   }
 
   /* ── Densidad de tarjetas ─────────────────────────────────

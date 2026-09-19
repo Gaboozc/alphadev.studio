@@ -35,8 +35,25 @@ function Lightbox({ state, onClose, onChange, lang }: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, total]);
 
+  // En un teléfono nadie apunta a una flecha de 44px: el gesto natural es
+  // deslizar. 45px de umbral para no confundir un toque con un arrastre.
+  const touchX = { start: 0 };
+  const onTouchStart = (e: React.TouchEvent) => { touchX.start = e.changedTouches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchX.start;
+    if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
+  };
+
   return (
-    <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label={title}>
+    <div
+      className="lightbox"
+      onClick={onClose}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
       <button type="button" className="lightbox-close" onClick={onClose} aria-label={lang === 'es' ? 'Cerrar' : 'Close'}>✕</button>
       {total > 1 && (
         <button type="button" className="lightbox-nav lightbox-prev" onClick={(e) => { e.stopPropagation(); go(-1); }} aria-label={lang === 'es' ? 'Anterior' : 'Previous'}>‹</button>

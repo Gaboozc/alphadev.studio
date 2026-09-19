@@ -23,17 +23,18 @@ export default function Footer() {
       }}
     >
       <div className="section-container pt-20 pb-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+        <div className="footer-grid grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
 
           {/* Brand */}
-          <div>
+          <div className="footer-brand">
             <Link href="/" className="inline-block mb-4">
 
               <Image
+                className="footer-logo"
                 src={footerLogo}
                 alt="AlphaDev Studios"
                 width={320}
-                style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
+                style={{ width: '100%', height: 'auto' }}
               />
 
             </Link>
