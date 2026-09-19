@@ -4363,6 +4363,27 @@ button.case-thumb {
     max-width: 210px;
   }
 
+  /* Legibilidad en pantalla chica: estas tres vivían en 10-11px, por debajo
+     de lo que se lee cómodo en un teléfono. */
+  .module-sub {
+    font-size: 0.8125rem;
+  }
+
+  .module-label {
+    font-size: 0.95rem;
+  }
+
+  .hero-modules-label {
+    font-size: 0.8125rem;
+  }
+
+  /* El enlace medía 17px de alto: el dedo apunta a la línea de texto y nada
+     más. El padding agranda el área sin mover el diseño. */
+  footer ul a {
+    display: inline-block;
+    padding-block: 0.4rem;
+  }
+
   /* ── Densidad de tarjetas ─────────────────────────────────
      Los paddings de 2rem+ y los cuerpos de 13-14px vienen del diseño de
      escritorio, donde la tarjeta mide ~380px. En un teléfono la tarjeta
