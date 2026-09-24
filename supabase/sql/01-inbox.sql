@@ -43,6 +43,16 @@ as $$
   select coalesce((select p.es_admin from public.perfiles p where p.user_id = auth.uid()), false)
 $$;
 
+-- Esta línea NO cierra nada por sí sola: Postgres le da EXECUTE a PUBLIC por
+-- defecto al crear una función, y revocar de `anon` específicamente no
+-- toca lo heredado de PUBLIC. Verificado el 25 de septiembre de 2026: con
+-- esto ya corrido en producción, la clave anon pública TODAVÍA puede llamar
+-- a es_admin() por la API REST (devuelve `false`, así que no filtra nada —
+-- es inofensivo aquí porque auth.uid() es null para anon, y las políticas
+-- de `guias` necesitan justamente que anon pueda evaluar esta función). No
+-- copiar este patrón como si "cerrara" una función que sí escriba o
+-- devuelva datos sensibles: ver la corrección real en 02-guias.sql
+-- (`revoke ... from public`, con `grant` explícito a quien de verdad la use).
 revoke execute on function public.es_admin() from anon;
 
 

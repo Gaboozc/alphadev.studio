@@ -156,7 +156,15 @@ begin
 end;
 $$;
 
-revoke execute on function public.consumir_descarga(text) from anon, authenticated;
+-- `revoke ... from anon, authenticated` NO alcanza: Postgres le da EXECUTE a
+-- PUBLIC por defecto al crear una función, y PUBLIC no es lo mismo que "cada
+-- rol nombrado" — revocarlo de anon/authenticated deja intacto lo que
+-- heredan de PUBLIC. Verificado en este proyecto el 25 de septiembre de
+-- 2026: con la sola `revoke ... from anon`, la clave anon pública seguía
+-- pudiendo invocar la función por la API REST. Hay que revocar de PUBLIC
+-- explícitamente, y devolver el permiso solo a quien de verdad la llama.
+revoke execute on function public.consumir_descarga(text) from public;
+grant execute on function public.consumir_descarga(text) to service_role;
 
 
 -- ─── Storage: bucket privado `guias` ───────────────────────────────────────
