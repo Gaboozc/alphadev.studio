@@ -1,149 +1,72 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import AdminNav from './AdminNav'
-import { ESTADOS, conteoPorEstado, listarMensajes, type Estado } from '@/lib/mensajes'
-import { marcarEstado } from './actions'
+import { calcularKpisMensajes, calcularKpisVentas } from '@/lib/kpis'
 
 export const metadata: Metadata = {
   title: 'Panel',
   robots: { index: false, follow: false },
 }
 
-// El panel muestra lo que hay ahora, no una copia cacheada.
 export const dynamic = 'force-dynamic'
 
-const ETIQUETA: Record<Estado, string> = {
-  nuevo: 'Nuevos',
-  leido: 'Leídos',
-  respondido: 'Respondidos',
-  archivado: 'Archivados',
+function dinero(cents: number): string {
+  return `US$${(cents / 100).toFixed(2)}`
 }
 
-const CATEGORIA: Record<string, string> = {
-  consultation: 'Consultoría',
-  app: 'Aplicación',
-  internal: 'Interno',
-  api: 'API / Integración',
-  other: 'Otro',
-}
+const PERIODOS = [
+  { clave: 'hoy', etiqueta: 'Hoy' },
+  { clave: 'semana', etiqueta: 'Últimos 7 días' },
+  { clave: 'mes', etiqueta: 'Últimos 30 días' },
+  { clave: 'total', etiqueta: 'Desde siempre' },
+] as const
 
-// Los botones que se ofrecen según dónde está el mensaje. Un mensaje nuevo no
-// necesita un botón "marcar como nuevo".
-const SIGUIENTES: Record<Estado, Estado[]> = {
-  nuevo: ['leido', 'respondido', 'archivado'],
-  leido: ['respondido', 'archivado'],
-  respondido: ['archivado'],
-  archivado: ['nuevo'],
-}
-
-const ACCION: Record<Estado, string> = {
-  nuevo: 'Reabrir',
-  leido: 'Marcar leído',
-  respondido: 'Respondido',
-  archivado: 'Archivar',
-}
-
-function fecha(iso: string): string {
-  return new Intl.DateTimeFormat('es-MX', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(iso))
-}
-
-export default async function AdminPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ estado?: string }>
-}) {
-  const { estado: pedido } = await searchParams
-  const filtro = (ESTADOS as readonly string[]).includes(pedido ?? '')
-    ? (pedido as Estado)
-    : 'nuevo'
-
-  const [mensajes, conteo] = await Promise.all([listarMensajes(filtro), conteoPorEstado()])
+export default async function ResumenAdminPage() {
+  const [kpisVentas, kpisMensajes] = await Promise.all([calcularKpisVentas(), calcularKpisMensajes()])
 
   return (
     <div className="acad-page">
       <div className="acad-wrap">
         <header className="acad-head">
           <p className="eyebrow">Panel</p>
-          <h1>Inbox</h1>
-          <p>Mensajes recibidos por el formulario de contacto del sitio.</p>
+          <h1>Resumen</h1>
+          <p>Cómo se está moviendo la tienda y el inbox, de un vistazo.</p>
         </header>
 
         <AdminNav />
 
-        {/* ── Filtros por estado ── */}
-        <nav className="adm-tabs" aria-label="Filtrar por estado" style={{ marginTop: '-0.75rem' }}>
-          {ESTADOS.map((e) => (
-            <Link
-              key={e}
-              href={`/admin?estado=${e}`}
-              className={`adm-tab${e === filtro ? ' is-active' : ''}`}
-              aria-current={e === filtro ? 'page' : undefined}
-            >
-              {ETIQUETA[e]}
-              <span className="adm-tab-count">{conteo[e]}</span>
-            </Link>
+        <h2 className="kpi-section-title">Ventas</h2>
+        <div className="kpi-grid">
+          {PERIODOS.map(({ clave, etiqueta }) => {
+            const r = kpisVentas[clave]
+            return (
+              <div className="kpi-card" key={clave}>
+                <p className="kpi-card-periodo">{etiqueta}</p>
+                <span className="kpi-card-num">{dinero(r.importeCents)}</span>
+                <p className="kpi-card-sub">
+                  {r.ventas} {r.ventas === 1 ? 'venta' : 'ventas'}
+                  <br />
+                  {r.nuevas} {r.nuevas === 1 ? 'nueva' : 'nuevas'} · {r.recurrentes}{' '}
+                  {r.recurrentes === 1 ? 'recurrente' : 'recurrentes'}
+                </p>
+              </div>
+            )
+          })}
+        </div>
+
+        <h2 className="kpi-section-title">Mensajes recibidos</h2>
+        <div className="kpi-grid">
+          {PERIODOS.map(({ clave, etiqueta }) => (
+            <div className="kpi-card" key={clave}>
+              <p className="kpi-card-periodo">{etiqueta}</p>
+              <span className="kpi-card-num">{kpisMensajes[clave]}</span>
+            </div>
           ))}
-        </nav>
+        </div>
 
-        {/* ── Lista ── */}
-        {mensajes.length === 0 ? (
-          <p className="adm-vacio">No hay mensajes en {ETIQUETA[filtro].toLowerCase()}.</p>
-        ) : (
-          <ul className="adm-lista">
-            {mensajes.map((m) => (
-              <li key={m.id} className="adm-mensaje">
-                <div className="adm-mensaje-head">
-                  <div style={{ minWidth: 0 }}>
-                    <p className="adm-nombre">{m.nombre}</p>
-                    <a href={`mailto:${m.email}`} className="adm-email">
-                      {m.email}
-                    </a>
-                    {m.empresa && <span className="adm-empresa"> · {m.empresa}</span>}
-                  </div>
-                  <time className="adm-fecha" dateTime={m.creado_el}>
-                    {fecha(m.creado_el)}
-                  </time>
-                </div>
-
-                <div className="adm-chips">
-                  <span className="adm-chip">{CATEGORIA[m.categoria] ?? m.categoria}</span>
-                  {m.extra &&
-                    Object.entries(m.extra).map(([k, v]) => (
-                      <span key={k} className="adm-chip">
-                        {k}: {v}
-                      </span>
-                    ))}
-                </div>
-
-                <p className="adm-cuerpo">{m.mensaje}</p>
-
-                <div className="adm-acciones">
-                  {SIGUIENTES[m.estado].map((destino) => (
-                    <form key={destino} action={marcarEstado}>
-                      <input type="hidden" name="id" value={m.id} />
-                      <input type="hidden" name="estado" value={destino} />
-                      <button type="submit" className="adm-btn">
-                        {ACCION[destino]}
-                      </button>
-                    </form>
-                  ))}
-                  <a
-                    href={`mailto:${m.email}?subject=${encodeURIComponent('Re: tu mensaje en AlphaDev Studios')}`}
-                    className="adm-btn adm-btn-primario"
-                  >
-                    Responder
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <p className="adm-field-hint">
+          &quot;Nueva&quot; es la primera compra de ese correo en la vida del negocio, no la primera
+          del período. &quot;Recurrente&quot; es alguien que ya había comprado algo antes de esa venta.
+        </p>
       </div>
     </div>
   )

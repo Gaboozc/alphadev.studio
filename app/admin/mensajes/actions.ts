@@ -28,5 +28,5 @@ export async function marcarEstado(formData: FormData) {
     return
   }
 
-  revalidatePath('/admin')
+  revalidatePath('/admin/mensajes')
 }

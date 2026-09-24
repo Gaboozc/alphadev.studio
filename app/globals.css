@@ -4140,6 +4140,63 @@ button.case-thumb {
 
 .adm-upload-status.is-ok { color: var(--gold-dark); font-weight: 600; }
 
+/* ── Panel: resumen / KPIs ────────────────────────────────────────────────── */
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 700px) {
+  .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.kpi-card {
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg-card);
+  padding: 1.25rem 1.35rem;
+}
+
+.kpi-card-periodo {
+  font-family: var(--font-inter);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin: 0 0 0.6rem;
+}
+
+.kpi-card-num {
+  display: block;
+  font-family: var(--font-playfair);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  line-height: 1;
+}
+
+.kpi-card-sub {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.kpi-section-title {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin: 0 0 1rem;
+}
+
 /* ── Tablas dentro de una lección ──────────────────────────────────────────── */
 
 .acad-tabla-wrap {
