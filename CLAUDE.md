@@ -244,8 +244,8 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 - ✅ Tailwind v4 — definitivo
 - ✅ TypeScript strict — definitivo
 - ✅ Sin display de precios en el sitio
-- ✅ Multi-idioma es/en planeado (no implementado aún)
-- ✅ Imperial Barbershop = case study real, el resto placeholder hasta tener más
+- ✅ **Multi-idioma es/en: la URL es la fuente de verdad.** Español sin prefijo (`/servicios`), inglés bajo `/en` (`/en/servicios`). La correspondencia y la metadata de las dos versiones viven en `lib/i18n/routes.ts`, y ahí se agregan las páginas nuevas. El idioma NO vuelve a `localStorage`: ahí estaba antes y dejaba el `<title>`, la descripción y la tarjeta de OpenGraph siempre en español, porque esa metadata se resuelve en el servidor
+- ✅ Cuatro clientes reales: BFS Karate, Imperial Barbershop, The Latin Grill y Fenix Group. Viven en `lib/content/cases.ts`; ya no hay placeholders en el sitio público
 - ✅ Logo animado SVG inline en Hero (mantener, no reemplazar)
 - ✅ **GSAP 3.15 + ScrollTrigger + Lenis** es el motor de scroll del sitio (`components/ScrollAnimations.tsx`, `components/SmoothScroll.tsx`). La regla anterior decía "Framer Motion sí, GSAP no" — se invirtió con el rediseño visual, y Framer Motion salió del `package.json`
 - ❌ NO usar componentes de shadcn por ahora (mantener todo custom)
@@ -256,68 +256,124 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 ## 📐 Arquitectura del sitio
 
 ### Rutas actuales
+
 ```
-/                       → Home (8 secciones)
-/servicios              → Servicios (6 cards)
-/portafolio             → Portfolio (placeholder por reemplazar)
-/proceso                → Proceso (5 fases)
-/contacto               → Form general
-/contacto/startup       → Form Startup
-/contacto/enterprise    → Form Enterprise
+Públicas (existen en los dos idiomas: la misma ruta y su espejo bajo /en)
+/                       → Home
+/servicios              → Servicios (5 filas alternadas + galería de plantillas)
+/portafolio             → Resultados (los 4 clientes reales)
+/proceso                → Cómo trabajamos (5 fases)
+/contacto               → Formulario único con selector de categoría
+/privacidad             → Política de privacidad
+/terminos               → Términos de uso
+
+Privadas
+/acceso                 → Login (Server Action, sesión httpOnly)
+/academia/*             → Academia, detrás de sesión
+/academia/admin         → Panel de mensajes recibidos
+
+Otras
+/tarjeta/[slug]         → Tarjetas digitales (noindex)
+/privacy/leer-con-monstruos → Política de otro producto
 ```
 
-### Componentes existentes (`web/components/`)
-- `Navbar.tsx` (Client, sticky con scroll detection)
-- `Footer.tsx` (Server)
-- `Hero.tsx` (Server, logo animado SVG inline) ⚠️ **En proceso de evolución: agregar background 3D premium**
-- `TrustSection.tsx` (placeholder logos — pendiente contenido real)
-- `ServicesSection.tsx` (6 servicios con emojis 🌐 ⚡ — **pendiente cambiar a iconos custom**)
-- `CapabilitiesSection.tsx`
-- `ProcessSection.tsx`
-- `CaseStudiesSection.tsx` (placeholder — pendiente Imperial real)
-- `StackSection.tsx`
-- `CTASection.tsx`
-- `ValueProposition.tsx`
-- `TestimonialsSection.tsx` (placeholder — pendiente testimonios reales)
+`/contacto/startup` y `/contacto/enterprise` **ya no existen**: se consolidaron
+en un solo formulario con selector. Si un texto viejo los menciona, está
+desactualizado.
+
+### Componentes (`components/`)
+
+Los de sección los compone `components/HomeSections.tsx`, que es lo que
+renderizan **las dos** homes (`/` y `/en`). Agregar una sección ahí, no en las
+páginas: si cada home listara sus secciónes, la inglésa se quedaría atrás sin
+que nada avise.
+
+- Estructura: `Navbar` (overlay a pantalla completa estilo Huge), `Footer`,
+  `ConditionalLayout` (oculta nav/footer en academia, acceso y tarjetas)
+- Home: `Hero`, `HeroContent`, `BrandProofStrip`, `WorkShowcase`,
+  `ProblemSection`, `CapabilitiesSection`, `ServicesSection`,
+  `TemplatesSection`, `ProcessSection`, `WhyUsSection`, `CTASection`
+- Transversales: `SiteLink` (**el enlace interno que se usa en páginas
+  públicas** - un `next/link` crudo devuelve al español a mitad de navegación),
+  `LanguageToggle`, `TemplateViewer`, `ScrollAnimations`, `SmoothScroll`,
+  `MagneticButtons`, `Icon`, `Flag`, `AlphaDevWordmark`, `ErrorScreen`
+- `CaseStudiesSection.tsx` está **huérfano** desde que `WorkShowcase` lo
+  reemplazó. No invertir tiempo ahí
 
 ---
 
 ## 🚧 Estado actual y pendientes
 
-### 🔴 Bloqueantes críticos (prioridad MÁXIMA)
+> Reescrito en septiembre de 2026. La versión anterior seguía diciendo que los
+> formularios hacían `console.log + alert()` y que había contenido placeholder
+> visible. Las dos cosas se resolvieron hace meses.
 
-1. **Backend de formularios** — Resend pendiente integrar. Hoy los 3 forms hacen `console.log + alert()`. NO se envía nada.
-2. **Bug metadata en Client Components** — `contacto/startup/page.tsx` y `contacto/enterprise/page.tsx` exportan `metadata` con `'use client'`. Next.js lo ignora. Refactor a Server Component wrapper requerido.
-3. **Contenido placeholder visible** — TrustSection, CaseStudiesSection, TestimonialsSection muestran "Client A-H" y similares. Cualquier visitante lo nota.
+### 🔴 Bloqueante en producción
 
-### 🟠 Mejoras visuales en curso (evolución hacia "tecnología deseable")
+1. **Vercel no tiene las variables de Supabase.** Confirmado con los registros
+   de producción del 17 de septiembre de 2026:
+   `[acceso] fallo al iniciar sesión: Error: Faltan NEXT_PUBLIC_SUPABASE_URL y
+   NEXT_PUBLIC_SUPABASE_ANON_KEY`. En local funciona porque `.env.local` sí las
+   tiene.
 
-4. **Hero background 3D premium** — generado con nanobanana, esfera obsidiana con plasma azul + grid geométrico. Imagen lista, falta integrar al Hero sin romper logo animado SVG.
-5. **Iconografía custom** — reemplazar emojis (🌐 ⚡ 🏢 🔗 🗄️ 🔒) por iconos 3D o line art coherentes con el mood.
-6. **Card design upgrade** — cards actuales son funcionales pero genéricas. Agregar:
-   - Bordes con gradient sutil al hacer hover
-   - Glow blue muy controlado en focus state
-   - Materiales (sensación de profundidad, no flat)
-   - Micro-animations on enter
-7. **Backgrounds de sección** — patterns sutiles, no fondos planos. Grid lines tipo Linear, dots tipo Vercel, o waves sutiles tipo Stripe.
+   **No es solo la Academia:** el formulario de contacto usa el mismo
+   `createClient()` (`lib/mensajes.ts`), así que todo mensaje enviado desde el
+   sitio devolvió error y **se perdió** - sin base de datos no hay dónde
+   guardarlo.
 
-### 🟡 Mejoras estructurales
+   Se arregla en Vercel → Settings → Environment Variables, con las dos
+   variables en Production, Preview y Development. **Y hay que redesplegar**:
+   las `NEXT_PUBLIC_*` se incrustan durante el build, agregarlas sin build nuevo
+   no cambia nada.
 
-8. **OG Image** — generar 1200×630px con la estética definida (sphere + glow + logo discreto)
-9. **Favicon SVG** moderno (complementa .ico)
-10. **Loading states** (`loading.tsx`) y **Error boundaries** (`error.tsx`)
-11. **Not Found page** (`not-found.tsx`) — oportunidad para algo creativo (404 cinematográfico)
-12. **Schema.org / JSON-LD** para SEO de agencia
-13. **Twitter Cards** metadata
-14. **Multi-idioma es/en** (cuando contenido base esté pulido)
+2. **Altas abiertas en Supabase.** La clave anon es pública por diseño, así que
+   si Supabase permite registro por correo, cualquiera puede crearse una cuenta
+   por API aunque no exista página de registro - y como `app/academia/layout.tsx`
+   solo comprueba que haya sesión, entra al catálogo completo. Cerrar en
+   Authentication → Sign In / Providers → Email → desmarcar *Allow new users
+   to sign up*. Los accesos se crean a mano en Authentication → Users → Add
+   user, marcando *Auto Confirm User*; el trigger `on_auth_user_created` arma
+   sola la fila en `perfiles`, y `es_admin` se pone a mano por SQL.
 
-### 🟢 Limpieza técnica
+### 🟠 En curso
 
-15. Remover 5 SVGs default de Next.js sin usar en `web/public/`
-16. Remover `/frontend/` (proyecto Vite obsoleto) si ya no se referencia
-17. Componentizar SVG del logo animado (está duplicado 4 veces entre startup y enterprise)
-18. Remover `console.log` y `alert()` en los 3 formularios (cuando se integre Resend)
-19. Datos de contacto a variables de entorno (hoy hardcodeados)
+3. **Rutas en inglés (`/en/*`)** - la tabla (`lib/i18n/routes.ts`), el contexto
+   por URL, `SiteLink` y las siete páginas espejo están escritos pero **sin
+   terminar ni commitear**. Falta: pasar los ~21 enlaces internos a `SiteLink`,
+   quitar el prefijo en `Navbar` para el estado activo, agregar las URLs
+   inglésas al `sitemap.ts` y verificar el build.
+
+   Límite conocido y aceptado: `<html lang>` lo escribe el layout raíz, que no
+   conoce la ruta, así que sale `es` en el HTML del servidor y se corrige al
+   hidratar. Arreglarlo de verdad exige dos layouts raíz por route group, que
+   obliga a mover casí todas las carpetas de `app/`. No vale el riesgo hoy; lo
+   que si importa para buscadores -el `hreflang` reciproco- ya esta.
+
+4. **Resultados de clientes sin numeros.** `/portafolio` y `WorkShowcase`
+   cuentan qué se hizo, no qué logró. Pendiente de que Gabriel dé las cifras.
+
+5. **Copy de `/servicios`** - las viñetas prometen cosas que en 2026 se dan por
+   sentadas ("carga rápida", "formulario de contacto") en vez de diferenciales,
+   y no hay plazos de entrega en ninguna parte.
+
+### 🟡 Estructural
+
+6. Aviso por correo cuando llega un mensaje (hoy hay que entrar al panel a
+   mirar). Resend sigue sin integrarse.
+7. Fase 3 de la Academia: permisos por usuario. Hoy cualquier autenticado ve
+   todo. `app/academia/queries.ts` es el único punto donde filtrar.
+8. Progreso de lecciones: migrar de `localStorage` a la base.
+9. Versiones en inglés de la metadata de las rutas privadas.
+
+### 🟢 Limpieza
+
+10. `Notion.docx` en la raíz del repo, sin revisar y sin commitear. Va al
+    `.gitignore` o fuera.
+11. `NEXT_PUBLIC_CONTACT_EMAIL` y `NEXT_PUBLIC_CONTACT_PHONE` están en
+    `.env.local` y `.env.example` pero **nadie las lee**: `lib/site-config.ts`
+    tiene los valores fijos. Son residuo.
+12. `components/CaseStudiesSection.tsx` huérfano.
+13. Remover `/frontend/` (proyecto Vite obsoleto) si ya no se referencia.
 
 ---
 
@@ -394,10 +450,10 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 
 ### Branching
 
-- `main` = producción
-- `dev` = integración
-- `feature/[nombre]` = trabajo en curso
-- Nunca commits directos a `main`
+La rama de producción es **`master`** (no `main`), y hoy se commitea directo a
+ella: Gabriel trabaja solo y cada cambio se verifica en local antes de subir.
+El esquema `dev` + `feature/*` que describía este archivo nunca se usó; queda
+anotado por si algún día entra otra persona al repo.
 
 ### Verificación obligatoria al terminar
 
@@ -413,7 +469,11 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 ## 📋 Información de marca y contacto
 
 - **Founder**: Gabriel Zavarse
-- **Email**: zavarsegabriel@gmail.com (pendiente migrar a hello@alphadev.studio)
+- **Email**: zavarsegabriel@gmail.com — **no aparece en el sitio público.** Se
+  quitó en septiembre de 2026 de `/contacto`, la página de error, el JSON-LD y
+  los mensajes de fallo del formulario; en su lugar van los dos teléfonos. Sigue
+  en la tarjeta digital de Gabriel y en la política de Leer con Monstruos, que
+  son suyas. Pendiente migrar a hello@alphadev.studio
 - **Teléfono USA**: +1 (407) 686-7561
 - **Teléfono México**: 56 3711 3563
 - **Ubicación**: Remote (LATAM-based)
