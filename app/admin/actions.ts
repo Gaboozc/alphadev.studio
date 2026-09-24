@@ -1,6 +1,6 @@
 'use server'
 
-// Acciones del panel.
+// Acciones del inbox del panel.
 //
 // Una Server Action es un endpoint público: cualquiera puede invocarla con su
 // id, sin pasar por la página. Por eso cada una vuelve a comprobar que quien
@@ -28,5 +28,5 @@ export async function marcarEstado(formData: FormData) {
     return
   }
 
-  revalidatePath('/academia/admin')
+  revalidatePath('/admin')
 }

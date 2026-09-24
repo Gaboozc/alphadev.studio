@@ -414,11 +414,13 @@ export default function AcademiaNav({
           </p>
 
           {/* Solo para admin. Ocultarlo no protege el panel — eso lo hace la
-              guarda del servidor en admin/layout.tsx —, solo evita enseñar a
-              todos una puerta que no pueden abrir. */}
+              guarda del servidor en app/admin/layout.tsx —, solo evita
+              enseñar a todos una puerta que no pueden abrir. El panel vive
+              en /admin, no bajo /academia: es la pieza que sigue en pie con
+              certeza aunque la Academia se esté repensando. */}
           {admin && (
             <Link
-              href="/academia/admin"
+              href="/admin"
               onClick={close}
               style={{
                 display: 'flex',

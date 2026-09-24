@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Icon from '@/components/Icon'
+import AdminNav from './AdminNav'
 import { ESTADOS, conteoPorEstado, listarMensajes, type Estado } from '@/lib/mensajes'
 import { marcarEstado } from './actions'
 
@@ -68,25 +68,20 @@ export default async function AdminPage({
   return (
     <div className="acad-page">
       <div className="acad-wrap">
-        <Link href="/academia" className="acad-crumb">
-          <span style={{ display: 'flex', transform: 'rotate(180deg)' }}>
-            <Icon name="arrowRight" size={14} />
-          </span>
-          Volver a la Academia
-        </Link>
-
         <header className="acad-head">
           <p className="eyebrow">Panel</p>
           <h1>Inbox</h1>
           <p>Mensajes recibidos por el formulario de contacto del sitio.</p>
         </header>
 
+        <AdminNav />
+
         {/* ── Filtros por estado ── */}
-        <nav className="adm-tabs" aria-label="Filtrar por estado">
+        <nav className="adm-tabs" aria-label="Filtrar por estado" style={{ marginTop: '-0.75rem' }}>
           {ESTADOS.map((e) => (
             <Link
               key={e}
-              href={`/academia/admin?estado=${e}`}
+              href={`/admin?estado=${e}`}
               className={`adm-tab${e === filtro ? ' is-active' : ''}`}
               aria-current={e === filtro ? 'page' : undefined}
             >
