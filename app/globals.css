@@ -2588,6 +2588,157 @@ button.case-thumb {
    tarjetas medían distinto según cuántas pruebas colgaran
    de cada servicio: el escalonado se leía como desorden.
 ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   RECURSOS — tienda de guías
+   Tarjetas de producto, no capturas de sitio: sin el marco
+   de navegador que usan .template-card / .case-thumb, que
+   simula una ventana y no encaja con la portada de un PDF.
+═══════════════════════════════════════════════════════ */
+
+.recursos-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .recursos-gallery { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1024px) {
+  .recursos-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+.recurso-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg-card);
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.recurso-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 14px 28px -18px rgba(154, 114, 53, 0.35);
+  transform: translateY(-3px);
+}
+
+.recurso-card-media {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.recurso-card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Sin portada cargada: un rombo de fondo dorado en vez de un hueco vacío. */
+.recurso-card-media.is-vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gold-bg), var(--bg-alt));
+}
+
+.recurso-card-media.is-vacio::after {
+  content: '';
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1.5px solid var(--gold-border);
+  transform: rotate(45deg);
+}
+
+.recurso-card-body {
+  padding: 1.25rem 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.recurso-card-title {
+  margin: 0;
+  font-family: var(--font-playfair);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.recurso-card-desc {
+  margin: 0;
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.recurso-card-precio {
+  margin-top: 0.4rem;
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+}
+
+.recurso-vacio {
+  padding: 3rem 1rem;
+  text-align: center;
+  font-family: var(--font-inter);
+  color: var(--text-subtle);
+}
+
+/* ── Ficha de una guía ────────────────────────────────────────────────────── */
+
+.recurso-detalle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .recurso-detalle { grid-template-columns: 1fr 1fr; }
+}
+
+.recurso-detalle-media {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-alt);
+}
+
+.recurso-detalle-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.recurso-detalle-precio {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  margin: 1.25rem 0;
+}
+
+.recurso-detalle-desc {
+  font-family: var(--font-inter);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+}
+
+/* ── Confirmación de compra / descarga ───────────────────────────────────── */
+
+.recurso-gracias {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 8rem 1.5rem 6rem;
+}
+
 .service-rows {
   display: flex;
   flex-direction: column;
@@ -3931,9 +4082,63 @@ button.case-thumb {
   color: var(--gold-dark);
 }
 
+.adm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media (max-width: 640px) {
   .adm-mensaje-head { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 }
+
+/* ── Formularios del panel (guías) ────────────────────────────────────────── */
+
+.adm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 640px;
+}
+
+.adm-field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.adm-field label {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.adm-field-hint {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+.adm-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .adm-field-row { grid-template-columns: 1fr; }
+}
+
+.adm-upload {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.adm-upload-status {
+  font-family: var(--font-inter);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.adm-upload-status.is-ok { color: var(--gold-dark); font-weight: 600; }
 
 /* ── Tablas dentro de una lección ──────────────────────────────────────────── */
 

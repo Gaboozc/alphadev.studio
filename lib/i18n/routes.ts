@@ -35,12 +35,28 @@ export const PUBLIC_PATHS = [
   '/contacto',
   '/privacidad',
   '/terminos',
+  '/recursos',
 ] as const;
 
 export type PublicPath = (typeof PUBLIC_PATHS)[number];
 
-export function esRutaPublica(path: string): path is PublicPath {
-  return (PUBLIC_PATHS as readonly string[]).includes(path);
+/**
+ * Raíces bajo las que cuelgan páginas DINÁMICAS que también existen en los
+ * dos idiomas (`/recursos/seo-local-2026` ↔ `/en/recursos/seo-local-2026`).
+ * No van en PUBLIC_PATHS porque esa lista alimenta PAGE_META con un título y
+ * una descripción fijos, y una guía no tiene una única metadata que declarar
+ * ahí — la suya sale de `lib/guias.ts`, por slug.
+ */
+const RAICES_ANIDADAS = ['/recursos'] as const;
+
+/**
+ * true si `path` tiene una versión en el otro idioma a la que el toggle
+ * pueda llevar. No devuelve `path is PublicPath`: una ruta anidada
+ * (`/recursos/algo`) califica sin ser, ella misma, un PublicPath.
+ */
+export function esRutaPublica(path: string): boolean {
+  if ((PUBLIC_PATHS as readonly string[]).includes(path)) return true;
+  return RAICES_ANIDADAS.some((raiz) => path === raiz || path.startsWith(`${raiz}/`));
 }
 
 /**
@@ -158,6 +174,18 @@ const PAGE_META: Record<PublicPath, Record<Lang, PageMeta>> = {
       title: 'Terms',
       description:
         'The terms for using alphadev.studio: what this site is, what the templates on it are, and what gets agreed separately.',
+    },
+  },
+  '/recursos': {
+    es: {
+      title: 'Recursos',
+      description:
+        'Guías prácticas para hacer crecer tu negocio en línea. Pago único, descarga inmediata.',
+    },
+    en: {
+      title: 'Resources',
+      description:
+        'Practical guides to grow your business online. One-time payment, instant download.',
     },
   },
 };

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import footerLogo from '../assets/footer-logo.png';
 import { PHONE_US, PHONE_MX } from '@/lib/site-config';
 
-const COMPANY_HREFS = ['/portafolio', '/proceso', '/contacto'];
+const COMPANY_HREFS = ['/portafolio', '/recursos', '/proceso', '/contacto'];
 const SERVICE_HREF = '/servicios';
 
 export default function Footer() {

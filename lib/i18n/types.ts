@@ -12,6 +12,7 @@ export interface Translations {
     home: string;
     services: string;
     portfolio: string;
+    resources: string;
     process: string;
     contact: string;
     cta: string;

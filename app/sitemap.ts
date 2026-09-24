@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site-config'
-import { PUBLIC_PATHS, absoluteUrl, type PublicPath } from '@/lib/i18n/routes'
+import { PUBLIC_PATHS, absoluteUrl, localizedPath, type PublicPath } from '@/lib/i18n/routes'
+import { listarGuiasPublicadas } from '@/lib/guias'
 
 // Sitemap generado, no un XML a mano.
 //
@@ -26,6 +27,7 @@ const PESO: Record<PublicPath, Peso> = {
   '/contacto': { prioridad: 0.7, frecuencia: 'monthly' },
   '/privacidad': { prioridad: 0.3, frecuencia: 'yearly' },
   '/terminos': { prioridad: 0.3, frecuencia: 'yearly' },
+  '/recursos': { prioridad: 0.7, frecuencia: 'weekly' },
 }
 
 // No forma parte del refactor es/en: es la política de otro producto (Leer
@@ -34,7 +36,11 @@ const OTRAS: MetadataRoute.Sitemap = [
   { url: `${SITE_URL}/privacy/leer-con-monstruos`, priority: 0.2, changeFrequency: 'yearly' },
 ]
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// El catálogo de guías se lee de la base en cada petición: sin esto, una
+// guía publicada hoy no aparecería en el sitemap hasta el próximo build.
+export const dynamic = 'force-dynamic'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // La fecha del despliegue. Es honesta —el contenido se publica al
   // desplegar— y evita el `lastmod` fijo que un rastreador aprende a ignorar.
   const lastModified = new Date()
@@ -56,5 +62,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   })
 
-  return [...paginas, ...OTRAS]
+  // Cada guía publicada, también en los dos idiomas: es contenido indexable
+  // de verdad (una landing de venta), no una página de sistema.
+  const guias = await listarGuiasPublicadas()
+  const paginasDeGuias = guias.flatMap((guia): MetadataRoute.Sitemap => {
+    const idiomas = {
+      es: `${SITE_URL}${localizedPath(`/recursos/${guia.slug}`, 'es')}`,
+      en: `${SITE_URL}${localizedPath(`/recursos/${guia.slug}`, 'en')}`,
+    }
+    return (['es', 'en'] as const).map((lang) => ({
+      url: idiomas[lang],
+      lastModified: new Date(guia.actualizado_el),
+      changeFrequency: 'monthly' as const,
+      priority: lang === 'es' ? 0.6 : 0.5,
+      alternates: { languages: idiomas },
+    }))
+  })
+
+  return [...paginas, ...paginasDeGuias, ...OTRAS]
 }

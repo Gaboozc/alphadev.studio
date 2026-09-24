@@ -246,6 +246,7 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 - ✅ Sin display de precios en el sitio
 - ✅ **Multi-idioma es/en: la URL es la fuente de verdad.** Español sin prefijo (`/servicios`), inglés bajo `/en` (`/en/servicios`). La correspondencia y la metadata de las dos versiones viven en `lib/i18n/routes.ts`, y ahí se agregan las páginas nuevas. El idioma NO vuelve a `localStorage`: ahí estaba antes y dejaba el `<title>`, la descripción y la tarjeta de OpenGraph siempre en español, porque esa metadata se resuelve en el servidor
 - ✅ Cuatro clientes reales: BFS Karate, Imperial Barbershop, The Latin Grill y Fenix Group. Viven en `lib/content/cases.ts`; ya no hay placeholders en el sitio público
+- ✅ **Tienda de guías (`/recursos`): pago único en USD vía PayPal, sin cuentas de comprador.** Nada de membresías ni de permisos por usuario — esa complejidad se evaluó y se descartó a propósito porque el problema no la pedía. Ver la sección "🛒 Tienda de guías" más abajo antes de tocar `lib/ventas.ts`, `lib/paypal.ts` o `lib/compra.ts`
 - ✅ Logo animado SVG inline en Hero (mantener, no reemplazar)
 - ✅ **GSAP 3.15 + ScrollTrigger + Lenis** es el motor de scroll del sitio (`components/ScrollAnimations.tsx`, `components/SmoothScroll.tsx`). La regla anterior decía "Framer Motion sí, GSAP no" — se invirtió con el rediseño visual, y Framer Motion salió del `package.json`
 - ❌ NO usar componentes de shadcn por ahora (mantener todo custom)
@@ -262,15 +263,21 @@ Públicas (existen en los dos idiomas: la misma ruta y su espejo bajo /en)
 /                       → Home
 /servicios              → Servicios (5 filas alternadas + galería de plantillas)
 /portafolio             → Resultados (los 4 clientes reales)
+/recursos               → Tienda de guías (catálogo)
+/recursos/[slug]        → Ficha de una guía + botón de compra
 /proceso                → Cómo trabajamos (5 fases)
 /contacto               → Formulario único con selector de categoría
 /privacidad             → Política de privacidad
 /terminos               → Términos de uso
 
+Solo en español (no llevan espejo /en)
+/recursos/gracias       → Vuelta de PayPal: confirma el pago y da el enlace
+/recursos/descargar/[token] → Entrega el PDF (Route Handler, no una página)
+
 Privadas
 /acceso                 → Login (Server Action, sesión httpOnly)
 /academia/*             → Academia, detrás de sesión
-/academia/admin         → Panel de mensajes recibidos
+/admin                  → Panel: mensajes, guías, ventas (ver más abajo)
 
 Otras
 /tarjeta/[slug]         → Tarjetas digitales (noindex)
@@ -302,78 +309,149 @@ que nada avise.
 
 ---
 
+## 🛒 Tienda de guías (`/recursos`) — hecho, septiembre 2026
+
+Contenido propio (gratis o de pago) que se vende desde el sitio. Decisión de
+Gabriel, deliberadamente simple: **pago único en USD vía PayPal, sin cuentas
+de comprador.** Nadie se registra para comprar una guía — el enlace de
+descarga ES el acceso, no una sesión.
+
+### Por qué no hay cuentas de comprador
+
+Se evaluó primero un diseño con permisos por usuario (compartido con una
+eventual Fase 3 de la Academia). Gabriel lo descartó: sin membresías ni
+Academia "como se veía antes", construir un sistema de cuentas para vender
+PDFs sueltos era una complejidad que el problema no pedía. El diseño actual
+es una tienda, no una plataforma.
+
+### Cómo se paga y se entrega
+
+```
+1. /recursos/[slug] → botón "Comprar" → Server Action (app/recursos/actions.ts)
+   crea la orden en PayPal con el PRECIO LEÍDO DE LA BASE (nunca del
+   formulario) y redirige al checkout de PayPal
+2. El comprador paga y PayPal lo manda de vuelta a
+   /recursos/gracias?token=<order_id>
+3. Esa página captura la orden contra la API de PayPal, registra la venta,
+   manda el correo (Resend) y muestra el botón de descarga
+4. /recursos/descargar/[token] valida el token, firma una URL de Storage de
+   60 segundos y redirige — el token vale 7 días y hasta 5 descargas
+```
+
+**Red de seguridad:** si el comprador cierra la pestaña entre pagar y volver,
+pagó y el paso 3 nunca corre. `app/api/pagos/paypal/route.ts` escucha el
+webhook de PayPal (`CHECKOUT.ORDER.APPROVED`) y hace lo mismo por su cuenta.
+`lib/compra.ts` es la única función que ambos caminos llaman — evita que se
+desincronicen. Los reembolsos **no** se automatizan (extraer el id de la
+orden del payload de reembolso de PayPal exige una llamada extra a su API);
+se revocan a mano con el botón "Revocar" en `/admin/ventas`.
+
+### La clave de servicio de Supabase — por qué existe ahora
+
+Quien compra no tiene sesión, así que registrar su compra o firmar su
+descarga necesita un privilegio que ninguna sesión tiene. Por eso
+`SUPABASE_SERVICE_ROLE_KEY` entra al proyecto — **corrige lo que decía antes
+este archivo**, que no hacía falta. Acotada a un único archivo,
+`lib/ventas.ts`, y `eslint.config.mjs` tiene una regla `no-restricted-imports`
+que rompe el build si algún otro archivo importa `lib/supabase/admin`.
+
+### Archivos clave
+
+| Archivo | Rol |
+|---|---|
+| `supabase/sql/02-guias.sql` | Tablas `guias` y `ventas`, RLS, función `consumir_descarga()`. Idempotente, se pega en el SQL Editor — falta correrlo |
+| `lib/guias.ts` | Catálogo: validación, alta/edición (sesión del admin), lectura pública |
+| `lib/ventas.ts` | **Único importador permitido de `lib/supabase/admin`.** Separa lo que corre con sesión de admin (panel) de lo que corre con la clave de servicio (comprador sin sesión) |
+| `lib/paypal.ts` | Orders API v2 por `fetch` — crear orden, capturar, verificar firma de webhook. Sin SDK ni script de PayPal en la página |
+| `lib/compra.ts` | Orquesta captura + registro + correo. La llaman `/recursos/gracias` y el webhook — nunca duplicar esta lógica |
+| `lib/correo.ts` | Resend por `fetch`, sin su SDK |
+| `app/admin/` | Panel: `/admin` (mensajes, movido desde `/academia/admin`), `/admin/guias`, `/admin/ventas` |
+
+### Antes de que esto pueda vender de verdad (pendiente de Gabriel)
+
+1. Correr `supabase/sql/02-guias.sql` en el SQL Editor
+2. Storage → New bucket → `guias`, con **Public desactivado**
+3. Cuenta PayPal **Business** (gratis convertir) + app en developer.paypal.com
+   → `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`
+4. En esa app, Webhooks → agregar `https://www.alphadev.studio/api/pagos/paypal`
+   con los eventos `CHECKOUT.ORDER.APPROVED` y `PAYMENT.CAPTURE.COMPLETED` →
+   `PAYPAL_WEBHOOK_ID`
+5. Verificar el dominio `alphadev.studio` en Resend (registros DNS en Vercel)
+   → `RESEND_API_KEY`
+6. Las cinco variables anteriores + `SUPABASE_SERVICE_ROLE_KEY`, en Vercel
+   → Environment Variables, y **redesplegar** (son variables de servidor, no
+   `NEXT_PUBLIC_`, pero el redespliegue sigue haciendo falta)
+7. Probar todo contra `PAYPAL_API_BASE=https://api-m.sandbox.paypal.com`
+   antes de pasar a la URL de producción de PayPal
+
+---
+
 ## 🚧 Estado actual y pendientes
 
-> Reescrito en septiembre de 2026. La versión anterior seguía diciendo que los
-> formularios hacían `console.log + alert()` y que había contenido placeholder
-> visible. Las dos cosas se resolvieron hace meses.
+> Reescrito en septiembre de 2026. Antes decía que faltaban las variables de
+> Supabase en Vercel y que el i18n en inglés estaba a medias — las dos cosas
+> ya se resolvieron y se confirmaron en producción.
 
-### 🔴 Bloqueante en producción
+### 🔴 Bloqueante
 
-1. **Vercel no tiene las variables de Supabase.** Confirmado con los registros
-   de producción del 17 de septiembre de 2026:
-   `[acceso] fallo al iniciar sesión: Error: Faltan NEXT_PUBLIC_SUPABASE_URL y
-   NEXT_PUBLIC_SUPABASE_ANON_KEY`. En local funciona porque `.env.local` sí las
-   tiene.
-
-   **No es solo la Academia:** el formulario de contacto usa el mismo
-   `createClient()` (`lib/mensajes.ts`), así que todo mensaje enviado desde el
-   sitio devolvió error y **se perdió** - sin base de datos no hay dónde
-   guardarlo.
-
-   Se arregla en Vercel → Settings → Environment Variables, con las dos
-   variables en Production, Preview y Development. **Y hay que redesplegar**:
-   las `NEXT_PUBLIC_*` se incrustan durante el build, agregarlas sin build nuevo
-   no cambia nada.
-
-2. **Altas abiertas en Supabase.** La clave anon es pública por diseño, así que
+1. **Altas abiertas en Supabase.** La clave anon es pública por diseño, así que
    si Supabase permite registro por correo, cualquiera puede crearse una cuenta
    por API aunque no exista página de registro - y como `app/academia/layout.tsx`
    solo comprueba que haya sesión, entra al catálogo completo. Cerrar en
    Authentication → Sign In / Providers → Email → desmarcar *Allow new users
    to sign up*. Los accesos se crean a mano en Authentication → Users → Add
    user, marcando *Auto Confirm User*; el trigger `on_auth_user_created` arma
-   sola la fila en `perfiles`, y `es_admin` se pone a mano por SQL.
+   sola la fila en `perfiles`, y `es_admin` se pone a mano por SQL. (No afecta
+   a la tienda de guías: comprar no requiere cuenta ni pasa por esta puerta.)
+
+2. **La tienda de guías está escrita pero no configurada.** El código pasa
+   build/lint/tsc y se verificó que degrada con gracia sin la infraestructura
+   detrás (catálogo vacío, mensajes de error en vez de un 500 en blanco), pero
+   no puede vender nada real hasta que se corran los 7 pasos de la sección
+   "🛒 Tienda de guías" de más arriba: la migración SQL, el bucket de Storage,
+   las credenciales de PayPal y de Resend, y el redespliegue con las variables
+   nuevas en Vercel.
 
 ### 🟠 En curso
 
-3. **Rutas en inglés (`/en/*`)** - la tabla (`lib/i18n/routes.ts`), el contexto
-   por URL, `SiteLink` y las siete páginas espejo están escritos pero **sin
-   terminar ni commitear**. Falta: pasar los ~21 enlaces internos a `SiteLink`,
-   quitar el prefijo en `Navbar` para el estado activo, agregar las URLs
-   inglésas al `sitemap.ts` y verificar el build.
-
-   Límite conocido y aceptado: `<html lang>` lo escribe el layout raíz, que no
-   conoce la ruta, así que sale `es` en el HTML del servidor y se corrige al
-   hidratar. Arreglarlo de verdad exige dos layouts raíz por route group, que
-   obliga a mover casí todas las carpetas de `app/`. No vale el riesgo hoy; lo
-   que si importa para buscadores -el `hreflang` reciproco- ya esta.
-
-4. **Resultados de clientes sin numeros.** `/portafolio` y `WorkShowcase`
+3. **Resultados de clientes sin números.** `/portafolio` y `WorkShowcase`
    cuentan qué se hizo, no qué logró. Pendiente de que Gabriel dé las cifras.
 
-5. **Copy de `/servicios`** - las viñetas prometen cosas que en 2026 se dan por
+4. **Copy de `/servicios`** - las viñetas prometen cosas que en 2026 se dan por
    sentadas ("carga rápida", "formulario de contacto") en vez de diferenciales,
    y no hay plazos de entrega en ninguna parte.
 
+5. **Precios de paquetes (`/precios`).** Decidido publicarlos en los dos
+   idiomas, con alcance distinto por idioma (no solo un multiplicador de
+   precio) para que la comparación entre `/servicios` y `/en/servicios` no
+   regale el margen. Pendiente de costear cada paquete antes de escribir la
+   página — ver `docs/paquetes-y-precios.md` si ya existe, o empezarlo.
+
 ### 🟡 Estructural
 
-6. Aviso por correo cuando llega un mensaje (hoy hay que entrar al panel a
-   mirar). Resend sigue sin integrarse.
+6. **Aviso por correo cuando llega un mensaje del formulario de contacto**
+   (hoy hay que entrar al panel a mirar). Resend ya está integrado —para el
+   correo de descarga de una guía, `lib/correo.ts`— así que esto es reusar esa
+   pieza, no instalar nada nuevo.
 7. Fase 3 de la Academia: permisos por usuario. Hoy cualquier autenticado ve
-   todo. `app/academia/queries.ts` es el único punto donde filtrar.
+   todo. `app/academia/queries.ts` es el único punto donde filtrar. Sin
+   relación con la tienda de guías, que resolvió su propio problema de acceso
+   sin tocar la Academia.
 8. Progreso de lecciones: migrar de `localStorage` a la base.
 9. Versiones en inglés de la metadata de las rutas privadas.
+10. Marca de agua en el PDF de las guías con el correo del comprador —
+    deliberadamente fuera de la v1 para no sumar una dependencia (`pdf-lib`)
+    antes de la primera venta real.
 
 ### 🟢 Limpieza
 
-10. `Notion.docx` en la raíz del repo, sin revisar y sin commitear. Va al
+11. `Notion.docx` en la raíz del repo, sin revisar y sin commitear. Va al
     `.gitignore` o fuera.
-11. `NEXT_PUBLIC_CONTACT_EMAIL` y `NEXT_PUBLIC_CONTACT_PHONE` están en
+12. `NEXT_PUBLIC_CONTACT_EMAIL` y `NEXT_PUBLIC_CONTACT_PHONE` están en
     `.env.local` y `.env.example` pero **nadie las lee**: `lib/site-config.ts`
     tiene los valores fijos. Son residuo.
-12. `components/CaseStudiesSection.tsx` huérfano.
-13. Remover `/frontend/` (proyecto Vite obsoleto) si ya no se referencia.
+13. `components/CaseStudiesSection.tsx` huérfano.
+14. Remover `/frontend/` (proyecto Vite obsoleto) si ya no se referencia.
 
 ---
 
@@ -611,12 +689,16 @@ El `PasswordGate` ya no existe. La Academia va detrás de una sesión real de Su
 - **La puerta de verdad es `app/academia/layout.tsx`** (`getUsuario()` → `redirect('/acceso')`).
   El middleware es una segunda capa, no la única: Next 16.1.6 tiene avisos publicados de bypass.
 - **El middleware nunca lanza.** Falta de configuración o caída de Supabase = denegar lo privado
-  y dejar pasar el resto. Su matcher está limitado a `['/academia', '/academia/:path*', '/acceso']`;
-  cubrir todo el sitio tumbó producción entera una vez.
+  y dejar pasar el resto. Su matcher está limitado a rutas privadas concretas
+  (`/academia`, `/academia/:path*`, `/admin`, `/admin/:path*`, `/acceso`); cubrir todo el sitio
+  tumbó producción entera una vez.
 - **Siempre `getUser()`, nunca `getSession()`** en el servidor: getSession lee la cookie sin
   verificarla contra Supabase, así que un valor manipulado pasaría.
 - Variables: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`. En local en `.env.local`,
-  en Vercel en Project Settings → Environment Variables. La clave `sb_secret_` no se usa ni hace falta.
+  en Vercel en Project Settings → Environment Variables.
+  > **Corregido en septiembre de 2026.** Esta línea decía "la clave `sb_secret_` no se usa ni hace
+  > falta". Dejó de ser cierto con la tienda de guías: `SUPABASE_SERVICE_ROLE_KEY` sí se usa,
+  > acotada a `lib/ventas.ts`. Ver la sección "🛒 Tienda de guías" más arriba.
 
 ### Inbox y panel de admin — hecho, septiembre 2026
 

@@ -9,7 +9,7 @@ import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
 import navbarLogo from '../assets/footer-logo.png';
 
-const LINK_NUMBERS = ['01', '02', '03', '04', '05'];
+const LINK_NUMBERS = ['01', '02', '03', '04', '05', '06'];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,6 +55,7 @@ export default function Navbar() {
     { href: '/', label: dict.nav.home },
     { href: '/servicios', label: dict.nav.services },
     { href: '/portafolio', label: dict.nav.portfolio },
+    { href: '/recursos', label: dict.nav.resources },
     { href: '/proceso', label: dict.nav.process },
     { href: '/contacto', label: dict.nav.contact },
   ];
