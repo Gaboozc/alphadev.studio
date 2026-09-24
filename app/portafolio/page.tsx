@@ -1,13 +1,8 @@
 import type { Metadata } from 'next';
+import { metadataFor } from '@/lib/i18n/routes';
 import PortafolioContent from './PortafolioContent';
 
-export const metadata: Metadata = {
-  title: 'Resultados',
-  description:
-    'Los sitios de BFS Karate, Imperial Barbershop, Fenix Group y The Latin Grill, en línea. El trabajo real que hicimos para cada negocio.',
-  alternates: { canonical: '/portafolio' },
-  openGraph: { url: '/portafolio' },
-};
+export const metadata: Metadata = metadataFor('/portafolio', 'es');
 
 export default function PortafolioPage() {
   return <PortafolioContent />;

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import TemplatesSection from '@/components/TemplatesSection';
@@ -170,9 +170,9 @@ export default function ServiciosContent() {
               <div className="gold-divider" data-animate="divider" />
               <p className="section-subtitle hero-sub" data-animate="subtitle">{copy.subtitle}</p>
               <div className="hero-cta" data-animate="fade">
-                <Link href="/contacto" className="btn-glow inline-flex">
+                <SiteLink href="/contacto" className="btn-glow inline-flex">
                   {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
-                </Link>
+                </SiteLink>
               </div>
             </div>
             <div className="hero-visual" data-animate="fade">
@@ -241,9 +241,9 @@ export default function ServiciosContent() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/contacto" className="btn-glow inline-flex">
+            <SiteLink href="/contacto" className="btn-glow inline-flex">
               {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
-            </Link>
+            </SiteLink>
           </div>
         </div>
       </section>

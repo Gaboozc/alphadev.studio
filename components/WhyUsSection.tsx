@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 import Image from 'next/image';
@@ -112,9 +112,9 @@ export default function WhyUsSection() {
             >
               {c.wordplay}
             </p>
-            <Link href="/contacto" className="btn-glow inline-flex">
+            <SiteLink href="/contacto" className="btn-glow inline-flex">
               {c.cta}
-            </Link>
+            </SiteLink>
           </div>
         </div>
       </div>

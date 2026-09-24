@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
@@ -58,7 +58,7 @@ export default function CTASection() {
           {c.subtitle}
         </p>
         <div data-animate="fade">
-          <Link href="/contacto" className="btn-glow inline-flex">{c.button}</Link>
+          <SiteLink href="/contacto" className="btn-glow inline-flex">{c.button}</SiteLink>
         </div>
         <p className="cta-note text-sm" data-animate="fade">{c.note}</p>
 

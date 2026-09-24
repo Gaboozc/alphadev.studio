@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
@@ -31,9 +31,9 @@ export default function ProcesoContent() {
               <div className="gold-divider" data-animate="divider" />
               <p className="section-subtitle hero-sub" data-animate="subtitle">{p.subtitle}</p>
               <div className="hero-cta" data-animate="fade">
-                <Link href="/contacto" className="btn-glow inline-flex">
+                <SiteLink href="/contacto" className="btn-glow inline-flex">
                   {lang === 'es' ? 'Quiero empezar' : 'I want to start'}
-                </Link>
+                </SiteLink>
               </div>
             </div>
             <div className="hero-visual" data-animate="fade">

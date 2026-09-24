@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 import Image from 'next/image';
@@ -39,7 +39,7 @@ export default function ProcessSection() {
             <div className="gold-divider" data-animate="divider" />
             <p className="section-subtitle" data-animate="subtitle">{p.subtitle}</p>
             <div className="mt-8" data-animate="fade">
-              <Link href="/proceso" className="btn-glow">{PROCESS_CTA[lang]}</Link>
+              <SiteLink href="/proceso" className="btn-glow">{PROCESS_CTA[lang]}</SiteLink>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import type { ReactNode } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
@@ -132,7 +132,7 @@ const COPY: Record<Lang, Copy> = {
         title: 'Dudas',
         body: (
           <p>
-            Escríbenos desde <Link href="/contacto">la página de contacto</Link> o llámanos al{' '}
+            Escríbenos desde <SiteLink href="/contacto">la página de contacto</SiteLink> o llámanos al{' '}
             {telefonos}.
           </p>
         ),
@@ -242,7 +242,7 @@ const COPY: Record<Lang, Copy> = {
         title: 'Questions',
         body: (
           <p>
-            Write to us from <Link href="/contacto">the contact page</Link> or call us at{' '}
+            Write to us from <SiteLink href="/contacto">the contact page</SiteLink> or call us at{' '}
             {telefonos}.
           </p>
         ),

@@ -6,8 +6,7 @@
 // vista de quien visita: algo no está donde esperaba. Lo único que cambia es
 // el texto y a dónde puede ir después.
 
-import Link from 'next/link'
-
+import SiteLink from '@/components/SiteLink';
 interface Accion {
   label: string
   href?: string
@@ -72,9 +71,9 @@ export default function ErrorScreen({
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
           {acciones.map((a) =>
             a.href ? (
-              <Link key={a.label} href={a.href} className={a.primary ? 'btn-glow' : 'btn-secondary'}>
+              <SiteLink key={a.label} href={a.href} className={a.primary ? 'btn-glow' : 'btn-secondary'}>
                 {a.label}
-              </Link>
+              </SiteLink>
             ) : (
               <button
                 key={a.label}

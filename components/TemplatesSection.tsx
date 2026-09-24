@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
@@ -96,7 +96,7 @@ export default function TemplatesSection({
 
         {showCta && (
           <div className="text-center mt-12" data-animate="fade">
-            <Link href="/servicios" className="btn-glow inline-flex">{copy.cta}</Link>
+            <SiteLink href="/servicios" className="btn-glow inline-flex">{copy.cta}</SiteLink>
           </div>
         )}
       </div>

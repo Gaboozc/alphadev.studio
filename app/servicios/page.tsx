@@ -1,12 +1,8 @@
 import type { Metadata } from 'next';
+import { metadataFor } from '@/lib/i18n/routes';
 import ServiciosContent from './ServiciosContent';
 
-export const metadata: Metadata = {
-  title: 'Servicios',
-  description: 'Sitio web profesional, manejo de redes sociales, publicidad online y presencia en Google. Todo lo que tu negocio necesita para existir en internet.',
-  alternates: { canonical: '/servicios' },
-  openGraph: { url: '/servicios' },
-};
+export const metadata: Metadata = metadataFor('/servicios', 'es');
 
 export default function ServiciosPage() {
   return <ServiciosContent />;

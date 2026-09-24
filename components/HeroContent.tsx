@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
@@ -82,12 +82,12 @@ export default function HeroContent() {
 
             {/* CTAs */}
             <div data-animate="fade" className="hero-cta-row flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/contacto" className="btn-glow inline-flex">
+              <SiteLink href="/contacto" className="btn-glow inline-flex">
                 {h.cta_primary}
-              </Link>
-              <Link href="/proceso" className="hero-cta-secondary">
+              </SiteLink>
+              <SiteLink href="/proceso" className="hero-cta-secondary">
                 {h.cta_secondary} →
-              </Link>
+              </SiteLink>
             </div>
           </div>
 

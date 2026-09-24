@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import type { ReactNode } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
@@ -122,7 +122,7 @@ const COPY: Record<Lang, Copy> = {
               <li>borremos todo lo que tengamos de ti.</li>
             </ul>
             <p>
-              Escríbenos desde <Link href="/contacto">la página de contacto</Link> o llámanos al{' '}
+              Escríbenos desde <SiteLink href="/contacto">la página de contacto</SiteLink> o llámanos al{' '}
               {telefonos}. Respondemos en menos de 48 horas.
             </p>
           </>
@@ -244,7 +244,7 @@ const COPY: Record<Lang, Copy> = {
               <li>delete everything we have about you.</li>
             </ul>
             <p>
-              Write to us from <Link href="/contacto">the contact page</Link> or call us at{' '}
+              Write to us from <SiteLink href="/contacto">the contact page</SiteLink> or call us at{' '}
               {telefonos}. We answer within 48 hours.
             </p>
           </>

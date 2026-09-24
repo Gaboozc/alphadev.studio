@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 
@@ -28,7 +28,7 @@ export default function ServicesSection() {
 
         <div className="section-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-animate="stagger">
           {s.items.map((service, index) => (
-            <Link key={index} href="/contacto" className="block">
+            <SiteLink key={index} href="/contacto" className="block">
               <div className="service-card h-full">
                 <div className="service-card-media">
                   <Image
@@ -45,12 +45,12 @@ export default function ServicesSection() {
                   <span className="service-card-arrow">→</span>
                 </div>
               </div>
-            </Link>
+            </SiteLink>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <Link href="/contacto" className="btn-glow">{s.cta}</Link>
+          <SiteLink href="/contacto" className="btn-glow">{s.cta}</SiteLink>
         </div>
       </div>
     </section>

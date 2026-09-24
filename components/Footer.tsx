@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import { useLang } from '@/lib/i18n/LanguageContext';
 
 import Image from 'next/image';
@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="footer-brand">
-            <Link href="/" className="inline-block mb-4">
+            <SiteLink href="/" className="inline-block mb-4">
 
               <Image
                 className="footer-logo"
@@ -37,7 +37,7 @@ export default function Footer() {
                 style={{ width: '100%', height: 'auto' }}
               />
 
-            </Link>
+            </SiteLink>
 
             <p
               className="text-sm leading-relaxed"
@@ -62,12 +62,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               {f.services_links.map((label: string) => (
                 <li key={label}>
-                  <Link
+                  <SiteLink
                     href={SERVICE_HREF}
                     className="transition-colors hover:text-[--gold]"
                   >
                     {label}
-                  </Link>
+                  </SiteLink>
                 </li>
               ))}
             </ul>
@@ -88,12 +88,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               {f.company_links.map((label: string, i: number) => (
                 <li key={label}>
-                  <Link
+                  <SiteLink
                     href={COMPANY_HREFS[i]}
                     className="transition-colors hover:text-[--gold]"
                   >
                     {label}
-                  </Link>
+                  </SiteLink>
                 </li>
               ))}
             </ul>
@@ -143,19 +143,19 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-6">
-            <Link
+            <SiteLink
               href="/privacidad"
               className="transition-colors hover:text-[--gold]"
             >
               {f.privacy}
-            </Link>
+            </SiteLink>
 
-            <Link
+            <SiteLink
               href="/terminos"
               className="transition-colors hover:text-[--gold]"
             >
               {f.terms}
-            </Link>
+            </SiteLink>
           </div>
         </div>
       </div>

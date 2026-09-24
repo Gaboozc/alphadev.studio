@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import SiteLink from '@/components/SiteLink';
 import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { stripLocale } from '@/lib/i18n/routes';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
 import navbarLogo from '../assets/footer-logo.png';
@@ -14,7 +15,10 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { dict } = useLang();
-  const pathname = usePathname();
+  const rawPathname = usePathname();
+  // Rutas canónicas (sin el prefijo /en): es lo que navLinks usa para
+  // comparar, así que /en/servicios sigue reconociéndose como "/servicios".
+  const { path: pathname } = stripLocale(rawPathname ?? '/');
 
   // El home tiene hero de video a pantalla completa: el navbar se revela al
   // hacer scroll. En el resto de las rutas debe verse desde que entrás.
@@ -69,7 +73,7 @@ export default function Navbar() {
           solid ? 'nav-pill--scrolled' : 'nav-pill'
         }`}>
           {/* Wordmark */}
-          <Link href="/" className="flex-shrink-0" onClick={() => setMenuOpen(false)}>
+          <SiteLink href="/" className="flex-shrink-0" onClick={() => setMenuOpen(false)}>
             <Image
               src={navbarLogo}
               alt="AlphaDev Studios"
@@ -78,7 +82,7 @@ export default function Navbar() {
               style={{ width: 'auto', height: '30px' }}
               className="md:!h-[40px]"
             />
-          </Link>
+          </SiteLink>
 
           {/* Sparso a propósito: nada de lista de links en la pastilla — un
               solo trigger abre el overlay a pantalla completa (estilo
@@ -112,7 +116,7 @@ export default function Navbar() {
       <div className={`nav-overlay${menuOpen ? ' is-open' : ''}`} aria-hidden={!menuOpen}>
         <nav className="nav-overlay-links">
           {navLinks.map(({ href, label }, i) => (
-            <Link
+            <SiteLink
               key={href}
               href={href}
               className={`nav-overlay-link${pathname === href ? ' is-active' : ''}`}
@@ -121,19 +125,19 @@ export default function Navbar() {
             >
               <span className="nav-overlay-link-num">{LINK_NUMBERS[i]}</span>
               <span className="nav-overlay-link-label">{label}</span>
-            </Link>
+            </SiteLink>
           ))}
         </nav>
 
         <div className="nav-overlay-footer">
-          <Link
+          <SiteLink
             href="/contacto"
             className="btn-glow"
             tabIndex={menuOpen ? 0 : -1}
             onClick={() => setMenuOpen(false)}
           >
             {dict.nav.cta}
-          </Link>
+          </SiteLink>
           <p className="nav-overlay-tagline">{dict.nav.menu_tagline}</p>
           <div className="sm:hidden">
             <LanguageToggle />
