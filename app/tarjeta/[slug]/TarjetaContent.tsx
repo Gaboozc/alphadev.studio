@@ -48,6 +48,7 @@ export default function TarjetaContent({ slug }: { slug: string }) {
         <h1 className="tarjeta-name">{card.name}</h1>
         <p className="tarjeta-role">{card.role[lang]}</p>
         <p className="tarjeta-tagline">{card.tagline[lang]}</p>
+        {card.bio && <p className="tarjeta-bio">{card.bio[lang]}</p>}
 
         <a href={`${SITE_URL}/contacto`} className="btn-glow tarjeta-save">
           <Icon name="calendar" size={18} />

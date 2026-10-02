@@ -14,6 +14,7 @@ export type CardData = {
   name: string;
   role: { es: string; en: string };
   tagline: { es: string; en: string };
+  bio?: { es: string; en: string }; // mini-resumen de quién es y qué hace
   email: string;
   phones: CardPhone[];
   whatsapp?: string; // e164 sin el + (para wa.me)
@@ -35,13 +36,16 @@ export const CARDS: Record<string, CardData> = {
       es: 'Construimos tu presencia digital. Hablemos.',
       en: "We build your digital presence. Let's talk.",
     },
+    bio: {
+      es: 'Fundador de AlphaDev Studios. Construyo desde software simple hasta sistemas con IA integrada — sitios web, paneles y automatizaciones que entran en producción con garantía de calidad.',
+      en: 'Founder of AlphaDev Studios. I build everything from simple software to systems with AI built in — websites, dashboards, and automations that ship into production with quality guaranteed.',
+    },
     email: CONTACT_EMAIL,
     phones: [
       { label: 'US', display: PHONE_US.display, e164: PHONE_US.e164 },
       { label: 'MX', display: PHONE_MX.display, e164: PHONE_MX.e164 },
     ],
     whatsapp: PHONE_US.e164.replace('+', ''),
-    instagram: INSTAGRAM_HANDLE,
     website: SITE_URL,
     initials: 'GZ',
     photo: '/assets/tarjeta/gabriel-zavarse.jpg',
