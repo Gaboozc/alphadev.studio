@@ -7,7 +7,8 @@ const SECCIONES = [
   { href: '/admin', label: 'Resumen' },
   { href: '/admin/mensajes', label: 'Mensajes' },
   { href: '/admin/guias', label: 'Guías' },
-  { href: '/admin/ventas', label: 'Ventas' },
+  { href: '/admin/ventas', label: 'Ventas guías' },
+  { href: '/admin/servicios', label: 'Servicios' },
 ] as const
 
 // Reusa .adm-tab tal cual: mismo lenguaje visual que las pestañas de estado

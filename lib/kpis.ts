@@ -1,46 +1,68 @@
-// Los números del panel de admin: cuánto se vendió, a quién, y cuántos
-// mensajes llegaron — por período. Corre con la sesión del admin
-// (createClient() normal), no con la clave de servicio: son lecturas, y
-// RLS ya le permite al admin ver todo.
+// Los números del Resumen del panel: ventas de guías (PayPal) + ventas de
+// servicios (registradas a mano), sobre el rango de fechas que el admin
+// elija. Corre con la sesión del admin (createClient() normal) — son
+// lecturas, y RLS ya le permite al admin ver todo.
+//
+// Nunca se suman cents de monedas distintas: los servicios se cotizan en
+// USD o MXN según el segmento de cliente (ver docs/paquetes-y-precios.md si
+// existe), y un total que mezclara las dos sería un número que no significa
+// nada. Todo lo que junta dinero de varias filas devuelve un total POR
+// MONEDA, nunca un solo número.
 
 import { createClient } from '@/lib/supabase/server'
+import { listarVentasServiciosEnRango, type VentaServicio } from '@/lib/ventasServicios'
 
-function haceDias(n: number): Date {
-  const fecha = new Date()
-  fecha.setDate(fecha.getDate() - n)
-  return fecha
+export interface TotalPorMoneda {
+  moneda: string
+  cents: number
 }
 
-function inicioDeHoy(): Date {
-  const fecha = new Date()
-  fecha.setHours(0, 0, 0, 0)
-  return fecha
+function sumarPorMoneda(filas: { moneda: string; importe_cents: number }[]): TotalPorMoneda[] {
+  const acumulado = new Map<string, number>()
+  for (const fila of filas) {
+    acumulado.set(fila.moneda, (acumulado.get(fila.moneda) ?? 0) + fila.importe_cents)
+  }
+  return [...acumulado.entries()].map(([moneda, cents]) => ({ moneda, cents }))
 }
 
-// ─── Ventas ──────────────────────────────────────────────────────────────────
+// ─── Rango de fechas ─────────────────────────────────────────────────────────
 
-export interface ResumenVentas {
+/** 'YYYY-MM-DD' en hora local — lo que entiende un <input type="date">. */
+export function formatoFecha(fecha: Date): string {
+  const y = fecha.getFullYear()
+  const m = String(fecha.getMonth() + 1).padStart(2, '0')
+  const d = String(fecha.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+/** Por defecto, los últimos 30 días — hasta que el admin elija otro rango. */
+export function rangoPorDefecto(): { desde: string; hasta: string } {
+  const hoy = new Date()
+  const hace30 = new Date()
+  hace30.setDate(hace30.getDate() - 29) // 30 días incluyendo hoy
+  return { desde: formatoFecha(hace30), hasta: formatoFecha(hoy) }
+}
+
+/** Valida 'YYYY-MM-DD' y que desde <= hasta; si no, cae al rango por defecto. */
+export function normalizarRango(desdeRaw?: string, hastaRaw?: string): { desde: string; hasta: string } {
+  const formato = /^\d{4}-\d{2}-\d{2}$/
+  if (desdeRaw && hastaRaw && formato.test(desdeRaw) && formato.test(hastaRaw) && desdeRaw <= hastaRaw) {
+    return { desde: desdeRaw, hasta: hastaRaw }
+  }
+  return rangoPorDefecto()
+}
+
+// ─── Guías (PayPal) ──────────────────────────────────────────────────────────
+
+export interface ResumenGuias {
   ventas: number
-  importeCents: number
-  /** Primera compra de ese correo, alguna vez — no solo dentro del período. */
   nuevas: number
-  /** El correo ya había comprado algo antes de esta venta. */
   recurrentes: number
+  importeCents: number // siempre USD — es la única moneda que acepta la tienda de guías
 }
 
-export interface KpisVentas {
-  hoy: ResumenVentas
-  semana: ResumenVentas
-  mes: ResumenVentas
-  total: ResumenVentas
-}
-
-function resumenVacio(): ResumenVentas {
-  return { ventas: 0, importeCents: 0, nuevas: 0, recurrentes: 0 }
-}
-
-export async function calcularKpisVentas(): Promise<KpisVentas> {
-  const vacio: KpisVentas = { hoy: resumenVacio(), semana: resumenVacio(), mes: resumenVacio(), total: resumenVacio() }
+async function calcularResumenGuias(desde: string, hasta: string): Promise<ResumenGuias> {
+  const vacio: ResumenGuias = { ventas: 0, nuevas: 0, recurrentes: 0, importeCents: 0 }
 
   const supabase = await createClient()
   const { data, error } = await supabase
@@ -50,74 +72,116 @@ export async function calcularKpisVentas(): Promise<KpisVentas> {
     .order('creado_el', { ascending: true })
 
   if (error || !data) {
-    if (error) console.error('[kpis] no se pudieron calcular las ventas:', error.message)
+    if (error) console.error('[kpis] no se pudieron calcular las guías:', error.message)
     return vacio
   }
 
-  const inicioHoy = inicioDeHoy()
-  const inicioSemana = haceDias(7)
-  const inicioMes = haceDias(30)
+  // "Nueva" = la primera compra de ese correo EN LA VIDA DEL NEGOCIO, no
+  // solo dentro del rango elegido. Por eso se recorre TODO el historial en
+  // orden ascendente sin importar el rango, y solo se suma al resultado la
+  // venta que cae dentro de [desde, hasta].
   const vistos = new Set<string>()
+  const resumen = { ...vacio }
 
-  const acc = vacio
-
-  // Orden ascendente: para cuando llegamos a una venta, `vistos` refleja
-  // TODO lo anterior de ese correo, sin importar si cayó dentro o fuera del
-  // período — así "nueva" siempre significa "la primera compra de ese
-  // correo en la vida del negocio", no "la primera de esta semana".
   for (const fila of data as { email: string; importe_cents: number; creado_el: string }[]) {
-    const fecha = new Date(fila.creado_el)
+    const fecha = formatoFecha(new Date(fila.creado_el))
     const esNueva = !vistos.has(fila.email)
     vistos.add(fila.email)
 
-    const cubos: ResumenVentas[] = [acc.total]
-    if (fecha >= inicioMes) cubos.push(acc.mes)
-    if (fecha >= inicioSemana) cubos.push(acc.semana)
-    if (fecha >= inicioHoy) cubos.push(acc.hoy)
+    if (fecha < desde || fecha > hasta) continue
 
-    for (const cubo of cubos) {
-      cubo.ventas += 1
-      cubo.importeCents += fila.importe_cents
-      if (esNueva) cubo.nuevas += 1
-      else cubo.recurrentes += 1
-    }
+    resumen.ventas += 1
+    resumen.importeCents += fila.importe_cents
+    if (esNueva) resumen.nuevas += 1
+    else resumen.recurrentes += 1
   }
 
-  return acc
+  return resumen
+}
+
+// ─── Servicios (registro manual) ────────────────────────────────────────────
+
+export interface ResumenServicios {
+  cerradas: number
+  pendientes: number
+  canceladas: number
+  porMoneda: TotalPorMoneda[] // solo de las cerradas (estado = 'pagado')
+}
+
+export interface ResumenVendedor {
+  vendedor: string
+  ventas: number
+  porMoneda: TotalPorMoneda[]
+}
+
+async function calcularResumenServicios(
+  filas: VentaServicio[],
+): Promise<{ resumen: ResumenServicios; porVendedor: ResumenVendedor[] }> {
+  const pagadas = filas.filter((f) => f.estado === 'pagado')
+
+  const resumen: ResumenServicios = {
+    cerradas: pagadas.length,
+    pendientes: filas.filter((f) => f.estado === 'pendiente').length,
+    canceladas: filas.filter((f) => f.estado === 'cancelado').length,
+    porMoneda: sumarPorMoneda(pagadas),
+  }
+
+  const porVendedorMap = new Map<string, VentaServicio[]>()
+  for (const fila of pagadas) {
+    const lista = porVendedorMap.get(fila.vendedor) ?? []
+    lista.push(fila)
+    porVendedorMap.set(fila.vendedor, lista)
+  }
+
+  const porVendedor: ResumenVendedor[] = [...porVendedorMap.entries()]
+    .map(([vendedor, ventasDeVendedor]) => ({
+      vendedor,
+      ventas: ventasDeVendedor.length,
+      porMoneda: sumarPorMoneda(ventasDeVendedor),
+    }))
+    .sort((a, b) => b.ventas - a.ventas)
+
+  return { resumen, porVendedor }
 }
 
 // ─── Mensajes ────────────────────────────────────────────────────────────────
 
-export interface KpisMensajes {
-  hoy: number
-  semana: number
-  mes: number
-  total: number
-}
-
-export async function calcularKpisMensajes(): Promise<KpisMensajes> {
-  const vacio: KpisMensajes = { hoy: 0, semana: 0, mes: 0, total: 0 }
-
+async function contarMensajesEnRango(desde: string, hasta: string): Promise<number> {
   const supabase = await createClient()
   const { data, error } = await supabase.from('mensajes').select('creado_el')
 
   if (error || !data) {
-    if (error) console.error('[kpis] no se pudieron calcular los mensajes:', error.message)
-    return vacio
+    if (error) console.error('[kpis] no se pudieron contar los mensajes:', error.message)
+    return 0
   }
 
-  const inicioHoy = inicioDeHoy()
-  const inicioSemana = haceDias(7)
-  const inicioMes = haceDias(30)
-  const acc = vacio
+  return (data as { creado_el: string }[]).filter((fila) => {
+    const fecha = formatoFecha(new Date(fila.creado_el))
+    return fecha >= desde && fecha <= hasta
+  }).length
+}
 
-  for (const fila of data as { creado_el: string }[]) {
-    const fecha = new Date(fila.creado_el)
-    acc.total += 1
-    if (fecha >= inicioMes) acc.mes += 1
-    if (fecha >= inicioSemana) acc.semana += 1
-    if (fecha >= inicioHoy) acc.hoy += 1
-  }
+// ─── Todo junto ──────────────────────────────────────────────────────────────
 
-  return acc
+export interface ResumenRango {
+  desde: string
+  hasta: string
+  guias: ResumenGuias
+  servicios: ResumenServicios
+  porVendedor: ResumenVendedor[]
+  mensajes: number
+}
+
+export async function calcularResumen(desdeRaw?: string, hastaRaw?: string): Promise<ResumenRango> {
+  const { desde, hasta } = normalizarRango(desdeRaw, hastaRaw)
+
+  const [guias, filasServicios, mensajes] = await Promise.all([
+    calcularResumenGuias(desde, hasta),
+    listarVentasServiciosEnRango(desde, hasta),
+    contarMensajesEnRango(desde, hasta),
+  ])
+
+  const { resumen: servicios, porVendedor } = await calcularResumenServicios(filasServicios)
+
+  return { desde, hasta, guias, servicios, porVendedor, mensajes }
 }

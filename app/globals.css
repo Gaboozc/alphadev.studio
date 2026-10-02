@@ -344,6 +344,18 @@ a, button {
   line-height: 1.5;
 }
 
+/* Mini-resumen de quién es y qué hace — más cuerpo que el tagline, por eso
+   lleva su propio espaciado y un separador sutil arriba. */
+.tarjeta-bio {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  max-width: 26rem;
+  line-height: 1.6;
+}
+
 .tarjeta-save {
   margin-top: 1.5rem;
   width: 100%;
@@ -4149,9 +4161,26 @@ button.case-thumb {
   margin-bottom: 2.5rem;
 }
 
-@media (min-width: 700px) {
-  .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+/* auto-fit, no un número fijo de columnas: el Resumen tiene secciones con 1,
+   2 y 3 tarjetas — una grilla de 4 columnas fijas dejaría huecos vacíos en
+   las que tienen menos. */
+@media (min-width: 500px) {
+  .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 }
+
+.kpi-rango-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg-card);
+}
+
+.kpi-rango-form .adm-field { min-width: 160px; }
 
 .kpi-card {
   border: 1px solid var(--border);
