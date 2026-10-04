@@ -76,9 +76,19 @@ export async function middleware(request: NextRequest) {
     if (esPrivada && !usuario) return aAcceso(request, ruta)
 
     // Quien ya entró no necesita ver el formulario otra vez.
+    //
+    // El `?destino=` se respeta solo si empieza con una de las rutas
+    // privadas que este archivo conoce — mismo criterio que destinoSeguro()
+    // en app/acceso/actions.ts, duplicado aquí porque ese archivo es
+    // 'use server' y no se puede importar desde el middleware. Sin esto,
+    // alguien con sesión abierta que visitara /admin vía /acceso?destino=
+    // /admin rebotaba siempre a /academia, igual que le pasaba a quien
+    // recién iniciaba sesión antes de este arreglo.
     if (ruta === '/acceso' && usuario) {
+      const pedido = request.nextUrl.searchParams.get('destino') ?? ''
+      const vaAAdmin = pedido.startsWith('/admin')
       const destino = request.nextUrl.clone()
-      destino.pathname = '/academia'
+      destino.pathname = vaAAdmin ? '/admin' : '/academia'
       destino.search = ''
       return NextResponse.redirect(destino)
     }

@@ -11,6 +11,9 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
+/** Prefijos de ruta a los que el login puede mandar a alguien. */
+const DESTINOS_PERMITIDOS = ['/academia', '/admin']
+
 /**
  * Solo se admiten rutas internas como destino tras entrar.
  *
@@ -18,11 +21,16 @@ import { createClient } from '@/lib/supabase/server'
  * Sin esta comprobación, /acceso?destino=https://sitio-falso.com mandaría al
  * usuario fuera justo después de autenticarse, que es el escenario clásico de
  * una redirección abierta.
+ *
+ * `/admin` se agregó cuando el panel se separó de `/academia/admin` — antes
+ * quedaba cubierto por el prefijo `/academia` sin querer, y al moverlo quedó
+ * fuera de la lista sin que nadie lo notara hasta que alguien intentó entrar
+ * directo a él.
  */
 function destinoSeguro(valor: string): string {
   if (!valor.startsWith('/')) return '/academia'
   if (valor.startsWith('//')) return '/academia' // //host equivale a un absoluto
-  if (!valor.startsWith('/academia')) return '/academia'
+  if (!DESTINOS_PERMITIDOS.some((prefijo) => valor.startsWith(prefijo))) return '/academia'
   return valor
 }
 
