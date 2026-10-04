@@ -146,9 +146,25 @@ export default function GuiaForm({ guia }: { guia?: Guia }) {
       </div>
 
       <div className="adm-field">
-        <label htmlFor="pdf">PDF de la guía</label>
+        <span>PDF de la guía</span>
         <div className="adm-upload">
-          <input id="pdf" type="file" accept="application/pdf" onChange={alElegirArchivo} disabled={subiendo} />
+          {/* El <input type="file"> nativo sin estilo se ve como un control
+              roto al lado del resto del formulario ("Choose File" gris del
+              navegador) — se oculta y un <label> con pinta de botón hace de
+              disparador. Clickear un <label htmlFor> de un input disabled no
+              hace nada, así que no hace falta más lógica para el estado
+              "subiendo". */}
+          <label htmlFor="pdf" className={`adm-btn${subiendo ? ' adm-upload-trigger-disabled' : ''}`}>
+            {archivo ? 'Cambiar PDF' : 'Elegir PDF'}
+          </label>
+          <input
+            id="pdf"
+            type="file"
+            accept="application/pdf"
+            onChange={alElegirArchivo}
+            disabled={subiendo}
+            className="adm-upload-input"
+          />
           {subiendo && <span className="adm-upload-status">Subiendo…</span>}
           {!subiendo && archivo && <span className="adm-upload-status is-ok">✓ {archivo}</span>}
         </div>
