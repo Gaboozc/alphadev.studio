@@ -184,7 +184,10 @@ export async function crearUrlDeSubida(
 export function nombreDeArchivoSeguro(nombreOriginal: string): string {
   const normalizado = nombreOriginal
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '') // quita acentos
+    .replace(/[\u0300-\u036f]/g, '') // quita acentos (rango escapado: los
+    // caracteres de combinación pegados tal cual en el código fuente son
+    // frágiles — dependen de que el archivo se guarde siempre en la misma
+    // codificación — aunque funcionaban por casualidad.
     .toLowerCase()
     .replace(/[^a-z0-9._-]+/g, '-')
     .replace(/-+/g, '-')

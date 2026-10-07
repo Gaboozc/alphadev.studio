@@ -81,7 +81,13 @@ export default function GuiaForm({ guia }: { guia?: Guia }) {
           onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
           placeholder="seo-local-2026"
           required
-          disabled={Boolean(guia)}
+          // readOnly, NO disabled: un <input disabled> no manda su valor con
+          // el formulario (lo excluye el propio navegador), así que editar
+          // con disabled aquí hacía llegar el slug vacío al servidor y
+          // fallaba siempre con "slug inválido". readOnly bloquea la edición
+          // y sí viaja en el FormData.
+          readOnly={Boolean(guia)}
+          aria-readonly={Boolean(guia)}
         />
       </div>
 

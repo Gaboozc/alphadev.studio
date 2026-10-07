@@ -3093,6 +3093,17 @@ button.case-thumb {
   color: var(--text-subtle);
 }
 
+/* `readOnly` no se ve distinto de un input normal por defecto —a diferencia
+   de `disabled`, que el navegador atenúa solo— así que necesita su propio
+   estilo para que se note que el campo está bloqueado. Usado en el slug al
+   editar una guía: no se puede cambiar después de vender, pero su valor sí
+   debe viajar con el formulario (`disabled` lo excluiría del envío). */
+.contact-input:read-only {
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
 .contact-input:focus {
   border-color: var(--gold-border);
   box-shadow: 0 0 0 3px rgba(154, 114, 53, 0.1);

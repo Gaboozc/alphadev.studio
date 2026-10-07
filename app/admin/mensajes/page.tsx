@@ -5,7 +5,7 @@ import { ESTADOS, conteoPorEstado, listarMensajes, type Estado } from '@/lib/men
 import { marcarEstado } from './actions'
 
 export const metadata: Metadata = {
-  title: 'Panel',
+  title: 'Mensajes · Panel',
   robots: { index: false, follow: false },
 }
 
