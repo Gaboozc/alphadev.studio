@@ -41,7 +41,11 @@ El repo `4GeeksAcademy/ai-engineering-syllabus` es público pero **no declara
 licencia**. Sin licencia, por defecto el autor conserva todos los derechos:
 poder verlo no es lo mismo que poder republicarlo en un sitio comercial.
 
-Regla propuesta:
+**Actualización 2026-10-15:** Gabriel confirma que tiene permiso para usar
+el contenido del syllabus. La tabla de abajo queda como respaldo: los datos de
+4Geeks pueden ir al demo público. Conviene guardar ese permiso por escrito.
+
+Regla original (antes del permiso):
 
 | Fase | Datos de 4Geeks | Por qué |
 |---|---|---|
@@ -197,6 +201,10 @@ el primero, en línea con el principio "mejor ON antes que perfecto".
 3. **Presupuesto mensual de hosting** y proveedor del modelo.
 4. **Orden de los verticales** (la propuesta es Restaurantes → Logística →
    Salud → Talento).
-5. **¿Los demos son solo vitrina o también se venden como paquete?** Si se
-   venden, cada vertical necesita su ficha de alcance y precio en
-   `docs/paquetes-y-precios.md`.
+5. ~~¿Vitrina o paquete?~~ **Decidido: ambas.** Cada vertical necesita su
+   ficha de alcance y precio en `docs/paquetes-y-precios.md`.
+
+Candidatos con el `.com` libre al 2026-10-15 (falta la búsqueda de marca):
+Leña & Sal · Carbón Santo · Fogata Grill (restaurantes), Kilómetro Cero
+(logística), Red Alba (salud), Cantera Talento · Brújula RH · Semillero
+Talento (talento). El punto 2 (permiso de 4Geeks) quedó resuelto: sí hay permiso.
