@@ -68,11 +68,13 @@ Conviene hacerla antes de la fase 2.
 
 ## 4. Los cuatro verticales
 
-Los nombres son candidatos de trabajo: **ninguno está verificado** (ver 9).
+Nombres decididos el 2026-10-15. Funcionan igual en inglés y en español, y
+el `.com` de cada uno estaba libre ese día. **Falta la búsqueda de marca
+registrada** (USPTO / IMPI) antes de publicar.
 
 ### 4.1 Restaurantes — inspirado en el patrón de Brasaland
 
-*Candidatos:* Fogón Central · Brasa Norte · La Parrilla Común
+**Marca: Ámbar Grill** · subdominio `ambar.demo.alphadev.studio`
 
 Cadena de varios locales en dos países, compras por WhatsApp y cero
 visibilidad desde la sede.
@@ -91,7 +93,7 @@ sus módulos son los primeros del temario.
 
 ### 4.2 Logística — inspirado en el patrón de TrackFlow
 
-*Candidatos:* Rutaclara · Puerto Medio · Última Parada
+**Marca: Cometa Cargo** · subdominio `cometa.demo.alphadev.studio`
 
 Almacenes que no ven el inventario del otro, transportistas sin datos y
 devoluciones aprobadas una por una.
@@ -106,7 +108,7 @@ devoluciones aprobadas una por una.
 
 ### 4.3 Salud — inspirado en el patrón de HealthCore
 
-*Candidatos:* Clínica Vértice · Red Alba · Meridia
+**Marca: Celeste Clinic** · subdominio `celeste.demo.alphadev.studio`
 
 Red de clínicas con 22 % de no-shows y reservas por teléfono.
 
@@ -123,7 +125,7 @@ más, y también el de más riesgo reputacional si se hace mal. Va tercero.
 
 ### 4.4 Talento y RRHH — inspirado en el patrón de Nexova
 
-*Candidatos:* Cantera · Plantel · Semillero Talento
+**Marca: Mentora Talent** · subdominio `mentora.demo.alphadev.studio`
 
 Consultora de selección con procesos manuales y un ATS de 2012.
 
@@ -153,7 +155,10 @@ Vertical (uno por industria)
   colas, vectores) y su ciclo de vida también. AlphaWEB solo enlaza.
 - **El plan de monorepo aplica completo ahí:** contratos, CI, una rama por
   proyecto. Es el repo donde esa disciplina sí se paga.
-- **Subdominios** del tipo `restaurantes.demo.alphadev.studio`.
+- **Una sola app para los cuatro demos.** El núcleo es el mismo, así que es
+  un único proyecto de Vercel con cuatro dominios. La app decide qué marca
+  mostrar según el subdominio por el que entró la visita. Un deploy y un CI
+  en vez de cuatro.
 
 ## 6. Un demo público tiene que aguantar al público
 
@@ -162,21 +167,84 @@ Vertical (uno por industria)
 - **Límite de uso en todo lo que llame a un modelo.** Un demo abierto sin
   límite es una factura abierta.
 - **Sin acciones irreversibles reales:** nada de correos a terceros ni pagos.
-- **Costo de hosting:** Vercel Hobby no sirve para FastAPI con colas y
-  vectores. Hace falta un servidor (Render, Fly, Railway o similar). Hay que
-  ponerle presupuesto mensual antes de la fase 1.
+- **Hosting: Vercel, plan gratuito** (decidido 2026-10-15). Eso obliga a
+  cambiar algunas piezas del temario por equivalentes serverless:
 
-## 7. Cómo se ve en alphadev.studio
+  | El temario usa | En Vercel | Costo |
+  |---|---|---|
+  | FastAPI como servidor | FastAPI como funciones serverless de Vercel | Gratis |
+  | Postgres | Supabase (el mismo proveedor del sitio) | Gratis |
+  | Qdrant | pgvector dentro de Supabase | Gratis |
+  | Celery + Redis | Upstash (Redis y colas serverless) | Plan gratis |
+  | WebSocket | Streaming por SSE o Supabase Realtime | Gratis |
+  | Cron frecuente | Vercel Cron, **una vez al día** en el plan gratis | Gratis |
+  | Docker | Solo en local, no en producción | — |
 
-- **Página nueva `/demos`** (y `/en/demos`), dada de alta en
-  `lib/i18n/routes.ts` y `sitemap.ts`.
-- Una tarjeta por vertical: video corto o captura, qué resuelve, botón
-  "Probar el demo" y CTA "Esto, con tus datos" hacia `/contacto` con la
-  categoría preseleccionada.
-- Sin precios, de acuerdo con la regla vigente del CLAUDE.md (o con lo que
-  diga `/precios` cuando exista).
-- Imágenes y textos siguen el sistema *light luxury* del sitio. El interior
-  de cada demo puede tener la identidad de su marca ficticia.
+  Cada cambio de pieza se registra en un ADR del repo de los demos.
+- **Lo único que no es gratis es el modelo de IA**, que se paga por uso. Hace
+  falta un tope mensual antes de abrir el primer demo al público.
+- **Ojo con el plan Hobby:** Vercel lo define para uso personal y no
+  comercial. Revisar sus condiciones vigentes. Si llegara a hacer falta, el
+  cambio es pasar a Pro, sin tocar código.
+
+## 7. Mapa del sitio y dominios
+
+### 7.1 El mapa completo
+
+```
+alphadev.studio                      sitio principal (este repo, indexable)
+├── /                                Home + franja "Pruébalo tú mismo" → /demos
+├── /servicios                       cada servicio enlaza al demo que lo muestra
+├── /portafolio                      SOLO los 4 clientes reales
+├── /demos                           NUEVA: índice de los cuatro demos
+│   ├── /demos/ambar-grill           ficha: qué resuelve, video, módulos, CTA
+│   ├── /demos/cometa-cargo
+│   ├── /demos/celeste-clinic
+│   └── /demos/mentora-talent
+├── /recursos, /proceso, /contacto   sin cambios
+├── /privacidad, /terminos           sin cambios
+└── /en/...                          espejo de todo, incluido /en/demos/*
+
+*.demo.alphadev.studio               app de los demos (otro repo, noindex)
+├── ambar.demo.alphadev.studio       Ámbar Grill
+├── cometa.demo.alphadev.studio      Cometa Cargo
+├── celeste.demo.alphadev.studio     Celeste Clinic
+└── mentora.demo.alphadev.studio     Mentora Talent
+
+Privado (sin cambios): /admin, /academia, /acceso, /tarjeta/*
+```
+
+### 7.2 Por qué la ficha va en el dominio principal y la app en el subdominio
+
+- **La ficha (`/demos/<slug>`) se indexa; la app no.** Si Google indexara la
+  app, quien buscara "Celeste Clinic" llegaría a una clínica que no existe.
+  Lo que debe aparecer es la página de AlphaDev que explica el demo. Por eso
+  los subdominios llevan `noindex` en el metadata y un `robots.txt` que
+  bloquea todo, y no entran en ningún sitemap.
+- **La ficha concentra el SEO en alphadev.studio.** Es contenido propio,
+  bilingüe y enlazado desde `/servicios`. Los subdominios no le quitan
+  autoridad al dominio principal.
+- **La app siempre lleva una franja fija** del tipo "Demo construido por
+  AlphaDev Studios · Ver cómo se hizo", que enlaza de vuelta a su ficha. Así
+  nadie la confunde con una empresa real, y la visita vuelve al sitio.
+
+### 7.3 Cambios concretos en este repo (AlphaWEB)
+
+| Archivo | Cambio |
+|---|---|
+| `lib/content/demos.ts` | **Nuevo.** Fuente única de los cuatro demos (slug, marca, industria, textos es/en, módulos, URL del subdominio). Mismo patrón que `lib/content/cases.ts` |
+| `lib/i18n/routes.ts` | Alta de `/demos` en `PUBLIC_PATHS` y en `PAGE_META`, y `/demos` como raíz anidada (igual que `/recursos/[slug]`) para que el toggle de idioma funcione en las fichas |
+| `app/sitemap.ts` | `/demos` en `PESO`, y las cuatro fichas generadas desde `lib/content/demos.ts`, en los dos idiomas con `alternates` |
+| `app/demos/`, `app/en/demos/` | Índice + `[slug]/page.tsx`, con el patrón `*Content.tsx` del resto del sitio |
+| `components/Navbar.tsx` | Link "Demos" entre Portafolio y Recursos |
+| `app/contacto/ContactoForm.tsx` | Aceptar `?categoria=` para preseleccionar la categoría desde el CTA de una ficha (hoy siempre arranca vacía) |
+| Vercel (proyecto de los demos) | Agregar los cuatro subdominios. El dominio ya está en Vercel: no cuesta nada |
+
+### 7.4 Idioma dentro de los demos
+
+Los nombres se eligieron para funcionar en los dos idiomas, así que cada app
+tiene su propio toggle es/en. Una visita que llega desde `/en/demos/...`
+entra al demo en inglés.
 
 ## 8. Fases
 
@@ -191,20 +259,13 @@ Vertical (uno por industria)
 Cada fase deja algo publicable. No hay que esperar a los cuatro para mostrar
 el primero, en línea con el principio "mejor ON antes que perfecto".
 
-## 9. Lo que tiene que decidir Gabriel
+## 9. Decisiones
 
-1. **Nombres** de las cuatro marcas ficticias. Antes de usarlos, verificar
-   cada uno: que no exista una empresa con ese nombre en el sector, búsqueda
-   de marca (USPTO / IMPI) y dominio.
-2. **Permiso de 4Geeks** para usar sus datos en público, o ir directo a datos
-   sintéticos.
-3. **Presupuesto mensual de hosting** y proveedor del modelo.
-4. **Orden de los verticales** (la propuesta es Restaurantes → Logística →
-   Salud → Talento).
-5. ~~¿Vitrina o paquete?~~ **Decidido: ambas.** Cada vertical necesita su
-   ficha de alcance y precio en `docs/paquetes-y-precios.md`.
-
-Candidatos con el `.com` libre al 2026-10-15 (falta la búsqueda de marca):
-Leña & Sal · Carbón Santo · Fogata Grill (restaurantes), Kilómetro Cero
-(logística), Red Alba (salud), Cantera Talento · Brújula RH · Semillero
-Talento (talento). El punto 2 (permiso de 4Geeks) quedó resuelto: sí hay permiso.
+| # | Tema | Estado |
+|---|---|---|
+| 1 | Nombres | **Decidido:** Ámbar Grill, Cometa Cargo, Celeste Clinic, Mentora Talent. Falta la búsqueda de marca |
+| 2 | Datos de 4Geeks | **Decidido:** hay permiso para usarlos, también en público. Conviene tenerlo por escrito |
+| 3 | Hosting | **Decidido:** Vercel gratis + subdominios de alphadev.studio (ver 6) |
+| 3b | Proveedor del modelo y tope mensual | **Pendiente** |
+| 4 | Orden de los verticales | **Pendiente de confirmar** (propuesta: Restaurantes → Logística → Salud → Talento) |
+| 5 | ¿Vitrina o paquete? | **Decidido: ambas.** Cada vertical necesita su ficha de alcance y precio en `docs/paquetes-y-precios.md` |
