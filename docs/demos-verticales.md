@@ -181,11 +181,35 @@ Vertical (uno por industria)
   | Docker | Solo en local, no en producción | — |
 
   Cada cambio de pieza se registra en un ADR del repo de los demos.
-- **Lo único que no es gratis es el modelo de IA**, que se paga por uso. Hace
-  falta un tope mensual antes de abrir el primer demo al público.
+- **IA simulada en el demo público** (decidido 2026-10-15). El objetivo es
+  que vean cómo funcionaría, no pagar por cada visita. Detalle en 6.1.
+
 - **Ojo con el plan Hobby:** Vercel lo define para uso personal y no
   comercial. Revisar sus condiciones vigentes. Si llegara a hacer falta, el
   cambio es pasar a Pro, sin tocar código.
+
+### 6.1 Cómo se simula la IA
+
+- **Solo se simula el texto del modelo; los datos son reales.** Inventario,
+  ventas y proveedores salen de la base del demo. Cuando el agente "consulta"
+  algo, muestra los pasos y cita los números de la base.
+- **Las respuestas se graban una vez con un modelo real**, en desarrollo, y
+  se guardan como fixtures. El demo reproduce lo que el modelo respondió de
+  verdad. Costo: centavos, una sola vez. Los mismos fixtures sirven para los
+  tests (deterministas, sin un modelo vivo como única prueba).
+- **Interfaz del visitante:** preguntas sugeridas como botones, respuesta que
+  aparece palabra por palabra (streaming simulado) y fuentes del RAG
+  visibles. El texto libre se empareja con la pregunta más parecida del
+  guion; si no hay ninguna, invita a probar las sugeridas.
+- **Proveedor intercambiable.** Una interfaz con dos implementaciones:
+  `grabado` (demo público) y `real` (cliente). Se elige con una variable de
+  entorno. El mismo código es vitrina y producto.
+- **Precalculado al generar los datos:** pronóstico de ventas (ML clásico,
+  sin costo por uso) y resultados de búsqueda del RAG.
+- **Aviso visible junto al chat:** "En este demo, las respuestas de la IA son
+  ejemplos grabados". Coherente con la regla de etiquetar todo como demo.
+- **Sin API key de modelo en producción.** Solo existe en el entorno local
+  donde se graban las respuestas.
 
 ## 7. Mapa del sitio y dominios
 
@@ -266,6 +290,6 @@ el primero, en línea con el principio "mejor ON antes que perfecto".
 | 1 | Nombres | **Decidido:** Ámbar Grill, Cometa Cargo, Celeste Clinic, Mentora Talent. Falta la búsqueda de marca |
 | 2 | Datos de 4Geeks | **Decidido:** hay permiso para usarlos, también en público. Conviene tenerlo por escrito |
 | 3 | Hosting | **Decidido:** Vercel gratis + subdominios de alphadev.studio (ver 6) |
-| 3b | Proveedor del modelo y tope mensual | **Pendiente** |
-| 4 | Orden de los verticales | **Pendiente de confirmar** (propuesta: Restaurantes → Logística → Salud → Talento) |
+| 3b | Proveedor del modelo | **Decidido:** IA simulada con respuestas grabadas en el demo público; gasto de modelo en producción = 0 (ver 6.1) |
+| 4 | Orden de los verticales | **Decidido:** Ámbar Grill primero; después Logística → Salud → Talento |
 | 5 | ¿Vitrina o paquete? | **Decidido: ambas.** Cada vertical necesita su ficha de alcance y precio en `docs/paquetes-y-precios.md` |
