@@ -228,6 +228,20 @@ Vertical (uno por industria)
   igual, porque lo pide el temario y lo necesita un cliente. El demo usa un
   "modo playground" activado por variable de entorno.
 
+### 6.3 El demo no puede volverse la herramienta gratis de nadie (2026-10-16)
+
+Aplica a los cuatro demos. El objetivo de Gabriel: que nadie use el
+playground como sistema de su propio negocio, y que AlphaDev nunca se vea
+afectado sin saberlo.
+
+| Riesgo | Protección |
+|---|---|
+| Usar el demo como su sistema diario | Nada persiste: `sessionStorage`, se borra al cerrar la pestaña (6.2) |
+| Usar la IA gratis para sus consultas | IA grabada: solo responde el guion de cada marca (6.1) |
+| Procesar sus propios archivos (incidencias, RFPs, CSVs) | En modo playground no se suben archivos propios; solo los de ejemplo que damos |
+| Un script que agota el plan gratis de Vercel | Límite de consultas por minuto por IP en la API |
+| Que algo pase y no nos enteremos | Telemetría anónima y agregada: sesiones, módulos usados, rechazos por límite. Sin correos, sin IPs completas, sin nada personal |
+
 ## 7. Mapa del sitio y dominios
 
 ### 7.1 El mapa completo
