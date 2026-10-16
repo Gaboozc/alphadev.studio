@@ -276,12 +276,50 @@ entra al demo en inglés.
 |---|---|---|
 | 0 | Núcleo: repo, CI, auth, panel vacío, API, despliegue | Login y panel corriendo en un subdominio |
 | 1 | Restaurantes de punta a punta | Primer demo público + página `/demos` con una tarjeta |
+| 1.5 | Ámbar Grill conectado a Odoo | El agente lee proveedores e inventario desde Odoo; la ficha muestra "¿Ya usas Odoo?" |
 | 2 | Logística | Segunda tarjeta; incidentes, tiempo real, agente con confirmación |
 | 3 | Salud | Tercera tarjeta; guardrails y seguridad en primer plano |
 | 4 | Talento | Cuarta tarjeta; RFP agéntico y MCP |
 
 Cada fase deja algo publicable. No hay que esperar a los cuatro para mostrar
 el primero, en línea con el principio "mejor ON antes que perfecto".
+
+### 8.1 Fase 1.5 — Odoo (agregada 2026-10-15)
+
+**Por qué:** Odoo es un ERP de código abierto muy usado por PyMEs, y Gabriel
+ve demanda en LATAM. Ninguno de los dos lo ha usado todavía: esta fase es
+para aprenderlo construyendo algo mostrable, y decidir con datos si se
+vuelve una línea de servicio "IA + Odoo".
+
+**Posicionamiento:** IA *conectada* a Odoo, no implementación de Odoo. El
+mercado de implementadores está lleno de partners certificados que compiten
+por precio; la integración con agentes es lo que nos diferencia.
+
+**Qué se construye:**
+
+| Pieza | Detalle |
+|---|---|
+| Odoo Community en local | Docker, solo para desarrollo. No se publica |
+| Datos de Ámbar Grill en Odoo | Proveedores, productos e inventario, cargados por script desde el mismo seed de la fase 1 |
+| Fuente de datos intercambiable | Igual que el proveedor de IA (6.1): una interfaz con dos implementaciones, `base` (Supabase) y `odoo` (API externa de Odoo). Se elige por variable de entorno |
+| Herramientas del agente | Las mismas de la fase 1 (consultar stock, proveedores, compras), ahora también contra Odoo |
+| Ficha en el sitio | Sección "¿Ya usas Odoo?" en `/demos/ambar-grill`, con un video del agente trabajando sobre Odoo |
+
+**En el demo público** se sigue usando la base propia: un Odoo encendido para
+cada visita costaría servidor, y rompe la regla de Vercel gratis. Lo que se
+muestra es el video y la explicación; el conector existe y se usa con
+clientes reales.
+
+**Lo que hay que aprender en el camino:** el modelo de datos de Odoo
+(`product.product`, `stock.quant`, `purchase.order`, `res.partner`), su API
+externa y su autenticación, y las diferencias entre Community y Enterprise
+que afecten la integración.
+
+**Pendiente:** dimensionar el mercado de Odoo en LATAM con datos reales antes
+de convertirlo en paquete. No hay cifras verificadas todavía.
+
+**Va después de la fase 1** porque reutiliza su seed, sus herramientas y su
+agente: sin la fase 1 no hay nada que conectar.
 
 ## 9. Decisiones
 
