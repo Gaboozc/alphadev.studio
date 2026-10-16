@@ -211,6 +211,23 @@ Vertical (uno por industria)
 - **Sin API key de modelo en producción.** Solo existe en el entorno local
   donde se graban las respuestas.
 
+### 6.2 Login y datos del visitante (decidido 2026-10-16)
+
+- **Login de playground:** acepta cualquier correo con forma válida y
+  cualquier contraseña no vacía. La pantalla lo dice explícitamente.
+- **Nada del visitante se guarda en Supabase.** Ni correo, ni contraseña, ni
+  sus cambios. Todo vive en `sessionStorage` y se borra al cerrar la
+  pestaña. Es por pestaña: otra pestaña arranca desde cero.
+- **Supabase solo tiene los datos base** de cada marca, iguales para todos.
+- **Backend sin estado para el demo:** el navegador envía sus cambios con
+  cada consulta; el backend los combina con los datos base, calcula (p. ej.
+  stock = entradas − salidas) y responde sin persistir. La lógica de negocio
+  vive en un solo lugar.
+- **El rol `demos_app` queda de solo lectura en producción.**
+- El login real (usuarios, contraseñas cifradas, recuperación) se construye
+  igual, porque lo pide el temario y lo necesita un cliente. El demo usa un
+  "modo playground" activado por variable de entorno.
+
 ## 7. Mapa del sitio y dominios
 
 ### 7.1 El mapa completo
