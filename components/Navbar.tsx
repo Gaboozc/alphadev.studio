@@ -7,7 +7,9 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 import { stripLocale } from '@/lib/i18n/routes';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
+import ThemeToggle from './ThemeToggle';
 import navbarLogo from '../assets/footer-logo.png';
+import navbarLogoOscuro from '../assets/footer-logo-oscuro.png';
 
 const LINK_NUMBERS = ['01', '02', '03', '04', '05', '06'];
 
@@ -81,7 +83,15 @@ export default function Navbar() {
               height={64}
               priority
               style={{ width: 'auto', height: '30px' }}
-              className="md:!h-[40px]"
+              className="md:!h-[40px] solo-claro"
+            />
+            <Image
+              src={navbarLogoOscuro}
+              alt="AlphaDev Studios"
+              height={64}
+              priority
+              style={{ width: 'auto', height: '30px' }}
+              className="md:!h-[40px] solo-oscuro"
             />
           </SiteLink>
 
@@ -90,6 +100,7 @@ export default function Navbar() {
               Huge/Fantasy en vez del pill "genérico SaaS" con 5 links +
               toggle + CTA apretados). */}
           <div className="flex items-center gap-3 flex-shrink-0">
+            <ThemeToggle />
             <div className="hidden sm:block">
               <LanguageToggle />
             </div>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const SECCIONES = [
   { href: '/admin', label: 'Resumen' },
@@ -29,6 +30,7 @@ export default function AdminNav() {
           {label}
         </Link>
       ))}
+      <ThemeToggle className="adm-tema" />
     </nav>
   )
 }

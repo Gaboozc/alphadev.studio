@@ -22,7 +22,7 @@ export default function LanguageToggle() {
           className="lang-toggle-btn transition-colors"
           style={
             lang === l
-              ? { background: 'var(--gold)', color: '#FAFAF7' }
+              ? { background: 'var(--gold)', color: 'var(--on-gold)' }
               : { background: 'transparent', color: 'var(--text-muted)' }
           }
         >

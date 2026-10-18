@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from '@/components/Icon'
+import ThemeToggle from '@/components/ThemeToggle'
 import type { ModuleMeta, Track } from '../types'
 import { RAMAS, TRACK_META, moduleHref } from '../ramas'
 import { useProgress } from '../hooks/useProgress'
@@ -88,6 +89,8 @@ export default function AcademiaNav({
           </span>
         </Link>
 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <ThemeToggle />
         <button
           onClick={() => setOpen(true)}
           aria-label="Abrir menú"
@@ -106,6 +109,7 @@ export default function AcademiaNav({
           <span style={{ display: 'block', width: '20px', height: '2px', background: 'var(--text)', borderRadius: '2px' }} />
           <span style={{ display: 'block', width: '14px', height: '2px', background: 'var(--text)', borderRadius: '2px' }} />
         </button>
+        </div>
       </header>
 
       {/* ── Overlay ── */}
@@ -352,7 +356,7 @@ export default function AcademiaNav({
                               fontFamily: 'var(--font-inter)',
                               fontSize: '0.5625rem',
                               fontWeight: 700,
-                              color: isDone ? '#fff' : isActive ? 'var(--gold)' : 'var(--text-subtle)',
+                              color: isDone ? 'var(--on-gold)' : isActive ? 'var(--gold)' : 'var(--text-subtle)',
                             }}
                           >
                             {isDone ? '✓' : idx + 1}

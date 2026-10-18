@@ -54,6 +54,12 @@ Pensemos: Stripe × consultoría de alto nivel × papel de alta gama. Crema cál
 
 > Decisión tomada: paleta crema cálida + dorado. NO volver al dark. El objetivo es parecer una empresa seria a la que un founder quiere contratar, no una página de hacker.
 
+> **Modo nocturno (octubre 2026, decisión de Gabriel).** Existe y es opcional: no reemplaza la paleta clara. El sitio abre según el dispositivo del visitante (`prefers-color-scheme`) y el toggle sol/luna guarda su elección en `localStorage`. La noche es **oscuro cálido + dorado** (`#14110E` de fondo, texto crema, dorado `#C9A465`): nada de negro puro ni azul. Cómo funciona:
+> - El tema vive en `<html data-theme>`; `lib/tema.ts` lo pone en `<head>` antes de pintar (sin flash). Los colores nocturnos redefinen las mismas variables en `:root[data-theme='dark']` de `globals.css`.
+> - **No escribas colores fijos.** Usa las variables (`--bg`, `--text`, `--glass`, `--on-gold` para texto sobre dorado, `--hero-fin`). Un color fijo se ve bien en un tema y roto en el otro.
+> - Logos con versión para cada tema: clases `.solo-claro` / `.solo-oscuro` (navbar, footer, final del video).
+> - El toggle (`components/ThemeToggle.tsx`) va en el navbar, en las pestañas de `/admin` y en la barra superior de `/academia`. Su dibujo depende de `data-theme`, no de `:checked`, para que no muestre el sol un instante antes de hidratar.
+
 | Token CSS | Hex | Uso |
 |-----------|-----|-----|
 | `--bg` | `#FAFAF7` | Fondo principal — crema cálida |

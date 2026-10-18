@@ -6,6 +6,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import ScrollAnimations from '@/components/ScrollAnimations';
 import MagneticButtons from '@/components/MagneticButtons';
 import { SITE_URL, PHONE_US, PHONE_MX } from '@/lib/site-config';
+import { SCRIPT_TEMA_INICIAL } from '@/lib/tema';
 import './globals.css';
 
 const inter = Inter({
@@ -142,8 +143,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA_INICIAL }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

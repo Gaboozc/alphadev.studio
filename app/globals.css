@@ -7,7 +7,7 @@
 ═══════════════════════════════════════════════════════ */
 
 :root {
-  /* Force light color scheme — prevents browser dark-mode overrides */
+  /* El tema lo decide <html data-theme> (ver lib/tema.ts). Claro por defecto. */
   color-scheme: light;
 
   /* Backgrounds */
@@ -32,6 +32,17 @@
   --border:       #E8E2D9;
   --border-hover: rgba(154, 114, 53, 0.35);
 
+  /* Vidrio esmerilado (navbar flotante, etiquetas sobre imágenes) */
+  --glass:        rgba(250, 250, 247, 0.82);
+  --glass-strong: rgba(250, 250, 247, 0.95);
+  --glass-line:   rgba(232, 226, 217, 0.9);
+
+  /* Texto sobre un fondo dorado (botones) */
+  --on-gold:      #FAFAF7;
+
+  /* Fondo del final del video del hero, detrás del logo */
+  --hero-fin:     rgb(250, 245, 240);
+
   /* Spacing */
   --space-3xl:    4rem;
   --space-4xl:    6rem;
@@ -40,6 +51,45 @@
      Fuente única para el ritmo entre secciones. */
   --section-pad-y: clamp(3.75rem, 9vw, 7.5rem);
 }
+
+/* ═══════════════════════════════════════════════════════
+   MODO NOCTURNO — oscuro cálido + dorado
+═══════════════════════════════════════════════════════ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg:           #14110E;
+  --bg-alt:       #1B1713;
+  --bg-deep:      #2A231D;
+  --bg-card:      #1F1A16;
+
+  --text:         #F2EEE7;
+  --text-muted:   #B9AD9F;
+  --text-subtle:  #8E8275;
+
+  --gold:         #C9A465;
+  --gold-light:   #E0C48E;
+  --gold-dark:    #B08A4C;
+  --gold-bg:      rgba(201, 164, 101, 0.10);
+  --gold-border:  rgba(201, 164, 101, 0.28);
+
+  --border:       #2E2721;
+  --border-hover: rgba(201, 164, 101, 0.45);
+
+  --glass:        rgba(20, 17, 14, 0.78);
+  --glass-strong: rgba(20, 17, 14, 0.94);
+  --glass-line:   rgba(46, 39, 33, 0.9);
+
+  /* El dorado de noche es claro: el texto encima va oscuro. */
+  --on-gold:      #14110E;
+
+  --hero-fin:     #14110E;
+}
+
+/* Logos con versión para cada tema (navbar, footer, final del video). */
+.solo-oscuro { display: none !important; }
+:root[data-theme='dark'] .solo-claro { display: none !important; }
+:root[data-theme='dark'] .solo-oscuro { display: revert !important; }
 
 /* ─── Film grain overlay — editorial premium feel ─────── */
 html::after {
@@ -60,7 +110,8 @@ html::after {
    en vez de oscurecer, así que sobre fondo oscuro sí queda visible. El propio
    ScrollAnimations marca <html data-theme-scroll="dark"> mientras una sección
    con [data-section-theme="dark"] está en viewport. */
-html[data-theme-scroll='dark']::after {
+html[data-theme-scroll='dark']::after,
+html[data-theme='dark']::after {
   mix-blend-mode: screen;
   opacity: 0.045;
 }
@@ -305,7 +356,7 @@ a, button {
   font-family: var(--font-playfair), Georgia, serif;
   font-weight: 700;
   font-size: 1.9rem;
-  color: #FAFAF7;
+  color: var(--on-gold);
   background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
   box-shadow: 0 8px 20px rgba(154, 114, 53, 0.3);
   margin-bottom: 1.25rem;
@@ -727,7 +778,7 @@ a, button {
   font-weight: 600;
   letter-spacing: 0.01em;
   background: var(--gold);
-  color: #FAFAF7;
+  color: var(--on-gold);
   border: 1px solid var(--gold-dark);
   overflow: hidden;
   cursor: pointer;
@@ -817,16 +868,16 @@ a, button {
 ═══════════════════════════════════════════════════════ */
 
 .nav-pill {
-  background: rgba(250, 250, 247, 0.82);
+  background: var(--glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(232, 226, 217, 0.9);
+  border: 1px solid var(--glass-line);
   box-shadow: 0 2px 24px rgba(26, 21, 18, 0.06),
               0 1px 4px rgba(26, 21, 18, 0.04);
 }
 
 .nav-pill--scrolled {
-  background: rgba(250, 250, 247, 0.95);
+  background: var(--glass-strong);
   border-color: var(--gold-border);
   box-shadow: 0 4px 32px rgba(26, 21, 18, 0.1),
               0 1px 0 rgba(154, 114, 53, 0.08);
@@ -1024,7 +1075,7 @@ a, button {
   transition: background 0.8s ease;
 }
 .hero-video-section.is-ended {
-  background: rgb(250, 245, 240);
+  background: var(--hero-fin);
 }
 
 .hero-video {
@@ -1041,7 +1092,7 @@ a, button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(250, 245, 240);
+  background: var(--hero-fin);
   opacity: 0;
   transition: opacity 1s ease 0.3s;
   pointer-events: none;
@@ -1078,7 +1129,7 @@ a, button {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  background: rgba(250, 250, 247, 0.9);
+  background: var(--glass-strong);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border);
@@ -2587,7 +2638,7 @@ button.case-thumb {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text);
-  background: rgba(250, 250, 247, 0.92);
+  background: var(--glass-strong);
   border: 1px solid var(--gold-border);
   border-radius: 999px;
   padding: 0.35rem 0.8rem;
@@ -3687,7 +3738,7 @@ button.case-thumb {
 
 .acad-mod-num-done {
   background: var(--gold);
-  color: #fff;
+  color: var(--on-gold);
 }
 
 .acad-mod-body { flex: 1; min-width: 0; }
@@ -3894,7 +3945,7 @@ button.case-thumb {
   font-family: var(--font-inter);
   font-size: 0.875rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--on-gold);
   background: var(--gold);
   border: none;
   border-radius: 0.625rem;
@@ -4515,7 +4566,7 @@ button.case-thumb {
   margin-top: 2rem;
   padding: 0.875rem;
   background: var(--gold);
-  color: #fff;
+  color: var(--on-gold);
   border: none;
   border-radius: 0.75rem;
   font-family: var(--font-inter);
@@ -4900,3 +4951,65 @@ button.case-thumb {
   }
 
 }
+
+/* ═══════════════════════════════════════════════════════
+   TOGGLE DE TEMA (components/ThemeToggle.tsx)
+   Diseño base de Gabriel, en la paleta de la marca: arena y
+   dorado de día, café cálido de noche. Sin azul.
+═══════════════════════════════════════════════════════ */
+.tema-toggle {
+  position: relative;
+  display: inline-flex;
+  width: 3.6rem;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.tema-toggle input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.tema-toggle svg { display: block; width: 100%; height: auto; }
+.tema-toggle input:focus-visible + svg {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.tt-fondo, .tt-boton, .tt-sol, .tt-luna, .tt-nube, .tt-estrellas {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tt-fondo        { fill: #E9DCC4; }
+.tt-sol-exterior { fill: #C9A465; }
+.tt-sol-halo     { fill: rgba(255, 250, 236, 0.32); }
+.tt-sol-interior { fill: #F4E3B5; }
+.tt-luna         { opacity: 0; }
+.tt-luna-disco   { fill: #EDE6DA; }
+.tt-crateres     { fill: #CFC3AF; }
+.tt-nube         { fill: #FFFDF8; opacity: 1; }
+.tt-estrellas    { fill: #EAD9B6; opacity: 0; }
+
+/* El dibujo sigue al tema de la página, no al checkbox: <html data-theme> ya
+   está puesto antes de pintar, y el checkbox recién se sincroniza al hidratar.
+   Si dependiera de :checked, en modo nocturno se vería el sol un instante. */
+:root[data-theme='dark'] .tema-toggle .tt-fondo     { fill: #2A231C; }
+:root[data-theme='dark'] .tema-toggle .tt-boton     { transform: translate(28px, 2.333px); }
+:root[data-theme='dark'] .tema-toggle .tt-sol       { opacity: 0; }
+:root[data-theme='dark'] .tema-toggle .tt-luna      { opacity: 1; }
+:root[data-theme='dark'] .tema-toggle .tt-nube      { opacity: 0; }
+:root[data-theme='dark'] .tema-toggle .tt-estrellas { opacity: 1; }
+
+/* Sobre fondo oscuro, el riel nocturno necesita un borde para no perderse. */
+:root[data-theme='dark'] .tt-fondo { stroke: rgba(201, 164, 101, 0.35); stroke-width: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-fondo, .tt-boton, .tt-sol, .tt-luna, .tt-nube, .tt-estrellas { transition: none; }
+}
+
+/* En el panel de admin el toggle va al final de la fila de pestañas. */
+.adm-tema { margin-left: auto; align-self: center; }

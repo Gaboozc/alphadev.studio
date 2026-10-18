@@ -49,7 +49,9 @@ export default function Hero() {
         {/* Logo overlay — aparece cuando el video termina */}
         <div className={`hero-logo-overlay${ended ? ' is-visible' : ''}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="hero-logo-overlay-img" src="/assets/ads-logo.svg" alt="AlphaDev Studios" />
+          <img className="hero-logo-overlay-img solo-claro" src="/assets/ads-logo.svg" alt="AlphaDev Studios" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="hero-logo-overlay-img solo-oscuro" src="/assets/ads-logo-oscuro.svg" alt="" aria-hidden="true" />
         </div>
 
         {/* Overlay post-video */}

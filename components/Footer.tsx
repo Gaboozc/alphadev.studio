@@ -5,6 +5,7 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 
 import Image from 'next/image';
 import footerLogo from '../assets/footer-logo.png';
+import footerLogoOscuro from '../assets/footer-logo-oscuro.png';
 import { PHONE_US, PHONE_MX } from '@/lib/site-config';
 
 const COMPANY_HREFS = ['/portafolio', '/recursos', '/proceso', '/contacto'];
@@ -30,8 +31,15 @@ export default function Footer() {
             <SiteLink href="/" className="inline-block mb-4">
 
               <Image
-                className="footer-logo"
+                className="footer-logo solo-claro"
                 src={footerLogo}
+                alt="AlphaDev Studios"
+                width={320}
+                style={{ width: '100%', height: 'auto' }}
+              />
+              <Image
+                className="footer-logo solo-oscuro"
+                src={footerLogoOscuro}
                 alt="AlphaDev Studios"
                 width={320}
                 style={{ width: '100%', height: 'auto' }}

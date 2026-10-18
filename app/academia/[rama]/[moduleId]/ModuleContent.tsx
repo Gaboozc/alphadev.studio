@@ -150,7 +150,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                       fontFamily: 'var(--font-inter)',
                       fontSize: '0.625rem',
                       fontWeight: 700,
-                      color: isActive ? '#fff' : 'var(--text-subtle)',
+                      color: isActive ? 'var(--on-gold)' : 'var(--text-subtle)',
                       marginTop: '1px',
                     }}
                   >
@@ -327,7 +327,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
                         fontFamily: 'var(--font-inter)',
                         fontSize: '0.6875rem',
                         fontWeight: 700,
-                        color: hydrated && done ? '#fff' : 'var(--text-subtle)',
+                        color: hydrated && done ? 'var(--on-gold)' : 'var(--text-subtle)',
                         transition: 'all 200ms ease',
                       }}
                     >

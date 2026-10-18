@@ -186,7 +186,7 @@ export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesso
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontSize: '0.5rem',
-                      color: '#fff',
+                      color: 'var(--on-gold)',
                       fontWeight: 700,
                     }}
                   >
@@ -292,7 +292,7 @@ export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesso
                 fontFamily: 'var(--font-inter)',
                 fontSize: '0.875rem',
                 fontWeight: 600,
-                color: done ? '#fff' : 'var(--gold)',
+                color: done ? 'var(--on-gold)' : 'var(--gold)',
                 background: done ? 'var(--gold)' : 'transparent',
                 border: `2px solid ${done ? 'var(--gold)' : 'var(--gold-border)'}`,
                 borderRadius: '0.625rem',
