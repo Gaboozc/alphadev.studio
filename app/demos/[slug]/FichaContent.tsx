@@ -23,7 +23,7 @@ export default function FichaContent({ slug }: { slug: string }) {
               {ficha.name}
             </h1>
             <div className="gold-divider" data-animate="divider" />
-            <p className="section-subtitle" data-animate="subtitle">
+            <p className="section-subtitle hero-sub" data-animate="subtitle">
               {ficha.problema[lang]}
             </p>
             <div className="hero-cta" data-animate="fade">

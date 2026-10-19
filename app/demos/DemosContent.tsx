@@ -89,7 +89,7 @@ export default function DemosContent() {
             {es ? 'Pruébalo antes de hablar con nosotros.' : 'Try it before you talk to us.'}
           </h1>
           <div className="gold-divider" data-animate="divider" />
-          <p className="section-subtitle" data-animate="subtitle">
+          <p className="section-subtitle hero-sub" data-animate="subtitle">
             {es
               ? 'Cuatro productos con IA dentro, funcionando. Son empresas ficticias: entras con cualquier correo y contraseña, lo que hagas no se guarda y se borra al salir. Así ves cómo se sentiría con tu negocio.'
               : 'Four working products with AI built in. They are fictional companies: sign in with any email and password, nothing you do is saved, and it all disappears when you leave. So you can see how it would feel with your business.'}
