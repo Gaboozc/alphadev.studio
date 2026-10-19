@@ -4,8 +4,8 @@ import SiteLink from '@/components/SiteLink';
 import CTASection from '@/components/CTASection';
 import { useLang } from '@/lib/i18n/LanguageContext';
 
-// Cada demo es una empresa ficticia con un producto que funciona. Solo Ámbar
-// Grill está en línea; el resto se activa aquí cuando se publique (`url`).
+// Cada demo es una empresa ficticia con un producto que funciona. Si `url` es
+// null, la tarjeta muestra «Próximamente».
 const DEMOS = [
   {
     slug: 'ambar',
@@ -25,22 +25,22 @@ const DEMOS = [
   {
     slug: 'cometa',
     name: 'Cometa Cargo',
-    url: null,
+    url: 'https://cometa.demo.alphadev.studio',
     es: {
       sector: 'Logística',
       pitch: 'Envíos que se retrasan, transportistas que no avisan y devoluciones sin dueño. Un solo lugar para ver qué se atoró y por qué.',
-      modules: ['Incidencias de envío', 'Transportistas', 'Devoluciones', 'Seguimiento en vivo'],
+      modules: ['Incidencias de envío', 'Transportistas', 'Devoluciones', 'Seguimiento de envíos'],
     },
     en: {
       sector: 'Logistics',
       pitch: 'Late shipments, carriers that never call, and returns nobody owns. One place to see what got stuck and why.',
-      modules: ['Shipment incidents', 'Carriers', 'Returns', 'Live tracking'],
+      modules: ['Shipment incidents', 'Carriers', 'Returns', 'Shipment tracking'],
     },
   },
   {
     slug: 'celeste',
     name: 'Celeste Clinic',
-    url: null,
+    url: 'https://celeste.demo.alphadev.studio',
     es: {
       sector: 'Clínicas',
       pitch: 'Reservas que se pierden, insumos que se agotan sin aviso y protocolos que nadie encuentra a tiempo.',
@@ -55,7 +55,7 @@ const DEMOS = [
   {
     slug: 'mentora',
     name: 'Mentora Talent',
-    url: null,
+    url: 'https://mentora.demo.alphadev.studio',
     es: {
       sector: 'Talento y consultoría',
       pitch: 'Cientos de candidatos y respuestas a licitaciones que se arman desde cero cada vez. Aquí se reutiliza lo que ya se sabe.',
