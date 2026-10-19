@@ -76,6 +76,11 @@ export default function FichaContent({ slug }: { slug: string }) {
             </li>
             <li>
               {es
+                ? 'Cada demo trae el «Programa»: los proyectos 0 a 26 del temario de ingeniería de IA. Los que tienen un módulo funcionando lo enlazan; el resto son maquetas con datos ficticios, marcadas como tales.'
+                : 'Every demo includes the “Program”: projects 0 to 26 of the AI engineering syllabus. Those with a working module link to it; the rest are mockups with fictional data, labeled as such.'}
+            </li>
+            <li>
+              {es
                 ? 'Todos los datos son ficticios y las reglas de negocio están probadas con pruebas automáticas.'
                 : 'All data is fictional and the business rules are covered by automated tests.'}
             </li>
