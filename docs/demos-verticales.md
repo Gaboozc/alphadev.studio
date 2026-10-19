@@ -346,6 +346,8 @@ clientes reales.
 externa y su autenticación, y las diferencias entre Community y Enterprise
 que afecten la integración.
 
+**Estado (2026-10-18):** el conector de solo lectura existe (`alphadev-demos/api/conectores/odoo.py`) y pasa 12 pruebas contra un Odoo *simulado*. **No está verificado contra un Odoo real** (falta una instancia; este equipo no tiene Docker), ni conectado al demo, ni anunciado en la ficha. Detalle y pasos para cerrarlo en `alphadev-demos/docs/milestones/08-odoo-conector.md`.
+
 **Pendiente:** dimensionar el mercado de Odoo en LATAM con datos reales antes
 de convertirlo en paquete. No hay cifras verificadas todavía.
 
