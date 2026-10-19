@@ -13,6 +13,7 @@ export interface Translations {
     services: string;
     portfolio: string;
     resources: string;
+    demos: string;
     process: string;
     contact: string;
     cta: string;

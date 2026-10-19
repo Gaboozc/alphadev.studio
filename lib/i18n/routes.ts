@@ -32,6 +32,7 @@ export const PUBLIC_PATHS = [
   '/servicios',
   '/portafolio',
   '/proceso',
+  '/demos',
   '/contacto',
   '/privacidad',
   '/terminos',
@@ -126,6 +127,18 @@ const PAGE_META: Record<PublicPath, Record<Lang, PageMeta>> = {
       title: 'Results',
       description:
         'The live sites of BFS Karate, Imperial Barbershop, Fenix Group, and The Latin Grill. The real work we did for each business.',
+    },
+  },
+  '/demos': {
+    es: {
+      title: 'Demos',
+      description:
+        'Cuatro productos con IA dentro, funcionando: restaurantes, logística, clínicas y talento. Empresas ficticias, para que pruebes cómo se sentiría con tu negocio.',
+    },
+    en: {
+      title: 'Demos',
+      description:
+        'Four working products with AI built in: restaurants, logistics, clinics, and talent. Fictional companies, so you can try how it would feel with your business.',
     },
   },
   '/proceso': {

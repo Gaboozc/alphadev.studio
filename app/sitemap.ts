@@ -24,6 +24,7 @@ const PESO: Record<PublicPath, Peso> = {
   '/servicios': { prioridad: 0.9, frecuencia: 'monthly' },
   '/portafolio': { prioridad: 0.8, frecuencia: 'monthly' },
   '/proceso': { prioridad: 0.8, frecuencia: 'monthly' },
+  '/demos': { prioridad: 0.8, frecuencia: 'monthly' },
   '/contacto': { prioridad: 0.7, frecuencia: 'monthly' },
   '/privacidad': { prioridad: 0.3, frecuencia: 'yearly' },
   '/terminos': { prioridad: 0.3, frecuencia: 'yearly' },

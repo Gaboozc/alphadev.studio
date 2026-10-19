@@ -57,6 +57,7 @@ export default function Navbar() {
     { href: '/', label: dict.nav.home },
     { href: '/servicios', label: dict.nav.services },
     { href: '/portafolio', label: dict.nav.portfolio },
+    { href: '/demos', label: dict.nav.demos },
     { href: '/recursos', label: dict.nav.resources },
     { href: '/proceso', label: dict.nav.process },
     { href: '/contacto', label: dict.nav.contact },
