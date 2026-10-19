@@ -9,6 +9,7 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 const DEMOS = [
   {
     slug: 'ambar',
+    ficha: 'ambar-grill',
     name: 'Ámbar Grill',
     url: 'https://ambar.demo.alphadev.studio',
     es: {
@@ -24,6 +25,7 @@ const DEMOS = [
   },
   {
     slug: 'cometa',
+    ficha: 'cometa-cargo',
     name: 'Cometa Cargo',
     url: 'https://cometa.demo.alphadev.studio',
     es: {
@@ -39,6 +41,7 @@ const DEMOS = [
   },
   {
     slug: 'celeste',
+    ficha: 'celeste-clinic',
     name: 'Celeste Clinic',
     url: 'https://celeste.demo.alphadev.studio',
     es: {
@@ -54,6 +57,7 @@ const DEMOS = [
   },
   {
     slug: 'mentora',
+    ficha: 'mentora-talent',
     name: 'Mentora Talent',
     url: 'https://mentora.demo.alphadev.studio',
     es: {
@@ -111,9 +115,14 @@ export default function DemosContent() {
                   </ul>
                   <div style={{ marginTop: 'auto', position: 'relative', zIndex: 1 }}>
                     {d.url ? (
-                      <a href={d.url} target="_blank" rel="noopener noreferrer" className="btn-glow inline-flex">
-                        {es ? `Probar ${d.name}` : `Try ${d.name}`}
-                      </a>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+                        <a href={d.url} target="_blank" rel="noopener noreferrer" className="btn-glow inline-flex">
+                          {es ? `Probar ${d.name}` : `Try ${d.name}`}
+                        </a>
+                        <SiteLink href={`/demos/${d.ficha}`} className="underline" >
+                          {es ? 'Ver cómo se hizo' : 'See how it was built'}
+                        </SiteLink>
+                      </div>
                     ) : (
                       <span style={{ color: 'var(--text-subtle)', fontSize: '0.875rem', fontWeight: 600 }}>
                         {es ? 'Próximamente' : 'Coming soon'}

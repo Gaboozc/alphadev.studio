@@ -48,7 +48,7 @@ export type PublicPath = (typeof PUBLIC_PATHS)[number];
  * una descripción fijos, y una guía no tiene una única metadata que declarar
  * ahí — la suya sale de `lib/guias.ts`, por slug.
  */
-const RAICES_ANIDADAS = ['/recursos'] as const;
+const RAICES_ANIDADAS = ['/recursos', '/demos'] as const;
 
 /**
  * true si `path` tiene una versión en el otro idioma a la que el toggle

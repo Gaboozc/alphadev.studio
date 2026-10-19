@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site-config'
 import { PUBLIC_PATHS, absoluteUrl, localizedPath, type PublicPath } from '@/lib/i18n/routes'
 import { listarGuiasPublicadas } from '@/lib/guias'
+import { DEMO_FICHAS } from '@/lib/content/demos'
 
 // Sitemap generado, no un XML a mano.
 //
@@ -80,5 +81,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   })
 
-  return [...paginas, ...paginasDeGuias, ...OTRAS]
+  // Las fichas de los demos, también en los dos idiomas.
+  const paginasDeDemos = DEMO_FICHAS.flatMap((d): MetadataRoute.Sitemap => {
+    const idiomas = {
+      es: `${SITE_URL}${localizedPath(`/demos/${d.slug}`, 'es')}`,
+      en: `${SITE_URL}${localizedPath(`/demos/${d.slug}`, 'en')}`,
+    }
+    return (['es', 'en'] as const).map((lang) => ({
+      url: idiomas[lang],
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: lang === 'es' ? 0.6 : 0.5,
+      alternates: { languages: idiomas },
+    }))
+  })
+
+  return [...paginas, ...paginasDeDemos, ...paginasDeGuias, ...OTRAS]
 }
