@@ -2,7 +2,7 @@
 
 > **Propósito de este archivo**: Contexto persistente del proyecto. Cualquier agente Claude (Claude Code, Claude.ai, VS Code extension) que entre a este repo lee este archivo PRIMERO antes de actuar. Define quiénes somos, qué construimos, cómo se ve, y qué NO se debe replantear.
 
-> **Última actualización**: Mayo 2026  
+> **Última actualización**: Octubre 2026  
 > **Owner**: Gabriel Zavarse — Founder, AlphaDev Studios
 
 ---
@@ -227,7 +227,10 @@ Ventaja añadida: si mañana cambia el titular, la imagen se regenera sola. Ver 
 ## 🛠️ Stack técnico
 
 ### Frontend
-- **Next.js 16.1.6** (App Router, NO Pages Router)
+- **Next.js 16.3.8** (App Router, NO Pages Router). Venía de 16.1.6; se subió en
+  octubre de 2026 por el advisory de RCE en `next/og` (commit `cd75d4f`). Antes de
+  razonar sobre la versión, confirmarla en `package.json`: este archivo se queda
+  atrás en cada parche de seguridad
 - **React 19.2.3**
 - **TypeScript 5+** (strict mode obligatorio, cero `any`)
 - **Tailwind CSS v4** (sin downgrade a v3)
@@ -271,6 +274,8 @@ Públicas (existen en los dos idiomas: la misma ruta y su espejo bajo /en)
 /portafolio             → Resultados (los 4 clientes reales)
 /recursos               → Tienda de guías (catálogo)
 /recursos/[slug]        → Ficha de una guía + botón de compra
+/demos                  → Índice de los cuatro demos verticales
+/demos/[slug]           → Ficha de un demo: qué resuelve, módulos, CTA
 /proceso                → Cómo trabajamos (5 fases)
 /contacto               → Formulario único con selector de categoría
 /privacidad             → Política de privacidad
@@ -283,7 +288,8 @@ Solo en español (no llevan espejo /en)
 Privadas
 /acceso                 → Login (Server Action, sesión httpOnly)
 /academia/*             → Academia, detrás de sesión
-/admin                  → Panel: mensajes, guías, ventas (ver más abajo)
+/admin                  → Panel: resumen, mensajes, guías, ventas de guías y
+                          ventas de servicios (ver más abajo)
 
 Otras
 /tarjeta/[slug]         → Tarjetas digitales (noindex)
@@ -293,6 +299,23 @@ Otras
 `/contacto/startup` y `/contacto/enterprise` **ya no existen**: se consolidaron
 en un solo formulario con selector. Si un texto viejo los menciona, está
 desactualizado.
+
+**`/demos` — las fichas de los cuatro demos verticales (octubre 2026).** Las
+cuatro marcas son Ámbar Grill (restaurantes), Cometa Cargo (logística),
+Celeste Clinic (salud) y Mentora Talent (talento y RRHH), y su fuente única es
+`lib/content/demos.ts`, mismo patrón que `lib/content/cases.ts`. Reglas:
+
+- **La ficha vive en este dominio; la app del demo vive en otro repo**
+  (`alphadev-demos`, en `<marca>.demo.alphadev.studio`, con `noindex`). Aquí
+  solo se enlaza. El plan completo está en `docs/demos-verticales.md` y las
+  reglas técnicas de ese repo en su `AGENTS.md`.
+- **Los demos no se mezclan con `/portafolio`**, que sigue siendo solo los
+  cuatro clientes reales. Los reales valen más precisamente porque son reales.
+- **Nada aspiracional en una ficha**: lo que afirma tiene que ser verdad del
+  código de `alphadev-demos` ese día. Cada proyecto del programa 0-26 se marca
+  allá como "Módulo en vivo" o "Maqueta", y la ficha no puede prometer más.
+- `/demos` está dado de alta en `lib/i18n/routes.ts` (en `PUBLIC_PATHS`, en
+  `PAGE_META` y como raíz anidada, igual que `/recursos`) y en `app/sitemap.ts`.
 
 ### Componentes (`components/`)
 
@@ -371,7 +394,7 @@ que rompe el build si algún otro archivo importa `lib/supabase/admin`.
 | `lib/paypal.ts` | Orders API v2 por `fetch` — crear orden, capturar, verificar firma de webhook. Sin SDK ni script de PayPal en la página |
 | `lib/compra.ts` | Orquesta captura + registro + correo. La llaman `/recursos/gracias` y el webhook — nunca duplicar esta lógica |
 | `lib/correo.ts` | Resend por `fetch`, sin su SDK |
-| `app/admin/` | Panel: `/admin` (mensajes, movido desde `/academia/admin`), `/admin/guias`, `/admin/ventas` |
+| `app/admin/` | Panel, cinco pestañas (`app/admin/AdminNav.tsx`): `/admin` Resumen, `/admin/mensajes` (movido desde `/academia/admin`), `/admin/guias`, `/admin/ventas` (guías) y `/admin/servicios` (ver la sección siguiente) |
 
 ### Antes de que esto pueda vender de verdad (pendiente de Gabriel)
 
@@ -389,6 +412,30 @@ que rompe el build si algún otro archivo importa `lib/supabase/admin`.
    `NEXT_PUBLIC_`, pero el redespliegue sigue haciendo falta)
 7. Probar todo contra `PAYPAL_API_BASE=https://api-m.sandbox.paypal.com`
    antes de pasar a la URL de producción de PayPal
+
+---
+
+## 💵 Ventas de servicios y el Resumen del panel — hecho, septiembre 2026
+
+Lo otro que entra dinero, y que **no** es la tienda de guías: sitios, paquetes,
+lo que se cierra a mano con un cliente. No hay comprador anónimo, ni webhook, ni
+token de descarga, así que **no necesita la clave de servicio**: todo corre con
+la sesión del admin, igual que `guias`.
+
+| Archivo | Rol |
+|---|---|
+| `supabase/sql/03-ventas-servicios.sql` | Tabla `ventas_servicios` con RLS (las cuatro políticas son solo-admin). Idempotente, se pega en el SQL Editor |
+| `lib/ventasServicios.ts` + `lib/ventasServiciosTipos.ts` | Validación, alta/edición y consultas |
+| `lib/kpis.ts` | `calcularResumen()`: junta ventas de guías (PayPal) y de servicios en el rango que elija el admin |
+| `app/admin/servicios/` | Registro manual |
+| `app/admin/page.tsx` | El Resumen que consume `lib/kpis.ts` |
+
+- **Jamás se suman cents de monedas distintas.** Los segmentos no cotizan en la
+  misma divisa (PyME LATAM en MXN, founders de EE. UU. en USD): todo lo que junta
+  dinero de varias filas devuelve un total **por moneda**, nunca un solo número.
+  Un total mezclado sería un número mentiroso. Misma regla en los demos.
+- El importe se guarda en **cents** y la moneda aparte; el formateo vive en el
+  panel (`US$` / `MX$`), no en la base.
 
 ---
 
@@ -457,7 +504,6 @@ que rompe el build si algún otro archivo importa `lib/supabase/admin`.
     `.env.local` y `.env.example` pero **nadie las lee**: `lib/site-config.ts`
     tiene los valores fijos. Son residuo.
 13. `components/CaseStudiesSection.tsx` huérfano.
-14. Remover `/frontend/` (proyecto Vite obsoleto) si ya no se referencia.
 
 ---
 
@@ -693,7 +739,9 @@ El `PasswordGate` ya no existe. La Academia va detrás de una sesión real de Su
   Es a propósito: `@supabase/ssr` en cliente guarda la sesión con `document.cookie`, y una cookie
   escrita por JavaScript nunca puede ser `httpOnly`. Haciéndolo en el servidor sí lo es.
 - **La puerta de verdad es `app/academia/layout.tsx`** (`getUsuario()` → `redirect('/acceso')`).
-  El middleware es una segunda capa, no la única: Next 16.1.6 tiene avisos publicados de bypass.
+  El middleware es una segunda capa, no la única: Next tiene avisos publicados de bypass de
+  middleware (el que motivó esta regla salió contra 16.1.6; el repo hoy corre 16.3.8 y la
+  regla no cambia — la puerta sigue siendo el layout).
 - **El middleware nunca lanza.** Falta de configuración o caída de Supabase = denegar lo privado
   y dejar pasar el resto. Su matcher está limitado a rutas privadas concretas
   (`/academia`, `/academia/:path*`, `/admin`, `/admin/:path*`, `/acceso`); cubrir todo el sitio
@@ -743,9 +791,15 @@ El formulario de contacto guarda en Supabase y `/academia/admin` lo lista.
 
 ## 📚 Documentos relacionados
 
+- `docs/demos-verticales.md` — plan de ejecución de los cuatro demos verticales:
+  marcas, arquitectura, fases, cómo se simula la IA y qué sigue abierto. Lo que
+  se cierra ahí sube a este archivo
 - `docs/site-analysis-report.md` — análisis completo del estado actual (mayo 2026)
+- `docs/visual-art-direction.md` — dirección de arte, detalle del sistema visual
 - `README.md` — guía de setup técnico
 - `.env.example` — variables de entorno requeridas
+- `../alphadev-demos/AGENTS.md` — reglas del repo de los demos (otro stack, otro
+  ciclo de vida; este repo solo enlaza)
 
 ---
 
