@@ -2,6 +2,7 @@
 
 import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
+import { registrarClicCta } from '@/lib/analytics/runtime';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
 
@@ -58,7 +59,7 @@ export default function CTASection() {
           {c.subtitle}
         </p>
         <div data-animate="fade">
-          <SiteLink href="/contacto" className="btn-glow inline-flex">{c.button}</SiteLink>
+          <SiteLink href="/contacto" className="btn-glow inline-flex" onClick={() => registrarClicCta('cta_section')}>{c.button}</SiteLink>
         </div>
         <p className="cta-note text-sm" data-animate="fade">{c.note}</p>
 

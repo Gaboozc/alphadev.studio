@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import SiteLink from '@/components/SiteLink';
 import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LanguageContext';
+import { registrarClicCta } from '@/lib/analytics/runtime';
 import { stripLocale } from '@/lib/i18n/routes';
 import Image from 'next/image';
 import LanguageToggle from './LanguageToggle';
@@ -147,7 +148,10 @@ export default function Navbar() {
             href="/contacto"
             className="btn-glow"
             tabIndex={menuOpen ? 0 : -1}
-            onClick={() => setMenuOpen(false)}
+            onClick={() => {
+              setMenuOpen(false);
+              registrarClicCta('nav');
+            }}
           >
             {dict.nav.cta}
           </SiteLink>

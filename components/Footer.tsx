@@ -6,6 +6,8 @@ import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
 import footerLogo from '../assets/footer-logo.png';
 import footerLogoOscuro from '../assets/footer-logo-oscuro.png';
+import { EVENTO_ABRIR_BANNER } from '@/lib/analytics/consent';
+import { idMedicionActual } from '@/lib/analytics/runtime';
 import { PHONE_US, PHONE_MX } from '@/lib/site-config';
 
 const COMPANY_HREFS = ['/portafolio', '/demos', '/recursos', '/proceso', '/contacto'];
@@ -164,6 +166,16 @@ export default function Footer() {
             >
               {f.terms}
             </SiteLink>
+            {idMedicionActual() ? (
+              <button
+                type="button"
+                className="transition-colors hover:text-[--gold]"
+                style={{ background: 'none', border: 0, padding: 0, font: 'inherit', color: 'inherit', cursor: 'pointer' }}
+                onClick={() => window.dispatchEvent(new Event(EVENTO_ABRIR_BANNER))}
+              >
+                {f.cookies}
+              </button>
+            ) : null}
           </div>
         </div>
       </div>

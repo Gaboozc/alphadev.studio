@@ -11,7 +11,9 @@ import { guardarMensaje, validarMensaje } from '@/lib/mensajes'
 // Se devuelve un código, no un texto: el sitio es bilingüe y la frase que ve
 // la persona la elige el cliente con su diccionario.
 export type ErrorEnvio = 'campos' | 'ritmo' | 'servidor'
-export type ResultadoEnvio = { ok: true } | { ok: false; error: ErrorEnvio }
+export type ResultadoEnvio =
+  | { ok: true; conversion: boolean }
+  | { ok: false; error: ErrorEnvio }
 
 // ─── Límite por IP ────────────────────────────────────────────────────────────
 // En memoria, así que vive por instancia y se pierde en cada arranque en frío.
@@ -57,7 +59,9 @@ export async function enviarMensaje(
   // Trampa para robots: el campo está oculto por CSS, una persona no lo ve ni
   // lo rellena. Si viene con algo, se responde éxito y no se guarda nada —
   // decirle al robot que falló solo le enseña a esquivarlo.
-  if (String(formData.get('sitio') ?? '')) return { ok: true }
+  // Éxito visible, sin conversión: no enseñamos al robot que falló y no
+  // contamos un lead que no se guardó.
+  if (String(formData.get('sitio') ?? '')) return { ok: true, conversion: false }
 
   if (demasiadoSeguido(await ipDeQuienEnvia())) {
     return { ok: false, error: 'ritmo' }
@@ -91,5 +95,5 @@ export async function enviarMensaje(
     return { ok: false, error: 'servidor' }
   }
 
-  return { ok: true }
+  return { ok: true, conversion: true }
 }

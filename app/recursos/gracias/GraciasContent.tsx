@@ -1,3 +1,4 @@
+import ConversionBeacon from '@/components/ConversionBeacon';
 import { confirmarCompra } from '@/lib/compra';
 import type { Lang } from '@/lib/i18n';
 
@@ -60,6 +61,7 @@ export default async function GraciasContent({ lang, orderId }: { lang: Lang; or
 
   return (
     <main className="recurso-gracias">
+      <ConversionBeacon nombre="purchase" />
       <p className="eyebrow">{copy.titulo}</p>
       <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)' }}>{copy.cuerpo}</h1>
       <div className="gold-divider" />

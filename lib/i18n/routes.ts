@@ -107,12 +107,12 @@ const PAGE_META: Record<PublicPath, Record<Lang, PageMeta>> = {
   },
   '/servicios': {
     es: {
-      title: 'Servicios',
+      title: 'Sitio web, redes y publicidad',
       description:
         'Sitio web profesional, manejo de redes sociales, publicidad online y presencia en Google. Todo lo que tu negocio necesita para existir en internet.',
     },
     en: {
-      title: 'Services',
+      title: 'Website, social media, and advertising',
       description:
         'A professional website, social media management, online advertising, and a presence on Google. Everything your business needs to exist online.',
     },
@@ -155,12 +155,12 @@ const PAGE_META: Record<PublicPath, Record<Lang, PageMeta>> = {
   },
   '/contacto': {
     es: {
-      title: 'Contacto',
+      title: 'Hablemos de tu proyecto',
       description:
         'Cuéntanos sobre tu proyecto. Sin compromiso, analizamos la mejor solución técnica para tu empresa.',
     },
     en: {
-      title: 'Contact',
+      title: 'Let’s talk about your project',
       description:
         'Tell us about your project. No strings attached — we work out the best technical solution for your business.',
     },
@@ -169,12 +169,12 @@ const PAGE_META: Record<PublicPath, Record<Lang, PageMeta>> = {
     es: {
       title: 'Privacidad',
       description:
-        'Qué datos recoge alphadev.studio, para qué se usan y cómo pedir que se borren. Sin analítica ni rastreo de terceros.',
+        'Qué datos recoge alphadev.studio, para qué se usan y cómo pedir que se borren. La analítica, si está configurada, solo carga con tu consentimiento.',
     },
     en: {
       title: 'Privacy',
       description:
-        'What data alphadev.studio collects, what it is used for, and how to ask for it to be deleted. No analytics, no third-party tracking.',
+        'What data alphadev.studio collects, what it is used for, and how to ask for it to be deleted. Analytics, if configured, only loads with your consent.',
     },
   },
   '/terminos': {

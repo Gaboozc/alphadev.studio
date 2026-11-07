@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site-config'
 import { PUBLIC_PATHS, absoluteUrl, localizedPath, type PublicPath } from '@/lib/i18n/routes'
 import { listarGuiasPublicadas } from '@/lib/guias'
+import { hayConfiguracion } from '@/lib/supabase/server'
 import { DEMO_FICHAS } from '@/lib/content/demos'
 
 // Sitemap generado, no un XML a mano.
@@ -60,13 +61,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Redondeado a 1 decimal: 0.8 - 0.1 en punto flotante da
       // 0.7000000000000001, y ese ruido termina literal en el XML.
       priority: lang === 'es' ? prioridad : Math.round(Math.max(0.1, prioridad - 0.1) * 10) / 10,
-      alternates: { languages: idiomas },
+      alternates: { languages: { ...idiomas, 'x-default': idiomas.es } },
     }))
   })
 
   // Cada guía publicada, también en los dos idiomas: es contenido indexable
   // de verdad (una landing de venta), no una página de sistema.
-  const guias = await listarGuiasPublicadas()
+  // Sin Supabase configurado el sitemap no debe 500: el catálogo queda vacío.
+  const guias = hayConfiguracion() ? await listarGuiasPublicadas().catch(() => []) : []
   const paginasDeGuias = guias.flatMap((guia): MetadataRoute.Sitemap => {
     const idiomas = {
       es: `${SITE_URL}${localizedPath(`/recursos/${guia.slug}`, 'es')}`,
@@ -77,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(guia.actualizado_el),
       changeFrequency: 'monthly' as const,
       priority: lang === 'es' ? 0.6 : 0.5,
-      alternates: { languages: idiomas },
+      alternates: { languages: { ...idiomas, 'x-default': idiomas.es } },
     }))
   })
 
@@ -92,7 +94,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: lang === 'es' ? 0.6 : 0.5,
-      alternates: { languages: idiomas },
+      alternates: { languages: { ...idiomas, 'x-default': idiomas.es } },
     }))
   })
 

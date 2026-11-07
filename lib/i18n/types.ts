@@ -100,5 +100,6 @@ export interface Translations {
     rights: string;
     privacy: string;
     terms: string;
+    cookies: string;
   };
 }

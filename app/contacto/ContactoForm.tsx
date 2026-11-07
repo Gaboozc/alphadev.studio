@@ -4,6 +4,7 @@ import { useActionState, useState } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import Image from 'next/image';
 import Icon, { type IconName } from '@/components/Icon';
+import ConversionBeacon from '@/components/ConversionBeacon';
 import { enviarMensaje, type ErrorEnvio } from './actions';
 
 type Category = 'consultation' | 'app' | 'internal' | 'api' | 'other';
@@ -67,6 +68,7 @@ export default function ContactoForm() {
   if (resultado?.ok) {
     return (
       <div className="text-center py-16 space-y-4">
+        {resultado.conversion ? <ConversionBeacon nombre="generate_lead" /> : null}
         <div className="text-6xl">✓</div>
         <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--text)' }}>{c.form.success_title}</h3>
         <p style={{ color: 'var(--text-muted)' }}>{c.form.success_message}</p>

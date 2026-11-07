@@ -11,11 +11,18 @@ function respuestaError(mensaje: string, status: number) {
   // footer. Bilingüe en una sola pantalla porque no sabemos en qué idioma
   // llegó quien la ve.
   return new NextResponse(
-    `<!doctype html><html><head><meta charset="utf-8"><title>AlphaDev Studios</title></head>` +
+      `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>AlphaDev Studios</title></head>` +
       `<body style="font-family:system-ui,sans-serif;background:#FAFAF7;color:#1A1512;` +
       `display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;">` +
       `<div style="max-width:480px;text-align:center;"><p>${mensaje}</p></div></body></html>`,
-    { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } },
+    {
+      status,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'X-Robots-Tag': 'noindex, nofollow',
+      },
+    },
   )
 }
 
@@ -48,7 +55,10 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
     return NextResponse.redirect(urlFirmada, {
       status: 302,
-      headers: { 'Cache-Control': 'no-store, private' },
+      headers: {
+        'Cache-Control': 'no-store, private',
+        'X-Robots-Tag': 'noindex, nofollow',
+      },
     })
   } catch (e) {
     console.error('[recursos/descargar] fallo inesperado:', e)

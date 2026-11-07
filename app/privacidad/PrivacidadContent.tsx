@@ -4,6 +4,8 @@ import SiteLink from '@/components/SiteLink';
 import type { ReactNode } from 'react';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import { measurementIdDesdeEnv } from '@/lib/analytics/id';
+import { analiticaOperativa, copyPrivacidadAnalitica } from '@/lib/seo/privacidad-analitica';
 import { PHONE_MX, PHONE_US } from '@/lib/site-config';
 
 type Section = { title: string; body: ReactNode };
@@ -30,7 +32,7 @@ const COPY: Record<Lang, Copy> = {
   es: {
     eyebrow: 'Documento legal',
     title: 'Privacidad',
-    updated: 'Última actualización: 18 de septiembre de 2026',
+    updated: 'Última actualización: 7 de noviembre de 2026',
     lead:
       'Esta página describe exactamente qué datos recoge este sitio y qué hacemos con ellos. Está escrita en español simple a propósito: si algo no se entiende, no sirve.',
     sections: [
@@ -56,12 +58,10 @@ const COPY: Record<Lang, Copy> = {
         title: 'Qué no recogemos',
         body: (
           <ul>
-            <li>No usamos Google Analytics ni ninguna otra herramienta de analítica.</li>
-            <li>No tenemos píxeles de publicidad ni rastreadores de terceros.</li>
-            <li>No compramos, vendemos ni intercambiamos datos con nadie.</li>
+            <li>No tenemos píxeles de publicidad ni compramos, vendemos o intercambiamos datos.</li>
             <li>
-              No usamos cookies de publicidad. Las únicas cookies del sitio son las que mantienen tu
-              sesión abierta en la Academia, y solo existen si inicias sesión.
+              Las cookies de sesión de la Academia solo existen si inicias sesión. Las de medición,
+              si el sitio tiene un identificador configurado, solo se crean si aceptas.
             </li>
           </ul>
         ),
@@ -153,7 +153,7 @@ const COPY: Record<Lang, Copy> = {
   en: {
     eyebrow: 'Legal',
     title: 'Privacy',
-    updated: 'Last updated: September 18, 2026',
+    updated: 'Last updated: November 7, 2026',
     lead:
       'This page describes exactly what data this site collects and what we do with it. It is written in plain English on purpose: if you cannot understand it, it is not doing its job.',
     sections: [
@@ -179,12 +179,10 @@ const COPY: Record<Lang, Copy> = {
         title: 'What we do not collect',
         body: (
           <ul>
-            <li>We do not use Google Analytics or any other analytics tool.</li>
-            <li>We have no advertising pixels and no third-party trackers.</li>
-            <li>We do not buy, sell, or trade data with anyone.</li>
+            <li>We have no advertising pixels and we do not buy, sell, or trade data.</li>
             <li>
-              We use no advertising cookies. The only cookies on this site are the ones that keep
-              you signed in to the Academy, and they only exist if you sign in.
+              Academy session cookies exist only if you sign in. Measurement cookies, if the site
+              has an identifier configured, are created only if you accept.
             </li>
           </ul>
         ),
@@ -276,6 +274,12 @@ const COPY: Record<Lang, Copy> = {
 export default function PrivacidadContent() {
   const { lang } = useLang();
   const copy = COPY[lang];
+  const analitica = copyPrivacidadAnalitica(
+    lang,
+    analiticaOperativa(
+      measurementIdDesdeEnv({ NEXT_PUBLIC_ANALYTICS_ID: process.env.NEXT_PUBLIC_ANALYTICS_ID }),
+    ),
+  );
 
   return (
     <main className="legal-page">
@@ -288,12 +292,24 @@ export default function PrivacidadContent() {
 
         <p className="legal-lead">{copy.lead}</p>
 
-        {copy.sections.map((section) => (
-          <section key={section.title}>
-            <h2>{section.title}</h2>
-            {section.body}
-          </section>
-        ))}
+        {copy.sections.flatMap((section) => {
+          const bloque = (
+            <section key={section.title}>
+              <h2>{section.title}</h2>
+              {section.body}
+            </section>
+          );
+          if (section.title === copy.sections[1]?.title) {
+            return [
+              bloque,
+              <section key="analitica">
+                <h2>{analitica.titulo}</h2>
+                <p>{analitica.cuerpo}</p>
+              </section>,
+            ];
+          }
+          return [bloque];
+        })}
 
         <p className="legal-note">{copy.note}</p>
       </div>

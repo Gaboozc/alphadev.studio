@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { esAdmin } from '@/lib/perfil'
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+  alternates: { canonical: '/admin' },
+}
 
 // Panel de administración. Vive fuera de /academia a propósito: es la única
 // pieza de gestión interna que sigue en pie con certeza, y colgarla de una

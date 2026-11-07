@@ -5013,3 +5013,57 @@ button.case-thumb {
 
 /* En el panel de admin el toggle va al final de la fila de pestañas. */
 .adm-tema { margin-left: auto; align-self: center; }
+
+/* Aviso de consentimiento de medición. Solo se pinta si hay ID GA4 válido. */
+.ads-consent {
+  position: fixed;
+  z-index: 50;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+  pointer-events: none;
+}
+.ads-consent-inner {
+  pointer-events: auto;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 -8px 32px rgba(26, 21, 18, 0.08);
+}
+.ads-consent-title {
+  font-family: var(--font-playfair);
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
+}
+.ads-consent-body {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+.ads-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.ads-consent-reject {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gold);
+  background: transparent;
+  border: 0;
+  padding: 0.5rem 0.25rem;
+  cursor: pointer;
+}
+.ads-consent-reject:hover {
+  color: var(--gold-dark);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ads-consent-inner { box-shadow: none; }
+}

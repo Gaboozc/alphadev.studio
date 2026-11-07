@@ -220,5 +220,6 @@ export const es: Translations = {
     rights: '© 2026 AlphaDev Studios. Todos los derechos reservados.',
     privacy: 'Privacidad',
     terms: 'Términos',
+    cookies: 'Medición',
   },
 };

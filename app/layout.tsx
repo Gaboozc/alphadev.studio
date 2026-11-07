@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
+import AnalyticsRoot from '@/components/AnalyticsRoot';
 import ConditionalLayout from '@/components/ConditionalLayout';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -30,16 +31,11 @@ export const metadata: Metadata = {
   description:
     'Creamos tu presencia digital desde cero: sitio web, redes sociales y publicidad online. Para que tus clientes te encuentren, te elijan y vuelvan.',
   keywords: [
-    'presencia digital para negocios',
-    'sitio web profesional',
-    'manejo de redes sociales',
-    'publicidad en Google',
-    'publicidad en Instagram',
-    'Google Business Profile',
-    'marketing digital PyMEs',
-    'crear marca desde cero',
-    'agencia de soluciones digitales',
     'AlphaDev Studios',
+    'sitio web profesional',
+    'presencia digital',
+    'producto digital',
+    'ingeniería digital',
   ],
   authors: [{ name: 'AlphaDev Studios', url: SITE_URL }],
   creator: 'AlphaDev Studios',
@@ -87,7 +83,7 @@ const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/assets/img/alphadev-logo.png`,
   description:
-    'Agencia de soluciones digitales. Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
+    'Creamos la presencia online de negocios desde cero: sitio web, redes sociales, perfil de Google y publicidad que trae clientes reales.',
   telephone: PHONE_US.e164,
   contactPoint: [
     {
@@ -118,7 +114,7 @@ const organizationJsonLd = {
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Soluciones digitales para negocios',
+    name: 'Servicios de presencia digital',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Presencia digital desde cero (marca + sitio + perfiles)' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Manejo de redes sociales' } },
@@ -161,6 +157,7 @@ export default function RootLayout({
           <ScrollAnimations />
           <MagneticButtons />
           <ConditionalLayout>{children}</ConditionalLayout>
+          <AnalyticsRoot />
         </LanguageProvider>
       </body>
     </html>

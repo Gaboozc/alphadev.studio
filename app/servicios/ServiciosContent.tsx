@@ -5,6 +5,7 @@ import Image from 'next/image';
 import CTASection from '@/components/CTASection';
 import TemplatesSection from '@/components/TemplatesSection';
 
+import { registrarClicCta } from '@/lib/analytics/runtime';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 import type { Lang } from '@/lib/i18n';
@@ -170,7 +171,7 @@ export default function ServiciosContent() {
               <div className="gold-divider" data-animate="divider" />
               <p className="section-subtitle hero-sub" data-animate="subtitle">{copy.subtitle}</p>
               <div className="hero-cta" data-animate="fade">
-                <SiteLink href="/contacto" className="btn-glow inline-flex">
+                <SiteLink href="/contacto" className="btn-glow inline-flex" onClick={() => registrarClicCta('servicios')}>
                   {lang === 'es' ? 'Quiero mi llamada' : 'I want my call'}
                 </SiteLink>
               </div>

@@ -332,9 +332,30 @@ que nada avise.
 - Transversales: `SiteLink` (**el enlace interno que se usa en páginas
   públicas** - un `next/link` crudo devuelve al español a mitad de navegación),
   `LanguageToggle`, `TemplateViewer`, `ScrollAnimations`, `SmoothScroll`,
-  `MagneticButtons`, `Icon`, `Flag`, `AlphaDevWordmark`, `ErrorScreen`
+  `MagneticButtons`, `Icon`, `Flag`, `AlphaDevWordmark`, `ErrorScreen`,
+  `AnalyticsRoot` (GA4 inactivo sin ID + consentimiento)
 - `CaseStudiesSection.tsx` está **huérfano** desde que `WorkShowcase` lo
   reemplazó. No invertir tiempo ahí
+
+---
+
+## 🔎 SEO y medición (noviembre 2026)
+
+- **GA4 no opera sin ID válido** en `NEXT_PUBLIC_ANALYTICS_ID` (formato `G-` +
+  alfanumérico). Vacío, placeholder o GTM/UA = ningún script. No se inventa
+  un ID ni se crean propiedades remotas desde el código.
+- **Sin consentimiento no se carga gtag.** Deny/revoke persisten y cortan el
+  envío. Academia/admin/acceso/tarjeta no miden.
+- **Conversiones** (solo éxito confirmado, sin PII ni query): `generate_lead`
+  cuando el formulario de contacto **sí se guardó**; `purchase` cuando PayPal
+  **confirmó** la guía. Los clics de CTA son `cta_click` (no conversión).
+- **robots** vive en `app/robots.ts` (host y sitemap en `www`). Disallow de
+  admin/auth **no sustituye** las guardas de sesión.
+- Search Console y Google Business Profile: pendientes de acceso/verificación
+  humana. Ver `docs/seo-pendientes-gsc-gbp.md`. No se crean perfiles ni se
+  pide indexación desde el repo.
+- Cobertura del checklist SEO: `docs/seo-cobertura.md`. Preview local:
+  `docs/preview-seo.md`.
 
 ---
 

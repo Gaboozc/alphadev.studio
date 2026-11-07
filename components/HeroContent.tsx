@@ -4,6 +4,7 @@ import SiteLink from '@/components/SiteLink';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n/LanguageContext';
 import type { Lang } from '@/lib/i18n';
+import { registrarClicCta } from '@/lib/analytics/runtime';
 import { CASES, CASE_PHOTO_HEIGHT, CASE_PHOTO_WIDTH } from '@/lib/content/cases';
 
 // ── Service modules — the ecosystem ADS builds ────────────────────────────────
@@ -82,10 +83,10 @@ export default function HeroContent() {
 
             {/* CTAs */}
             <div data-animate="fade" className="hero-cta-row flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <SiteLink href="/contacto" className="btn-glow inline-flex">
+              <SiteLink href="/contacto" className="btn-glow inline-flex" onClick={() => registrarClicCta('hero_primary')}>
                 {h.cta_primary}
               </SiteLink>
-              <SiteLink href="/proceso" className="hero-cta-secondary">
+              <SiteLink href="/proceso" className="hero-cta-secondary" onClick={() => registrarClicCta('hero_secondary')}>
                 {h.cta_secondary} →
               </SiteLink>
             </div>
