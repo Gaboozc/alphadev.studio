@@ -20,6 +20,7 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
   display: 'swap',
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {

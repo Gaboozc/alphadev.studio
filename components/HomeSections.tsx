@@ -19,8 +19,12 @@ import CTASection from '@/components/CTASection';
 export default function HomeSections() {
   return (
     <>
-      <Hero />
-      <HeroContent />
+      {/* hero-scene agrupa video + titular para el handoff en desktop
+          (tarjeta sobre tinta). No es un pin: el único pin sigue en WorkShowcase. */}
+      <div className="hero-scene">
+        <Hero />
+        <HeroContent />
+      </div>
       <BrandProofStrip />
       <WorkShowcase />
       <ProblemSection />
