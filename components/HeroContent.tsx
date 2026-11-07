@@ -47,9 +47,11 @@ export default function HeroContent() {
   const modules = MODULES[lang];
 
   return (
-    <section className="hero-stage text-center">
-      {/* Subtle dot-grid background */}
-      <div aria-hidden="true" data-parallax="10" className="hero-stage-dots bg-dot-grid" />
+    <section className="hero-stage is-ink text-center">
+      {/* Subtle dot-grid background. Sin data-parallax: el handoff del hero
+          y el pin de WorkShowcase son las únicas líneas de tiempo; un
+          trigger extra aquí competiría con esa escena. */}
+      <div aria-hidden="true" className="hero-stage-dots bg-dot-grid" />
 
       {/* Radial glow behind headline */}
       <div aria-hidden="true" className="hero-stage-glow" />

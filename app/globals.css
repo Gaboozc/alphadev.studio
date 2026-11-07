@@ -1067,15 +1067,43 @@ a, button {
 ═══════════════════════════════════════════════════════ */
 
 .hero-video-section {
+  --handoff: 0;
+  height: 100dvh;
+  position: relative;
+  z-index: 3;
+  background: transparent;
+}
+.hero-video-frame {
   height: 100dvh;
   position: relative;
   overflow: hidden;
-  clip-path: inset(0);
   background: rgb(0, 0, 0);
-  transition: background 0.8s ease;
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.hero-video-section.is-ended {
+.hero-video-section.is-ended .hero-video-frame {
   background: var(--hero-fin);
+}
+
+@media (min-width: 900px) {
+  /* Scroll extra para el scrub, frame sticky para que la tarjeta no se vaya
+     antes de que el titular en tinta ocupe el plano. No es pin de GSAP. */
+  .hero-video-section {
+    height: 165dvh;
+  }
+  .hero-video-frame {
+    position: sticky;
+    top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-section {
+    height: 100dvh;
+  }
+  .hero-video-frame {
+    position: relative;
+    top: auto;
+  }
 }
 
 .hero-video {
@@ -1086,15 +1114,21 @@ a, button {
   object-fit: cover;
 }
 
+.hero-video-section.is-ended .hero-video {
+  filter: blur(14px);
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .hero-logo-overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Velo cream sobre el video con blur (el blur se ve durante el fade 0.6s). */
   background: var(--hero-fin);
   opacity: 0;
-  transition: opacity 1s ease 0.3s;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 .hero-logo-overlay.is-visible { opacity: 1; }
@@ -1114,12 +1148,19 @@ a, button {
   padding-bottom: clamp(1.5rem, 4vh, 3rem);
   gap: 1rem;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 .hero-post-overlay.is-visible {
   opacity: 1;
   pointer-events: auto;
+}
+@media (min-width: 900px) {
+  .hero-post-overlay.is-visible {
+    /* --handoff lo escribe el scrub; sin transition o el 0.6s retrasaría cada frame. */
+    opacity: calc(1 - var(--handoff, 0));
+    transition: none;
+  }
 }
 
 .hero-replay-btn {
@@ -1142,6 +1183,10 @@ a, button {
   border-color: var(--gold-border);
   color: var(--gold);
 }
+.hero-replay-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
 
 .hero-scroll-cue {
   display: flex;
@@ -1163,6 +1208,11 @@ a, button {
   background: linear-gradient(to bottom, var(--gold-light), transparent);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hero-replay-btn { display: none; }
+  .hero-video-section.is-ended .hero-video { filter: none; }
+}
+
 /* ═══════════════════════════════════════════════════════
    HERO — contenido editorial (HeroContent.tsx)
 ═══════════════════════════════════════════════════════ */
@@ -1176,12 +1226,96 @@ a, button {
   50%       { opacity: 1; }
 }
 
+.hero-scene {
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .hero-scene {
+    background: #1A1512;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scene {
+    background: transparent;
+  }
+}
+
 .hero-stage {
   background: var(--bg);
   border-top: 1px solid var(--border);
   padding: clamp(4rem, 10vh, 7rem) 1.5rem clamp(5rem, 12vh, 9rem);
   position: relative;
   overflow: hidden;
+}
+
+/* Desktop ≥900: el titular entra en tinta debajo del video que se hace
+   tarjeta. Sin pin (el solape es margin negativo, scroll nativo). Móvil
+   conserva cream y no solapa — el código limita el handoff a desktop. */
+@media (min-width: 900px) {
+  .hero-stage.is-ink {
+    margin-top: -32vh;
+    padding-top: clamp(6rem, 28vh, 12rem);
+    background: #1A1512;
+    border-top: none;
+    z-index: 2;
+  }
+  .hero-stage.is-ink .hero-headline {
+    color: #FAF7F2;
+    text-align: left;
+  }
+  .hero-stage.is-ink .hero-headline [data-split='true'] > span:last-child,
+  .hero-stage.is-ink .hero-headline em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+  .hero-stage.is-ink .hero-subheadline {
+    color: rgba(250, 247, 242, 0.72);
+    text-align: left;
+  }
+  .hero-stage.is-ink .hero-badge {
+    color: var(--gold-light);
+  }
+  .hero-stage.is-ink .hero-cta-secondary {
+    color: rgba(250, 247, 242, 0.72);
+    border-bottom-color: rgba(201, 164, 101, 0.35);
+  }
+  .hero-stage.is-ink .hero-cta-secondary:hover {
+    color: var(--gold-light);
+  }
+  .hero-stage.is-ink .hero-modules-label {
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .hero-stage.is-ink .hero-modules-panel {
+    background: rgba(26, 21, 18, 0.4);
+    border-color: rgba(201, 164, 101, 0.28);
+  }
+  .hero-stage.is-ink .module-card {
+    background: rgba(250, 247, 242, 0.04);
+    border-color: rgba(201, 164, 101, 0.22);
+  }
+  .hero-stage.is-ink .module-label {
+    color: #FAF7F2;
+  }
+  .hero-stage.is-ink .module-sub {
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .hero-stage.is-ink .gold-divider {
+    background: linear-gradient(90deg, var(--gold-light), transparent);
+    margin-left: 0;
+  }
+  /* La tarjeta del video ocupa esa columna durante el handoff. */
+  .hero-stage.is-ink .hero-visual {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stage.is-ink {
+    margin-top: 0;
+    padding-top: clamp(4rem, 10vh, 7rem);
+  }
 }
 
 .hero-stage-dots {
@@ -2009,151 +2143,248 @@ a, button {
    WORK SHOWCASE — carrusel horizontal pinneado
    (WorkShowcase.tsx). El ÚNICO pin del sitio: ver la nota en
    el componente y en ScrollAnimations.tsx antes de añadir otro.
+   overflow:hidden recorta el track del pin, no esconde errores.
 ═══════════════════════════════════════════════════════ */
 
 .work-showcase {
+  --work-ink: #1A1512;
+  --work-on-ink: #FAF7F2;
   position: relative;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
+  background: var(--work-ink);
+  border-top: 1px solid rgba(201, 164, 101, 0.22);
+  color: var(--work-on-ink);
 }
 
 .work-showcase-header {
   flex-shrink: 0;
-  padding-top: clamp(3rem, 8vh, 5rem);
-  padding-bottom: 1.5rem;
-  text-align: center;
+  padding-top: clamp(6.75rem, 12vh, 8rem);
+  padding-bottom: 0.75rem;
+  text-align: left;
 }
-.work-showcase-header .section-title { margin-bottom: 0; }
+.work-showcase-header .section-title {
+  margin-bottom: 0;
+  color: var(--work-on-ink);
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  text-align: left;
+}
+.work-showcase-header .eyebrow {
+  color: var(--gold-light);
+  text-align: left;
+}
+.work-showcase-header .gold-divider {
+  margin-left: 0;
+  margin-right: auto;
+  background: linear-gradient(90deg, var(--gold-light), transparent);
+}
+
+@media (min-width: 900px) {
+  .work-showcase-header.section-container {
+    max-width: none;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
 
 .work-track {
   display: flex;
   flex: 1;
-  min-height: 0; /* si no, el contenido intrínseco de los paneles ignoraría flex:1 */
+  min-height: 0;
+  align-items: stretch;
+  gap: 40px;
+  padding: 0 80px 3.25rem;
 }
 
 .work-panel {
-  width: 100vw;
-  flex-shrink: 0;
+  flex: 0 0 69vw;
+  width: 69vw;
   display: flex;
-  align-items: center;
-  background: var(--bg);
+  align-items: stretch;
+  background: transparent;
+  min-height: 0;
 }
-.work-panel.is-alt { background: var(--bg-alt); }
 
-.work-panel-inner {
+.work-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
   width: 100%;
+  height: 100%;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #14110E;
+}
+
+.work-card-media {
+  position: absolute;
+  inset: 0;
+}
+.work-card-media-shift {
+  position: absolute;
+  inset: -6%;
+}
+.work-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: brightness(0.62);
+}
+
+.work-card-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 21, 18, 0.94) 0%,
+    rgba(26, 21, 18, 0.45) 42%,
+    rgba(26, 21, 18, 0.08) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.work-panel-copy {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding: 2.5rem 2.75rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .work-panel-num {
   display: block;
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--gold-light);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .work-panel-name {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-size: clamp(2.25rem, 5vw, 5.5rem);
   font-weight: 700;
-  line-height: 1.05;
-  color: var(--text);
+  line-height: 1.02;
+  color: var(--work-on-ink);
 }
 
 .work-panel-industry {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-top: 0.5rem;
+  color: var(--gold-light);
+  margin-top: 0.85rem;
 }
 
 .work-panel-result {
   font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  max-width: 32rem;
-  margin-top: 1.25rem;
+  color: rgba(250, 247, 242, 0.78);
+  line-height: 1.55;
+  max-width: 36rem;
+  margin-top: 0.65rem;
 }
 
 .work-panel-scope {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 0.85rem;
-  color: var(--text-subtle);
-  margin-top: 0.75rem;
+  color: rgba(250, 247, 242, 0.45);
+  margin-top: 0.5rem;
 }
 
 .work-panel-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   width: fit-content;
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-light);
   text-decoration: none;
-  border-bottom: 1px solid var(--gold-border);
+  border-bottom: 1px solid rgba(201, 164, 101, 0.45);
   padding-bottom: 3px;
   transition: opacity 200ms ease, border-color 200ms ease;
 }
 .work-panel-cta:hover {
-  opacity: 0.75;
-  border-color: var(--gold);
+  opacity: 0.8;
+  border-color: var(--gold-light);
+}
+.work-panel-cta:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
-.work-panel-frame {
+.work-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 80px;
+  z-index: 4;
+  pointer-events: none;
+}
+.work-progress-track {
+  width: min(480px, 38vw);
+  height: 3px;
+  background: rgba(250, 247, 242, 0.16);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.work-progress-bar {
+  height: 100%;
   width: 100%;
+  background: var(--gold);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left center;
+}
+.work-progress-count {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--work-on-ink);
+  margin: 0;
 }
 
-@media (min-width: 900px) {
-  .work-panel-inner {
-    flex-direction: row;
-    align-items: center;
-    gap: 4rem;
-  }
-  .work-panel-copy { flex: 1; }
-  .work-panel-frame {
-    width: 60vw;
-    max-width: 640px;
-    flex-shrink: 0;
-  }
+.work-dots {
+  display: none;
 }
 
-/* Mobile/tablet: nada de pin ni carrusel escondido (el motor data-pin-track
-   en ScrollAnimations.tsx solo corre en desktop). En vez de una version
-   diminuida del efecto de escritorio -swipe horizontal sin ninguna pista
-   visual, contenido apretado en un alto fijo-, cada cliente pasa a ser un
-   bloque vertical a pantalla completa: la simplificacion deliberada estilo
-   Huge, no un fallback pobre del mismo layout. */
+/* Mobile/tablet: nada de pin (el motor data-pin-track solo corre ≥900).
+   Abanico nativo: overflow-x + scroll-snap mandatory, cards 80vw giradas
+   --i·2.25° − 3.375°, la siguiente asoma. Scope y BrandProofStrip ocultos. */
 @media (max-width: 899px) {
   .work-showcase {
     height: auto;
     display: block;
     overflow: visible;
+    padding-bottom: 1.5rem;
   }
   .work-showcase-header {
     padding-top: clamp(3rem, 10vh, 4rem);
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
-  /* Abanico horizontal, mismo mecanismo que el radial-cards-marquee de
-     hugeinc.com: un track más ancho que la pantalla con las cards
-     inclinadas sobre un arco. La card siguiente asoma siempre — eso, y no
-     un cartel, es la señal de que se desliza. */
+  .work-progress {
+    display: none;
+  }
   .work-track {
     display: flex;
     flex-direction: row;
+    align-items: stretch;
     gap: 0.75rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -2161,7 +2392,7 @@ a, button {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     padding-inline: 1.5rem;
-    padding-block: 1rem 2.5rem;
+    padding-block: 1rem 1.25rem;
   }
 
   .work-track::-webkit-scrollbar {
@@ -2170,7 +2401,7 @@ a, button {
 
   .work-panel {
     flex: 0 0 80vw;
-    width: auto;
+    width: 80vw;
     min-height: 0;
     padding: 0;
     scroll-snap-align: center;
@@ -2181,18 +2412,18 @@ a, button {
     transform-origin: bottom center;
   }
 
-  .work-panel.is-alt {
-    background: transparent;
+  .work-card {
+    height: auto;
+    min-height: 28rem;
+    border-radius: 22px;
   }
 
-  /* El panel ya trae su propio padding del track. */
-  .work-panel-inner {
-    gap: 1.25rem;
-    padding-inline: 0;
+  .work-panel-copy {
+    padding: 1.35rem 1.25rem 1.5rem;
   }
 
   .work-panel-name {
-    font-size: clamp(2.25rem, 10vw, 3rem);
+    font-size: clamp(1.85rem, 8vw, 2.6rem);
   }
 
   /* El scope es el nivel de detalle que vive en /portafolio; en una card
@@ -2201,14 +2432,74 @@ a, button {
     display: none;
   }
 
-  .work-panel-frame {
-    width: 100%;
+  .work-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.25rem 0 1rem;
+  }
+  .work-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(250, 247, 242, 0.28);
+    cursor: pointer;
+  }
+  .work-dot.is-active {
+    background: var(--gold-light);
+  }
+  .work-dot:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
   }
 
   /* El strip de clientes mostraba exactamente estos mismos 4 clientes
      justo arriba. En un teléfono eso eran dos secciones seguidas diciendo
      lo mismo; queda la que trae resultado y link. */
   .brand-proof {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-showcase {
+    height: auto;
+    overflow: visible;
+  }
+  .work-track {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow: visible;
+    transform: none !important;
+    padding: 0 1.5rem 2.5rem;
+    scroll-snap-type: none;
+  }
+  .work-panel {
+    flex: none;
+    width: 100%;
+    transform: none !important;
+  }
+  .work-card {
+    min-height: 0;
+    border-radius: 16px;
+  }
+  .work-card-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    max-height: 42vh;
+  }
+  .work-card-media-shift {
+    inset: 0;
+    transform: none !important;
+  }
+  .work-panel-copy {
+    margin-top: 0;
+  }
+  .work-progress,
+  .work-dots {
     display: none;
   }
 }
