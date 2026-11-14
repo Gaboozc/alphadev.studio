@@ -239,7 +239,7 @@ export default function AcademiaNav({
             let trackTotal = 0
             if (hydrated) {
               trackMods.forEach((m) => {
-                const p = getModuleProgress(m.lessons)
+                const p = getModuleProgress(m)
                 trackDone += p.done
                 trackTotal += p.total
               })
@@ -322,7 +322,7 @@ export default function AcademiaNav({
                     {trackMods.map((mod, idx) => {
                       const isActive = mod.id === currentModuleId
                       const isCapstone = mod.id.includes('capstone')
-                      const progress = hydrated ? getModuleProgress(mod.lessons) : { done: 0, total: 0, percent: 0 }
+                      const progress = hydrated ? getModuleProgress(mod) : { done: 0, total: 0, percent: 0 }
                       const isDone = hydrated && progress.done === progress.total && progress.total > 0
 
                       return (

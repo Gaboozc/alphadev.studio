@@ -98,7 +98,7 @@ export default function AcademiaContent({ catalogo, totalLecciones, rutas, retos
                 let total = 0
                 if (hydrated) {
                   mods.forEach((m) => {
-                    const p = getModuleProgress(m.lessons)
+                    const p = getModuleProgress(m)
                     done += p.done
                     total += p.total
                   })

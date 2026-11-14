@@ -62,9 +62,9 @@ interface Props {
 
 export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesson, nextLesson }: Props) {
   const { isCompleted, toggleLesson, getModuleProgress, hydrated } = useProgress()
-  const done = isCompleted(lesson.id)
+  const done = isCompleted(mod.id, lesson.id)
   const embedType = getEmbedType(lesson)
-  const progress = getModuleProgress(mod.lessons)
+  const progress = getModuleProgress(mod)
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -144,7 +144,7 @@ export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesso
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {mod.lessons.map((l, idx) => {
               const isActive = l.id === lesson.id
-              const isLessonDone = isCompleted(l.id)
+              const isLessonDone = isCompleted(mod.id, l.id)
 
               return (
                 <Link
@@ -283,7 +283,7 @@ export default function LessonPage({ module: mod, lesson, lessonIndex, prevLesso
 
             {/* Mark complete button */}
             <button
-              onClick={() => toggleLesson(lesson.id)}
+              onClick={() => toggleLesson(mod.id, lesson.id)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
