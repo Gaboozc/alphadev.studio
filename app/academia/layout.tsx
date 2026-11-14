@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import AcademiaNav from './components/AcademiaNav'
+import ProgresoProvider from './components/ProgresoProvider'
 import { allMeta } from './queries'
+import { construirIndice } from '@/lib/academia/progreso'
 import { getUsuario } from '@/lib/supabase/server'
 import { esAdmin } from '@/lib/perfil'
 
@@ -18,14 +20,15 @@ export default async function AcademiaLayout({ children }: { children: React.Rea
   if (!usuario) redirect('/acceso')
 
   const catalogo = allMeta()
+  const indice = construirIndice(catalogo)
   const admin = await esAdmin()
 
   return (
-    <>
+    <ProgresoProvider indice={indice}>
       <AcademiaNav catalogo={catalogo} email={usuario.email ?? ''} admin={admin} />
       <div style={{ paddingTop: '3.5rem' }}>
         {children}
       </div>
-    </>
+    </ProgresoProvider>
   )
 }

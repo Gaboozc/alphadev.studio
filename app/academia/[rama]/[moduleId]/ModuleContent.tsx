@@ -46,7 +46,7 @@ interface Props {
 
 export default function ModuleContent({ module: mod, trackModules }: Props) {
   const { isCompleted, getModuleProgress, hydrated } = useProgress()
-  const progress = getModuleProgress(mod.lessons)
+  const progress = getModuleProgress(mod)
 
   const currentIndex = trackModules.findIndex((m) => m.id === mod.id)
   const prev = currentIndex > 0 ? trackModules[currentIndex - 1] : null
@@ -107,7 +107,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             {trackModules.map((m) => {
               const isActive = m.id === mod.id
-              const mp = getModuleProgress(m.lessons)
+              const mp = getModuleProgress(m)
 
               return (
                 <Link
@@ -284,7 +284,7 @@ export default function ModuleContent({ module: mod, trackModules }: Props) {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {mod.lessons.map((lesson, idx) => {
-                const done = isCompleted(lesson.id)
+                const done = isCompleted(mod.id, lesson.id)
 
                 return (
                   <Link
