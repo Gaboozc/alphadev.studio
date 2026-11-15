@@ -34,6 +34,15 @@ export async function middleware(request: NextRequest) {
   const esAdminRoute = ruta === '/admin' || ruta.startsWith('/admin/')
   const esPrivada = esAcademia || esAdminRoute
 
+  // Bypass SOLO en next dev con ACADEMIA_DEV_BYPASS=1 (local, no producción).
+  if (
+    process.env.NODE_ENV === 'development' &&
+    process.env.ACADEMIA_DEV_BYPASS === '1' &&
+    esAcademia
+  ) {
+    return NextResponse.next()
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

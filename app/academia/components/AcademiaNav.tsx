@@ -27,7 +27,8 @@ export default function AcademiaNav({
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
 
-  const currentModuleId = pathname.split('/')[2] ?? ''
+  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama)
+  const currentModuleId = pathname.split('/')[3] ?? ''
   const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
     currentModule?.track ?? 'marketing'

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
 import AnalyticsRoot from '@/components/AnalyticsRoot';
 import ConditionalLayout from '@/components/ConditionalLayout';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
@@ -19,6 +19,13 @@ const inter = Inter({
 const playfair = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains',
+  subsets: ['latin'],
+  weight: ['400', '500'],
   display: 'swap',
 });
 
@@ -151,7 +158,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} antialiased`}>
         <LanguageProvider>
           <SmoothScroll />
           <ScrollAnimations />
