@@ -10,6 +10,7 @@ export const MOD_PROD_REALTIME: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo muestras la respuesta del modelo mientras se genera y avisas al usuario sin perder ni duplicar eventos?',
   lessons: [
     {
       id: 'realtime-l1',

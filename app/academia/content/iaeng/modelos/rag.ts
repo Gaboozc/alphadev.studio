@@ -10,6 +10,7 @@ export const MOD_MODELOS_RAG: Module = {
   status: 'available',
   track: 'iaeng-modelos',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cuándo te sirve un modelo preentrenado, y cómo le das tu propia información sin reentrenarlo?',
   lessons: [
     {
       id: 'ie1-l1',

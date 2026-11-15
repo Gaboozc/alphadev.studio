@@ -10,6 +10,7 @@ export const MOD_AGENTES_LANGGRAPH: Module = {
   status: 'available',
   track: 'iaeng-agentes',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo conviertes el bucle de tu agente en un grafo con estado que puedas pausar, reanudar e inspeccionar?',
   lessons: [
     {
       id: 'lg-l1',

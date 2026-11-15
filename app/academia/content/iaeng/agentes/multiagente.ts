@@ -10,6 +10,7 @@ export const MOD_AGENTES_MULTIAGENTE: Module = {
   status: 'available',
   track: 'iaeng-agentes',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cuándo conviene repartir una tarea entre varios agentes, y cómo los coordinas para que no se contradigan?',
   lessons: [
     {
       id: 'ie3-l1',

@@ -10,6 +10,7 @@ export const MOD_PROD_SEGURIDAD: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'ambos',
+  guidingQuestion: '¿Qué amenazas nuevas trae un modelo a tu aplicación, y cómo la proteges sin descuidar las de siempre?',
   lessons: [
     {
       id: 'ie4-l1',

@@ -85,7 +85,7 @@ export interface Module {
   status: ModuleStatus
   track: Track
   audience?: Audience  // ausente = 'aprendizaje'
-  /** Opcional: pregunta guía bajo el título del temario. No rellenar en content. */
+  /** Opcional: pregunta guía bajo el título del temario (Prof. X). */
   guidingQuestion?: string
   lessons: Lesson[]
   resources: Resource[]

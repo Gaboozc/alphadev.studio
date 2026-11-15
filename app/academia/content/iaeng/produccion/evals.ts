@@ -10,6 +10,7 @@ export const MOD_PROD_EVALS: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo sabes si tu sistema con modelos mejora o empeora, cuando sus respuestas cambian en cada ejecución?',
   lessons: [
     {
       id: 'eval-l1',

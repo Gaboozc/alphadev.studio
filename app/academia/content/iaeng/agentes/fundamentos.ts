@@ -10,6 +10,7 @@ export const MOD_AGENTES_FUNDAMENTOS: Module = {
   status: 'available',
   track: 'iaeng-agentes',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Qué necesita un agente en código para usar herramientas de forma fiable y no solo funcionar en una demo?',
   lessons: [
     {
       id: 'ie2-l1',
