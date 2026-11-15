@@ -151,14 +151,16 @@ export default function LessonPage({
         </main>
       </div>
 
-      <LessonIndexSheet
-        open={indiceOpen}
-        onClose={() => setIndiceOpen(false)}
-        mod={mod}
-        currentId={lesson.id}
-        isCompleted={isCompleted}
-        returnFocusRef={indiceBtnWrap}
-      />
+      {indiceOpen ? (
+        <LessonIndexSheet
+          open
+          onClose={() => setIndiceOpen(false)}
+          mod={mod}
+          currentId={lesson.id}
+          isCompleted={isCompleted}
+          returnFocusRef={indiceBtnWrap}
+        />
+      ) : null}
     </div>
   )
 }

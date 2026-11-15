@@ -4,12 +4,13 @@
 
 export const ACAD_COPY = {
   // G-10 barra
-  indiceUnidad: 'Índice de la unidad', // desktop
-  indiceMovil: 'Índice', // móvil
-  temarioCurso: 'Temario del curso',
+  indiceUnidad: 'Índice de la unidad', // desktop (una sola línea)
+  indiceMovil: 'Índice', // móvil / compacto
+  temarioCurso: 'Temario del curso', // desktop
+  temarioMovil: 'Temario', // móvil / compacto
   salir: 'Salir',
-  salirHint: 'Tu avance ya está guardado en este navegador.',
-  salirAria: 'Salir. Tu avance ya está guardado en este navegador.',
+  salirHint: 'Tu avance ya está guardado en este navegador.', // tooltip desktop
+  salirAria: 'Salir. Tu avance ya está guardado en este navegador.', // aria ambas
   herramientasGrupo: 'Herramientas de la pieza',
 
   // G-01 / V-04
@@ -21,7 +22,13 @@ export const ACAD_COPY = {
 
   // V-05 índice
   indiceTitulo: (n: number) => `Índice · Unidad ${n}`,
+  indiceTituloNombre: (nombre: string) => `Índice · ${nombre}`,
   cerrarIndice: 'Cerrar índice',
+  verSecciones: (n: number) => `Ver las ${n} secciones`,
+  plegarIndice: 'Plegar índice',
+
+  // Temario — pregunta guía (solo si el módulo trae guidingQuestion)
+  preguntaGuiaLabel: 'Pregunta guía',
 
   // Contadores (G-08 / V-10)
   secciones: (d: number, t: number) => `${d}/${t} secciones`,

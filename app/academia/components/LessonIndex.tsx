@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import Link from 'next/link'
 import AcadIcon, { type AcadIconName } from './AcadIcon'
 import { ACAD_COPY } from '../copy'
@@ -74,6 +74,34 @@ function Item({
   )
 }
 
+function ListaPiezas({
+  mod,
+  currentId,
+  isCompleted,
+}: {
+  mod: ModuleMeta
+  currentId: string
+  isCompleted: (moduleId: string, lessonId: string) => boolean
+}) {
+  return (
+    <>
+      {mod.lessons.map((lesson) => {
+        const done = isCompleted(mod.id, lesson.id)
+        return (
+          <Item
+            key={lesson.id}
+            mod={mod}
+            lesson={lesson}
+            currentId={currentId}
+            done={done}
+            enCurso={!done && lesson.id === currentId}
+          />
+        )
+      })}
+    </>
+  )
+}
+
 export function LessonIndexPanel({
   mod,
   currentId,
@@ -90,19 +118,7 @@ export function LessonIndexPanel({
       <h2 id={titleId} className="acad-index__title">
         {ACAD_COPY.indiceTitulo(mod.number)}
       </h2>
-      {mod.lessons.map((lesson) => {
-        const done = isCompleted(mod.id, lesson.id)
-        return (
-          <Item
-            key={lesson.id}
-            mod={mod}
-            lesson={lesson}
-            currentId={currentId}
-            done={done}
-            enCurso={!done && lesson.id === currentId}
-          />
-        )
-      })}
+      <ListaPiezas mod={mod} currentId={currentId} isCompleted={isCompleted} />
     </nav>
   )
 }
@@ -125,6 +141,10 @@ export function LessonIndexSheet({
   const titleId = useId()
   const sheetRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+  // Abierto = muestra todas las secciones; plegado = botón "Ver las n…"
+  const [expanded, setExpanded] = useState(true)
+  const n = mod.lessons.length
 
   useEffect(() => {
     if (!open) return
@@ -192,12 +212,33 @@ export function LessonIndexSheet({
             <AcadIcon name="x" size={20} />
           </button>
         </div>
-        <LessonIndexPanel
-          mod={mod}
-          currentId={currentId}
-          isCompleted={isCompleted}
-          titleId={undefined}
-        />
+
+        {!expanded ? (
+          <button
+            type="button"
+            className="acad-v3-btn acad-v3-btn--secondary acad-index__expand"
+            onClick={() => setExpanded(true)}
+          >
+            {ACAD_COPY.verSecciones(n)}
+          </button>
+        ) : (
+          <>
+            <div ref={listRef} className="acad-lesson__sheet-body">
+              <ListaPiezas
+                mod={mod}
+                currentId={currentId}
+                isCompleted={isCompleted}
+              />
+            </div>
+            <button
+              type="button"
+              className="acad-v3-btn acad-v3-btn--secondary acad-index__expand"
+              onClick={() => setExpanded(false)}
+            >
+              {ACAD_COPY.plegarIndice}
+            </button>
+          </>
+        )}
       </div>
     </>
   )

@@ -67,6 +67,14 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
       <h1 className="acad-lesson__title" style={{ marginTop: 0 }}>
         Unidad {mod.number}: {mod.title}
       </h1>
+
+      {mod.guidingQuestion ? (
+        <div className="acad-guia">
+          <p className="acad-guia__label">{ACAD_COPY.preguntaGuiaLabel}</p>
+          <p className="acad-guia__q">{mod.guidingQuestion}</p>
+        </div>
+      ) : null}
+
       <p style={{ color: 'var(--acad-ink-2)', maxWidth: '34em' }}>{mod.description}</p>
 
       {hydrated && (
