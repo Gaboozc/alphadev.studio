@@ -12,6 +12,7 @@ export const MODULES_PROGRAMACION: Module[] = [
     status: 'available',
     track: 'backend',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Cómo diseñas una API que valide sus datos, esté bien organizada y otros puedan usar sin preguntarte?',
     lessons: [
       {
         id: 'b1-l1',
@@ -943,6 +944,7 @@ Este proyecto es la base sobre la que van a montarse los dos módulos siguientes
     status: 'available',
     track: 'backend',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Cómo modelas y consultas tus datos para que sigan siendo correctos cuando la aplicación crece y cambia?',
     lessons: [
       {
         id: 'b2-l0',
@@ -1752,6 +1754,7 @@ Si los endpoints estaban bien diseñados, apenas tienes que tocarlos: cambias la
     status: 'available',
     track: 'backend',
     audience: 'capacitacion',
+    guidingQuestion: '¿Cómo empaquetas tu aplicación para que corra igual en tu máquina, en la de tu equipo y en el servidor?',
     lessons: [
       {
         id: 'b3-l1',
@@ -2160,6 +2163,7 @@ Si el sistema queda funcionando con la base migrada y sin ningún paso manual, e
     status: 'available',
     track: 'web',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Qué errores atrapa TypeScript antes de ejecutar tu código, y cómo tipas un proyecto real sin abusar de any?',
     lessons: [
       {
         id: 'wts-l1',
@@ -2794,6 +2798,7 @@ Anota cada error que resultó ser un fallo real y no solo una anotación faltant
     status: 'available',
     track: 'fundamentos',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Qué tarea repetitiva de tu trabajo puedes resolver con un script de Python, y cómo lo dejas fiable?',
     lessons: [
       {
         id: 'f3-l1',
@@ -3450,6 +3455,7 @@ Lo importante no es el tamaño, es que sea algo que vas a volver a usar.`,
     status: 'available',
     track: 'fundamentos',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Cómo trabajas desde la terminal y con Git para que tu código tenga historial y otros colaboren sin romperlo?',
     lessons: [
       {
         id: 'f1-l1',
@@ -3974,6 +3980,7 @@ Crea un repositorio en GitHub llamado \`practica-git\` con un README inicial y c
     status: 'available',
     track: 'fundamentos',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Cómo encuentras la causa real de un fallo y demuestras con pruebas que tu código sigue funcionando tras cambiarlo?',
     lessons: [
       {
         id: 'f2-l1',
@@ -4686,6 +4693,7 @@ El alcance es un módulo, no la aplicación entera. Elige el que tenga más lóg
     status: 'available',
     track: 'web',
     audience: 'aprendizaje',
+    guidingQuestion: '¿Cómo garantizas que cada usuario entre de forma segura y vea solo lo que le corresponde?',
     lessons: [
       {
         id: 'w5-l1',
@@ -5228,6 +5236,7 @@ El requisito que define el proyecto: **el contenido de una sección no puede lle
     duration: '3 semanas',
     status: 'available',
     track: 'web',
+    guidingQuestion: '¿Cómo estructuras y das estilo a una página para que se entienda, se adapte a cualquier pantalla y sea accesible?',
     lessons: [
       {
         id: 'w1-l1',
@@ -5608,6 +5617,7 @@ La longitud ideal de una línea de texto es **60-75 caracteres**:
     duration: '4 semanas',
     status: 'available',
     track: 'web',
+    guidingQuestion: '¿Cómo haces que una página reaccione a lo que hace el usuario y traiga datos de una API sin bloquearse?',
     lessons: [
       {
         id: 'w2-l1',
@@ -6042,6 +6052,7 @@ const [usuarios, posts, comentarios] = await Promise.all([
     duration: '5 semanas',
     status: 'available',
     track: 'web',
+    guidingQuestion: '¿Cómo divides una interfaz en componentes y decides qué se ejecuta en el servidor y qué en el navegador?',
     lessons: [
       {
         id: 'w3-l1',
@@ -6877,6 +6888,7 @@ La regla general es una pirámide: muchos unit tests (Jest) baratos y rápidos e
     duration: '4 semanas',
     status: 'available',
     track: 'web',
+    guidingQuestion: '¿Qué necesita tu app para guardar datos reales y funcionar en producción, no solo en tu máquina?',
     lessons: [
       {
         id: 'w4-l1',
@@ -7313,6 +7325,7 @@ export default function Layout({ children }) {
     duration: '6 semanas',
     status: 'available',
     track: 'web',
+    guidingQuestion: '¿Cómo llevas una idea a un SaaS mínimo que funcione en producción y que alguien pueda usar de verdad?',
     lessons: [
       {
         id: 'web-cap-1',
@@ -7485,6 +7498,7 @@ El patrón: la feature base la construye cualquiera siguiendo un tutorial. La di
     duration: '2 semanas',
     status: 'available',
     track: 'prodai',
+    guidingQuestion: '¿En qué tareas la IA te ahorra tiempo de verdad, y cómo la integras en tu flujo de trabajo diario?',
     lessons: [
       {
         id: 'prodai-1-1',
@@ -7555,6 +7569,7 @@ El patrón: la feature base la construye cualquiera siguiendo un tutorial. La di
     duration: '3 semanas',
     status: 'available',
     track: 'prodai',
+    guidingQuestion: '¿Qué trabajo manual repetitivo puedes automatizar con n8n, y cómo sabrás que el flujo es confiable?',
     lessons: [
       {
         id: 'prodai-2-1',
@@ -7631,6 +7646,7 @@ El patrón: la feature base la construye cualquiera siguiendo un tutorial. La di
     duration: '2 semanas',
     status: 'available',
     track: 'prodai',
+    guidingQuestion: '¿Qué procesos de tu agencia conviene apoyar con IA y automatización, y cómo mides el tiempo que realmente ahorras?',
     lessons: [
       {
         id: 'prodai-capstone-0',

@@ -27,7 +27,8 @@ export default function AcademiaNav({
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
 
-  const currentModuleId = pathname.split('/')[2] ?? ''
+  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama)
+  const currentModuleId = pathname.split('/')[3] ?? ''
   const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
     currentModule?.track ?? 'marketing'
@@ -239,7 +240,7 @@ export default function AcademiaNav({
             let trackTotal = 0
             if (hydrated) {
               trackMods.forEach((m) => {
-                const p = getModuleProgress(m.lessons)
+                const p = getModuleProgress(m)
                 trackDone += p.done
                 trackTotal += p.total
               })
@@ -322,7 +323,7 @@ export default function AcademiaNav({
                     {trackMods.map((mod, idx) => {
                       const isActive = mod.id === currentModuleId
                       const isCapstone = mod.id.includes('capstone')
-                      const progress = hydrated ? getModuleProgress(mod.lessons) : { done: 0, total: 0, percent: 0 }
+                      const progress = hydrated ? getModuleProgress(mod) : { done: 0, total: 0, percent: 0 }
                       const isDone = hydrated && progress.done === progress.total && progress.total > 0
 
                       return (

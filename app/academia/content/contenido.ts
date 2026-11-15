@@ -11,6 +11,7 @@ export const MODULES_CONTENIDO: Module[] = [
     duration: '3 semanas',
     status: 'available',
     track: 'copy',
+    guidingQuestion: '¿Qué hace que un texto convenza a alguien de actuar, y cómo eliges la estructura adecuada para lograrlo?',
     lessons: [
       {
         id: 'c1-l1',
@@ -289,6 +290,7 @@ No uses solo un framework. La mejor copy a menudo combina:
     duration: '3 semanas',
     status: 'available',
     track: 'copy',
+    guidingQuestion: '¿Cómo escribes un titular y una landing page que mantengan la atención y lleven al lector a actuar?',
     lessons: [
       {
         id: 'c2-l1',
@@ -478,6 +480,7 @@ Una landing page tiene un solo objetivo: convertir al visitante en lead o client
     duration: '3 semanas',
     status: 'available',
     track: 'copy',
+    guidingQuestion: '¿Cómo adaptas tu mensaje a un anuncio y a una secuencia de correos para convertir sin molestar?',
     lessons: [
       {
         id: 'c3-l1',
@@ -695,6 +698,7 @@ Email 5 (día 10): La oferta (primera venta directa)
     duration: '2 semanas',
     status: 'available',
     track: 'copy',
+    guidingQuestion: '¿Cómo escribes propuestas y seguimientos que ganen proyectos sin presionar al cliente ni bajar tu precio?',
     lessons: [
       {
         id: 'c4-l1',
@@ -963,6 +967,7 @@ El follow-up con valor resuelve todos estos casos sin presión.
     duration: '2 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Qué busca de verdad tu audiencia, y cómo eliges las palabras clave en las que vale la pena competir?',
     lessons: [
       {
         id: 's1-l1',
@@ -1152,6 +1157,7 @@ El keyword research no es buscar las palabras con más volumen. Es encontrar las
     duration: '3 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Qué necesita técnicamente tu sitio para que Google pueda rastrearlo, entenderlo y mostrarlo bien?',
     lessons: [
       {
         id: 's2-l1',
@@ -1533,6 +1539,7 @@ Un schema mal formado no genera error visible en el sitio — simplemente Google
     duration: '3 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Cómo escribes y organizas contenido que responda a lo que la gente busca y gane autoridad en Google?',
     lessons: [
       {
         id: 's3-l1',
@@ -1753,6 +1760,7 @@ Pillar Page (hub)
     duration: '2 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Cómo consigues enlaces de calidad hacia tu sitio de forma ética, y cómo mides si aumentan tu autoridad?',
     lessons: [
       {
         id: 's4-l1',
@@ -1953,6 +1961,7 @@ Personalizado. Específico. Corto. Propuesta de valor clara.`,
     duration: '2 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Cómo auditas el SEO de un cliente y le demuestras con reportes el valor de tu trabajo?',
     lessons: [
       {
         id: 's5-l1',
@@ -2261,6 +2270,7 @@ ROI: ($6,000 - $800) / $800 = 650%
     duration: '4 semanas',
     status: 'available',
     track: 'copy',
+    guidingQuestion: '¿Cómo sostienes un mismo mensaje persuasivo en la landing, los correos, los anuncios y la propuesta de un producto real?',
     lessons: [
       {
         id: 'copy-cap-1',
@@ -2346,6 +2356,7 @@ Antes de entregar, pasa cada pieza por estas preguntas:
     duration: '8 semanas',
     status: 'available',
     track: 'seo',
+    guidingQuestion: '¿Cómo llevas un sitio real de la auditoría a sus primeros resultados orgánicos, documentando cada decisión?',
     lessons: [
       {
         id: 'seo-cap-0',
@@ -2480,6 +2491,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'video',
+    guidingQuestion: '¿Qué video necesita tu marca en cada plataforma, y cómo capturas la atención en los primeros segundos?',
     lessons: [
       {
         id: 'video-1-1',
@@ -2616,6 +2628,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'video',
+    guidingQuestion: '¿Cómo editas y distribuyes un video para que lo vean completo y llegue a más gente?',
     lessons: [
       {
         id: 'video-2-1',
@@ -2699,6 +2712,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'video',
+    guidingQuestion: '¿Cómo planeas, produces y publicas una serie de videos coherente para una marca real?',
     lessons: [
       {
         id: 'video-cap-0',
@@ -2759,6 +2773,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'geo',
+    guidingQuestion: '¿Cómo cambia la búsqueda cuando responde una IA, y qué presencia tiene hoy tu marca en esas respuestas?',
     lessons: [
       {
         id: 'geo-1-1',
@@ -2817,6 +2832,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'geo',
+    guidingQuestion: '¿Qué contenido y qué señales de autoridad hacen que una IA cite tu marca en lugar de la competencia?',
     lessons: [
       {
         id: 'geo-2-1',
@@ -2876,6 +2892,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '2 semanas',
     status: 'available',
     track: 'geo',
+    guidingQuestion: '¿Cómo mides tu presencia en las respuestas de la IA y conviertes esa medición en un plan sostenible?',
     lessons: [
       {
         id: 'geo-3-1',
@@ -2935,6 +2952,7 @@ Cada artículo que publiques debe ser el mejor resultado para esa keyword en té
     duration: '4 semanas',
     status: 'available',
     track: 'geo',
+    guidingQuestion: '¿Cómo haces que tu marca sea la fuente que la IA cita en un nicho, y cómo lo sostienes?',
     lessons: [
       {
         id: 'geo-cap-1',

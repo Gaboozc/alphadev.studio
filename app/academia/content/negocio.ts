@@ -11,6 +11,7 @@ export const MODULES_NEGOCIO: Module[] = [
     duration: '2 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Qué necesitas medir de tu negocio, y cómo configuras GA4 y Tag Manager para que esos datos sean confiables?',
     lessons: [
       {
         id: 'd1-l1',
@@ -262,6 +263,7 @@ export default function GoogleTagManager() {
     duration: '3 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Dónde y por qué abandonan tus usuarios antes de convertir, y qué cambio tendría más impacto?',
     lessons: [
       {
         id: 'd2-l1',
@@ -486,6 +488,7 @@ Ejemplo:
     duration: '2 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Cómo diseñas un dashboard que responda las preguntas de quien lo usa, en lugar de solo mostrar datos?',
     lessons: [
       {
         id: 'd3-l1',
@@ -717,6 +720,7 @@ Con el dashboard de Looker Studio ya no necesitas preparar reportes manualmente:
     duration: '2 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Cómo diseñas un experimento que demuestre si un cambio mejora de verdad tus resultados?',
     lessons: [
       {
         id: 'd4-l1',
@@ -938,6 +942,7 @@ Para una agencia: empieza con 1 experimento al mes. Con el tiempo, ese conocimie
     duration: '2 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Qué indicadores muestran si una inversión funciona, y cómo los reportas para que el cliente decida con ellos?',
     lessons: [
       {
         id: 'd5-l1',
@@ -1233,6 +1238,7 @@ Trimestral: revisión estratégica de objetivos y ajuste de targets
     duration: '4 semanas',
     status: 'available',
     track: 'data',
+    guidingQuestion: '¿Cómo montas la medición completa de un negocio real para que sus decisiones se basen en datos confiables?',
     lessons: [
       {
         id: 'data-cap-1',
@@ -1312,6 +1318,7 @@ Este capstone produce el segundo escenario.`,
     duration: '2 semanas',
     status: 'available',
     track: 'ventas',
+    guidingQuestion: '¿Cómo vendes un servicio creativo o tecnológico sin bajar tu precio, desde el primer contacto hasta el cierre?',
     lessons: [
       {
         id: 'ventas-1-1',
@@ -1418,6 +1425,7 @@ Este capstone produce el segundo escenario.`,
     duration: '2 semanas',
     status: 'available',
     track: 'ventas',
+    guidingQuestion: '¿Cómo construyes un sistema que atraiga clientes potenciales de forma predecible, empezando por definir a tu cliente ideal?',
     lessons: [
       {
         id: 'ventas-cap-0',

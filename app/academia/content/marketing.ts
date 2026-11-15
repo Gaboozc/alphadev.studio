@@ -12,6 +12,7 @@ export const MODULES_MARKETING: Module[] = [
       'Define la identidad de AlphaDev Studios, entiende a tu audiencia y publica contenido orgánico consistente en LinkedIn e Instagram.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Quién es tu cliente ideal, qué le prometes y cómo se lo comunicas con contenido orgánico constante?',
     lessons: [
       {
         id: 'm1-l1',
@@ -197,6 +198,7 @@ export const MODULES_MARKETING: Module[] = [
       'Configura Meta Business Suite correctamente, lanza tus primeras campañas en Facebook e Instagram Ads, y aprende a leer las métricas clave.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo configuras y lanzas tu primera campaña en Meta, y cómo lees sus métricas para decidir qué ajustar?',
     lessons: [
       {
         id: 'm2-l1',
@@ -390,6 +392,7 @@ export const MODULES_MARKETING: Module[] = [
       'Aparece cuando alguien busca lo que tú ofreces. Configura Google Business Profile y lanza campañas de búsqueda con Google Ads.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo logras aparecer cuando alguien busca lo que ofreces, tanto en Google Maps como en los anuncios de búsqueda?',
     lessons: [
       {
         id: 'm3-l1',
@@ -561,6 +564,7 @@ export const MODULES_MARKETING: Module[] = [
       'Explora TikTok como canal de adquisición y aprende a medir todo: UTMs, Google Analytics 4, y reportes semanales que guíen decisiones.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo mides de dónde vienen tus resultados, incluido TikTok, y los conviertes en un reporte que guíe decisiones?',
     lessons: [
       {
         id: 'm4-l1',
@@ -872,6 +876,7 @@ export const MODULES_MARKETING: Module[] = [
     duration: '5 semanas',
     status: 'available',
     track: 'marketing',
+    guidingQuestion: '¿Cómo planeas, ejecutas y documentas una campaña de 30 días que demuestre resultados para un negocio real?',
     lessons: [
       {
         id: 'mkt-cap-1',
@@ -950,6 +955,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'ads',
+    guidingQuestion: '¿Cómo decides dónde y cómo invertir en publicidad digital antes de gastar el primer peso?',
     lessons: [
       {
         id: 'ads-1-1',
@@ -1103,6 +1109,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '3 semanas',
     status: 'available',
     track: 'ads',
+    guidingQuestion: '¿Cómo lanzas y optimizas campañas en Meta, y cómo distingues un resultado real del ruido?',
     lessons: [
       {
         id: 'ads-2-1',
@@ -1199,6 +1206,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'ads',
+    guidingQuestion: '¿Cómo llegas en Google a quien ya busca lo que vendes, con una estructura y una puja que rindan?',
     lessons: [
       {
         id: 'ads-3-1',
@@ -1269,6 +1277,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'ads',
+    guidingQuestion: '¿Cómo diseñas un plan de publicidad pagada de 90 días que cubra todo el embudo y justifique su presupuesto?',
     lessons: [
       {
         id: 'ads-cap-0',
@@ -1332,6 +1341,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'email',
+    guidingQuestion: '¿Cómo construyes una lista de suscriptores de calidad y escribes correos que la gente quiera abrir?',
     lessons: [
       {
         id: 'email-1-1',
@@ -1473,6 +1483,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'email',
+    guidingQuestion: '¿Qué secuencias automáticas de correo necesita un negocio, y cómo aseguras que lleguen a la bandeja de entrada?',
     lessons: [
       {
         id: 'email-2-1',
@@ -1556,6 +1567,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'email',
+    guidingQuestion: '¿Cómo diseñas el sistema de correo de un negocio según cada etapa de la relación con su cliente?',
     lessons: [
       {
         id: 'email-cap-0',
@@ -1617,6 +1629,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'community',
+    guidingQuestion: '¿Cómo gestionas las redes de un cliente con un sistema, de la planificación a las crisis y los reportes?',
     lessons: [
       {
         id: 'community-1-1',
@@ -1722,6 +1735,7 @@ Imagina que este documento es lo que le presentas a un cliente en la reunión de
     duration: '2 semanas',
     status: 'available',
     track: 'community',
+    guidingQuestion: '¿Qué voz, objetivos y rutina necesita la comunidad de un cliente en cada plataforma, y cómo demuestras su avance?',
     lessons: [
       {
         id: 'community-cap-0',

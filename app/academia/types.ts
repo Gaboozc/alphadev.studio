@@ -64,6 +64,8 @@ export interface ModuleMeta {
   duration: string
   track: Track
   audience?: Audience
+  /** Pregunta guía del temario; ausente o vacía = no se muestra. */
+  guidingQuestion?: string
   lessons: LessonMeta[]
   resources: Resource[]
 }
@@ -83,6 +85,8 @@ export interface Module {
   status: ModuleStatus
   track: Track
   audience?: Audience  // ausente = 'aprendizaje'
+  /** Opcional: pregunta guía bajo el título del temario (Prof. X). */
+  guidingQuestion?: string
   lessons: Lesson[]
   resources: Resource[]
 }

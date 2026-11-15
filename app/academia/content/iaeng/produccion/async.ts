@@ -10,6 +10,7 @@ export const MOD_PROD_ASYNC: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo ejecutas trabajos lentos o programados fuera de la petición sin perderlos, duplicarlos ni fallar en silencio?',
   lessons: [
     {
       id: 'async-l1',

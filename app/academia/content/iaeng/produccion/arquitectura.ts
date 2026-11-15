@@ -10,6 +10,7 @@ export const MOD_PROD_ARQUITECTURA: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Qué decisiones de arquitectura evitan que tu sistema con IA se caiga o se encarezca cuando llegue tráfico real?',
   lessons: [
     {
       id: 'arq-l1',

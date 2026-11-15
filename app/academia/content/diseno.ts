@@ -12,6 +12,7 @@ export const MODULES_DISENO: Module[] = [
       'Entiende la diferencia entre UX e UI, aprende los principios visuales que rigen todo diseño digital y completa el primer módulo del Google UX Design Certificate.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Qué hace que una interfaz sea fácil de usar, y cómo detectas lo que falla en una pantalla real?',
     lessons: [
       {
         id: 'u1-l1',
@@ -281,6 +282,7 @@ export const MODULES_DISENO: Module[] = [
       'Domina Figma desde interfaz básica hasta componentes, Auto Layout y handoff. Más FigJam para workshops, brainstorming y mapas de flujo colaborativos.',
     duration: '3–4 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo construyes en Figma pantallas y componentes reutilizables que tu equipo pueda prototipar y entregar a desarrollo?',
     lessons: [
       {
         id: 'u2-l1',
@@ -543,6 +545,7 @@ export const MODULES_DISENO: Module[] = [
       'El puente entre diseño estático y UI memorable. Aprende a crear animaciones con propósito en Figma: timing, easing, before/after states, Smart Animate, y cómo exportar y presentar tus prototipos.',
     duration: '3–4 semanas',
     status: 'available',
+    guidingQuestion: '¿Cuándo una animación ayuda al usuario a entender la interfaz, y cómo la diseñas en Figma con buen ritmo?',
     lessons: [
       {
         id: 'u7-l1',
@@ -790,6 +793,7 @@ export const MODULES_DISENO: Module[] = [
       'Pasa de diseño a sitio publicado sin escribir código. Webflow para webs complejas con CMS, Framer para landing pages con animaciones avanzadas y conexión directa con Figma.',
     duration: '3–4 semanas',
     status: 'available',
+    guidingQuestion: '¿Cuándo conviene publicar un sitio con Webflow o Framer en lugar de programarlo, y cómo lo llevas a producción?',
     lessons: [
       {
         id: 'u5-l1',
@@ -1050,6 +1054,7 @@ export const MODULES_DISENO: Module[] = [
       'Crea micro-animaciones, transiciones y motion graphics para interfaces digitales. Aprende a exportar animaciones como Lottie para usarlas en Framer, Webflow o cualquier app.',
     duration: '3–4 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo diseñas en After Effects micro-animaciones que guíen al usuario y que se puedan usar en una app real?',
     lessons: [
       {
         id: 'u6-l1',
@@ -1221,6 +1226,7 @@ export const MODULES_DISENO: Module[] = [
       'Construye un design system reutilizable en Figma y crea un portfolio UI/UX que demuestre tu trabajo. El diferencial que convierte proyectos en oportunidades.',
     duration: '3–4 semanas',
     status: 'available',
+    guidingQuestion: '¿Cómo conviertes tus decisiones de diseño en un sistema reutilizable y en un portafolio que te consiga trabajo?',
     lessons: [
       {
         id: 'u4-l1',
@@ -1412,6 +1418,7 @@ export const MODULES_DISENO: Module[] = [
       'Las herramientas que separan el top 1% de diseñadores del resto. No necesitas dominar todas — elige una y explórala a fondo. Rive para iconos interactivos, Spline para 3D en web, Unicorn Studio para efectos WebGL.',
     duration: '2–3 semanas',
     status: 'available',
+    guidingQuestion: '¿Cuál de Rive, Spline o Unicorn Studio aporta valor real a tu proyecto, y cómo la integras bien?',
     lessons: [
       {
         id: 'u8-l1',
@@ -1707,6 +1714,7 @@ export const MODULES_DISENO: Module[] = [
     duration: '3 semanas',
     status: 'available',
     track: 'branding',
+    guidingQuestion: '¿Qué debe representar una marca y para quién, antes de diseñar su primer elemento visual?',
     lessons: [
       {
         id: 'b1-l1',
@@ -1963,6 +1971,7 @@ Si falla alguno, reescribir.`,
     duration: '4 semanas',
     status: 'available',
     track: 'branding',
+    guidingQuestion: '¿Cómo construyes un sistema visual coherente, con logo, color y tipografía, que exprese la estrategia de la marca?',
     lessons: [
       {
         id: 'b2-l1',
@@ -2243,6 +2252,7 @@ Para cada nivel de la jerarquía documenta:
     duration: '3 semanas',
     status: 'available',
     track: 'branding',
+    guidingQuestion: '¿Cómo documentas una identidad para que cualquiera la aplique igual en la web, en redes y en documentos?',
     lessons: [
       {
         id: 'b3-l1',
@@ -2543,6 +2553,7 @@ Para AlphaDev Studios: Figma + Notion es la combinación ideal.`,
     duration: '6 semanas',
     status: 'available',
     track: 'uiux',
+    guidingQuestion: '¿Cómo llevas un producto digital desde la investigación con usuarios hasta un prototipo listo para desarrollo?',
     lessons: [
       {
         id: 'uiux-cap-1',
@@ -2629,6 +2640,7 @@ El proceso importa tanto como el resultado. Debes documentar: qué investigaste,
     duration: '5 semanas',
     status: 'available',
     track: 'branding',
+    guidingQuestion: '¿Cómo creas desde cero la identidad completa de un negocio real, de la estrategia a sus aplicaciones?',
     lessons: [
       {
         id: 'branding-cap-0',
@@ -2770,6 +2782,7 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
     duration: '2 semanas',
     status: 'available',
     track: 'uiux',
+    guidingQuestion: '¿Cómo escribes los textos de una interfaz para que guíen al usuario sin frustrarlo ni excluirlo?',
     lessons: [
       {
         id: 'uiux-9-1',
@@ -2857,6 +2870,7 @@ Un brand book que un cliente real pueda darle a cualquier proveedor (imprenta, s
     duration: '2 semanas',
     status: 'available',
     track: 'uiux',
+    guidingQuestion: '¿Cómo compruebas con usuarios reales si tu diseño funciona, y cómo decides qué corregir primero?',
     lessons: [
       {
         id: 'uiux-10-1',

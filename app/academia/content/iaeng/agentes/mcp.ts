@@ -10,6 +10,7 @@ export const MOD_AGENTES_MCP: Module = {
   status: 'available',
   track: 'iaeng-agentes',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo expones y consumes herramientas externas con MCP sin abrir un nuevo riesgo de seguridad?',
   lessons: [
     {
       id: 'mcp-l1',

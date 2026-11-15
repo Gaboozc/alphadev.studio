@@ -37,6 +37,7 @@ export function modulesForAudience(mods: Module[], audience: Audience): Module[]
 // cliente. Si alguna vez ves `content` en un prop de cliente, es un error.
 
 export function toModuleMeta(m: Module): ModuleMeta {
+  const pregunta = m.guidingQuestion?.trim()
   return {
     id: m.id,
     number: m.number,
@@ -45,6 +46,7 @@ export function toModuleMeta(m: Module): ModuleMeta {
     duration: m.duration,
     track: m.track,
     audience: m.audience,
+    ...(pregunta ? { guidingQuestion: pregunta } : {}),
     resources: m.resources,
     lessons: m.lessons.map(
       (l): LessonMeta => ({

@@ -14,6 +14,7 @@ export const MOD_PROD_RESPONSABLE: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo demuestras que tu sistema con IA es justo, explicable y respetuoso con la privacidad ante quien lo cuestione?',
   lessons: [
     {
       id: 'resp-l1',

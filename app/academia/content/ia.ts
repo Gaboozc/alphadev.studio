@@ -11,6 +11,7 @@ export const MODULES_IA: Module[] = [
     duration: '2 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Cómo escribes una instrucción para que la IA dé un resultado profesional y no una respuesta genérica?',
     lessons: [
       {
         id: 'ia1-l1',
@@ -200,6 +201,7 @@ El context window es la cantidad de tokens que el modelo puede "ver" al mismo ti
     duration: '3 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Dónde te ayuda de verdad la IA al diseñar, programar o crear contenido, y cómo controlas su calidad?',
     lessons: [
       {
         id: 'ia2-l1',
@@ -403,6 +405,7 @@ Tests unitarios → Copilot Chat (genera tests para función seleccionada)
     duration: '4 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Qué tareas repetitivas conviene automatizar, y cómo construyes en n8n o Make un flujo que no falle en silencio?',
     lessons: [
       {
         id: 'ia3-l1',
@@ -594,6 +597,7 @@ Siempre agrega manejo de errores en workflows de producción.`,
     duration: '3 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Cuándo necesitas un agente en lugar de un flujo fijo, y cómo construyes uno útil para tu agencia?',
     lessons: [
       {
         id: 'ia4-l1',
@@ -913,6 +917,7 @@ Una vez que funciona para un caso, escala:
     duration: '4 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Qué problema real de tu negocio puede resolver una automatización con IA, y cómo demuestras el tiempo que ahorra?',
     lessons: [
       {
         id: 'ia-cap-1',
@@ -997,6 +1002,7 @@ El sistema funciona sin que tú hagas nada manualmente, produce outputs de calid
     duration: '3 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Qué distingue a un agente de un chatbot, y cómo construyes uno que use herramientas para cumplir una tarea?',
     lessons: [
       {
         id: 'ia-5-1',
@@ -1052,6 +1058,7 @@ El sistema funciona sin que tú hagas nada manualmente, produce outputs de calid
     duration: '2 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Cómo integras imagen, video y audio generados con IA en un proyecto creativo, cuidando la calidad y los derechos?',
     lessons: [
       {
         id: 'ia-6-1',
@@ -1094,6 +1101,7 @@ El sistema funciona sin que tú hagas nada manualmente, produce outputs de calid
     duration: '2 semanas',
     status: 'available',
     track: 'ia',
+    guidingQuestion: '¿Cómo pasas de usar la IA en un chat a integrarla en tu propio código y con tus propios datos?',
     lessons: [
       {
         id: 'ia7-l1',

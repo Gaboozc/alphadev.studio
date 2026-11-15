@@ -10,6 +10,7 @@ export const MOD_PROD_ENTREGA: Module = {
   status: 'available',
   track: 'iaeng-produccion',
   audience: 'aprendizaje',
+  guidingQuestion: '¿Cómo entregas a un cliente un producto de IA con alcance claro, datos bien cuidados, monitoreo y un precio sostenible?',
   lessons: [
     {
       id: 'iec-l1',

@@ -23,7 +23,7 @@ export default function RamaContent({ ramaId, modulos }: { ramaId: Rama; modulos
   let total = 0
   if (hydrated) {
     allMods.forEach((m) => {
-      const p = getModuleProgress(m.lessons)
+      const p = getModuleProgress(m)
       done += p.done
       total += p.total
     })
@@ -87,7 +87,7 @@ export default function RamaContent({ ramaId, modulos }: { ramaId: Rama; modulos
 
               <div className="acad-mods">
                 {mods.map((mod, index) => {
-                  const p = getModuleProgress(mod.lessons)
+                  const p = getModuleProgress(mod)
                   const complete = hydrated && p.total > 0 && p.done === p.total
 
                   return (
