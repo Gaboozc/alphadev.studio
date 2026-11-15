@@ -14,7 +14,7 @@ import LessonToolbar from '../../../components/LessonToolbar'
 import { LessonIndexPanel, LessonIndexSheet } from '../../../components/LessonIndex'
 import AcadIcon, { type AcadIconName } from '../../../components/AcadIcon'
 import { ACAD_COPY } from '../../../copy'
-import { acentoDeRama, extraerH2, tipoDePieza } from '@/lib/academia/ui'
+import { acentoDeRama, debeMostrarSegmentos, extraerH2, tipoDePieza } from '@/lib/academia/ui'
 
 function getEmbedType(lesson: Lesson): 'youtube' | 'audio' | 'link' | null {
   if (!lesson.embedUrl) return null
@@ -28,6 +28,8 @@ interface Props {
   module: ModuleMeta
   lesson: Lesson
   lessonIndex: number
+  /** Orden 1…N en la rama (misma regla que el temario). */
+  unidadNumero: number
   prevLesson: LessonMeta | null
   nextLesson: LessonMeta | null
 }
@@ -36,6 +38,7 @@ export default function LessonPage({
   module: mod,
   lesson,
   lessonIndex,
+  unidadNumero,
   prevLesson,
   nextLesson,
 }: Props) {
@@ -64,22 +67,28 @@ export default function LessonPage({
         />
       </div>
 
+      {/* Segmentos en el primer viewport (≥2 h2); sin barra vacía si no aplica */}
+      {debeMostrarSegmentos(secciones) ? (
+        <div className="acad-lesson__segs-bar">
+          <SegmentProgress secciones={secciones} />
+        </div>
+      ) : null}
+
       <div className="acad-lesson__grid">
         <aside className="acad-lesson__index-desktop">
           <LessonIndexPanel
             mod={mod}
             currentId={lesson.id}
             isCompleted={isCompleted}
+            unidadNumero={unidadNumero}
             titleId="acad-indice-desktop"
           />
         </aside>
 
         <main className="acad-lesson__main">
-          <SegmentProgress secciones={secciones} />
-
-          <div className="acad-lesson__meta" style={{ marginTop: '1.25rem' }}>
+          <div className="acad-lesson__meta" style={{ marginTop: '0.5rem' }}>
             <span>
-              Unidad {mod.number} · Pieza {lessonIndex + 1}
+              Pieza {lessonIndex + 1} de {mod.lessons.length}
             </span>
             <span className="acad-lesson__type">
               <AcadIcon name={tipo.icon as AcadIconName} size={16} />
@@ -158,6 +167,7 @@ export default function LessonPage({
           mod={mod}
           currentId={lesson.id}
           isCompleted={isCompleted}
+          unidadNumero={unidadNumero}
           returnFocusRef={indiceBtnWrap}
         />
       ) : null}

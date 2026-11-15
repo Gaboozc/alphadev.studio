@@ -106,17 +106,21 @@ export function LessonIndexPanel({
   mod,
   currentId,
   isCompleted,
+  unidadNumero,
   titleId,
 }: {
   mod: ModuleMeta
   currentId: string
   isCompleted: (moduleId: string, lessonId: string) => boolean
+  /** Orden en la rama; si falta, cae a module.number (legacy). */
+  unidadNumero?: number
   titleId?: string
 }) {
+  const n = unidadNumero ?? mod.number
   return (
     <nav aria-labelledby={titleId}>
       <h2 id={titleId} className="acad-index__title">
-        {ACAD_COPY.indiceTitulo(mod.number)}
+        {ACAD_COPY.indiceTitulo(n)}
       </h2>
       <ListaPiezas mod={mod} currentId={currentId} isCompleted={isCompleted} />
     </nav>
@@ -129,6 +133,7 @@ export function LessonIndexSheet({
   mod,
   currentId,
   isCompleted,
+  unidadNumero,
   returnFocusRef,
 }: {
   open: boolean
@@ -136,6 +141,7 @@ export function LessonIndexSheet({
   mod: ModuleMeta
   currentId: string
   isCompleted: (moduleId: string, lessonId: string) => boolean
+  unidadNumero?: number
   returnFocusRef: React.RefObject<HTMLElement | null>
 }) {
   const titleId = useId()
@@ -200,7 +206,7 @@ export function LessonIndexSheet({
       >
         <div className="acad-lesson__sheet-head">
           <h2 id={titleId} className="acad-index__title" style={{ margin: 0 }}>
-            {ACAD_COPY.indiceTitulo(mod.number)}
+            {ACAD_COPY.indiceTitulo(unidadNumero ?? mod.number)}
           </h2>
           <button
             ref={closeRef}

@@ -49,6 +49,14 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
   const accent = acentoDeRama(rama.id)
   const soloUno = ramaModules.length === 1
 
+  // Numeración de unidad = orden en la rama (1…N), no `module.number` del
+  // content (ese se reinicia por área/track y produce varios «Unidad 1»).
+  const numeroUnidad = (id: string) => {
+    const i = ramaModules.findIndex((m) => m.id === id)
+    return i >= 0 ? i + 1 : 0
+  }
+  const unidadActual = numeroUnidad(mod.id)
+
   const continueId = hydrated
     ? leccionContinuar(mod.lessons, (id) => isCompleted(mod.id, id))
     : mod.lessons[0]?.id ?? null
@@ -65,7 +73,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
         {ACAD_COPY.temario}
       </p>
       <h1 className="acad-lesson__title" style={{ marginTop: 0 }}>
-        Unidad {mod.number}: {mod.title}
+        Unidad {unidadActual}: {mod.title}
       </h1>
 
       {mod.guidingQuestion ? (
@@ -176,12 +184,14 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
           </div>
         )
 
+        const etiquetaUnidad = `Unidad ${numeroUnidad(m.id)}: ${m.title}`
+
         if (soloUno) {
           return (
             <div key={m.id} style={{ border: '1px solid var(--acad-line-strong)', borderRadius: 12, marginBottom: '0.75rem', background: 'var(--acad-card)' }}>
               <div style={{ padding: '1rem 1.125rem', display: 'flex', gap: '0.75rem', alignItems: 'center', fontWeight: 600 }}>
                 <span style={{ flex: 1 }}>
-                  Unidad {m.number}: {m.title}
+                  {etiquetaUnidad}
                 </span>
                 {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
                 <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>
@@ -198,7 +208,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
           <details key={m.id} open={open}>
             <summary>
               <span style={{ flex: 1 }}>
-                Unidad {m.number}: {m.title}
+                {etiquetaUnidad}
               </span>
               {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
               <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>

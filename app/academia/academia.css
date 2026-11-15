@@ -99,16 +99,22 @@
   white-space: normal;
   text-align: center;
   text-decoration: none;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  box-sizing: border-box;
 }
 
+/* Bloque único: sin box-decoration-break (provoca fondo escalonado al wrap) */
 [data-academia] .acad-temario__continue .acad-v3-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 34em;
+  padding: 0.75rem 1.125rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  box-decoration-break: slice;
+  -webkit-box-decoration-break: slice;
 }
 
 [data-academia] .acad-v3-btn--primary {
@@ -151,6 +157,17 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0.75rem 0 1rem;
+  background: var(--acad-bg);
+}
+
+[data-academia] .acad-lesson__segs-bar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--acad-bg);
+  border-bottom: 1px solid var(--acad-line);
+  padding: 0.5rem 1.25rem 0.25rem;
 }
 
 [data-academia] .acad-segs__track {
@@ -275,6 +292,8 @@
   grid-template-columns: 1fr;
   max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
+  min-width: 0;
 }
 
 @media (min-width: 960px) {
@@ -308,6 +327,23 @@
 
 [data-academia] .acad-lesson__main {
   padding: 1.25rem 1.25rem 3rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+[data-academia] .acad-lesson__title,
+[data-academia] .acad-lesson__h2,
+[data-academia] .acad-h2 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+[data-academia] .acad-lesson__body,
+[data-academia] .lesson-card,
+[data-academia] .acad-code {
+  max-width: 100%;
+  min-width: 0;
 }
 
 [data-academia] .acad-lesson__title {
@@ -594,14 +630,18 @@
   line-height: 1.375rem;
   color: var(--acad-code-text);
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
   tab-size: 2;
 }
 
 [data-academia] .acad-code__lines {
   display: grid;
-  grid-template-columns: 2.2em 1fr;
+  grid-template-columns: 2.2em minmax(0, 1fr);
   gap: 0.75rem;
+  max-width: 100%;
 }
 
 [data-academia] .acad-code__gutter {
@@ -1003,15 +1043,6 @@
   [data-academia] *::after {
     animation: none !important;
     transition: none !important;
-  }
-
-  [data-academia] .acad-lesson__backdrop {
-    transition: opacity 120ms linear !important;
-  }
-
-  [data-academia] .acad-lesson__sheet,
-  [data-academia] .acad-lesson__sheet.is-open,
-  [data-academia] .acad-lesson__sheet.is-closing {
-    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }
