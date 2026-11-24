@@ -267,24 +267,37 @@ export default function ScrollAnimations() {
               );
             });
 
-            // ── Hero handoff: el video cede protagonismo al hacer scroll en
-            //    vez de simplemente desaparecer bajo el contenido siguiente
-            //    (estilo Huge/Fantasy). Solo desktop: en móvil el vídeo ya es
-            //    caro y esto añadiría un scrub más al hilo principal.
+            // ── Hero handoff: el video se hace tarjeta (radio 36, scale ≈0.55,
+            //    origen arriba-derecha) y cede el plano a la tinta + titular.
+            //    Scrub ligado al scroll del propio hero, SIN pin — el único
+            //    pin del sitio sigue siendo WorkShowcase. Solo desktop ≥900:
+            //    en móvil el vídeo ya es caro y el spec pide video → logo
+            //    sin handoff.
             gsap.utils.toArray<HTMLElement>('[data-hero-handoff]').forEach((el) => {
+              const frame = el.querySelector<HTMLElement>('[data-hero-frame]') ?? el;
               gsap.fromTo(
-                el,
-                { yPercent: 0, scale: 1, opacity: 1 },
+                frame,
                 {
-                  yPercent: -8,
-                  scale: 0.96,
-                  opacity: 0.4,
+                  yPercent: 0,
+                  xPercent: 0,
+                  scale: 1,
+                  borderRadius: 0,
+                },
+                {
+                  yPercent: 14,
+                  xPercent: 16,
+                  scale: 0.52,
+                  borderRadius: 36,
+                  transformOrigin: '100% 0%',
                   ease: 'none',
                   scrollTrigger: {
                     trigger: el,
                     start: 'top top',
                     end: 'bottom top',
                     scrub: true,
+                    onUpdate: (self) => {
+                      el.style.setProperty('--handoff', String(self.progress));
+                    },
                   },
                 }
               );
@@ -296,20 +309,49 @@ export default function ScrollAnimations() {
             //    de todos los triggers posteriores, así que no se repite el
             //    patrón en ningún otro sitio. Solo desktop: en móvil el mismo
             //    markup es scroll-snap nativo, sin JS (ver globals.css).
+            //    Parallax de la captura (≈5 %) vive DENTRO de esta timeline;
+            //    no se crea un ScrollTrigger extra.
             gsap.utils.toArray<HTMLElement>('[data-pin-track]').forEach((section) => {
               const track = section.querySelector<HTMLElement>('[data-pin-track-inner]');
               if (!track) return;
-              gsap.to(track, {
-                x: () => -(track.scrollWidth - section.clientWidth),
-                ease: 'none',
+              const bar = section.querySelector<HTMLElement>('[data-pin-progress]');
+              const count = section.querySelector<HTMLElement>('[data-pin-count]');
+              const media = gsap.utils.toArray<HTMLElement>('[data-pin-media]', track);
+              const total = Math.max(1, track.querySelectorAll('.work-panel').length);
+              const totalLabel = String(total).padStart(2, '0');
+
+              const overflow = () => Math.max(0, track.scrollWidth - section.clientWidth);
+
+              const tl = gsap.timeline({
                 scrollTrigger: {
                   trigger: section,
                   pin: true,
                   scrub: 1,
                   anticipatePin: 1,
-                  end: () => '+=' + (track.scrollWidth - section.clientWidth),
+                  end: () => '+=' + overflow(),
                   invalidateOnRefresh: true,
+                  onUpdate: (self) => {
+                    const p = self.progress;
+                    if (bar) bar.style.setProperty('--p', String(p));
+                    if (count) {
+                      const idx = Math.min(
+                        total,
+                        Math.max(1, Math.round(p * (total - 1) + 1))
+                      );
+                      const label = `${String(idx).padStart(2, '0')} / ${totalLabel}`;
+                      if (count.textContent !== label) count.textContent = label;
+                    }
+                  },
                 },
+              });
+
+              tl.to(track, {
+                x: () => -overflow(),
+                ease: 'none',
+              }, 0);
+
+              media.forEach((el) => {
+                tl.fromTo(el, { yPercent: -5 }, { yPercent: 5, ease: 'none' }, 0);
               });
             });
           }
