@@ -110,7 +110,9 @@ function guidingQuestionsFromContent(repoRoot: string): Map<string, string> {
 }
 
 /** Rama URL del CSV ↔ archivo de content (aproximación por carpeta / id conocido). */
-function ramaEsperadaPorArchivo(filePath: string): string | null {
+function ramaEsperadaPorArchivo(rutaArchivo: string): string | null {
+  // En Windows las rutas traen `\`; se normalizan para que el test sea portable.
+  const filePath = rutaArchivo.replaceAll('\\', '/')
   if (filePath.includes('/programacion.ts')) return 'programacion'
   if (filePath.includes('/diseno.ts')) return 'diseno'
   if (filePath.includes('/ia.ts')) return 'inteligencia-artificial'
