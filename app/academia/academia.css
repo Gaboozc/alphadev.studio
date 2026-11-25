@@ -1046,3 +1046,168 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Catálogo universidad (ES + EN) ──
+   Provisional hasta el handoff de Arkano/Rams: SOLO tokens existentes
+   (--acad-*), sin colores ni tipografías nuevas. */
+[data-academia] .acad-wrap--lectura {
+  max-width: 46rem;
+}
+
+[data-academia] .acad-prereq {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--acad-ink-2);
+}
+
+[data-academia] .acad-prereq a,
+[data-academia] .acad-legado a,
+[data-academia] .acad-md a,
+[data-academia] .acad-unidad-indice a {
+  color: var(--acad-ink-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+[data-academia] .acad-unidades,
+[data-academia] .acad-unidad-indice ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+  color: var(--acad-ink-1);
+}
+
+[data-academia] .acad-unidad-indice {
+  margin: 1.5rem 0 2rem;
+}
+
+[data-academia] .acad-legado {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+[data-academia] .acad-legado li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--acad-line);
+  line-height: 1.6;
+  min-height: 44px;
+}
+
+[data-academia] .acad-legado__key {
+  font-size: 0.8125rem;
+  color: var(--acad-ink-3);
+}
+
+[data-academia] .acad-pieza {
+  scroll-margin-top: 5rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--acad-line);
+}
+
+[data-academia] .acad-solucion {
+  margin: 1rem 0;
+  border: 1px solid var(--acad-line);
+  border-radius: 12px;
+  background: var(--acad-card);
+}
+
+[data-academia] .acad-solucion > summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-weight: 600;
+  color: var(--acad-ink-1);
+}
+
+[data-academia] .acad-solucion[open] > summary {
+  border-bottom: 1px solid var(--acad-line);
+}
+
+[data-academia] .acad-solucion > :not(summary) {
+  padding: 0 1rem 1rem;
+}
+
+[data-academia] .acad-md {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--acad-ink-1);
+  overflow-wrap: anywhere;
+}
+
+[data-academia] .acad-md h1,
+[data-academia] .acad-md h2,
+[data-academia] .acad-md h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 2rem 0 0.75rem;
+}
+
+[data-academia] .acad-md h1 { font-size: 2rem; }
+[data-academia] .acad-md h2 { font-size: 1.5rem; }
+[data-academia] .acad-md h3 { font-size: 1.1875rem; }
+
+[data-academia] .acad-md p,
+[data-academia] .acad-md ul,
+[data-academia] .acad-md ol {
+  margin: 0 0 1rem;
+}
+
+[data-academia] .acad-md ul,
+[data-academia] .acad-md ol {
+  padding-left: 1.25rem;
+}
+
+[data-academia] .acad-md blockquote {
+  margin: 1rem 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--acad-ink-2);
+  background: var(--acad-info-tint);
+  border-radius: 0 12px 12px 0;
+}
+
+[data-academia] .acad-md code {
+  font-size: 0.9em;
+  background: var(--acad-bg-alt);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+[data-academia] .acad-md pre {
+  background: var(--acad-code-bg);
+  color: var(--acad-code-text);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+[data-academia] .acad-md pre code {
+  background: none;
+  padding: 0;
+}
+
+[data-academia] .acad-md table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9375rem;
+}
+
+[data-academia] .acad-md th,
+[data-academia] .acad-md td {
+  border: 1px solid var(--acad-line);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+[data-academia] .acad-md hr {
+  border: 0;
+  border-top: 1px solid var(--acad-line);
+  margin: 2rem 0;
+}

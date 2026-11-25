@@ -47,6 +47,7 @@ export function rutaPrivadaParaMedicion(pathname: string): boolean {
     pathname === '/acceso' ||
     pathname.startsWith('/acceso/') ||
     pathname.startsWith('/academia') ||
+    pathname.startsWith('/en/academia') ||
     pathname.startsWith('/admin') ||
     pathname.startsWith('/tarjeta')
   )

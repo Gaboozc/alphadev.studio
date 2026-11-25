@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from '@/components/Icon'
 import ThemeToggle from '@/components/ThemeToggle'
+import LanguageToggle from '@/components/LanguageToggle'
+import { stripLocale } from '@/lib/i18n/routes'
+import { PROGRAMAS, UI, rutaBiblioteca, rutaPortada, rutaPrograma } from '@/lib/academia/universidad'
 import type { ModuleMeta, Track } from '../types'
 import { RAMAS, TRACK_META, moduleHref } from '../ramas'
 import { useProgress } from '../hooks/useProgress'
@@ -27,8 +30,11 @@ export default function AcademiaNav({
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
 
-  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama)
-  const currentModuleId = pathname.split('/')[3] ?? ''
+  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama).
+  // Bajo /en/academia se quita el prefijo antes de contar.
+  const { lang, path: rutaSinIdioma } = stripLocale(pathname ?? '/academia')
+  const t = UI[lang]
+  const currentModuleId = rutaSinIdioma.split('/')[3] ?? ''
   const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
     currentModule?.track ?? 'marketing'
@@ -58,7 +64,7 @@ export default function AcademiaNav({
         }}
       >
         <Link
-          href="/academia"
+          href={rutaPortada(lang)}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -91,10 +97,12 @@ export default function AcademiaNav({
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {/* Selector ES/EN: lleva a la misma página en el otro idioma. */}
+        <LanguageToggle />
         <ThemeToggle />
         <button
           onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
+          aria-label={lang === 'en' ? 'Open menu' : 'Abrir menú'}
           style={{
             background: 'none',
             border: 'none',
@@ -209,7 +217,7 @@ export default function AcademiaNav({
           }}
         >
           <Link
-            href="/"
+            href={lang === 'en' ? '/en' : '/'}
             onClick={close}
             style={{
               fontFamily: 'var(--font-inter)',
@@ -221,9 +229,51 @@ export default function AcademiaNav({
               gap: '0.375rem',
             }}
           >
-            ← Volver al sitio
+            {lang === 'en' ? '← Back to the site' : '← Volver al sitio'}
           </Link>
         </div>
+
+        {/* Catálogo universidad: S0, carreras, optativas y Biblioteca */}
+        <nav
+          aria-label={t.academia}
+          style={{ padding: '0.5rem 0', borderBottom: '1px solid var(--border)', flexShrink: 0 }}
+        >
+          {PROGRAMAS.map((p) => (
+            <Link
+              key={p.id}
+              href={rutaPrograma(p, lang)}
+              onClick={close}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                minHeight: '44px',
+                padding: '0 1.25rem',
+                fontFamily: 'var(--font-inter)',
+                fontSize: '0.875rem',
+                color: 'var(--text)',
+                textDecoration: 'none',
+              }}
+            >
+              {lang === 'en' ? p.en : p.es}
+            </Link>
+          ))}
+          <Link
+            href={rutaBiblioteca(lang)}
+            onClick={close}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '44px',
+              padding: '0 1.25rem',
+              fontFamily: 'var(--font-inter)',
+              fontSize: '0.875rem',
+              color: 'var(--text)',
+              textDecoration: 'none',
+            }}
+          >
+            {t.biblioteca}
+          </Link>
+        </nav>
 
         {/* Track + module list */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '0.5rem 0' }}>
@@ -329,7 +379,7 @@ export default function AcademiaNav({
                       return (
                         <Link
                           key={mod.id}
-                          href={moduleHref(mod)}
+                          href={lang === 'en' ? `/en${moduleHref(mod)}` : moduleHref(mod)}
                           onClick={close}
                           style={{
                             display: 'flex',

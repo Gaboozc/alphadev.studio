@@ -7,6 +7,7 @@ export const PREFIJOS_PRIVADOS = [
   '/admin',
   '/acceso',
   '/academia',
+  '/en/academia',
   '/tarjeta',
   '/api',
 ] as const
@@ -22,6 +23,7 @@ export const DISALLOW_ROBOTS: readonly string[] = [
   '/admin/',
   '/acceso',
   '/academia/',
+  '/en/academia',
   '/tarjeta/',
   '/api/',
   '/recursos/gracias',

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { es } from './es';
 import { en } from './en';
-import { esRutaPublica, localizedPath, stripLocale } from './routes';
+import { localizedPath, stripLocale, tieneVersionEnOtroIdioma } from './routes';
 import type { Translations } from './types';
 import type { Lang } from './index';
 
@@ -54,10 +54,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<LangContextValue>(() => {
     const setLang = (next: Lang) => {
       if (next === lang) return;
-      // Fuera de las páginas públicas no hay versión en el otro idioma a la que
-      // ir (la Academia es solo español). Cambiar de idioma ahí llevaría a un
-      // 404, así que no se hace nada.
-      if (!esRutaPublica(path)) return;
+      // Solo se cambia si la ruta existe en el otro idioma: las páginas
+      // públicas y la Academia (privada bilingüe). En el resto (admin,
+      // acceso, tarjeta) llevaría a un 404, así que no se hace nada.
+      if (!tieneVersionEnOtroIdioma(path)) return;
       router.push(localizedPath(path, next));
     };
 

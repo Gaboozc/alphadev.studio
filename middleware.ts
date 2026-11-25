@@ -26,7 +26,13 @@ function aAcceso(request: NextRequest, destino?: string) {
 
 export async function middleware(request: NextRequest) {
   const ruta = request.nextUrl.pathname
-  const esAcademia = ruta === '/academia' || ruta.startsWith('/academia/')
+  // La Academia existe en español (/academia) y en inglés (/en/academia):
+  // las dos piden la misma sesión.
+  const esAcademia =
+    ruta === '/academia' ||
+    ruta.startsWith('/academia/') ||
+    ruta === '/en/academia' ||
+    ruta.startsWith('/en/academia/')
   // El panel de admin (/admin) exige sesión igual que la Academia, pero NO
   // exige que esa sesión sea admin: eso lo comprueba app/admin/layout.tsx
   // con esAdmin(). Aquí solo se descarta a quien no tiene sesión en
@@ -96,8 +102,9 @@ export async function middleware(request: NextRequest) {
     if (ruta === '/acceso' && usuario) {
       const pedido = request.nextUrl.searchParams.get('destino') ?? ''
       const vaAAdmin = pedido.startsWith('/admin')
+      const vaAEn = pedido === '/en/academia' || pedido.startsWith('/en/academia/')
       const destino = request.nextUrl.clone()
-      destino.pathname = vaAAdmin ? '/admin' : '/academia'
+      destino.pathname = vaAAdmin ? '/admin' : vaAEn ? '/en/academia' : '/academia'
       destino.search = ''
       return NextResponse.redirect(destino)
     }
@@ -112,5 +119,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/academia', '/academia/:path*', '/admin', '/admin/:path*', '/acceso'],
+  matcher: [
+    '/academia',
+    '/academia/:path*',
+    '/en/academia',
+    '/en/academia/:path*',
+    '/admin',
+    '/admin/:path*',
+    '/acceso',
+  ],
 }

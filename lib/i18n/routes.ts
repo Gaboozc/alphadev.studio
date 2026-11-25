@@ -51,6 +51,25 @@ export type PublicPath = (typeof PUBLIC_PATHS)[number];
 const RAICES_ANIDADAS = ['/recursos', '/demos'] as const;
 
 /**
+ * Raíces PRIVADAS que existen en los dos idiomas. No entran en el sitemap ni
+ * en PAGE_META (no se indexan: robots noindex + login), pero el selector de
+ * idioma sí puede llevar a su espejo. La Academia (decisión de Gabe, 25 nov
+ * 2026): `/academia/...` ↔ `/en/academia/...` con los mismos slugs; lo que
+ * aún no está traducido se muestra en español con aviso, nunca un 404.
+ */
+export const RAICES_PRIVADAS_BILINGUES = ['/academia'] as const;
+
+/** true si `path` (sin prefijo de idioma) cuelga de una raíz privada bilingüe. */
+export function esRutaPrivadaBilingue(path: string): boolean {
+  return RAICES_PRIVADAS_BILINGUES.some((raiz) => path === raiz || path.startsWith(`${raiz}/`));
+}
+
+/** true si el selector de idioma puede llevar a `path` en el otro idioma. */
+export function tieneVersionEnOtroIdioma(path: string): boolean {
+  return esRutaPublica(path) || esRutaPrivadaBilingue(path);
+}
+
+/**
  * true si `path` tiene una versión en el otro idioma a la que el toggle
  * pueda llevar. No devuelve `path is PublicPath`: una ruta anidada
  * (`/recursos/algo`) califica sin ser, ella misma, un PublicPath.
@@ -73,8 +92,8 @@ export function localizedPath(path: string, lang: Lang): string {
  * Parte un pathname en idioma y ruta sin prefijo. Es la operación inversa de
  * `localizedPath` y la usa el contexto de idioma para leer la URL.
  *
- * Una ruta que no existe en inglés (la Academia, por ejemplo) devuelve 'es':
- * no hay traducción que ofrecer.
+ * Una ruta sin prefijo devuelve 'es'. La Academia ya es bilingüe
+ * (`/en/academia/...`, ver RAICES_PRIVADAS_BILINGUES).
  */
 export function stripLocale(pathname: string): { lang: Lang; path: string } {
   if (pathname === LOCALE_PREFIX) return { lang: 'en', path: '/' };
