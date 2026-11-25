@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import Link from 'next/link'
 import AcadIcon, { type AcadIconName } from './AcadIcon'
 import { ACAD_COPY } from '../copy'
@@ -148,15 +148,18 @@ export function LessonIndexSheet({
   const sheetRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
-  // Abierto = muestra todas las secciones; plegado = botón "Ver las n…"
-  const [expanded, setExpanded] = useState(true)
-  const n = mod.lessons.length
 
   useEffect(() => {
     if (!open) return
     const prev = document.activeElement as HTMLElement | null
     const returnEl = returnFocusRef.current
     closeRef.current?.focus()
+    requestAnimationFrame(() => {
+      const actual = listRef.current?.querySelector<HTMLElement>(
+        '.acad-index__item.is-current',
+      )
+      actual?.scrollIntoView({ block: 'center', inline: 'nearest' })
+    })
 
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') {
@@ -219,32 +222,13 @@ export function LessonIndexSheet({
           </button>
         </div>
 
-        {!expanded ? (
-          <button
-            type="button"
-            className="acad-v3-btn acad-v3-btn--secondary acad-index__expand"
-            onClick={() => setExpanded(true)}
-          >
-            {ACAD_COPY.verSecciones(n)}
-          </button>
-        ) : (
-          <>
-            <div ref={listRef} className="acad-lesson__sheet-body">
-              <ListaPiezas
-                mod={mod}
-                currentId={currentId}
-                isCompleted={isCompleted}
-              />
-            </div>
-            <button
-              type="button"
-              className="acad-v3-btn acad-v3-btn--secondary acad-index__expand"
-              onClick={() => setExpanded(false)}
-            >
-              {ACAD_COPY.plegarIndice}
-            </button>
-          </>
-        )}
+        <div ref={listRef} className="acad-lesson__sheet-body">
+          <ListaPiezas
+            mod={mod}
+            currentId={currentId}
+            isCompleted={isCompleted}
+          />
+        </div>
       </div>
     </>
   )

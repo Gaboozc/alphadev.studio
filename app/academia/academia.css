@@ -106,7 +106,8 @@
 [data-academia] .acad-temario__continue .acad-v3-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: left;
   width: 100%;
   max-width: 34em;
   padding: 0.75rem 1.125rem;
@@ -115,6 +116,13 @@
   word-break: break-word;
   box-decoration-break: slice;
   -webkit-box-decoration-break: slice;
+}
+
+@media (min-width: 768px) {
+  [data-academia] .acad-temario__continue .acad-v3-btn {
+    width: fit-content;
+    max-width: 34em;
+  }
 }
 
 [data-academia] .acad-v3-btn--primary {
@@ -344,6 +352,22 @@
 [data-academia] .acad-code {
   max-width: 100%;
   min-width: 0;
+}
+
+[data-academia] .lesson-card {
+  background: var(--acad-card);
+  border-radius: 12px;
+  padding: 0.25rem 0; /* desktop: igual que antes */
+}
+
+@media (max-width: 767px) {
+  /* Sin tarjeta: el texto va sobre bg, con el padding lateral de .acad-lesson__main (20px). */
+  [data-academia] .lesson-card {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
 }
 
 [data-academia] .acad-lesson__title {
@@ -719,7 +743,7 @@
 
 [data-academia] .acad-h2__link {
   color: var(--acad-ink-3);
-  opacity: 0;
+  opacity: 1; /* táctil: siempre visible */
   transition: opacity 160ms var(--acad-ease);
   flex-shrink: 0;
   background: none;
@@ -729,14 +753,15 @@
   position: relative;
 }
 
-[data-academia] .acad-h2:hover .acad-h2__link,
-[data-academia] .acad-h2:focus-within .acad-h2__link,
-[data-academia] .acad-h2__link:focus-visible {
-  opacity: 1;
-}
-
-@media (hover: none) {
+@media (hover: hover) {
   [data-academia] .acad-h2__link {
+    opacity: 0;
+  }
+
+  [data-academia] .acad-h2:hover .acad-h2__link,
+  [data-academia] .acad-h2:focus-within .acad-h2__link,
+  [data-academia] .acad-h2__link:focus,
+  [data-academia] .acad-h2__link:focus-visible {
     opacity: 1;
   }
 }
@@ -861,7 +886,8 @@
 
 [data-academia] .acad-exam__opcion {
   display: flex;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: flex-start;
   width: 100%;
   text-align: left;
@@ -894,10 +920,11 @@
 [data-academia] .acad-exam__badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.8125rem;
+  gap: 0.5rem; /* 8px entre icono 16px y texto */
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.25rem; /* 20px */
   font-weight: 600;
-  margin-top: 0.5rem;
+  margin-top: 0;
 }
 
 [data-academia] .acad-exam__badge.is-ok { color: var(--acad-ok); }
@@ -951,6 +978,44 @@
 
 [data-academia] .acad-temario summary::-webkit-details-marker {
   display: none;
+}
+
+[data-academia] .acad-temario__solo-head {
+  padding: 1rem 1.125rem;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+[data-academia] .acad-temario__mod-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+[data-academia] .acad-temario__mod-title {
+  flex: 1;
+  min-width: 0;
+}
+
+[data-academia] .acad-temario__mod-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 599px) {
+  [data-academia] .acad-temario__mod-title {
+    flex: 1 1 100%;
+  }
+
+  [data-academia] .acad-temario__mod-meta {
+    flex: 1 1 100%;
+  }
 }
 
 [data-academia] .acad-temario__mod-body {
@@ -1035,6 +1100,16 @@
 @keyframes acad-skel-pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* Wordmark del nav: «ADS» se queda en oro (logotipo, exento).
+   «ACADEMIA» en claro pasa a ink-2; en oscuro no cambia. */
+[data-academia] .acad-nav-wordmark__academia {
+  color: var(--acad-ink-2);
+}
+
+:root[data-theme='dark'] [data-academia] .acad-nav-wordmark__academia {
+  color: var(--text-subtle);
 }
 
 @media (prefers-reduced-motion: reduce) {

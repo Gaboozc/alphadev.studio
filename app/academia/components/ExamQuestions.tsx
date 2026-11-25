@@ -5,6 +5,7 @@ import type { Question } from '../types'
 import { parseInline } from './LessonContent'
 import AcadIcon from './AcadIcon'
 import { ACAD_COPY } from '../copy'
+import { listaEnEspanol } from '@/lib/academia/ui'
 
 export default function ExamQuestions({
   questions,
@@ -52,15 +53,14 @@ export default function ExamQuestions({
             {ACAD_COPY.correctasDe(aciertos, questions.length)}
           </p>
           <p className="acad-exam__note">{ACAD_COPY.autoevaluacion}</p>
-          <p className="acad-exam__note">
-            {ACAD_COPY.nCorrectas(aciertos)}
-            {incorrectas.length > 0
-              ? ` · ${ACAD_COPY.nParaRepasar(
-                  incorrectas.length,
-                  incorrectas.map((i) => String(i + 1)).join(' y '),
-                )}`
-              : ''}
-          </p>
+          {incorrectas.length > 0 ? (
+            <p className="acad-exam__note">
+              {ACAD_COPY.nParaRepasar(
+                incorrectas.length,
+                listaEnEspanol(incorrectas.map((i) => String(i + 1))),
+              )}
+            </p>
+          ) : null}
 
           <p className="acad-callout__label">{ACAD_COPY.irAPregunta}</p>
           <div className="acad-exam__map" role="navigation" aria-label={ACAD_COPY.irAPregunta}>
@@ -96,9 +96,6 @@ export default function ExamQuestions({
       <ol className="acad-examen-lista" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {questions.map((pregunta, qi) => {
           const elegida = respuestas[qi]
-          const acerto = corregido && elegida === pregunta.correct
-          const fallo =
-            corregido && elegida !== undefined && elegida !== pregunta.correct
 
           return (
             <li
@@ -132,20 +129,31 @@ export default function ExamQuestions({
                         (esFallada ? ' is-fallada' : '')
                       }
                     >
-                      <span>
-                        {esCorrecta ? (
-                          <AcadIcon name="circle-check-big" size={20} />
-                        ) : esFallada ? (
-                          <AcadIcon name="circle-x" size={20} />
-                        ) : null}
-                      </span>
-                      <span>{parseInline(opcion)}</span>
+                      <span className="acad-exam__opcion-texto">{parseInline(opcion)}</span>
+                      {esFallada ? (
+                        <span className="acad-exam__badge is-err">
+                          <AcadIcon name="circle-x" size={16} />
+                          {ACAD_COPY.tuRespuestaIncorrecta}
+                        </span>
+                      ) : null}
+                      {esCorrecta ? (
+                        <span className="acad-exam__badge is-ok">
+                          <AcadIcon name="circle-check-big" size={16} />
+                          {esElegida
+                            ? ACAD_COPY.tuRespuestaCorrecta
+                            : ACAD_COPY.correcta}
+                        </span>
+                      ) : null}
                     </button>
                   )
                 })}
               </div>
 
-              {corregido && esElegidaBadge(acerto, fallo, pregunta)}
+              {corregido ? (
+                <p className="acad-exam__why">
+                  <strong>{ACAD_COPY.porQue}</strong> {parseInline(pregunta.explanation)}
+                </p>
+              ) : null}
             </li>
           )
         })}
@@ -183,40 +191,3 @@ export default function ExamQuestions({
   )
 }
 
-function esElegidaBadge(
-  acerto: boolean,
-  fallo: boolean,
-  pregunta: Question,
-) {
-  if (acerto) {
-    return (
-      <>
-        <p className="acad-exam__badge is-ok">
-          <AcadIcon name="circle-check-big" size={16} />
-          {ACAD_COPY.tuRespuestaCorrecta}
-        </p>
-        <p className="acad-exam__why">
-          <strong>{ACAD_COPY.porQue}</strong> {parseInline(pregunta.explanation)}
-        </p>
-      </>
-    )
-  }
-  if (fallo) {
-    return (
-      <>
-        <p className="acad-exam__badge is-err">
-          <AcadIcon name="circle-x" size={16} />
-          {ACAD_COPY.tuRespuestaIncorrecta}
-        </p>
-        <p className="acad-exam__badge is-ok">
-          <AcadIcon name="circle-check-big" size={16} />
-          {ACAD_COPY.correcta}
-        </p>
-        <p className="acad-exam__why">
-          <strong>{ACAD_COPY.porQue}</strong> {parseInline(pregunta.explanation)}
-        </p>
-      </>
-    )
-  }
-  return null
-}
