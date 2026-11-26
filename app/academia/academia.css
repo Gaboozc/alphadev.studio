@@ -1448,3 +1448,19 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* R3 · Rams P1: hueco mínimo de 12 px entre el wordmark y las herramientas; por debajo de 375 px solo «ADS». */
+[data-academia] .acad-nav-wordmark { margin-right: 12px; min-width: 0; flex-shrink: 1; }
+@media (max-width: 374.98px) {
+  [data-academia] .acad-nav-wordmark__academia { display: none; }
+}
+
+/* R3 · Arkano P2: la miga de pan no parte el código y el título va en una línea con elipsis. */
+[data-academia] .acad-crumb { max-width: 100%; min-width: 0; }
+[data-academia] .acad-crumb__codigo { white-space: nowrap; flex-shrink: 0; }
+[data-academia] .acad-crumb__titulo {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -67,6 +67,8 @@ export default function AcademiaNav({
       >
         <Link
           href={rutaPortada(lang)}
+          aria-label="ADS Academia"
+          className="acad-nav-wordmark"
           style={{
             display: 'flex',
             alignItems: 'center',

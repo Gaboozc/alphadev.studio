@@ -481,9 +481,9 @@ export function UnidadVista({ curso: slug, unidad, lang }: { curso: string; unid
     <div className="acad-page" data-vista="unidad" data-lang={lang}>
       <div className="acad-wrap acad-wrap--lectura">
         <Crumb href={rutaCurso(curso, lang)}>
-          <span className="acad-codigo">{curso.code}</span>
+          <span className="acad-codigo acad-crumb__codigo">{curso.code}</span>
           <span aria-hidden="true"> · </span>
-          {tituloCurso(curso, lang)}
+          <span className="acad-crumb__titulo">{tituloCurso(curso, lang)}</span>
         </Crumb>
 
         <header className="acad-unidad-head">
