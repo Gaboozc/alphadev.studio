@@ -3594,7 +3594,8 @@ button.case-thumb {
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--gold);
+  /* Claro: tronco #7A5828 (AA). Oscuro: no se toca, sigue --gold. */
+  color: #7A5828;
   background: var(--gold-bg);
   border: 1px solid var(--gold-border);
   border-radius: 99px;
@@ -3602,9 +3603,18 @@ button.case-thumb {
 }
 
 .acad-badge-neutral {
-  color: var(--text-subtle);
+  /* Claro: ink-2 #6B5F52 (AA). Oscuro: no se toca, sigue --text-subtle. */
+  color: #6B5F52;
   background: var(--bg-alt);
   border-color: var(--border);
+}
+
+:root[data-theme='dark'] .acad-badge {
+  color: var(--gold);
+}
+
+:root[data-theme='dark'] .acad-badge-neutral {
+  color: var(--text-subtle);
 }
 
 .acad-item > p {

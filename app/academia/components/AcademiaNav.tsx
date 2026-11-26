@@ -73,6 +73,7 @@ export default function AcademiaNav({
           }}
         >
           <span
+            className="acad-nav-wordmark__ads"
             style={{
               fontFamily: 'var(--font-playfair)',
               fontSize: '1.125rem',
@@ -83,11 +84,11 @@ export default function AcademiaNav({
             ADS
           </span>
           <span
+            className="acad-nav-wordmark__academia"
             style={{
               fontFamily: 'var(--font-inter)',
               fontSize: '0.75rem',
               fontWeight: 500,
-              color: 'var(--text-subtle)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
             }}

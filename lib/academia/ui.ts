@@ -125,3 +125,14 @@ export function leccionContinuar(
   const primera = lessons.find((l) => !isDone(l.id))
   return (primera ?? lessons[lessons.length - 1]).id
 }
+
+/** Lista en español: «1, 2, 3, 4, 5 y 6». */
+export function listaEnEspanol(items: string[]): string {
+  if (items.length === 0) return ''
+  if (typeof Intl !== 'undefined' && typeof Intl.ListFormat === 'function') {
+    return new Intl.ListFormat('es', { style: 'long', type: 'conjunction' }).format(items)
+  }
+  if (items.length === 1) return items[0]
+  if (items.length === 2) return `${items[0]} y ${items[1]}`
+  return `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`
+}

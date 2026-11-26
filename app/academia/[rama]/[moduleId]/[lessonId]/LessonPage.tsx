@@ -104,7 +104,7 @@ export default function LessonPage({
             </div>
           )}
 
-          <div className="lesson-card" style={{ background: 'var(--acad-card)', borderRadius: 12, padding: '0.25rem 0' }}>
+          <div className="lesson-card">
             {lesson.type === 'exam' && lesson.questions ? (
               <ExamQuestions
                 questions={lesson.questions}

@@ -77,6 +77,7 @@ export const ACAD_COPY = {
 
   // Temario
   temario: 'Temario',
+  unidadN: (n: number) => `Unidad ${n}`,
   continuar: (leccion: string) => `Continuar: ${leccion}`,
   seDesbloquea: (n: number) => `Se desbloquea al completar las ${n} unidades`,
   tiempoAprox: (min: number) => `${min} min aprox.`,

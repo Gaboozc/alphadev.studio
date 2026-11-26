@@ -35,6 +35,32 @@ function estadoIcon(e: ReturnType<typeof estadoPieza>): AcadIconName {
   return 'circle-dashed'
 }
 
+
+function ModHead({
+  titulo,
+  piezasLabel,
+  modDone,
+  est,
+}: {
+  titulo: string
+  piezasLabel: string | null
+  modDone: boolean
+  est: ReturnType<typeof estadoPieza>
+}) {
+  return (
+    <div className="acad-temario__mod-head">
+      <span className="acad-temario__mod-title">{titulo}</span>
+      <span className="acad-temario__mod-meta">
+        {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
+        <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>
+          <AcadIcon name={estadoIcon(est)} size={16} />
+          {estadoLabel(est)}
+        </span>
+      </span>
+    </div>
+  )
+}
+
 interface Props {
   module: ModuleMeta
   ramaModules: ModuleMeta[]
@@ -69,11 +95,11 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
 
   return (
     <div data-academia data-accent={accent} className="acad-temario">
-      <p className="acad-lesson__meta" style={{ marginBottom: '0.5rem' }}>
-        {ACAD_COPY.temario}
+      <p className="acad-temario__kicker">
+        {ACAD_COPY.unidadN(unidadActual)}
       </p>
       <h1 className="acad-lesson__title" style={{ marginTop: 0 }}>
-        Unidad {unidadActual}: {mod.title}
+        {mod.title}
       </h1>
 
       {mod.guidingQuestion ? (
@@ -189,15 +215,13 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
         if (soloUno) {
           return (
             <div key={m.id} style={{ border: '1px solid var(--acad-line-strong)', borderRadius: 12, marginBottom: '0.75rem', background: 'var(--acad-card)' }}>
-              <div style={{ padding: '1rem 1.125rem', display: 'flex', gap: '0.75rem', alignItems: 'center', fontWeight: 600 }}>
-                <span style={{ flex: 1 }}>
-                  {etiquetaUnidad}
-                </span>
-                {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
-                <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>
-                  <AcadIcon name={estadoIcon(est)} size={16} />
-                  {estadoLabel(est)}
-                </span>
+              <div className="acad-temario__solo-head">
+                <ModHead
+                  titulo={etiquetaUnidad}
+                  piezasLabel={piezasLabel}
+                  modDone={!!modDone}
+                  est={est}
+                />
               </div>
               {body}
             </div>
@@ -207,14 +231,12 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
         return (
           <details key={m.id} open={open}>
             <summary>
-              <span style={{ flex: 1 }}>
-                {etiquetaUnidad}
-              </span>
-              {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
-              <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>
-                <AcadIcon name={estadoIcon(est)} size={16} />
-                {estadoLabel(est)}
-              </span>
+              <ModHead
+                titulo={etiquetaUnidad}
+                piezasLabel={piezasLabel}
+                modDone={!!modDone}
+                est={est}
+              />
             </summary>
             {body}
           </details>
