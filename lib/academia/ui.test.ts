@@ -9,6 +9,7 @@ import {
   formatoContador,
   formatoTiempoMin,
   leccionContinuar,
+  listaEnEspanol,
   slugSeccion,
   tipoDePieza,
 } from './ui.ts'
@@ -108,5 +109,14 @@ describe('contadoresDeLeccion', () => {
       { label: 'secciones', total: 2 },
       { label: 'comprobaciones rápidas', total: 1 },
     ])
+  })
+})
+
+describe('listaEnEspanol', () => {
+  it('usa conjunción larga en español', () => {
+    assert.equal(listaEnEspanol(['1', '2', '3', '4', '5', '6']), '1, 2, 3, 4, 5 y 6')
+    assert.equal(listaEnEspanol(['1', '2']), '1 y 2')
+    assert.equal(listaEnEspanol(['4']), '4')
+    assert.equal(listaEnEspanol([]), '')
   })
 })

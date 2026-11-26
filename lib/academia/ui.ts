@@ -79,7 +79,20 @@ export type TipoUi = {
 }
 
 /** Mapeo de LessonType → etiqueta + icono Lucide (sin color). */
-export function tipoDePieza(type: LessonType): TipoUi {
+const TIPOS_EN: Record<LessonType, string> = {
+  reading: 'Guide',
+  video: 'Video',
+  audio: 'Audio',
+  practice: 'Exercise',
+  exam: 'Quiz',
+  project: 'Project',
+}
+
+export function tipoDePieza(type: LessonType, lang: 'es' | 'en' = 'es'): TipoUi {
+  if (lang === 'en') {
+    const es = tipoDePieza(type, 'es')
+    return { label: TIPOS_EN[type] ?? es.label, icon: es.icon }
+  }
   switch (type) {
     case 'reading':
       return { label: 'Guía', icon: 'book-open' }
@@ -124,4 +137,27 @@ export function leccionContinuar(
   if (lessons.length === 0) return null
   const primera = lessons.find((l) => !isDone(l.id))
   return (primera ?? lessons[lessons.length - 1]).id
+}
+
+/** Lista en español: «1, 2, 3, 4, 5 y 6». */
+export function listaEnEspanol(items: string[]): string {
+  if (items.length === 0) return ''
+  if (typeof Intl !== 'undefined' && typeof Intl.ListFormat === 'function') {
+    return new Intl.ListFormat('es', { style: 'long', type: 'conjunction' }).format(items)
+  }
+  if (items.length === 1) return items[0]
+  if (items.length === 2) return `${items[0]} y ${items[1]}`
+  return `${items.slice(0, -1).join(', ')} y ${items[items.length - 1]}`
+}
+
+/** Lista en el idioma pedido: «1, 2 y 3» / «1, 2, and 3». */
+export function listaEnIdioma(items: string[], lang: 'es' | 'en'): string {
+  if (lang === 'es') return listaEnEspanol(items)
+  if (items.length === 0) return ''
+  if (typeof Intl !== 'undefined' && typeof Intl.ListFormat === 'function') {
+    return new Intl.ListFormat('en', { style: 'long', type: 'conjunction' }).format(items)
+  }
+  if (items.length === 1) return items[0]
+  if (items.length === 2) return `${items[0]} and ${items[1]}`
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`
 }

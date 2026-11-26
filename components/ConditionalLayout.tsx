@@ -9,6 +9,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   // Rutas "bare": sin navbar/footer global (academia y tarjetas digitales)
   const bare =
     pathname.startsWith('/academia') ||
+    pathname.startsWith('/en/academia') ||
     pathname.startsWith('/tarjeta') ||
     pathname.startsWith('/acceso')
 

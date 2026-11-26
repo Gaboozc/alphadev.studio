@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ACAD_COPY } from '../copy'
+import { useAcadCopy } from '../useAcadCopy'
 import type { SeccionH2 } from '@/lib/academia/ui'
 import { debeMostrarSegmentos } from '@/lib/academia/ui'
 
 export default function SegmentProgress({ secciones }: { secciones: SeccionH2[] }) {
+  const ACAD_COPY = useAcadCopy()
   const [actual, setActual] = useState(0)
 
   useEffect(() => {

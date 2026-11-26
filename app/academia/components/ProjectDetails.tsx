@@ -1,5 +1,6 @@
 import type { Lesson } from '../types'
 import LessonContent, { parseInline } from './LessonContent'
+import { useAcadCopy } from '../useAcadCopy'
 
 // Cuerpo de una lección `type: 'project'`.
 //
@@ -10,6 +11,7 @@ import LessonContent, { parseInline } from './LessonContent'
 // y nada más, en las 92 lecciones de proyecto de toda la Academia.
 export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
   const { projectBrief, deliverables, rubrica, discussionPrompts, tasks, tip } = lesson
+  const C = useAcadCopy()
 
   return (
     <div className="acad-proyecto">
@@ -23,7 +25,7 @@ export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
 
       {deliverables && deliverables.length > 0 && (
         <section className="acad-proyecto-bloque">
-          <p className="acad-proyecto-etiqueta">Entregables</p>
+          <p className="acad-proyecto-etiqueta">{C.entregables}</p>
           <ul className="acad-proyecto-lista">
             {deliverables.map((d, i) => (
               <li key={i}>
@@ -37,7 +39,7 @@ export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
 
       {rubrica && rubrica.length > 0 && (
         <section className="acad-proyecto-bloque">
-          <p className="acad-proyecto-etiqueta">Qué se evalúa</p>
+          <p className="acad-proyecto-etiqueta">{C.queSeEvalua}</p>
           <ul className="acad-proyecto-lista">
             {rubrica.map((r, i) => (
               <li key={i}>
@@ -51,7 +53,7 @@ export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
 
       {tasks && tasks.length > 0 && (
         <section className="acad-proyecto-bloque">
-          <p className="acad-proyecto-etiqueta">Cómo abordarlo</p>
+          <p className="acad-proyecto-etiqueta">{C.comoAbordarlo}</p>
           <ol className="acad-proyecto-lista acad-proyecto-lista--numerada">
             {tasks.map((t, i) => (
               <li key={i}>
@@ -65,7 +67,7 @@ export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
 
       {discussionPrompts && discussionPrompts.length > 0 && (
         <section className="acad-proyecto-bloque">
-          <p className="acad-proyecto-etiqueta">Para discutir</p>
+          <p className="acad-proyecto-etiqueta">{C.preguntasDebate}</p>
           <ul className="acad-proyecto-lista">
             {discussionPrompts.map((p, i) => (
               <li key={i}>
@@ -79,7 +81,7 @@ export default function ProjectDetails({ lesson }: { lesson: Lesson }) {
 
       {tip && (
         <div className="acad-proyecto-tip">
-          <p className="acad-proyecto-tip-etiqueta">Tip profesional</p>
+          <p className="acad-proyecto-tip-etiqueta">{C.tipProfesional}</p>
           <p>{tip}</p>
         </div>
       )}

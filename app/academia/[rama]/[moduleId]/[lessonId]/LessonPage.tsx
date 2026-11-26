@@ -13,7 +13,7 @@ import SegmentProgress from '../../../components/SegmentProgress'
 import LessonToolbar from '../../../components/LessonToolbar'
 import { LessonIndexPanel, LessonIndexSheet } from '../../../components/LessonIndex'
 import AcadIcon, { type AcadIconName } from '../../../components/AcadIcon'
-import { ACAD_COPY } from '../../../copy'
+import { useAcadCopy, useAcadLang } from '../../../useAcadCopy'
 import { acentoDeRama, debeMostrarSegmentos, extraerH2, tipoDePieza } from '@/lib/academia/ui'
 
 function getEmbedType(lesson: Lesson): 'youtube' | 'audio' | 'link' | null {
@@ -43,18 +43,20 @@ export default function LessonPage({
   nextLesson,
 }: Props) {
   const { isCompleted, toggleLesson, hydrated } = useProgress()
+  const ACAD_COPY = useAcadCopy()
+  const { lang, href } = useAcadLang()
   const done = isCompleted(mod.id, lesson.id)
   const embedType = getEmbedType(lesson)
   const secciones = extraerH2(lesson.content)
-  const tipo = tipoDePieza(lesson.type)
+  const tipo = tipoDePieza(lesson.type, lang)
   const rama = ramaOfModule(mod)
   const accent = acentoDeRama(rama.id)
 
   const [indiceOpen, setIndiceOpen] = useState(false)
   const indiceBtnWrap = useRef<HTMLDivElement>(null)
 
-  const temarioHref = moduleHref(mod)
-  const salirHref = `${moduleHref(mod)}#pieza-${lesson.id}`
+  const temarioHref = href(moduleHref(mod))
+  const salirHref = `${href(moduleHref(mod))}#pieza-${lesson.id}`
 
   return (
     <div data-academia data-accent={accent} className="acad-lesson">
@@ -87,9 +89,7 @@ export default function LessonPage({
 
         <main className="acad-lesson__main">
           <div className="acad-lesson__meta" style={{ marginTop: '0.5rem' }}>
-            <span>
-              Pieza {lessonIndex + 1} de {mod.lessons.length}
-            </span>
+            <span>{ACAD_COPY.piezaNdeM(lessonIndex + 1, mod.lessons.length)}</span>
             <span className="acad-lesson__type">
               <AcadIcon name={tipo.icon as AcadIconName} size={16} />
               {tipo.label}
@@ -104,11 +104,11 @@ export default function LessonPage({
             </div>
           )}
 
-          <div className="lesson-card" style={{ background: 'var(--acad-card)', borderRadius: 12, padding: '0.25rem 0' }}>
+          <div className="lesson-card">
             {lesson.type === 'exam' && lesson.questions ? (
               <ExamQuestions
                 questions={lesson.questions}
-                siguienteHref={nextLesson ? lessonHref(mod, nextLesson.id) : null}
+                siguienteHref={nextLesson ? href(lessonHref(mod, nextLesson.id)) : null}
                 siguienteNombre={nextLesson?.title ?? null}
               />
             ) : lesson.type === 'project' ? (
@@ -126,7 +126,7 @@ export default function LessonPage({
             <div className="acad-lesson__nav">
               {prevLesson ? (
                 <Link
-                  href={lessonHref(mod, prevLesson.id)}
+                  href={href(lessonHref(mod, prevLesson.id))}
                   className="acad-v3-btn acad-v3-btn--secondary"
                 >
                   {ACAD_COPY.seccionAnterior}
@@ -145,7 +145,7 @@ export default function LessonPage({
 
               {nextLesson ? (
                 <Link
-                  href={lessonHref(mod, nextLesson.id)}
+                  href={href(lessonHref(mod, nextLesson.id))}
                   className="acad-v3-btn acad-v3-btn--primary"
                 >
                   {ACAD_COPY.siguienteSeccion}

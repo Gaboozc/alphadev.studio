@@ -1,0 +1,31 @@
+id,tipo,frente,reverso,etiquetas
+T01,definition,What distinguishes a hypothesis from an opinion?,You can say what you'd observe if it were false: it's falsifiable.,s0-c2 u2
+T02,application,"Make this falsifiable: ""The campaign is failing because the audience doesn't connect with the brand.""","E.g.: ""Conversion has dropped since day 12 because the ads are shown mostly to people over 55, who convert less."" It would be refuted if the age distribution hadn't changed.",s0-c2 u2
+T03,rule,"How many hypotheses should you generate before investigating, and why?","At least three; with only one, you look for supporting evidence and miss alternatives (confirmation bias, U4).",s0-c2 u2
+T04,rule,Which hypothesis do you start investigating with?,The most likely one that's cheapest to check.,s0-c2 u2
+T05,definition,What are the five whys for?,To get from the symptom down to a cause you can act on in a lasting way.,s0-c2 u2
+T06,discrimination,"Five whys that end in ""because John forgot"": what's wrong?",It stops at the person. The useful question is what the system allowed so that forgetting caused the problem.,s0-c2 u2
+T07,rule,"Is ""five"" a fixed number in the five whys?","No; it's a guideline: sometimes three is enough, sometimes you need seven.",s0-c2 u2
+T08,rule,What do you do if a step in the five whys has two answers?,Open two branches: real problems usually have several causes.,s0-c2 u2
+T09,definition,What is an Ishikawa diagram for?,"To organize the possible causes of an effect into categories so you don't forget any; it generates hypotheses, it doesn't tell you which is the cause.",s0-c2 u2
+T10,recall,Five Ishikawa categories for digital work.,People · Processes · Tools/technology · Data/information · Customer/environment.,s0-c2 u2
+T11,definition,The four explanations when A and B appear together.,A causes B · B causes A (reverse) · C causes both (confounding) · chance.,s0-c2 u2
+T12,discrimination,"""Customers who use more features renew more."" Most likely alternative explanation.",Reverse causation: those who already planned to renew explore more features.,s0-c2 u2
+T13,discrimination,"""Months with more posts have more sales."" Alternative explanation.","Confounding: the season (e.g., December) drives more campaigns and more purchases.",s0-c2 u2
+T14,definition,What is a confounding variable?,A third variable that influences both A and B and creates a correlation between them without one causing the other.,s0-c2 u2
+T15,recall,Five ways to get closer to causation.,Plausible mechanism · time order · compare with a similar group without the cause · randomized controlled experiment · replicate.,s0-c2 u2
+T16,definition,Why is random assignment key in an A/B test?,"It spreads everything else evenly across groups (including what we don't measure), so the difference can be attributed to the change.",s0-c2 u2
+T17,application,"Sales +18% in November after a redesign; the previous November, sales rose 15%. Attributable effect?","Maybe about 3 points, with uncertainty: the season explains almost all of it.",s0-c2 u2
+T18,recall,"The guide's evidence hierarchy, strongest to weakest.",Randomized experiment · comparison with a similar group · behavioral data without comparison · self-reported data · anecdotes.,s0-c2 u2
+T19,rule,What are anecdotes actually good for?,"For generating hypotheses, not for confirming them.",s0-c2 u2
+T20,recall,Four questions to evaluate a data point.,"How many cases? · How was it measured (and did the measurement change)? · Compared with what? · Who produced it, and with what interest?",s0-c2 u2
+T21,discrimination,"""50% improvement with 6 visits."" What's the problem?",The sample is too small: chance easily explains it.,s0-c2 u2
+T22,discrimination,"A survey went from an open question to a list with ""Price"" first, and ""price"" rose from 15% to 46%. What do you conclude?",Nothing comparable: the instrument changed (measurement). It doesn't prove price matters more.,s0-c2 u2
+T23,definition,What is selection (self-selection) in a comparison?,The groups were already different before the comparison because people chose which group to be in.,s0-c2 u2
+T24,application,"Why analyze everyone assigned in a test, and not just those who ""used"" the change?",Because filtering by use reintroduces the self-selection that random assignment removed.,s0-c2 u2
+T25,definition,What is regression to the mean?,"After an extreme period, the next one tends to move back toward normal even if you do nothing; it can look like the effect of a change.",s0-c2 u2
+T26,application,"Incidents fell 30%, but there were also 20% fewer deployments. What do you calculate?","The rate: incidents per deployment, not the total.",s0-c2 u2
+T27,discrimination,"Reels: average reach 2,400, median 1,300; photos: 1,200 and 1,100. What does that tell you?",A few viral posts inflate the average; the typical post performs about the same.,s0-c2 u2
+T28,U1 · interleaved,"Symptom, problem, cause, solution: which one is ""sales went down""?","Symptom: what's observable. The problem is stated with data, impact, scope, constraints and a success criterion.",s0-c2 u1 interleaved
+T29,U1 · interleaved,What does MECE mean?,Mutually exclusive and collectively exhaustive: branches that don't overlap and together cover everything.,s0-c2 u1 interleaved
+T30,U1 · interleaved,Pólya's first step for solving a problem.,"Understand the problem (then: plan, carry out and look back).",s0-c2 u1 interleaved

@@ -1,0 +1,26 @@
+import type { Metadata } from 'next'
+import { CursoVista } from '@/app/academia/_universidad/vistas'
+import { getCatalogo } from '@/app/academia/_universidad/contenido'
+import { cursoPorSlug, cursosDePrograma, tituloCurso } from '@/lib/academia/universidad'
+
+interface Props {
+  params: Promise<{ curso: string }>
+}
+
+export function generateStaticParams() {
+  return cursosDePrograma(getCatalogo(), 'DP').map((c) => ({ curso: c.slug }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { curso } = await params
+  const c = cursoPorSlug(getCatalogo(), 'DP', curso)
+  return {
+    title: c ? `${c.code} · ${tituloCurso(c, 'en')}` : 'Academy',
+    robots: { index: false, follow: false },
+  }
+}
+
+export default async function Page({ params }: Props) {
+  const { curso } = await params
+  return <CursoVista programa="diseno-producto" curso={curso} lang="en" />
+}

@@ -1,0 +1,31 @@
+id,tipo,frente,reverso,etiquetas
+T01,definición,¿Qué distingue una hipótesis de una opinión?,Que puedes decir qué observarías si fuera falsa: es refutable.,s0-c2 u2
+T02,aplicación,Haz refutable esta frase: «La campaña falla porque el público no conecta con la marca».,"Ej.: «La conversión cayó desde el día 12 porque los anuncios se muestran sobre todo a mayores de 55, que convierten menos». La refutaría que la distribución por edad no hubiera cambiado.",s0-c2 u2
+T03,regla,¿Cuántas hipótesis generar antes de investigar y por qué?,"Al menos tres; con una sola buscas pruebas a favor y no ves alternativas (sesgo de confirmación, U4).",s0-c2 u2
+T04,regla,¿Con qué hipótesis empiezas a investigar?,Con la más probable y más barata de comprobar.,s0-c2 u2
+T05,definición,¿Qué buscan los cinco porqués?,Bajar del síntoma a una causa sobre la que se pueda actuar de forma duradera.,s0-c2 u2
+T06,discriminación,Cinco porqués que terminan en «porque Juan lo olvidó»: ¿qué falla?,Para en la persona. La pregunta útil es qué permitió el sistema para que el olvido causara el problema.,s0-c2 u2
+T07,regla,¿Es «cinco» un número fijo en los cinco porqués?,"No; es orientativo: a veces bastan tres, a veces se necesitan siete.",s0-c2 u2
+T08,regla,¿Qué haces si en un paso de los cinco porqués hay dos respuestas?,Abres dos ramas: los problemas reales suelen tener varias causas.,s0-c2 u2
+T09,definición,¿Para qué sirve un diagrama de Ishikawa?,"Para organizar las causas posibles de un efecto en categorías y no olvidar ninguna; genera hipótesis, no dice cuál es la causa.",s0-c2 u2
+T10,recuerdo,Cinco categorías de Ishikawa para trabajo digital.,Personas · Procesos · Herramientas/tecnología · Datos/información · Cliente/entorno.,s0-c2 u2
+T11,definición,Las cuatro explicaciones cuando A y B aparecen juntas.,A causa B · B causa A (inversa) · C causa ambas (confusión) · casualidad.,s0-c2 u2
+T12,discriminación,«Los clientes que usan más funciones renuevan más.» Explicación alternativa más probable.,Causalidad inversa: los que ya pensaban renovar exploran más funciones.,s0-c2 u2
+T13,discriminación,«Los meses con más publicaciones tienen más ventas.» Explicación alternativa.,"Confusión: la temporada (p. ej., diciembre) causa más campañas y más compras.",s0-c2 u2
+T14,definición,¿Qué es una variable de confusión?,Una tercera variable que influye en A y en B y crea una correlación entre ellas sin que una cause la otra.,s0-c2 u2
+T15,recuerdo,Cinco formas de acercarse a la causalidad.,Mecanismo plausible · orden temporal · comparar con grupo similar sin la causa · experimento controlado aleatorio · reproducir.,s0-c2 u2
+T16,definición,¿Por qué la asignación al azar es clave en una prueba A/B?,Porque reparte por igual entre grupos todo lo demás (también lo que no medimos); así la diferencia se atribuye al cambio.,s0-c2 u2
+T17,aplicación,Ventas +18 % en noviembre tras un rediseño; el año anterior noviembre subió 15 %. ¿Efecto atribuible?,"Quizá unos 3 puntos, y con incertidumbre: la temporada explica casi todo.",s0-c2 u2
+T18,recuerdo,"Jerarquía de evidencia de la guía, de más a menos fuerte.",Experimento aleatorio · comparación con grupo similar · datos de comportamiento sin comparación · datos declarados · anécdotas.,s0-c2 u2
+T19,regla,¿Para qué sí sirven las anécdotas?,"Para generar hipótesis, no para confirmarlas.",s0-c2 u2
+T20,recuerdo,Cuatro preguntas para evaluar un dato.,¿Cuántos casos? · ¿Cómo se midió (y cambió la medición)? · ¿Comparado con qué? · ¿Quién lo produjo y con qué interés?,s0-c2 u2
+T21,discriminación,«Mejora del 50 % con 6 visitas.» ¿Qué problema tiene?,Muestra demasiado pequeña: la casualidad lo explica fácilmente.,s0-c2 u2
+T22,discriminación,La encuesta pasó de pregunta abierta a lista con «Precio» primero y «precio» subió de 15 % a 46 %. ¿Qué concluyes?,Nada comparable: cambió el instrumento (medición). No prueba que el precio pese más.,s0-c2 u2
+T23,definición,¿Qué es la selección (autoselección) en una comparación?,Que los grupos ya eran distintos antes de comparar porque las personas eligieron en qué grupo estar.,s0-c2 u2
+T24,aplicación,¿Por qué analizar a todos los asignados en una prueba y no solo a quienes «usaron» el cambio?,Porque filtrar por uso reintroduce la autoselección que la asignación aleatoria eliminó.,s0-c2 u2
+T25,definición,¿Qué es la regresión a la media?,"Tras un periodo extremo, el siguiente tiende a acercarse a lo normal aunque no hagas nada; puede parecer efecto de un cambio.",s0-c2 u2
+T26,aplicación,Incidentes bajaron 30 % pero también hubo 20 % menos despliegues. ¿Qué calculas?,"La tasa: incidentes por despliegue, no el total.",s0-c2 u2
+T27,discriminación,"Promedio de alcance de reels 2.400, mediana 1.300; fotos 1.200 y 1.100. ¿Qué te dice?",Unos pocos virales inflan el promedio; la publicación típica rinde parecido.,s0-c2 u2
+T28,U1 · intercalada,"Síntoma, problema, causa, solución: ¿en cuál de ellas está «las ventas bajaron»?","Síntoma: lo observable. El problema se enuncia con datos, impacto, alcance, restricciones y criterio de éxito.",s0-c2 u1 intercalada
+T29,U1 · intercalada,¿Qué significa MECE?,Mutuamente excluyentes y colectivamente exhaustivas: ramas que no se solapan y que juntas cubren todo.,s0-c2 u1 intercalada
+T30,U1 · intercalada,Primer paso de Pólya para resolver un problema.,"Comprender el problema (después: planear, ejecutar y revisar).",s0-c2 u1 intercalada

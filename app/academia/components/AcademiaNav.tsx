@@ -5,8 +5,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from '@/components/Icon'
 import ThemeToggle from '@/components/ThemeToggle'
+import LanguageToggle from '@/components/LanguageToggle'
+import { stripLocale } from '@/lib/i18n/routes'
+import { PROGRAMAS, UI, rutaBiblioteca, rutaPortada, rutaPrograma } from '@/lib/academia/universidad'
 import type { ModuleMeta, Track } from '../types'
-import { RAMAS, TRACK_META, moduleHref } from '../ramas'
+import { RAMAS, TRACK_META, etiquetaTrack, moduleHref } from '../ramas'
+import { ACAD_COPIES } from '../copy'
 import { useProgress } from '../hooks/useProgress'
 
 // Las áreas se listan en el orden de las ramas, no sueltas.
@@ -27,8 +31,12 @@ export default function AcademiaNav({
   const pathname = usePathname()
   const { getModuleProgress, hydrated } = useProgress()
 
-  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama)
-  const currentModuleId = pathname.split('/')[3] ?? ''
+  // /academia/[rama]/[moduleId]/... → índice 3 es el módulo (2 es la rama).
+  // Bajo /en/academia se quita el prefijo antes de contar.
+  const { lang, path: rutaSinIdioma } = stripLocale(pathname ?? '/academia')
+  const t = UI[lang]
+  const C = ACAD_COPIES[lang]
+  const currentModuleId = rutaSinIdioma.split('/')[3] ?? ''
   const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
     currentModule?.track ?? 'marketing'
@@ -58,7 +66,9 @@ export default function AcademiaNav({
         }}
       >
         <Link
-          href="/academia"
+          href={rutaPortada(lang)}
+          aria-label="ADS Academia"
+          className="acad-nav-wordmark"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -67,6 +77,7 @@ export default function AcademiaNav({
           }}
         >
           <span
+            className="acad-nav-wordmark__ads"
             style={{
               fontFamily: 'var(--font-playfair)',
               fontSize: '1.125rem',
@@ -77,11 +88,11 @@ export default function AcademiaNav({
             ADS
           </span>
           <span
+            className="acad-nav-wordmark__academia"
             style={{
               fontFamily: 'var(--font-inter)',
               fontSize: '0.75rem',
               fontWeight: 500,
-              color: 'var(--text-subtle)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
             }}
@@ -90,18 +101,24 @@ export default function AcademiaNav({
           </span>
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="acad-nav-tools" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        {/* Selector ES/EN: lleva a la misma página en el otro idioma. */}
+        <LanguageToggle />
         <ThemeToggle />
         <button
           onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
+          aria-label={C.menuAbrir}
+          className="acad-nav-menu-btn"
           style={{
             background: 'none',
             border: 'none',
             cursor: 'pointer',
             padding: '0.5rem',
+            minWidth: '44px',
+            minHeight: '44px',
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'center',
             gap: '5px',
             alignItems: 'flex-end',
           }}
@@ -159,7 +176,7 @@ export default function AcademiaNav({
             <p
               style={{
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 letterSpacing: '0.1em',
@@ -183,8 +200,10 @@ export default function AcademiaNav({
           </div>
           <button
             onClick={close}
-            aria-label="Cerrar menú"
+            aria-label={C.menuCerrar}
             style={{
+              minWidth: '44px',
+              minHeight: '44px',
               background: 'none',
               border: '1px solid var(--border)',
               borderRadius: '0.5rem',
@@ -209,7 +228,7 @@ export default function AcademiaNav({
           }}
         >
           <Link
-            href="/"
+            href={lang === 'en' ? '/en' : '/'}
             onClick={close}
             style={{
               fontFamily: 'var(--font-inter)',
@@ -221,9 +240,51 @@ export default function AcademiaNav({
               gap: '0.375rem',
             }}
           >
-            ← Volver al sitio
+            {lang === 'en' ? '← Back to the site' : '← Volver al sitio'}
           </Link>
         </div>
+
+        {/* Catálogo universidad: S0, carreras, optativas y Biblioteca */}
+        <nav
+          aria-label={t.academia}
+          style={{ padding: '0.5rem 0', borderBottom: '1px solid var(--border)', flexShrink: 0 }}
+        >
+          {PROGRAMAS.map((p) => (
+            <Link
+              key={p.id}
+              href={rutaPrograma(p, lang)}
+              onClick={close}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                minHeight: '44px',
+                padding: '0 1.25rem',
+                fontFamily: 'var(--font-inter)',
+                fontSize: '0.875rem',
+                color: 'var(--text)',
+                textDecoration: 'none',
+              }}
+            >
+              {lang === 'en' ? p.en : p.es}
+            </Link>
+          ))}
+          <Link
+            href={rutaBiblioteca(lang)}
+            onClick={close}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '44px',
+              padding: '0 1.25rem',
+              fontFamily: 'var(--font-inter)',
+              fontSize: '0.875rem',
+              color: 'var(--text)',
+              textDecoration: 'none',
+            }}
+          >
+            {t.biblioteca}
+          </Link>
+        </nav>
 
         {/* Track + module list */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '0.5rem 0' }}>
@@ -254,6 +315,7 @@ export default function AcademiaNav({
                   onClick={() => setExpandedTrack(isExpanded ? null : track.id)}
                   style={{
                     width: '100%',
+                    minHeight: '44px',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.625rem',
@@ -284,13 +346,13 @@ export default function AcademiaNav({
                       flex: 1,
                     }}
                   >
-                    {track.label}
+                    {etiquetaTrack(track, lang)}
                   </span>
                   {hydrated && trackPercent > 0 && (
                     <span
                       style={{
                         fontFamily: 'var(--font-inter)',
-                        fontSize: '0.6875rem',
+                        fontSize: '0.75rem',
                         fontWeight: 600,
                         color: 'var(--gold)',
                       }}
@@ -300,7 +362,7 @@ export default function AcademiaNav({
                   )}
                   <span
                     style={{
-                      fontSize: '0.625rem',
+                      fontSize: '0.75rem',
                       color: isExpanded ? 'var(--gold)' : 'var(--text-subtle)',
                       transform: isExpanded ? 'rotate(180deg)' : 'none',
                       transition: 'transform 200ms ease',
@@ -329,7 +391,7 @@ export default function AcademiaNav({
                       return (
                         <Link
                           key={mod.id}
-                          href={moduleHref(mod)}
+                          href={lang === 'en' ? `/en${moduleHref(mod)}` : moduleHref(mod)}
                           onClick={close}
                           style={{
                             display: 'flex',
@@ -346,8 +408,8 @@ export default function AcademiaNav({
                           <span
                             style={{
                               flexShrink: 0,
-                              width: '1.375rem',
-                              height: '1.375rem',
+                              width: '1.5rem',
+                              height: '1.5rem',
                               borderRadius: '50%',
                               background: isDone ? 'var(--gold)' : isActive ? 'rgba(154,114,53,0.15)' : 'var(--bg-deep)',
                               border: `1px solid ${isDone || isActive ? 'var(--gold-border)' : 'var(--border)'}`,
@@ -355,7 +417,7 @@ export default function AcademiaNav({
                               alignItems: 'center',
                               justifyContent: 'center',
                               fontFamily: 'var(--font-inter)',
-                              fontSize: '0.5625rem',
+                              fontSize: '0.75rem',
                               fontWeight: 700,
                               color: isDone ? 'var(--on-gold)' : isActive ? 'var(--gold)' : 'var(--text-subtle)',
                             }}
@@ -382,7 +444,7 @@ export default function AcademiaNav({
 
                           {isCapstone && (
                             <span
-                              title="Proyecto final"
+                              title={lang === 'en' ? 'Final project' : 'Proyecto final'}
                               style={{ display: 'flex', color: 'var(--gold)', flexShrink: 0 }}
                             >
                               <Icon name="flag" size={12} />
@@ -415,7 +477,9 @@ export default function AcademiaNav({
               margin: '0 0 0.625rem',
             }}
           >
-            {catalogo.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
+            {lang === 'en'
+              ? `${catalogo.length} modules · ${TRACKS.length} areas · ${RAMAS.length} branches`
+              : `${catalogo.length} módulos · ${TRACKS.length} áreas · ${RAMAS.length} ramas`}
           </p>
 
           {/* Solo para admin. Ocultarlo no protege el panel — eso lo hace la
@@ -433,14 +497,15 @@ export default function AcademiaNav({
                 gap: '0.4rem',
                 marginBottom: '0.625rem',
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                minHeight: '44px',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 textDecoration: 'none',
               }}
             >
               <Icon name="message" size={13} />
-              Panel
+              {C.panel}
             </Link>
           )}
 
@@ -452,7 +517,7 @@ export default function AcademiaNav({
                 flex: 1,
                 minWidth: 0,
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 color: 'var(--text-muted)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -466,17 +531,18 @@ export default function AcademiaNav({
               style={{
                 flexShrink: 0,
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 background: 'none',
                 border: '1px solid var(--gold-border)',
                 borderRadius: '0.375rem',
-                padding: '0.2rem 0.55rem',
+                padding: '0.2rem 0.75rem',
+                minHeight: '44px',
                 cursor: 'pointer',
               }}
             >
-              Salir
+              {C.salir}
             </button>
           </form>
         </div>

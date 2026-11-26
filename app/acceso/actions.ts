@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
 /** Prefijos de ruta a los que el login puede mandar a alguien. */
-const DESTINOS_PERMITIDOS = ['/academia', '/admin']
+const DESTINOS_PERMITIDOS = ['/academia', '/en/academia', '/admin']
 
 /**
  * Solo se admiten rutas internas como destino tras entrar.

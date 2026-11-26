@@ -106,7 +106,8 @@
 [data-academia] .acad-temario__continue .acad-v3-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: left;
   width: 100%;
   max-width: 34em;
   padding: 0.75rem 1.125rem;
@@ -115,6 +116,13 @@
   word-break: break-word;
   box-decoration-break: slice;
   -webkit-box-decoration-break: slice;
+}
+
+@media (min-width: 768px) {
+  [data-academia] .acad-temario__continue .acad-v3-btn {
+    width: fit-content;
+    max-width: 34em;
+  }
 }
 
 [data-academia] .acad-v3-btn--primary {
@@ -346,6 +354,22 @@
   min-width: 0;
 }
 
+[data-academia] .lesson-card {
+  background: var(--acad-card);
+  border-radius: 12px;
+  padding: 0.25rem 0; /* desktop: igual que antes */
+}
+
+@media (max-width: 767px) {
+  /* Sin tarjeta: el texto va sobre bg, con el padding lateral de .acad-lesson__main (20px). */
+  [data-academia] .lesson-card {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
 [data-academia] .acad-lesson__title {
   font-family: var(--font-playfair), Georgia, serif;
   font-weight: 700;
@@ -483,7 +507,9 @@
   max-width: 34em;
 }
 
-[data-academia] .acad-guia__label {
+[data-academia] .acad-guia__label,
+[data-academia] .acad-temario__kicker {
+  /* Kicker compartido: «PREGUNTA GUÍA» y «UNIDAD n» (P2-01 Rams, PR #15). */
   margin: 0 0 8px;
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 600;
@@ -719,7 +745,7 @@
 
 [data-academia] .acad-h2__link {
   color: var(--acad-ink-3);
-  opacity: 0;
+  opacity: 1; /* táctil: siempre visible */
   transition: opacity 160ms var(--acad-ease);
   flex-shrink: 0;
   background: none;
@@ -729,14 +755,15 @@
   position: relative;
 }
 
-[data-academia] .acad-h2:hover .acad-h2__link,
-[data-academia] .acad-h2:focus-within .acad-h2__link,
-[data-academia] .acad-h2__link:focus-visible {
-  opacity: 1;
-}
-
-@media (hover: none) {
+@media (hover: hover) {
   [data-academia] .acad-h2__link {
+    opacity: 0;
+  }
+
+  [data-academia] .acad-h2:hover .acad-h2__link,
+  [data-academia] .acad-h2:focus-within .acad-h2__link,
+  [data-academia] .acad-h2__link:focus,
+  [data-academia] .acad-h2__link:focus-visible {
     opacity: 1;
   }
 }
@@ -835,8 +862,11 @@
 }
 
 [data-academia] .acad-exam__map-btn {
-  width: 2rem;
-  height: 2rem;
+  /* Área táctil mínima 44×44 (P1-01 Rams, revisión PR #15). */
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 6px;
   border: none;
   font-weight: 600;
@@ -861,7 +891,8 @@
 
 [data-academia] .acad-exam__opcion {
   display: flex;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: flex-start;
   width: 100%;
   text-align: left;
@@ -894,10 +925,11 @@
 [data-academia] .acad-exam__badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.8125rem;
+  gap: 0.5rem; /* 8px entre icono 16px y texto */
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.25rem; /* 20px */
   font-weight: 600;
-  margin-top: 0.5rem;
+  margin-top: 0;
 }
 
 [data-academia] .acad-exam__badge.is-ok { color: var(--acad-ok); }
@@ -951,6 +983,44 @@
 
 [data-academia] .acad-temario summary::-webkit-details-marker {
   display: none;
+}
+
+[data-academia] .acad-temario__solo-head {
+  padding: 1rem 1.125rem;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+[data-academia] .acad-temario__mod-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+[data-academia] .acad-temario__mod-title {
+  flex: 1;
+  min-width: 0;
+}
+
+[data-academia] .acad-temario__mod-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 599px) {
+  [data-academia] .acad-temario__mod-title {
+    flex: 1 1 100%;
+  }
+
+  [data-academia] .acad-temario__mod-meta {
+    flex: 1 1 100%;
+  }
 }
 
 [data-academia] .acad-temario__mod-body {
@@ -1037,6 +1107,16 @@
   50% { opacity: 1; }
 }
 
+/* Wordmark del nav: «ADS» se queda en oro (logotipo, exento).
+   «ACADEMIA» en claro pasa a ink-2; en oscuro no cambia. */
+[data-academia] .acad-nav-wordmark__academia {
+  color: var(--acad-ink-2);
+}
+
+:root[data-theme='dark'] [data-academia] .acad-nav-wordmark__academia {
+  color: var(--text-subtle);
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-academia] *,
   [data-academia] *::before,
@@ -1045,4 +1125,342 @@
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ── Catálogo universidad (ES + EN) ──
+   Provisional hasta el handoff de Arkano/Rams: SOLO tokens existentes
+   (--acad-*), sin colores ni tipografías nuevas. */
+[data-academia] .acad-wrap--lectura {
+  max-width: 46rem;
+}
+
+[data-academia] .acad-prereq {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--acad-ink-2);
+}
+
+[data-academia] .acad-prereq a,
+[data-academia] .acad-legado a,
+[data-academia] .acad-md a,
+[data-academia] .acad-unidad-indice a {
+  color: var(--acad-ink-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+[data-academia] .acad-unidades,
+[data-academia] .acad-unidad-indice ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+  color: var(--acad-ink-1);
+}
+
+[data-academia] .acad-unidad-indice {
+  margin: 1.5rem 0 2rem;
+}
+
+[data-academia] .acad-legado {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+[data-academia] .acad-legado li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--acad-line);
+  line-height: 1.6;
+  min-height: 44px;
+}
+
+[data-academia] .acad-legado__key {
+  font-size: 0.8125rem;
+  color: var(--acad-ink-3);
+}
+
+[data-academia] .acad-pieza {
+  scroll-margin-top: 5rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--acad-line);
+}
+
+[data-academia] .acad-solucion {
+  margin: 1rem 0;
+  border: 1px solid var(--acad-line);
+  border-radius: 12px;
+  background: var(--acad-card);
+}
+
+[data-academia] .acad-solucion > summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-weight: 600;
+  color: var(--acad-ink-1);
+}
+
+[data-academia] .acad-solucion[open] > summary {
+  border-bottom: 1px solid var(--acad-line);
+}
+
+[data-academia] .acad-solucion > :not(summary) {
+  padding: 0 1rem 1rem;
+}
+
+[data-academia] .acad-md {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--acad-ink-1);
+  overflow-wrap: anywhere;
+}
+
+[data-academia] .acad-md h1,
+[data-academia] .acad-md h2,
+[data-academia] .acad-md h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 2rem 0 0.75rem;
+}
+
+[data-academia] .acad-md h1 { font-size: 2rem; }
+[data-academia] .acad-md h2 { font-size: 1.5rem; }
+[data-academia] .acad-md h3 { font-size: 1.1875rem; }
+
+[data-academia] .acad-md p,
+[data-academia] .acad-md ul,
+[data-academia] .acad-md ol {
+  margin: 0 0 1rem;
+}
+
+[data-academia] .acad-md ul,
+[data-academia] .acad-md ol {
+  padding-left: 1.25rem;
+}
+
+[data-academia] .acad-md blockquote {
+  margin: 1rem 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--acad-ink-2);
+  background: var(--acad-info-tint);
+  border-radius: 0 12px 12px 0;
+}
+
+[data-academia] .acad-md code {
+  font-size: 0.9em;
+  background: var(--acad-bg-alt);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+[data-academia] .acad-md pre {
+  background: var(--acad-code-bg);
+  color: var(--acad-code-text);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+[data-academia] .acad-md pre code {
+  background: none;
+  padding: 0;
+}
+
+[data-academia] .acad-md table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9375rem;
+}
+
+[data-academia] .acad-md th,
+[data-academia] .acad-md td {
+  border: 1px solid var(--acad-line);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+[data-academia] .acad-md hr {
+  border: 0;
+  border-top: 1px solid var(--acad-line);
+  margin: 2rem 0;
+}
+
+/* ── Barra de la Academia: objetivos táctiles ≥ 44×44 (P1-02, P2-02) ──
+   Solo dentro de la barra de la Academia (.acad-nav-tools): el selector y el
+   tema del sitio público no cambian. La pastilla y el dibujo se mantienen. */
+.acad-nav-tools .lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.625rem;
+  font-size: 0.75rem;
+}
+.acad-nav-tools .lang-toggle-btn:focus-visible {
+  outline: 2px solid var(--acad-focus, var(--gold));
+  outline-offset: -4px;
+}
+.acad-nav-tools .tema-toggle {
+  min-height: 44px;
+  align-items: center;
+}
+
+/* ── Pasada r2 del PR #14 (lista única de Arkano y Rams) ───────────────── */
+
+/* P0-01 · Códigos en Inter; los números que siguen en Playfair, lining. */
+[data-academia] .acad-mod-num,
+[data-academia] .acad-codigo {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+[data-academia] .acad-mod-num--codigo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+[data-academia] .acad-mod-body h3 .acad-codigo {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--acad-ink-2);
+}
+[data-academia] .acad-head h1,
+[data-academia] .acad-familia-head h2,
+[data-academia] .acad-area-head h2,
+[data-academia] .acad-mod-body h3,
+[data-academia] .acad-rama h3,
+[data-academia] .acad-feature h3,
+[data-academia] .acad-unidad-head__titulo,
+[data-academia] .acad-pieza__titulo,
+[data-academia] .acad-md h1,
+[data-academia] .acad-md h2,
+[data-academia] .acad-md h3,
+[data-academia] .acad-md h4 {
+  font-variant-numeric: lining-nums;
+}
+[data-academia] .acad-stat-num {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* P1-03 · Chips a 12 px como mínimo. */
+[data-academia] .acad-badge {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.125rem 0.5rem;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* P1-04 · Cabecera de la unidad con el patrón v3 y el índice en un contenedor. */
+[data-academia] .acad-unidad-head {
+  padding-top: 2rem;
+  margin-bottom: 1rem;
+}
+[data-academia] .acad-unidad-head__titulo {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--acad-ink-1);
+  margin: 0 0 0.75rem;
+}
+[data-academia] .acad-unidad-head__meta {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: var(--acad-ink-2);
+  margin: 0;
+}
+[data-academia] .acad-unidad-indice {
+  margin: 1.5rem 0 2.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--acad-bg-alt);
+  border: 1px solid var(--acad-line);
+  border-radius: 12px;
+}
+[data-academia] .acad-unidad-indice ol {
+  line-height: 1.6;
+}
+[data-academia] .acad-unidad-indice li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+[data-academia] .acad-pieza__titulo {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--acad-ink-1);
+  margin: 0 0 1rem;
+}
+
+/* P1-06 · Filas de legado apiladas: título, chip entero, clave. */
+[data-academia] .acad-legado li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  justify-content: center;
+}
+[data-academia] .acad-legado__titulo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+[data-academia] .acad-legado__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.75rem;
+  max-width: 100%;
+}
+[data-academia] .acad-legado__key {
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+/* P2-05 · En móvil el kicker de la portada solo dice «ESTUDIO PRIVADO». */
+@media (max-width: 767px) {
+  [data-academia] .acad-eyebrow-marca {
+    display: none;
+  }
+}
+
+/* Recurso de S0 (Glosario ES–EN) bajo los cursos de la portada. */
+[data-academia] .acad-recurso-link {
+  margin: 1rem 0 0;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9375rem;
+}
+[data-academia] .acad-recurso-link a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--acad-ink-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* R3 · Rams P1: hueco mínimo de 12 px entre el wordmark y las herramientas; por debajo de 375 px solo «ADS». */
+[data-academia] .acad-nav-wordmark { margin-right: 12px; min-width: 0; flex-shrink: 1; }
+@media (max-width: 374.98px) {
+  [data-academia] .acad-nav-wordmark__academia { display: none; }
+}
+
+/* R3 · Arkano P2: la miga de pan no parte el código y el título va en una línea con elipsis. */
+[data-academia] .acad-crumb { max-width: 100%; min-width: 0; }
+[data-academia] .acad-crumb__codigo { white-space: nowrap; flex-shrink: 0; }
+[data-academia] .acad-crumb__titulo {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
