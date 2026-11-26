@@ -507,7 +507,9 @@
   max-width: 34em;
 }
 
-[data-academia] .acad-guia__label {
+[data-academia] .acad-guia__label,
+[data-academia] .acad-temario__kicker {
+  /* Kicker compartido: «PREGUNTA GUÍA» y «UNIDAD n» (P2-01 Rams, PR #15). */
   margin: 0 0 8px;
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 600;
@@ -860,8 +862,11 @@
 }
 
 [data-academia] .acad-exam__map-btn {
-  width: 2rem;
-  height: 2rem;
+  /* Área táctil mínima 44×44 (P1-01 Rams, revisión PR #15). */
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 6px;
   border: none;
   font-weight: 600;

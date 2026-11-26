@@ -95,7 +95,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
 
   return (
     <div data-academia data-accent={accent} className="acad-temario">
-      <p className="acad-lesson__meta acad-temario__kicker" style={{ marginBottom: '0.5rem' }}>
+      <p className="acad-temario__kicker">
         {ACAD_COPY.unidadN(unidadActual)}
       </p>
       <h1 className="acad-lesson__title" style={{ marginTop: 0 }}>
