@@ -1,6 +1,6 @@
 # Unidad 3 — Cuestionario
 
-Clave en `../claves/u3-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u3-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. Un argumento válido es aquel en que:
    a) Todos los presentes están de acuerdo. b) La conclusión se sigue de las premisas. c) Hay datos que respaldan cada premisa. d) Las premisas son todas verdaderas.

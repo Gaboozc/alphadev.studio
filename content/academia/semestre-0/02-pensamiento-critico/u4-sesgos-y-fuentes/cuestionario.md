@@ -1,6 +1,6 @@
 # Unidad 4 — Cuestionario
 
-Clave en `../claves/u4-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u4-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. El Sistema 1 es:
    a) Siempre erróneo. b) Rápido e intuitivo. c) Un tipo de software. d) Lento y deliberado.

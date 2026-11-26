@@ -1,6 +1,6 @@
 # Unidad 3 — Cuestionario
 
-Clave en `../claves/u3-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u3-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. El objetivo principal del UX writing es:
    a) Vender más en cada pantalla. b) Posicionar en buscadores. c) Entretener al usuario. d) Guiar y reducir fricción.

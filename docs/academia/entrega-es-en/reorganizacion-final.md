@@ -152,7 +152,7 @@ Leyenda de la columna de lecciones actuales: **M** mantener · **R** reescribir 
 | Unidad enriquecida S0-C2 U2 | `semestre-0/02-pensamiento-critico/u2-causas-hipotesis-evidencia-enriquecida/` | `semestre-0-en/02-pensamiento-critico/u2-causas-hipotesis-evidencia-enriquecida/` |
 | Claves y soluciones de S0 | `semestre-0/*/claves/` | `semestre-0-en/*/claves/` |
 | Cursos S1–S6 y optativas (ficha) | `curriculo-rework.md` §4 → `catalogo/catalogo-academia.json` | `title_en` en el mismo JSON; unidades en EN pendientes (§5) |
-| Lecciones actuales (Biblioteca) | `app/academia/content/*.ts` (lo que ya está en vivo) · inventario en `inventario.csv` · decisión en `decisiones-lecciones.csv` | Pendiente (§5) |
+| Lecciones actuales (Biblioteca) | `app/academia/content/*.ts` (lo que ya está en vivo) · inventario en `inventario.csv` · decisión en `decisiones-lecciones.csv` | **87 "mantener" traducidas en `biblioteca-en/`** (§4–§5) · resto en ES (§5) |
 | Glosario | — | `semestre-0-en/glosario-es-en.md` |
 
 Dentro de cada unidad de S0, las piezas son siempre: `guia.md`, `comprobaciones-rapidas.md`, `ejercicios.md`, `cuestionario.md`, `reflexion.md`, más `claves/uN-clave-comprobaciones.md`, `claves/uN-clave-cuestionario.md` y `claves/uN-soluciones-ejercicios.md`. Cada curso tiene `00-syllabus.md`, `checkpoint.md` (+ `claves/checkpoint-clave.md`) y `proyecto-final.md`.
@@ -162,7 +162,7 @@ Dentro de cada unidad de S0, las piezas son siempre: `guia.md`, `comprobaciones-
 ## 3. Especificación para Hefesto (solo pedido; él decide cómo y cuánto cuesta)
 
 ### 3.1 Paquete de contenido
-- **Fuente única:** los `.md`/`.csv` de `semestre-0/` y `semestre-0-en/` más `catalogo/catalogo-academia.json`. Los nombres de carpeta y archivo son **idénticos** en los dos idiomas; solo cambia la raíz.
+- **Fuente única:** los `.md`/`.csv` de `semestre-0/`, `semestre-0-en/` y `biblioteca-en/`, más `catalogo/catalogo-academia.json` (con títulos y unidades bilingües ES/EN para los 62 cursos). Los nombres de carpeta y archivo son **idénticos** en los dos idiomas; solo cambia la raíz.
 - **Ids:** se conservan tal cual. S0 usa `s0-c<curso>-u<unidad>-<pieza>` (p. ej. `s0-c2-u2-caso`), que ya figura en la cabecera de cada pieza. Los cursos nuevos usan `<carrera>-<curso>-u<N>-<pieza>` (p. ej. `is-303-u2-guia`). Las lecciones actuales conservan su clave `rama/módulo/lección` (hay 10 ids repetidos entre Branding y Back-end, así que el id solo no basta).
 - **Un id, dos idiomas:** el mismo id sirve para ES y EN. El progreso (hoy en localStorage) se guarda por id, así que cambiar de idioma no pierde el avance.
 
@@ -177,7 +177,7 @@ Dentro de cada unidad de S0, las piezas son siempre: `guia.md`, `comprobaciones-
 
 ### 3.3 Selector de idioma
 - Visible en todas las páginas de la Academia; lleva a la **misma página** en el otro idioma.
-- Si una pieza aún no existe en inglés (hoy, las lecciones de la Biblioteca), se muestra la versión en español con un aviso: "This lesson is only available in Spanish for now." **No se esconde** ni da 404.
+- Si una pieza aún no existe en inglés (las 462 lecciones legado con decisión `reescribir`, `fusionar` o `retirar`), se muestra la versión en español con un aviso: "This lesson is only available in Spanish for now." **No se esconde** ni da 404. Las 87 lecciones `mantener` ya tienen versión EN en `biblioteca-en/`.
 
 ### 3.4 Acceso
 - **Sin más puerta que el login actual** (`getUsuario()` en `app/academia/layout.tsx`). Quien tiene cuenta ve el 100 % del contenido, en los dos idiomas.
@@ -211,6 +211,8 @@ Dentro de cada unidad de S0, las piezas son siempre: `guia.md`, `comprobaciones-
 | S0-C3 Professional and Persuasive Writing | **Reescrito para inglés**, no traducido literalmente (ejemplos, normas de estilo y casos propios del inglés). Misma estructura, ids y letras de respuesta | 18.256 |
 | Glosario ES↔EN | Completo | 1.278 |
 | **Total semestre-0-en** | 133 archivos: espejo 1:1 de los 131 archivos de contenido de `semestre-0/`, más el glosario y un README.md índice nuevo para estudiantes (el README interno de S0, que es nota de equipo, no se traduce) | 81.681 con el README nuevo (ES: 82.770) |
+| **Biblioteca EN (`biblioteca-en/`, las 87 lecciones `mantener`)** | **Completo:** 87 archivos en US English, espejo 1:1 de `contenido/` (mismos ids, carpetas y URLs `/en/academia/...`) usando `glosario-es-en.md` | 51.429 (ES: 54.110) |
+| **Unidades S1–S6 y optativas en catálogo** | **Completo:** campos bilingües `units_es` y `units_en` en `catalogo-academia.json` y `catalogo-academia.csv` para los 62 cursos | — |
 
 Estado de calidad: borrador revisado por mí, **sin editor nativo** [INFERENCIA: lo considero necesario antes de vender el contenido en inglés, pero por decisión de Gabe se publica igual].
 
@@ -220,16 +222,14 @@ Estado de calidad: borrador revisado por mí, **sin editor nativo** [INFERENCIA:
 
 | Qué | Volumen | Plan |
 |---|---|---|
-| Lecciones actuales "mantener" (Biblioteca) | 87 lecciones · 54.110 palabras | **Traducir primero.** Son las que siguen vivas tal cual; 1 lote por carrera (77 de las 87 son de IS, 7 de MK y 3 de DP). Mismo método que S0: glosario + revisión. |
+| Lecciones actuales "mantener" (Biblioteca) | ~~87 lecciones · 54.110 palabras ES~~ **0 pendientes (ya traducidas)** | **Completado en `biblioteca-en/`** (87 lecciones, 51.429 palabras EN). Queda solo revisión por editor nativo junto con S0. |
 | Lecciones "reescribir" | 280 · 118.218 palabras | **No traducir la versión vieja.** Se traducen cuando se escriba el curso nuevo (se escribe en ES y EN a la vez). Mientras, se ven en ES con el aviso "solo en español". |
 | Lecciones "fusionar" | 145 · 37.012 palabras | Igual que "reescribir": se traducen dentro del curso nuevo. |
 | Lecciones "retirar" | 37 · 8.435 palabras | **No se traducen.** Siguen visibles en ES con su etiqueta y enlace a su reemplazo (en S0, ya traducido). |
-| Títulos de unidad de los cursos S1–S6 | 59 cursos | Se traducen con cada curso; el JSON ya trae el título del curso en EN. |
+| Títulos de unidad de los cursos S1–S6 y optativas | ~~59 cursos~~ **0 pendientes (ya traducidos)** | **Completado** en `catalogo-academia.json` y `.csv` (`units_en` junto a `units_es` para los 62 cursos). Falta el cuerpo de las lecciones nuevas. |
 | Cursos nuevos sin fuente (IS-104, DP-103, MK-104) y fuente parcial (DP-102) | 4 cursos | Se escriben directamente en ES + EN. |
 
-**Orden propuesto:** (1) Hefesto carga S0 ES + EN y el catálogo con todo visible; (2) traducción de las 87 "mantener"; (3) S1 de las tres carreras escrito en ES + EN; (4) resto de semestres en orden.
-
-No traduje las 87 "mantener" en esta entrega: son 54.110 palabras y prioricé terminar S0 completo y bien. [INFERENCIA: a mi ritmo de hoy, es aproximadamente otra jornada y media de trabajo.]
+**Orden propuesto:** (1) Hefesto carga S0 ES + EN, `biblioteca-en/` (las 87 "mantener") y el catálogo bilingüe con todo visible; (2) S1 de las tres carreras escrito en ES + EN; (3) resto de semestres en orden.
 
 ---
 
@@ -240,5 +240,6 @@ No traduje las 87 "mantener" en esta entrega: son 54.110 palabras y prioricé te
 - `rework/profx/catalogo/lecciones-legado.csv` (las 549 lecciones con decisión, destino, ruta actual, ruta EN y etiqueta de UI)
 - `rework/profx/_gen_catalogo.py` (regenera el catálogo; solo lee)
 - `semestre-0/` y `semestre-0-en/` (contenido S0 ES y EN)
+- `biblioteca-en/` (las 87 lecciones legado `mantener` traducidas a US English)
 - `semestre-0-en/glosario-es-en.md`
 - Paquete: `/workspace/academia/entrega-academia-es-en.zip`

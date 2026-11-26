@@ -1,4 +1,4 @@
-# Unit 3 — Reflection [HUMAN]
+# Unit 3 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Think about the last time some text in an app or website frustrated you or made you give up on something.

@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Cómo convierto la IA en un sistema de trabajo fiable, medible y responsable, y no en un atajo ocasional?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 25 min (1.876 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 15 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 45 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 25 min (1.876 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 15 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 45 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** Usar la IA "de vez en cuando" para salir de un apuro ahorra minutos. Integrarla en un flujo de trabajo diseñado (con pasos definidos, prompts probados, puntos de control humano y medición) ahorra horas y, sobre todo, produce calidad consistente. Esta unidad enseña a diseñar ese flujo, elegir herramientas por tarea, verificar lo que entra en un entregable, calcular si vale la pena pagar por una herramienta y trabajar con responsabilidad.
 

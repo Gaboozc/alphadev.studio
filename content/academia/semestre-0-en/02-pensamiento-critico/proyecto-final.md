@@ -40,7 +40,7 @@ Additional data available (you may assume reasonable values and state them as as
 
 ## Assessment
 
-### Automatic part — checklist (20%) [AUTO]
+### Automatic part — checklist (20%)
 Verifiable by script or structural review (yes/no; 2 points each):
 1. Length between 2,500 and 4,000 words.
 2. Executive summary of 250 words or fewer.
@@ -53,7 +53,7 @@ Verifiable by script or structural review (yes/no; 2 points each):
 9. A decision log with every field.
 10. A verification appendix with at least 3 rows.
 
-### Human part — rubric (80%) [HUMAN]
+### Human part — rubric (80%)
 
 | Criterion (weight) | Excellent (4) | Proficient (3) | Developing (2) | Insufficient (1) |
 |---|---|---|---|---|

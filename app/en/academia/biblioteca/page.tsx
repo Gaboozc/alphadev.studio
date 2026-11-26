@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { BibliotecaVista } from '@/app/academia/_universidad/vistas'
-import { RAMAS } from '@/app/academia/ramas'
+import { RAMAS, etiquetaRama } from '@/app/academia/ramas'
 
 export const metadata: Metadata = {
   title: 'Library — Academy',
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <BibliotecaVista lang="en" ramas={RAMAS.map((r) => ({ slug: r.slug, label: r.label }))} />
+  return <BibliotecaVista lang="en" ramas={RAMAS.map((r) => ({ slug: r.slug, label: etiquetaRama(r, 'en') }))} />
 }

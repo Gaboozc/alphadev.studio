@@ -53,9 +53,9 @@ Al terminar, el estudiante podrá:
 | 9 | Proyecto final: diagnóstico y biblioteca | Avance 1 | Avance del proyecto (revisión ligera) |
 | 10 | Proyecto final: flujo, evaluación y presentación | Entrega final | Proyecto final |
 
-## Unidades: pregunta guía y tiempo por pieza
+## Unidades: pregunta guía y tiempo estimado
 
-Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo por pieza es una estimación **[INFERENCIA]**: lectura a 120 palabras por minuto más tiempo fijo por ejercicio, cuestionario y reflexión (método en `rework/profx/formatos-leccion.md` §0.1). Se debe medir con los primeros estudiantes y ajustarlo.
+Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo estimado por pieza se calcula con una lectura a 120 palabras por minuto más un tiempo fijo por ejercicios, cuestionario y reflexión. Se debe medir con los primeros estudiantes y ajustarlo.
 
 | Unidad | Pregunta guía | Semanas | Guía | Ejercicios | Cuestionario | Reflexión | Efectivo | Planificado | Estudio autónomo |
 |---|---|---|---|---|---|---|---|---|---|
@@ -64,7 +64,7 @@ Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas
 | U3 | ¿Cuándo conviene mostrar ejemplos, pedir razonamiento o partir la tarea, y cómo mantengo útil una conversación larga? | 5–6 | 25 min | 3 h 15 min | 30 min | 1 h 30 min | 5 h 40 min | 12 h | 6 h 20 min |
 | U4 | ¿Cómo convierto la IA en un sistema de trabajo fiable, medible y responsable, y no en un atajo ocasional? | 7–8 | 25 min | 2 h 50 min | 30 min | 1 h 30 min | 5 h 15 min | 12 h | 6 h 45 min |
 
-**Checkpoint del curso:** semana 9, 60–75 min [INFERENCIA]. Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver `checkpoint.md`.
+**Checkpoint del curso:** semana 9, 60–75 min . Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver el checkpoint del curso.
 **Comprobaciones rápidas:** 3 por unidad, sin nota, dentro de la guía. Ver `uN-*/comprobaciones-rapidas.md`.
 
 ## Evaluación

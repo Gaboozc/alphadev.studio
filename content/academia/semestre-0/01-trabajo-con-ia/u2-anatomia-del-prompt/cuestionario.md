@@ -1,6 +1,6 @@
 # Unidad 2 — Cuestionario
 
-Clave en `../claves/u2-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u2-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 ## Parte A — Opción múltiple
 

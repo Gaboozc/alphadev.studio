@@ -1,6 +1,6 @@
 # Course Checkpoint — Professional and Persuasive Writing · Key
 
-## Part A [AUTO]
+## Part A (auto-graded)
 
 | # | Objective | Unit | Ans. | Explanation |
 |---|---|---|---|---|
@@ -33,9 +33,9 @@
 | CP-27 | O7 | U1 | **c** | U1, section 6: keep writing and editing separate. |
 | CP-28 | O7 | U1 | **c** | It's the first question on the checklist in U1, section 6; the others aren't on the list. |
 
-## Part B [HUMAN] — notes for the grader
+## Part B (reviewed with a rubric) — notes for the grader
 
 - Grade with the rubric in the prompt. Each criterion from 0 to 3. Total: 12.
 - What's assessed is the use of the course's methods, not opinion. An answer different from the expected one can get full marks if it's well justified.
-- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8 (`plan-revision.md`).
+- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8.
 - Expected answer (guidance only): a subject line like "Website and online booking proposal: win back the 30% of lost appointments" and the request in the first line (for example, booking 15 minutes to review it). Error: "That time is no longer available. Pick another one from the list." Empty state: "You don't have any appointments yet. Book your first one in under a minute." plus a "Book appointment" button.

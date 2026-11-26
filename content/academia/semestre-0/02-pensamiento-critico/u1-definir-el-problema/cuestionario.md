@@ -1,6 +1,6 @@
 # Unidad 1 — Cuestionario
 
-Clave en `../claves/u1-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u1-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. "Las ventas bajaron" es, según la unidad:
    a) una solución b) un problema c) una causa d) un síntoma

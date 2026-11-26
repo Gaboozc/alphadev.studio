@@ -1,4 +1,4 @@
-# Unidad 4 — Reflexión [HUMANO]
+# Unidad 4 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Durante una semana, anota cada vez que detectes en ti uno de los sesgos de la unidad (al menos tres episodios). Después escribe:

@@ -1,4 +1,4 @@
-# Unidad 1 — Reflexión [HUMANO]
+# Unidad 1 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Recuerda un proyecto (laboral, académico o personal) en el que resolviste el problema equivocado o te lanzaste a una solución demasiado pronto.

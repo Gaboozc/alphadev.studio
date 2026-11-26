@@ -1,12 +1,12 @@
 # 04 · Podcast: "Ever Since We Did X, Y Went Up"
 
-**Id:** `s0-c2-u2-podcast` · **Format:** two-voice audio · **Estimated length:** 10–12 min [INFERENCE: approx. 1,400 spoken words plus pauses; to be measured when recorded] · **Assessment:** ungraded; there are 3 retrieval questions at the end.
+**Id:** `s0-c2-u2-podcast` · **Format:** two-voice audio · **Estimated length:** 10–12 min (about 1,400 spoken words plus pauses; measure it when recording) · **Assessment:** ungraded; there are 3 retrieval questions at the end.
 
-**What it's for:** it's an **alternative** to the reading guide, for listening on your commute, while you walk or if reading on a screen tires you. It also works as **review** after reading the guide. Listening and reading produce similar comprehension in adults [VERIFIED: Rogowsky et al. 2016, https://journals.sagepub.com/doi/full/10.1177/2158244016669550]. The podcast doesn't replace the exercises: it only covers the *understanding* part.
+**What it's for:** it's an **alternative** to the reading guide, for listening on your commute, while you walk or if reading on a screen tires you. It also works as **review** after reading the guide. Listening and reading produce similar comprehension in adults (Rogowsky et al. 2016, https://journals.sagepub.com/doi/full/10.1177/2158244016669550). The podcast doesn't replace the exercises: it only covers the *understanding* part.
 
-**Accessibility:** this script **is the transcript**. It's published alongside the audio, as WCAG 2.2, SC 1.2.1 requires for audio-only content [VERIFIED: https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html].
+**Accessibility:** this script **is the transcript**. It's published alongside the audio, as WCAG 2.2, SC 1.2.1 requires for audio-only content (https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html).
 
-**Production notes** [INFERENCE]:
+**Production notes**:
 - Two voices: **MARA** (host, asks the student's questions) and **TOM** (instructor).
 - Music only at the intro and outro; nothing in the background while they talk, so as not to add load.
 - Pauses marked ⏸ are 5 seconds of silence, with a soft tone at the start.
@@ -142,4 +142,4 @@
 2. Reverse causation, confounding, selection, chance and a change in measurement (any four).
 3. Because keeping only those who used the change reintroduces self-selection.
 
-**Content check:** this script adds no new facts to the original guide. The attribution of the five whys and Ishikawa is the same as in `../u2-causas-hipotesis-evidencia/guia.md`, which is pending verification in `plan-revision.md`, section 6.2.
+**Content check:** this script adds no new facts to the original guide. The attribution of the five whys and Ishikawa is the same as in `../u2-causas-hipotesis-evidencia/guia.md`, which is pending verification in 

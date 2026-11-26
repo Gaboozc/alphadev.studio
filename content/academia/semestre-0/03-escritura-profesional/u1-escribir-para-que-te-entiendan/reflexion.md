@@ -1,4 +1,4 @@
-# Unidad 1 — Reflexión [HUMANO]
+# Unidad 1 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Recupera un texto profesional o académico que escribiste hace tiempo (un correo, un informe, un trabajo).

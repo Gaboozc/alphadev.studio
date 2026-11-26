@@ -1,6 +1,6 @@
 # 01 · Ejemplos resueltos con desvanecimiento: "¿De verdad A causa B?"
 
-**Id:** `s0-c2-u2-ejemplos` · **Formato:** ejemplo resuelto con desvanecimiento · **Nivel:** básico → intermedio · **Tiempo:** ≈ 40 min [INFERENCIA] · **Evaluación:** sin nota; soluciones en `claves/01-clave-ejemplos.md`.
+**Id:** `s0-c2-u2-ejemplos` · **Formato:** ejemplo resuelto con desvanecimiento · **Nivel:** básico → intermedio · **Tiempo:** ≈ 40 min  · **Evaluación:** sin nota; soluciones en `claves/01-clave-ejemplos.md`.
 
 **Objetivos (proceso de Anderson y Krathwohl):**
 - *Aplicar* un procedimiento de 5 pasos para poner a prueba una afirmación causal.
@@ -9,7 +9,7 @@
 
 **Para qué te sirve:** en el trabajo vas a oír a menudo frases como "desde que hicimos X, subió Y". Este procedimiento te deja responder en 10 minutos, con argumentos, si eso prueba algo o no.
 
-**Cómo funciona esta pieza** [VERIFICADO: Renkl et al. 2002; Chi et al. 1994; ver `marco-pedagogico.md` R32, R38]:
+**Cómo funciona esta pieza** (Renkl et al. 2002; Chi et al. 1994):
 - Vas a ver el mismo procedimiento cinco veces.
 - En el ejemplo 1 todos los pasos están resueltos. En cada ejemplo siguiente se quita el **último** paso que quedaba resuelto (desvanecimiento hacia atrás), y en el 5 lo haces todo tú.
 - Después de cada paso resuelto hay una **pregunta de autoexplicación** (🗨). Respóndela con tus palabras antes de seguir. Esa pregunta es la parte que más enseña, así que no la saltes.

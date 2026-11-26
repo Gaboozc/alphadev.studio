@@ -1,6 +1,6 @@
 # Course Checkpoint — Problem Solving and Critical Thinking · Key
 
-## Part A [AUTO]
+## Part A (auto-graded)
 
 | # | Objective | Unit | Ans. | Explanation |
 |---|---|---|---|---|
@@ -33,9 +33,9 @@
 | CP-27 | O7 | U5 | **a** | U5, section 5. |
 | CP-28 | O7 | U5 | **b** | The decision log separates decision quality from luck (U5, section 6). |
 
-## Part B [HUMAN] — notes for the grader
+## Part B (reviewed with a rubric) — notes for the grader
 
 - Grade with the rubric in the prompt. Each criterion from 0 to 3. Total: 12.
 - What's assessed is the use of the course's methods, not opinion. An answer different from the expected one can get full marks if it's well justified.
-- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8 (`plan-revision.md`).
+- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8.
 - Expected answer (guidance only): the key data point is that visits fell only 3% while sales fell 18%, and that this coincides with the change of shipping provider and the rise in complaints. Hypotheses should include conversion, logistics and competition. The fallacy: appeal to popularity ("everyone invests in ads"); the bias: confirmation ("it's obvious"). Doubling ads targets visits, which barely dropped. The recommended move is to check logistics first (reversible and cheap) and test the ads with a pilot.

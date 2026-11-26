@@ -1,4 +1,4 @@
-# Unidad 3 — Reflexión [HUMANO]
+# Unidad 3 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 

@@ -16,7 +16,7 @@
 - **The price** went up in W5 for everyone, and cancellations didn't change in Mexico City or the rest of the country during W5 (23 vs. approx. 21). → Price **doesn't explain** the rise in cancellations.
 - **The packaging** changed in W7 for everyone, and Mexico City didn't move. → Packaging **doesn't explain** the cancellations; at most, it caused annoyance in a few comments.
 - **The carrier** changed in W6 only outside Mexico City and coincides with the jump. Delivery days went from 2.1 to 4.3, and "arrived late" tickets from 8 to 31 per week. There's a plausible mechanism, the right time order and a control group (Mexico City). → **It's the main hypothesis for the cancellations.**
-- **The gradual rise** (34 → 45 → 52 → 55) is consistent with each customer experiencing their first delay on their next monthly shipment [INFERENCE from the case design; students are expected to notice it and raise it as a hypothesis].
+- **The gradual rise** (34 → 45 → 52 → 55) is consistent with each customer experiencing their first delay on their next monthly shipment (this is built into the case by design; you are expected to notice it and raise it as a hypothesis).
 
 **Sign-ups**
 - **Ads:** 37.5 per week in W1–W4 and 29.5 in W5–W12, 21% fewer.

@@ -3,12 +3,12 @@
 | Field | Value |
 |---|---|
 | Id | `s0-c2-checkpoint` |
-| Format | Checkpoint / course exam (`formatos-leccion.md` section 7) |
+| Format | Checkpoint / course exam |
 | When | Week 10 (after finishing Unit 5, before the project). Requires completing all units |
-| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min [INFERENCE] |
-| Assessment | **[MIXED]**: Part A [AUTO] · Part B [HUMAN] with rubric |
+| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min  |
+| Assessment | Mixed: Part A is auto-graded; Part B is reviewed with a rubric |
 | What's served | 21 questions from a bank of 28: **3 per objective**, chosen at random, with options in random order. So no two attempts are the same |
-| To pass | At least 70% weighted: Part A 60% + Part B 40% [INFERENCE]. Part A counts within the course's 20% for multiple choice, and Part B within exercises (`formatos-leccion.md` section 7) |
+| To pass | At least 70% weighted: Part A 60% + Part B 40% . Part A counts within the course's 20% for multiple choice, and Part B within exercises |
 | Retakes | Up to 2, at least 24 h apart. A retake serves a different selection from the bank |
 | Pilot 1 (no F5) | Part A can be graded in the browser as self-assessment. Part B stays as self-assessment with the rubric until there are server-side submissions |
 | Key | `claves/checkpoint-clave.md` (server only) |
@@ -26,7 +26,7 @@
 | O7. Decide and document under uncertainty | CP-25, CP-26, CP-27, CP-28 | 3 |
 | All (integration) | Applied case (Part B) | 1 |
 
-## Part A — Multiple-choice bank [AUTO]
+## Part A — Multiple-choice bank (auto-graded)
 
 One correct answer per question.
 
@@ -226,7 +226,7 @@ One correct answer per question.
    c) It was a good decision only if nobody complains.
    d) No decision made under uncertainty can be judged.
 
-## Part B — Applied case: the coffee shop [fictional case] [HUMAN]
+## Part B — Applied case: the coffee shop [fictional case] (reviewed with a rubric)
 
 An online specialty coffee shop sold 18% less over the last 6 weeks. The owner says: "It's obvious the competition is stealing our customers; everyone in the industry is investing in ads, so we have to double the advertising budget right now." Data: traffic fell 3%; 7 weeks ago the shipping provider was changed; complaints about delays went from 4 to 19 a month.
 
@@ -248,4 +248,4 @@ An online specialty coffee shop sold 18% less over the last 6 weeks. The owner s
 | Reasoning | Correctly names the fallacy or bias (e.g., appeal to popularity or confirmation) and responds with questions | Names it but responds with a label | Confuses it | Missing |
 | Decision | Recommendation consistent with reversibility, a pilot or test, and a pre-mortem with two concrete causes | Reasonable recommendation, partially justified | Recommendation with no method | Missing |
 
-Part B is passed with at least 7/12 [INFERENCE].
+Part B is passed with at least 7/12 .

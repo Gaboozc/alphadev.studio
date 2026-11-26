@@ -1,6 +1,6 @@
 # Unit 3 — Quick Checks Key
 
-**[AUTO], ungraded.** Immediate feedback: if correct, show "Feedback if correct"; if wrong, show "Hint if wrong" and allow a retry.
+**Auto-graded, no score.** Immediate feedback: if correct, show "Feedback if correct"; if wrong, show "Hint if wrong" and allow a retry.
 
 | QC | Location in the guide | Type | Ans. | Feedback if correct | Hint if wrong |
 |---|---|---|---|---|---|

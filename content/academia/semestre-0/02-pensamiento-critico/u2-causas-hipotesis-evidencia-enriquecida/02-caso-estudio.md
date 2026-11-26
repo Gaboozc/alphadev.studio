@@ -1,6 +1,6 @@
 # 02 · Caso: "Altiplano Café: ¿por qué se van los suscriptores?"
 
-**Id:** `s0-c2-u2-caso` · **Formato:** caso con punto de decisión, al estilo del método de casos de Harvard Business School: un protagonista, información incompleta y una decisión que tomar y defender [VERIFICADO: https://www.hbs.edu/mba/academic-experience/the-case-method] · **Nivel:** intermedio · **Tiempo:** ≈ 90 min de preparación individual, 20 min en grupo de estudio y 40 min de discusión [INFERENCIA] · **Evaluación:** [HUMANO], con la rúbrica del §6.
+**Id:** `s0-c2-u2-caso` · **Formato:** caso con punto de decisión, al estilo del método de casos de Harvard Business School: un protagonista, información incompleta y una decisión que tomar y defender (https://www.hbs.edu/mba/academic-experience/the-case-method) · **Nivel:** intermedio · **Tiempo:** ≈ 90 min de preparación individual, 20 min en grupo de estudio y 40 min de discusión  · **Evaluación:** revisión con rúbrica, con la rúbrica del §6.
 
 **Objetivos:**
 - *Analizar* un problema con varias causas posibles y separarlas con datos.
@@ -130,4 +130,4 @@ Plan de discusión (para quien facilita):
 | **Prueba propuesta** | Prueba aleatoria o comparativa factible, con métrica, duración y criterio de refutación | Prueba razonable a la que le falta un elemento | Prueba vaga ("ver qué pasa") | No propone prueba |
 | **Recomendación** | Asigna los recursos de forma coherente con el análisis, reconoce la incertidumbre y el riesgo | Es coherente con el análisis | Es parcialmente coherente | No se sigue del análisis |
 
-Se aprueba con ≥ 10/16 [INFERENCIA: es el mismo criterio del 60 % del proyecto del curso, redondeado]. La nota docente está en `claves/02-nota-docente-caso.md`.
+Se aprueba con ≥ 10/16 (el mismo criterio del 60 % del proyecto del curso, redondeado). La nota docente está en `claves/02-nota-docente-caso.md`.

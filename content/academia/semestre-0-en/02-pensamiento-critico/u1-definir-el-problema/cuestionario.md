@@ -1,6 +1,6 @@
 # Unit 1 — Quiz
 
-Key in `../claves/u1-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u1-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. According to the unit, "sales dropped" is:
    a) a solution b) a problem c) a cause d) a symptom

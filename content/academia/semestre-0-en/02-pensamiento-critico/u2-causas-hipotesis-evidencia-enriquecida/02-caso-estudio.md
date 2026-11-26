@@ -1,6 +1,6 @@
 # 02 · Case: "Altiplano Café: Why Are Subscribers Leaving?"
 
-**Id:** `s0-c2-u2-caso` · **Format:** decision-point case, in the style of the Harvard Business School case method: one protagonist, incomplete information and a decision to make and defend [VERIFIED: https://www.hbs.edu/mba/academic-experience/the-case-method] · **Level:** intermediate · **Time:** approx. 90 min of individual prep, 20 min in a study group and 40 min of discussion [INFERENCE] · **Assessment:** [HUMAN], with the rubric in section 7.
+**Id:** `s0-c2-u2-caso` · **Format:** decision-point case, in the style of the Harvard Business School case method: one protagonist, incomplete information and a decision to make and defend (https://www.hbs.edu/mba/academic-experience/the-case-method) · **Level:** intermediate · **Time:** approx. 90 min of individual prep, 20 min in a study group and 40 min of discussion  · **Assessment:** reviewed with a rubric, with the rubric in section 7.
 
 **Objectives:**
 - *Analyze* a problem with several possible causes and separate them with data.
@@ -130,4 +130,4 @@ Discussion plan (for the facilitator):
 | **Proposed test** | Feasible randomized or comparative test, with metric, duration and refutation criterion | Reasonable test missing one element | Vague test ("see what happens") | Doesn't propose a test |
 | **Recommendation** | Allocates resources consistently with the analysis, acknowledges uncertainty and risk | Consistent with the analysis | Partly consistent | Doesn't follow from the analysis |
 
-Passing is ≥ 10/16 [INFERENCE: the same 60% criterion as the course project, rounded]. The teaching note is in `claves/02-nota-docente-caso.md`.
+Passing is ≥ 10/16 (the same 60% criterion as the course project, rounded). The teaching note is in `claves/02-nota-docente-caso.md`.

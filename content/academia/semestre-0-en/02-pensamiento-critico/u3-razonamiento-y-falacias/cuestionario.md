@@ -1,6 +1,6 @@
 # Unit 3 — Quiz
 
-Key in `../claves/u3-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u3-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. A valid argument is one in which:
    a) Everyone present agrees. b) The conclusion follows from the premises. c) There's data backing each premise. d) The premises are all true.

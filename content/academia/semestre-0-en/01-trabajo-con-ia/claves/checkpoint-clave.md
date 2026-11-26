@@ -1,6 +1,6 @@
 # Course Checkpoint — Working with AI · Key
 
-## Part A [AUTO]
+## Part A (auto-graded)
 
 | # | Objective | Unit | Ans. | Explanation |
 |---|---|---|---|---|
@@ -33,9 +33,9 @@
 | CP-27 | O7 | Syllabus | **c** | The syllabus AI policy: not disclosing counts as an integrity violation. |
 | CP-28 | O7 | U4 | **d** | U4, section 4 (bias and tone) and section 6: review carefully anything that affects people. |
 
-## Part B [HUMAN] — notes for the grader
+## Part B (reviewed with a rubric) — notes for the grader
 
 - Grade with the rubric in the prompt. Each criterion from 0 to 3. Total: 12.
 - What's assessed is the use of the course's methods, not opinion. An answer different from the expected one can get full marks if it's well justified.
-- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8 (`plan-revision.md`).
+- If an AI does the grading, a person reviews a sample (at least 10%) and every score between 6 and 8.
 - Expected answer (guidance only): metrics extraction (person or export) → draft interpretation (AI, with the data delimited) → checking figures against the platform (person) → recommendations (AI proposes, person decides) → final review and sending (person). Privacy: don't upload client data without permission; use aggregated data. Measurement: total time per client, review included, against the 4 h baseline.

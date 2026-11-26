@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Cómo decido bien cuando no tengo toda la información?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.613 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 40 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 00 min** de las 12 h que planifica el syllabus. Las ≈ 7 h 00 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.613 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 40 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 00 min** de las 12 h que planifica el syllabus. Las ≈ 7 h 00 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** En el trabajo casi nunca decides con información completa. La pregunta no es "¿cómo elimino la incertidumbre?", sino "¿cómo decido bien a pesar de ella?". Esta unidad te da herramientas para estimar probabilidades, comparar opciones, saber cuánto analizar según lo reversible que sea la decisión, anticipar fallos y aprender de tus decisiones. Al final integra todo el curso en un método de resolución de problemas.
 

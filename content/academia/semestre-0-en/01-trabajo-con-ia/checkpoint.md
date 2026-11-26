@@ -3,12 +3,12 @@
 | Field | Value |
 |---|---|
 | Id | `s0-c1-checkpoint` |
-| Format | Checkpoint / course exam (`formatos-leccion.md`, section 7) |
+| Format | Checkpoint / course exam |
 | When | Week 9 (before the project milestone). Requires completing all units |
-| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min [INFERENCE] |
-| Assessment | **[MIXED]**: Part A [AUTO] · Part B [HUMAN] with a rubric |
+| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min  |
+| Assessment | Mixed: Part A is auto-graded; Part B is reviewed with a rubric |
 | What's served | 21 questions from a bank of 28: **3 per objective**, chosen at random, with options in random order. So no two attempts are the same |
-| Passing | ≥ 70% weighted: Part A 60% + Part B 40% [INFERENCE]. Part A counts within the course's 20% for multiple choice and Part B within exercises (`formatos-leccion.md`, section 7) |
+| Passing | ≥ 70% weighted: Part A 60% + Part B 40% . Part A counts within the course's 20% for multiple choice and Part B within exercises |
 | Retakes | Up to 2, at least 24 h apart. A retake serves a different selection from the bank |
 | Pilot 1 (without F5) | Part A can be graded in the browser as self-assessment. Part B remains self-assessment with the rubric until there are server-side submissions |
 | Key | `claves/checkpoint-clave.md` (server only) |
@@ -26,7 +26,7 @@
 | O7. Recognize ethical, legal and privacy limits | CP-25, CP-26, CP-27, CP-28 | 3 |
 | All (integration) | Applied case (Part B) | 1 |
 
-## Part A — Multiple-choice bank [AUTO]
+## Part A — Multiple-choice bank (auto-graded)
 
 One correct answer per question.
 
@@ -226,7 +226,7 @@ One correct answer per question.
    c) That the temperature is too low to vary.
    d) That the model reproduces biases in its data and you have to correct for them explicitly.
 
-## Part B — Applied case: an agency's monthly report [fictional case] [HUMAN]
+## Part B — Applied case: an agency's monthly report [fictional case] (reviewed with a rubric)
 
 A three-person agency manages social media for 5 clients. Each month it takes about 4 hours per client to prepare the report (metrics, interpretation and recommendations). It wants to use AI to cut that time without losing quality or putting client data at risk.
 
@@ -249,4 +249,4 @@ A three-person agency manages social media for 5 clients. Each month it takes ab
 | Verification and measurement | Two verifications against a primary source and a measurement of total time, review included | Incomplete verification or measurement | A generic mention ("I'd check the data") | Missing |
 | Ethics and privacy | A specific risk with a workable control (permission, anonymization, owner) | A risk identified with a vague control | A generic mention | Missing |
 
-Part B passes with ≥ 7/12 [INFERENCE].
+Part B passes with ≥ 7/12 .

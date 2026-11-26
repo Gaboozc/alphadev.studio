@@ -1,6 +1,6 @@
 # Checkpoint del curso — Trabajo con IA · Clave
 
-## Parte A [AUTO]
+## Parte A (corrección automática)
 
 | # | Objetivo | Unidad | Resp. | Explicación |
 |---|---|---|---|---|
@@ -33,9 +33,9 @@
 | CP-27 | O7 | Syllabus | **c** | Política de IA del syllabus: no declararlo cuenta como falta de integridad. |
 | CP-28 | O7 | U4 | **d** | U4 §4 (sesgo y tono) y §6: revisa con cuidado lo que afecta a personas. |
 
-## Parte B [HUMANO] — notas para quien corrige
+## Parte B (revisión con rúbrica) — notas para quien corrige
 
 - Corrige con la rúbrica del enunciado. Cada criterio de 0 a 3. Total: 12.
 - Se evalúa la aplicación de los métodos del curso, no la opinión. Una respuesta distinta a la esperada puede tener la nota máxima si está bien justificada.
-- Si la corrección la hace una IA, una persona revisa una muestra (≥ 10 %) y todas las notas entre 6 y 8 (`plan-revision.md`).
+- Si la corrección la hace una IA, una persona revisa una muestra (≥ 10 %) y todas las notas entre 6 y 8.
 - Respuesta esperada (orientativa): extracción de métricas (persona o exportación) → borrador de interpretación (IA, con los datos delimitados) → verificación de cifras contra la plataforma (persona) → recomendaciones (IA propone, persona decide) → revisión final y envío (persona). Privacidad: no subir datos de clientes sin permiso; usar datos agregados. Medición: tiempo total por cliente, revisión incluida, frente a las 4 h de base.

@@ -1,6 +1,6 @@
 # Unit 2 — Quiz
 
-Key in `../claves/u2-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u2-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. What sets a hypothesis apart from an opinion is that:
    a) It's optimistic and proposes a concrete improvement. b) It's written down and signed by the team in charge. c) It comes from an expert with years in the industry. d) You can say which observation would disprove it.

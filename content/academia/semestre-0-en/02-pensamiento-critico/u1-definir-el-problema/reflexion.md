@@ -1,4 +1,4 @@
-# Unit 1 — Reflection [HUMAN]
+# Unit 1 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Think of a project (work, school or personal) where you solved the wrong problem or jumped to a solution too soon.

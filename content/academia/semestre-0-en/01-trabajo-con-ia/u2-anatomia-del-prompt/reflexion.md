@@ -1,4 +1,4 @@
-# Unit 2 — Reflection [HUMAN]
+# Unit 2 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 

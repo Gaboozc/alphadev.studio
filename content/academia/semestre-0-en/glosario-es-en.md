@@ -1,8 +1,8 @@
 # Glosario ES → EN · Academia AlphaDev
 
-**Prof. X · 25 nov 2026 · v0.1 (borrador para revisión).** Fuente de verdad para traducir el contenido académico y los textos de interfaz de la Academia al inglés. Si un término no está aquí, se agrega antes de usarlo. Variante: **inglés de EE. UU.** [INFERENCIA: público objetivo por definir con Gabe; ver decisión E1 en `rework/profx/reorganizacion-2026-11-25.md`].
+**Prof. X · 25 nov 2026 · v0.1 (borrador para revisión).** Fuente de verdad para traducir el contenido académico y los textos de interfaz de la Academia al inglés. Si un término no está aquí, se agrega antes de usarlo. Variante: **inglés de EE. UU.**
 
-Etiquetas: **[VALIDADO]** = término de UI validado en `rework/profx/validacion-textos-v3.md` (14 nov 2026); su traducción es propuesta mía y necesita revisión nativa. **[PROPUESTA]** = traducción propuesta, sin validar. **[EVITAR]** = traducción que NO se usa.
+Etiquetas: **[VALIDADO]** = término de UI ya validado (14 nov 2026); su traducción es propuesta y necesita revisión nativa. **[PROPUESTA]** = traducción propuesta, sin validar. **[EVITAR]** = traducción que NO se usa.
 
 ## 1. Términos validados de la interfaz v3
 
@@ -63,7 +63,7 @@ Etiquetas: **[VALIDADO]** = término de UI validado en `rework/profx/validacion-
 | Revisión entre pares | **Peer review** | |
 | Mentor/a | **Mentor** | |
 
-## 3. Pedagogía (marco-pedagogico, expansion-didactica)
+## 3. Pedagogía
 
 | Español | English |
 |---|---|
@@ -86,8 +86,7 @@ Etiquetas: **[VALIDADO]** = término de UI validado en `rework/profx/validacion-
 
 | Español | English |
 |---|---|
-| [VERIFICADO] / [INFERENCIA] | [VERIFIED] / [INFERENCE] |
-| [AUTO] / [HUMANO] / [MIXTO] | [AUTO] / [HUMAN] / [MIXED] |
+| corrección automática / revisión con rúbrica / evaluación mixta | auto-graded / reviewed with a rubric / mixed assessment |
 | mantener / reescribir / fusionar / retirar | keep / rewrite / merge / retire |
 | borrador | draft |
 

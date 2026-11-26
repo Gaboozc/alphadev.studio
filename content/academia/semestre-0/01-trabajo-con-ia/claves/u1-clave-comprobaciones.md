@@ -1,6 +1,6 @@
 # Unidad 1 — Clave de las comprobaciones rápidas
 
-**[AUTO], sin nota.** Feedback inmediato: si acierta, se muestra "Feedback si acierta"; si falla, se muestra "Pista si falla" y se permite reintentar.
+**Corrección automática, sin nota.** Feedback inmediato: si acierta, se muestra "Feedback si acierta"; si falla, se muestra "Pista si falla" y se permite reintentar.
 
 | CR | Ubicación en la guía | Tipo | Resp. | Feedback si acierta | Pista si falla |
 |---|---|---|---|---|---|

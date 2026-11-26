@@ -1,4 +1,4 @@
-# Unit 5 — Reflection [HUMAN]
+# Unit 5 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Think of an important decision you made at least six months ago.

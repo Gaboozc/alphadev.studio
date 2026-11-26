@@ -1,6 +1,6 @@
 # Unit 3 — Quiz
 
-Key in `../claves/u3-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u3-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. The main goal of UX writing is to:
    a) Sell more on every screen. b) Rank in search engines. c) Entertain the user. d) Guide and reduce friction.

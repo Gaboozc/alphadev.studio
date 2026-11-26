@@ -1291,3 +1291,160 @@
   border-top: 1px solid var(--acad-line);
   margin: 2rem 0;
 }
+
+/* ── Barra de la Academia: objetivos táctiles ≥ 44×44 (P1-02, P2-02) ──
+   Solo dentro de la barra de la Academia (.acad-nav-tools): el selector y el
+   tema del sitio público no cambian. La pastilla y el dibujo se mantienen. */
+.acad-nav-tools .lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.625rem;
+  font-size: 0.75rem;
+}
+.acad-nav-tools .lang-toggle-btn:focus-visible {
+  outline: 2px solid var(--acad-focus, var(--gold));
+  outline-offset: -4px;
+}
+.acad-nav-tools .tema-toggle {
+  min-height: 44px;
+  align-items: center;
+}
+
+/* ── Pasada r2 del PR #14 (lista única de Arkano y Rams) ───────────────── */
+
+/* P0-01 · Códigos en Inter; los números que siguen en Playfair, lining. */
+[data-academia] .acad-mod-num,
+[data-academia] .acad-codigo {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+[data-academia] .acad-mod-num--codigo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+[data-academia] .acad-mod-body h3 .acad-codigo {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--acad-ink-2);
+}
+[data-academia] .acad-head h1,
+[data-academia] .acad-familia-head h2,
+[data-academia] .acad-area-head h2,
+[data-academia] .acad-mod-body h3,
+[data-academia] .acad-rama h3,
+[data-academia] .acad-feature h3,
+[data-academia] .acad-unidad-head__titulo,
+[data-academia] .acad-pieza__titulo,
+[data-academia] .acad-md h1,
+[data-academia] .acad-md h2,
+[data-academia] .acad-md h3,
+[data-academia] .acad-md h4 {
+  font-variant-numeric: lining-nums;
+}
+[data-academia] .acad-stat-num {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* P1-03 · Chips a 12 px como mínimo. */
+[data-academia] .acad-badge {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.125rem 0.5rem;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* P1-04 · Cabecera de la unidad con el patrón v3 y el índice en un contenedor. */
+[data-academia] .acad-unidad-head {
+  padding-top: 2rem;
+  margin-bottom: 1rem;
+}
+[data-academia] .acad-unidad-head__titulo {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--acad-ink-1);
+  margin: 0 0 0.75rem;
+}
+[data-academia] .acad-unidad-head__meta {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  color: var(--acad-ink-2);
+  margin: 0;
+}
+[data-academia] .acad-unidad-indice {
+  margin: 1.5rem 0 2.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--acad-bg-alt);
+  border: 1px solid var(--acad-line);
+  border-radius: 12px;
+}
+[data-academia] .acad-unidad-indice ol {
+  line-height: 1.6;
+}
+[data-academia] .acad-unidad-indice li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+[data-academia] .acad-pieza__titulo {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--acad-ink-1);
+  margin: 0 0 1rem;
+}
+
+/* P1-06 · Filas de legado apiladas: título, chip entero, clave. */
+[data-academia] .acad-legado li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  justify-content: center;
+}
+[data-academia] .acad-legado__titulo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+[data-academia] .acad-legado__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.75rem;
+  max-width: 100%;
+}
+[data-academia] .acad-legado__key {
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+/* P2-05 · En móvil el kicker de la portada solo dice «ESTUDIO PRIVADO». */
+@media (max-width: 767px) {
+  [data-academia] .acad-eyebrow-marca {
+    display: none;
+  }
+}
+
+/* Recurso de S0 (Glosario ES–EN) bajo los cursos de la portada. */
+[data-academia] .acad-recurso-link {
+  margin: 1rem 0 0;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.9375rem;
+}
+[data-academia] .acad-recurso-link a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--acad-ink-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

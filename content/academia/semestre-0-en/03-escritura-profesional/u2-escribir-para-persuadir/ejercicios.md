@@ -2,7 +2,7 @@
 
 Solutions in `../claves/u2-soluciones-ejercicios.md`.
 
-## Level 1 [AUTO]
+## Level 1 (auto-graded)
 
 **1.1** Feature (F) or benefit (B)? a) "Daily backups." b) "If something breaks, you get your store back exactly as it was yesterday." c) "Hosting with 99.9% uptime." d) "Your customers can buy at any hour."
 
@@ -19,7 +19,7 @@ a) "John used to spend 3 hours closing out his register. Now it takes 10 minutes
 b) "Forms with real-time validation. Unlike forms that show errors at the end, they flag problems as you type. Your customers finish signing up without getting frustrated."
 c) "Losing orders in your DMs? Every unanswered message is a sale for your competitor. Our assistant replies instantly, 24/7."
 
-## Level 2 [HUMAN]
+## Level 2 (reviewed with a rubric)
 
 **2.1** List 6 features of a product or service you know and turn them into benefits with the "so what?" technique (show the iterations).
 
@@ -27,6 +27,6 @@ c) "Losing orders in your DMs? Every unanswered message is a sale for your compe
 
 **2.3** Analyze the homepage of a real website: which Cialdini principles does it use? Are any used in a questionable or manipulative way? Justify your answer.
 
-## Level 3 [HUMAN]
+## Level 3 (reviewed with a rubric)
 
 **3.1** Choose a business with a generic value proposition. Submit: an analysis of what's wrong with it, three versions with different angles, the one you chose with a justification, and a landing page headline and subheadline based on it. *(This exercise is the basis of Part 1 of the final project.)*

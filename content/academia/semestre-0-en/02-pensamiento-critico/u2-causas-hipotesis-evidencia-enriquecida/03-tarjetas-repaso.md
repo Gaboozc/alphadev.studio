@@ -1,16 +1,16 @@
 # 03 · Spaced Review Flashcards
 
-**Id:** `s0-c2-u2-tarjetas` · **Format:** retrieval flashcards with a spaced schedule · **Time:** 10–15 min per session × 5 sessions [INFERENCE] · **Assessment:** [AUTO]/self-assessment, ungraded · **Import file:** `03-tarjetas.csv` (columns `id, tipo, frente, reverso, etiquetas`, i.e. id, type, front, back, tags; the column names stay the same as in the Spanish edition so both files share one format. It can be imported into any flashcard app that accepts CSV).
+**Id:** `s0-c2-u2-tarjetas` · **Format:** retrieval flashcards with a spaced schedule · **Time:** 10–15 min per session × 5 sessions  · **Assessment:** auto-graded or self-assessment, no score · **Import file:** `03-tarjetas.csv` (columns `id, tipo, frente, reverso, etiquetas`, i.e. id, type, front, back, tags; the column names stay the same as in the Spanish edition so both files share one format. It can be imported into any flashcard app that accepts CSV).
 
 ## Why flashcards, and why spaced
-- **Retrieving locks things in better than rereading.** A week later, people who tested themselves remembered 61% and people who reread remembered 40% [VERIFIED: Roediger and Karpicke 2006, https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/].
-- **Spacing improves retention.** The longer you want to remember something, the farther apart your reviews should be [VERIFIED: Cepeda et al. 2006, https://pubmed.ncbi.nlm.nih.gov/16719566/].
-- **Duolingo schedules reviews** with a model that estimates when you'll forget each item [VERIFIED: Settles and Meeder 2016, https://aclanthology.org/P16-1174/].
-- **Our fixed schedule** is a simple approximation [INFERENCE].
-- **Cards T28–T30 come from U1 on purpose:** mixing units is interleaved practice [VERIFIED: Rohrer and Taylor 2007, http://uweb.cas.usf.edu/~drohrer/pdfs/Rohrer%26Taylor2007IS.pdf].
+- **Retrieving locks things in better than rereading.** A week later, people who tested themselves remembered 61% and people who reread remembered 40% (Roediger and Karpicke 2006, https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/).
+- **Spacing improves retention.** The longer you want to remember something, the farther apart your reviews should be (Cepeda et al. 2006, https://pubmed.ncbi.nlm.nih.gov/16719566/).
+- **Duolingo schedules reviews** with a model that estimates when you'll forget each item (Settles and Meeder 2016, https://aclanthology.org/P16-1174/).
+- **Our fixed schedule** is a simple approximation .
+- **Cards T28–T30 come from U1 on purpose:** mixing units is interleaved practice (Rohrer and Taylor 2007, http://uweb.cas.usf.edu/~drohrer/pdfs/Rohrer%26Taylor2007IS.pdf).
 
 ## How to use them (box system)
-1. **Answer out loud or in writing before you flip the card.** Thinking "yeah, I know this one" doesn't count; that feeling is misleading [VERIFIED: in Roediger and Karpicke, rereading increased confidence without improving recall at one week; same source].
+1. **Answer out loud or in writing before you flip the card.** Thinking "yeah, I know this one" doesn't count; that feeling is misleading (in Roediger and Karpicke, rereading increased confidence without improving recall at one week; same source).
 2. **Grade yourself:**
    - **0** = didn't know it;
    - **1** = half knew it or was slow;
@@ -19,7 +19,7 @@
    - with a 2, it moves up to the next box;
    - with a 1, it stays in its box;
    - with a 0, it goes back to box 1.
-4. **Schedule by box** [INFERENCE: a starting point, to be adjusted with pilot data]:
+4. **Schedule by box** (a starting point, to be adjusted with pilot data):
 
 | Box | Reviewed… |
 |---|---|
@@ -29,7 +29,7 @@
 | 4 | Only in the final review session (day 30) |
 
 5. **Sessions:** day 1 (the day you finish the guide), 3, 7, 14 and 30. Write down the date of each.
-6. **Predict before you start:** "How many of the 30 will I know?" When you finish, compare. If you miss far more than you predicted, review the guide section each missed card points to (metacognition; `marco-pedagogico.md`, section 1.5).
+6. **Predict before you start:** "How many of the 30 will I know?" When you finish, compare. If you miss far more than you predicted, review the guide section each missed card points to (metacognition).
 
 ## Log (copy it into your notebook)
 
@@ -79,7 +79,7 @@
 ## Card types
 - **Definition and recall:** remember or understand.
 - **Rule:** when and how a technique is used.
-- **Discrimination:** telling similar concepts apart (reverse causation, confounding or selection). They're the hardest and the ones that teach the most [INFERENCE, consistent with Rohrer 2012 on interleaving to distinguish concepts: http://uweb.cas.usf.edu/%7Edrohrer/pdfs/Rohrer2012EPR.pdf].
+- **Discrimination:** telling similar concepts apart (reverse causation, confounding or selection). They're the hardest and the ones that teach the most (consistent with Rohrer 2012 on interleaving to distinguish concepts: http://uweb.cas.usf.edu/%7Edrohrer/pdfs/Rohrer2012EPR.pdf).
 - **Application:** new, short situations.
 
 ## For the author
@@ -87,4 +87,4 @@
   - each card tests **a single idea**;
   - the back has at most about 35 words;
   - at least a third of the cards are discrimination or application;
-  - at least 10% come from earlier units [INFERENCE: a design rule].
+  - at least 10% come from earlier units (that is a design rule).

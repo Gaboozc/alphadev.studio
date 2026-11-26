@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import type { LessonType, ModuleMeta } from '../../types'
-import { lessonHref, moduleHref, ramaOfModule } from '../../ramas'
+import { etiquetaRama, lessonHref, moduleHref, ramaOfModule } from '../../ramas'
 import { useProgress } from '../../hooks/useProgress'
 import AcadIcon, { type AcadIconName } from '../../components/AcadIcon'
-import { ACAD_COPY } from '../../copy'
+import type { AcadCopy } from '../../copy'
+import { useAcadCopy, useAcadLang } from '../../useAcadCopy'
 import {
   acentoDeRama,
   estadoPieza,
-  formatoContador,
   leccionContinuar,
   tipoDePieza,
 } from '@/lib/academia/ui'
@@ -23,7 +23,7 @@ const LEYENDA_TIPOS: LessonType[] = [
   'audio',
 ]
 
-function estadoLabel(e: ReturnType<typeof estadoPieza>): string {
+function estadoLabel(e: ReturnType<typeof estadoPieza>, ACAD_COPY: AcadCopy): string {
   if (e === 'completada') return ACAD_COPY.completada
   if (e === 'en_curso') return ACAD_COPY.enCurso
   return ACAD_COPY.sinEmpezar
@@ -47,6 +47,7 @@ function ModHead({
   modDone: boolean
   est: ReturnType<typeof estadoPieza>
 }) {
+  const ACAD_COPY = useAcadCopy()
   return (
     <div className="acad-temario__mod-head">
       <span className="acad-temario__mod-title">{titulo}</span>
@@ -54,7 +55,7 @@ function ModHead({
         {piezasLabel && <span className="acad-v3-chip">{piezasLabel}</span>}
         <span className={`acad-index__state${modDone ? ' is-done' : ''}`}>
           <AcadIcon name={estadoIcon(est)} size={16} />
-          {estadoLabel(est)}
+          {estadoLabel(est, ACAD_COPY)}
         </span>
       </span>
     </div>
@@ -70,6 +71,8 @@ interface Props {
 
 export default function ModuleContent({ module: mod, ramaModules }: Props) {
   const { isCompleted, getModuleProgress, hydrated } = useProgress()
+  const ACAD_COPY = useAcadCopy()
+  const { lang, href } = useAcadLang()
   const progress = getModuleProgress(mod)
   const rama = ramaOfModule(mod)
   const accent = acentoDeRama(rama.id)
@@ -119,9 +122,9 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
       )}
 
       {tiposPresentes.length > 0 && (
-        <div className="acad-temario__legend" aria-label="Tipos de pieza">
+        <div className="acad-temario__legend" aria-label={lang === 'en' ? 'Part types' : 'Tipos de pieza'}>
           {tiposPresentes.map((t) => {
-            const tipo = tipoDePieza(t)
+            const tipo = tipoDePieza(t, lang)
             return (
               <span key={t}>
                 <AcadIcon name={tipo.icon as AcadIconName} size={16} />
@@ -135,7 +138,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
       {continueLesson && (
         <div className="acad-temario__continue">
           <Link
-            href={lessonHref(mod, continueLesson.id)}
+            href={href(lessonHref(mod, continueLesson.id))}
             className="acad-v3-btn acad-v3-btn--primary"
           >
             {ACAD_COPY.continuar(continueLesson.title)}
@@ -145,7 +148,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
 
       {ramaModules.map((m) => {
         const mp = getModuleProgress(m)
-        const piezasLabel = formatoContador(mp.done, mp.total, 'piezas')
+        const piezasLabel = mp.total > 0 ? ACAD_COPY.piezas(mp.done, mp.total) : null
         const modDone = hydrated && mp.total > 0 && mp.done === mp.total
         const modCurso =
           hydrated && mp.done > 0 && mp.done < mp.total
@@ -163,7 +166,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
                 return rank(a.type) - rank(b.type)
               })
               .map((lesson) => {
-              const tipo = tipoDePieza(lesson.type)
+              const tipo = tipoDePieza(lesson.type, lang)
               const done = isCompleted(m.id, lesson.id)
               const enCurso = isCurrentMod && !done && lesson.id === continueId
               const estL = estadoPieza(done, !!enCurso)
@@ -173,7 +176,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
                 <Link
                   key={lesson.id}
                   id={`pieza-${lesson.id}`}
-                  href={lessonHref(m, lesson.id)}
+                  href={href(lessonHref(m, lesson.id))}
                   className={`acad-temario__pieza${isCurrent ? ' is-current' : ''}`}
                 >
                   <AcadIcon name={tipo.icon as AcadIconName} size={20} />
@@ -187,19 +190,14 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
                       {tipo.label}
                     </div>
                     <div className="acad-index__row">
-                      {lesson.tasksCount > 0 &&
-                        formatoContador(0, lesson.tasksCount, 'comprobaciones rápidas') && (
-                          <span className="acad-v3-chip">
-                            {formatoContador(
-                              0,
-                              lesson.tasksCount,
-                              'comprobaciones rápidas',
-                            )}
-                          </span>
-                        )}
+                      {lesson.tasksCount > 0 && (
+                        <span className="acad-v3-chip">
+                          {ACAD_COPY.comprobaciones(0, lesson.tasksCount)}
+                        </span>
+                      )}
                       <span className={`acad-index__state${done ? ' is-done' : ''}`}>
                         <AcadIcon name={estadoIcon(estL)} size={16} />
-                        {estadoLabel(estL)}
+                        {estadoLabel(estL, ACAD_COPY)}
                       </span>
                     </div>
                   </div>
@@ -210,7 +208,7 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
           </div>
         )
 
-        const etiquetaUnidad = `Unidad ${numeroUnidad(m.id)}: ${m.title}`
+        const etiquetaUnidad = `${ACAD_COPY.unidadN(numeroUnidad(m.id))}: ${m.title}`
 
         if (soloUno) {
           return (
@@ -244,12 +242,12 @@ export default function ModuleContent({ module: mod, ramaModules }: Props) {
       })}
 
       <p style={{ marginTop: '2rem' }}>
-        <Link href="/academia" style={{ color: 'var(--acad-ink-2)' }}>
+        <Link href={href('/academia')} style={{ color: 'var(--acad-ink-2)' }}>
           ← Academia
         </Link>
         {' · '}
-        <Link href={moduleHref(mod)} style={{ color: 'var(--acad-ink-2)' }}>
-          {rama.label}
+        <Link href={href(moduleHref(mod))} style={{ color: 'var(--acad-ink-2)' }}>
+          {etiquetaRama(rama, lang)}
         </Link>
       </p>
     </div>

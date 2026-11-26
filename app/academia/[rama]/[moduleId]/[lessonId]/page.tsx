@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { MODULES } from '../../../modules'
-import { RAMAS, RAMA_OF_TRACK, lessonHref, ramaBySlug } from '../../../ramas'
-import { metaOfRama, toModuleMeta } from '../../../queries'
+import { RAMAS, RAMA_OF_TRACK } from '../../../ramas'
+import { lessonProps } from './lesson-props'
 import LessonPage from './LessonPage'
 
 interface Props {
@@ -20,34 +20,7 @@ export function generateStaticParams() {
 
 export default async function LessonRoute({ params }: Props) {
   const { rama, moduleId, lessonId } = await params
-  const mod = MODULES.find((m) => m.id === moduleId)
-  const ramaMeta = ramaBySlug(rama)
-  if (!mod || !ramaMeta) notFound()
-
-  const lesson = mod.lessons.find((l) => l.id === lessonId)
-  if (!lesson) notFound()
-
-  // La lección solo existe bajo la rama de su módulo (ver nota en [rama]/page.tsx).
-  if (lessonHref(mod, lessonId) !== `/academia/${rama}/${moduleId}/${lessonId}`) notFound()
-
-  const lessonIndex = mod.lessons.findIndex((l) => l.id === lessonId)
-  const meta = toModuleMeta(mod)
-
-  // Misma numeración que el temario: orden en la rama, no module.number del content.
-  const ramaMods = metaOfRama(ramaMeta.id)
-  const idxRama = ramaMods.findIndex((m) => m.id === mod.id)
-  const unidadNumero = idxRama >= 0 ? idxRama + 1 : meta.number
-
-  // Del módulo y de las lecciones vecinas baja solo el metadato. La única
-  // lección cuyo contenido cruza al cliente es la que se está viendo.
-  return (
-    <LessonPage
-      module={meta}
-      lesson={lesson}
-      lessonIndex={lessonIndex}
-      unidadNumero={unidadNumero}
-      prevLesson={lessonIndex > 0 ? meta.lessons[lessonIndex - 1] : null}
-      nextLesson={lessonIndex < meta.lessons.length - 1 ? meta.lessons[lessonIndex + 1] : null}
-    />
-  )
+  const props = lessonProps(rama, moduleId, lessonId)
+  if (!props) notFound()
+  return <LessonPage {...props} />
 }

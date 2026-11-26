@@ -1,14 +1,14 @@
 # 07 · Revisión entre pares calibrada
 
-**Id:** `s0-c2-u2-pares` · **Formato:** revisión entre pares con calibración previa · **Tiempo:** ≈ 60 min (15 de calibración + 2 revisiones × 20 min + 5 de devolución) [INFERENCIA] · **Evaluación:** [HUMANO]. Se evalúa la **calidad de tu feedback**, no la nota que pongas.
+**Id:** `s0-c2-u2-pares` · **Formato:** revisión entre pares con calibración previa · **Tiempo:** ≈ 60 min (15 de calibración + 2 revisiones × 20 min + 5 de devolución)  · **Evaluación:** (revisión con rúbrica). Se evalúa la **calidad de tu feedback**, no la nota que pongas.
 
 **Qué se revisa:** el **ejercicio 3.1** de la unidad original (`../u2-causas-hipotesis-evidencia/ejercicios.md`): el análisis de 200–250 palabras sobre "desde que publicamos en LinkedIn, las solicitudes subieron 40 %". Lo has hecho tú y lo ha hecho todo tu grupo.
 
 **Por qué:**
-- La evaluación entre pares mejora el rendimiento frente a no evaluar (g = 0,31) [VERIFICADO: Double et al. 2020, https://link.springer.com/article/10.1007/s10648-019-09510-3].
-- Coursera usa la revisión entre pares con rúbrica [VERIFICADO: `benchmark.md` §6].
-- El feedback más útil es el que habla del **proceso** y de la **autorregulación**, no de la persona [VERIFICADO: Hattie y Timperley 2007, https://journals.sagepub.com/doi/10.3102/003465430298487].
-- Revisar el trabajo de otros con criterios también te enseña a revisar el tuyo [INFERENCIA].
+- La evaluación entre pares mejora el rendimiento frente a no evaluar (g = 0,31) (Double et al. 2020, https://link.springer.com/article/10.1007/s10648-019-09510-3).
+- Coursera usa la revisión entre pares con rúbrica .
+- El feedback más útil es el que habla del **proceso** y de la **autorregulación**, no de la persona (Hattie y Timperley 2007, https://journals.sagepub.com/doi/10.3102/003465430298487).
+- Revisar el trabajo de otros con criterios también te enseña a revisar el tuyo .
 
 ---
 
@@ -37,7 +37,7 @@ Mínimo 4 puntos y máximo 12.
 
 ## Paso 3 · Revisa a 2 compañeros (2 × 20 min)
 
-La revisión es anónima: no sabes de quién es el trabajo y no sabrá que eres tú [INFERENCIA: es una decisión de diseño; reduce el sesgo hacia los amigos]. Para cada trabajo:
+La revisión es anónima: no sabes de quién es el trabajo y no sabrá que eres tú (es una decisión de diseño; reduce el sesgo hacia los amigos). Para cada trabajo:
 1. **Puntúa** cada criterio y cita la frase del trabajo que justifica tu puntuación.
 2. **Escribe 3 comentarios** con estas plantillas:
    - **Tarea** (qué está bien o qué falta): "En [criterio], tu respuesta ___ porque ___."
@@ -66,7 +66,7 @@ Cuando recibas tus dos revisiones:
 | **Feedback de proceso** | Concreto y accionable, con un ejemplo | Accionable, pero sin ejemplo | Vago |
 | **Respeto** | Sin juicios personales | — | Con juicios personales |
 
-- El docente revisa una muestra de las revisiones, además de todas las que el receptor marque como "poco útil" [INFERENCIA: es coherente con `plan-revision.md` §5].
+- El docente revisa una muestra de las revisiones, además de todas las que el receptor marque como "poco útil" .
 - La actividad cuenta dentro de la nota de ejercicios de la unidad. Su peso exacto lo decide Gabe.
 
 ---

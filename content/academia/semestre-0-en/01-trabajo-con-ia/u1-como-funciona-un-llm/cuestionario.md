@@ -1,7 +1,7 @@
 # Unit 1 — Quiz
 
 Key and explanations in `../claves/u1-clave-cuestionario.md`.
-**Part A (multiple choice) [AUTO]** · **Part B (short answer) [HUMAN]**
+**Part A (multiple choice) (auto-graded)** · **Part B (short answer) (reviewed with a rubric)**
 
 ## Part A — Multiple choice (one correct answer)
 

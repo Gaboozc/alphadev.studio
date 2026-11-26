@@ -18,11 +18,11 @@ You'll design, test and document your own AI working system for a real setting: 
 
 ## How it's graded
 
-### Automatic part (checklist) — 20% of the project [AUTO]
+### Automatic part (checklist) — 20% of the project
 
 Checks the presence and format of: a diagnosis with ≥ 3 tasks × ≥ 3 measurements; a map with ≥ 5 areas; 5 entries with every field; ≥ 2 with examples; ≥ 1 with structured output (valid JSON or table); a workflow with ≥ 3 measurements; ROI with the formula (benefit − cost)/cost; a policy of ≤ 1 page; an analysis of 500 to 700 words; an AI-use disclosure. Each missing item deducts proportionally.
 
-### Human part (rubric) — 80% of the project [HUMAN]
+### Human part (rubric) — 80% of the project
 
 | Criterion (weight) | Excellent (4) | Good (3) | Sufficient (2) | Insufficient (0–1) |
 |---|---|---|---|---|

@@ -1,8 +1,8 @@
 # 05 · Mapa conceptual de la unidad
 
-**Id:** `s0-c2-u2-mapa` · **Formato:** mapa conceptual (diagrama + descripción textual) y actividad de construcción · **Tiempo:** ≈ 25 min [INFERENCIA] · **Evaluación:** sin nota; autocorrección con el mapa de referencia.
+**Id:** `s0-c2-u2-mapa` · **Formato:** mapa conceptual (diagrama + descripción textual) y actividad de construcción · **Tiempo:** ≈ 25 min  · **Evaluación:** sin nota; autocorrección con el mapa de referencia.
 
-**Por qué:** estudiar con mapas conceptuales, y sobre todo construirlos, se asoció con mejor retención y transferencia que otras formas de estudio en una metaanálisis de 55 estudios [VERIFICADO: Nesbit y Adesope 2006, https://www.sfu.ca/~jcnesbit/research/nesbitadesope2006.htm]. Combinar palabras e imagen aprovecha los dos canales de procesamiento [VERIFICADO: principios de Mayer, https://fbe.unimelb.edu.au/wcla/resources/blended-and-online-learning/multimedia-learning-theory-mlt].
+**Por qué:** estudiar con mapas conceptuales, y sobre todo construirlos, se asoció con mejor retención y transferencia que otras formas de estudio en una metaanálisis de 55 estudios (Nesbit y Adesope 2006, https://www.sfu.ca/~jcnesbit/research/nesbitadesope2006.htm). Combinar palabras e imagen aprovecha los dos canales de procesamiento (principios de Mayer, https://fbe.unimelb.edu.au/wcla/resources/blended-and-online-learning/multimedia-learning-theory-mlt).
 
 ## 1. Actividad: construye tu mapa primero (15 min)
 
@@ -91,4 +91,4 @@ Compara tu mapa con el de referencia:
 - [ ] ¿Hay alguna relación tuya que **no está** en la referencia y que sea correcta? Anótala: los mapas no tienen una única versión válida.
 - [ ] Mira tus dos ★: ¿qué sección de la guía tienes que releer para cada una?
 
-**Nota para la producción visual:** Arkano decide cómo se ve el mapa. Pedagógicamente se exige que las etiquetas de las flechas vayan **sobre** las flechas, no en una leyenda aparte, y que el color no sea la única forma de distinguir las ramas (`marco-pedagogico.md` §5, reglas 6 y 13).
+**Nota para la producción visual:** Las etiquetas de las flechas deben ir **sobre** las flechas, no en una leyenda aparte, y el color no debe ser la única forma de distinguir las ramas.

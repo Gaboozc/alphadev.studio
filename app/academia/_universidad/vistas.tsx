@@ -23,22 +23,26 @@ import {
   cursoPorSlug,
   cursosDePrograma,
   etiquetaLegado,
+  leccionesDePrograma,
   leccionesQueAlimentan,
+  numeroUnidadSlug,
   prerrequisitos,
   programaPorId,
   programaPorSlug,
   rutaBiblioteca,
   rutaCurso,
+  rutaGlosario,
   rutaLeccionLegado,
   rutaPortada,
   rutaPrograma,
   rutaUnidad,
   semestresDe,
+  sinPrefijoUnidad,
   tieneContenidoNuevo,
   tituloCurso,
   unidadesCurso,
 } from '@/lib/academia/universidad'
-import { bloquesUnidad, existeUnidad, getCatalogo, leerArchivo, unidadesS0 } from './contenido'
+import { bloquesUnidad, existeUnidad, getCatalogo, leerArchivo, leerGlosario, unidadesS0 } from './contenido'
 
 function nombrePrograma(p: Programa, lang: Lang) {
   return lang === 'en' ? p.en : p.es
@@ -58,7 +62,7 @@ function Crumb({ href, children }: { href: string; children: React.ReactNode }) 
 /** Aviso cuando lo que se ve está en español dentro de /en/academia. */
 export function AvisoSoloEs({ lang = 'en' }: { lang?: Lang }) {
   return (
-    <div className="acad-callout acad-callout--info acad-aviso-idioma" role="note" lang="en">
+    <div className="acad-callout acad-callout--aviso acad-aviso-idioma" role="note" lang="en">
       <p className="acad-callout__text" style={{ margin: 0 }}>
         {UI[lang].soloEs}.
       </p>
@@ -98,12 +102,14 @@ function TarjetaCurso({ curso, lang }: { curso: Curso; lang: Lang }) {
   const t = UI[lang]
   return (
     <Link href={rutaCurso(curso, lang)} className="acad-mod" data-curso={curso.code}>
-      <div className="acad-mod-num" style={{ width: 'auto', padding: '0 0.5rem', minWidth: '2rem' }}>
+      <div className="acad-mod-num acad-mod-num--codigo" style={{ width: 'auto', padding: '0 0.5rem', minWidth: '2.25rem' }}>
         {curso.semester === '—' ? 'OPT' : curso.semester}
       </div>
       <div className="acad-mod-body">
         <h3>
-          {curso.code} · {tituloCurso(curso, lang)}
+          <span className="acad-codigo">{curso.code}</span>
+          <span aria-hidden="true"> · </span>
+          {tituloCurso(curso, lang)}
         </h3>
         <div className="acad-mod-meta">
           <EstadoCurso curso={curso} lang={lang} /> {t.horas(curso.hours)} · {unidadesCurso(curso, lang).length}{' '}
@@ -129,13 +135,16 @@ export function PortadaUniversidad({ lang }: { lang: Lang }) {
     <div className="acad-page" data-vista="portada" data-lang={lang}>
       <div className="acad-wrap">
         <header className="acad-head">
-          <p className="eyebrow">{t.eyebrow}</p>
+          <p className="eyebrow acad-eyebrow-portada">
+            <span className="acad-eyebrow-marca">{t.eyebrowMarca}</span>
+            {t.eyebrowPrivado}
+          </p>
           <h1>{t.academia}</h1>
           <p>{t.portadaIntro}</p>
           <div className="acad-stats">
             <div>
               <span className="acad-stat-num">{cat.courses.length}</span>
-              <span className="acad-stat-label">{lang === 'en' ? 'Courses' : 'Cursos'}</span>
+              <span className="acad-stat-label">{t.cursosLabel}</span>
             </div>
             <div>
               <span className="acad-stat-num">{CARRERAS.length}</span>
@@ -163,6 +172,9 @@ export function PortadaUniversidad({ lang }: { lang: Lang }) {
               <TarjetaCurso key={c.code} curso={c} lang={lang} />
             ))}
           </div>
+          <p className="acad-recurso-link">
+            <Link href={rutaGlosario(lang)}>{t.glosario}</Link>
+          </p>
         </section>
 
         {/* 2. Carreras */}
@@ -232,6 +244,7 @@ export function ProgramaVista({ slug, lang }: { slug: string; lang: Lang }) {
   const t = UI[lang]
   const cat = getCatalogo()
   const cursos = cursosDePrograma(cat, p.id)
+  const leccionesPrograma = leccionesDePrograma(cat, p.id)
 
   return (
     <div className="acad-page" data-vista="programa" data-lang={lang}>
@@ -243,11 +256,11 @@ export function ProgramaVista({ slug, lang }: { slug: string; lang: Lang }) {
           <div className="acad-stats">
             <div>
               <span className="acad-stat-num">{cursos.length}</span>
-              <span className="acad-stat-label">{lang === 'en' ? 'Courses' : 'Cursos'}</span>
+              <span className="acad-stat-label">{t.cursosLabel}</span>
             </div>
             <div>
               <span className="acad-stat-num">{cursos.reduce((a, c) => a + c.hours, 0)}</span>
-              <span className="acad-stat-label">{lang === 'en' ? 'Hours' : 'Horas'}</span>
+              <span className="acad-stat-label">{t.horasLabel}</span>
             </div>
           </div>
         </header>
@@ -269,6 +282,40 @@ export function ProgramaVista({ slug, lang }: { slug: string; lang: Lang }) {
             </div>
           </section>
         ))}
+
+        {p.id === 'S0' && (
+          <section className="acad-area" aria-labelledby="sec-recursos" data-seccion="recursos">
+            <div className="acad-area-head">
+              <div>
+                <h2 id="sec-recursos">{t.recursos}</h2>
+              </div>
+            </div>
+            <div className="acad-mods">
+              <Link href={rutaGlosario(lang)} className="acad-mod" data-recurso="glosario-es-en">
+                <div className="acad-mod-num acad-mod-num--codigo">ES·EN</div>
+                <div className="acad-mod-body">
+                  <h3>{t.glosario}</h3>
+                  <div className="acad-mod-meta">{t.glosarioIntro}</div>
+                </div>
+                <span className="acad-mod-arrow">
+                  <Icon name="arrowRight" size={18} />
+                </span>
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {leccionesPrograma.length > 0 && (
+          <section className="acad-area" aria-labelledby="sec-legado-programa" data-seccion="legado-programa">
+            <div className="acad-area-head">
+              <div>
+                <h2 id="sec-legado-programa">{t.leccionesCarrera}</h2>
+                <p>{t.leccionesCarreraIntro}</p>
+              </div>
+            </div>
+            <ListaLegado lecciones={leccionesPrograma} lang={lang} />
+          </section>
+        )}
       </div>
     </div>
   )
@@ -280,12 +327,16 @@ function ListaLegado({ lecciones, lang }: { lecciones: LeccionLegado[]; lang: La
   return (
     <ul className="acad-legado">
       {lecciones.map((l) => (
-        <li key={l.legacy_key}>
-          <Link href={rutaLeccionLegado(l, lang)}>{l.titulo}</Link>{' '}
-          <span className={`acad-badge${l.decision === 'retirar' ? '' : ' acad-badge-neutral'}`}>
-            {etiquetaLegado(l, lang)}
+        <li key={l.legacy_key} data-legacy={l.legacy_key}>
+          <Link href={rutaLeccionLegado(l, lang)} className="acad-legado__titulo">
+            {l.titulo}
+          </Link>
+          <span className="acad-legado__meta">
+            <span className={`acad-badge${l.decision === 'retirar' ? '' : ' acad-badge-neutral'}`}>
+              {etiquetaLegado(l, lang)}
+            </span>
+            <span className="acad-legado__key">{l.legacy_key}</span>
           </span>
-          <span className="acad-legado__key"> {l.legacy_key}</span>
         </li>
       ))}
     </ul>
@@ -305,7 +356,7 @@ export function CursoVista({ programa, curso: slug, lang }: { programa: string; 
   const t = UI[lang]
   const alimentan = leccionesQueAlimentan(cat, curso.code)
   const s0 = tieneContenidoNuevo(curso)
-  const syllabus = s0 ? leerArchivo(curso, '00-syllabus.md', lang) : null
+  const syllabus = s0 ? leerArchivo(curso, '00-syllabus.md', lang, { bajar: true }) : null
   const unidades = s0 ? unidadesS0(curso, lang) : []
 
   return (
@@ -350,6 +401,9 @@ export function CursoVista({ programa, curso: slug, lang }: { programa: string; 
                   <div className="acad-mod-body">
                     <h3>{t.checkpoint}</h3>
                   </div>
+                  <span className="acad-mod-arrow">
+                    <Icon name="arrowRight" size={18} />
+                  </span>
                 </Link>
               )}
               {existeUnidad(curso, 'proyecto-final') && (
@@ -358,6 +412,9 @@ export function CursoVista({ programa, curso: slug, lang }: { programa: string; 
                   <div className="acad-mod-body">
                     <h3>{t.proyectoFinal}</h3>
                   </div>
+                  <span className="acad-mod-arrow">
+                    <Icon name="arrowRight" size={18} />
+                  </span>
                 </Link>
               )}
             </div>
@@ -396,21 +453,53 @@ export function CursoVista({ programa, curso: slug, lang }: { programa: string; 
 }
 
 // ─── Unidad de S0 ─────────────────────────────────────────────────────────────
+// Orden (P1-04, Arkano): crumb → cabecera (overline, h1, meta) → pregunta guía
+// con el patrón v3 → índice ancla en un contenedor → piezas con su solución.
 
 export function UnidadVista({ curso: slug, unidad, lang }: { curso: string; unidad: string; lang: Lang }) {
   const cat = getCatalogo()
   const curso = cursoPorSlug(cat, 'S0', slug)
   if (!curso || !existeUnidad(curso, unidad)) notFound()
   const t = UI[lang]
-  const bloques = bloquesUnidad(curso, unidad, lang, { ...t.piezas, tarjetas: t.tarjetas })
+  const bloques = bloquesUnidad(curso, unidad, lang, { ...t.piezas, tarjetas: t.tarjetas, presentacion: t.presentacion })
   const algunFallback = bloques.some((b) => b.pieza?.fallback || b.clave?.fallback || b.csv?.fallback)
+
+  // Cabecera: de guia.md, del README (enriquecida) o del propio archivo.
+  const primera = bloques[0]?.pieza
+  const cab = primera?.cabecera ?? { titulo: '', meta: '', pregunta: '' }
+  const n = numeroUnidadSlug(unidad)
+  const enriquecida = unidad.endsWith('-enriquecida')
+  const overline =
+    unidad === 'checkpoint'
+      ? t.checkpoint
+      : unidad === 'proyecto-final'
+        ? t.proyectoFinal
+        : `${t.unidadN(n ?? 0)}${enriquecida ? ` · ${t.enriquecida}` : ''}`
+  const titulo = sinPrefijoUnidad(cab.titulo.replace(/^S0-C\d+\s*·\s*/u, '').replace(/^(Unidad|Unit)\s+\d+\s+(enriquecida|enriched):\s*/iu, '')) || overline
 
   return (
     <div className="acad-page" data-vista="unidad" data-lang={lang}>
       <div className="acad-wrap acad-wrap--lectura">
         <Crumb href={rutaCurso(curso, lang)}>
-          {curso.code} · {tituloCurso(curso, lang)}
+          <span className="acad-codigo">{curso.code}</span>
+          <span aria-hidden="true"> · </span>
+          {tituloCurso(curso, lang)}
         </Crumb>
+
+        <header className="acad-unidad-head">
+          <p className="acad-guia__label acad-unidad-head__overline">
+            <span className="acad-codigo">{curso.code}</span> · {overline}
+          </p>
+          <h1 className="acad-unidad-head__titulo">{titulo}</h1>
+          {cab.meta && <p className="acad-unidad-head__meta">{cab.meta}</p>}
+        </header>
+
+        {cab.pregunta && (
+          <div className="acad-guia" data-pregunta-guia>
+            <p className="acad-guia__label">{t.preguntaGuia}</p>
+            <p className="acad-guia__q">{cab.pregunta}</p>
+          </div>
+        )}
 
         {algunFallback && <AvisoSoloEs />}
 
@@ -427,8 +516,10 @@ export function UnidadVista({ curso: slug, unidad, lang }: { curso: string; unid
           </nav>
         )}
 
-        {bloques.map((b) => (
+        {bloques.map((b, i) => (
           <section key={b.id} id={b.id} className="acad-pieza" data-pieza={b.id}>
+            {/* La guía (y la presentación de la enriquecida) perdieron su h1 en la cabecera: llevan h2 propio. */}
+            {i === 0 && bloques.length > 1 && <h2 className="acad-pieza__titulo">{b.etiqueta}</h2>}
             {b.pieza && <Html html={b.pieza.html} />}
             {b.csv && (
               <div className="acad-md">
@@ -459,13 +550,38 @@ export function UnidadVista({ curso: slug, unidad, lang }: { curso: string; unid
               </div>
             )}
             {b.clave && (
-              <details className="acad-solucion" data-clave={b.clave.archivo}>
+              <details className="acad-solucion" id={`${b.id}-solucion`} data-clave={b.clave.archivo}>
                 <summary>{t.verSolucion}</summary>
                 <Html html={b.clave.html} />
               </details>
             )}
           </section>
         ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── Glosario ES–EN (recurso de S0, respuesta 5 de Prof. X) ───────────────────
+
+export function GlosarioVista({ lang }: { lang: Lang }) {
+  const t = UI[lang]
+  const g = leerGlosario()
+  if (!g) notFound()
+  return (
+    <div className="acad-page" data-vista="glosario" data-lang={lang}>
+      <div className="acad-wrap acad-wrap--lectura">
+        <Crumb href={rutaPrograma('S0', lang)}>{nombrePrograma(programaPorId('S0'), lang)}</Crumb>
+        <header className="acad-unidad-head">
+          <p className="acad-guia__label acad-unidad-head__overline">
+            <span className="acad-codigo">S0</span> · {t.recursos}
+          </p>
+          <h1 className="acad-unidad-head__titulo">{t.glosario}</h1>
+          <p className="acad-unidad-head__meta">{t.glosarioIntro}</p>
+        </header>
+        <section className="acad-pieza" lang="es">
+          <Html html={g.html} />
+        </section>
       </div>
     </div>
   )
@@ -496,11 +612,17 @@ export function BibliotecaVista({ lang, ramas }: { lang: Lang; ramas: { slug: st
           <div className="acad-stats">
             <div>
               <span className="acad-stat-num">{cat.legacy_lessons.length}</span>
-              <span className="acad-stat-label">{lang === 'en' ? 'Lessons' : 'Lecciones'}</span>
+              <span className="acad-stat-label">{t.leccionesLabel}</span>
             </div>
           </div>
         </header>
-        {lang === 'en' && <AvisoSoloEs />}
+        {lang === 'en' && (
+          <div className="acad-callout acad-callout--aviso acad-aviso-idioma" role="note" lang="en">
+            <p className="acad-callout__text" style={{ margin: 0 }}>
+              {t.bibliotecaAvisoEn(cat.legacy_lessons.filter((l) => l.idioma_disponible.includes('en')).length)}.
+            </p>
+          </div>
+        )}
 
         {Array.from(porRama.entries()).map(([rama, modulos]) => {
           const label = ramas.find((r) => r.slug === rama)?.label ?? rama

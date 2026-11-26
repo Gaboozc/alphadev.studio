@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ACAD_COPY } from '../copy'
+import { useAcadCopy } from '../useAcadCopy'
 
 export default function CodeBlock({
   lang,
@@ -10,6 +10,7 @@ export default function CodeBlock({
   lang: string
   code: string
 }) {
+  const ACAD_COPY = useAcadCopy()
   const [copied, setCopied] = useState(false)
   const lines = code.split('\n')
   const label = lang || null

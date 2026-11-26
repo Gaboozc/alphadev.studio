@@ -1,16 +1,16 @@
 # 03 · Tarjetas de repaso espaciado
 
-**Id:** `s0-c2-u2-tarjetas` · **Formato:** tarjetas de recuperación con calendario espaciado · **Tiempo:** 10–15 min por sesión × 5 sesiones [INFERENCIA] · **Evaluación:** [AUTO]/autoevaluación, sin nota · **Archivo para importar:** `03-tarjetas.csv` (columnas `id, tipo, frente, reverso, etiquetas`; se puede importar en cualquier app de tarjetas que acepte CSV).
+**Id:** `s0-c2-u2-tarjetas` · **Formato:** tarjetas de recuperación con calendario espaciado · **Tiempo:** 10–15 min por sesión × 5 sesiones  · **Evaluación:** corrección automática o autoevaluación, sin nota · **Archivo para importar:** `03-tarjetas.csv` (columnas `id, tipo, frente, reverso, etiquetas`; se puede importar en cualquier app de tarjetas que acepte CSV).
 
 ## Por qué tarjetas y por qué espaciadas
-- **Recuperar fija mejor que releer.** Una semana después, quienes se pusieron a prueba recordaban el 61 % y quienes releyeron, el 40 % [VERIFICADO: Roediger y Karpicke 2006, https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/].
-- **Espaciar mejora la retención.** Cuanto más tiempo quieras recordar, más separados conviene que estén los repasos [VERIFICADO: Cepeda et al. 2006, https://pubmed.ncbi.nlm.nih.gov/16719566/].
-- **Duolingo programa los repasos** con un modelo que estima cuándo vas a olvidar cada elemento [VERIFICADO: Settles y Meeder 2016, https://aclanthology.org/P16-1174/].
-- **Nuestro calendario fijo** es una aproximación sencilla [INFERENCIA].
-- **Las tarjetas T28–T30 son de la U1 a propósito:** mezclar unidades es práctica intercalada [VERIFICADO: Rohrer y Taylor 2007, http://uweb.cas.usf.edu/~drohrer/pdfs/Rohrer%26Taylor2007IS.pdf].
+- **Recuperar fija mejor que releer.** Una semana después, quienes se pusieron a prueba recordaban el 61 % y quienes releyeron, el 40 % (Roediger y Karpicke 2006, https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/).
+- **Espaciar mejora la retención.** Cuanto más tiempo quieras recordar, más separados conviene que estén los repasos (Cepeda et al. 2006, https://pubmed.ncbi.nlm.nih.gov/16719566/).
+- **Duolingo programa los repasos** con un modelo que estima cuándo vas a olvidar cada elemento (Settles y Meeder 2016, https://aclanthology.org/P16-1174/).
+- **Nuestro calendario fijo** es una aproximación sencilla .
+- **Las tarjetas T28–T30 son de la U1 a propósito:** mezclar unidades es práctica intercalada (Rohrer y Taylor 2007, http://uweb.cas.usf.edu/~drohrer/pdfs/Rohrer%26Taylor2007IS.pdf).
 
 ## Cómo usarlas (sistema de cajas)
-1. **Responde en voz alta o por escrito antes de voltear la tarjeta.** Pensar "sí, me la sé" no cuenta; esa sensación engaña [VERIFICADO: en Roediger y Karpicke, releer aumentaba la confianza sin mejorar el recuerdo a una semana; misma fuente].
+1. **Responde en voz alta o por escrito antes de voltear la tarjeta.** Pensar "sí, me la sé" no cuenta; esa sensación engaña (en Roediger y Karpicke, releer aumentaba la confianza sin mejorar el recuerdo a una semana; misma fuente).
 2. **Califícate:**
    - **0** = no la sabía;
    - **1** = la sabía a medias o tardé;
@@ -19,7 +19,7 @@
    - con 2, sube a la caja siguiente;
    - con 1, se queda en su caja;
    - con 0, vuelve a la caja 1.
-4. **Calendario por caja** [INFERENCIA: es un punto de partida; se ajusta con datos del piloto]:
+4. **Calendario por caja** (es un punto de partida; se ajustará con los datos del piloto):
 
 | Caja | Se repasa… |
 |---|---|
@@ -29,7 +29,7 @@
 | 4 | Solo en la sesión de repaso final (día 30) |
 
 5. **Sesiones:** día 1 (el día en que terminas la guía), 3, 7, 14 y 30. Anota la fecha de cada una.
-6. **Predice antes de empezar:** "¿cuántas de las 30 voy a saber?". Al terminar, compara. Si fallas mucho más de lo que predijiste, repasa la sección de la guía que indica cada tarjeta fallida (metacognición; `marco-pedagogico.md` §1.5).
+6. **Predice antes de empezar:** "¿cuántas de las 30 voy a saber?". Al terminar, compara. Si fallas mucho más de lo que predijiste, repasa la sección de la guía que indica cada tarjeta fallida (metacognición).
 
 ## Registro (cópialo en tu cuaderno)
 
@@ -79,7 +79,7 @@
 ## Tipos de tarjeta
 - **Definición y recuerdo:** recordar o comprender.
 - **Regla:** cuándo y cómo se usa una técnica.
-- **Discriminación:** distinguir entre conceptos parecidos (inversa, confusión o selección). Son las que más cuestan y las que más enseñan [INFERENCIA, coherente con Rohrer 2012 sobre el intercalado para distinguir conceptos: http://uweb.cas.usf.edu/%7Edrohrer/pdfs/Rohrer2012EPR.pdf].
+- **Discriminación:** distinguir entre conceptos parecidos (inversa, confusión o selección). Son las que más cuestan y las que más enseñan (coherente con Rohrer 2012 sobre el intercalado para distinguir conceptos: http://uweb.cas.usf.edu/%7Edrohrer/pdfs/Rohrer2012EPR.pdf).
 - **Aplicación:** situaciones nuevas y cortas.
 
 ## Para el autor
@@ -87,5 +87,5 @@
   - cada tarjeta evalúa **una sola idea**;
   - el reverso tiene como máximo unas 35 palabras;
   - al menos un tercio de las tarjetas es de discriminación o de aplicación;
-  - al menos un 10 % es de unidades anteriores [INFERENCIA: es una regla de diseño].
+  - al menos un 10 % es de unidades anteriores (es una regla de diseño).
 - Cuando exista la U3, añadir 3 tarjetas de la U2 a su set, para que el repaso siga intercalándose.

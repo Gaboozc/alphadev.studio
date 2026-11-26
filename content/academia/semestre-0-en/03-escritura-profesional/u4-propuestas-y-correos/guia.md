@@ -4,7 +4,7 @@
 
 **Guiding question:** How do I write a proposal and emails that the client reads, understands and answers?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 25 min (about 1,900 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 40 min (4 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 05 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 55 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 25 min (about 1,900 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 40 min (4 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 05 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 55 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** The proposal is the last piece of sales writing before a client decides, and email is the channel where almost every professional relationship is won or lost. Both combine what you've learned: clarity (U1), honest persuasion (U2) and attention to the reader's experience (U3). In this unit you'll learn a seven-part proposal structure, how to present price ethically, and how to write emails that get read and answered.
 

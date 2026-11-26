@@ -1,6 +1,6 @@
 # Unidad 1 — Cuestionario
 
-Clave en `../claves/u1-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u1-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. Antes de escribir, la pregunta que más define el texto es:
    a) ¿Cuántas palabras debe tener el texto? b) ¿Qué palabras sofisticadas puedo usar? c) ¿Qué fuente tipográfica voy a usar? d) ¿Qué debe hacer el lector después de leer?

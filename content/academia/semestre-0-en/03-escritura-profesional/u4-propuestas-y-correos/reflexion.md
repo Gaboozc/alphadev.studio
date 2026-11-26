@@ -1,4 +1,4 @@
-# Unit 4 — Reflection [HUMAN]
+# Unit 4 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Look through your inbox (or at a proposal you've received or sent).

@@ -34,7 +34,7 @@ Si es ficticio, entrega una ficha de 150 palabras (qué vende, a quién, diferen
 
 ## Evaluación
 
-### Parte automática — checklist (20 %) [AUTO]
+### Parte automática — checklist (20 %)
 Sí/no, 2 puntos cada uno:
 1. Las cinco partes presentes con sus títulos.
 2. Parte 1: 3 versiones de propuesta de valor + elegida.
@@ -47,7 +47,7 @@ Sí/no, 2 puntos cada uno:
 9. Parte 4: correo de seguimiento presente.
 10. Datos inventados marcados como [FICTICIO] (o declaración de que todos son reales).
 
-### Parte humana — rúbrica (80 %) [HUMANO]
+### Parte humana — rúbrica (80 %)
 
 | Criterio (peso) | Excelente (4) | Competente (3) | En desarrollo (2) | Insuficiente (1) |
 |---|---|---|---|---|

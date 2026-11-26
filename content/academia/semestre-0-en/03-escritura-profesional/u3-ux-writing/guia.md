@@ -4,7 +4,7 @@
 
 **Guiding question:** What words does the user need at each moment in the interface to move forward without hesitating?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 00 min (4 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 20 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 40 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 00 min (4 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 20 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 40 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** An interface doesn't end with colors and type; it ends when the user finishes what they came to do. The words that guide them (buttons, labels, error messages, empty screens, notices) are part of the design. *UX writing* is the discipline that designs those words. It matters to every role: the developer writing an error message, the designer laying out a form, the marketing team writing an app's welcome screen.
 

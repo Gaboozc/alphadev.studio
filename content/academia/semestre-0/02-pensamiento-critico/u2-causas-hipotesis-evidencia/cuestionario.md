@@ -1,6 +1,6 @@
 # Unidad 2 — Cuestionario
 
-Clave en `../claves/u2-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u2-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. Lo que distingue una hipótesis de una opinión es que:
    a) Es optimista y propone una mejora concreta. b) Está escrita y la firma el equipo responsable. c) La dice un experto con años en el sector. d) Puede decirse qué observación la refutaría.

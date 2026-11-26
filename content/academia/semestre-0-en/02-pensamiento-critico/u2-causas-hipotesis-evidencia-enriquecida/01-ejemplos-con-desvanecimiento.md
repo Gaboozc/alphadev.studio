@@ -1,6 +1,6 @@
 # 01 · Faded Worked Examples: "Does A Really Cause B?"
 
-**Id:** `s0-c2-u2-ejemplos` · **Format:** faded worked example · **Level:** basic → intermediate · **Time:** approx. 40 min [INFERENCE] · **Assessment:** ungraded; solutions in `claves/01-clave-ejemplos.md`.
+**Id:** `s0-c2-u2-ejemplos` · **Format:** faded worked example · **Level:** basic → intermediate · **Time:** approx. 40 min  · **Assessment:** ungraded; solutions in `claves/01-clave-ejemplos.md`.
 
 **Objectives (Anderson and Krathwohl process levels):**
 - *Apply* a 5-step procedure to test a causal claim.
@@ -9,7 +9,7 @@
 
 **What it's for:** at work you'll often hear things like "ever since we did X, Y went up." This procedure lets you answer, in 10 minutes and with arguments, whether that proves anything.
 
-**How this piece works** [VERIFIED: Renkl et al. 2002; Chi et al. 1994; see `marco-pedagogico.md` R32, R38]:
+**How this piece works** (Renkl et al. 2002; Chi et al. 1994):
 - You'll see the same procedure five times.
 - In example 1 every step is worked out. In each following example, the **last** step that was still worked out is removed (backward fading), and in example 5 you do it all yourself.
 - After each worked step there's a **self-explanation question** (🗨). Answer it in your own words before moving on. That question is the part that teaches the most, so don't skip it.

@@ -2,7 +2,7 @@
 
 Solutions in `../claves/u5-soluciones-ejercicios.md`.
 
-## Level 1 [AUTO]
+## Level 1 (auto-graded)
 
 **1.1** A campaign costs $10,000. With a 30% probability it generates $50,000 in margin, with 50% it generates $15,000, and with 20% it generates $0. Calculate the net EV.
 
@@ -12,7 +12,7 @@ Solutions in `../claves/u5-soluciones-ejercicios.md`.
 
 **1.4** Your agency wins 1 out of every 4 proposals. For a new client with no additional information, what starting probability do you assign?
 
-## Level 2 [HUMAN]
+## Level 2 (reviewed with a rubric)
 
 **2.1** In 1.1, at what probability for the $50,000 scenario (keeping $15,000 at 50% and adjusting the $0 scenario) does the EV stop being positive? Explain what that means for the decision.
 
@@ -20,6 +20,6 @@ Solutions in `../claves/u5-soluciones-ejercicios.md`.
 
 **2.3** Start a decision log with a real decision you're about to make (all the fields from section 6) and set the review date.
 
-## Level 3 [HUMAN]
+## Level 3 (reviewed with a rubric)
 
 **3.1** A client with a $400,000 annual marketing budget asks you to decide between: (A) rebuilding their website, (B) investing in ads, (C) hiring a community manager. Build a weighted matrix with at least 4 criteria, run a sensitivity analysis (change one weight) and write a 250-word recommendation that explains the uncertainty.

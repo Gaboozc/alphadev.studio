@@ -1,6 +1,6 @@
 # Unidad 4 — Cuestionario
 
-Clave en `../claves/u4-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u4-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. Una propuesta debería empezar por:
    a) La historia de la empresa. b) El problema del cliente. c) El precio y la forma de pago. d) El portafolio de trabajos.

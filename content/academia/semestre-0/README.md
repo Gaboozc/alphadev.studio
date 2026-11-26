@@ -25,14 +25,14 @@ Cada curso tiene:
 - `checkpoint.md`: checkpoint del curso, con un banco de 28 preguntas de opción múltiple (se sirven 21, 3 por objetivo), mapa de cobertura y caso aplicado con rúbrica. Su clave está en `claves/checkpoint-clave.md`. Añadido el 14 nov 2026.
 
 **Cambios del 14 nov 2026:**
-- **Claves rebalanceadas:** las respuestas correctas de los 13 cuestionarios pasaron de a 10 · b 107 · c 12 · d 1 a a 33 · b 32 · c 33 · d 32. Solo cambió el orden de las opciones; los enunciados y las opciones son los mismos. Lo comprueba el script `/workspace/academia/_tools/verify_claves.py`. Recomendación para la plataforma (la decisión es de Hefesto): barajar las opciones al mostrarlas y guardar la clave por id de opción, no por letra.
-- **Cabeceras de las guías y syllabus:** cada guía y cada syllabus declara ahora la pregunta guía y el tiempo estimado por pieza [INFERENCIA] (método en `rework/profx/formatos-leccion.md` §0.1).
+- **Claves rebalanceadas:** las respuestas correctas de los 13 cuestionarios pasaron de a 10 · b 107 · c 12 · d 1 a a 33 · b 32 · c 33 · d 32. Solo cambió el orden de las opciones; los enunciados y las opciones son los mismos. Recomendación para la plataforma: barajar las opciones al mostrarlas y guardar la clave por id de opción, no por letra.
+- **Cabeceras de las guías y syllabus:** cada guía y cada syllabus declara ahora la pregunta guía y el tiempo estimado.
 - **Extensión de las reflexiones:** todas piden 300–500 palabras (la U4 de S0-C1 pedía 400–600).
 
-### Etiquetas de corrección
-- **[AUTO]**: corregible automáticamente (opción múltiple, respuesta única, checklist estructural).
-- **[HUMANO]**: necesita revisión de una persona (o, en el futuro, de una IA supervisada) con la rúbrica o la clave de referencia.
-- **[MIXTO]**: combina ambos (proyectos finales).
+### Cómo se corrige
+- **Corrección automática:** opción múltiple, respuesta única o checklist estructural.
+- **Revisión con rúbrica:** la corrige una persona (o, en el futuro, una IA supervisada) con la rúbrica o la clave de referencia.
+- **Evaluación mixta:** combina ambas (proyectos finales).
 
 Pesos comunes a los tres cursos: OM 20 % auto · respuesta corta 10 % humana · ejercicios 20 % mixta · reflexiones 15 % humana · proyecto 35 % mixta. Aprobación: 70 % ponderado y ≥ 60 % en el proyecto.
 

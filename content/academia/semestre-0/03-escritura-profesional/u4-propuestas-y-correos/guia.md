@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Cómo escribo una propuesta y unos correos que el cliente lea, entienda y responda?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 25 min (1.855 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 40 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 05 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 55 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 25 min (1.855 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 40 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 05 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 55 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** La propuesta comercial es el último texto de ventas antes de que un cliente decida, y el correo es el canal donde se gana o se pierde casi toda relación profesional. Ambos combinan lo aprendido: claridad (U1), persuasión honesta (U2) y atención a la experiencia de quien lee (U3). En esta unidad aprenderás una estructura de propuesta en siete partes, cómo presentar el precio con ética, y cómo escribir correos que se leen y se responden.
 

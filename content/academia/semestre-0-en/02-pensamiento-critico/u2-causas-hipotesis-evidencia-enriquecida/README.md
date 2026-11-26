@@ -2,32 +2,32 @@
 
 **What it is:** the enriched version (multi-format pilot) of `../u2-causas-hipotesis-evidencia/`. **The original unit was left untouched**: its guide, exercises, quiz, reflection and quick checks remain the assessed core. This folder **adds pathways**; it doesn't replace them.
 
-**Author:** Prof. X. **Date:** Nov 14, 2026 (English edition: Nov 25, 2026). **Editorial status:** Draft → pending human review (`rework/profx/plan-revision.md`). **Framework:** `rework/profx/marco-pedagogico.md`.
+**Author:** Prof. X. **Date:** Nov 14, 2026 (English edition: Nov 25, 2026). **Editorial status:** Draft → pending human review.
 
 **Guiding question (same as the original):** Why is the problem happening, and what evidence separates the cause from a mere coincidence?
 
-## Why this unit [INFERENCE]
+## Why this unit
 
 It's the one that best fits every requested format:
 - it has multi-step procedures (hypothesis → test, five whys, correlation analysis), ideal for faded worked examples;
 - it has precise vocabulary (confounding, reverse causation, falsifiable…), ideal for flashcards;
 - it has real workplace situations (a post-mortem, a report with a questionable conclusion), ideal for a case, role-play and debate;
-- and it's the foundation for MK-104, DP-202 and IS-203 (`curriculo-rework.md`).
+- and it's the foundation for MK-104, DP-202 and IS-203.
 
 ## New pieces
 
-| # | File | Format | Assessment | Time [INFERENCE] | Required |
+| # | File | Format | Assessment | Time  | Required |
 |---|---|---|---|---|---|
 | 01 | `01-ejemplos-con-desvanecimiento.md` | Faded worked examples with self-explanation | Ungraded; key in `claves/` | 40 min | Recommended (required for anyone who doesn't pass the entry check) |
-| 02 | `02-caso-estudio.md` | Case with a decision point | [HUMAN] with a rubric | 90 min + discussion | One of the mastery pathways (section 10) |
-| 03 | `03-tarjetas-repaso.md` | 30 flashcards + a spaced schedule | [AUTO], ungraded | 10–15 min per session × 5 sessions | Recommended |
+| 02 | `02-caso-estudio.md` | Case with a decision point | (reviewed with a rubric) with a rubric | 90 min + discussion | One of the mastery pathways (section 10) |
+| 03 | `03-tarjetas-repaso.md` | 30 flashcards + a spaced schedule | (auto-graded), ungraded | 10–15 min per session × 5 sessions | Recommended |
 | 04 | `04-guion-podcast.md` | Two-voice audio (approx. 10–12 min) + transcript | Ungraded; 3 retrieval questions at the end | 20 min | Alternative or complement to the guide |
 | 05 | `05-mapa-conceptual.md` | Concept map (Mermaid + text description) + a build-it activity | Ungraded / self-checked | 25 min | Recommended |
-| 06 | `06-reto-por-niveles.md` | Data challenge in 3 tiers | Tier 1 [AUTO]; 2–3 [HUMAN] | 30 / 60 / 90 min | Tier 1 recommended; 2–3 a mastery pathway |
-| 07 | `07-revision-entre-pares.md` | Calibrated peer review | [HUMAN] (the quality of feedback is assessed) | 60 min | Recommended |
-| 08 | `08-juego-de-rol.md` | Role-play: a post-mortem meeting | [HUMAN] with an observation rubric | 75 min in a group of 4 | Mastery pathway (group) |
+| 06 | `06-reto-por-niveles.md` | Data challenge in 3 tiers | Tier 1 (auto-graded); 2–3 (reviewed with a rubric) | 30 / 60 / 90 min | Tier 1 recommended; 2–3 a mastery pathway |
+| 07 | `07-revision-entre-pares.md` | Calibrated peer review | (reviewed with a rubric) (the quality of feedback is assessed) | 60 min | Recommended |
+| 08 | `08-juego-de-rol.md` | Role-play: a post-mortem meeting | (reviewed with a rubric) with an observation rubric | 75 min in a group of 4 | Mastery pathway (group) |
 | 09 | `09-lenguaje-claro.md` | Plain-language summary, glossary, read-aloud guide | Ungraded | 10 min | Accessibility: always available |
-| 10 | `10-formas-de-demostrar-dominio.md` | Menu of 5 ways to show mastery with a shared rubric | [HUMAN]/[MIXED] | Depends on the pathway | Students choose **one** |
+| 10 | `10-formas-de-demostrar-dominio.md` | Menu of 5 ways to show mastery with a shared rubric | reviewed with a rubric, or mixed assessment | Depends on the pathway | Students choose **one** |
 | — | `claves/` | Solutions and teaching note | — | — | Hidden from students |
 
 ## Suggested route (the framework's standard sequence, section 6)
@@ -45,8 +45,8 @@ It's the one that best fits every requested format:
 
 ## Workload and assessment
 
-- **Workload:** the original unit declared approx. 5 h 35 min of active time out of 12 h planned (`guia.md`). The recommended new pieces (01, 03, 05, 06-T1, 07) add approx. 3 h; with one mastery pathway (02, 06-T2/3 or 08), approx. 1.5 h more. **Total active time approx. 10 h**, within ±15% of the 12 h. This **would close the workload gap** flagged in `formatos-leccion.md`, section 0.1, with practice rather than filler [INFERENCE: it needs to be measured].
-- **Weights:** the course weights don't change (`semestre-0/README.md`). The chosen mastery pathway (section 10) **replaces** the level-3 exercises within the 20% for exercises [INFERENCE: a proposal; Gabe decides].
+- **Workload:** the original unit declared approx. 5 h 35 min of active time out of 12 h planned (`guia.md`). The recommended new pieces (01, 03, 05, 06-T1, 07) add approx. 3 h; with one mastery pathway (02, 06-T2/3 or 08), approx. 1.5 h more. **Total active time approx. 10 h**, within ±15% of the 12 h. This **would close the workload gap** with practice rather than filler (this still needs to be measured).
+- **Weights:** the course weights don't change (`semestre-0/README.md`). The chosen mastery pathway (section 10) **replaces** the level-3 exercises within the 20% for exercises .
 - **AI policy:** the course's. It doesn't apply to flashcards or the podcast; for the case, the challenge and the mastery pathway, disclose your use (which tool, for what, what you changed).
 
 ## Fictional data

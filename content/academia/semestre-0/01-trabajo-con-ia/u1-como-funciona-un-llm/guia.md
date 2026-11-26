@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Qué hace realmente un modelo de lenguaje cuando "responde", y por qué a veces inventa?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 30 min (2.809 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 25 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 55 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 05 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 30 min (2.809 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 25 min (4 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 55 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 05 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Para qué sirve esta unidad.** Casi todos los errores que la gente comete con la IA vienen de una idea equivocada de lo que la IA *es*. Si crees que es un buscador, le pedirás datos y te creerás lo que diga. Si crees que es una persona, te frustrarás cuando "olvide" algo. Si entiendes que es un sistema que predice texto, sabrás qué pedirle, cómo pedírselo y cuándo desconfiar. Todo el resto del curso se apoya en esta unidad.
 

@@ -3,12 +3,12 @@
 | Campo | Valor |
 |---|---|
 | Id | `s0-c3-checkpoint` |
-| Formato | Checkpoint / examen de curso (`formatos-leccion.md` §7) |
+| Formato | Checkpoint / examen de curso |
 | Cuándo | Semana 9 (al cerrar la U4, antes del proyecto). Requiere haber completado todas las unidades |
-| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min [INFERENCIA] |
-| Evaluación | **[MIXTO]**: Parte A [AUTO] · Parte B [HUMANO] con rúbrica |
+| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min  |
+| Evaluación | Mixta: la Parte A se corrige automáticamente; la Parte B se revisa con rúbrica |
 | Qué se sirve | 21 preguntas de un banco de 28: **3 por objetivo**, elegidas al azar, con las opciones en orden aleatorio. Así dos intentos no son iguales |
-| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % [INFERENCIA]. La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios (`formatos-leccion.md` §7) |
+| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % . La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios |
 | Reintentos | Hasta 2, separados por ≥ 24 h. En el reintento se sirve otra selección del banco |
 | Piloto 1 (sin F5) | La Parte A puede corregirse en el navegador como autoevaluación. La Parte B queda como autoevaluación con la rúbrica hasta que haya entregas en servidor |
 | Clave | `claves/checkpoint-clave.md` (solo en servidor) |
@@ -26,7 +26,7 @@
 | O7. Revisar y editar textos propios y de IA | CP-25, CP-26, CP-27, CP-28 | 3 |
 | Todos (integración) | Caso aplicado (Parte B) | 1 |
 
-## Parte A — Banco de opción múltiple [AUTO]
+## Parte A — Banco de opción múltiple (corrección automática)
 
 Una sola respuesta correcta por pregunta.
 
@@ -226,7 +226,7 @@ Una sola respuesta correcta por pregunta.
    c) ¿Lo esencial está en las dos primeras líneas?
    d) ¿Usé sinónimos para no repetir términos clave?
 
-## Parte B — Caso aplicado: estudio de fisioterapia [caso ficticio] [HUMANO]
+## Parte B — Caso aplicado: estudio de fisioterapia [caso ficticio] (revisión con rúbrica)
 
 "Fisio Norte", un estudio de fisioterapia con dos sedes, te pidió presupuesto para renovar su web y su sistema de citas en línea. Su dueña tiene poco tiempo y lee el correo en el móvil. Hoy pierden un 30 % de las citas porque los pacientes no encuentran cómo reservar.
 
@@ -248,4 +248,4 @@ Una sola respuesta correcta por pregunta.
 | Microcopy | Error con qué pasó y qué hacer, sin culpar; estado vacío que orienta y ofrece la acción | Uno de los dos bien resuelto | Ambos vagos o culpabilizadores | Ausente |
 | Claridad y ética | Frases cortas, voz activa, sin promesas no verificables, uso de IA declarado | Alguna frase poco clara o una promesa vaga | Varias promesas sin respaldo | Ausente |
 
-Parte B aprobada con ≥ 7/12 [INFERENCIA].
+Parte B aprobada con ≥ 7/12 .

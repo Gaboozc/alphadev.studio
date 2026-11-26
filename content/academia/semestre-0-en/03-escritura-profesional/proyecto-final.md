@@ -34,7 +34,7 @@ If it's fictional, submit a 150-word profile (what it sells, to whom, differenti
 
 ## Assessment
 
-### Automatic part — checklist (20%) [AUTO]
+### Automatic part — checklist (20%)
 Yes/no, 2 points each:
 1. All five parts present with their headings.
 2. Part 1: 3 value proposition versions + the chosen one.
@@ -47,7 +47,7 @@ Yes/no, 2 points each:
 9. Part 4: follow-up email present.
 10. Invented data labeled [FICTIONAL] (or a statement that all data is real).
 
-### Human part — rubric (80%) [HUMAN]
+### Human part — rubric (80%)
 
 | Criterion (weight) | Excellent (4) | Proficient (3) | Developing (2) | Insufficient (1) |
 |---|---|---|---|---|

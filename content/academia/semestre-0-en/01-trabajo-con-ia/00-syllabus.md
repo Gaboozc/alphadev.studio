@@ -53,9 +53,9 @@ By the end, you'll be able to:
 | 9 | Final project: diagnosis and library | Milestone 1 | Project milestone (light review) |
 | 10 | Final project: workflow, evaluation and presentation | Final submission | Final project |
 
-## Units: guiding question and time per part
+## Units: guiding question and estimated time
 
-Planned hours come from the syllabus workload (6 h a week × the unit's weeks). Time per part is an estimate **[INFERENCE]**: reading at 120 words per minute plus a fixed time per exercise set, quiz and reflection (method in `rework/profx/formatos-leccion.md`, section 0.1). It should be measured with the first students and adjusted.
+Planned hours come from the syllabus workload (6 h a week × the unit's weeks). Estimated time per part is calculated from reading at 120 words per minute plus a fixed time per exercise set, quiz and reflection. It should be measured with the first students and adjusted.
 
 | Unit | Guiding question | Weeks | Guide | Exercises | Quiz | Reflection | Active time | Planned | Independent study |
 |---|---|---|---|---|---|---|---|---|---|
@@ -64,7 +64,7 @@ Planned hours come from the syllabus workload (6 h a week × the unit's weeks). 
 | U3 | When should you show examples, ask for reasoning or split the task, and how do you keep a long conversation useful? | 5–6 | 25 min | 3 h 15 min | 30 min | 1 h 30 min | 5 h 40 min | 12 h | 6 h 20 min |
 | U4 | How do you turn AI into a reliable, measurable and responsible working system, not an occasional shortcut? | 7–8 | 25 min | 2 h 50 min | 30 min | 1 h 30 min | 5 h 15 min | 12 h | 6 h 45 min |
 
-**Course checkpoint:** week 9, 60–75 min [INFERENCE]. A bank of 28 questions, 21 of which are served, plus an applied case. See `checkpoint.md`.
+**Course checkpoint:** week 9, 60–75 min . A bank of 28 questions, 21 of which are served, plus an applied case. See the course checkpoint.
 **Quick checks:** 3 per unit, ungraded, inside the guide. See `uN-*/comprobaciones-rapidas.md`.
 
 ## Assessment

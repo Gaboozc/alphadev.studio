@@ -4,7 +4,7 @@
 
 **Guiding question:** How do you turn AI into a reliable, measurable and responsible working system, not an occasional shortcut?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 25 min (about 1,900 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 15 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 45 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 25 min (about 1,900 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 15 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 45 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** Using AI "every now and then" to get out of a jam saves minutes. Building it into a designed workflow (with defined steps, tested prompts, human checkpoints and measurement) saves hours and, above all, produces consistent quality. This unit teaches you to design that workflow, choose tools by task, verify what goes into a deliverable, work out whether a tool is worth paying for, and work responsibly.
 

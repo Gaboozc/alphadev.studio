@@ -1,4 +1,4 @@
-# Unidad 4 — Reflexión [HUMANO]
+# Unidad 4 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Revisa tu bandeja de entrada (o una propuesta que hayas recibido o enviado).

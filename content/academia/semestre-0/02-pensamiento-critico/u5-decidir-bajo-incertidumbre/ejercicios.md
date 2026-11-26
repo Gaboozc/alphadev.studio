@@ -2,7 +2,7 @@
 
 Soluciones en `../claves/u5-soluciones-ejercicios.md`.
 
-## Nivel 1 [AUTO]
+## Nivel 1 (corrección automática)
 
 **1.1** Una campaña cuesta 10.000. Con 30 % de probabilidad genera 50.000 de margen, con 50 % genera 15.000 y con 20 % genera 0. Calcula el VE neto.
 
@@ -12,7 +12,7 @@ Soluciones en `../claves/u5-soluciones-ejercicios.md`.
 
 **1.4** Tu agencia gana 1 de cada 4 propuestas. Para un cliente nuevo sin información adicional, ¿qué probabilidad inicial asignas?
 
-## Nivel 2 [HUMANO]
+## Nivel 2 (revisión con rúbrica)
 
 **2.1** En 1.1, ¿a partir de qué probabilidad del escenario de 50.000 (manteniendo 15.000 en 50 % y ajustando el escenario 0) el VE deja de ser positivo? Explica qué implica para la decisión.
 
@@ -20,6 +20,6 @@ Soluciones en `../claves/u5-soluciones-ejercicios.md`.
 
 **2.3** Abre un registro de decisiones con una decisión real que estés por tomar (todos los campos de la §6) y fija la fecha de revisión.
 
-## Nivel 3 [HUMANO]
+## Nivel 3 (revisión con rúbrica)
 
 **3.1** Un cliente con 400.000 de presupuesto anual en marketing te pide decidir entre: (A) rehacer su web, (B) invertir en anuncios, (C) contratar un community manager. Construye matriz ponderada con al menos 4 criterios, haz un análisis de sensibilidad (cambia un peso) y escribe una recomendación de 250 palabras que explique la incertidumbre.

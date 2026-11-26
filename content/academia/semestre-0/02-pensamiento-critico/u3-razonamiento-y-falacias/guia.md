@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Se sigue realmente esta conclusión de sus razones, o solo suena convincente?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.702 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 10 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 50 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.702 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 10 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 50 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** En el trabajo, las decisiones se toman a partir de argumentos: en una reunión, en un correo, en una propuesta, en un informe que genera una IA. Saber descomponer un argumento en sus partes, juzgar si la conclusión se sigue de las premisas y detectar los atajos engañosos más comunes (falacias) te permite defender bien tus ideas y no dejarte arrastrar por argumentos que solo suenan bien.
 

@@ -1,6 +1,6 @@
 # Unidad 5 — Cuestionario
 
-Clave en `../claves/u5-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u5-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. Estar bien calibrado significa que:
    a) Lo que dices al 70 % ocurre cerca del 70 % de las veces. b) Nunca das porcentajes, solo rangos cualitativos. c) Usas rangos muy amplios para no equivocarte nunca. d) Aciertas casi siempre en lo que dices con seguridad.

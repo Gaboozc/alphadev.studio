@@ -3,16 +3,16 @@
 import { useEffect, useId, useRef } from 'react'
 import Link from 'next/link'
 import AcadIcon, { type AcadIconName } from './AcadIcon'
-import { ACAD_COPY } from '../copy'
+import type { AcadCopy } from '../copy'
+import { useAcadCopy, useAcadLang } from '../useAcadCopy'
 import { lessonHref } from '../ramas'
 import type { LessonMeta, ModuleMeta } from '../types'
 import {
   estadoPieza,
-  formatoContador,
   tipoDePieza,
 } from '@/lib/academia/ui'
 
-function estadoLabel(e: ReturnType<typeof estadoPieza>): string {
+function estadoLabel(e: ReturnType<typeof estadoPieza>, ACAD_COPY: AcadCopy): string {
   if (e === 'completada') return ACAD_COPY.completada
   if (e === 'en_curso') return ACAD_COPY.enCurso
   return ACAD_COPY.sinEmpezar
@@ -37,18 +37,19 @@ function Item({
   done: boolean
   enCurso: boolean
 }) {
-  const tipo = tipoDePieza(lesson.type)
+  const ACAD_COPY = useAcadCopy()
+  const { lang, href } = useAcadLang()
+  const tipo = tipoDePieza(lesson.type, lang)
   const estado = estadoPieza(done, enCurso)
   const isCurrent = lesson.id === currentId
   const contadores: string[] = []
   if (lesson.tasksCount > 0) {
-    const c = formatoContador(0, lesson.tasksCount, 'comprobaciones rápidas')
-    if (c) contadores.push(c)
+    contadores.push(ACAD_COPY.comprobaciones(0, lesson.tasksCount))
   }
 
   return (
     <Link
-      href={lessonHref(mod, lesson.id)}
+      href={href(lessonHref(mod, lesson.id))}
       className={`acad-index__item${isCurrent ? ' is-current' : ''}`}
       id={isCurrent ? undefined : `pieza-${lesson.id}`}
     >
@@ -66,7 +67,7 @@ function Item({
           ))}
           <span className={`acad-index__state${done ? ' is-done' : ''}`}>
             <AcadIcon name={estadoIcon(estado)} size={16} />
-            {estadoLabel(estado)}
+            {estadoLabel(estado, ACAD_COPY)}
           </span>
         </div>
       </div>
@@ -116,6 +117,7 @@ export function LessonIndexPanel({
   unidadNumero?: number
   titleId?: string
 }) {
+  const ACAD_COPY = useAcadCopy()
   const n = unidadNumero ?? mod.number
   return (
     <nav aria-labelledby={titleId}>
@@ -144,6 +146,7 @@ export function LessonIndexSheet({
   unidadNumero?: number
   returnFocusRef: React.RefObject<HTMLElement | null>
 }) {
+  const ACAD_COPY = useAcadCopy()
   const titleId = useId()
   const sheetRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)

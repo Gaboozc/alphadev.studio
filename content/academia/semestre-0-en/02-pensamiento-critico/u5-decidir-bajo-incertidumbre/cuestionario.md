@@ -1,6 +1,6 @@
 # Unit 5 — Quiz
 
-Key in `../claves/u5-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u5-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. Being well calibrated means that:
    a) What you call at 70% happens about 70% of the time. b) You never give percentages, only qualitative ranges. c) You use very wide ranges so you're never wrong. d) You're almost always right about what you say with certainty.

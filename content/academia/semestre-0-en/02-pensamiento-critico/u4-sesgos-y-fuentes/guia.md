@@ -4,7 +4,7 @@
 
 **Guiding question:** How can my own mind fool me, and how do I decide whether a source (or an AI) deserves trust?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md` section 0.1]:** Guide approx. 20 min (about 1,750 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 10 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 50 min is independent study: rereading, note-taking, reference reading and review.
+**Estimated time:** Guide approx. 20 min (about 1,750 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 10 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 50 min is independent study: rereading, note-taking, reference reading and review.
 
 > **Core idea.** Even when you reason well (Unit 3), your mind takes shortcuts that, in certain situations, produce systematic errors: **cognitive biases**. And even when your mind works well, the information you receive can be false, incomplete or fabricated, increasingly by AI tools. This unit gives you two defenses: knowing your biases so you can design countermeasures, and a method for evaluating sources and AI outputs before you use them.
 

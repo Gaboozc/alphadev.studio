@@ -6,7 +6,7 @@
 import CodeBlock from './CodeBlock'
 import HeadingAnchor from './HeadingAnchor'
 import AcadIcon from './AcadIcon'
-import { ACAD_COPY } from '../copy'
+import { useAcadCopy } from '../useAcadCopy'
 import { extraerH2 } from '@/lib/academia/ui'
 
 interface Props {
@@ -220,6 +220,7 @@ function parseProse(
 }
 
 export default function LessonContent({ content, tasks, tip }: Props) {
+  const ACAD_COPY = useAcadCopy()
   if (!content && !tasks?.length && !tip) return null
 
   const secciones = extraerH2(content)

@@ -1,4 +1,4 @@
-# Unit 4 — Reflection [HUMAN]
+# Unit 4 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 For one week, write down each time you catch yourself in one of the unit's biases (at least three episodes). Then write:

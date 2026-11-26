@@ -1,6 +1,6 @@
 # Unit 4 — Quiz
 
-Key in `../claves/u4-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u4-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. A proposal should start with:
    a) The company's history. b) The client's problem. c) The price and payment terms. d) The portfolio of work.

@@ -1,6 +1,6 @@
 # 08 · Role-Play: The Black Friday Post-Mortem
 
-**Id:** `s0-c2-u2-rol` · **Format:** role-based simulation (group of 4–5) · **Time:** approx. 75 min [INFERENCE] · **Assessment:** [HUMAN], with the observation rubric in section 6. There's an **individual version** in section 7 for anyone who can't meet.
+**Id:** `s0-c2-u2-rol` · **Format:** role-based simulation (group of 4–5) · **Time:** approx. 75 min  · **Assessment:** reviewed with a rubric, with the observation rubric in section 6. There's an **individual version** in section 7 for anyone who can't meet.
 
 **Objectives:**
 - *Apply* the five whys in a real conversation, under pressure and with conflicting accounts.
@@ -8,8 +8,8 @@
 - *Reach* a systemic cause without blaming a person.
 
 **Why:**
-- In higher education, simulation has a large effect on complex skills (g = 0.85 across 145 studies), and beginners benefit more when it's paired with examples [VERIFIED: Chernikova et al. 2020, https://journals.sagepub.com/doi/full/10.3102/0034654320933544]. That's why this role-play comes **after** the worked examples (01).
-- At work, causes are almost always investigated in meetings, not alone [INFERENCE].
+- In higher education, simulation has a large effect on complex skills (g = 0.85 across 145 studies), and beginners benefit more when it's paired with examples (Chernikova et al. 2020, https://journals.sagepub.com/doi/full/10.3102/0034654320933544). That's why this role-play comes **after** the worked examples (01).
+- At work, causes are almost always investigated in meetings, not alone .
 
 > **Fictional situation.** The agency, the client, the people and the figures are invented. (English edition: the Spanish version is set during Mexico's *Buen Fin* sale weekend; here it's Black Friday, with amounts in USD.)
 
@@ -107,7 +107,7 @@ Step out of character before you start ("I'm not Marco anymore"). Questions:
 | **Participation in role** (individual) | Defends their position and changes it in light of evidence | Stays in role but doesn't change, or changes for no reason | Breaks role or doesn't participate |
 
 - The first 4 criteria are the group grade; the 5th is individual.
-- Passing is ≥ 9/15 [INFERENCE].
+- Passing is ≥ 9/15 .
 
 ## 7. Individual version (no group)
 

@@ -1,4 +1,4 @@
-# Unidad 2 — Reflexión [HUMANO]
+# Unidad 2 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Busca en tu entorno (trabajo, noticias del sector, redes) una afirmación causal reciente: "X provocó Y".

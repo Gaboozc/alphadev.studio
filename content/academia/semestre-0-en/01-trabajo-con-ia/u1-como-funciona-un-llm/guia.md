@@ -4,7 +4,7 @@
 
 **Guiding question:** What does a language model really do when it "answers," and why does it sometimes make things up?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 30 min (about 2,800 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 25 min (4 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 55 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 05 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 30 min (about 2,800 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 25 min (4 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 55 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 05 min is independent study: rereading, notes, reference readings and review.
 
 > **What this unit is for.** Almost every mistake people make with AI comes from a wrong idea of what AI *is*. If you think it's a search engine, you'll ask it for facts and believe whatever it says. If you think it's a person, you'll get frustrated when it "forgets" something. If you understand that it's a system that predicts text, you'll know what to ask for, how to ask and when to be skeptical. The rest of the course builds on this unit.
 

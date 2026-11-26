@@ -4,7 +4,7 @@
 
 **Guiding question:** How do I decide well when I don't have all the information?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md` section 0.1]:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 40 min (4 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 00 min** of the 12 h planned in the syllabus. The remaining approx. 7 h 00 min is independent study: rereading, note-taking, reference reading and review.
+**Estimated time:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 40 min (4 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 00 min** of the 12 h planned in the syllabus. The remaining approx. 7 h 00 min is independent study: rereading, note-taking, reference reading and review.
 
 > **Core idea.** At work you almost never decide with complete information. The question isn't "how do I eliminate uncertainty?" but "how do I decide well in spite of it?" This unit gives you tools to estimate probabilities, compare options, know how much to analyze based on how reversible the decision is, anticipate failures and learn from your decisions. At the end, it brings the whole course together into one problem-solving method.
 

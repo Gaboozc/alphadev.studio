@@ -2,7 +2,7 @@
 
 Soluciones en `../claves/u2-soluciones-ejercicios.md`.
 
-## Nivel 1 [AUTO]
+## Nivel 1 (corrección automática)
 
 **1.1** ¿Característica (C) o beneficio (B)? a) "Copias de seguridad diarias." b) "Si algo se rompe, recuperas tu tienda tal como estaba ayer." c) "Hosting con 99,9 % de disponibilidad." d) "Tus clientes pueden comprar a cualquier hora."
 
@@ -19,7 +19,7 @@ a) "Antes, Juan tardaba 3 horas en cerrar su caja. Ahora, 10 minutos. Lo logró 
 b) "Formularios con validación en tiempo real. A diferencia de los que muestran errores al final, avisan mientras se escribe. Tus clientes terminan el registro sin frustrarse."
 c) "¿Pierdes pedidos por WhatsApp? Cada mensaje sin responder es una venta para tu competencia. Nuestro asistente responde al instante, 24 h."
 
-## Nivel 2 [HUMANO]
+## Nivel 2 (revisión con rúbrica)
 
 **2.1** Lista 6 características de un producto o servicio que conozcas y conviértelas en beneficios con la técnica "¿y eso qué?" (muestra las iteraciones).
 
@@ -27,6 +27,6 @@ c) "¿Pierdes pedidos por WhatsApp? Cada mensaje sin responder es una venta para
 
 **2.3** Analiza la página de inicio de un sitio real: ¿qué principios de Cialdini usa? ¿Alguno de forma dudosa o manipuladora? Justifica.
 
-## Nivel 3 [HUMANO]
+## Nivel 3 (revisión con rúbrica)
 
 **3.1** Elige un negocio con una propuesta de valor genérica. Entrega: análisis de lo que falla, tres versiones con enfoques distintos, la elegida con justificación, y titular y subtítulo de página de aterrizaje basados en ella. *(Este ejercicio es la base de la Parte 1 del proyecto final.)*

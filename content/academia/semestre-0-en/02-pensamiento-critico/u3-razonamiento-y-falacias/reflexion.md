@@ -1,4 +1,4 @@
-# Unit 3 — Reflection [HUMAN]
+# Unit 3 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Think of a discussion (at work, at school or in your personal life) where you used a weak or fallacious argument, even unintentionally.

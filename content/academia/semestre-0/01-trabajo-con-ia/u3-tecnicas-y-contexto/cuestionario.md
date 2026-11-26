@@ -1,6 +1,6 @@
 # Unidad 3 — Cuestionario
 
-Clave en `../claves/u3-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u3-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. *Few-shot* significa:
    a) Incluir varios ejemplos de entrada y salida en el prompt. b) Usar un modelo pequeño, entrenado con pocos datos. c) Usar pocos tokens para que la respuesta sea corta. d) Hacer pocas preguntas por cada conversación nueva.

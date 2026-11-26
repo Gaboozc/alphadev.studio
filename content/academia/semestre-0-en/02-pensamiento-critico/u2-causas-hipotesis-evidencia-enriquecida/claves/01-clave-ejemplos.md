@@ -69,5 +69,5 @@ The answers are **references**, not the only valid answer. Other alternatives ar
   4. **Definition of "watching":** percentage of the video played.
 - **S5:**
   - **Test:** randomly assign half of enrollees a prominent invitation to the videos, with a reminder, and the other half the current presentation. Analyze by assignment; the metric is passing.
-  - **Decision in the meantime:** don't make them mandatory, because it would increase the workload with no demonstrated effect. Keep offering them as a pathway (consistent with `marco-pedagogico.md`, section 2).
+  - **Decision in the meantime:** don't make them mandatory, because it would increase the workload with no demonstrated effect. Keep offering them as a pathway .
 - **Grading criterion for the course's levels 2 and 3:** the student should identify at least 3 alternatives, link each one to a piece of data that distinguishes it, and propose a randomized test analyzed by assignment.

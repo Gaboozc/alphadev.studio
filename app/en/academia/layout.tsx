@@ -1,5 +1,10 @@
-// /en/academia usa EXACTAMENTE la misma puerta que /academia: el layout de la
-// Academia comprueba la sesión en el servidor antes de leer nada (ver
-// app/academia/layout.tsx). Re-exportarlo evita tener dos puertas que puedan
-// divergir.
-export { default, metadata } from '@/app/academia/layout'
+// /en/academia usa EXACTAMENTE la misma puerta que /academia: AcademiaShell
+// comprueba la sesión en el servidor antes de leer nada. Solo cambia el
+// idioma del contenedor (lang="en" desde el primer HTML, P2-04).
+import AcademiaShell from '@/app/academia/AcademiaShell'
+
+export { metadata } from '@/app/academia/layout'
+
+export default function AcademiaLayoutEn({ children }: { children: React.ReactNode }) {
+  return <AcademiaShell lang="en">{children}</AcademiaShell>
+}

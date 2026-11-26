@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Qué problema estoy resolviendo de verdad, y cómo sabré que lo resolví?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.609 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 35 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 25 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.609 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 35 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 25 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Por qué empezar aquí.** La mayoría de los esfuerzos que fracasan no fallan por una mala solución, sino porque resolvieron el problema equivocado. Un equipo que pasa dos semanas rediseñando una página porque "las ventas bajaron" y luego descubre que el problema era un fallo en la pasarela de pago no tuvo un problema de diseño: tuvo un problema de definición. Esta unidad enseña a no saltar a la solución.
 

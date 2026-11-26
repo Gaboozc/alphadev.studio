@@ -1,6 +1,6 @@
 # Unit 1 — Quiz
 
-Key in `../claves/u1-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u1-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. Before writing, the question that shapes the text most is:
    a) How many words should the text be? b) Which sophisticated words can I use? c) Which typeface will I use? d) What does the reader need to do after reading?

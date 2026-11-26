@@ -1,6 +1,6 @@
 # Checkpoint del curso — Escritura profesional y persuasiva · Clave
 
-## Parte A [AUTO]
+## Parte A (corrección automática)
 
 | # | Objetivo | Unidad | Resp. | Explicación |
 |---|---|---|---|---|
@@ -33,9 +33,9 @@
 | CP-27 | O7 | U1 | **c** | U1 §6: separa la escritura de la edición. |
 | CP-28 | O7 | U1 | **c** | Es la primera pregunta de la lista de U1 §6; las demás no están en la lista. |
 
-## Parte B [HUMANO] — notas para quien corrige
+## Parte B (revisión con rúbrica) — notas para quien corrige
 
 - Corrige con la rúbrica del enunciado. Cada criterio de 0 a 3. Total: 12.
 - Se evalúa la aplicación de los métodos del curso, no la opinión. Una respuesta distinta a la esperada puede tener la nota máxima si está bien justificada.
-- Si la corrección la hace una IA, una persona revisa una muestra (≥ 10 %) y todas las notas entre 6 y 8 (`plan-revision.md`).
+- Si la corrección la hace una IA, una persona revisa una muestra (≥ 10 %) y todas las notas entre 6 y 8.
 - Respuesta esperada (orientativa): un asunto del tipo "Propuesta web y citas en línea: recuperar el 30 % de citas perdidas" y la petición en la primera línea (por ejemplo, agendar 15 min para revisarla). Error: "Ese horario ya no está disponible. Elige otro de la lista." Estado vacío: "Aún no tienes citas. Reserva la primera en menos de un minuto." más el botón "Reservar cita".

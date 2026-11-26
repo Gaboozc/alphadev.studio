@@ -207,3 +207,46 @@ export function moduleHref(mod: { id: string; track: Track }): string {
 export function lessonHref(mod: { id: string; track: Track }, lessonId: string): string {
   return `${moduleHref(mod)}/${lessonId}`
 }
+
+// ─── Etiquetas en inglés (chrome bajo /en/academia, P1-01) ───────────────────
+
+export const RAMA_LABEL_EN: Record<Rama, string> = {
+  programacion: 'Programming',
+  diseno: 'Design',
+  ia: 'Applied AI',
+  iaeng: 'AI Engineering',
+  marketing: 'Marketing',
+  contenido: 'Content & SEO',
+  negocio: 'Business & Data',
+}
+
+export const TRACK_LABEL_EN: Record<Track, string> = {
+  fundamentos: 'Craft Fundamentals',
+  web: 'Web Development',
+  backend: 'Back End and Data',
+  prodai: 'AI Products',
+  uiux: 'UI/UX',
+  branding: 'Branding',
+  ia: 'Applied AI',
+  'iaeng-modelos': 'Models and Data',
+  'iaeng-agentes': 'Agents',
+  'iaeng-produccion': 'AI in Production',
+  marketing: 'Marketing',
+  ads: 'Advertising',
+  email: 'Email Marketing',
+  community: 'Community',
+  copy: 'Copywriting',
+  seo: 'SEO',
+  geo: 'GEO',
+  video: 'Video',
+  ventas: 'Sales',
+  data: 'Data & Analytics',
+}
+
+export function etiquetaRama(r: Pick<RamaMeta, 'id' | 'label'>, lang: 'es' | 'en'): string {
+  return lang === 'en' ? RAMA_LABEL_EN[r.id] ?? r.label : r.label
+}
+
+export function etiquetaTrack(t: Pick<TrackMeta, 'id' | 'label'>, lang: 'es' | 'en'): string {
+  return lang === 'en' ? TRACK_LABEL_EN[t.id] ?? t.label : t.label
+}

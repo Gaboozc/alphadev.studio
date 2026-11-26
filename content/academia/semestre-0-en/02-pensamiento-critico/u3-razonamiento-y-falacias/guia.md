@@ -4,7 +4,7 @@
 
 **Guiding question:** Does this conclusion really follow from its reasons, or does it just sound convincing?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md` section 0.1]:** Guide approx. 20 min (about 1,650 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 10 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 50 min is independent study: rereading, note-taking, reference reading and review.
+**Estimated time:** Guide approx. 20 min (about 1,650 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 50 min (3 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 10 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 50 min is independent study: rereading, note-taking, reference reading and review.
 
 > **Core idea.** At work, decisions get made from arguments: in a meeting, in an email, in a proposal, in a report an AI generates. Knowing how to break an argument into its parts, judge whether the conclusion follows from the premises, and spot the most common misleading shortcuts (fallacies) lets you defend your ideas well and not get swept along by arguments that only sound good.
 

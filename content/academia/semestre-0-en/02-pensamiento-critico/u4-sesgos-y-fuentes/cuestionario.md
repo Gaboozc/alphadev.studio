@@ -1,6 +1,6 @@
 # Unit 4 — Quiz
 
-Key in `../claves/u4-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u4-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. System 1 is:
    a) Always wrong. b) Fast and intuitive. c) A type of software. d) Slow and deliberate.

@@ -38,9 +38,9 @@ Ninguno. Se recomienda haber cursado o cursar en paralelo *Trabajo con IA* (se u
 | 9 | U4 | Correos profesionales y de ventas | Cuestionario + reflexión U4 |
 | 10 | Proyecto | Kit de comunicación | Proyecto final |
 
-## Unidades: pregunta guía y tiempo por pieza
+## Unidades: pregunta guía y tiempo estimado
 
-Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo por pieza es una estimación **[INFERENCIA]**: lectura a 120 palabras por minuto más tiempo fijo por ejercicio, cuestionario y reflexión (método en `rework/profx/formatos-leccion.md` §0.1). Se debe medir con los primeros estudiantes y ajustarlo.
+Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo estimado por pieza se calcula con una lectura a 120 palabras por minuto más un tiempo fijo por ejercicios, cuestionario y reflexión. Se debe medir con los primeros estudiantes y ajustarlo.
 
 | Unidad | Pregunta guía | Semanas | Guía | Ejercicios | Cuestionario | Reflexión | Efectivo | Planificado | Estudio autónomo |
 |---|---|---|---|---|---|---|---|---|---|
@@ -49,7 +49,7 @@ Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas
 | U3 | ¿Qué palabras necesita el usuario en cada momento de la interfaz para avanzar sin dudas? | 6–7 | 20 min | 3 h 00 min | 30 min | 1 h 30 min | 5 h 20 min | 12 h | 6 h 40 min |
 | U4 | ¿Cómo escribo una propuesta y unos correos que el cliente lea, entienda y responda? | 8–9 | 25 min | 2 h 40 min | 30 min | 1 h 30 min | 5 h 05 min | 12 h | 6 h 55 min |
 
-**Checkpoint del curso:** semana 9, 60–75 min [INFERENCIA]. Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver `checkpoint.md`.
+**Checkpoint del curso:** semana 9, 60–75 min . Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver el checkpoint del curso.
 **Comprobaciones rápidas:** 3 por unidad, sin nota, dentro de la guía. Ver `uN-*/comprobaciones-rapidas.md`.
 
 ## Evaluación

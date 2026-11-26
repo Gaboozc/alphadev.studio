@@ -1,8 +1,8 @@
 # 05 · Unit Concept Map
 
-**Id:** `s0-c2-u2-mapa` · **Format:** concept map (diagram + text description) and a building activity · **Time:** approx. 25 min [INFERENCE] · **Assessment:** ungraded; self-check against the reference map.
+**Id:** `s0-c2-u2-mapa` · **Format:** concept map (diagram + text description) and a building activity · **Time:** approx. 25 min  · **Assessment:** ungraded; self-check against the reference map.
 
-**Why:** studying with concept maps, and especially building them, was associated with better retention and transfer than other ways of studying in a meta-analysis of 55 studies [VERIFIED: Nesbit and Adesope 2006, https://www.sfu.ca/~jcnesbit/research/nesbitadesope2006.htm]. Combining words and images takes advantage of both processing channels [VERIFIED: Mayer's principles, https://fbe.unimelb.edu.au/wcla/resources/blended-and-online-learning/multimedia-learning-theory-mlt].
+**Why:** studying with concept maps, and especially building them, was associated with better retention and transfer than other ways of studying in a meta-analysis of 55 studies (Nesbit and Adesope 2006, https://www.sfu.ca/~jcnesbit/research/nesbitadesope2006.htm). Combining words and images takes advantage of both processing channels (Mayer's principles, https://fbe.unimelb.edu.au/wcla/resources/blended-and-online-learning/multimedia-learning-theory-mlt).
 
 ## 1. Activity: build your own map first (15 min)
 
@@ -91,4 +91,4 @@ Compare your map with the reference:
 - [ ] Is there a relationship of yours that **isn't** in the reference and is correct? Write it down: maps don't have a single valid version.
 - [ ] Look at your two ★: which section of the guide do you need to reread for each?
 
-**Note for visual production:** Arkano decides how the map looks. Pedagogically, arrow labels must sit **on** the arrows, not in a separate legend, and color must not be the only way to tell the branches apart (`marco-pedagogico.md`, section 5, rules 6 and 13).
+**Note for visual production:** Arrow labels must sit **on** the arrows, not in a separate legend, and color must not be the only way to tell the branches apart.

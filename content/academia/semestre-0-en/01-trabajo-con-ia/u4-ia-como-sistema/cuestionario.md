@@ -1,6 +1,6 @@
 # Unit 4 — Quiz
 
-Key in `../claves/u4-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u4-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. What distinguishes an AI working "system" from occasional use?
    a) Using AI on every task, without exception. b) Always using the most expensive tool on the market. c) Automating the work so you don't have to review it. d) Stages, stable prompts, human checkpoints and measurement.

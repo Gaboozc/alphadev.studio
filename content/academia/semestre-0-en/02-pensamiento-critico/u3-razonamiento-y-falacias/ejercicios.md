@@ -2,7 +2,7 @@
 
 Solutions in `../claves/u3-soluciones-ejercicios.md`.
 
-## Level 1 [AUTO]
+## Level 1 (auto-graded)
 
 **1.1** Classify each piece of reasoning as deductive (D), inductive (I) or abductive (A):
 a) "The last 12 Friday releases had incidents; releasing on Fridays tends to cause problems."
@@ -19,7 +19,7 @@ f) "When are you going to stop delivering late?"
 
 **1.3** Valid, true, both or neither? "All web applications are written in Python. Instagram is a web application. Therefore, Instagram is written only in Python."
 
-## Level 2 [HUMAN]
+## Level 2 (reviewed with a rubric)
 
 **2.1** Map (conclusion, premises, implicit assumptions, evaluation) this argument: "We should raise prices by 30%. Our customers are satisfied, and the competition charges more."
 
@@ -28,7 +28,7 @@ a) "Everyone is using AI to write, so let's stop hiring writers."
 b) "We've already spent $50,000 on this build; we have to finish it."
 c) "Two users didn't understand the menu; we have to redesign the entire navigation."
 
-## Level 3 [HUMAN]
+## Level 3 (reviewed with a rubric)
 
 **3.1** Ask an AI assistant for a recommendation on a business decision (e.g., "Should a small agency specialize in a single industry?"). Paste the answer and analyze it: conclusion, premises, assumptions, fallacies or leaps, factual claims to check. Then ask it for the opposing argument and compare (300–400 words).
 

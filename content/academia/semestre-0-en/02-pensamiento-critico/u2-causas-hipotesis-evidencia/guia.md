@@ -4,7 +4,7 @@
 
 **Guiding question:** Why is the problem happening, and what evidence separates the cause from a mere coincidence?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md` section 0.1]:** Guide approx. 20 min (about 1,500 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 35 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 25 min is independent study: rereading, note-taking, reference reading and review.
+**Estimated time:** Guide approx. 20 min (about 1,500 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 35 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 25 min is independent study: rereading, note-taking, reference reading and review.
 
 > **Core idea.** Once the problem is well defined (Unit 1), the question is *why it's happening*. The temptation is to settle for the first explanation that sounds right. This unit teaches you to generate several explanations, frame them as hypotheses that can be disproved, look for the root cause rather than the surface one, and tell what truly causes something apart from what merely coincides with it.
 

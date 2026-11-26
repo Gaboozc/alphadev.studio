@@ -1,4 +1,4 @@
-# Unit 1 — Reflection [HUMAN]
+# Unit 1 — Reflection (reviewed with a rubric)
 
 ## Prompt (300–500 words)
 Dig up a professional or academic text you wrote a while ago (an email, a report, a paper).

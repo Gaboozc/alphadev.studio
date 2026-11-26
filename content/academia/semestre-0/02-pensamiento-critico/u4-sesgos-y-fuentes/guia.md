@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿En qué me puede engañar mi propia mente, y cómo decido si una fuente (o una IA) merece confianza?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.797 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 10 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 50 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.797 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 50 min (3 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 10 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 50 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** Aunque razones bien (U3), tu mente toma atajos que, en ciertas situaciones, producen errores sistemáticos: los **sesgos cognitivos**. Y aunque tu mente funcione bien, la información que recibes puede ser falsa, incompleta o fabricada, cada vez más por herramientas de IA. Esta unidad te da dos defensas: conocer tus sesgos para diseñar contramedidas, y un método para evaluar fuentes y salidas de IA antes de usarlas.
 

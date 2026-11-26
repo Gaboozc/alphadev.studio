@@ -3,12 +3,12 @@
 | Campo | Valor |
 |---|---|
 | Id | `s0-c2-checkpoint` |
-| Formato | Checkpoint / examen de curso (`formatos-leccion.md` §7) |
+| Formato | Checkpoint / examen de curso |
 | Cuándo | Semana 10 (al cerrar la U5, antes del proyecto). Requiere haber completado todas las unidades |
-| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min [INFERENCIA] |
-| Evaluación | **[MIXTO]**: Parte A [AUTO] · Parte B [HUMANO] con rúbrica |
+| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min  |
+| Evaluación | Mixta: la Parte A se corrige automáticamente; la Parte B se revisa con rúbrica |
 | Qué se sirve | 21 preguntas de un banco de 28: **3 por objetivo**, elegidas al azar, con las opciones en orden aleatorio. Así dos intentos no son iguales |
-| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % [INFERENCIA]. La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios (`formatos-leccion.md` §7) |
+| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % . La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios |
 | Reintentos | Hasta 2, separados por ≥ 24 h. En el reintento se sirve otra selección del banco |
 | Piloto 1 (sin F5) | La Parte A puede corregirse en el navegador como autoevaluación. La Parte B queda como autoevaluación con la rúbrica hasta que haya entregas en servidor |
 | Clave | `claves/checkpoint-clave.md` (solo en servidor) |
@@ -26,7 +26,7 @@
 | O7. Decidir y documentar bajo incertidumbre | CP-25, CP-26, CP-27, CP-28 | 3 |
 | Todos (integración) | Caso aplicado (Parte B) | 1 |
 
-## Parte A — Banco de opción múltiple [AUTO]
+## Parte A — Banco de opción múltiple (corrección automática)
 
 Una sola respuesta correcta por pregunta.
 
@@ -226,7 +226,7 @@ Una sola respuesta correcta por pregunta.
    c) Fue una buena decisión solo si nadie se queja.
    d) No se puede juzgar ninguna decisión tomada bajo incertidumbre.
 
-## Parte B — Caso aplicado: la tienda de café [caso ficticio] [HUMANO]
+## Parte B — Caso aplicado: la tienda de café [caso ficticio] (revisión con rúbrica)
 
 Una tienda online de café de especialidad vendió un 18 % menos en las últimas 6 semanas. El dueño dice: "Es obvio que la competencia nos está quitando clientes; todos los del sector están invirtiendo en anuncios, así que hay que duplicar el presupuesto de publicidad ya". Datos: las visitas bajaron un 3 %; hace 7 semanas se cambió el proveedor de envíos; las quejas por retrasos pasaron de 4 a 19 al mes.
 
@@ -248,4 +248,4 @@ Una tienda online de café de especialidad vendió un 18 % menos en las últimas
 | Razonamiento | Nombra la falacia o el sesgo correctamente (p. ej., apelación a la popularidad o confirmación) y responde con preguntas | Lo nombra pero responde con una etiqueta | Lo confunde | Ausente |
 | Decisión | Recomendación coherente con la reversibilidad, piloto o prueba, y pre-mortem con dos causas concretas | Recomendación razonable con justificación parcial | Recomendación sin método | Ausente |
 
-Parte B aprobada con ≥ 7/12 [INFERENCIA].
+Parte B aprobada con ≥ 7/12 .

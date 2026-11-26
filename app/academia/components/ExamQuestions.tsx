@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { Question } from '../types'
 import { parseInline } from './LessonContent'
 import AcadIcon from './AcadIcon'
-import { ACAD_COPY } from '../copy'
-import { listaEnEspanol } from '@/lib/academia/ui'
+import { useAcadCopy, useAcadLang } from '../useAcadCopy'
+import { listaEnIdioma } from '@/lib/academia/ui'
 
 export default function ExamQuestions({
   questions,
@@ -16,6 +16,8 @@ export default function ExamQuestions({
   siguienteHref?: string | null
   siguienteNombre?: string | null
 }) {
+  const ACAD_COPY = useAcadCopy()
+  const { lang } = useAcadLang()
   const [respuestas, setRespuestas] = useState<Record<number, number>>({})
   const [corregido, setCorregido] = useState(false)
   const [actual, setActual] = useState(0)
@@ -57,7 +59,7 @@ export default function ExamQuestions({
             <p className="acad-exam__note">
               {ACAD_COPY.nParaRepasar(
                 incorrectas.length,
-                listaEnEspanol(incorrectas.map((i) => String(i + 1))),
+                listaEnIdioma(incorrectas.map((i) => String(i + 1)), lang),
               )}
             </p>
           ) : null}
@@ -75,7 +77,7 @@ export default function ExamQuestions({
                   }`}
                   aria-label={ACAD_COPY.preguntaEstado(
                     i + 1,
-                    ok ? 'correcta' : 'incorrecta',
+                    ok ? ACAD_COPY.estadoCorrecta : ACAD_COPY.estadoIncorrecta,
                   )}
                   onClick={() => {
                     setActual(i)

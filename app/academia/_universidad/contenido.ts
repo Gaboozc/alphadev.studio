@@ -16,10 +16,15 @@ import {
   type Curso,
   type Lang,
   PIEZAS_UNIDAD,
+  UI,
   carpetaCursoS0,
   claveDePieza,
   claveEnriquecida,
+  numeroUnidadSlug,
   parseCsv,
+  rutaCurso,
+  rutaGlosario,
+  rutaUnidad,
 } from '@/lib/academia/universidad'
 
 // Acceso a disco acotado a content/academia (ya incluido en el trazado por
@@ -56,7 +61,192 @@ md.use({
 })
 
 export function mdAHtml(texto: string): string {
-  return md.parse(texto, { async: false }) as string
+  return md.parse(limpiarMd(texto), { async: false }) as string
+}
+
+/**
+ * Quita los comentarios HTML (`<!-- TRANSLATION NOTES … -->` y similares)
+ * FUERA de los bloques de código. Son notas internas de Prof. X: nunca deben
+ * llegar al HTML. Dentro de un bloque ``` se respetan (pueden ser ejemplo).
+ */
+export function limpiarMd(texto: string): string {
+  const partes = texto.split(/(^```[\s\S]*?^```)/m)
+  return partes
+    .map((p) => (p.startsWith('```') ? p : p.replace(/<!--[\s\S]*?-->\n?/g, '')))
+    .join('')
+}
+
+/** Baja un nivel los encabezados (h1→h2…): cada pieza vive bajo el h1 de la página. */
+export function bajarEncabezados(html: string): string {
+  return html.replace(/<(\/?)h([1-5])(?=[\s>])/g, (_m, cierre: string, n: string) => `<${cierre}h${Number(n) + 1}`)
+}
+
+export interface Cabecera {
+  titulo: string
+  meta: string
+  pregunta: string
+}
+
+const quitarNegritas = (t: string) => t.replace(/\*\*/g, '').trim()
+
+/**
+ * Separa la cabecera de un guia.md (h1, «Semanas… · horas», «Pregunta guía»)
+ * del cuerpo, para pintarla con el patrón v3 y no repetirla (P1-04).
+ */
+export function partirCabecera(texto: string): { cabecera: Cabecera; cuerpo: string } {
+  const lineas = limpiarMd(texto).split('\n')
+  const cab: Cabecera = { titulo: '', meta: '', pregunta: '' }
+  const fuera = new Set<number>()
+  for (let i = 0; i < lineas.length && i < 16; i++) {
+    const l = lineas[i].trim()
+    if (!cab.titulo && /^#\s+/.test(l)) {
+      cab.titulo = l.replace(/^#\s+/, '').trim()
+      fuera.add(i)
+      continue
+    }
+    if (!cab.meta && /^\*\*(Semanas?|Weeks?)\b/.test(l)) {
+      cab.meta = quitarNegritas(l)
+      fuera.add(i)
+      continue
+    }
+    const pg = /^\*\*(Pregunta guía|Guiding question)[^*]*:\*\*\s*(.+)$/.exec(l)
+    if (!cab.pregunta && pg) {
+      cab.pregunta = quitarNegritas(pg[2])
+      fuera.add(i)
+    }
+  }
+  const cuerpo = lineas.filter((_, i) => !fuera.has(i)).join('\n').replace(/^\s*\n/, '')
+  return { cabecera: cab, cuerpo }
+}
+
+// ─── Rutas de archivo citadas en el texto (respuesta 3 de Prof. X) ───────────
+// Si la pieza se publica, se convierte en enlace en el mismo idioma. Si es
+// interna (rework/, _tools/, plan-revision, carpetas del repo…), se quita.
+
+const PIEZA_DE_CLAVE: Record<string, string> = {
+  'clave-comprobaciones': 'comprobaciones-rapidas',
+  'clave-cuestionario': 'cuestionario',
+  'soluciones-ejercicios': 'ejercicios',
+}
+
+export interface ContextoRutas {
+  curso: Curso
+  lang: Lang
+  /** Unidad de la página donde se muestra el texto (u1-…, checkpoint…). */
+  unidad?: string
+}
+
+type Destino = { href: string; texto: string } | 'quitar' | null
+
+const ES_INTERNA =
+  /^(rework\/|_tools\/|plan-revision|semestre-0(-en)?\/|app\/|Gaboozc\/|alphadev\.studio\/academia|claves\/$|u\d+-\*\/|\d{2}-[a-z-]+\/$)/
+
+function etiquetaPieza(id: string, lang: Lang): string {
+  const t = UI[lang]
+  return t.piezas[id] ?? (id === 'checkpoint' ? t.checkpoint : id === 'proyecto-final' ? t.proyectoFinal : id)
+}
+
+function resolverRuta(ruta: string, ctx: ContextoRutas): Destino {
+  const t = UI[ctx.lang]
+  const r = ruta.replace(/^\.\//, '')
+  if (ES_INTERNA.test(r)) return 'quitar'
+
+  const unidadActual = ctx.unidad ?? ''
+  const enUnidad = (slug: string, ancla: string, texto: string): Destino => {
+    if (slug && slug !== unidadActual && !existeUnidad(ctx.curso, slug)) return null
+    const base = slug && slug !== unidadActual ? rutaUnidad(ctx.curso, slug, ctx.lang) : ''
+    return { href: `${base}#${ancla}`, texto }
+  }
+
+  // Claves: claves/u1-clave-cuestionario.md, ../claves/…, claves/checkpoint-clave.md
+  const clave = /(?:^|\/)claves\/(?:(u\d+)-(clave-comprobaciones|clave-cuestionario|soluciones-ejercicios)|(checkpoint)-clave|(\d{2})-[^/]+)\.md$/.exec(r)
+  if (clave) {
+    if (clave[3]) return enUnidad('checkpoint', 'checkpoint-solucion', t.claveDe(t.checkpoint))
+    if (clave[4]) {
+      const pieza = buscarPiezaEnriquecida(ctx, clave[4])
+      return pieza ? enUnidad('', `${pieza.id}-solucion`, t.claveDe(pieza.titulo)) : null
+    }
+    const pieza = PIEZA_DE_CLAVE[clave[2]]
+    const slug = slugDeUnidad(ctx.curso, clave[1]) ?? ''
+    return enUnidad(slug === unidadActual ? '' : slug, `${pieza}-solucion`, t.claveDe(etiquetaPieza(pieza, ctx.lang)))
+  }
+
+  // Otra unidad: ../u2-slug/guia.md, u2-slug/, ../u2-slug/
+  const otra = /^(?:\.\.\/)?(u\d+-[a-z0-9-]+)\/(?:([a-z-]+)\.md)?$/.exec(r)
+  if (otra) {
+    const [, slug, pieza] = otra
+    const n = numeroUnidadSlug(slug)
+    const nombreUnidad = slug.endsWith('-enriquecida')
+      ? `${t.unidadN(n ?? 0)} · ${t.enriquecida}`
+      : t.unidadN(n ?? 0)
+    if (!pieza) {
+      if (!existeUnidad(ctx.curso, slug)) return null
+      return { href: rutaUnidad(ctx.curso, slug, ctx.lang), texto: nombreUnidad }
+    }
+    return enUnidad(slug, pieza, `${nombreUnidad} · ${etiquetaPieza(pieza, ctx.lang)}`)
+  }
+
+  // Pieza de la misma unidad
+  const misma = /^(guia|comprobaciones-rapidas|ejercicios|cuestionario|reflexion)\.md$/.exec(r)
+  if (misma) return enUnidad('', misma[1], etiquetaPieza(misma[1], ctx.lang))
+
+  // Pieza de una unidad enriquecida: 03-tarjetas-repaso.md, 03-tarjetas.csv
+  const nn = /^(\d{2})-[a-z0-9-]+\.(md|csv)$/.exec(r)
+  if (nn) {
+    const id = r.replace(/\.(md|csv)$/, '')
+    const pieza = buscarPiezaEnriquecida(ctx, nn[1], id)
+    return pieza ? enUnidad('', pieza.id, pieza.titulo) : null
+  }
+
+  if (r === '00-syllabus.md') return { href: `${rutaCurso(ctx.curso, ctx.lang)}#sec-syllabus`, texto: t.syllabus }
+  if (r === 'checkpoint.md') return enUnidad('checkpoint', 'checkpoint', t.checkpoint)
+  if (r === 'proyecto-final.md') return enUnidad('proyecto-final', 'proyecto-final', t.proyectoFinal)
+  if (r === 'glosario-es-en.md') return { href: rutaGlosario(ctx.lang), texto: t.glosario }
+  return null
+}
+
+function slugDeUnidad(curso: Curso, u: string): string | null {
+  const carpeta = carpetaCursoS0(curso)
+  if (!carpeta) return null
+  return (
+    dirs(join(RAIZ_IDIOMA.es, carpeta)).find((d) => d.startsWith(`${u}-`) && !d.endsWith('-enriquecida')) ?? null
+  )
+}
+
+function buscarPiezaEnriquecida(ctx: ContextoRutas, nn: string, idExacto?: string): { id: string; titulo: string } | null {
+  const carpeta = carpetaCursoS0(ctx.curso)
+  const slug = ctx.unidad ?? ''
+  if (!carpeta || !slug.endsWith('-enriquecida')) return null
+  const archivos = files(join(RAIZ_IDIOMA.es, carpeta, slug))
+  const archivo =
+    archivos.find((a) => idExacto && a.replace(/\.(md|csv)$/, '') === idExacto) ??
+    archivos.find((a) => a.startsWith(`${nn}-`) && a.endsWith('.md'))
+  if (!archivo) return null
+  const id = archivo.replace(/\.(md|csv)$/, '')
+  if (archivo.endsWith('.csv')) return { id, titulo: UI[ctx.lang].tarjetas }
+  const ruta = existsSync(join(RAIZ_IDIOMA[ctx.lang], carpeta, slug, archivo))
+    ? join(RAIZ_IDIOMA[ctx.lang], carpeta, slug, archivo)
+    : join(RAIZ_IDIOMA.es, carpeta, slug, archivo)
+  return { id, titulo: primerTitulo(readFileSync(ruta, 'utf8')) || id }
+}
+
+const escaparHtml = (t: string) =>
+  t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+/** Convierte o quita las rutas de archivo citadas como `código` (fuera de <pre>). */
+export function enlazarRutas(html: string, ctx: ContextoRutas): string {
+  return html
+    .split(/(<pre[\s\S]*?<\/pre>)/)
+    .map((trozo) => {
+      if (trozo.startsWith('<pre')) return trozo
+      return trozo.replace(/(\s*\()?<code>([^<]+)<\/code>(\))?/g, (m, abre: string | undefined, ruta: string, cierra: string | undefined) => {
+        const d = resolverRuta(ruta.trim(), ctx)
+        if (d === null) return m
+        if (d === 'quitar') return abre && cierra ? '' : `${abre ?? ''}${cierra ?? ''}`
+        return `${abre ?? ''}<a href="${escaparHtml(d.href)}">${escaparHtml(d.texto)}</a>${cierra ?? ''}`
+      })
+    })
+    .join('')
 }
 
 export interface Pieza {
@@ -68,6 +258,7 @@ export interface Pieza {
   /** true si se pidió EN y no existe: se muestra el ES con aviso. */
   fallback: boolean
   titulo: string
+  cabecera: Cabecera
 }
 
 function primerTitulo(texto: string): string {
@@ -75,8 +266,17 @@ function primerTitulo(texto: string): string {
   return m ? m[1].trim() : ''
 }
 
+export interface OpcionesLectura {
+  /** Unidad de la página (para resolver rutas relativas y anclas). */
+  unidad?: string
+  /** Quita la cabecera (h1, semanas, pregunta guía): la pinta la vista. */
+  sinCabecera?: boolean
+  /** Baja un nivel los encabezados (piezas dentro de la unidad). */
+  bajar?: boolean
+}
+
 /** Lee un archivo del curso en `lang`; si no existe en EN, cae al ES. */
-export function leerArchivo(curso: Curso, rel: string, lang: Lang): Pieza | null {
+export function leerArchivo(curso: Curso, rel: string, lang: Lang, op: OpcionesLectura = {}): Pieza | null {
   const carpeta = carpetaCursoS0(curso)
   if (!carpeta) return null
   const pedido = join(RAIZ_IDIOMA[lang], carpeta, rel)
@@ -90,7 +290,26 @@ export function leerArchivo(curso: Curso, rel: string, lang: Lang): Pieza | null
     } else return null
   }
   const texto = readFileSync(ruta, 'utf8')
-  return { archivo: rel, html: mdAHtml(texto), idioma, fallback: idioma !== lang, titulo: primerTitulo(texto) }
+  const { cabecera, cuerpo } = partirCabecera(texto)
+  let html = mdAHtml(op.sinCabecera ? cuerpo : texto)
+  if (op.bajar) html = bajarEncabezados(html)
+  html = enlazarRutas(html, { curso, lang, unidad: op.unidad })
+  return {
+    archivo: rel,
+    html,
+    idioma,
+    fallback: idioma !== lang,
+    titulo: primerTitulo(texto),
+    cabecera,
+  }
+}
+
+/** Glosario ES–EN (recurso de S0). Solo existe en semestre-0-en/. */
+export function leerGlosario(): { html: string; titulo: string } | null {
+  const ruta = join(RAIZ_IDIOMA.en, 'glosario-es-en.md')
+  if (!existsSync(ruta)) return null
+  const texto = readFileSync(ruta, 'utf8')
+  return { html: mdAHtml(texto.replace(/^#\s+.+\n/, '')), titulo: primerTitulo(texto) }
 }
 
 export function leerCsv(curso: Curso, rel: string, lang: Lang): { filas: string[][]; fallback: boolean } | null {
@@ -156,8 +375,8 @@ export function bloquesUnidad(curso: Curso, slug: string, lang: Lang, etiquetas:
       {
         id: slug,
         etiqueta: '',
-        pieza: leerArchivo(curso, `${slug}.md`, lang),
-        clave: clave ? leerArchivo(curso, clave, lang) : null,
+        pieza: leerArchivo(curso, `${slug}.md`, lang, { unidad: slug, sinCabecera: true, bajar: true }),
+        clave: clave ? leerArchivo(curso, clave, lang, { unidad: slug, bajar: true }) : null,
       },
     ]
   }
@@ -173,12 +392,13 @@ export function bloquesUnidad(curso: Curso, slug: string, lang: Lang, etiquetas:
         return { id, etiqueta: etiquetas.tarjetas ?? id, pieza: null, clave: null, csv: leerCsv(curso, `${slug}/${archivo}`, lang) }
       }
       const c = claveEnriquecida(archivo, claves)
-      const pieza = leerArchivo(curso, `${slug}/${archivo}`, lang)
+      const esReadme = archivo === 'README.md'
+      const pieza = leerArchivo(curso, `${slug}/${archivo}`, lang, { unidad: slug, sinCabecera: esReadme, bajar: true })
       return {
         id,
-        etiqueta: pieza?.titulo ?? id,
+        etiqueta: (esReadme ? etiquetas.presentacion : pieza?.titulo) ?? id,
         pieza,
-        clave: c ? leerArchivo(curso, `${slug}/claves/${c}`, lang) : null,
+        clave: c ? leerArchivo(curso, `${slug}/claves/${c}`, lang, { unidad: slug, bajar: true }) : null,
       }
     })
   }
@@ -188,8 +408,8 @@ export function bloquesUnidad(curso: Curso, slug: string, lang: Lang, etiquetas:
     return {
       id: p,
       etiqueta: etiquetas[p] ?? p,
-      pieza: leerArchivo(curso, `${slug}/${p}.md`, lang),
-      clave: clave ? leerArchivo(curso, clave, lang) : null,
+      pieza: leerArchivo(curso, `${slug}/${p}.md`, lang, { unidad: slug, sinCabecera: p === 'guia', bajar: true }),
+      clave: clave ? leerArchivo(curso, clave, lang, { unidad: slug, bajar: true }) : null,
     }
   }).filter((b) => b.pieza)
 }

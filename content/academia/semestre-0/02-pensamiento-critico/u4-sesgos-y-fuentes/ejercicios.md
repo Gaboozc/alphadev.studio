@@ -2,7 +2,7 @@
 
 Soluciones en `../claves/u4-soluciones-ejercicios.md`.
 
-## Nivel 1 [AUTO]
+## Nivel 1 (corrección automática)
 
 **1.1** Nombra el sesgo:
 a) "Seguimos con el proveedor porque ya pagamos la integración, aunque falla cada semana."
@@ -15,13 +15,13 @@ e) "Solo revisé los comentarios positivos del lanzamiento porque sabía que hab
 
 **1.3** Cálculo: un bolígrafo y una libreta cuestan 22 en total; la libreta cuesta 20 más que el bolígrafo. ¿Cuánto cuesta el bolígrafo?
 
-## Nivel 2 [HUMANO]
+## Nivel 2 (revisión con rúbrica)
 
 **2.1** Elige una estadística sobre marketing digital que hayas visto repetida (p. ej., en una presentación o blog). Aplica SIFT y documenta cada paso. Conclusión: ¿se puede usar? ¿cómo citarla?
 
 **2.2** Diseña contramedidas de proceso (no "tener cuidado") para tres sesgos en un equipo que estima plazos de proyectos web.
 
-## Nivel 3 [HUMANO]
+## Nivel 3 (revisión con rúbrica)
 
 **3.1** Pide a un asistente de IA una respuesta con al menos cinco afirmaciones verificables (cifras, fechas, fuentes) sobre un tema de tu sector. Aplica el protocolo de la §4 y entrega una tabla: afirmación · fuente consultada · resultado (correcta / incorrecta / no verificable) · acción.
 

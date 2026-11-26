@@ -1,12 +1,12 @@
 # 04 · Podcast: "Desde que hicimos X, subió Y"
 
-**Id:** `s0-c2-u2-podcast` · **Formato:** audio de dos voces · **Duración estimada:** 10–12 min [INFERENCIA: ≈ 1.400 palabras habladas más las pausas; se mide al grabar] · **Evaluación:** sin nota; hay 3 preguntas de recuperación al final.
+**Id:** `s0-c2-u2-podcast` · **Formato:** audio de dos voces · **Duración estimada:** 10–12 min (unas 1.400 palabras habladas más las pausas; se mide al grabar) · **Evaluación:** sin nota; hay 3 preguntas de recuperación al final.
 
-**Para qué sirve:** es una **alternativa** a la guía de lectura, para escuchar en el transporte, mientras caminas o si leer en pantalla te cansa. También sirve como **repaso** después de leerla. Escuchar y leer producen una comprensión parecida en adultos [VERIFICADO: Rogowsky et al. 2016, https://journals.sagepub.com/doi/full/10.1177/2158244016669550]. El podcast no sustituye a los ejercicios: solo cubre la parte de *entender*.
+**Para qué sirve:** es una **alternativa** a la guía de lectura, para escuchar en el transporte, mientras caminas o si leer en pantalla te cansa. También sirve como **repaso** después de leerla. Escuchar y leer producen una comprensión parecida en adultos (Rogowsky et al. 2016, https://journals.sagepub.com/doi/full/10.1177/2158244016669550). El podcast no sustituye a los ejercicios: solo cubre la parte de *entender*.
 
-**Accesibilidad:** este guion **es la transcripción**. Se publica junto al audio, como pide WCAG 2.2, SC 1.2.1, para contenido solo de audio [VERIFICADO: https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html].
+**Accesibilidad:** este guion **es la transcripción**. Se publica junto al audio, como pide WCAG 2.2, SC 1.2.1, para contenido solo de audio (https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html).
 
-**Notas de producción** [INFERENCIA]:
+**Notas de producción**:
 - Dos voces: **MARA** (conductora, hace las preguntas del estudiante) y **TOMÁS** (docente).
 - Música solo en la entrada y en la salida; nada de fondo mientras hablan, para no añadir carga.
 - Las pausas marcadas con ⏸ duran 5 segundos de silencio, con un tono suave al principio.
@@ -142,4 +142,4 @@
 2. Causalidad inversa, confusión, selección, casualidad y cambio en la medición (cualquiera de cuatro).
 3. Porque quedarse solo con quienes usaron el cambio reintroduce la autoselección.
 
-**Verificación de contenido:** este guion no añade hechos nuevos a la guía original. La atribución de los cinco porqués y de Ishikawa es la misma de `../u2-causas-hipotesis-evidencia/guia.md`, que está pendiente de verificación en `plan-revision.md` §6.2.
+**Verificación de contenido:** este guion no añade hechos nuevos a la guía original. La atribución de los cinco porqués y de Ishikawa es la misma de `../u2-causas-hipotesis-evidencia/guia.md`, que está pendiente de verificación en 

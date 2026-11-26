@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Qué necesita quien me lee para entenderme a la primera y actuar?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.600 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 00 min (4 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 20 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 40 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.600 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 00 min (4 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 20 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 40 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** Antes de persuadir, hay que ser entendido. La mayoría de los textos profesionales fallan no por falta de talento, sino porque están escritos pensando en quien escribe (lo que sabe, lo que hizo, lo que quiere decir) y no en quien lee (lo que necesita, cuánto tiempo tiene, qué tiene que hacer después). Esta unidad te da un proceso para escribir con claridad cualquier texto: un correo, un informe, la página de un servicio.
 

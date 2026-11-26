@@ -1,12 +1,12 @@
 # 09 · Versión en lenguaje claro y apoyos de accesibilidad
 
-**Id:** `s0-c2-u2-claro` · **Formato:** resumen en lenguaje claro, glosario, texto alternativo y guía de lectura en voz alta · **Tiempo:** ≈ 10 min [INFERENCIA] · **Evaluación:** sin nota.
+**Id:** `s0-c2-u2-claro` · **Formato:** resumen en lenguaje claro, glosario, texto alternativo y guía de lectura en voz alta · **Tiempo:** ≈ 10 min  · **Evaluación:** sin nota.
 
 **Para quién es:**
 - Para cualquiera que quiera la idea general antes de leer la guía, o un repaso rápido después.
 - Es especialmente útil si el español no es tu primera lengua, si tienes dislexia o fatiga visual, o si usas un lector de pantalla.
 
-**Qué es y qué no es:** sigue la idea del lenguaje claro: que puedas **encontrar** lo que necesitas, **entenderlo** y **usarlo** [VERIFICADO: definición de ISO 24495-1:2023, https://www.iso.org/standard/78907.html]. No sustituye a la guía para la evaluación; es una puerta de entrada.
+**Qué es y qué no es:** sigue la idea del lenguaje claro: que puedas **encontrar** lo que necesitas, **entenderlo** y **usarlo** (definición de ISO 24495-1:2023, https://www.iso.org/standard/78907.html). No sustituye a la guía para la evaluación; es una puerta de entrada.
 
 ---
 
@@ -88,7 +88,7 @@ Antes de decir "esto causó aquello", escribe otras explicaciones y busca el dat
 
 ## 4. Guía para leer en voz alta (lector de pantalla o síntesis de voz)
 
-Notas para quien produzca el contenido y para quien use un lector [INFERENCIA: son buenas prácticas de redacción, y su aplicación concreta la decide quien diseña]:
+Notas para quien produzca el contenido y para quien use un lector (son buenas prácticas de redacción, y su aplicación concreta la decide quien diseña):
 - **Tablas:** cada tabla de esta unidad tiene encabezados en la primera fila. En las tablas de datos de los casos, lee fila por fila: "Semana 1: pedidos por app, 300; quejas por app, 5…".
 - **Porcentajes y cifras:** se escriben con cifras y el signo % ("1,5 %"), para que el lector de pantalla los diga completos.
 - **Símbolos:**
@@ -96,10 +96,10 @@ Notas para quien produzca el contenido y para quien use un lector [INFERENCIA: s
   - "×" se lee "por";
   - "→" se lee "entonces";
   - los emoji 🗨 y ⏸ marcan "pregunta para ti" y "pausa".
-- **Audio:** el podcast (`04-guion-podcast.md`) tiene su transcripción completa en el mismo archivo [VERIFICADO: lo pide WCAG 2.2 SC 1.2.1, https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html].
-- **Videos futuros:** si se graban, llevarán subtítulos sincronizados [VERIFICADO: WCAG 2.2 SC 1.2.2, https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html] y una transcripción.
+- **Audio:** el podcast (`04-guion-podcast.md`) tiene su transcripción completa en el mismo archivo (lo pide WCAG 2.2 SC 1.2.1, https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html).
+- **Videos futuros:** si se graban, llevarán subtítulos sincronizados (WCAG 2.2 SC 1.2.2, https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html) y una transcripción.
 
-## 5. Ajustes que cualquiera puede pedir [INFERENCIA: propuesta de política académica; la aprueba Gabe]
+## 5. Ajustes que cualquiera puede pedir 
 - Más tiempo en el cuestionario y en el checkpoint, si hay una necesidad declarada.
 - Entregar la reflexión en audio en lugar de por escrito, con la misma rúbrica (ver `10-formas-de-demostrar-dominio.md`).
 - Hacer el role-play en su versión individual.

@@ -31,6 +31,69 @@ PROG = {'S0':('Semestre 0 · Tronco común','Semester 0 · Shared Core'),
  'DP':('Diseño de Producto','Product Design'),
  'MK':('Marketing Digital y Crecimiento','Digital Marketing and Growth'),
  'OPT':('Optativas transversales','Cross-Program Electives')}
+
+UNITS_EN = {
+'IS-101': ['U1 Terminal and File System', 'U2 Local Git: Commits, Branches, and Conflicts', 'U3 GitHub: PRs and Teamwork'],
+'IS-102': ['U1 Environment and Syntax', 'U2 Data Structures', 'U3 Files, JSON, and HTTP', 'U4 Types, Modules, and Tools'],
+'IS-103': ['U1 Semantic HTML', 'U2 Box Model, Flexbox, and Grid', 'U3 Typography, Color, and Accessibility', 'U4 Responsive Design'],
+'IS-104': ['U1 Propositional Logic', 'U2 Sets and Functions', 'U3 Algorithms and Basic Complexity', 'U4 Probability for Programmers'],
+'IS-201': ['U1 Variables, Functions, and Control Flow', 'U2 Arrays and Objects', 'U3 DOM and Events', 'U4 Asynchrony: Promises and fetch'],
+'IS-202': ['U1 Types and Inference', 'U2 Interfaces, Unions, and Narrowing', 'U3 Generics, Utility Types, and TS in React'],
+'IS-203': ['U1 Error Handling', 'U2 Evidence-Based Debugging', 'U3 Unit Testing (Vitest and pytest)', 'U4 TDD', 'U5 UI Testing (RTL and E2E)', 'U6 Coding with AI Assistants and Reviewing Their Code'],
+'IS-301': ['U1 Components, Props, and State', 'U2 App Router and Server Components', 'U3 Global State', 'U4 Server Actions', 'U5 Performance'],
+'IS-302': ['U1 Choosing a Database', 'U2 Modeling and Normalization', 'U3 SQL', 'U4 Postgres on Supabase', 'U5 ORMs and Migrations'],
+'IS-303': ['U1 What a Back End Does', 'U2 First API and Pydantic', 'U3 Structure and Architectures', 'U4 Documenting and Testing'],
+'IS-401': ['U1 Supabase: Database, Auth, and Storage', 'U2 Deployment and Environments on Vercel', 'U3 Storage and Environment Variables'],
+'IS-402': ['U1 Authn and Authz', 'U2 Passwords', 'U3 Sessions and Tokens', 'U4 Protecting Routes', 'U5 Recovery and Verification'],
+'IS-501': ['U1 Python for AI and LLMs in Code', 'U2 ML and Pretrained Models', 'U3 Embeddings and Semantic Search', 'U4 RAG'],
+'IS-403': ['U1 What a Container Solves', 'U2 Dockerfile', 'U3 Compose'],
+'IS-502': ['U1 What an Agent Is', 'U2 Tools', 'U3 Memory and State', 'U4 Failures, Retries, and Human-in-the-Loop'],
+'IS-503': ['U1 From Loop to Graph', 'U2 ToolNode and State', 'U3 Persistence', 'U4 Send and Subgraphs'],
+'IS-504': ['Units per iaeng-mcp (8 lessons)'],
+'IS-601': ['Units per iaeng-3 (8 lessons)'],
+'IS-602': ['U1 Measuring the Non-Deterministic', 'U2 Golden Set and Scoring', 'U3 Traces (OpenTelemetry)', 'U4 Cost and Latency'],
+'IS-603': ['U1 Architecture and Cost', 'U2 Queues, Workers, and Cron', 'U3 Streaming and Notifications'],
+'IS-604': ['U1 Threats in AI Apps', 'U2 Applied OWASP', 'U3 Governance and Responsible AI'],
+'IS-TES': ['Option A: Production SaaS (web-capstone)', 'Option B: AI Product for a Client (iaeng-capstone)'],
+'DP-101': ['U1 UX vs. UI', 'U2 UX Laws and Heuristics', 'U3 Screen Audit'],
+'DP-102': ['U1 Hierarchy, Contrast, Alignment, and Proximity', 'U2 Color', 'U3 Typography', 'U4 Grid and Composition'],
+'DP-103': ['U1 Sketching', 'U2 Shapes and Proportion', 'U3 Composition', 'U4 From Sketch to Wireframe'],
+'DP-201': ['U1 Frames, Layers, and Text', 'U2 Auto Layout', 'U3 Components and Variants', 'U4 Prototyping', 'U5 FigJam and Flows'],
+'DP-202': ['U1 Research Methods', 'U2 Remote and In-Person Testing', 'U3 Analysis (SUS, Task Completion)', 'U4 Prioritization'],
+'DP-203': ['U1 Microcopy', 'U2 Voice and Tone', 'U3 Copy Accessibility'],
+'DP-301': ['U1 What a Brand Is', 'U2 Positioning and UVP (shared lesson with MK-101)', 'U3 Personality and Archetypes'],
+'DP-302': ['U1 Logo', 'U2 Palette', 'U3 Brand Typography'],
+'DP-303': ['U1 What a Design System Is', 'U2 Variables and Tokens', 'U3 Documentation and Governance'],
+'DP-401': ['U1 Purposeful Motion', 'U2 Timing and Easing', 'U3 Smart Animate', 'U4 After Effects and Lottie', 'U5 Transitions and Storytelling'],
+'DP-402': ['U1 Decision Map', 'U2 Webflow and CMS', 'U3 Framer', 'U4 Publishing and Basic SEO'],
+'DP-403': ['U1 Rive', 'U2 Spline', 'U3 Unicorn Studio', 'U4 Choosing One and Mastering It'],
+'DP-501': ['U1 Brand Voice', 'U2 Brand Book'],
+'DP-502': ['U1 What Employers Look For', 'U2 Writing a Case Study'],
+'DP-503': ['Bank of 14 `up-*` projects by level (Mobile, Desktop, and Responsive); student completes 3'],
+'DP-TES': ['Option A: Complete Product (uiux-capstone)', 'Option B: Complete Identity (branding-capstone)'],
+'MK-101': ['U1 Buyer Persona', 'U2 Positioning and UVP (lesson from DP-301)', 'U3 Digital Presence and First Posts'],
+'MK-102': ['U1 GA4 Data Model', 'U2 Google Tag Manager', 'U3 UTMs'],
+'MK-103': ['U1 The Role', 'U2 Content Calendar (single version)', 'U3 Engagement, Crisis, and Metrics'],
+'MK-104': ['U1 Descriptive Statistics', 'U2 Probability', 'U3 Samples and Intervals', 'U4 Significance for A/B Testing'],
+'MK-201': ['U1 Ecosystem and Auction', 'U2 Campaign Structure', 'U3 Creatives'],
+'MK-202': ['U1 Business Manager and Pixel', 'U2 Launching and Optimizing', 'U3 Retargeting', 'U4 Structured Testing', 'U5 Reporting'],
+'MK-203': ['U1 GBP', 'U2 Search: Keywords and Structure', 'U3 PMax and Display', 'U4 Bidding and Budget', 'Project: 90-Day Paid Media Plan'],
+'MK-301': ['U1 Why Email and the List', 'U2 Anatomy of an Email', 'U3 Welcome Sequence (single project)', 'U4 Advanced Flows', 'U5 Deliverability and Segmentation'],
+'MK-302': ['U1 Headlines', 'U2 Landing Page Structure', 'U3 Copy for Meta Ads', 'Project: High-Converting Landing Page'],
+'MK-303': ['U1 Strategy and Hooks', 'U2 Script', 'U3 Editing: Pacing, Captions, and B-Roll', 'U4 Color and Audio', 'U5 Thumbnails and Titles'],
+'MK-401': ['U1 How Google Works', 'U2 Keyword Research', 'U3 On-Page', 'U4 Clusters'],
+'MK-402': ['U1 Core Web Vitals', 'U2 Schema and Metadata', 'U3 Crawler Audit', 'U4 Crawl Budget and Logs', 'U5 JS SEO', 'U6 Hreflang'],
+'MK-403': ['U1 Why Links Matter', 'U2 Ethical Strategies'],
+'MK-501': ['U1 Full Audit', 'U2 Reporting and ROI', 'Project: 6-Month Strategy; or the 8-Week SEO Capstone'],
+'MK-502': ['U1 What GEO Is', 'U2 Citable Content and Authority', 'U3 Metrics and Plan', 'Project: GEO Strategy'],
+'MK-503': ['U1 Funnels', 'U2 Segmentation and Cohorts', 'U3 Looker Studio', 'U4 A/B Testing', 'U5 KPIs and Reporting', 'Project: Analytics Infrastructure'],
+'MK-601': ['U1 Consultative Process', 'U2 Objections', 'U3 Lead Funnels', 'U4 Follow-Up'],
+'MK-602': ['U1 TikTok for Business', 'U2 Content Strategy', 'U3 Case Study and Growth'],
+'MK-TES': ['Integrated Ads, Email, SEO, and Reporting'],
+'OPT-01': ['U1 When to Automate', 'U2 First Workflow in n8n', 'U3 Agents with n8n and LLMs', 'Project: Automation That Saves Real Time'],
+'OPT-02': ['U1 Generative Image', 'U2 Generative Video and Audio'],
+}
+
 NUEVO = {'IS-104','DP-103','MK-104'}; PARCIAL = {'DP-102'}
 
 def units(s): return [u.strip() for u in re.split(r'\s·\s', s) if u.strip()]
@@ -62,11 +125,16 @@ for d, i in zip(dec, inv):
     legacy.append(dict(legacy_key=f"{i['rama']}/{i['module']}/{i['lesson']}", id=d['id'], rama=i['rama'], modulo=i['module'], titulo=d['titulo'],
         palabras_total=i['words_total'], palabras_cuerpo=i['content_words'], decision=d['decision'], destino=d['destino'], curso_destino=dest, motivo=d['motivo'],
         ruta_actual=f"/academia/{i['rama']}/{i['module']}/{i['lesson']}", ruta_en=f"/en/academia/{i['rama']}/{i['module']}/{i['lesson']}",
-        idioma_disponible='es', etiqueta_ui={'mantener':'Lección de la Biblioteca','reescribir':'Versión anterior · en reescritura','fusionar':'Versión anterior · se fusiona en '+dest,'retirar':'Retirada · reemplazada por '+d['destino']}[d['decision']]))
+        idioma_disponible=('es, en' if d['decision']=='mantener' else 'es'),
+        etiqueta_ui={'mantener':'Lección de la Biblioteca','reescribir':'Versión anterior · en reescritura','fusionar':'Versión anterior · se fusiona en '+dest,'retirar':'Retirada · reemplazada por '+d['destino']}[d['decision']],
+        etiqueta_ui_en={'mantener':'Library lesson','reescribir':'Previous version · being rewritten','fusionar':'Previous version · merging into '+dest,'retirar':'Retired · replaced by '+d['destino']}[d['decision']]))
 byc = collections.defaultdict(collections.Counter)
 for l in legacy: byc[l['curso_destino']][l['decision']] += 1
 for c in courses:
     c['title_en'] = EN.get(c['code'], '')
+    if 'units_en' not in c:
+        c['units_en'] = UNITS_EN[c['code']]
+    assert len(c['units_en']) == len(c['units_es']), (c['code'], c['units_es'], c['units_en'])
     c['program_es'], c['program_en'] = PROG[c['program']]
     c['legacy_lessons'] = dict(byc.get(c['code'], {}))
     if c['program']=='S0': c['status']='escrito_es_en'
@@ -79,9 +147,9 @@ for c in courses:
 out = os.path.join(H, 'catalogo')
 json.dump(dict(generated_by='_gen_catalogo.py', courses=courses, legacy_lessons=legacy), open(os.path.join(out,'catalogo-academia.json'),'w',encoding='utf-8'), ensure_ascii=False, indent=1)
 with open(os.path.join(out,'catalogo-academia.csv'),'w',newline='',encoding='utf-8') as f:
-    w = csv.writer(f); w.writerow(['programa','semestre','codigo','titulo_es','title_en','horas','semanas','unidades_es','prerreq_recomendado','estado','legado_mantener','legado_reescribir','legado_fusionar','legado_retirar','ruta_es','ruta_en','fuentes'])
+    w = csv.writer(f); w.writerow(['programa','semestre','codigo','titulo_es','title_en','horas','semanas','unidades_es','units_en','prerreq_recomendado','estado','legado_mantener','legado_reescribir','legado_fusionar','legado_retirar','ruta_es','ruta_en','fuentes'])
     for c in courses:
-        L=c['legacy_lessons']; w.writerow([c['program'],c['semester'],c['code'],c['title_es'],c['title_en'],c['hours'],c['weeks'],' · '.join(c['units_es']),c['prereq_recommended'],c['status'],L.get('mantener',0),L.get('reescribir',0),L.get('fusionar',0),L.get('retirar',0),c['route_es'],c['route_en'],c['sources']])
+        L=c['legacy_lessons']; w.writerow([c['program'],c['semester'],c['code'],c['title_es'],c['title_en'],c['hours'],c['weeks'],' · '.join(c['units_es']),' · '.join(c['units_en']),c['prereq_recommended'],c['status'],L.get('mantener',0),L.get('reescribir',0),L.get('fusionar',0),L.get('retirar',0),c['route_es'],c['route_en'],c['sources']])
 with open(os.path.join(out,'lecciones-legado.csv'),'w',newline='',encoding='utf-8') as f:
     w = csv.DictWriter(f, fieldnames=list(legacy[0].keys())); w.writeheader(); w.writerows(legacy)
 tot = collections.Counter(l['decision'] for l in legacy)

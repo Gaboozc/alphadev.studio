@@ -52,6 +52,8 @@ export interface LeccionLegado {
   ruta_en: string
   idioma_disponible: string
   etiqueta_ui: string
+  /** Etiqueta en inglés (catálogo de Prof. X, 25 nov 2026). */
+  etiqueta_ui_en?: string
 }
 
 export interface Catalogo {
@@ -182,10 +184,11 @@ export function leccionesQueAlimentan(cat: Catalogo, code: string): LeccionLegad
   return cat.legacy_lessons.filter((l) => l.curso_destino === code)
 }
 
-// ─── Textos de UI (spec §3.5, [INFERENCIA] de Prof. X; validar) ──────────────
+// ─── Textos de UI (spec §3.5; etiquetas confirmadas por Prof. X en ES y EN) ──
 
 export function etiquetaLegado(l: LeccionLegado, lang: Lang): string {
   if (lang === 'es') return l.etiqueta_ui
+  if (l.etiqueta_ui_en) return l.etiqueta_ui_en
   switch (l.decision) {
     case 'mantener':
       return 'Library lesson'
@@ -247,6 +250,22 @@ export const UI = {
     abrir: 'Abrir',
     rutasDeAprendizaje: 'Rutas de aprendizaje',
     ramasBiblioteca: 'Ramas de la Biblioteca',
+    unidadN: (n: number) => `Unidad ${n}`,
+    enriquecida: 'Ampliada',
+    preguntaGuia: 'Pregunta guía',
+    recursos: 'Recursos',
+    glosario: 'Glosario ES–EN',
+    glosarioIntro: 'Los términos de la Academia en español y en inglés.',
+    leccionesCarrera: 'Lecciones actuales de la carrera',
+    leccionesCarreraIntro: 'Material anterior que alimenta varios cursos de la carrera. Ya puedes abrirlo.',
+    eyebrowMarca: 'AlphaDev Studios — ',
+    eyebrowPrivado: 'Estudio privado',
+    cursosLabel: 'Cursos',
+    horasLabel: 'Horas',
+    leccionesLabel: 'Lecciones',
+    claveDe: (pieza: string) => `${pieza}: solución`,
+    presentacion: 'Presentación',
+    bibliotecaAvisoEn: (n: number) => `${n} de estas lecciones ya están en inglés`,
   },
   en: {
     academia: 'Academy',
@@ -293,7 +312,23 @@ export const UI = {
     reverso: 'Answer',
     abrir: 'Open',
     rutasDeAprendizaje: 'Learning paths',
-    ramasBiblioteca: 'Library branches',
+    ramasBiblioteca: 'Library areas',
+    unidadN: (n: number) => `Unit ${n}`,
+    enriquecida: 'Enriched',
+    preguntaGuia: 'Guiding question',
+    recursos: 'Resources',
+    glosario: 'ES–EN Glossary',
+    glosarioIntro: 'Academy terms in Spanish and English.',
+    leccionesCarrera: 'Current lessons for this program',
+    leccionesCarreraIntro: 'Earlier material that feeds several courses in this program. You can open it now.',
+    eyebrowMarca: 'AlphaDev Studios — ',
+    eyebrowPrivado: 'Private study',
+    cursosLabel: 'Courses',
+    horasLabel: 'Hours',
+    leccionesLabel: 'Lessons',
+    claveDe: (pieza: string) => `${pieza}: solution`,
+    presentacion: 'Overview',
+    bibliotecaAvisoEn: (n: number) => `${n} of these lessons are already in English. The rest are only available in Spanish for now`,
   },
 } as const
 
@@ -359,4 +394,25 @@ export function parseCsv(text: string): string[][] {
   row.push(field)
   if (row.some((f) => f !== '')) rows.push(row)
   return rows
+}
+
+/** Ruta del Glosario ES–EN (recurso de S0). */
+export function rutaGlosario(lang: Lang): string {
+  return enIdioma(`${ACADEMIA}/semestre-0/glosario-es-en`, lang)
+}
+
+/** Lecciones asignadas a una carrera entera (curso_destino = id del programa). */
+export function leccionesDePrograma(cat: Catalogo, id: ProgramaId): LeccionLegado[] {
+  return cat.legacy_lessons.filter((l) => l.curso_destino === id)
+}
+
+/** Número de unidad a partir del slug (u2-… → 2), o null. */
+export function numeroUnidadSlug(slug: string): number | null {
+  const m = /^u(\d+)-/.exec(slug)
+  return m ? Number(m[1]) : null
+}
+
+/** Quita «Unidad n — » / «Unit n — » del inicio de un título. */
+export function sinPrefijoUnidad(titulo: string): string {
+  return titulo.replace(/^(Unidad|Unit)\s+\d+\s*[—–-]\s*/u, '').trim()
 }

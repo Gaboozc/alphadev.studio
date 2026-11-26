@@ -4,7 +4,7 @@
 
 **Guiding question:** What problem am I really solving, and how will I know I've solved it?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md` section 0.1]:** Guide approx. 20 min (about 1,580 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 35 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 25 min is independent study: rereading, note-taking, reference reading and review.
+**Estimated time:** Guide approx. 20 min (about 1,580 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Effective total approx. 5 h 35 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 25 min is independent study: rereading, note-taking, reference reading and review.
 
 > **Why start here.** Most efforts that fail don't fail because of a bad solution; they fail because they solved the wrong problem. A team that spends two weeks redesigning a page because "sales dropped," and then discovers the real issue was a broken payment gateway, didn't have a design problem: it had a definition problem. This unit teaches you not to jump to the solution.
 
@@ -164,12 +164,12 @@ Localization decisions:
 - Number formats: decimal comma -> decimal point (2,1 % -> 2.1%); "≥ 2 %" -> "at least 2%"; thousands separator -> comma.
 - "≈" -> "approx." (validated UI rule also applies to English).
 - "§2–4" -> "sections 2–4" (no section symbol, per validated rule).
-- Word count in the timing line: the English body is ~1,580 words vs 1,609 in Spanish (about 2% shorter); timing kept at 20 min [INFERENCE].
+- Word count in the timing line: the English body is ~1,580 words vs 1,609 in Spanish (about 2% shorter); timing kept at 20 min .
 - "Ticket promedio" -> "average order value" (standard US e-commerce term, not "average ticket").
 - "Árbol de problema" -> "issue tree" (consulting term used by Minto/McKinsey literature).
 - "Pasarela de pago" -> "payment gateway".
 - "Encargo" -> "request" (agency context; "brief" kept for the process stage).
 - Tuteo -> direct second person "you", informal register, contractions allowed.
 - Examples (TikTok, Safari, e-commerce) are culture-neutral; no currency appears, so no localization of amounts needed.
-- Facts to re-verify in English sources (from plan-revision.md checklist): Pólya, How to Solve It (1945); Minto, The Pyramid Principle / MECE attribution.
+- Facts to re-verify in English sources (from the internal review checklist): Pólya, How to Solve It (1945); Minto, The Pyramid Principle / MECE attribution.
 -->

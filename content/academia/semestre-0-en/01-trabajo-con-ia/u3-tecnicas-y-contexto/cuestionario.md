@@ -1,6 +1,6 @@
 # Unit 3 — Quiz
 
-Key in `../claves/u3-clave-cuestionario.md`. **Part A [AUTO]** · **Part B [HUMAN]**
+Key in `../claves/u3-clave-cuestionario.md`. **Part A** (auto-graded) · **Part B** (reviewed with a rubric)
 
 1. *Few-shot* means:
    a) Including several input-output examples in the prompt. b) Using a small model trained on little data. c) Using few tokens so the answer is short. d) Asking few questions per new conversation.

@@ -1,7 +1,7 @@
 # Unidad 1 — Cuestionario
 
 Clave y explicaciones en `../claves/u1-clave-cuestionario.md`.
-**Parte A (opción múltiple) [AUTO]** · **Parte B (respuesta corta) [HUMANO]**
+**Parte A (opción múltiple) (corrección automática)** · **Parte B (respuesta corta) (revisión con rúbrica)**
 
 ## Parte A — Opción múltiple (una respuesta correcta)
 

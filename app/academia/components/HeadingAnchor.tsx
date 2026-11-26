@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import AcadIcon from './AcadIcon'
-import { ACAD_COPY } from '../copy'
+import { useAcadCopy } from '../useAcadCopy'
 
 export default function HeadingAnchor({
   id,
@@ -11,6 +11,7 @@ export default function HeadingAnchor({
   id: string
   children: React.ReactNode
 }) {
+  const ACAD_COPY = useAcadCopy()
   const [copied, setCopied] = useState(false)
 
   async function copiar() {

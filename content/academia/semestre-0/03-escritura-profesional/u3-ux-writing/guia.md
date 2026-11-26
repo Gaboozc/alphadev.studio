@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Qué palabras necesita el usuario en cada momento de la interfaz para avanzar sin dudas?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.512 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 00 min (4 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 20 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 40 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.512 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 00 min (4 de nivel 1 × 10 min, 2 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 20 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 40 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** Una interfaz no termina en los colores y la tipografía; termina cuando el usuario completa lo que vino a hacer. Las palabras que lo guían (botones, etiquetas, mensajes de error, pantallas vacías, avisos) son parte del diseño. El *UX writing* es la disciplina que diseña esos textos. Le importa a cualquier perfil: el desarrollador que escribe un mensaje de error, la diseñadora que maqueta un formulario, el equipo de marketing que redacta la bienvenida de una app.
 

@@ -1,4 +1,4 @@
-# Unidad 5 — Reflexión [HUMANO]
+# Unidad 5 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Piensa en una decisión importante que tomaste hace al menos seis meses.

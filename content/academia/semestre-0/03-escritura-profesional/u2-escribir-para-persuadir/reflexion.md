@@ -1,4 +1,4 @@
-# Unidad 2 — Reflexión [HUMANO]
+# Unidad 2 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Recuerda una compra (o suscripción) en la que un texto o una oferta te convenció.

@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Por qué ocurre el problema, y qué evidencia distingue la causa de una simple coincidencia?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 20 min (1.535 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 35 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 25 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 20 min (1.535 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 35 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 25 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** Con el problema bien definido (U1), la pregunta es *por qué ocurre*. La tentación es quedarse con la primera explicación que suena bien. Esta unidad enseña a generar varias explicaciones, formularlas como hipótesis que se puedan refutar, buscar la causa raíz y no la superficial, y distinguir lo que de verdad causa algo de lo que solo coincide con ello.
 

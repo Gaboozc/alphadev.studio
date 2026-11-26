@@ -40,9 +40,9 @@ None. It's recommended to have taken, or to take alongside, *Working with AI* (A
 | 9 | U4 | Professional and sales emails | U4 quiz + reflection |
 | 10 | Project | Communication kit | Final project |
 
-## Units: guiding question and time per part
+## Units: guiding question and estimated time
 
-Planned hours come from the syllabus workload (6 h a week × the unit's weeks). Time per part is an estimate **[INFERENCE]**: reading at 120 words per minute plus a fixed time per exercise set, quiz and reflection (method in `rework/profx/formatos-leccion.md`, section 0.1). It should be measured with the first students and adjusted.
+Planned hours come from the syllabus workload (6 h a week × the unit's weeks). Estimated time per part is calculated from reading at 120 words per minute plus a fixed time per exercise set, quiz and reflection. It should be measured with the first students and adjusted.
 
 | Unit | Guiding question | Weeks | Guide | Exercises | Quiz | Reflection | Active time | Planned | Independent study |
 |---|---|---|---|---|---|---|---|---|---|
@@ -51,7 +51,7 @@ Planned hours come from the syllabus workload (6 h a week × the unit's weeks). 
 | U3 | What words does the user need at each moment in the interface to move forward without hesitating? | 6–7 | 20 min | 3 h 00 min | 30 min | 1 h 30 min | 5 h 20 min | 12 h | 6 h 40 min |
 | U4 | How do I write a proposal and emails that the client reads, understands and answers? | 8–9 | 25 min | 2 h 40 min | 30 min | 1 h 30 min | 5 h 05 min | 12 h | 6 h 55 min |
 
-**Course checkpoint:** week 9, 60–75 min [INFERENCE]. A bank of 28 questions, 21 of which are served, plus an applied case. See `checkpoint.md`.
+**Course checkpoint:** week 9, 60–75 min . A bank of 28 questions, 21 of which are served, plus an applied case. See the course checkpoint.
 **Quick checks:** 3 per unit, ungraded, inside the guide. See `uN-*/comprobaciones-rapidas.md`.
 
 ## Assessment

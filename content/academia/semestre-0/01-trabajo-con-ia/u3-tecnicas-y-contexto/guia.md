@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Cuándo conviene mostrar ejemplos, pedir razonamiento o partir la tarea, y cómo mantengo útil una conversación larga?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 25 min (1.984 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 40 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 20 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 25 min (1.984 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 40 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 20 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** La anatomía de la Unidad 2 resuelve la mayoría de los casos. Esta unidad cubre lo que queda: cómo mostrar en lugar de describir (ejemplos), cómo hacer que el modelo razone antes de concluir, cómo partir una tarea grande en piezas, cómo pedir salidas que otra herramienta pueda leer, y cómo administrar el contexto de una conversación. Cierra con la herramienta que más rinde a largo plazo: una biblioteca personal de prompts probados.
 

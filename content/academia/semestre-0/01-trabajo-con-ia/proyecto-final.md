@@ -18,11 +18,11 @@ Vas a diseñar, probar y documentar tu propio sistema de trabajo con IA para un 
 
 ## Cómo se califica
 
-### Parte automática (checklist) — 20 % del proyecto [AUTO]
+### Parte automática (checklist) — 20 % del proyecto
 
 Se comprueba la presencia y formato de: diagnóstico con ≥ 3 tareas × ≥ 3 mediciones; mapa con ≥ 5 áreas; 5 fichas con todos los campos; ≥ 2 con ejemplos; ≥ 1 con salida estructurada (JSON o tabla válida); flujo con ≥ 3 mediciones; ROI con fórmula (beneficio − costo)/costo; política ≤ 1 página; análisis entre 500 y 700 palabras; declaración de uso de IA. Cada ítem ausente resta proporcionalmente.
 
-### Parte humana (rúbrica) — 80 % del proyecto [HUMANO]
+### Parte humana (rúbrica) — 80 % del proyecto
 
 | Criterio (peso) | Excelente (4) | Bueno (3) | Suficiente (2) | Insuficiente (0–1) |
 |---|---|---|---|---|

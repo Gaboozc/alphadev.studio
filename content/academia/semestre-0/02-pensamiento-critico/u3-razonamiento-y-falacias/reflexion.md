@@ -1,4 +1,4 @@
-# Unidad 3 — Reflexión [HUMANO]
+# Unidad 3 — Reflexión (revisión con rúbrica)
 
 ## Consigna (300–500 palabras)
 Recuerda una discusión (laboral, académica o personal) en la que tú usaste un argumento débil o falaz, aunque fuera sin intención.

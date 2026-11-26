@@ -40,9 +40,9 @@ Ninguno. Aritmética básica (porcentajes, promedios). Se recomienda cursarlo ju
 | 10 | U5 | Matriz ponderada, pre-mortem, registro de decisiones | Cuestionario + reflexión U5 |
 | 11 | Proyecto | Informe de resolución de un caso real | Proyecto final |
 
-## Unidades: pregunta guía y tiempo por pieza
+## Unidades: pregunta guía y tiempo estimado
 
-Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo por pieza es una estimación **[INFERENCIA]**: lectura a 120 palabras por minuto más tiempo fijo por ejercicio, cuestionario y reflexión (método en `rework/profx/formatos-leccion.md` §0.1). Se debe medir con los primeros estudiantes y ajustarlo.
+Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas de la unidad). El tiempo estimado por pieza se calcula con una lectura a 120 palabras por minuto más un tiempo fijo por ejercicios, cuestionario y reflexión. Se debe medir con los primeros estudiantes y ajustarlo.
 
 | Unidad | Pregunta guía | Semanas | Guía | Ejercicios | Cuestionario | Reflexión | Efectivo | Planificado | Estudio autónomo |
 |---|---|---|---|---|---|---|---|---|---|
@@ -52,7 +52,7 @@ Las horas planificadas salen de la carga del syllabus (6 h por semana × semanas
 | U4 | ¿En qué me puede engañar mi propia mente, y cómo decido si una fuente (o una IA) merece confianza? | 7–8 | 20 min | 2 h 50 min | 30 min | 1 h 30 min | 5 h 10 min | 12 h | 6 h 50 min |
 | U5 | ¿Cómo decido bien cuando no tengo toda la información? | 9–10 | 20 min | 2 h 40 min | 30 min | 1 h 30 min | 5 h 00 min | 12 h | 7 h 00 min |
 
-**Checkpoint del curso:** semana 10, 60–75 min [INFERENCIA]. Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver `checkpoint.md`.
+**Checkpoint del curso:** semana 10, 60–75 min . Banco de 28 preguntas, de las que se sirven 21, más un caso aplicado. Ver el checkpoint del curso.
 **Comprobaciones rápidas:** 3 por unidad, sin nota, dentro de la guía. Ver `uN-*/comprobaciones-rapidas.md`.
 
 ## Evaluación

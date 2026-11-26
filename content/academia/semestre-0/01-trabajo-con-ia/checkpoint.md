@@ -3,12 +3,12 @@
 | Campo | Valor |
 |---|---|
 | Id | `s0-c1-checkpoint` |
-| Formato | Checkpoint / examen de curso (`formatos-leccion.md` §7) |
+| Formato | Checkpoint / examen de curso |
 | Cuándo | Semana 9 (antes del avance del proyecto). Requiere haber completado todas las unidades |
-| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min [INFERENCIA] |
-| Evaluación | **[MIXTO]**: Parte A [AUTO] · Parte B [HUMANO] con rúbrica |
+| Tiempo estimado | 60–75 min: Parte A ≈ 30 min (21 preguntas × 1,5 min) + Parte B 30–45 min  |
+| Evaluación | Mixta: la Parte A se corrige automáticamente; la Parte B se revisa con rúbrica |
 | Qué se sirve | 21 preguntas de un banco de 28: **3 por objetivo**, elegidas al azar, con las opciones en orden aleatorio. Así dos intentos no son iguales |
-| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % [INFERENCIA]. La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios (`formatos-leccion.md` §7) |
+| Aprobación | ≥ 70 % ponderado: Parte A 60 % + Parte B 40 % . La Parte A cuenta dentro del 20 % de opción múltiple del curso y la Parte B dentro de ejercicios |
 | Reintentos | Hasta 2, separados por ≥ 24 h. En el reintento se sirve otra selección del banco |
 | Piloto 1 (sin F5) | La Parte A puede corregirse en el navegador como autoevaluación. La Parte B queda como autoevaluación con la rúbrica hasta que haya entregas en servidor |
 | Clave | `claves/checkpoint-clave.md` (solo en servidor) |
@@ -26,7 +26,7 @@
 | O7. Reconocer límites éticos, legales y de privacidad | CP-25, CP-26, CP-27, CP-28 | 3 |
 | Todos (integración) | Caso aplicado (Parte B) | 1 |
 
-## Parte A — Banco de opción múltiple [AUTO]
+## Parte A — Banco de opción múltiple (corrección automática)
 
 Una sola respuesta correcta por pregunta.
 
@@ -226,7 +226,7 @@ Una sola respuesta correcta por pregunta.
    c) Que la temperatura está demasiado baja para variar.
    d) Que el modelo reproduce sesgos de sus datos y hay que corregirlos de forma explícita.
 
-## Parte B — Caso aplicado: el informe mensual de una agencia [caso ficticio] [HUMANO]
+## Parte B — Caso aplicado: el informe mensual de una agencia [caso ficticio] (revisión con rúbrica)
 
 Una agencia de tres personas gestiona las redes de 5 clientes. Cada mes tarda unas 4 horas por cliente en preparar el informe (métricas, interpretación y recomendaciones). Quiere usar IA para reducir ese tiempo sin perder calidad ni poner en riesgo datos de los clientes.
 
@@ -249,4 +249,4 @@ Una agencia de tres personas gestiona las redes de 5 clientes. Cada mes tarda un
 | Verificación y medición | Dos verificaciones con fuente primaria y una medición del tiempo total, revisión incluida | Verificación o medición incompleta | Mención genérica ("revisaría los datos") | Ausente |
 | Ética y privacidad | Riesgo concreto con un control aplicable (permiso, anonimización, responsable) | Riesgo identificado con un control vago | Mención genérica | Ausente |
 
-Parte B aprobada con ≥ 7/12 [INFERENCIA].
+Parte B aprobada con ≥ 7/12 .

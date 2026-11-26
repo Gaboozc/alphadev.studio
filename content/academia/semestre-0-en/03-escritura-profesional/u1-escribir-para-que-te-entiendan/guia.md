@@ -6,7 +6,7 @@
 
 **Guiding question:** What does my reader need in order to understand me the first time and act?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 00 min (4 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 20 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 40 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 20 min (about 1,600 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 00 min (4 level-1 × 10 min, 2 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 20 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 40 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** Before you can persuade anyone, you have to be understood. Most professional writing fails not for lack of talent, but because it's written around the writer (what they know, what they did, what they want to say) instead of the reader (what they need, how much time they have, what they have to do next). This unit gives you a process for writing anything clearly: an email, a report, a service page.
 

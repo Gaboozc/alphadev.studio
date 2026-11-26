@@ -3,12 +3,12 @@
 | Field | Value |
 |---|---|
 | Id | `s0-c3-checkpoint` |
-| Format | Checkpoint / course exam (`formatos-leccion.md`, section 7) |
+| Format | Checkpoint / course exam |
 | When | Week 9 (at the end of U4, before the project). Requires completing all units |
-| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min [INFERENCE] |
-| Assessment | **[MIXED]**: Part A [AUTO] · Part B [HUMAN] with a rubric |
+| Estimated time | 60–75 min: Part A approx. 30 min (21 questions × 1.5 min) + Part B 30–45 min  |
+| Assessment | Mixed: Part A is auto-graded; Part B is reviewed with a rubric |
 | What's served | 21 questions from a bank of 28: **3 per objective**, chosen at random, with options in random order. So no two attempts are the same |
-| Passing | ≥ 70% weighted: Part A 60% + Part B 40% [INFERENCE]. Part A counts within the course's 20% for multiple choice and Part B within exercises (`formatos-leccion.md`, section 7) |
+| Passing | ≥ 70% weighted: Part A 60% + Part B 40% . Part A counts within the course's 20% for multiple choice and Part B within exercises |
 | Retakes | Up to 2, at least 24 h apart. A retake serves a different selection from the bank |
 | Pilot 1 (without F5) | Part A can be graded in the browser as self-assessment. Part B remains self-assessment with the rubric until there are server-side submissions |
 | Key | `claves/checkpoint-clave.md` (server only) |
@@ -26,7 +26,7 @@
 | O7. Review and edit your own and AI-generated text | CP-25, CP-26, CP-27, CP-28 | 3 |
 | All (integration) | Applied case (Part B) | 1 |
 
-## Part A — Multiple-choice bank [AUTO]
+## Part A — Multiple-choice bank (auto-graded)
 
 One correct answer per question.
 
@@ -226,7 +226,7 @@ One correct answer per question.
    c) Are the essentials in the first two lines?
    d) Did I use synonyms to avoid repeating key terms?
 
-## Part B — Applied case: a physical therapy practice [fictional case] [HUMAN]
+## Part B — Applied case: a physical therapy practice [fictional case] (reviewed with a rubric)
 
 "North Physio," a physical therapy practice with two locations, asked you for a quote to rebuild its website and online booking system. The owner is short on time and reads email on her phone. Today they lose 30% of appointments because patients can't figure out how to book.
 
@@ -248,4 +248,4 @@ One correct answer per question.
 | Microcopy | An error with what happened and what to do, no blame; an empty state that orients and offers the action | One of the two done well | Both vague or blaming | Missing |
 | Clarity and ethics | Short sentences, active voice, no unverifiable promises, AI use disclosed | A somewhat unclear sentence or a vague promise | Several unsupported promises | Missing |
 
-Part B passes with ≥ 7/12 [INFERENCE].
+Part B passes with ≥ 7/12 .

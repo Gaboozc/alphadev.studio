@@ -4,7 +4,7 @@
 
 **Guiding question:** How do I get someone to act without misleading them?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 25 min (about 2,100 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 30 min (3 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 4 h 55 min** of the 18 h planned in the syllabus. The remaining approx. 13 h 05 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 25 min (about 2,100 words at 120 wpm + 5 min of quick checks) · Exercises approx. 2 h 30 min (3 level-1 × 10 min, 3 level-2 × 25 min, 1 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 4 h 55 min** of the 18 h planned in the syllabus. The remaining approx. 13 h 05 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** *Copywriting* is writing with a specific goal: getting the reader to do something (buy, subscribe, book a call, reply). It relies on three tools, which we'll cover in order: talking about **outcomes for the reader** instead of product features, using the **principles of persuasion** documented by social psychology ethically, and organizing the message with proven **structures**. All of it rests on the clarity from U1: persuasive copy that isn't understood doesn't persuade.
 

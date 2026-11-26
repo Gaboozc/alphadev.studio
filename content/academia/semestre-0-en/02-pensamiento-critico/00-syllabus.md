@@ -40,9 +40,9 @@ None. Basic arithmetic (percentages, averages). We recommend taking it alongside
 | 10 | U5 | Weighted matrix, pre-mortem, decision log | Quiz + reflection U5 |
 | 11 | Project | Resolution report on a real case | Final project |
 
-## Units: guiding question and time per part
+## Units: guiding question and estimated time
 
-Planned hours come from the syllabus workload (6 h per week × weeks in the unit). Time per part is an estimate **[INFERENCE]**: reading at 120 words per minute plus fixed time per exercise, quiz and reflection (method in `rework/profx/formatos-leccion.md` section 0.1). It should be measured with the first students and adjusted.
+Planned hours come from the syllabus workload (6 h per week × weeks in the unit). Estimated time per part is calculated from reading at 120 words per minute plus a fixed time per exercise, quiz and reflection. It should be measured with the first students and adjusted.
 
 | Unit | Guiding question | Weeks | Guide | Exercises | Quiz | Reflection | Effective | Planned | Independent study |
 |---|---|---|---|---|---|---|---|---|---|
@@ -52,7 +52,7 @@ Planned hours come from the syllabus workload (6 h per week × weeks in the unit
 | U4 | How can my own mind fool me, and how do I decide whether a source (or an AI) deserves trust? | 7–8 | 20 min | 2 h 50 min | 30 min | 1 h 30 min | 5 h 10 min | 12 h | 6 h 50 min |
 | U5 | How do I decide well when I don't have all the information? | 9–10 | 20 min | 2 h 40 min | 30 min | 1 h 30 min | 5 h 00 min | 12 h | 7 h 00 min |
 
-**Course checkpoint:** week 10, 60–75 min [INFERENCE]. A bank of 28 questions, 21 of which are served, plus an applied case. See `checkpoint.md`.
+**Course checkpoint:** week 10, 60–75 min . A bank of 28 questions, 21 of which are served, plus an applied case. See the course checkpoint.
 **Quick checks:** 3 per unit, ungraded, inside the guide. See `uN-*/comprobaciones-rapidas.md`.
 
 ## Assessment

@@ -16,7 +16,7 @@
 - **El precio** subió en S5 para todos y las cancelaciones no cambiaron en la CDMX ni en el resto del país durante S5 (23 frente a ≈ 21). → El precio **no explica** el aumento de las cancelaciones.
 - **El empaque** cambió en S7 para todos, y la CDMX no se movió. → El empaque **no explica** las cancelaciones; a lo sumo, molestias en algunos comentarios.
 - **La paquetería** cambió en S6 solo fuera de la CDMX y coincide con el salto. Los días de entrega pasaron de 2,1 a 4,3 y los tickets de "llegó tarde" de 8 a 31 por semana. Hay mecanismo plausible, orden temporal y un grupo de control (la CDMX). → **Es la hipótesis principal de las cancelaciones.**
-- **La subida gradual** (34 → 45 → 52 → 55) es coherente con que cada cliente vive su primer retraso en su siguiente envío mensual [INFERENCIA del diseño del caso; se espera que el estudiante lo note y lo plantee como hipótesis].
+- **La subida gradual** (34 → 45 → 52 → 55) es coherente con que cada cliente vive su primer retraso en su siguiente envío mensual (está en el diseño del caso; se espera que lo notes y lo plantees como hipótesis).
 
 **Altas**
 - **Anuncios:** 37,5 por semana en S1–S4 y 29,5 en S5–S12, un 21 % menos.

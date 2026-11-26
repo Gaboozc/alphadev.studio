@@ -9,7 +9,8 @@ import LanguageToggle from '@/components/LanguageToggle'
 import { stripLocale } from '@/lib/i18n/routes'
 import { PROGRAMAS, UI, rutaBiblioteca, rutaPortada, rutaPrograma } from '@/lib/academia/universidad'
 import type { ModuleMeta, Track } from '../types'
-import { RAMAS, TRACK_META, moduleHref } from '../ramas'
+import { RAMAS, TRACK_META, etiquetaTrack, moduleHref } from '../ramas'
+import { ACAD_COPIES } from '../copy'
 import { useProgress } from '../hooks/useProgress'
 
 // Las áreas se listan en el orden de las ramas, no sueltas.
@@ -34,6 +35,7 @@ export default function AcademiaNav({
   // Bajo /en/academia se quita el prefijo antes de contar.
   const { lang, path: rutaSinIdioma } = stripLocale(pathname ?? '/academia')
   const t = UI[lang]
+  const C = ACAD_COPIES[lang]
   const currentModuleId = rutaSinIdioma.split('/')[3] ?? ''
   const currentModule = catalogo.find((m) => m.id === currentModuleId)
   const [expandedTrack, setExpandedTrack] = useState<Track | null>(
@@ -97,20 +99,24 @@ export default function AcademiaNav({
           </span>
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="acad-nav-tools" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         {/* Selector ES/EN: lleva a la misma página en el otro idioma. */}
         <LanguageToggle />
         <ThemeToggle />
         <button
           onClick={() => setOpen(true)}
-          aria-label={lang === 'en' ? 'Open menu' : 'Abrir menú'}
+          aria-label={C.menuAbrir}
+          className="acad-nav-menu-btn"
           style={{
             background: 'none',
             border: 'none',
             cursor: 'pointer',
             padding: '0.5rem',
+            minWidth: '44px',
+            minHeight: '44px',
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'center',
             gap: '5px',
             alignItems: 'flex-end',
           }}
@@ -168,7 +174,7 @@ export default function AcademiaNav({
             <p
               style={{
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 letterSpacing: '0.1em',
@@ -192,8 +198,10 @@ export default function AcademiaNav({
           </div>
           <button
             onClick={close}
-            aria-label="Cerrar menú"
+            aria-label={C.menuCerrar}
             style={{
+              minWidth: '44px',
+              minHeight: '44px',
               background: 'none',
               border: '1px solid var(--border)',
               borderRadius: '0.5rem',
@@ -305,6 +313,7 @@ export default function AcademiaNav({
                   onClick={() => setExpandedTrack(isExpanded ? null : track.id)}
                   style={{
                     width: '100%',
+                    minHeight: '44px',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.625rem',
@@ -335,13 +344,13 @@ export default function AcademiaNav({
                       flex: 1,
                     }}
                   >
-                    {track.label}
+                    {etiquetaTrack(track, lang)}
                   </span>
                   {hydrated && trackPercent > 0 && (
                     <span
                       style={{
                         fontFamily: 'var(--font-inter)',
-                        fontSize: '0.6875rem',
+                        fontSize: '0.75rem',
                         fontWeight: 600,
                         color: 'var(--gold)',
                       }}
@@ -351,7 +360,7 @@ export default function AcademiaNav({
                   )}
                   <span
                     style={{
-                      fontSize: '0.625rem',
+                      fontSize: '0.75rem',
                       color: isExpanded ? 'var(--gold)' : 'var(--text-subtle)',
                       transform: isExpanded ? 'rotate(180deg)' : 'none',
                       transition: 'transform 200ms ease',
@@ -397,8 +406,8 @@ export default function AcademiaNav({
                           <span
                             style={{
                               flexShrink: 0,
-                              width: '1.375rem',
-                              height: '1.375rem',
+                              width: '1.5rem',
+                              height: '1.5rem',
                               borderRadius: '50%',
                               background: isDone ? 'var(--gold)' : isActive ? 'rgba(154,114,53,0.15)' : 'var(--bg-deep)',
                               border: `1px solid ${isDone || isActive ? 'var(--gold-border)' : 'var(--border)'}`,
@@ -406,7 +415,7 @@ export default function AcademiaNav({
                               alignItems: 'center',
                               justifyContent: 'center',
                               fontFamily: 'var(--font-inter)',
-                              fontSize: '0.5625rem',
+                              fontSize: '0.75rem',
                               fontWeight: 700,
                               color: isDone ? 'var(--on-gold)' : isActive ? 'var(--gold)' : 'var(--text-subtle)',
                             }}
@@ -433,7 +442,7 @@ export default function AcademiaNav({
 
                           {isCapstone && (
                             <span
-                              title="Proyecto final"
+                              title={lang === 'en' ? 'Final project' : 'Proyecto final'}
                               style={{ display: 'flex', color: 'var(--gold)', flexShrink: 0 }}
                             >
                               <Icon name="flag" size={12} />
@@ -466,7 +475,9 @@ export default function AcademiaNav({
               margin: '0 0 0.625rem',
             }}
           >
-            {catalogo.length} módulos · {TRACKS.length} áreas · {RAMAS.length} ramas
+            {lang === 'en'
+              ? `${catalogo.length} modules · ${TRACKS.length} areas · ${RAMAS.length} branches`
+              : `${catalogo.length} módulos · ${TRACKS.length} áreas · ${RAMAS.length} ramas`}
           </p>
 
           {/* Solo para admin. Ocultarlo no protege el panel — eso lo hace la
@@ -484,14 +495,15 @@ export default function AcademiaNav({
                 gap: '0.4rem',
                 marginBottom: '0.625rem',
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                minHeight: '44px',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 textDecoration: 'none',
               }}
             >
               <Icon name="message" size={13} />
-              Panel
+              {C.panel}
             </Link>
           )}
 
@@ -503,7 +515,7 @@ export default function AcademiaNav({
                 flex: 1,
                 minWidth: 0,
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 color: 'var(--text-muted)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -517,17 +529,18 @@ export default function AcademiaNav({
               style={{
                 flexShrink: 0,
                 fontFamily: 'var(--font-inter)',
-                fontSize: '0.6875rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 color: 'var(--gold)',
                 background: 'none',
                 border: '1px solid var(--gold-border)',
                 borderRadius: '0.375rem',
-                padding: '0.2rem 0.55rem',
+                padding: '0.2rem 0.75rem',
+                minHeight: '44px',
                 cursor: 'pointer',
               }}
             >
-              Salir
+              {C.salir}
             </button>
           </form>
         </div>

@@ -1,14 +1,14 @@
 # 07 · Calibrated Peer Review
 
-**Id:** `s0-c2-u2-pares` · **Format:** peer review with prior calibration · **Time:** approx. 60 min (15 for calibration + 2 reviews × 20 min + 5 for feedback on feedback) [INFERENCE] · **Assessment:** [HUMAN]. What's assessed is the **quality of your feedback**, not the score you give.
+**Id:** `s0-c2-u2-pares` · **Format:** peer review with prior calibration · **Time:** approx. 60 min (15 for calibration + 2 reviews × 20 min + 5 for feedback on feedback)  · **Assessment:** (reviewed with a rubric). What's assessed is the **quality of your feedback**, not the score you give.
 
 **What gets reviewed:** **exercise 3.1** from the original unit (`../u2-causas-hipotesis-evidencia/ejercicios.md`): the 200–250-word analysis of "since we started posting on LinkedIn, requests for proposals have risen 40%." You've done it, and so has everyone in your group.
 
 **Why:**
-- Peer assessment improves performance compared with no assessment (g = 0.31) [VERIFIED: Double et al. 2020, https://link.springer.com/article/10.1007/s10648-019-09510-3].
-- Coursera uses rubric-based peer review [VERIFIED: `benchmark.md`, section 6].
-- The most useful feedback is about the **process** and **self-regulation**, not about the person [VERIFIED: Hattie and Timperley 2007, https://journals.sagepub.com/doi/10.3102/003465430298487].
-- Reviewing other people's work against criteria also teaches you to review your own [INFERENCE].
+- Peer assessment improves performance compared with no assessment (g = 0.31) (Double et al. 2020, https://link.springer.com/article/10.1007/s10648-019-09510-3).
+- Coursera uses rubric-based peer review .
+- The most useful feedback is about the **process** and **self-regulation**, not about the person (Hattie and Timperley 2007, https://journals.sagepub.com/doi/10.3102/003465430298487).
+- Reviewing other people's work against criteria also teaches you to review your own .
 
 ---
 
@@ -37,7 +37,7 @@ Minimum 4 points, maximum 12.
 
 ## Step 3 · Review 2 classmates (2 × 20 min)
 
-The review is anonymous: you don't know whose work it is, and they won't know it's you [INFERENCE: a design decision; it reduces bias toward friends]. For each piece of work:
+The review is anonymous: you don't know whose work it is, and they won't know it's you (a design decision; it reduces bias toward friends). For each piece of work:
 1. **Score** each criterion and quote the sentence from the work that justifies your score.
 2. **Write 3 comments** using these templates:
    - **Task** (what's good or missing): "On [criterion], your answer ___ because ___."
@@ -66,7 +66,7 @@ When you get your two reviews:
 | **Process feedback** | Concrete and actionable, with an example | Actionable, but no example | Vague |
 | **Respect** | No personal judgments | — | Contains personal judgments |
 
-- The instructor reviews a sample of the reviews, plus every one the recipient marks as "not very useful" [INFERENCE: consistent with `plan-revision.md`, section 5].
+- The instructor reviews a sample of the reviews, plus every one the recipient marks as "not very useful" .
 - The activity counts toward the unit's exercise grade. Gabe decides its exact weight.
 
 ---

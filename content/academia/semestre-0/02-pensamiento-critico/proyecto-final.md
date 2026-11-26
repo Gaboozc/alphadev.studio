@@ -40,7 +40,7 @@ Datos adicionales disponibles (puedes suponer valores razonables y declararlos c
 
 ## Evaluación
 
-### Parte automática — checklist (20 %) [AUTO]
+### Parte automática — checklist (20 %)
 Verificable por script o revisión de estructura (sí/no; 2 puntos cada uno):
 1. Extensión entre 2.500 y 4.000 palabras.
 2. Resumen ejecutivo ≤ 250 palabras.
@@ -53,7 +53,7 @@ Verificable por script o revisión de estructura (sí/no; 2 puntos cada uno):
 9. Registro de decisiones con todos los campos.
 10. Anexo de verificación con ≥ 3 filas.
 
-### Parte humana — rúbrica (80 %) [HUMANO]
+### Parte humana — rúbrica (80 %)
 
 | Criterio (peso) | Excelente (4) | Competente (3) | En desarrollo (2) | Insuficiente (1) |
 |---|---|---|---|---|

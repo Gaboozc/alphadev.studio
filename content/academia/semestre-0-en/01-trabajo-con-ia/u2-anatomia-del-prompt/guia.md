@@ -4,7 +4,7 @@
 
 **Guiding question:** What does a prompt need to say so the AI doesn't have to guess what you need?
 
-**Time per part [INFERENCE; method in `rework/profx/formatos-leccion.md`, section 0.1]:** Guide approx. 25 min (about 2,200 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 40 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 20 min is independent study: rereading, notes, reference readings and review.
+**Estimated time:** Guide approx. 25 min (about 2,200 words at 120 wpm + 5 min of quick checks) · Exercises approx. 3 h 15 min (3 level-1 × 10 min, 3 level-2 × 25 min, 2 level-3 × 45 min) · Quiz approx. 30 min · Reflection approx. 1 h 30 min. **Active time approx. 5 h 40 min** of the 12 h planned in the syllabus. The remaining approx. 6 h 20 min is independent study: rereading, notes, reference readings and review.
 
 > **Core idea.** In Unit 1 you saw that the model continues the text you give it and that, faced with vague text, it picks "average" continuations. A professional prompt is simply a starting text that leaves very little room for the average: it says who's speaking, to whom, what's needed, within which limits and in what form. This unit gives you a structure to do that every time, and a method to improve a prompt when the result isn't convincing.
 

@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Cómo consigo que alguien actúe sin engañarlo?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 25 min (2.045 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 30 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 4 h 55 min** de las 18 h que planifica el syllabus. Las ≈ 13 h 05 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 25 min (2.045 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 2 h 30 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 1 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 4 h 55 min** de las 18 h que planifica el syllabus. Las ≈ 13 h 05 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** El *copywriting* es escritura con un objetivo concreto: que el lector haga algo (comprar, suscribirse, agendar una llamada, responder). Se apoya en tres herramientas que veremos en orden: hablar de **resultados para el lector** en vez de características del producto, usar con ética los **principios de persuasión** que la psicología social ha documentado, y organizar el mensaje con **estructuras** probadas. Todo descansa sobre la claridad de la U1: un texto persuasivo que no se entiende no persuade.
 

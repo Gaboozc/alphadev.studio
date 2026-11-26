@@ -1,6 +1,6 @@
 # 06 · Leveled Challenge: "Pan de la Esquina's Incomplete Orders"
 
-**Id:** `s0-c2-u2-reto` · **Format:** data challenge in 3 levels of increasing difficulty · **Time:** L1 approx. 30 min · L2 approx. 60 min · L3 approx. 90 min [INFERENCE] · **Assessment:** L1 [AUTO]; L2 and L3 [HUMAN], with the rubric at the end. Solutions in `claves/06-clave-reto.md`.
+**Id:** `s0-c2-u2-reto` · **Format:** data challenge in 3 levels of increasing difficulty · **Time:** L1 approx. 30 min · L2 approx. 60 min · L3 approx. 90 min  · **Assessment:** L1 is auto-graded; L2 and L3 are reviewed with a rubric, with the rubric at the end. Solutions in `claves/06-clave-reto.md`.
 
 **How it works:** all three levels use the **same** case and move up from *apply* to *analyze* to *create*. You can stop at level 1 (recommended for everyone) or keep going. Levels 2 and 3 together are one of the ways to demonstrate mastery (`10-formas-de-demostrar-dominio.md`).
 
@@ -51,7 +51,7 @@ Sofía checked 50 random orders from each channel **before** they went out, with
 
 ---
 
-## Level 1 · Apply (single answer, [AUTO])
+## Level 1 · Apply (single answer, auto-graded)
 
 Round percentages to one decimal place.
 
@@ -71,7 +71,7 @@ Round percentages to one decimal place.
    - c) because only the app was audited
 6. **True or false:** if the WhatsApp channel has a 1.5% complaint rate and the audit finds 4% of orders incomplete, fewer people complain on WhatsApp than receive an incomplete order.
 
-## Level 2 · Analyze ([HUMAN], 400–600 words plus tables)
+## Level 2 · Analyze (reviewed with a rubric, 400–600 words plus tables)
 
 1. **Hypotheses:** write at least 4, one for each change and at least one more, with what data would refute them. Use the data in the tables to say which are **ruled out**, which are **still alive** and which are **likely**.
 2. **Did the button create the problem or make it visible?** Explain the difference and which data in the tables distinguishes them.
@@ -79,7 +79,7 @@ Round percentages to one decimal place.
 4. **Ishikawa:** with at least 2 causes in at least 4 categories.
 5. **Answer Sofía** in one sentence: do you move Iván to another job? Why?
 
-## Level 3 · Create ([HUMAN])
+## Level 3 · Create (reviewed with a rubric)
 
 1. **Design a test** for the solution you propose (for example, a bag-closing checklist, or having the counter hand over the drink before the bag is sealed). Specify:
    - the unit of assignment (per order, per shift or per day?) and why;
@@ -100,4 +100,4 @@ Round percentages to one decimal place.
 | **Root cause** | Reaches a process cause, with every "because" supported; doesn't blame a person | Process cause with an unsupported step | Stops at a person or at "lack of attention" | No causal chain |
 | **Test and memo** (L3) | Test with a justified unit of assignment, an audit metric and a drop criterion; clear memo with the conclusion first | Missing one element | The test uses complaints as the metric, or the memo has no conclusion | No test |
 
-L2 is graded on the first 3 criteria (12 points) and L2 + L3 on all 4 (16 points). Passing is 60% [INFERENCE: the same threshold as the project].
+L2 is graded on the first 3 criteria (12 points) and L2 + L3 on all 4 (16 points). Passing is 60% (the same threshold as the project).

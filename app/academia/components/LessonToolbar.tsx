@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import AcadIcon from './AcadIcon'
-import { ACAD_COPY } from '../copy'
+import { useAcadCopy } from '../useAcadCopy'
 
 export default function LessonToolbar({
   indiceOpen,
@@ -16,6 +16,7 @@ export default function LessonToolbar({
   temarioHref: string
   salirHref: string
 }) {
+  const ACAD_COPY = useAcadCopy()
   const ref = useRef<HTMLDivElement>(null)
   // compact = icono + nombre debajo (móvil o desktop cuando no caben en una línea)
   const [compact, setCompact] = useState(true)
@@ -52,7 +53,7 @@ export default function LessonToolbar({
       ro.disconnect()
       window.removeEventListener('resize', medir)
     }
-  }, [])
+  }, [ACAD_COPY.indiceUnidad, ACAD_COPY.temarioCurso, ACAD_COPY.salir])
 
   return (
     <div

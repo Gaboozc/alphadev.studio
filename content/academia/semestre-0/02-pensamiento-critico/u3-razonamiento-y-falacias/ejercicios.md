@@ -2,7 +2,7 @@
 
 Soluciones en `../claves/u3-soluciones-ejercicios.md`.
 
-## Nivel 1 [AUTO]
+## Nivel 1 (corrección automática)
 
 **1.1** Clasifica cada razonamiento como deductivo (D), inductivo (I) o abductivo (A):
 a) "Los últimos 12 lanzamientos en viernes tuvieron incidencias; lanzar en viernes suele dar problemas."
@@ -19,7 +19,7 @@ f) "¿Cuándo vas a dejar de entregar tarde?"
 
 **1.3** ¿Válido, verdadero, ambos o ninguno? "Todas las aplicaciones web están escritas en Python. Instagram es una aplicación web. Por tanto, Instagram está escrita solo en Python."
 
-## Nivel 2 [HUMANO]
+## Nivel 2 (revisión con rúbrica)
 
 **2.1** Mapea (conclusión, premisas, supuestos implícitos, evaluación) el argumento: "Deberíamos subir los precios un 30 %. Nuestros clientes están satisfechos y la competencia cobra más."
 
@@ -28,7 +28,7 @@ a) "Todo el mundo está usando IA para escribir, así que dejemos de contratar r
 b) "Ya gastamos 50.000 en este desarrollo, hay que terminarlo."
 c) "Dos usuarios no entendieron el menú; hay que rediseñar toda la navegación."
 
-## Nivel 3 [HUMANO]
+## Nivel 3 (revisión con rúbrica)
 
 **3.1** Pide a un asistente de IA una recomendación sobre una decisión de negocio (p. ej., "¿Debe una agencia pequeña especializarse en un solo sector?"). Pega la respuesta y analízala: conclusión, premisas, supuestos, falacias o saltos, afirmaciones factuales a comprobar. Luego pídele el argumento contrario y compara (300–400 palabras).
 

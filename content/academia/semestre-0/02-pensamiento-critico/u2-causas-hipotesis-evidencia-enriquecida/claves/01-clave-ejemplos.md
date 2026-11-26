@@ -69,5 +69,5 @@ Las respuestas son **referencias**, no la única respuesta válida. Se aceptan o
   4. **Definición de "ver":** porcentaje de video reproducido.
 - **P5:**
   - **Prueba:** asignar al azar a la mitad de los inscritos una invitación destacada a los videos, con recordatorio, y a la otra mitad la presentación actual. Se analiza por asignación y la métrica es la aprobación.
-  - **Decisión mientras tanto:** no hacerlos obligatorios, porque aumentaría la carga sin un efecto demostrado. Seguir ofreciéndolos como vía (coherente con `marco-pedagogico.md` §2).
+  - **Decisión mientras tanto:** no hacerlos obligatorios, porque aumentaría la carga sin un efecto demostrado. Seguir ofreciéndolos como vía .
 - **Criterio de corrección de los niveles 2 y 3 del curso:** se pide que identifique al menos 3 alternativas, que asocie a cada una un dato que la distinga y una prueba aleatoria que se analice por asignación.

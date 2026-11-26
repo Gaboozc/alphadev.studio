@@ -1,6 +1,6 @@
 # 08 · Juego de rol: el post-mortem del Buen Fin
 
-**Id:** `s0-c2-u2-rol` · **Formato:** simulación con roles (grupo de 4–5) · **Tiempo:** ≈ 75 min [INFERENCIA] · **Evaluación:** [HUMANO], con la rúbrica de observación del §6. Hay una **versión individual** en el §7 para quien no pueda reunirse.
+**Id:** `s0-c2-u2-rol` · **Formato:** simulación con roles (grupo de 4–5) · **Tiempo:** ≈ 75 min  · **Evaluación:** revisión con rúbrica, con la rúbrica de observación del §6. Hay una **versión individual** en el §7 para quien no pueda reunirse.
 
 **Objetivos:**
 - *Aplicar* los cinco porqués en una conversación real, con presión y con versiones encontradas.
@@ -8,8 +8,8 @@
 - *Llegar* a una causa sistémica sin culpar a una persona.
 
 **Por qué:**
-- En educación superior, la simulación tiene un efecto grande sobre las habilidades complejas (g = 0,85 en 145 estudios), y los principiantes se benefician más si va acompañada de ejemplos [VERIFICADO: Chernikova et al. 2020, https://journals.sagepub.com/doi/full/10.3102/0034654320933544]. Por eso este role-play llega **después** de los ejemplos resueltos (01).
-- En el trabajo, la causa se busca casi siempre en reuniones, no a solas [INFERENCIA].
+- En educación superior, la simulación tiene un efecto grande sobre las habilidades complejas (g = 0,85 en 145 estudios), y los principiantes se benefician más si va acompañada de ejemplos (Chernikova et al. 2020, https://journals.sagepub.com/doi/full/10.3102/0034654320933544). Por eso este role-play llega **después** de los ejemplos resueltos (01).
+- En el trabajo, la causa se busca casi siempre en reuniones, no a solas .
 
 > **Situación ficticia.** La agencia, el cliente, las personas y las cifras son inventadas.
 
@@ -107,7 +107,7 @@ Salgan de los personajes antes de empezar ("ya no soy Marco"). Preguntas:
 | **Participación en el rol** (individual) | Defiende su postura y la cambia ante la evidencia | Mantiene el rol, pero no cambia, o cambia sin razón | Sale del rol o no participa |
 
 - Los 4 primeros criterios son la nota del grupo; el 5.º es individual.
-- Se aprueba con ≥ 9/15 [INFERENCIA].
+- Se aprueba con ≥ 9/15 .
 
 ## 7. Versión individual (sin grupo)
 

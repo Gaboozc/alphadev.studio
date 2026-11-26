@@ -4,7 +4,7 @@
 
 **Pregunta guía:** ¿Qué tiene que decir una instrucción para que la IA no tenga que adivinar lo que necesitas?
 
-**Tiempo por pieza [INFERENCIA; método en `rework/profx/formatos-leccion.md` §0.1]:** Guía ≈ 25 min (2.234 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 40 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 20 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
+**Tiempo estimado:** Guía ≈ 25 min (2.234 palabras a 120 ppm + 5 min de comprobaciones rápidas) · Ejercicios ≈ 3 h 15 min (3 de nivel 1 × 10 min, 3 de nivel 2 × 25 min, 2 de nivel 3 × 45 min) · Cuestionario ≈ 30 min · Reflexión ≈ 1 h 30 min. **Total efectivo ≈ 5 h 40 min** de las 12 h que planifica el syllabus. Las ≈ 6 h 20 min restantes son estudio autónomo: relectura, apuntes, lecturas de referencia y repaso.
 
 > **Idea central.** En la Unidad 1 viste que el modelo continúa el texto que le das y que, ante un texto vago, elige continuaciones "promedio". Un prompt profesional es, simplemente, un texto inicial que deja muy poco espacio a lo promedio: dice quién habla, para quién, qué se necesita, con qué límites y en qué forma. Esta unidad te da una estructura para hacerlo siempre, y un método para mejorar un prompt cuando el resultado no convence.
 

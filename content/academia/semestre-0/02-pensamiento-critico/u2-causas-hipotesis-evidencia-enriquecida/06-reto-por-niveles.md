@@ -1,6 +1,6 @@
 # 06 · Reto por niveles: "Los pedidos incompletos de Pan de la Esquina"
 
-**Id:** `s0-c2-u2-reto` · **Formato:** reto con datos en 3 niveles de dificultad creciente · **Tiempo:** N1 ≈ 30 min · N2 ≈ 60 min · N3 ≈ 90 min [INFERENCIA] · **Evaluación:** N1 [AUTO]; N2 y N3 [HUMANO], con la rúbrica del §5. Soluciones en `claves/06-clave-reto.md`.
+**Id:** `s0-c2-u2-reto` · **Formato:** reto con datos en 3 niveles de dificultad creciente · **Tiempo:** N1 ≈ 30 min · N2 ≈ 60 min · N3 ≈ 90 min  · **Evaluación:** N1 (corrección automática); N2 y N3 (revisión con rúbrica), con la rúbrica del §5. Soluciones en `claves/06-clave-reto.md`.
 
 **Cómo funciona:** los tres niveles usan el **mismo** caso y suben de *aplicar* a *analizar* y a *crear*. Puedes parar en el nivel 1 (recomendado para todos) o seguir. Los niveles 2 y 3, juntos, son una de las vías para demostrar el dominio (`10-formas-de-demostrar-dominio.md`).
 
@@ -51,7 +51,7 @@ Sofía revisó 50 pedidos al azar de cada canal **antes** de que salieran, sin a
 
 ---
 
-## Nivel 1 · Aplicar (respuesta única, [AUTO])
+## Nivel 1 · Aplicar (respuesta única, corrección automática)
 
 Redondea los porcentajes a un decimal.
 
@@ -71,7 +71,7 @@ Redondea los porcentajes a un decimal.
    - c) porque solo se auditó la app
 6. **Verdadero o falso:** si el canal WhatsApp tiene un 1,5 % de quejas y la auditoría encuentra un 4 % de pedidos incompletos, en WhatsApp se queja menos gente de la que recibe un pedido incompleto.
 
-## Nivel 2 · Analizar ([HUMANO], 400–600 palabras más tablas)
+## Nivel 2 · Analizar (revisión con rúbrica, 400–600 palabras más tablas)
 
 1. **Hipótesis:** escribe al menos 4, una por cada cambio y al menos una más, con qué dato las refutaría. Usa los datos de las tablas para decir cuáles quedan **descartadas**, cuáles **siguen vivas** y cuáles son **probables**.
 2. **¿El botón creó el problema o lo hizo visible?** Explica la diferencia y qué dato de las tablas lo distingue.
@@ -79,7 +79,7 @@ Redondea los porcentajes a un decimal.
 4. **Ishikawa:** con al menos 2 causas en al menos 4 categorías.
 5. **Responde a Sofía** en una frase: ¿cambias a Iván de puesto? ¿Por qué?
 
-## Nivel 3 · Crear ([HUMANO])
+## Nivel 3 · Crear (revisión con rúbrica)
 
 1. **Diseña una prueba** para la solución que propongas (por ejemplo, una lista de cierre de bolsa o que la barra entregue la bebida antes de cerrar). Especifica:
    - la unidad de asignación (¿por pedido, por turno o por día?) y por qué;
@@ -100,4 +100,4 @@ Redondea los porcentajes a un decimal.
 | **Causa raíz** | Llega a una causa de proceso, con cada "porque" respaldado; no culpa a una persona | Causa de proceso con algún paso sin respaldo | Para en una persona o en "falta de atención" | Sin cadena causal |
 | **Prueba y memo** (N3) | Prueba con unidad de asignación justificada, métrica de auditoría y criterio de abandono; memo claro y con la conclusión primero | Le falta un elemento | La prueba usa quejas como métrica, o el memo no tiene conclusión | No hay prueba |
 
-N2 se evalúa sobre los 3 primeros criterios (12 puntos) y N2 + N3 sobre los 4 (16 puntos). Se aprueba con el 60 % [INFERENCIA: el mismo umbral que el proyecto].
+N2 se evalúa sobre los 3 primeros criterios (12 puntos) y N2 + N3 sobre los 4 (16 puntos). Se aprueba con el 60 % (el mismo umbral que el proyecto).

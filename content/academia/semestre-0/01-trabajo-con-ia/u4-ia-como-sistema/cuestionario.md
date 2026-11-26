@@ -1,6 +1,6 @@
 # Unidad 4 — Cuestionario
 
-Clave en `../claves/u4-clave-cuestionario.md`. **Parte A [AUTO]** · **Parte B [HUMANO]**
+Clave en `../claves/u4-clave-cuestionario.md`. **Parte A** (corrección automática) · **Parte B** (revisión con rúbrica)
 
 1. ¿Qué distingue un "sistema" de trabajo con IA de un uso ocasional?
    a) Usar IA en todas las tareas, sin excepciones. b) Usar siempre la herramienta más cara del mercado. c) Automatizar el trabajo para no tener que revisar. d) Etapas, prompts estables, control humano y medición.
